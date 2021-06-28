@@ -80,7 +80,7 @@ const messages = {
   'dashboard.selectedsession.acquisition.dp.generatedProducts': 'Generated : {value}',
   'dashboard.selectedsession.acquisition.dp.button.see-errors': 'See errors',
   'dashboard.selectedsession.acquisition.dp.button.retry-errors': 'Relaunch errors',
-  'dashboard.selectedsession.acquisition.dp.dialog.title': 'Products',
+  'dashboard.selectedsession.acquisition.dp.dialog.title': 'Products with errors',
   'dashboard.selectedsession.acquisition.dp.properties.files.title': 'Files',
   'dashboard.selectedsession.acquisition.dp.properties.products.title': 'Products',
   'dashboard.selectedsession.acquisition.dp.dialog.button.close': 'Close',

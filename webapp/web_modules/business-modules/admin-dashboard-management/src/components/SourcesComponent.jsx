@@ -62,11 +62,13 @@ class SourcesComponent extends React.Component {
     selectedSession: AdminShapes.Session,
     onApplyFilters: PropTypes.func.isRequired,
     sources: AdminShapes.SourceList,
+    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
+    filters: PropTypes.object.isRequired,
   }
 
   static contextTypes = {
-    ...i18nContextType, // relancer les erreurs => endpoint retry avec payload filters : { source & session }
-    ...themeContextType, // relancer les erreurs -> Acquisition (DP -> FEM (requete d'extraction)). Référecement (soit Ingest soit FEM (toute les autres))
+    ...i18nContextType,
+    ...themeContextType,
   }
 
   /**
@@ -119,8 +121,8 @@ class SourcesComponent extends React.Component {
   // filters is used to update directly field values
   // sourceFilters is used to update table values with a delay. Prevent multiple network call
   state = {
-    filters: SourcesComponent.extractFiltersFromURL(),
-    sourceFilters: SourcesComponent.extractFiltersFromURL(),
+    filters: SourcesComponent.DEFAULT_FILTERS_STATE,
+    sourceFilters: SourcesComponent.DEFAULT_FILTERS_STATE,
   }
 
   /**
@@ -141,7 +143,7 @@ class SourcesComponent extends React.Component {
   */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      sources, onSelected,
+      sources, onSelected, filters,
     } = newProps
 
     const oldState = this.state || {}
@@ -151,6 +153,9 @@ class SourcesComponent extends React.Component {
       if (sourceExist) {
         onSelected(sourceExist, CELL_TYPE_ENUM.SOURCE)
       }
+    }
+    if (!isEqual(oldProps.filters, filters)) {
+      newState.filters = filters
     }
     if (!isEqual(oldState, newState)) {
       this.setState(newState)

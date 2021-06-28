@@ -63,6 +63,8 @@ class SessionsComponent extends React.Component {
     onApplyFilters: PropTypes.func.isRequired,
     sessions: AdminShapes.SessionList,
     selectedSource: AdminShapes.Source,
+    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
+    filters: PropTypes.object.isRequired,
   }
 
   static contextTypes = {
@@ -113,8 +115,8 @@ class SessionsComponent extends React.Component {
   // filters is used to update directly field values
   // sessionFilters is used to update table values with a delay. Prevent multiple network call
   state = {
-    filters: SessionsComponent.extractFiltersFromURL(),
-    sessionFilters: SessionsComponent.extractFiltersFromURL(),
+    filters: SessionsComponent.DEFAULT_FILTERS_STATE,
+    sessionFilters: SessionsComponent.DEFAULT_FILTERS_STATE,
   }
 
   /**
@@ -135,7 +137,7 @@ class SessionsComponent extends React.Component {
  */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      sessions, onSelected,
+      sessions, onSelected, filters,
     } = newProps
 
     const oldState = this.state || {}
@@ -146,10 +148,15 @@ class SessionsComponent extends React.Component {
         onSelected(sessionExist, CELL_TYPE_ENUM.SESSION)
       }
     }
+    if (!isEqual(oldProps.filters, filters)) {
+      newState.filters = filters
+    }
     if (!isEqual(oldState, newState)) {
       this.setState(newState)
     }
   }
+
+  getSession = (sessions, sessionName) => find(sessions, (session) => session.content.name === sessionName)
 
   /**
  * Update filters
@@ -160,7 +167,7 @@ class SessionsComponent extends React.Component {
     const { onApplyFilters, onSelected, sessions } = this.props
     const { filters } = this.state
     if (filterElement === SESSION_FILTER_PARAMS.NAME) {
-      const sessionExist = find(sessions, (session) => session.content.name === newStateValue)
+      const sessionExist = this.getSession(sessions, newStateValue)
       if (sessionExist) {
         onSelected(sessionExist, CELL_TYPE_ENUM.SESSION)
       }

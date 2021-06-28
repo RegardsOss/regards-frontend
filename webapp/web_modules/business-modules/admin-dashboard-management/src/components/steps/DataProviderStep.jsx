@@ -129,26 +129,35 @@ class DataProviderStep extends React.Component {
   }
 
   renderProductDialog = () => {
-    const { intl: { formatMessage } } = this.context
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        selectedSessionStyle: {
+          dialogProductErrorStyle,
+        },
+      },
+    } = this.context
     const { isProductDialogOpen } = this.state
     const { sessionStep } = this.props
-    return (<Dialog
-      open={isProductDialogOpen}
-      title={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.title' })}
-      actions={<>
-        <RaisedButton
-          key="close"
-          label={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.button.close' })}
-          primary
-          onClick={this.toggleProductDialog}
+    return (
+      <Dialog
+        open={isProductDialogOpen}
+        title={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.title' })}
+        actions={<>
+          <RaisedButton
+            key="close"
+            label={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.button.close' })}
+            primary
+            onClick={this.toggleProductDialog}
+          />
+        </>}
+        contentStyle={dialogProductErrorStyle}
+        modal
+      >
+        <DisplayProductsComponent
+          sessionName={sessionStep.session}
         />
-      </>}
-      modal
-    >
-      <DisplayProductsComponent
-        sessionName={sessionStep.session}
-      />
-    </Dialog>)
+      </Dialog>
+    )
   }
 
   render() {

@@ -255,6 +255,9 @@ const dashboardManagementStyles = (theme) => ({
       marginTop: '20px',
       color: theme.palette.accent1Color,
     },
+    dialogProductErrorStyle: {
+      maxWidth: null,
+    },
   },
   displayIconsComponentStyle: {
     mainDivStyle: {

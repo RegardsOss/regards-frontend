@@ -60,15 +60,13 @@ class DashboardComponent extends React.Component {
   }
 
   state = {
-    sourceFilters: SourcesComponent.DEFAULT_FILTERS_STATE,
-    sessionFilters: SessionsComponent.DEFAULT_FILTERS_STATE,
+    sourceFilters: SourcesComponent.extractFiltersFromURL(),
+    sessionFilters: SessionsComponent.extractFiltersFromURL(),
   }
 
   onApplyFilters = (filters, type) => {
     const { flushSelectedSession, flushSelectedSource } = this.props
-    let nextState = {
-      ...this.state,
-    }
+    let nextState = {}
     switch (type) {
       case CELL_TYPE_ENUM.SESSION:
         nextState = {
@@ -156,6 +154,7 @@ class DashboardComponent extends React.Component {
                 selectedSession={selectedSession}
                 onApplyFilters={this.onApplyFilters}
                 sources={sources}
+                filters={sourceFilters}
               />
               <SessionsComponent
                 project={project}
@@ -164,6 +163,7 @@ class DashboardComponent extends React.Component {
                 onApplyFilters={this.onApplyFilters}
                 sessions={sessions}
                 selectedSource={selectedSource}
+                filters={sessionFilters}
               />
             </div>
             {!isEmpty(selectedSession)

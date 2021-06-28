@@ -204,9 +204,6 @@ export class DashboardContainer extends React.Component {
     deleteSession(sessionId).then((actionResult) => {
       if (!actionResult.error) {
         this.onRefresh(sourceFilters, sessionFilters)
-        this.setState({
-          selectedSession: null,
-        })
       }
     })
   }
@@ -249,7 +246,7 @@ export class DashboardContainer extends React.Component {
   render() {
     const {
       params: { project }, relaunchProducts, relaunchAIP, retryRequests, flushSelectedSession,
-      sources, sessions, relaunchStorages,
+      relaunchStorages, sources, sessions,
     } = this.props
     const {
       selectedSource, selectedSession,

@@ -82,18 +82,16 @@ class SelectedSessionComponent extends React.Component {
       selectedSession,
     } = this.props
     const { isDeleteDialogOpen } = this.state
-    if (isDeleteDialogOpen) {
-      return (
-        <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponentTypes.DELETE}
-          title={formatMessage({ id: 'dashboard.selectedsession.dialog.delete.title' }, { sessionName: selectedSession.content.name })}
-          message={formatMessage({ id: 'dashboard.selectedsession.dialog.delete.message' })}
-          onConfirm={this.handleDeleteSession}
-          onClose={this.toggleDeleteDialog}
-        />
-      )
-    }
-    return null
+    return (
+      <ConfirmDialogComponent
+        dialogType={ConfirmDialogComponentTypes.DELETE}
+        title={formatMessage({ id: 'dashboard.selectedsession.dialog.delete.title' }, { sessionName: selectedSession.content.name })}
+        message={formatMessage({ id: 'dashboard.selectedsession.dialog.delete.message' })}
+        onConfirm={this.handleDeleteSession}
+        open={isDeleteDialogOpen}
+        onClose={this.toggleDeleteDialog}
+      />
+    )
   }
 
   render() {
