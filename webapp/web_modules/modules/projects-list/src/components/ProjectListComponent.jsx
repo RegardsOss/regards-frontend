@@ -43,20 +43,13 @@ class ProjectListComponent extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    // const { projects } = this.props
-    const { moduleTheme } = this.context
     return (
       <div>
         {map(this.props.projects, (project, id) => (
-          <div
-            style={moduleTheme.betweenProjects}
+          <ProjectComponent
             key={id}
-            className="col-md-70 col-md-offset-15"
-          >
-            <ProjectComponent
-              project={project}
-            />
-          </div>
+            project={project}
+          />
         ))}
       </div>
     )

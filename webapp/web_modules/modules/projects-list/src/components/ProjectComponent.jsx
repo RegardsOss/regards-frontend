@@ -53,51 +53,56 @@ class ProjectComponent extends React.Component {
     const { project } = this.props
     if (project.content.isAccessible && !project.content.isDeleted) {
       return (
-        <Card>
-          <div className="row" style={moduleTheme.container}>
-            <div className="col-sm-12" style={moduleTheme.iconContainer}>
-              {(() => {
-                if (project.content.isPublic) {
-                  return (<Avatar
-                    src={project.content.icon}
-                    size={0}
-                    style={moduleTheme.icon}
-                  />)
-                }
-                return (
-                  <div>
-                    <Avatar
+        <div
+          style={moduleTheme.betweenProjects}
+          className="col-md-70 col-md-offset-15"
+        >
+          <Card>
+            <div className="row" style={moduleTheme.container}>
+              <div className="col-sm-12" style={moduleTheme.iconContainer}>
+                {(() => {
+                  if (project.content.isPublic) {
+                    return (<Avatar
                       src={project.content.icon}
                       size={0}
-                      style={moduleTheme.iconDisabled}
-                    />
-                    <IconButton
-                      size={40}
-                      iconStyle={moduleTheme.iconLock}
-                      style={moduleTheme.lock}
-                      disableTouchRipple
-                    >
-                      <Lock
-                        color="white"
+                      style={moduleTheme.icon}
+                    />)
+                  }
+                  return (
+                    <div>
+                      <Avatar
+                        src={project.content.icon}
+                        size={0}
+                        style={moduleTheme.iconDisabled}
                       />
-                    </IconButton>
-                  </div>)
-              })()}
+                      <IconButton
+                        size={40}
+                        iconStyle={moduleTheme.iconLock}
+                        style={moduleTheme.lock}
+                        disableTouchRipple
+                      >
+                        <Lock
+                          color="white"
+                        />
+                      </IconButton>
+                    </div>)
+                })()}
+              </div>
+              <div className="col-sm-88" style={moduleTheme.descriptionContent}>
+                <CardTitle
+                  title={project.content.label}
+                  titleStyle={moduleTheme.title}
+                  style={moduleTheme.rootTitle}
+                />
+                <CardText>
+                  <div style={moduleTheme.text}>
+                    {project.content.description}
+                  </div>
+                </CardText>
+              </div>
             </div>
-            <div className="col-sm-88" style={moduleTheme.descriptionContent}>
-              <CardTitle
-                title={project.content.label}
-                titleStyle={moduleTheme.title}
-                style={moduleTheme.rootTitle}
-              />
-              <CardText>
-                <div style={moduleTheme.text}>
-                  {project.content.description}
-                </div>
-              </CardText>
-            </div>
-          </div>
-        </Card>
+          </Card>
+        </div>
       )
     }
     return null
