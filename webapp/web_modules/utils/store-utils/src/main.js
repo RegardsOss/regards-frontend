@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export { default as BasicSelector } from './BasicSelector'
+export { default as BasicReducer } from './BasicReducer'
 export { default as BasicActions } from './BasicActions'
 
 export { default as BasicListSelectors } from './list/BasicListSelectors'

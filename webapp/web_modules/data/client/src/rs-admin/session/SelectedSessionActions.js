@@ -16,21 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { SESSION, SESSION_ARRAY } from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
 
-export default class SelectedSessionActions extends BasicListActions {
-  static ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/sessions`
+export default class SelectedSessionActions extends BasicSignalActions {
+  static ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/sessions/{id}`
 
   constructor(namespace) {
     super({
       namespace,
       entityEndpoint: SelectedSessionActions.ENDPOINT,
-      entityPathVariable: 'id',
-      schemaTypes: {
-        ENTITY: SESSION,
-        ENTITY_ARRAY: SESSION_ARRAY,
-      },
     })
+  }
+
+  /**
+   * Returns a session
+   * @param {number} sessionId session id
+   */
+  fetchSession(sessionId) {
+    return this.sendSignal(RequestVerbEnum.GET, null, { id: sessionId })
   }
 }

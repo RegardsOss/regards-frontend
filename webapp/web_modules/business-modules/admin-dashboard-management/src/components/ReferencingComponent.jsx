@@ -42,7 +42,7 @@ class ReferencingComponent extends React.Component {
     sessionStep: AdminShapes.SessionStep,
     selectedSession: AdminShapes.Session,
     relaunchAIP: PropTypes.func.isRequired,
-    retryRequests: PropTypes.func.isRequired,
+    retryFEMRequests: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -52,7 +52,7 @@ class ReferencingComponent extends React.Component {
 
   render() {
     const {
-      sessionStep, project, selectedSession, retryRequests, relaunchAIP,
+      sessionStep, project, selectedSession, retryFEMRequests, relaunchAIP,
     } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
@@ -86,7 +86,7 @@ class ReferencingComponent extends React.Component {
                   project={project}
                   sessionStep={sessionStep}
                   selectedSession={selectedSession}
-                  retryRequests={retryRequests}
+                  retryRequests={retryFEMRequests}
               />
               : <IngestStep
                   project={project}

@@ -16,18 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicListReducers } from '@regardsoss/store-utils'
-import { SessionConfiguration } from '@regardsoss/api'
+import { BasicSignalReducers } from '@regardsoss/store-utils'
 import SelectedSessionActions from './SelectedSessionActions'
 
-export class SelectedSessionReducer extends BasicListReducers {
+class SelectedSessionReducer extends BasicSignalReducers {
   constructor(namespace) {
-    super(SessionConfiguration, new SelectedSessionActions(namespace))
+    super(new SelectedSessionActions(namespace))
   }
 }
 
-/** Closure builder for reducer function */
 export default (namespace) => {
-  const reducerInstance = new SelectedSessionReducer(namespace)
-  return (state, action) => reducerInstance.reduce(state, action)
+  const instance = new SelectedSessionReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

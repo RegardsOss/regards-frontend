@@ -16,12 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
-import find from 'lodash/find'
 import throttle from 'lodash/throttle'
-import { browserHistory } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
-import isEqual from 'lodash/isEqual'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -47,7 +43,7 @@ import { sourcesActions, sourcesSelectors } from '../clients/SourcesClient'
 import ReferencedProductsRender from './render/ReferencedProductsRender'
 import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
-import { CELL_TYPE_ENUM } from '../domain/cellTypes'
+import { COMPONENT_TYPE_ENUM } from '../domain/componentTypes'
 import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
 import { SOURCE_FILTER_PARAMS } from '../domain/filters'
 /**
@@ -61,6 +57,7 @@ class SourcesComponent extends React.Component {
     onSelected: PropTypes.func.isRequired,
     selectedSession: AdminShapes.Session,
     onApplyFilters: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     sources: AdminShapes.SourceList,
     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     filters: PropTypes.object.isRequired,
@@ -83,7 +80,6 @@ class SourcesComponent extends React.Component {
     SOURCE_NAME: 'sourceName',
     REFERENCED_PRODUCTS: 'referencedProducts',
     DIFFUSED_PRODUCTS: 'diffusedProducts',
-    ACTIONS: 'actions',
   }
 
   static EMPTY_COMPONENT = (
@@ -94,75 +90,16 @@ class SourcesComponent extends React.Component {
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
 
-  static extractFiltersFromURL = () => {
-    const { query } = browserHistory.getCurrentLocation()
-    const urlFilters = {}
-    urlFilters[SOURCE_FILTER_PARAMS.NAME] = SourcesComponent.DEFAULT_FILTERS_STATE[SOURCE_FILTER_PARAMS.NAME]
-    urlFilters[SOURCE_FILTER_PARAMS.STATUS] = SourcesComponent.DEFAULT_FILTERS_STATE[SOURCE_FILTER_PARAMS.STATUS]
-    if (values(query).length > 0) {
-      const {
-        sourceName, sourceState,
-      } = query
-      if (sourceName) {
-        urlFilters[SOURCE_FILTER_PARAMS.NAME] = sourceName
-      }
-      if (sourceState) {
-        urlFilters[SOURCE_FILTER_PARAMS.STATUS] = sourceState
-      }
-    }
-    return urlFilters
-  }
-
   applySourceFilters = throttle((filters) => {
     this.setState({ sourceFilters: filters })
   }, 1000, { leading: true })
 
   // we use two filters variables.
-  // filters is used to update directly field values
+  // filters (in props) is used to update directly field values
   // sourceFilters is used to update table values with a delay. Prevent multiple network call
   state = {
-    filters: SourcesComponent.DEFAULT_FILTERS_STATE,
     sourceFilters: SourcesComponent.DEFAULT_FILTERS_STATE,
   }
-
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-  * Lifecycle method: component receive props. Used here to detect properties change and update local state
-  * @param {*} nextProps next component properties
-  */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-  * Properties change detected: update local state
-  * @param oldProps previous component properties
-  * @param newProps next component properties
-  */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const {
-      sources, onSelected, filters,
-    } = newProps
-
-    const oldState = this.state || {}
-    const newState = { ...oldState }
-    if (!isEqual(oldProps.sources, sources) && !isEmpty(sources)) {
-      const sourceExist = this.getSource(sources, newState.filters[SOURCE_FILTER_PARAMS.NAME])
-      if (sourceExist) {
-        onSelected(sourceExist, CELL_TYPE_ENUM.SOURCE)
-      }
-    }
-    if (!isEqual(oldProps.filters, filters)) {
-      newState.filters = filters
-    }
-    if (!isEqual(oldState, newState)) {
-      this.setState(newState)
-    }
-  }
-
-  getSource = (sources, sourceName) => find(sources, (source) => source.content.name === sourceName)
 
   /**
    * Update filters
@@ -170,30 +107,25 @@ class SourcesComponent extends React.Component {
    * @param {*} filterElement
    */
   updateFilter = (newStateValue, filterElement) => {
-    const { onApplyFilters, sources, onSelected } = this.props
-    const { filters } = this.state
-    if (filterElement === SOURCE_FILTER_PARAMS.NAME) {
-      const sourceExist = this.getSource(sources, newStateValue)
-      if (sourceExist) {
-        onSelected(sourceExist, CELL_TYPE_ENUM.SOURCE)
-      }
-    }
+    const {
+      onApplyFilters, filters,
+    } = this.props
     const newState = {
       filters: {
         ...filters,
-        [filterElement]: newStateValue !== STATUS_TYPES_ENUM.ALL ? newStateValue : null,
+        [filterElement]: newStateValue,
       },
     }
-    onApplyFilters(newState.filters, CELL_TYPE_ENUM.SOURCE)
+    onApplyFilters(newState.filters, COMPONENT_TYPE_ENUM.SOURCE)
     this.applySourceFilters(newState.filters)
     this.setState(newState)
   }
 
   render() {
     const {
-      project, onSelected, selectedSource, selectedSession,
+      project, onSelected, selectedSource, selectedSession, filters,
     } = this.props
-    const { filters, sourceFilters } = this.state
+    const { sourceFilters } = this.state
     const {
       intl: { formatMessage }, muiTheme, moduleTheme: {
         dashboardStyle: {
@@ -214,7 +146,7 @@ class SourcesComponent extends React.Component {
           props: {
             onSelected,
             selectedEntity: selectedSource,
-            cellType: CELL_TYPE_ENUM.SOURCE,
+            componentType: COMPONENT_TYPE_ENUM.SOURCE,
           },
         }).titleHeaderCell()
         .build(),
@@ -223,7 +155,7 @@ class SourcesComponent extends React.Component {
         .label(formatMessage({ id: 'dashboard.sources.table.column.referencedProducts' }))
         .rowCellDefinition({
           Constructor: ReferencedProductsRender,
-          props: { cellType: CELL_TYPE_ENUM.SOURCE },
+          props: { componentType: COMPONENT_TYPE_ENUM.SOURCE },
         }).titleHeaderCell()
         .optionsSizing(2.75)
         .build(),
@@ -232,7 +164,7 @@ class SourcesComponent extends React.Component {
         .label(formatMessage({ id: 'dashboard.sources.table.column.diffusedProducts' }))
         .rowCellDefinition({
           Constructor: DiffusedProductsRender,
-          props: { cellType: CELL_TYPE_ENUM.SOURCE },
+          props: { componentType: COMPONENT_TYPE_ENUM.SOURCE },
         }).titleHeaderCell()
         .optionsSizing(2.5)
         .build(),

@@ -18,11 +18,12 @@
  **/
 
 import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 import FlatButton from 'material-ui/FlatButton'
 import { StringValueRender } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { CELL_TYPE } from '../../domain/cellTypes'
+import { COMPONENT_TYPE } from '../../domain/componentTypes'
 import DisplayIconsComponent from '../DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../../domain/displayIconTypes'
 
@@ -40,7 +41,7 @@ class NameRender extends React.Component {
       AdminShapes.Source,
       AdminShapes.Session,
     ]),
-    cellType: PropTypes.oneOf(CELL_TYPE),
+    componentType: PropTypes.oneOf(COMPONENT_TYPE),
     onSelected: PropTypes.func.isRequired,
   }
 
@@ -52,21 +53,27 @@ class NameRender extends React.Component {
     * On button clicked callback
     */
   onClick = () => {
-    const { entity, onSelected, cellType } = this.props
-    onSelected(entity, cellType)
+    const { entity, onSelected, componentType } = this.props
+    onSelected(entity, componentType)
+  }
+
+  isSelected = () => {
+    const { entity, selectedEntity } = this.props
+    return isEqual(entity.content.name, get(selectedEntity, 'content.name'))
   }
 
   render() {
     const {
-      entity, selectedEntity,
+      entity,
     } = this.props
     const {
       moduleTheme: { dashboardStyle: { tableStyle } },
+
     } = this.context
     return <div style={tableStyle.nameRenderStyle.divStyle}>
       <FlatButton
         onClick={this.onClick}
-        style={isEqual(entity, selectedEntity) ? tableStyle.selectOptionStyle.textStyle : null}
+        style={this.isSelected() ? tableStyle.selectOptionStyle.textStyle : null}
       >
         <StringValueRender
           value={entity.content.name}

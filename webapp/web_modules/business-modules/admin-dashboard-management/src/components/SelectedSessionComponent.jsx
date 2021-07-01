@@ -30,7 +30,7 @@ import AcquisitionComponent from './AcquisitionComponent'
 import ReferencingComponent from './ReferencingComponent'
 import ArchivalComponent from './ArchivalComponent'
 import DiffusionComponent from './DiffusionComponent'
-import { CELL_TYPE_ENUM } from '../domain/cellTypes'
+import { COMPONENT_TYPE_ENUM } from '../domain/componentTypes'
 
 /**
  * SelectedSessionComponent
@@ -46,6 +46,7 @@ class SelectedSessionComponent extends React.Component {
     relaunchStorages: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
+    retryFEMRequests: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -73,7 +74,7 @@ class SelectedSessionComponent extends React.Component {
 
   handleSessionSelected = () => {
     const { onSelected } = this.props
-    onSelected(null, CELL_TYPE_ENUM.SESSION)
+    onSelected(null, COMPONENT_TYPE_ENUM.SESSION)
   }
 
   renderDeleteDialog = () => {
@@ -96,7 +97,7 @@ class SelectedSessionComponent extends React.Component {
 
   render() {
     const {
-      selectedSession, project, relaunchProducts, relaunchAIP, retryRequests, relaunchStorages,
+      selectedSession, project, relaunchProducts, relaunchAIP, retryRequests, relaunchStorages, retryFEMRequests,
     } = this.props
     const {
       intl: { formatMessage },
@@ -141,7 +142,7 @@ class SelectedSessionComponent extends React.Component {
             selectedSession={selectedSession}
             sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING)}
             relaunchAIP={relaunchAIP}
-            retryRequests={retryRequests}
+            retryFEMRequests={retryFEMRequests}
           />
           <ArchivalComponent
             project={project}

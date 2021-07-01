@@ -147,7 +147,8 @@ class ArchivalComponent extends React.Component {
     return (
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.CONFIRM}
-        title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
+        title={formatMessage({ id: 'dashboard.selectedsession.storage.dialog.retry.title' })}
+        message={formatMessage({ id: 'dashboard.selectedsession.storage.dialog.retry.message' })}
         onConfirm={this.onRetryErrors}
         onClose={this.toggleRetryErrorsDialog}
         open={isRetryErrorsDialogOpen}

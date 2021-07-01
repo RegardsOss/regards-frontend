@@ -52,12 +52,13 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardContainer', () => {
       fetchSessions: () => { },
       fetchSources: () => { },
       relaunchProducts: () => { },
+      relaunchStorages: () => { },
       relaunchAIP: () => { },
       retryRequests: () => { },
       deleteSession: () => { },
+      retryFEMRequests: () => { },
       fetchSelectedSession: () => { },
       flushSelectedSession: () => { },
-      relaunchStorages: () => { },
     }
     const enzymeWrapper = shallow(<DashboardContainer {...props} />, { context })
 
@@ -68,18 +69,13 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardContainer', () => {
       relaunchProducts: props.relaunchProducts,
       relaunchAIP: props.relaunchAIP,
       retryRequests: props.retryRequests,
-      fetchSelectedSource: enzymeWrapper.instance().fetchSelectedSource,
-      fetchSelectedSession: enzymeWrapper.instance().fetchSelectedSession,
       deleteSession: enzymeWrapper.instance().onDeleteSession,
-      selectedSession: enzymeWrapper.instance().state.selectedSession,
-      selectedSource: enzymeWrapper.instance().state.selectedSource,
-      onRefreshSelectedSession: enzymeWrapper.instance().onRefreshSelectedSession,
+      relaunchStorages: props.relaunchStorages,
       getBackURL: enzymeWrapper.instance().getBackURL,
       onRefresh: enzymeWrapper.instance().onRefresh,
-      relaunchStorages: props.relaunchStorages,
-      sources: props.sources,
-      sessions: props.sessions,
-      flushSelectedSource: enzymeWrapper.instance().flushSelectedSource,
+      retryFEMRequests: props.retryFEMRequests,
+      fetchSelectedSession: props.fetchSelectedSession,
+      flushSelectedSession: props.flushSelectedSession,
     }, 'Component should define the expected properties')
   })
 })

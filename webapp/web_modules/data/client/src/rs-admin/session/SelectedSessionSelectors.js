@@ -16,6 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
-export default (storePath) => new BasicListSelectors(storePath)
+class SelectedSessionSelectors extends BasicSignalSelectors {
+  /**
+   * Returns fetched user on last REST action (since both GET and PUT should return user data)
+   * @param {*} state redux store
+   */
+  getSession(state) {
+    return this.uncombineStore(state).result || null
+  }
+}
+
+/**
+ * Builds selectors on expected store path
+ */
+export default (storePath) => new SelectedSessionSelectors(storePath)

@@ -25,6 +25,88 @@ import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
 
+const selectedSession = {
+  content: {
+    id: 0,
+    source: 'Test_Source1',
+    name: 'Test_Session1',
+    creationDate: '01/01/21',
+    lastUpdateDate: '01/01/21',
+    steps: [
+      {
+        id: 0,
+        stepId: 'scan',
+        source: 'Test_Source1',
+        session: 'Test_Session1',
+        type: 'ACQUISITION',
+        inputRelated: 3,
+        outputRelated: 3,
+        state: {
+          errors: 3,
+          waiting: 2,
+          running: 1,
+        },
+        properties: {},
+        lastUpdateDate: '01/01/21',
+      },
+      {
+        id: 1,
+        stepId: 'oais',
+        source: 'Test_Source1',
+        session: 'Test_Session1',
+        type: 'REFERENCING',
+        inputRelated: 3,
+        outputRelated: 3,
+        state: {
+          errors: 3,
+          waiting: 2,
+          running: 1,
+        },
+        properties: {},
+        lastUpdateDate: '01/01/21',
+      },
+      {
+        id: 2,
+        stepId: 'storage',
+        source: 'Test_Source1',
+        session: 'Test_Session1',
+        type: 'STORAGE',
+        inputRelated: 3,
+        outputRelated: 3,
+        state: {
+          errors: 3,
+          waiting: 2,
+          running: 1,
+        },
+        properties: {},
+        lastUpdateDate: '01/01/21',
+      },
+      {
+        id: 3,
+        stepId: 'metacatalog',
+        source: 'Test_Source1',
+        session: 'Test_Session1',
+        type: 'DISSEMINATION',
+        inputRelated: 3,
+        outputRelated: 3,
+        state: {
+          errors: 3,
+          waiting: 2,
+          running: 1,
+        },
+        properties: {},
+        lastUpdateDate: '01/01/21',
+      },
+    ],
+    managerState: {
+      running: true,
+      errors: true,
+      waiting: true,
+    },
+  },
+  links: [],
+}
+
 /**
   * Test ReferencingComponent
   * @author Théo Lasserre
@@ -63,8 +145,9 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ReferencingComponent', () => {
         },
         lastUpdateDate: '01/01/21',
       },
+      selectedSession,
       relaunchAIP: () => { },
-      retryRequests: () => { },
+      retryFEMRequests: () => { },
     }
     const enzymeWrapper = shallow(<ReferencingComponent {...props} />, { context })
 
@@ -90,8 +173,9 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ReferencingComponent', () => {
         properties: {},
         lastUpdateDate: '01/01/21',
       },
+      selectedSession,
       relaunchAIP: () => { },
-      retryRequests: () => { },
+      retryFEMRequests: () => { },
     }
     const enzymeWrapper = shallow(<ReferencingComponent {...props} />, { context })
 

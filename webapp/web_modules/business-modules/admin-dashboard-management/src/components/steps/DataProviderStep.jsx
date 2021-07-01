@@ -120,7 +120,8 @@ class DataProviderStep extends React.Component {
     return (
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.CONFIRM}
-        title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
+        title={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.retry.title' })}
+        message={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.retry.message' })}
         onConfirm={this.onRetryErrors}
         onClose={this.toggleRetryErrorsDialog}
         open={isRetryErrorsDialogOpen}

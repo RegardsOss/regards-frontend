@@ -35,3 +35,4 @@ export const sessionsRelaunchAIPActions = new AdminClient.SessionsRelaunchAIPAct
 export const sessionDeleteActions = new AdminClient.SessionsDeleteActions(`${SESSIONS_NAMESPACE}/delete-session`)
 export const storagesRelaunchActions = new AdminClient.SessionsRelaunchStoragesActions(`${SESSIONS_NAMESPACE}/relaunch-storages`)
 export const fProviderRetryErrorsActions = new FeatureManagementClient.ExtractionRequestRetryActions(`${SESSIONS_NAMESPACE}/relaunch-featureProvider`)
+export const requestRetryActions = new FeatureManagementClient.RequestRetryActions(`${SESSIONS_NAMESPACE}/relaunch-featureManager`)

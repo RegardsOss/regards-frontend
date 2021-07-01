@@ -19,9 +19,9 @@
 
 import values from 'lodash/values'
 
-export const CELL_TYPE_ENUM = {
+export const COMPONENT_TYPE_ENUM = {
   SOURCE: 'SOURCE',
   SESSION: 'SESSION',
 }
 
-export const CELL_TYPE = values(CELL_TYPE_ENUM)
+export const COMPONENT_TYPE = values(COMPONENT_TYPE_ENUM)

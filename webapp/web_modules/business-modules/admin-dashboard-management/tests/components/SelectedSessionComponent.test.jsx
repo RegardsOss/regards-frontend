@@ -129,9 +129,10 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
       onSelected: () => { },
       relaunchProducts: () => { },
       relaunchAIP: () => { },
+      relaunchStorages: () => { },
       retryRequests: () => { },
       deleteSession: () => { },
-      relaunchStorages: () => { },
+      retryFEMRequests: () => { },
     }
     const enzymeWrapper = shallow(<SelectedSessionComponent {...props} />, { context })
 
@@ -147,6 +148,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
       project: props.project,
       sessionStep: enzymeWrapper.instance().getSessionStep(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION),
       relaunchProducts: props.relaunchProducts,
+      selectedSession: props.selectedSession,
       retryRequests: props.retryRequests,
     }, 'Component should define the expected properties')
 
@@ -154,9 +156,10 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     assert.lengthOf(referencingWrapper, 1, 'There should be a ReferencingComponent')
     testSuiteHelpers.assertWrapperProperties(referencingWrapper, {
       project: props.project,
+      selectedSession: props.selectedSession,
       sessionStep: enzymeWrapper.instance().getSessionStep(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING),
       relaunchAIP: props.relaunchAIP,
-      retryRequests: props.retryRequests,
+      retryFEMRequests: props.retryFEMRequests,
     }, 'Component should define the expected properties')
 
     const storageWrapper = enzymeWrapper.find(ArchivalComponent)

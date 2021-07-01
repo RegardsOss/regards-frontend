@@ -17,23 +17,18 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { browserHistory } from 'react-router'
-import findLastKey from 'lodash/findLastKey'
-import isEqual from 'lodash/isEqual'
-import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
 import compose from 'lodash/fp/compose'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
-import { AdminShapes } from '@regardsoss/shape'
 import {
-  sessionsActions, sessionsSelectors, sessionsRelaunchProductActions, sessionsRelaunchAIPActions,
-  sessionDeleteActions, storagesRelaunchActions, fProviderRetryErrorsActions,
+  sessionsActions, sessionsRelaunchProductActions, sessionsRelaunchAIPActions,
+  sessionDeleteActions, storagesRelaunchActions, fProviderRetryErrorsActions, requestRetryActions,
 } from '../clients/SessionsClient'
-import { sourcesActions, sourcesSelectors } from '../clients/SourcesClient'
-import { selectedSessionActions, selectedSessionSelectors } from '../clients/SelectedSessionClient'
+import { selectedSessionActions } from '../clients/SelectedSessionClient'
+import { sourcesActions } from '../clients/SourcesClient'
 import DashboardComponent from '../components/DashboardComponent'
 import { SOURCE_FILTER_PARAMS } from '../domain/filters'
-import { CELL_TYPE_ENUM } from '../domain/cellTypes'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -47,17 +42,6 @@ export class DashboardContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
-    // from mapStateToProps
-    // eslint-disable-next-line react/no-unused-prop-types
-    selectedSession: AdminShapes.SessionList,
-    sources: AdminShapes.SourceList,
-    sessions: AdminShapes.SessionList,
-    sessionsMeta: PropTypes.shape({
-      number: PropTypes.number,
-    }),
-    sourcesMeta: PropTypes.shape({
-      number: PropTypes.number,
-    }),
     // from mapDispatchToProps
     fetchSessions: PropTypes.func.isRequired,
     fetchSources: PropTypes.func.isRequired,
@@ -66,25 +50,12 @@ export class DashboardContainer extends React.Component {
     relaunchAIP: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired, // Delete products of a session
+    retryFEMRequests: PropTypes.func.isRequired,
     fetchSelectedSession: PropTypes.func.isRequired,
     flushSelectedSession: PropTypes.func.isRequired,
   }
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
-
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps = (state) => ({
-    sessionsMeta: sessionsSelectors.getMetaData(state),
-    sourcesMeta: sourcesSelectors.getMetaData(state),
-    selectedSession: selectedSessionSelectors.getList(state),
-    sources: sourcesSelectors.getList(state),
-    session: sessionsSelectors.getList(state),
-  })
 
   /**
    * Redux: map dispatch to props function
@@ -95,13 +66,14 @@ export class DashboardContainer extends React.Component {
   static mapDispatchToProps = (dispatch) => ({
     fetchSessions: (pageIndex, pageSize, pathParams, queryParams) => dispatch(sessionsActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
     fetchSources: (pageIndex, pageSize, pathParams, queryParams) => dispatch(sourcesActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
-    fetchSelectedSession: (sessionId) => dispatch(selectedSessionActions.fetchEntity(sessionId)),
+    fetchSelectedSession: (sessionId) => dispatch(selectedSessionActions.fetchSession(sessionId)),
     flushSelectedSession: () => dispatch(selectedSessionActions.flush()),
     relaunchProducts: (source, session) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, session)),
     relaunchAIP: (source, session) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, session)),
     relaunchStorages: (source, session) => dispatch(storagesRelaunchActions.relaunchStorages(source, session)),
     retryRequests: (payload, type) => dispatch(fProviderRetryErrorsActions.sendSignal('POST', payload, { type })),
     deleteSession: (sessionId) => dispatch(sessionDeleteActions.deleteSession(sessionId)),
+    retryFEMRequests: (payload, type) => dispatch(requestRetryActions.sendSignal('POST', payload, { type })),
   })
 
   static contextTypes = {
@@ -109,47 +81,9 @@ export class DashboardContainer extends React.Component {
     ...themeContextType,
   }
 
-  state = {
-    selectedSource: null,
-    selectedSession: null,
-  }
-
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-  * Lifecycle method: component receive props. Used here to detect properties change and update local state
-  * @param {*} nextProps next component properties
-  */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
   componentWillUnmount = () => {
     const { flushSelectedSession } = this.props
     flushSelectedSession()
-  }
-
-  /**
- * Properties change detected: update local state
- * @param oldProps previous component properties
- * @param newProps next component properties
- */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const {
-      selectedSession,
-    } = newProps
-
-    const oldState = this.state || {}
-    const newState = { ...oldState }
-    if (isEmpty(oldProps)) {
-      newState.selectedSession = null
-    } else if (!isEqual(oldProps.selectedSession, selectedSession)) {
-      newState.selectedSession = selectedSession[findLastKey(selectedSession)]
-    }
-    if (!isEqual(oldState, newState)) {
-      this.setState(newState)
-    }
   }
 
   getBackURL = () => {
@@ -157,123 +91,55 @@ export class DashboardContainer extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/board`)
   }
 
-  getPageSize = (type) => {
-    const {
-      sessionsMeta, sourcesMeta,
-    } = this.props
-    let meta
-    switch (type) {
-      case CELL_TYPE_ENUM.SOURCE:
-        meta = sourcesMeta
-        break
-      case CELL_TYPE_ENUM.SESSION:
-        meta = sessionsMeta
-        break
-      default:
-        meta = sourcesMeta
-    }
-    const lastPage = (meta && meta.number) || 0
-    return (DashboardContainer.PAGE_SIZE) * (lastPage + 1)
-  }
-
   /**
    * Refresh session table, source table and selected session
    * @param {*} sourceFilters
    * @param {*} sessionFilters
    */
-  onRefresh = (sourceFilters, sessionFilters) => {
+  onRefresh = (sourceFilters, sessionFilters, selectedSource, selectedSession) => {
     const {
       fetchSessions, fetchSources, fetchSelectedSession,
     } = this.props
-    const {
-      selectedSession, selectedSource,
-    } = this.state
-    const fetchPageSessionsSize = this.getPageSize(CELL_TYPE_ENUM.SESSION)
-    const fetchPageSourcesSize = this.getPageSize(CELL_TYPE_ENUM.SOURCE)
-    const tasks = []
-    tasks.push(fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSource ? selectedSource.content.name : null }))
-    tasks.push(fetchSources(0, fetchPageSourcesSize, {}, { ...sourceFilters }))
+    fetchSessions(0, DashboardContainer.PAGE_SIZE, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSource ? selectedSource.content.name : null })
+    fetchSources(0, DashboardContainer.PAGE_SIZE, {}, { ...sourceFilters })
     if (selectedSession) {
-      tasks.push(fetchSelectedSession(selectedSession.content.id))
+      fetchSelectedSession(selectedSession.content.id)
     }
-    Promise.all(tasks)
   }
 
-  onDeleteSession = (sessionId, sourceFilters, sessionFilters) => {
+  onDeleteSession = (sessionId, sourceFilters, sessionFilters, selectedSource, selectedSession) => {
     const { deleteSession } = this.props
     deleteSession(sessionId).then((actionResult) => {
       if (!actionResult.error) {
-        this.onRefresh(sourceFilters, sessionFilters)
+        this.onRefresh(sourceFilters, sessionFilters, selectedSource, selectedSession)
       }
-    })
-  }
-
-  /**
-   * Fetch sessions from source name and sessions filters
-   * @param {*} source
-   * @param {*} sessionFilters
-   */
-  fetchSessions = (source, sessionFilters) => {
-    const { fetchSessions } = this.props
-    const fetchPageSessionsSize = this.getPageSize(CELL_TYPE_ENUM.SESSION)
-    fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: source ? source.content.name : null })
-    this.setState({
-      selectedSource: source,
-      selectedSession: null,
-    })
-  }
-
-  /**
-   * Fetch a session thanks to its id
-   * @param {*} sessionId
-   */
-  fetchSelectedSession = (session) => {
-    const { fetchSelectedSession } = this.props
-    if (session) {
-      fetchSelectedSession(session.content.id)
-    }
-    this.setState({
-      selectedSession: session,
-    })
-  }
-
-  flushSelectedSource = () => {
-    this.setState({
-      selectedSource: null,
     })
   }
 
   render() {
     const {
-      params: { project }, relaunchProducts, relaunchAIP, retryRequests, flushSelectedSession,
-      relaunchStorages, sources, sessions,
+      params: { project }, relaunchProducts, relaunchAIP, retryRequests,
+      relaunchStorages, retryFEMRequests,
+      fetchSelectedSession, flushSelectedSession,
     } = this.props
-    const {
-      selectedSource, selectedSession,
-    } = this.state
     return (
       <DashboardComponent
         project={project}
         relaunchProducts={relaunchProducts}
         relaunchAIP={relaunchAIP}
         retryRequests={retryRequests}
-        fetchSessions={this.fetchSessions}
-        fetchSelectedSession={this.fetchSelectedSession}
         deleteSession={this.onDeleteSession}
-        selectedSession={selectedSession}
-        selectedSource={selectedSource}
         relaunchStorages={relaunchStorages}
         getBackURL={this.getBackURL}
         onRefresh={this.onRefresh}
+        retryFEMRequests={retryFEMRequests}
+        fetchSelectedSession={fetchSelectedSession}
         flushSelectedSession={flushSelectedSession}
-        flushSelectedSource={this.flushSelectedSource}
-        sources={sources}
-        sessions={sessions}
       />
     )
   }
 }
 
 export default compose(
-  connect(DashboardContainer.mapStateToProps, DashboardContainer.mapDispatchToProps),
+  connect(null, DashboardContainer.mapDispatchToProps),
   withI18n(messages), withModuleStyle(styles))(DashboardContainer)
