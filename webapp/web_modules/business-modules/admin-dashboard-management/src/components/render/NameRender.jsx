@@ -23,7 +23,7 @@ import FlatButton from 'material-ui/FlatButton'
 import { StringValueRender } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { COMPONENT_TYPE } from '../../domain/componentTypes'
+import { COMPONENT_TYPE, COMPONENT_TYPE_ENUM } from '../../domain/componentTypes'
 import DisplayIconsComponent from '../DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../../domain/displayIconTypes'
 
@@ -58,8 +58,18 @@ class NameRender extends React.Component {
   }
 
   isSelected = () => {
-    const { entity, selectedEntity } = this.props
-    return isEqual(entity.content.name, get(selectedEntity, 'content.name'))
+    const { entity, selectedEntity, componentType } = this.props
+    let isSelected = false
+    switch (componentType) {
+      case COMPONENT_TYPE_ENUM.SESSION:
+        isSelected = isEqual(entity.content.id, get(selectedEntity, 'content.id'))
+        break
+      case COMPONENT_TYPE_ENUM.SOURCE:
+        isSelected = isEqual(entity.content.name, get(selectedEntity, 'content.name'))
+        break
+      default:
+    }
+    return isSelected
   }
 
   render() {
