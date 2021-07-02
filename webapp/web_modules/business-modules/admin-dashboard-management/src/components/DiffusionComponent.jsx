@@ -22,6 +22,7 @@ import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { ListItem } from 'material-ui/List'
 import { AdminShapes } from '@regardsoss/shape'
+import { CommonDomain } from '@regardsoss/domain'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -29,6 +30,10 @@ import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 import { DIFFUSION_PRODUCTS_PROPERTIES, DIFFUSION_PRODUCTS_PROPERTIES_ENUM } from '../domain/diffusionProperties'
 import { ICON_TYPE_ENUM } from '../domain/iconType'
+
+const {
+  displayNumber,
+} = CommonDomain.DisplayBigNumbers
 
 /**
  * DiffusionComponent
@@ -84,6 +89,7 @@ class DiffusionComponent extends React.Component {
         selectedSessionStyle: {
           cardStyle, cardTitleDivStyle, cardContentStyle, cardButtonStyle, cardTitleTextStyle,
           raisedListStyle, listItemDivStyle, cardTitleStyle, propertiesTitleStyle, propertiesDivStyle,
+          cardSubTitleTextStyle,
         },
       },
     } = this.context
@@ -95,8 +101,10 @@ class DiffusionComponent extends React.Component {
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.diffusion.title' }, { nbIn: inputRelated, nbOut: outputRelated })}
+              title={formatMessage({ id: 'dashboard.selectedsession.diffusion.title' })}
+              subtitle={formatMessage({ id: 'dashboard.selectedsession.diffusion.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
               titleStyle={cardTitleTextStyle}
+              subtitleStyle={cardSubTitleTextStyle}
               style={cardTitleStyle}
             />
             {runnings !== 0

@@ -21,11 +21,16 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { CommonDomain } from '@regardsoss/domain'
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 import FeatureProviderStep from './steps/FeatureProviderStep'
 import DataProviderStep from './steps/DataProviderStep'
 import { ICON_TYPE_ENUM } from '../domain/iconType'
+
+const {
+  displayNumber,
+} = CommonDomain.DisplayBigNumbers
 
 const ACQUISITION_TYPE = {
   EXTRACT: 'extract',
@@ -57,7 +62,7 @@ class AcquisitionComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          cardStyle, cardTitleDivStyle, cardTitleTextStyle, cardTitleStyle,
+          cardStyle, cardTitleDivStyle, cardTitleTextStyle, cardTitleStyle, cardSubTitleTextStyle,
         },
       },
     } = this.context
@@ -69,8 +74,10 @@ class AcquisitionComponent extends React.Component {
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.acquisition.title' }, { nbIn: inputRelated, nbOut: outputRelated })}
+              title={formatMessage({ id: 'dashboard.selectedsession.acquisition.title' })}
+              subtitle={formatMessage({ id: 'dashboard.selectedsession.acquisition.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
               titleStyle={cardTitleTextStyle}
+              subtitleStyle={cardSubTitleTextStyle}
               style={cardTitleStyle}
             />
             { running !== 0

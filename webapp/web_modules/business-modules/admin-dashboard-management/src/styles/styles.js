@@ -191,7 +191,10 @@ const dashboardManagementStyles = (theme) => ({
     },
     cardTitleTextStyle: {
       fontSize: '18px',
-      fontStyle: 'bold',
+    },
+    cardSubTitleTextStyle: {
+      fontSize: '17px',
+      color: 'white',
     },
     cardContentStyle: {
       display: 'flex',
@@ -257,6 +260,10 @@ const dashboardManagementStyles = (theme) => ({
     },
     dialogProductErrorStyle: {
       maxWidth: null,
+    },
+    dialogProductErrorMainStyle: {
+      position: 'absolute',
+      top: '-150px',
     },
   },
   displayIconsComponentStyle: {

@@ -177,7 +177,7 @@ export class StorageSettingsComponent extends React.Component {
             </div>
             <div style={settingTitleAltStyle}>
               {
-                formatMessage({ id: 'storage.settings.fieldgroup.file.title' })
+                formatMessage({ id: 'storage.settings.fieldgroup.cache.title' })
               }
             </div>
             <div style={settingDiv}>

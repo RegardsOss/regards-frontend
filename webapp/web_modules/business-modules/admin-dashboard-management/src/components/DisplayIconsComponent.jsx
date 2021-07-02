@@ -22,6 +22,7 @@ import map from 'lodash/map'
 import get from 'lodash/get'
 import { themeContextType } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
+import { CommonDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
 import Chip from 'material-ui/Chip'
@@ -30,6 +31,10 @@ import Alert from 'mdi-material-ui/AlertOutline'
 import Error from 'mdi-material-ui/AlertCircleOutline'
 import { DISPLAY_ICON_TYPE, DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 import { ICON_TYPE_ENUM } from '../domain/iconType'
+
+const {
+  displayNumber,
+} = CommonDomain.DisplayBigNumbers
 
 /**
  * Display Icons Component either for source & session table or session step title
@@ -130,7 +135,7 @@ class DisplayIconsComponent extends React.Component {
           labelStyle={overlayStyle.chip.labelStyle}
           style={elementCount !== 0 ? overlayStyle.chip.style : displayNone}
         >
-          {elementCount}
+          {displayNumber(elementCount, 3)}
         </Chip>
         {iconComponent}
       </div>

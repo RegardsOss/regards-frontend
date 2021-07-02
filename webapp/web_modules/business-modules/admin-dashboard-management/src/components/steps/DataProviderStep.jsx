@@ -133,7 +133,7 @@ class DataProviderStep extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          dialogProductErrorStyle,
+          dialogProductErrorStyle, dialogProductErrorMainStyle,
         },
       },
     } = this.context
@@ -152,7 +152,7 @@ class DataProviderStep extends React.Component {
           />
         </>}
         contentStyle={dialogProductErrorStyle}
-        modal
+        style={dialogProductErrorMainStyle}
       >
         <DisplayProductsComponent
           sessionName={sessionStep.session}
