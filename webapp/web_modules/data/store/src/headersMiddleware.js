@@ -40,7 +40,8 @@ const getAuthorization = (state, callAPI) => {
   if ((!AuthenticationClient.authenticationSelectors.isAuthenticated(state) || sessionIsLocked(state)) && callAPI.endpoint.includes(AuthenticationClient.SPECIFIC_ENDPOINT_MARKER)) {
     // for authentication only => provide client secret
     return `Basic ${btoa('client:secret')}`
-  } if (AuthenticationClient.authenticationSelectors.isAuthenticated(state) && !sessionIsLocked(state)) {
+  }
+  if (AuthenticationClient.authenticationSelectors.isAuthenticated(state) && !sessionIsLocked(state)) {
     // provide known token
     const accessToken = AuthenticationClient.authenticationSelectors.getAccessToken(state)
     return `Bearer ${accessToken}`

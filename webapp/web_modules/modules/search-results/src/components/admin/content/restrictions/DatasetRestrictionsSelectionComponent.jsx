@@ -102,12 +102,12 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
         throw new Error(`Unknown restriction type: ${restrictionType}`)
     }
     // 2 - sort it
-    const sortedSelectableElements = selectableElements.sort((e1, e2) => StringComparison.compare(e1.label, e2.label))
+    selectableElements.sort((e1, e2) => StringComparison.compare(e1.label, e2.label))
     // 3 - store it in state (pool, filter and filtered pool)
     const lowerFilterText = filterText.toLowerCase()
     const nextState = {
-      selectableElements: sortedSelectableElements,
-      visibleElements: sortedSelectableElements.filter((element) => element.label.toLowerCase().includes(lowerFilterText)),
+      selectableElements,
+      visibleElements: selectableElements.filter((element) => element.label.toLowerCase().includes(lowerFilterText)),
       filterText,
     }
     if (!isEqual(this.state, nextState)) {

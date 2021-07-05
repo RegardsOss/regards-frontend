@@ -113,7 +113,8 @@ export default class ReduxEntityTester {
         assert.isDefined(this.backendServerResultList.metadata, 'Your Action is Pageable but the result you provided comes from a list entrypoint')
         return store.dispatch(this.entityActions.fetchPagedEntityList(null, null, this.options.pathParams))
           .then((action) => this.onPostActionTest(action, store, done))
-      } if (this.entityActions.fetchEntityList) {
+      }
+      if (this.entityActions.fetchEntityList) {
         assert.isUndefined(this.backendServerResultList.metadata, 'Your Action is a List but the result you provided comes from a pageable entrypoint')
         return store.dispatch(this.entityActions.fetchEntityList(this.options.pathParams))
           .then((action) => this.onPostActionTest(action, store, done))

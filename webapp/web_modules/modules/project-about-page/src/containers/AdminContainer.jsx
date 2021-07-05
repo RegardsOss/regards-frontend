@@ -72,7 +72,8 @@ class AdminContainer extends React.Component {
     if (path) {
       if (startsWith(path, 'http')) {
         return path
-      } if (startsWith(path, '/')) {
+      }
+      if (startsWith(path, '/')) {
         return `${root.location.protocol}//${root.location.host}${path}`
       }
       return `${root.location.protocol}//${root.location.host}/${path}`

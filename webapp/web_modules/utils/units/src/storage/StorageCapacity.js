@@ -68,7 +68,8 @@ export class StorageCapacity {
   doArithmeticOperation(binaryOperator, other) {
     if (isNumber(other)) {
       return new StorageCapacity(binaryOperator(this.value, other), this.unit)
-    } if (other instanceof StorageCapacity) {
+    }
+    if (other instanceof StorageCapacity) {
       const converted = other.convert(this.unit)
       return new StorageCapacity(binaryOperator(this.value, converted.value), this.unit)
     }

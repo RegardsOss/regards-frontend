@@ -237,9 +237,11 @@ const parsableNumberValidator = (parsingError, min, max, regexp = NUMBER_REGEXP)
     // 2 - check value
     if (bnValue.isNaN() || !bnValue.isFinite()) {
       return parsingError
-    } if (bnValue.isLessThan(min)) {
+    }
+    if (bnValue.isLessThan(min)) {
       return ErrorTypes.LOWER_THAN_MIN
-    } if (bnValue.isGreaterThan(max)) {
+    }
+    if (bnValue.isGreaterThan(max)) {
       return ErrorTypes.GREATER_THAN_MAX
     }
   }

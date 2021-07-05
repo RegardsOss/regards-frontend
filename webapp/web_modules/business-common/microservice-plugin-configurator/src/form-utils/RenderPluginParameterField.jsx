@@ -242,7 +242,8 @@ export class RenderPluginParameterField extends React.Component {
           {...fieldParams}
         />
       )
-    } if (dynamic && !displayDynamicValues) {
+    }
+    if (dynamic && !displayDynamicValues) {
       return null
     }
     const fieldName = complexParameter ? `${name}.value` : name

@@ -153,9 +153,11 @@ export class MaxQuotaFormComponent extends React.Component {
         { (() => {
           if (remainingQuota === QuotaInfoConstants.UNLIMITED) {
             return <UnlimitedIcon style={unlimitedIcon} />
-          } if (remainingQuota <= 0) {
+          }
+          if (remainingQuota <= 0) {
             return <QuotaStatusIcon style={consumedIcon} />
-          } if (remainingQuota - quotaWarningCount <= 0) {
+          }
+          if (remainingQuota - quotaWarningCount <= 0) {
             return <QuotaStatusIcon style={warningIcon} />
           }
           return null

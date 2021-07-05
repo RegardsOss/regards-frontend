@@ -73,7 +73,8 @@ class ProjectAboutPageContainer extends React.Component {
     if (path) {
       if (startsWith(path, 'http') || startsWith(path, 'wwww')) {
         return path
-      } if (startsWith(path, '/')) {
+      }
+      if (startsWith(path, '/')) {
         return `http://${root.location.host}${path}`
       }
       return `http://${root.location.host}/${path}`
