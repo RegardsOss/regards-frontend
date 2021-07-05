@@ -154,7 +154,8 @@ export class DownloadEntityFileComponent extends React.Component {
             id: (() => { // IIFE: returns ID based on rendering reason
               if (noDownloadableFile) {
                 return 'no.download.tooltip'
-              } if (!disabled) {
+              }
+              if (!disabled) {
                 return 'download.tooltip'
               } // there are files but disabled: quota consumed status
               return 'download.quota.consumed.tooltip'

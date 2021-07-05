@@ -225,7 +225,8 @@ class PluginFormComponent extends React.Component {
     const { loadedIcon } = this.state
     if (loadedIcon) {
       return <img src={loadedIcon} alt="" width="75" height="75" />
-    } if (get(plugin, 'content.iconUrl', null)) {
+    }
+    if (get(plugin, 'content.iconUrl', null)) {
       return <img src={plugin.content.iconUrl} alt="" width="75" height="75" />
     }
     return null

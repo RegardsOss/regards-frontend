@@ -394,10 +394,12 @@ export class OrderCartTableComponent extends React.Component {
         style={(() => {
           if (cellValue.type === OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW) {
             return totalRow.cell // total row graphics configuration
-          } if (columnKey === OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DETAIL // specify options columns styles
+          }
+          if (columnKey === OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DETAIL // specify options columns styles
             || columnKey === OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DELETE) {
             return optionColumn // options columns graphics configuration
-          } if (columnKey === OrderCartTableComponent.COLUMN_KEYS.PROCESSING) {
+          }
+          if (columnKey === OrderCartTableComponent.COLUMN_KEYS.PROCESSING) {
             return optionColumn.processingStyle
           }
           return null

@@ -41,9 +41,11 @@ class RangeValueRenderDelegate extends React.Component {
     const hasUpper = !isNil(upper)
     if (hasLower && hasUpper) {
       return intl.formatMessage({ id: 'value.render.range.full.label' }, { lower, upper })
-    } if (hasUpper) {
+    }
+    if (hasUpper) {
       return intl.formatMessage({ id: 'value.render.range.upper.only.label' }, { upper })
-    } if (hasLower) {
+    }
+    if (hasLower) {
       return intl.formatMessage({ id: 'value.render.range.lower.only.label' }, { lower })
     }
     // undefined or infinite range

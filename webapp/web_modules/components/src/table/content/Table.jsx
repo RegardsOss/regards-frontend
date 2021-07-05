@@ -106,7 +106,7 @@ class Table extends React.Component {
    */
   onPropertiesChanged = (oldProps, newProps) => {
     const oldState = this.state || {}
-    const newState = oldState ? { ...oldState } : {}
+    const newState = { ...oldState }
 
     // Re layout columns when available width changed, to avoid changing user set columns width. Width changed when:
     // A - Table width changed

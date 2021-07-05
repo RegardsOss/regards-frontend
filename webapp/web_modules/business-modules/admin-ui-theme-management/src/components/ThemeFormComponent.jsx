@@ -100,7 +100,8 @@ export class ThemeFormComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     if (isCreating) {
       return formatMessage({ id: 'theme.create.title' })
-    } if (isEditing) {
+    }
+    if (isEditing) {
       return formatMessage({ id: 'theme.edit.title' }, { name: currentTheme.content.name })
     }
     return formatMessage({ id: 'theme.duplicate.title' }, { name: currentTheme.content.name })
