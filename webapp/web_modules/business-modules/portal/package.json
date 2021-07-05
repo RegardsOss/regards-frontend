@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/portal",
-  "version": "1.6.0-SNAPSHOT",
+  "version": "1.6.0",
   "private": true,
   "sideEffects": false,
   "description": "",

@@ -1,6 +1,6 @@
 {
   "name": "fem-edit",
-  "version": "0.0.1-SNAPSHOT",
+  "version": "1.6.0",
   "private": true,
   "description": "Edit features using the fem",
   "license": "GPL-3.0",

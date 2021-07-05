@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/toponym-common",
-  "version": "1.4.0-SNAPSHOT",
+  "version": "1.6.0",
   "private": true,
   "sideEffects": false,
   "description": "Tools, constants and components to work with toponyms",
