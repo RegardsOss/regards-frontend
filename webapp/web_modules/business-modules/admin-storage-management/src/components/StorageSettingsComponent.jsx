@@ -170,7 +170,7 @@ export class StorageSettingsComponent extends React.Component {
               <Field
                 name={SETTINGS_ENUM.STORAGE_SUB_DIRECTORY}
                 component={RenderTextField}
-                label={formatMessage({ id: 'storage.settings.fieldgroup.cache.title' })}
+                label={formatMessage({ id: 'storage.settings.field.storageSubdirectory' })}
                 disabled={isDisabled(settings, SETTINGS_ENUM.STORAGE_SUB_DIRECTORY)}
                 fullWidth
               />
