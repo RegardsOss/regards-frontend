@@ -15,9 +15,6 @@ module.exports = function (projectContextPath, mode) {
         'node_modules',
       ],
       alias: alias(projectContextPath, 'dev'),
-      fallback: {
-        buffer: false,
-      },
     },
     devtool: mode === 'dev' ? 'source-map' : 'cheap-source-map',
     output: {
@@ -81,6 +78,8 @@ module.exports = function (projectContextPath, mode) {
       new webpack.ProvidePlugin({
         React: 'react',
         PropTypes: 'prop-types',
+        // Fix jsZIP
+        Buffer: ['buffer', 'Buffer'],
       }),
       // Create a single css file for the whole application instead of setting css inline in the javascript
       // That's during the coresoss compilation that our app export a single CSS file
