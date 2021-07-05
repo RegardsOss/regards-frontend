@@ -17,11 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import values from 'lodash/values'
-
-export const CELL_TYPE_ENUM = {
-  SOURCE: 'SOURCE',
-  SESSION: 'SESSION',
+function displayNumber(number, nbDecimal) {
+  let ret = number
+  if (number >= 1000000) {
+    ret = `${parseFloat((number / 1000000).toFixed(nbDecimal))}M`
+  } else if (number >= 1000) {
+    ret = `${parseFloat((number / 1000).toFixed(nbDecimal))}k`
+  }
+  return ret
 }
 
-export const CELL_TYPE = values(CELL_TYPE_ENUM)
+export default {
+  displayNumber,
+}

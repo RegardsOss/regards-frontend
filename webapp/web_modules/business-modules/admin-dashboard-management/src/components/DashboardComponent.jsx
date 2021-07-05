@@ -17,18 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import isEmpty from 'lodash/isEmpty'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CardActionsComponent } from '@regardsoss/components'
 import {
   Card, CardText, CardTitle, CardActions,
 } from 'material-ui/Card'
-import { AdminShapes } from '@regardsoss/shape'
-import SourcesComponent from './SourcesComponent'
-import SessionsComponent from './SessionsComponent'
-import SelectedSessionComponent from './SelectedSessionComponent'
-import { CELL_TYPE_ENUM } from '../domain/cellTypes'
+import SourcesContainer from '../containers/SourcesContainer'
+import SessionsContainer from '../containers/SessionsContainer'
+import SelectedSessionContainer from '../containers/SelectedSessionContainer'
+import { COMPONENT_TYPE_ENUM } from '../domain/componentTypes'
 
 /**
  * DashboardComponent
@@ -42,16 +40,11 @@ class DashboardComponent extends React.Component {
     relaunchStorages: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
-    selectedSession: AdminShapes.Session,
-    selectedSource: AdminShapes.Source,
     fetchSelectedSession: PropTypes.func.isRequired,
-    fetchSessions: PropTypes.func.isRequired,
     getBackURL: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    retryFEMRequests: PropTypes.func.isRequired,
     flushSelectedSession: PropTypes.func.isRequired,
-    flushSelectedSource: PropTypes.func.isRequired,
-    sources: AdminShapes.SourceList,
-    sessions: AdminShapes.SessionList,
   }
 
   static contextTypes = {
@@ -60,47 +53,63 @@ class DashboardComponent extends React.Component {
   }
 
   state = {
-    sourceFilters: SourcesComponent.extractFiltersFromURL(),
-    sessionFilters: SessionsComponent.extractFiltersFromURL(),
+    sourceFilters: SourcesContainer.extractFiltersFromURL(),
+    sessionFilters: SessionsContainer.extractFiltersFromURL(),
+    selectedSource: null,
+    selectedSession: null,
   }
 
   onApplyFilters = (filters, type) => {
-    const { flushSelectedSession, flushSelectedSource } = this.props
+    const { flushSelectedSession } = this.props
+    flushSelectedSession()
     let nextState = {}
+    nextState = {
+      ...this.state,
+      selectedSession: null,
+    }
     switch (type) {
-      case CELL_TYPE_ENUM.SESSION:
+      case COMPONENT_TYPE_ENUM.SESSION:
         nextState = {
-          ...this.state,
+          ...nextState,
           sessionFilters: filters,
         }
         break
-      case CELL_TYPE_ENUM.SOURCE:
+      case COMPONENT_TYPE_ENUM.SOURCE:
         nextState = {
-          ...this.state,
+          ...nextState,
+          selectedSource: null,
           sourceFilters: filters,
         }
         break
       default:
     }
-    flushSelectedSession()
-    flushSelectedSource()
     this.setState(nextState)
   }
 
   onSelected = (entity, type) => {
+    const { fetchSelectedSession, flushSelectedSession } = this.props
     const {
-      fetchSelectedSession, fetchSessions, selectedSource, selectedSession, flushSelectedSession,
-    } = this.props
-    const {
-      sessionFilters,
+      selectedSource, selectedSession,
     } = this.state
+    let newSelectedSession
     switch (type) {
-      case CELL_TYPE_ENUM.SESSION:
-        flushSelectedSession()
-        fetchSelectedSession(entity && !isEqual(entity, selectedSession) ? entity : null)
+      case COMPONENT_TYPE_ENUM.SESSION:
+        newSelectedSession = !isEqual(entity, selectedSession) ? entity : null
+        if (newSelectedSession) {
+          fetchSelectedSession(entity.content.id)
+        } else {
+          flushSelectedSession()
+        }
+        this.setState({
+          selectedSession: newSelectedSession,
+        })
         break
-      case CELL_TYPE_ENUM.SOURCE:
-        fetchSessions(!isEqual(entity, selectedSource) ? entity : null, sessionFilters)
+      case COMPONENT_TYPE_ENUM.SOURCE:
+        flushSelectedSession()
+        this.setState({
+          selectedSource: !isEqual(entity, selectedSource) ? entity : null,
+          selectedSession: null,
+        })
         break
       default:
     }
@@ -108,14 +117,17 @@ class DashboardComponent extends React.Component {
 
   onDeleteSession = (sessionId) => {
     const { deleteSession } = this.props
-    const { sourceFilters, sessionFilters } = this.state
-    deleteSession(sessionId, sourceFilters, sessionFilters)
+    const {
+      sourceFilters, sessionFilters, selectedSource, selectedSession,
+    } = this.state
+    deleteSession(sessionId, sourceFilters, sessionFilters, selectedSource, selectedSession)
   }
 
   render() {
     const {
       project, getBackURL, relaunchProducts, relaunchAIP, retryRequests,
-      onRefresh, selectedSession, selectedSource, sources, sessions, relaunchStorages,
+      onRefresh, relaunchStorages,
+      retryFEMRequests,
     } = this.props
     const {
       intl: { formatMessage },
@@ -125,7 +137,7 @@ class DashboardComponent extends React.Component {
       },
     } = this.context
     const {
-      sourceFilters, sessionFilters,
+      sourceFilters, sessionFilters, selectedSource, selectedSession,
     } = this.state
     return (
       <Card>
@@ -138,7 +150,7 @@ class DashboardComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'dashboard.refresh' })}
               mainButtonType="submit"
-              mainButtonClick={() => onRefresh(sourceFilters, sessionFilters)}
+              mainButtonClick={() => onRefresh(sourceFilters, sessionFilters, selectedSource, selectedSession)}
               secondaryButtonLabel={formatMessage({ id: 'dashboard.back' })}
               secondaryButtonClick={getBackURL}
             />
@@ -147,39 +159,35 @@ class DashboardComponent extends React.Component {
         <CardText style={cardTextField}>
           <div style={dashboardDivStyle}>
             <div style={dashboardComponentsStyle}>
-              <SourcesComponent
+              <SourcesContainer
                 project={project}
                 onSelected={this.onSelected}
                 selectedSource={selectedSource}
                 selectedSession={selectedSession}
                 onApplyFilters={this.onApplyFilters}
-                sources={sources}
                 filters={sourceFilters}
               />
-              <SessionsComponent
+              <SessionsContainer
                 project={project}
                 onSelected={this.onSelected}
                 selectedSession={selectedSession}
                 onApplyFilters={this.onApplyFilters}
-                sessions={sessions}
                 selectedSource={selectedSource}
                 filters={sessionFilters}
               />
             </div>
-            {!isEmpty(selectedSession)
-              ? <SelectedSessionComponent
-                  project={project}
-                  selectedSession={selectedSession}
-                  onSelected={this.onSelected}
-                  relaunchProducts={relaunchProducts}
-                  relaunchAIP={relaunchAIP}
-                  retryRequests={retryRequests}
-                  relaunchStorages={relaunchStorages}
-                  deleteSession={this.onDeleteSession}
-                  sourceFilters={sourceFilters}
-                  sessionFilters={sessionFilters}
-              />
-              : null}
+            <SelectedSessionContainer
+              project={project}
+              onSelected={this.onSelected}
+              relaunchProducts={relaunchProducts}
+              relaunchAIP={relaunchAIP}
+              retryRequests={retryRequests}
+              relaunchStorages={relaunchStorages}
+              deleteSession={this.onDeleteSession}
+              sourceFilters={sourceFilters}
+              sessionFilters={sessionFilters}
+              retryFEMRequests={retryFEMRequests}
+            />
           </div>
         </CardText>
       </Card>

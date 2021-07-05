@@ -21,11 +21,16 @@ import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { CommonDomain } from '@regardsoss/domain'
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 import FeatureManagerStep from './steps/FeatureManagerStep'
 import IngestStep from './steps/IngestStep'
 import { ICON_TYPE_ENUM } from '../domain/iconType'
+
+const {
+  displayNumber,
+} = CommonDomain.DisplayBigNumbers
 
 const REFERENCING_TYPE = {
   FEATURE: 'feature',
@@ -42,7 +47,7 @@ class ReferencingComponent extends React.Component {
     sessionStep: AdminShapes.SessionStep,
     selectedSession: AdminShapes.Session,
     relaunchAIP: PropTypes.func.isRequired,
-    retryRequests: PropTypes.func.isRequired,
+    retryFEMRequests: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -52,12 +57,12 @@ class ReferencingComponent extends React.Component {
 
   render() {
     const {
-      sessionStep, project, selectedSession, retryRequests, relaunchAIP,
+      sessionStep, project, selectedSession, retryFEMRequests, relaunchAIP,
     } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          cardStyle, cardTitleDivStyle, cardTitleTextStyle, cardTitleStyle,
+          cardStyle, cardTitleDivStyle, cardTitleTextStyle, cardTitleStyle, cardSubTitleTextStyle,
         },
       },
     } = this.context
@@ -69,8 +74,10 @@ class ReferencingComponent extends React.Component {
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.referencing.title' }, { nbIn: inputRelated, nbOut: outputRelated })}
+              title={formatMessage({ id: 'dashboard.selectedsession.referencing.title' })}
+              subtitle={formatMessage({ id: 'dashboard.selectedsession.referencing.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
               titleStyle={cardTitleTextStyle}
+              subtitleStyle={cardSubTitleTextStyle}
               style={cardTitleStyle}
             />
             { runnings !== 0
@@ -86,7 +93,7 @@ class ReferencingComponent extends React.Component {
                   project={project}
                   sessionStep={sessionStep}
                   selectedSession={selectedSession}
-                  retryRequests={retryRequests}
+                  retryRequests={retryFEMRequests}
               />
               : <IngestStep
                   project={project}

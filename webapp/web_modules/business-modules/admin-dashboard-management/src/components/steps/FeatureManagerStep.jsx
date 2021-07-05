@@ -18,6 +18,7 @@
  **/
 import map from 'lodash/map'
 import get from 'lodash/get'
+import forEach from 'lodash/forEach'
 import { browserHistory } from 'react-router'
 import { FemDomain } from '@regardsoss/domain'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
@@ -62,20 +63,22 @@ class FeatureManagerStep extends React.Component {
 
   onRetryErrors = () => {
     const { sessionStep, retryRequests } = this.props
-    return map(FemDomain.REQUEST_TYPES, (reqType) => {
+    const tasks = []
+    forEach(FemDomain.REQUEST_TYPES, (reqType) => {
       if (reqType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES
         && reqType !== FemDomain.REQUEST_TYPES_ENUM.EXTRACTION) {
-        return retryRequests({
+        tasks.push(retryRequests({
           filters: {
             session: sessionStep.session,
             source: sessionStep.source,
           },
           requestIdSelectionMode: 'EXCLUDE',
           requestIds: [],
-        }, reqType)
+        }, reqType))
       }
       return null
     })
+    return Promise.resolve(tasks)
   }
 
   displayListItem = (property) => {
@@ -119,7 +122,8 @@ class FeatureManagerStep extends React.Component {
     return (
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.CONFIRM}
-        title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
+        title={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.dialog.retry.title' })}
+        message={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.dialog.retry.message' })}
         onConfirm={this.onRetryErrors}
         onClose={this.toggleRetryErrorsDialog}
         open={isRetryErrorsDialogOpen}

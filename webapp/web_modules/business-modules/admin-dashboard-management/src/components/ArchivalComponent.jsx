@@ -21,6 +21,7 @@ import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { AdminShapes } from '@regardsoss/shape'
+import { CommonDomain } from '@regardsoss/domain'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -30,6 +31,10 @@ import { STORAGE_FILES_PROPERTIES, STORAGE_REQUESTS_PROPERTIES_ENUM, STORAGE_REQ
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 import { ICON_TYPE_ENUM } from '../domain/iconType'
+
+const {
+  displayNumber,
+} = CommonDomain.DisplayBigNumbers
 
 /**
  * ArchivalComponent
@@ -147,7 +152,8 @@ class ArchivalComponent extends React.Component {
     return (
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.CONFIRM}
-        title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
+        title={formatMessage({ id: 'dashboard.selectedsession.storage.dialog.retry.title' })}
+        message={formatMessage({ id: 'dashboard.selectedsession.storage.dialog.retry.message' })}
         onConfirm={this.onRetryErrors}
         onClose={this.toggleRetryErrorsDialog}
         open={isRetryErrorsDialogOpen}
@@ -165,7 +171,7 @@ class ArchivalComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          cardStyle, cardTitleDivStyle, cardTitleTextStyle, cardTitleStyle,
+          cardStyle, cardTitleDivStyle, cardTitleTextStyle, cardTitleStyle, cardSubTitleTextStyle,
         },
       },
     } = this.context
@@ -177,8 +183,10 @@ class ArchivalComponent extends React.Component {
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.storage.title' }, { nbIn: inputRelated, nbOut: outputRelated })}
+              title={formatMessage({ id: 'dashboard.selectedsession.storage.title' })}
+              subtitle={formatMessage({ id: 'dashboard.selectedsession.storage.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
               titleStyle={cardTitleTextStyle}
+              subtitleStyle={cardSubTitleTextStyle}
               style={cardTitleStyle}
             />
             { runnings !== 0

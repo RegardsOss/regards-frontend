@@ -20,7 +20,7 @@ import find from 'lodash/find'
 import { StringValueRender } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { AdminDomain } from '@regardsoss/domain'
-import { CELL_TYPE, CELL_TYPE_ENUM } from '../../domain/cellTypes'
+import { COMPONENT_TYPE, COMPONENT_TYPE_ENUM } from '../../domain/componentTypes'
 
 /**
    * Table cell render for attribute
@@ -32,7 +32,7 @@ class DiffusedProductsRender extends React.Component {
       AdminShapes.Source,
       AdminShapes.Session,
     ]).isRequired,
-    cellType: PropTypes.oneOf(CELL_TYPE),
+    componentType: PropTypes.oneOf(COMPONENT_TYPE),
   }
 
   /**
@@ -41,18 +41,18 @@ class DiffusedProductsRender extends React.Component {
    * @param {intl} intl from context
    * @return string to show as render
    */
-  static getDiffusedProducts(attributeModel, cellType) {
+  static getDiffusedProducts(attributeModel, componentType) {
     const { steps } = attributeModel.content
     const diffusionStep = find(steps, (step) => step.type === AdminDomain.STEP_TYPE_ENUM.DISSEMINATION)
     if (diffusionStep) {
-      return cellType === CELL_TYPE_ENUM.SOURCE ? diffusionStep.totalOut : diffusionStep.outputRelated
+      return componentType === COMPONENT_TYPE_ENUM.SOURCE ? diffusionStep.totalOut : diffusionStep.outputRelated
     }
     return 0
   }
 
   render() {
-    const { entity, cellType } = this.props
-    return <StringValueRender value={DiffusedProductsRender.getDiffusedProducts(entity, cellType)} />
+    const { entity, componentType } = this.props
+    return <StringValueRender value={DiffusedProductsRender.getDiffusedProducts(entity, componentType)} />
   }
 }
 export default DiffusedProductsRender

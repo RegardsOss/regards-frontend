@@ -15,17 +15,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { BasicSignalReducers } from '@regardsoss/store-utils'
-import SelectedSessionActions from './SelectedSessionActions'
+ **/
 
-class SelectedSessionReducer extends BasicSignalReducers {
-  constructor(namespace) {
-    super(new SelectedSessionActions(namespace))
-  }
+import values from 'lodash/values'
+
+export const COMPONENT_TYPE_ENUM = {
+  SOURCE: 'SOURCE',
+  SESSION: 'SESSION',
 }
 
-export default (namespace) => {
-  const instance = new SelectedSessionReducer(namespace)
-  return (state, action) => instance.reduce(state, action)
-}
+export const COMPONENT_TYPE = values(COMPONENT_TYPE_ENUM)

@@ -101,14 +101,14 @@ export { default as SearchSourcesActions } from './sources/SearchSourcesActions'
 export { default as getSearchSourcesReducer } from './sources/SearchSourcesReducer'
 export { default as getSearchSourcesSelectors } from './sources/SearchSourcesSelectors'
 
-export { default as SelectedSessionActions } from './session/SelectedSessionActions'
-export { default as getSelectedSessionReducer } from './session/SelectedSessionReducer'
-export { default as getSelectedSessionSelectors } from './session/SelectedSessionSelectors'
-
 export { default as SessionsRelaunchProductActions } from './session/SessionsRelaunchProductActions'
 export { default as SessionsRelaunchAIPActions } from './session/SessionsRelaunchAIPActions'
 export { default as SessionsDeleteActions } from './session/SessionsDeleteActions'
 export { default as SessionsRelaunchStoragesActions } from './session/SessionsRelaunchStoragesActions'
+
+export { default as SelectedSessionActions } from './session/SelectedSessionActions'
+export { default as getSelectedSessionReducer } from './session/SelectedSessionReducer'
+export { default as getSelectedSessionSelectors } from './session/SelectedSessionSelectors'
 
 export { default as SourcesActions } from './sources/SourcesActions'
 export { default as getSourcesReducer } from './sources/SourcesReducer'

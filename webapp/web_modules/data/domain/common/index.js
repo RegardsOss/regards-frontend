@@ -36,3 +36,6 @@ export { LINK_DOC_SEARCH_API } from './DocumentationLinks'
 
 // Settings
 export { default as SettingsUtils } from './SettingsUtils'
+
+// Big Number display
+export { default as DisplayBigNumbers } from './DisplayBigNumbers'

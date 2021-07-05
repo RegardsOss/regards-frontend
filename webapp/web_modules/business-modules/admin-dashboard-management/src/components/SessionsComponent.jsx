@@ -16,12 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
-import find from 'lodash/find'
 import throttle from 'lodash/throttle'
-import { browserHistory } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
-import isEqual from 'lodash/isEqual'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -47,7 +43,7 @@ import { sessionsActions, sessionsSelectors } from '../clients/SessionsClient'
 import ReferencedProductsRender from './render/ReferencedProductsRender'
 import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
-import { CELL_TYPE_ENUM } from '../domain/cellTypes'
+import { COMPONENT_TYPE_ENUM } from '../domain/componentTypes'
 import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
 import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS } from '../domain/filters'
 
@@ -61,6 +57,7 @@ class SessionsComponent extends React.Component {
     selectedSession: AdminShapes.Session,
     onSelected: PropTypes.func.isRequired,
     onApplyFilters: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     sessions: AdminShapes.SessionList,
     selectedSource: AdminShapes.Source,
     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
@@ -80,6 +77,12 @@ class SessionsComponent extends React.Component {
     [SESSION_FILTER_PARAMS.STATUS]: STATUS_TYPES_ENUM.ALL,
   }
 
+  static COLUMN_KEYS = {
+    SESSION_NAME: 'sessionName',
+    REFERENCED_PRODUCTS: 'referencedProducts',
+    DIFFUSED_PRODUCTS: 'diffusedProducts',
+  }
+
   static EMPTY_COMPONENT = (
     <NoContentComponent
       titleKey="dashboard.sessions.table.empty"
@@ -88,106 +91,42 @@ class SessionsComponent extends React.Component {
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
 
-  static extractFiltersFromURL = () => {
-    const { query } = browserHistory.getCurrentLocation()
-    const urlFilters = {}
-    urlFilters[SESSION_FILTER_PARAMS.NAME] = SessionsComponent.DEFAULT_FILTERS_STATE[SESSION_FILTER_PARAMS.NAME]
-    urlFilters[SESSION_FILTER_PARAMS.STATUS] = SessionsComponent.DEFAULT_FILTERS_STATE[SESSION_FILTER_PARAMS.STATUS]
-    if (values(query).length > 0) {
-      const {
-        sessionName, sessionState,
-      } = query
-      if (sessionName) {
-        urlFilters[SESSION_FILTER_PARAMS.NAME] = sessionName
-      }
-      if (sessionState) {
-        urlFilters[SESSION_FILTER_PARAMS.STATUS] = sessionState
-      }
-    }
-    return urlFilters
-  }
-
   applySessionFilters = throttle((filters) => {
     this.setState({ sessionFilters: filters })
   }, 1000, { leading: true })
 
   // we use two filters variables.
-  // filters is used to update directly field values
+  // filters (in props) is used to update directly field values
   // sessionFilters is used to update table values with a delay. Prevent multiple network call
   state = {
-    filters: SessionsComponent.DEFAULT_FILTERS_STATE,
     sessionFilters: SessionsComponent.DEFAULT_FILTERS_STATE,
   }
 
   /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   * Update filters
+   * @param {*} newStateValue
+   * @param {*} filterElement
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-  * Lifecycle method: component receive props. Used here to detect properties change and update local state
-  * @param {*} nextProps next component properties
-  */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
- * Properties change detected: update local state
- * @param oldProps previous component properties
- * @param newProps next component properties
- */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const {
-      sessions, onSelected, filters,
-    } = newProps
-
-    const oldState = this.state || {}
-    const newState = { ...oldState }
-    if (!isEqual(oldProps.sessions, sessions) && !isEmpty(sessions)) {
-      const sessionExist = find(sessions, (session) => session.content.name === newState.filters[SESSION_FILTER_PARAMS.NAME])
-      if (sessionExist) {
-        onSelected(sessionExist, CELL_TYPE_ENUM.SESSION)
-      }
-    }
-    if (!isEqual(oldProps.filters, filters)) {
-      newState.filters = filters
-    }
-    if (!isEqual(oldState, newState)) {
-      this.setState(newState)
-    }
-  }
-
-  getSession = (sessions, sessionName) => find(sessions, (session) => session.content.name === sessionName)
-
-  /**
- * Update filters
- * @param {*} newStateValue
- * @param {*} filterElement
- */
   updateFilter = (newStateValue, filterElement) => {
-    const { onApplyFilters, onSelected, sessions } = this.props
-    const { filters } = this.state
-    if (filterElement === SESSION_FILTER_PARAMS.NAME) {
-      const sessionExist = this.getSession(sessions, newStateValue)
-      if (sessionExist) {
-        onSelected(sessionExist, CELL_TYPE_ENUM.SESSION)
-      }
-    }
+    const {
+      onApplyFilters, filters,
+    } = this.props
     const newState = {
       filters: {
         ...filters,
-        [filterElement]: newStateValue !== STATUS_TYPES_ENUM.ALL ? newStateValue : null,
+        [filterElement]: newStateValue,
       },
     }
-    onApplyFilters(newState.filters, CELL_TYPE_ENUM.SESSION)
+    onApplyFilters(newState.filters, COMPONENT_TYPE_ENUM.SESSION)
     this.applySessionFilters(newState.filters)
     this.setState(newState)
   }
 
   render() {
     const {
-      project, onSelected, selectedSession, selectedSource,
+      project, onSelected, selectedSession, selectedSource, filters,
     } = this.props
-    const { filters, sessionFilters } = this.state
+    const { sessionFilters } = this.state
     const {
       intl: { formatMessage }, muiTheme, moduleTheme: {
         dashboardStyle: {
@@ -201,32 +140,32 @@ class SessionsComponent extends React.Component {
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = [ // eslint wont fix: Major API rework required
       // 1 - source name
-      new TableColumnBuilder('column.sessionName')
+      new TableColumnBuilder(SessionsComponent.COLUMN_KEYS.SESSION_NAME)
         .label(formatMessage({ id: 'dashboard.sessions.table.column.sessionName' }))
         .rowCellDefinition({
           Constructor: NameRender,
           props: {
             onSelected,
             selectedEntity: selectedSession,
-            cellType: CELL_TYPE_ENUM.SESSION,
+            componentType: COMPONENT_TYPE_ENUM.SESSION,
           },
         }).titleHeaderCell()
         .build(),
       // 2 - referenced product
-      new TableColumnBuilder('column.referencedProducts')
+      new TableColumnBuilder(SessionsComponent.COLUMN_KEYS.REFERENCED_PRODUCTS)
         .label(formatMessage({ id: 'dashboard.sessions.table.column.referencedProducts' }))
         .rowCellDefinition({
           Constructor: ReferencedProductsRender,
-          props: { cellType: CELL_TYPE_ENUM.SESSION },
+          props: { componentType: COMPONENT_TYPE_ENUM.SESSION },
         }).titleHeaderCell()
         .optionsSizing(2.75)
         .build(),
       // 2 - diffused product
-      new TableColumnBuilder('column.diffusedProducts')
+      new TableColumnBuilder(SessionsComponent.COLUMN_KEYS.DIFFUSED_PRODUCTS)
         .label(formatMessage({ id: 'dashboard.sessions.table.column.diffusedProducts' }))
         .rowCellDefinition({
           Constructor: DiffusedProductsRender,
-          props: { cellType: CELL_TYPE_ENUM.SESSION },
+          props: { componentType: COMPONENT_TYPE_ENUM.SESSION },
         }).titleHeaderCell()
         .optionsSizing(2.5)
         .build(),
@@ -269,7 +208,7 @@ class SessionsComponent extends React.Component {
               </TableHeaderOptionsArea>
             </TableHeaderLine>
             <PageableInfiniteTableContainer
-              name="sources-table"
+              name="sessions-table"
               minRowCount={minRowCount}
               maxRowCount={!isEmpty(selectedSession) ? minRowCount : maxRowCount}
               pageActions={sessionsActions}

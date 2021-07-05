@@ -23,95 +23,13 @@ import { CardActionsComponent } from '@regardsoss/components'
 import {
   Card,
 } from 'material-ui/Card'
-import SourcesComponent from '../../src/components/SourcesComponent'
-import SessionsComponent from '../../src/components/SessionsComponent'
+import SourcesContainer from '../../src/containers/SourcesContainer'
+import SessionsContainer from '../../src/containers/SessionsContainer'
 import DashboardComponent from '../../src/components/DashboardComponent'
 import styles from '../../src/styles'
-import SelectedSessionComponent from '../../src/components/SelectedSessionComponent'
+import SelectedSessionContainer from '../../src/containers/SelectedSessionContainer'
 
 const context = buildTestContext(styles)
-
-const selectedSession = {
-  content: {
-    id: 0,
-    source: 'Test_Source1',
-    name: 'Test_Session1',
-    creationDate: '01/01/21',
-    lastUpdateDate: '01/01/21',
-    steps: [
-      {
-        id: 0,
-        stepId: 'scan',
-        source: 'Test_Source1',
-        session: 'Test_Session1',
-        type: 'ACQUISITION',
-        inputRelated: 3,
-        outputRelated: 3,
-        state: {
-          errors: 3,
-          waiting: 2,
-          running: 1,
-        },
-        properties: {},
-        lastUpdateDate: '01/01/21',
-      },
-      {
-        id: 0,
-        stepId: 'oais',
-        source: 'Test_Source1',
-        session: 'Test_Session1',
-        type: 'REFERENCING',
-        inputRelated: 3,
-        outputRelated: 3,
-        state: {
-          errors: 3,
-          waiting: 2,
-          running: 1,
-        },
-        properties: {},
-        lastUpdateDate: '01/01/21',
-      },
-      {
-        id: 0,
-        stepId: 'storage',
-        source: 'Test_Source1',
-        session: 'Test_Session1',
-        type: 'STORAGE',
-        inputRelated: 3,
-        outputRelated: 3,
-        state: {
-          errors: 3,
-          waiting: 2,
-          running: 1,
-        },
-        properties: {},
-        lastUpdateDate: '01/01/21',
-      },
-      {
-        id: 0,
-        stepId: 'metacatalog',
-        source: 'Test_Source1',
-        session: 'Test_Session1',
-        type: 'DISSEMINATION',
-        inputRelated: 3,
-        outputRelated: 3,
-        state: {
-          errors: 3,
-          waiting: 2,
-          running: 1,
-        },
-        properties: {},
-        lastUpdateDate: '01/01/21',
-      },
-    ],
-    managerState: {
-      running: true,
-      errors: true,
-      waiting: true,
-    },
-  },
-  links: [],
-}
 
 /**
  * Test DashboardComponent
@@ -124,24 +42,19 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
   it('should exists', () => {
     assert.isDefined(DashboardComponent)
   })
-  it('should render correctly without a selected session', () => {
+  it('should render correctly', () => {
     const props = {
       project: 'any',
       relaunchProducts: () => { },
       relaunchAIP: () => { },
+      relaunchStorages: () => { },
       retryRequests: () => { },
       deleteSession: () => { },
-      selectedSession: null,
-      selectedSource: null,
       fetchSelectedSession: () => { },
-      fetchSessions: () => { },
       getBackURL: () => { },
       onRefresh: () => { },
+      retryFEMRequests: () => { },
       flushSelectedSession: () => { },
-      sources: {},
-      sessions: {},
-      relaunchStorages: () => { },
-      flushSelectedSource: () => { },
     }
     const enzymeWrapper = shallow(<DashboardComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)
@@ -150,62 +63,41 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
     const cardActionWrapper = enzymeWrapper.find(CardActionsComponent)
     assert.lengthOf(cardActionWrapper, 1, 'There should be a CardActionsComponent')
 
-    const sourceComponentWrapper = enzymeWrapper.find(SourcesComponent)
-    assert.lengthOf(sourceComponentWrapper, 1, 'There should be a SourcesComponent')
+    const sourceComponentWrapper = enzymeWrapper.find(SourcesContainer)
+    assert.lengthOf(sourceComponentWrapper, 1, 'There should be a SourcesContainer')
     testSuiteHelpers.assertWrapperProperties(sourceComponentWrapper, {
       project: props.project,
       onSelected: enzymeWrapper.instance().onSelected,
-      selectedSource: props.selectedSource,
-      selectedSession: props.selectedSession,
+      selectedSource: enzymeWrapper.instance().state.selectedSource,
+      selectedSession: enzymeWrapper.instance().state.selectedSession,
       onApplyFilters: enzymeWrapper.instance().onApplyFilters,
-      sources: props.sources,
+      filters: enzymeWrapper.instance().state.sourceFilters,
     }, 'Component should define the expected properties')
 
-    const sessionComponentWrapper = enzymeWrapper.find(SessionsComponent)
-    assert.lengthOf(sessionComponentWrapper, 1, 'There should be a SessionsComponent')
+    const sessionComponentWrapper = enzymeWrapper.find(SessionsContainer)
+    assert.lengthOf(sessionComponentWrapper, 1, 'There should be a SessionsContainer')
     testSuiteHelpers.assertWrapperProperties(sessionComponentWrapper, {
       project: props.project,
       onSelected: enzymeWrapper.instance().onSelected,
-      selectedSession: props.selectedSession,
+      selectedSession: enzymeWrapper.instance().state.selectedSession,
       onApplyFilters: enzymeWrapper.instance().onApplyFilters,
-      sessions: props.sessions,
+      selectedSource: enzymeWrapper.instance().state.selectedSource,
+      filters: enzymeWrapper.instance().state.sessionFilters,
     }, 'Component should define the expected properties')
 
-    const selectedSessionWrapper = enzymeWrapper.find(SelectedSessionComponent)
-    assert.lengthOf(selectedSessionWrapper, 0, 'There should not be a SelectedSessionComponent')
-  })
-  it('should render correctly with a selected session', () => {
-    const props = {
-      project: 'any',
-      relaunchProducts: () => { },
-      relaunchAIP: () => { },
-      retryRequests: () => { },
-      deleteSession: () => { },
-      selectedSession,
-      selectedSource: null,
-      fetchSelectedSession: () => { },
-      fetchSessions: () => { },
-      getBackURL: () => { },
-      onRefresh: () => { },
-      flushSelectedSession: () => { },
-      relaunchStorages: () => { },
-      flushSelectedSource: () => { },
-    }
-    const enzymeWrapper = shallow(<DashboardComponent {...props} />, { context })
-
-    const selectedSessionWrapper = enzymeWrapper.find(SelectedSessionComponent)
-    assert.lengthOf(selectedSessionWrapper, 1, 'There should be a SelectedSessionComponent')
+    const selectedSessionWrapper = enzymeWrapper.find(SelectedSessionContainer)
+    assert.lengthOf(selectedSessionWrapper, 1, 'There should be a SelectedSessionContainer')
     testSuiteHelpers.assertWrapperProperties(selectedSessionWrapper, {
       project: props.project,
-      selectedSession: props.selectedSession,
       onSelected: enzymeWrapper.instance().onSelected,
       relaunchProducts: props.relaunchProducts,
       relaunchAIP: props.relaunchAIP,
       retryRequests: props.retryRequests,
+      relaunchStorages: props.relaunchStorages,
       deleteSession: enzymeWrapper.instance().onDeleteSession,
       sourceFilters: enzymeWrapper.instance().state.sourceFilters,
       sessionFilters: enzymeWrapper.instance().state.sessionFilters,
-      relaunchStorages: props.relaunchStorages,
+      retryFEMRequests: props.retryFEMRequests,
     }, 'Component should define the expected properties')
   })
 })

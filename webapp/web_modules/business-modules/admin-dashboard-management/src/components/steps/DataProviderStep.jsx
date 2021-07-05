@@ -120,7 +120,8 @@ class DataProviderStep extends React.Component {
     return (
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.CONFIRM}
-        title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
+        title={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.retry.title' })}
+        message={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.retry.message' })}
         onConfirm={this.onRetryErrors}
         onClose={this.toggleRetryErrorsDialog}
         open={isRetryErrorsDialogOpen}
@@ -132,7 +133,7 @@ class DataProviderStep extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          dialogProductErrorStyle,
+          dialogProductErrorStyle, dialogProductErrorMainStyle,
         },
       },
     } = this.context
@@ -151,7 +152,7 @@ class DataProviderStep extends React.Component {
           />
         </>}
         contentStyle={dialogProductErrorStyle}
-        modal
+        style={dialogProductErrorMainStyle}
       >
         <DisplayProductsComponent
           sessionName={sessionStep.session}
