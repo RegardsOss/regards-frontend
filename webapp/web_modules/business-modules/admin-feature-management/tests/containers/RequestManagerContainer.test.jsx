@@ -49,7 +49,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerContainer', () => {
       meta: {
         number: 0,
       },
-      links: [],
       tableSelection: [],
       selectionMode: '',
       isFetching: false,
@@ -62,7 +61,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerContainer', () => {
       featureManagerFilters: props.featureManagerFilters,
       onRefresh: enzymeWrapper.instance().onRefresh,
       clients: props.clients,
-      links: props.links,
       deleteRequests: props.deleteRequests,
       retryRequests: props.retryRequests,
       tableSelection: props.tableSelection,

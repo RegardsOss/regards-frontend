@@ -18,7 +18,6 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { FemShapes } from '@regardsoss/shape'
-import { HateoasLinks } from '@regardsoss/display-control'
 import { FemDomain } from '@regardsoss/domain'
 import RequestManagerComponent from '../components/RequestManagerComponent'
 
@@ -42,7 +41,6 @@ export class RequestManagerContainer extends React.Component {
     meta: PropTypes.shape({
       number: PropTypes.number,
     }),
-    links: PropTypes.arrayOf(HateoasLinks),
     tableSelection: PropTypes.arrayOf(FemShapes.Request),
     selectionMode: PropTypes.string.isRequired,
     isFetching: PropTypes.bool.isRequired,
@@ -62,7 +60,6 @@ export class RequestManagerContainer extends React.Component {
     meta: ownProps.clients.selectors.getMetaData(state),
     tableSelection: ownProps.clients.tableSelectors.getToggledElementsAsList(state),
     selectionMode: ownProps.clients.tableSelectors.getSelectionMode(state),
-    links: ownProps.clients.selectors.getLinks(state),
     areAllSelected: ownProps.clients.tableSelectors.areAllSelected(state, ownProps.clients.selectors),
     isFetching: ownProps.clients.selectors.isFetching(state),
   })
@@ -99,7 +96,6 @@ export class RequestManagerContainer extends React.Component {
       retryRequests,
       paneType,
       clients,
-      links,
       selectionMode,
       areAllSelected,
       isFetching,
@@ -114,7 +110,6 @@ export class RequestManagerContainer extends React.Component {
         paneType={paneType}
         clients={clients}
         selectionMode={selectionMode}
-        links={links}
         areAllSelected={areAllSelected}
         isFetching={isFetching}
       />

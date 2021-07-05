@@ -33,7 +33,7 @@ import {
   ConfirmDialogComponentTypes, TableHeaderLoadingComponent,
 } from '@regardsoss/components'
 import {
-  withResourceDisplayControl, allMatchHateoasDisplayLogic, LoadableContentDisplayDecorator, HateoasLinks,
+  withResourceDisplayControl, allMatchHateoasDisplayLogic, LoadableContentDisplayDecorator,
 } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -68,7 +68,6 @@ export class RequestManagerComponent extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     clients: PropTypes.object.isRequired,
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
-    links: PropTypes.arrayOf(HateoasLinks),
     areAllSelected: PropTypes.bool.isRequired,
     isFetching: PropTypes.bool.isRequired,
   }
@@ -139,7 +138,7 @@ export class RequestManagerComponent extends React.Component {
       contextRequestParameters.to = to
     }
     if (state) {
-      contextRequestParameters.state = [state] // handled as a muti-choice list on back
+      contextRequestParameters.state = state
     }
     return contextRequestParameters
   }
@@ -386,11 +385,9 @@ export class RequestManagerComponent extends React.Component {
   }
 
   isButtonDisabled = (dialogType) => {
-    const { links, tableSelection, areAllSelected } = this.props
-    let ret = true
-    if (areAllSelected) {
-      ret = !find(links, (l) => l.rel === dialogType)
-    } else if (!isEmpty(tableSelection)) {
+    const { tableSelection, areAllSelected } = this.props
+    let ret = !areAllSelected
+    if (!isEmpty(tableSelection)) {
       ret = !every(tableSelection, (selection) => find(selection.links, (l) => l.rel === dialogType))
     }
     return ret
