@@ -254,7 +254,7 @@ pipeline {
         }
         stage('Sonar analyse') {
              when {
-		         expression { BRANCH_NAME ==~ /(master)/ }
+		         expression { BRANCH_NAME ==~ /(master|develop.*|release.*)/ }
              }
              steps {
                  parallel(
