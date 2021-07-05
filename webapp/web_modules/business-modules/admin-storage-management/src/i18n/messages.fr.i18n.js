@@ -126,7 +126,7 @@ const messages = {
   'storage.settings.field.cacheMaxSize': 'Taille maximale du cache (en ko)',
   'storage.settings.field.tenantCachePath': 'Chemin du cache',
   'storage.settings.field.storageLocation': 'Location',
-  'storage.settings.field.storageSubdirectory': 'Sous dossier',
+  'storage.settings.field.storageSubdirectory': 'Sous dossier à utiliser dans l\'espace de stockage',
   'storage.settings.action.confirm': 'Confirmer',
   'storage.settings.action.cancel': 'Annuler',
   ...Locales.fr,

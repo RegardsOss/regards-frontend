@@ -351,7 +351,7 @@ export class ReferencesManagerComponent extends React.Component {
         .build(),
       new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.VERSION).titleHeaderCell().propertyRenderCell('content.version')
         .label(formatMessage({ id: 'feature.references.list.table.headers.version' }))
-        .sortableHeaderCell(...this.getColumnSortingData(ReferencesManagerComponent.COLUMN_KEYS.LASTUPDATE), this.onSort)
+        .sortableHeaderCell(...this.getColumnSortingData(ReferencesManagerComponent.COLUMN_KEYS.VERSION), this.onSort)
         .fixedSizing(100)
         .build(),
       new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.ACTIONS).titleHeaderCell()
