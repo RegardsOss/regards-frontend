@@ -178,9 +178,9 @@ export class ToponymCriterionContainer extends React.Component {
       criteria: ToponymCriterionContainer.CRITERIA_NAME,
     }
 
-    if (!isEqual(nextState, state)
+    if ((!isEqual(nextState, state)
       // Ensure the text is different and its a real event, otherwise when the field is cleared the selectedToponymBusinessId is always cleared
-      && searchText !== state.toponymFilterText) {
+      && searchText !== state.toponymFilterText) || isSelected) {
       // update redux state and query
       publishState(nextState, ToponymCriterionContainer.convertToRequestParameters(nextState))
     }
@@ -210,7 +210,6 @@ export class ToponymCriterionContainer extends React.Component {
       selectedToponymBusinessId,
       criteria: ToponymCriterionContainer.CRITERIA_NAME,
     }
-
     publishState(nextState, ToponymCriterionContainer.convertToRequestParameters(nextState))
   }
 
