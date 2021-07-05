@@ -45,8 +45,6 @@ module.exports = function (projectContextPath, mode) {
         'node_modules',
       ],
       alias: alias(path.join(projectContextPath, '../../..'), mode),
-      // Fix jsZIP
-      Buffer: ['buffer', 'Buffer'],
     },
     module: {
       rules: [
