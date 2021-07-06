@@ -43,6 +43,14 @@ describe('[ Module name] Testing SwitchTables', () => {
         project: 'any',
       },
       onSwitchToPane: () => { },
+      featureManagerFilters: {
+        source: '',
+        session: '',
+        providerId: '',
+        from: '',
+        to: '',
+        state: '',
+      },
       openedPane: '',
       // from mapStateToProps
       referencesMeta: {

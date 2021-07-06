@@ -80,6 +80,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
     testSuiteHelpers.assertWrapperProperties(switchWrapper, {
       params: props.params,
       onSwitchToPane: enzymeWrapper.instance().onSwitchToPane,
+      featureManagerFilters: enzymeWrapper.instance().state.featureManagerFilters,
       openedPane: enzymeWrapper.instance().state.openedPane,
     }, 'Component should define the expected properties')
 
