@@ -81,7 +81,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
 
   static extractFiltersFromURL = () => {
     const { query } = browserHistory.getCurrentLocation()
-    const urlFilters = {}
+    const urlFilters = FeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE
     if (values(query).length > 0) {
       const {
         source, session, providerId, from, to, state,

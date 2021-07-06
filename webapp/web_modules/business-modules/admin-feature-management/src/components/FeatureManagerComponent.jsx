@@ -140,6 +140,7 @@ class FeatureManagerComponent extends React.Component {
           <SwitchTables
             params={params}
             onSwitchToPane={this.onSwitchToPane}
+            featureManagerFilters={featureManagerFilters}
             openedPane={openedPane}
           />
           <div>
