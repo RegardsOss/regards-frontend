@@ -107,7 +107,7 @@ export class OAISRequestManagerComponent extends React.Component {
 
   static COLUMN_KEYS = {
     ID: 'providerId',
-    TYPE: 'type',
+    TYPE: 'dtype',
     STATE: 'state',
     LASTSUBMITTED: 'creationDate',
     ACTIONS: 'actions',
