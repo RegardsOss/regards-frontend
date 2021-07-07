@@ -115,6 +115,7 @@ class FeatureProviderStep extends React.Component {
       <ListItem
         key={property}
         primaryText={formatMessage({ id: `dashboard.selectedsession.acquisition.fp.${property}` }, { value: propValue || 0 })}
+        title={formatMessage({ id: `dashboard.selectedsession.acquisition.fp.${property}.tooltip` }, { value: propValue || 0 })}
         disabled
         style={style}
       />
