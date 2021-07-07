@@ -164,7 +164,17 @@ export class DescriptionProviderContainer extends React.Component {
       selectedTab: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
-          descriptionPath: [entity],
+          // mute any previous unresolved values
+          unresolvedTreeEntry: null,
+          unresolvedRootEntityId: null,
+          // replace the current description path
+          descriptionPath: [{
+            entity,
+            selectedTreeEntry: {
+              section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
+              child: null,
+            },
+          }],
           selectedIndex: 0,
         },
       },
