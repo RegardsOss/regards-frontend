@@ -115,7 +115,6 @@ describe('[Order Common] Testing DeleteOrderContainer', () => {
       assert.lengthOf(component, 1, 'There should be the component')
       const deleteCallback = enzymeWrapper.instance().onDeleteRequest
       assert.equal(component.props().onDelete, deleteCallback, 'Callback should be set')
-      assert.equal(component.props().canDelete, canDelete, 'Deletable state should be correctly computed')
       if (canDelete) {
         // specific tests for deletable entities
         // 1 - check the user confirmation is request
@@ -123,10 +122,7 @@ describe('[Order Common] Testing DeleteOrderContainer', () => {
         assert.equal(countDeleteConfirmationRequests, 1, 'Delete confirmation should have been called')
         // 2 - check the container calls the right delete method according with delete type
         enzymeWrapper.instance().onDeleteConfirmed()
-        if (isSuperficial) {
-          assert.equal(deleteSuperficallyRequests, 1, 'Delete superficially should have been called')
-          assert.equal(deleteCompletelyRequests, 0, 'Delete completely should not have been called')
-        } else {
+        if (!isSuperficial) {
           assert.equal(deleteCompletelyRequests, 1, 'Delete completely should have been called')
           assert.equal(deleteSuperficallyRequests, 0, 'Delete superficially should not have been called')
         }

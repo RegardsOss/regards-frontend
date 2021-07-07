@@ -38,7 +38,6 @@ const styles = (theme) => (
     },
     serviceProviderList: {
       display: 'flex',
-      padding: '8px',
       flexDirection: 'column',
       height: '300px',
       overflowY: 'auto',
