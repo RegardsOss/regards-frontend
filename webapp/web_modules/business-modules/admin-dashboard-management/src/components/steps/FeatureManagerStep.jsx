@@ -103,6 +103,7 @@ class FeatureManagerStep extends React.Component {
       <ListItem
         key={property}
         primaryText={formatMessage({ id: `dashboard.selectedsession.referencing.fem.${property}` }, { value: propValue || 0 })}
+        title={formatMessage({ id: `dashboard.selectedsession.referencing.fem.${property}.tooltip` }, { value: propValue || 0 })}
         disabled
         style={style}
       />

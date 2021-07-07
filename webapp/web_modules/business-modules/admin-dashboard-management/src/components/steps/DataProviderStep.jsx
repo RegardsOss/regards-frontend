@@ -94,6 +94,7 @@ class DataProviderStep extends React.Component {
       <ListItem
         key={property}
         primaryText={formatMessage({ id: `dashboard.selectedsession.acquisition.dp.${property}` }, { value: propValue || 0 })}
+        title={formatMessage({ id: `dashboard.selectedsession.acquisition.dp.${property}.tooltip` }, { value: propValue || 0 })}
         disabled
         style={style}
       />
