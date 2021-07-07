@@ -87,6 +87,8 @@ export class SwitchTables extends React.Component {
     }),
     onSwitchToPane: PropTypes.func.isRequired,
     openedPane: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
+    featureManagerFilters: PropTypes.object.isRequired,
     // from mapStateToProps
     referencesMeta: CommonShapes.PageMetadata,
     isReferencesFetching: PropTypes.bool.isRequired,
@@ -119,16 +121,36 @@ export class SwitchTables extends React.Component {
     ...i18nContextType,
   }
 
-  UNSAFE_componentWillMount = () => {
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
     const {
       fetchReferences, fetchCreationRequests, fetchDeleteRequests, fetchExtractionRequests, fetchNotificationRequests, fetchUpdateRequests,
+      featureManagerFilters,
     } = this.props
-    fetchReferences(0, SwitchTables.PAGE_SIZE)
-    fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION })
-    fetchDeleteRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE })
-    fetchExtractionRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.EXTRACTION })
-    fetchNotificationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION })
-    fetchUpdateRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.UPDATE })
+
+    if (oldProps.featureManagerFilters !== newProps.featureManagerFilters) {
+      fetchReferences(0, SwitchTables.PAGE_SIZE)
+      fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, { ...featureManagerFilters })
+      fetchDeleteRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, { ...featureManagerFilters })
+      fetchExtractionRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.EXTRACTION }, { ...featureManagerFilters })
+      fetchNotificationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION }, { ...featureManagerFilters })
+      fetchUpdateRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.UPDATE }, { ...featureManagerFilters })
+    }
   }
 
   extractInfos = (meta, info = null) => ({
