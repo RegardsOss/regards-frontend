@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { OrderDomain } from '@regardsoss/domain'
 import { CommonShapes, OrderShapes } from '@regardsoss/shape'
 import { OrderClient } from '@regardsoss/client'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
@@ -60,20 +59,6 @@ export class DeleteOrderContainer extends React.Component {
     sendDeleteCompletely: PropTypes.func.isRequired,
     fetchOrders: PropTypes.func.isRequired,
   }
-
-  /** States in which the order can be superficially deleted */
-  static SUPERFICIALLY_DELETABLE_STATES = [
-    OrderDomain.ORDER_STATUS_ENUM.PAUSED,
-  ]
-
-  /** States that can be completely deleted */
-  static COMPLETELY_DELETABLE_STATES = [
-    OrderDomain.ORDER_STATUS_ENUM.EXPIRED,
-    OrderDomain.ORDER_STATUS_ENUM.FAILED,
-    OrderDomain.ORDER_STATUS_ENUM.DONE_WITH_WARNING,
-    OrderDomain.ORDER_STATUS_ENUM.DONE,
-    OrderDomain.ORDER_STATUS_ENUM.DELETED,
-  ]
 
   static DEFAULT_STATE = { isFetching: false }
 
@@ -154,15 +139,15 @@ export class DeleteOrderContainer extends React.Component {
     fetchOrders(0, pageSize * (lastPage + 1))
   }
 
-  canDelete = () => this.props.entity.links.some((link) => link.rel === 'delete')
+  canDelete = (linkName) => this.props.entity.links.some((link) => link.rel === linkName)
 
   /**
    * Can perform a complete delete opetarion? Note: never true when delete superficially is possible
    * @return true if user can perfor a complete delete operation on order
    */
   canDeleteCompletely = () => {
-    const { entity: { content: { status } }, hasDeleteCompletely } = this.props
-    return this.canDelete() && DeleteOrderContainer.COMPLETELY_DELETABLE_STATES.includes(status) && hasDeleteCompletely
+    const { hasDeleteCompletely } = this.props
+    return this.canDelete('remove') && hasDeleteCompletely
   }
 
   /**
@@ -170,8 +155,8 @@ export class DeleteOrderContainer extends React.Component {
    * @return true if user can perfor a complete delete operation on order
    */
   canDeleteSuperficially = () => {
-    const { entity: { content: { status } }, hasDeleteSuperficially } = this.props
-    return this.canDelete() && DeleteOrderContainer.SUPERFICIALLY_DELETABLE_STATES.includes(status) && hasDeleteSuperficially
+    const { hasDeleteSuperficially } = this.props
+    return this.canDelete('delete') && hasDeleteSuperficially
   }
 
   render() {

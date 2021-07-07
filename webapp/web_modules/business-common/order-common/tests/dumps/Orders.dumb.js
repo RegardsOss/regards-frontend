@@ -54,6 +54,8 @@ export const SOME_ORDERS = {
         {
           rel: 'delete',
           url: 'http://delete',
+        }, {
+          rel: 'remove',
         },
       ],
     },
