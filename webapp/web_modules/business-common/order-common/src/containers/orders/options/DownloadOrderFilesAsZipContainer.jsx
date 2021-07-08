@@ -48,12 +48,14 @@ export class DownloadOrderFilesAsZipContainer extends React.Component {
     authentication: AuthenticateShape.isRequired,
   }
 
+  canDownload = () => this.props.entity.links.some((link) => link.rel === 'download')
+
   render() {
     const { entity: { content: { id, availableFilesCount = 0, waitingForUser = false } }, authentication: { result: { access_token } } } = this.props
     return (
       <DownloadOrderFilesAsZipComponent
         isWaitingUser={waitingForUser}
-        canDownload={availableFilesCount > 0}
+        canDownload={this.canDownload()}
         availableFilesCount={availableFilesCount}
         downloadZipURL={zipFileActions.getFileDownloadLink(id, access_token)}
       />
