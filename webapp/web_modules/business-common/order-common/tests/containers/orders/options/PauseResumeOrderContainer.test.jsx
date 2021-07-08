@@ -57,7 +57,15 @@ describe('[Order Common] Testing PauseResumeOrderContainer', () => {
     // mock entity with state
     const entity = {
       content: { ...SOME_ORDERS.content[0].content, status },
-      links: SOME_ORDERS.content[0].links,
+      links: [
+        ...SOME_ORDERS.content[0].links,
+        OrderDomain.ORDER_STATUS_ENUM.RUNNING === status ? {
+          rel: 'pause', href: 'test',
+        } : null,
+        OrderDomain.ORDER_STATUS_ENUM.PAUSED === status ? {
+          rel: 'resume', href: 'test',
+        } : null,
+      ].filter((a) => (a)),
     }
     const props = {
       entity,

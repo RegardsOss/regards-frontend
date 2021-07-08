@@ -21,6 +21,7 @@ import { OrderDomain } from '@regardsoss/domain'
 import { CommonShapes, OrderShapes } from '@regardsoss/shape'
 import { OrderClient } from '@regardsoss/client'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import some from 'lodash/some'
 import PauseResumeOrderComponent from '../../../components/orders/options/PauseResumeOrderComponent'
 
 /**
@@ -64,8 +65,8 @@ export class PauseResumeOrderContainer extends React.Component {
 
   /** States in which the order can be updated */
   static UPDATABLE_STATES = [
-    OrderDomain.ORDER_STATUS_ENUM.PAUSED,
-    OrderDomain.ORDER_STATUS_ENUM.RUNNING,
+    'pause',
+    'resume',
   ]
 
   /**
@@ -100,6 +101,17 @@ export class PauseResumeOrderContainer extends React.Component {
    * Lifecycle method: component will mount. used here to initialize the state
    */
   UNSAFE_componentWillMount = () => this.setFetching(false)
+
+  /**
+   * @returns true when pause / resume should be active
+   */
+  canUpdate = () => {
+    const { entity } = this.props
+    const { isFetching } = this.state
+    return !isFetching && some(entity.links, (link) => (
+      PauseResumeOrderContainer.UPDATABLE_STATES.includes(link.rel)
+    ))
+  }
 
   /**
    * On pause callback: sends pause request then notifies user
@@ -155,12 +167,10 @@ export class PauseResumeOrderContainer extends React.Component {
 
   render() {
     const { entity: { content: { status } } } = this.props
-    const { isFetching } = this.state
     const isPaused = PauseResumeOrderContainer.PAUSED_STATES.includes(status)
-    const canUpdate = PauseResumeOrderContainer.UPDATABLE_STATES.includes(status)
     return (
       <PauseResumeOrderComponent
-        canUpdate={canUpdate && !isFetching}
+        canUpdate={this.canUpdate()}
         isPaused={isPaused}
         onPause={this.onPause}
         onResume={this.onResume}
