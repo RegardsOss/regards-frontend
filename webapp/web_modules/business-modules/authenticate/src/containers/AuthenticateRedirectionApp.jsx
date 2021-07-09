@@ -77,9 +77,9 @@ export class AuthenticateRedirectionApp extends React.Component {
     let code = get(browserHistory.getCurrentLocation().query, 'code', '')
     if (isEmpty(code)) {
       const regex = /code=([^&]+)/
-      console.error('hash',browserHistory.getCurrentLocation().hash)
+      console.log('hash', browserHistory.getCurrentLocation().hash)
       const matchStrings = browserHistory.getCurrentLocation().hash.match(regex)
-      console.error("yo",matchStrings)
+      console.log('yo', matchStrings)
       code = matchStrings && matchStrings[1] ? matchStrings[1] : ''
     }
     return code
@@ -113,9 +113,9 @@ export class AuthenticateRedirectionApp extends React.Component {
       })
       root.window.close()
     } else {
-      console.error('login', project,'OpenId',serviceProviderName, code)
+      console.log('login', project, 'OpenId', serviceProviderName, code)
       requestLogin(project, 'OpenId', serviceProviderName, code).then((result) => {
-        console.error('result',result)
+        console.log('result', result)
         let status = STATUS.ERROR
         let storageObj
         if (!result.error) {
