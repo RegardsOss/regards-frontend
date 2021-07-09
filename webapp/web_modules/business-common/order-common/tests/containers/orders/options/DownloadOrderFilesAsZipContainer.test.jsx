@@ -74,7 +74,10 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipContainer', () => {
         availableFilesCount: 10,
         waitingForUser: false,
       },
-      links: [],
+      links: [{
+        rel: 'download',
+        href: 'someurl',
+      }],
     }
 
     const props = {
@@ -102,7 +105,10 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipContainer', () => {
         availableFilesCount: 1500,
         waitingForUser: true,
       },
-      links: [],
+      links: [{
+        rel: 'download',
+        href: 'someurl',
+      }],
     }
 
     const props = {
