@@ -20,7 +20,8 @@
 const messages = {
   'authenticate.message.loading': 'Authenticating with {serviceProviderName}',
   'authenticate.message.success': 'Authenticating with {serviceProviderName} - Success : You can close this page.',
-  'authenticate.message.error': 'Authenticating with {serviceProviderName} - Failure : Code not found in url.',
+  'authenticate.message.error': 'Authenticating with {serviceProviderName}.',
+  'authenticate.message.code_error': 'Authenticating with {serviceProviderName} - Failure : Code not found in url.',
 }
 
 export default messages

@@ -20,7 +20,8 @@
 const messages = {
   'authenticate.message.loading': 'Connexion avec {serviceProviderName}',
   'authenticate.message.success': 'Connexion avec {serviceProviderName} réussie. Vous pouvez fermer cette page.',
-  'authenticate.message.error': 'Echec de la connexion avec {serviceProviderName}. Code non trouvé dans l\'url.',
+  'authenticate.message.error': 'Echec de la connexion avec {serviceProviderName}.',
+  'authenticate.message.code_error': 'Echec de la connexion avec {serviceProviderName}. Code non trouvé dans l\'url.',
 }
 
 export default messages

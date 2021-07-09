@@ -31,6 +31,7 @@ import messages from '../i18n'
 const STATUS = {
   LOADING: 'loading',
   ERROR: 'error',
+  CODE_ERROR: 'code_error',
   SUCCESS: 'success',
 }
 
@@ -76,7 +77,9 @@ export class AuthenticateRedirectionApp extends React.Component {
     let code = get(browserHistory.getCurrentLocation().query, 'code', '')
     if (isEmpty(code)) {
       const regex = /code=([^&]+)/
+      console.error('hash',browserHistory.getCurrentLocation().hash)
       const matchStrings = browserHistory.getCurrentLocation().hash.match(regex)
+      console.error("yo",matchStrings)
       code = matchStrings && matchStrings[1] ? matchStrings[1] : ''
     }
     return code
@@ -106,11 +109,13 @@ export class AuthenticateRedirectionApp extends React.Component {
       const errorMessage = 'Invalid null code for openId connect'
       new UIDomain.LocalStorageUser({ error: errorMessage }, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
       this.setState({
-        status: STATUS.ERROR,
+        status: STATUS.CODE_ERROR,
       })
       root.window.close()
     } else {
+      console.error('login', project,'OpenId',serviceProviderName, code)
       requestLogin(project, 'OpenId', serviceProviderName, code).then((result) => {
+        console.error('result',result)
         let status = STATUS.ERROR
         let storageObj
         if (!result.error) {
