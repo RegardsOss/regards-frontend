@@ -144,7 +144,7 @@ export class SwitchTables extends React.Component {
     } = this.props
 
     if (oldProps.featureManagerFilters !== newProps.featureManagerFilters) {
-      fetchReferences(0, SwitchTables.PAGE_SIZE)
+      fetchReferences(0, SwitchTables.PAGE_SIZE, {}, { ...featureManagerFilters })
       fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, { ...featureManagerFilters })
       fetchDeleteRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, { ...featureManagerFilters })
       fetchExtractionRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.EXTRACTION }, { ...featureManagerFilters })

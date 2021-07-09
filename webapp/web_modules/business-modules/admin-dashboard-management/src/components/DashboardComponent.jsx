@@ -62,8 +62,7 @@ class DashboardComponent extends React.Component {
   onApplyFilters = (filters, type) => {
     const { flushSelectedSession } = this.props
     flushSelectedSession()
-    let nextState = {}
-    nextState = {
+    let nextState = {
       ...this.state,
       selectedSession: null,
     }
