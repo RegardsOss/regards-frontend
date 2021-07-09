@@ -42,7 +42,7 @@ export class DescriptionEntityHelper {
    * modelAttributes: model attributes map, where elements are matching DataManagementShapes.AttributeModel
    * failed: has model attributes fetching failed
    */
-  static FETCHED_MODELS_MAP = { }
+  static FETCHED_MODELS_MAP = {}
 
   /**
    * Builds simple loading model for entity as parameter
@@ -358,7 +358,7 @@ export class DescriptionEntityHelper {
       reference: dataFile.reference,
       mimeType: dataFile.mimeType,
       // append token / project when data file is not a reference. Also add this location to bypass cross domain issues
-      uri: `${DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)}${dataFile.reference ? '' : uriOriginParam}`,
+      uri: `${DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)}${dataFile.reference ? '' : uriOriginParam}${STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(dataFile.mimeType) ? '&isContentInline=true' : ''}`,
     }))
   }
 

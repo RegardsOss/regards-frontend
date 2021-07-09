@@ -47,9 +47,9 @@ export class FileContentDisplayer extends React.Component {
    */
   static isSupportedContentType(contentType) {
     return CodeFileDisplayer.isSupportedContentType(contentType)
-    || ImageFileDisplayer.isSupportedContentType(contentType)
-    || IFrameURLContentDisplayer.isSupportedContentType(contentType)
-    || MarkdownFileContentDisplayer.isSupportedContentType(contentType)
+      || ImageFileDisplayer.isSupportedContentType(contentType)
+      || IFrameURLContentDisplayer.isSupportedContentType(contentType)
+      || MarkdownFileContentDisplayer.isSupportedContentType(contentType)
   }
 
   /**
@@ -114,48 +114,48 @@ export class FileContentDisplayer extends React.Component {
       // Outer layout, provided by API user
       <div style={style}>
         { /** IIFE to render content according with state and MIME type */
-            (() => {
-              if (loading) {
-                return loadingComponent || null
+          (() => {
+            if (loading) {
+              return loadingComponent || null
+            }
+            if (error) {
+              return errorComponent || null
+            }
+            const { content, contentType } = file
+            if (CodeFileDisplayer.isSupportedContentType(contentType)) {
+              return (
+                <FileContentReader blob={content}>
+                  <CodeFileDisplayer contentType={contentType} />
+                </FileContentReader>)
+            }
+            // 2 - Render through image view for corresponding MIME types, using access URL
+            if (ImageFileDisplayer.isSupportedContentType(contentType)) {
+              return (
+                <LocalURLProvider blob={content} targetPropertyName="source">
+                  <ImageFileDisplayer />
+                </LocalURLProvider>)
+            }
+            // 3 - render through an iFrame, using access URL
+            if (IFrameURLContentDisplayer.isSupportedContentType(contentType)) {
+              // 3.1 - HTML content, that must support relative links, is rendered by
+              // downloading again from server (using browser cache normally)
+              if (IFrameURLContentDisplayer.isContentTypeWithRelativeLinks(contentType)) {
+                return <IFrameURLContentDisplayer source={fileURI} />
               }
-              if (error) {
-                return errorComponent || null
-              }
-              const { content, contentType } = file
-              if (CodeFileDisplayer.isSupportedContentType(contentType)) {
-                return (
-                  <FileContentReader blob={content}>
-                    <CodeFileDisplayer contentType={contentType} />
-                  </FileContentReader>)
-              }
-              // 2 - Render through image view for corresponding MIME types, using access URL
-              if (ImageFileDisplayer.isSupportedContentType(contentType)) {
-                return (
-                  <LocalURLProvider blob={content} targetPropertyName="source">
-                    <ImageFileDisplayer />
-                  </LocalURLProvider>)
-              }
-              // 3 - render through an iFrame, using access URL
-              if (IFrameURLContentDisplayer.isSupportedContentType(contentType)) {
-                // 3.1 - HTML content, that must support relative links, is rendered by
-                // downloading again from server (using browser cache normally)
-                if (IFrameURLContentDisplayer.isContentTypeWithRelativeLinks(contentType)) {
-                  return <IFrameURLContentDisplayer source={fileURI} />
-                }
-                // 3.2 - Other content types are rendered using local browser resource
-                return (
-                  <LocalURLProvider blob={content} targetPropertyName="source">
-                    <IFrameURLContentDisplayer />
-                  </LocalURLProvider>)
-              }
-              if (MarkdownFileContentDisplayer.isSupportedContentType(contentType)) {
-                return (
-                  <FileContentReader blob={content} targetPropertyName="source">
-                    <MarkdownFileContentDisplayer />
-                  </FileContentReader>)
-              }
-              return noPreviewComponent || null
-            })()
+              // 3.2 - Other content types are rendered using local browser resource
+              return (
+                <LocalURLProvider blob={content} targetPropertyName="source">
+                  <IFrameURLContentDisplayer />
+                </LocalURLProvider>)
+            }
+            if (MarkdownFileContentDisplayer.isSupportedContentType(contentType)) {
+              return (
+                <FileContentReader blob={content} targetPropertyName="source">
+                  <MarkdownFileContentDisplayer />
+                </FileContentReader>)
+            }
+            return noPreviewComponent || null
+          })()
         }
       </div>)
   }
