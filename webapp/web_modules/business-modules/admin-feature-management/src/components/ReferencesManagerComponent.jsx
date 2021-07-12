@@ -26,6 +26,7 @@ import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import Refresh from 'mdi-material-ui/Refresh'
 import NoContentIcon from 'mdi-material-ui/CropFree'
+import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableSelectionModes,
@@ -78,6 +79,11 @@ export class ReferencesManagerComponent extends React.Component {
   static EMPTY_COMPONENT = <NoContentComponent
     titleKey="feature.references.empty.results"
     Icon={NoContentIcon}
+  />
+
+  static LOADING_COMPONENT = <NoContentComponent
+    titleKey="feature.references.loading.results"
+    Icon={SearchIcon}
   />
 
   /** Possible dialog types for references */
@@ -419,7 +425,7 @@ export class ReferencesManagerComponent extends React.Component {
             maxRowCount={maxRowCount}
             columns={columns}
             requestParams={contextRequestParameters}
-            emptyComponent={ReferencesManagerComponent.EMPTY_COMPONENT}
+            emptyComponent={isFetching ? ReferencesManagerComponent.LOADING_COMPONENT : ReferencesManagerComponent.EMPTY_COMPONENT}
           />
         </TableLayout>
         {this.renderDialog(ReferencesManagerComponent.DIALOG_TYPES.DETAIL_DIALOG)}
