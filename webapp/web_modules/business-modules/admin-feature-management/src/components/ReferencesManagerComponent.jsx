@@ -275,17 +275,16 @@ export class ReferencesManagerComponent extends React.Component {
   onConfirm = (dialogRequestType) => {
     const { deleteReferences, notifyReferences } = this.props
     const payload = this.onConfirmActionDialog(dialogRequestType)
-    let callback
     switch (dialogRequestType) {
       case ReferencesManagerComponent.DIALOG_TYPES.DELETE_DIALOG:
-        callback = deleteReferences
+        deleteReferences(payload)
         break
       case ReferencesManagerComponent.DIALOG_TYPES.NOTIFY_DIALOG:
-        callback = notifyReferences
+        notifyReferences(payload)
         break
       default:
+        console.error('Invalid dialogue type', dialogRequestType)
     }
-    callback(payload)
   }
 
   renderDialog = (dialogRequestType) => {
