@@ -72,6 +72,7 @@ export class ProcessingFormComponent extends React.Component {
         pluginConfiguration: get(serviceProvider, 'content.pluginConfiguration'),
         serviceProviderName: get(serviceProvider, 'content.name', ''),
         serviceProviderUrl: get(serviceProvider, 'content.authUrl', ''),
+        serviceProviderLogoutUrl: get(serviceProvider, 'content.logoutUrl', ''),
       })
     }
   }
@@ -104,6 +105,12 @@ export class ProcessingFormComponent extends React.Component {
           label={formatMessage({ id: 'user.authentication.external.plugins.form.create.field.url' })}
           fullWidth
           validate={ValidationHelpers.required}
+        />
+        <Field
+          name="serviceProviderLogoutUrl"
+          component={RenderTextField}
+          label={formatMessage({ id: 'user.authentication.external.plugins.form.create.field.logout.url' })}
+          fullWidth
         />
       </div>, <div key="serviceProviderPlugin" style={serviceprovider.serviceProviderPlugin}>
         <Field
