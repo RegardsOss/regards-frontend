@@ -16,16 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import root from 'window-or-global'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import {
   AuthenticationClient, AuthenticationParametersActions, routeHelpers, AuthenticateResultShape,
   AuthenticateShape,
 } from '@regardsoss/authentication-utils'
-import { AdminShapes } from '@regardsoss/shape'
+import { AdminShapes, CommonShapes } from '@regardsoss/shape'
 import get from 'lodash/get'
 import { borrowRoleActions, borrowRoleSelectors } from '../../../clients/BorrowRoleClient'
 import { authenticationDialogActions } from '../../../clients/AuthenticationDialogUIClient'
+import { serviceProviderSelectors } from '../../../clients/ServiceProviderClient'
 import { disconnectServiceProviderAction } from '../../../clients/ServiceProviderDisconnect'
 import profileDialogActions from '../../../model/ProfileDialogActions'
 import LoggedUserComponent from '../../../components/user/authentication/LoggedUserComponent'
@@ -51,6 +53,7 @@ export class AuthenticationContainer extends React.Component {
       isSendingBorrowRole: borrowRoleSelectors.isFetching(state),
       borrowRoleResult: borrowRoleSelectors.getResult(state),
       authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
+      serviceProviderList: serviceProviderSelectors.getList(state),
     }
   }
 
@@ -85,6 +88,7 @@ export class AuthenticationContainer extends React.Component {
     authentication: AuthenticateShape,
     // from mapDispatchToProps
     onLogout: PropTypes.func.isRequired,
+    serviceProviderList: CommonShapes.ServiceProviderList.isRequired,
     sendBorrowRole: PropTypes.func.isRequired,
     dispatchRoleBorrowed: PropTypes.func.isRequired,
     onShowProfile: PropTypes.func.isRequired,
@@ -128,7 +132,7 @@ export class AuthenticationContainer extends React.Component {
 
   onLogout = () => {
     const {
-      authentication, disconnectServiceProvider,
+      authentication, disconnectServiceProvider, serviceProviderList, appName, project,
     } = this.props
     const serviceProviderName = get(authentication, 'result.service_provider_name')
     // 1- Send disconnect first to server
@@ -138,7 +142,16 @@ export class AuthenticationContainer extends React.Component {
     // 2- Clear login info inside HMI
     this.props.onLogout()
     // 3- Redirect user
-    this.onGoToHomePage()
+    if (serviceProviderName) {
+      const logoutUrl = get(serviceProviderList, `${serviceProviderName}.content.logoutUrl`)
+      if (logoutUrl) {
+        browserHistory.push(`${logoutUrl}?post_logout_redirect_uri=${root.location.origin}/${appName}/${project}`)
+      } else {
+        root.location = `${logoutUrl}?post_logout_redirect_uri=${root.location.origin}/${appName}/${project}`
+      }
+    } else {
+      this.onGoToHomePage()
+    }
   }
 
   /** Callback to show authentication dialog */

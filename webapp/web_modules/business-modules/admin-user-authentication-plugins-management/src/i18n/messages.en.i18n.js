@@ -48,7 +48,8 @@ const messages = {
 
   'user.authentication.external.plugins.form.create.invalid.id': 'Invalid ID',
   'user.authentication.external.plugins.form.create.field.name': 'Name',
-  'user.authentication.external.plugins.form.create.field.url': 'URL',
+  'user.authentication.external.plugins.form.create.field.url': 'URL de connexion',
+  'user.authentication.external.plugins.form.create.field.logout.url': 'URL de deconnexion',
   'user.authentication.external.plugins.form.create.field.pluginConfiguration': 'Plugin',
   'user.authentication.external.plugins.form.submit.edit.button': 'Modfify',
   'user.authentication.external.plugins.form.submit.create.button': 'Create',
