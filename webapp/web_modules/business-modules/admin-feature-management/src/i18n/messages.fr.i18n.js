@@ -86,6 +86,7 @@ const messages = {
 
   // Requests
   'feature.requests.empty.results': 'Aucune requete trouvée',
+  'feature.requests.loading.results': 'Chargement des requêtes ...',
   'feature.requests.list.filters.state': 'Etat',
   'feature.requests.tooltip.selection.retry': 'Relancer les requêtes sélectionnées',
   'feature.requests.list.filters.buttons.retry': 'Relancer la sélection',

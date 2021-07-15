@@ -26,6 +26,7 @@ import isEqual from 'lodash/isEqual'
 import Refresh from 'mdi-material-ui/Refresh'
 import DeleteOnAllIcon from 'mdi-material-ui/DeleteForever'
 import NoContentIcon from 'mdi-material-ui/CropFree'
+import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableHeaderOptionsArea, TableHeaderOptionGroup, DateValueRender,
@@ -89,6 +90,11 @@ export class RequestManagerComponent extends React.Component {
   static EMPTY_COMPONENT = <NoContentComponent
     titleKey="feature.requests.empty.results"
     Icon={NoContentIcon}
+  />
+
+  static LOADING_COMPONENT = <NoContentComponent
+    titleKey="feature.requests.loading.results"
+    Icon={SearchIcon}
   />
 
   /** Possible dialog types for requests */
@@ -485,7 +491,7 @@ export class RequestManagerComponent extends React.Component {
             ]}
             requestParams={contextRequestParameters}
             pathParams={{ type: paneType }}
-            emptyComponent={RequestManagerComponent.EMPTY_COMPONENT}
+            emptyComponent={isFetching ? RequestManagerComponent.LOADING_COMPONENT : RequestManagerComponent.EMPTY_COMPONENT}
           />
         </TableLayout>
         {this.renderDialog(RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG)}

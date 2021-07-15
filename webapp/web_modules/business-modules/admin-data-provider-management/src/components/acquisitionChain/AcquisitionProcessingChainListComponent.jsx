@@ -429,6 +429,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
             hintText={defaultDateSessionName.toLocaleString()}
             onChange={this.onChangeSessionName}
             value={sessionRename}
+            maxlength={128}
           />
         </PositionedDialog>
         <CardTitle
