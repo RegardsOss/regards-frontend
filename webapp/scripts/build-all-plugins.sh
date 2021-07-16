@@ -100,7 +100,7 @@ for rootFolder in "${buildFolders[@]}"; do
           fi
           pwd
           npm prune
-          npm install
+          npm install --legacy-peer-deps
           # run build commands as specified by the command user
           for buildCommand in "${buildCommands[@]}"; do
             ${buildCommand}
