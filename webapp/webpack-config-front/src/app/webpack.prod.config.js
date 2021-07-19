@@ -10,9 +10,6 @@ const cesiumSource = 'node_modules/cesium/Source'
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'prod')
 
-  // Ensure babel environment variable is correctly setup to production
-  process.env.BABEL_ENV = 'production'
-
   config = merge(config, {
     output: {
       // Webpack compilation directory

@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const alias = require('../utils/alias')
 const cpus = require('../utils/cpu')
+const getBabelEnvName = require('../utils/getBabelEnvName')
 
 const cesiumSource = 'node_modules/cesium/Source'
 
@@ -52,6 +53,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
                 // Next builds will attempt to read from the cache
                 // the cache is different depending of the value of NODE_ENV
                 cacheDirectory: true,
+                envName: getBabelEnvName(mode),
               },
             },
           ],

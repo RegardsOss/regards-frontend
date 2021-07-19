@@ -20,6 +20,7 @@ const path = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const alias = require('../utils/alias')
+const getBabelEnvName = require('../utils/getBabelEnvName')
 
 module.exports = function (projectContextPath, mode) {
   return {
@@ -58,6 +59,7 @@ module.exports = function (projectContextPath, mode) {
             // Here it walks upward from the "root" directory, looking for a directory containing a babel.config.js file.
             // https://babeljs.io/docs/en/options#rootmode
             rootMode: 'upward',
+            envName: getBabelEnvName(mode),
           },
         },
         {

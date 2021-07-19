@@ -4,11 +4,9 @@ const path = require('path')
 // const StatsPlugin = require('stats-webpack-plugin')
 const getCommonConfig = require('./webpack.common.config')
 
-
 module.exports = function (projectContextPath, frontendWebappPath) {
   const config = getCommonConfig(projectContextPath, 'prod')
-
-  // Ensure babel environment variable is correctly setup to production
+  // Ensure babel environment variable is correctly setup to development - will be rewrite if production is called
   process.env.NODE_ENV = 'production'
 
   return merge(config, {
