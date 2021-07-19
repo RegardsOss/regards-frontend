@@ -33,9 +33,6 @@ const conf = webpackConfigurator
     plugins: [
       new webpack.DefinePlugin({
         GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.107'),
-        'process.env': {
-          NODE_ENV: JSON.stringify('preproduction'),
-        },
       }),
     ],
   })

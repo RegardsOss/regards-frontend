@@ -10,8 +10,6 @@ const cpus = require('../utils/cpu')
 
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'dev')
-  // Ensure babel environment variable is correctly setup to development
-  process.env.NODE_ENV = 'development'
 
   config = merge(config, {
     mode: 'development',

@@ -3,10 +3,6 @@ const merge = require('./merge')
 
 // Common config when running with test runner
 module.exports = function (oldConf, mode) {
-
-  // Ensure babel environment variable is correctly setup to coverage
-  process.env.NODE_ENV = mode
-
   return merge(oldConf, {
     // Enable default tools available during development
     mode: 'development',
@@ -20,7 +16,7 @@ module.exports = function (oldConf, mode) {
       devtoolModuleFilenameTemplate: '[absolute-resource-path]',
       devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]',
     },
-    // reset the node env value to mode (test or coverage) 
+    // reset the node env value to mode (test or coverage)
     optimization: {
       nodeEnv: mode,
     },

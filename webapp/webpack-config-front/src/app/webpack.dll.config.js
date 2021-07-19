@@ -1,12 +1,12 @@
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const alias = require('../utils/alias')
+const getBabelEnvName = require('../utils/getBabelEnvName')
 
 module.exports = function (projectContextPath, mode) {
-  // Ensure babel environment variable is correctly setup to development - will be rewrite if production is called
-  process.env.NODE_ENV = 'development'
-
   return {
+    // Ensure babel environment variable is correctly setup to development - will be rewrite if production is called
+    mode: 'development',
     resolve: {
       // Automaticaly get extensions files from javascript code with import or require.
       // exemple require('main') look for main, main.js or main.jsx with our configuration
@@ -37,6 +37,7 @@ module.exports = function (projectContextPath, mode) {
           // the cache is different depending of the value of NODE_ENV
           loader: 'babel-loader',
           options: {
+            envName: getBabelEnvName(mode),
             cacheDirectory: true,
           },
         },

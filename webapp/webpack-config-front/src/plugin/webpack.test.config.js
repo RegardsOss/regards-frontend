@@ -11,9 +11,6 @@ module.exports = function (projectContextPath) {
   // Strange workaround with instant-mocha
   delete config.output
 
-  // Ensure babel environment variable is correctly setup to test
-  process.env.NODE_ENV = 'test'
-
   return merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     // Enable sourcemaps for debugging webpack's output.
