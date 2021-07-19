@@ -254,7 +254,7 @@
     "source-map-loader": "~2.0.1",
     "source-map-support": "^0.5.19",
     "thread-loader": "^3.0.3",
-    "webpack": "5.36.0",
+    "webpack": "5.45.1",
     "webpack-cli": "4.6.0",
     "webpack-dev-server": "~3.11.2",
     "xunit-file": "~1.0.0"
