@@ -7,7 +7,7 @@ rm -rf webpack-config-front/dist
 rm -rf webpack-config-front/dist
 rm -rf node_modules
 find plugins -type d -name "node_modules" -exec rm -rf {} \;
-npm install --prefer-offline --legacy-peer-deps --no-update-notifier --ignore-scripts
+npm install --prefer-offline --no-update-notifier --ignore-scripts
 npm run build:production-dll --no-update-notifier
 echo "HACK CESIUM WEBPACK 5 - FIX CONTENT"
 sed -i "s+\".\": {+\"./\": \"./Source/\",\".\": {+g" node_modules/cesium/package.json

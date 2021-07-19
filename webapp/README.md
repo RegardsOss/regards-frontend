@@ -19,7 +19,7 @@ This is the REGARDS Frontend webapp.
 
 Install dependencies with the following:
 ```
-npm install  --legacy-peer-deps
+npm install 
 ```
 
 ## Compile for production deployment

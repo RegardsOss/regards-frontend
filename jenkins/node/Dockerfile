@@ -23,7 +23,7 @@ USER tux
 
 # Use our own registry
 RUN npm config set strict-ssl false --no-update-notifier \
-	&& npm config set registry "https://172.26.46.158:8443/repository/new-npm-proxy/" --no-update-notifier \
+	&& npm config set registry "https://vm-integration-regards.cloud-espace.si.c-s.fr:8443/repository/new-npm-proxy/" --no-update-notifier \
  # Package lock auto prune the repo https://github.com/npm/npm/issues/16853#issuecomment-371665774
 	&& npm config set package-lock false --no-update-notifier
 
