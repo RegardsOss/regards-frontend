@@ -28,6 +28,6 @@ RUN npm config set strict-ssl false --no-update-notifier \
 	&& npm config set package-lock false --no-update-notifier
 
 ENV https_proxy "http://proxy2.si.c-s.fr:3128"
-ENV no_proxy "172.26.46.158,172.26.47.129"
+ENV no_proxy "172.26.46.158,172.26.47.129,.c-s.fr"
 # Set max number of CPU
 ENV NB_THREAD "1"
