@@ -40,6 +40,9 @@ pipeline {
         stage('Install') {
             steps {
                 parallel(
+                    test: {
+                        sh 'exit 1;'
+                    },
                     webapp: {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/npm_cacache:/root/.npm/ \
