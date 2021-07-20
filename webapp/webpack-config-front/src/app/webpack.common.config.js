@@ -64,7 +64,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
             // Strip cesium pragmas
             test: /\.js$/,
             enforce: 'pre',
-            include: path.resolve(__dirname, cesiumSource),
+            include: path.resolve(projectContextPath, cesiumSource),
             use: [
               {
                 loader: 'strip-pragma-loader',
