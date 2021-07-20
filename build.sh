@@ -4,7 +4,6 @@ dir=$(pwd)
 cd webapp/
 rm -rf webpack-config-front/node_modules/
 rm -rf webpack-config-front/dist
-rm -rf webpack-config-front/dist
 rm -rf node_modules
 find plugins -type d -name "node_modules" -exec rm -rf {} \;
 npm install --prefer-offline --legacy-peer-deps --no-update-notifier

@@ -25,5 +25,4 @@ if [ -d "node_modules/@regardsoss" ]; then
   rm -rf "node_modules/@regardsoss"
 fi
 pwd
-# mdi-material-ui@"^4.28.0" expects material-ui@"^0.17.4 so we need to disable that check
 npm install --prefer-offline --no-update-notifier
