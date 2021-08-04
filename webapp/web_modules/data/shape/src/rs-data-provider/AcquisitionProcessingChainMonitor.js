@@ -28,6 +28,7 @@ export const AcquisitionProcessingChainMonitorContent = PropTypes.shape({
   chain: AcquisitionProcessingChainContent.isRequired,
   active: PropTypes.bool.isRequired,
   deletionPending: PropTypes.bool.isRequired,
+  executionBlockers: PropTypes.arrayOf(PropTypes.string).isRequired,
 })
 
 export const AcquisitionProcessingChainMonitor = PropTypes.shape({

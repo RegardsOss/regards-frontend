@@ -318,6 +318,10 @@ const styles = (theme) => ({
     },
   },
   chains: {
+    stateStyle: {
+      display: 'flex',
+      alignItems: 'center',
+    },
     toggles: {
       toggleContainer: {
         width: '100%',
