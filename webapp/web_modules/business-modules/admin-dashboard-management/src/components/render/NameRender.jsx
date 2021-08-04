@@ -17,13 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import isEqual from 'lodash/isEqual'
-import get from 'lodash/get'
 import FlatButton from 'material-ui/FlatButton'
 import { StringValueRender } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { COMPONENT_TYPE, COMPONENT_TYPE_ENUM } from '../../domain/componentTypes'
+import { ENTITY, ENTITY_ENUM } from '../../domain/entityTypes'
 import DisplayIconsComponent from '../DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../../domain/displayIconTypes'
 
@@ -37,11 +35,8 @@ class NameRender extends React.Component {
       AdminShapes.Source,
       AdminShapes.Session,
     ]).isRequired,
-    selectedEntity: PropTypes.oneOfType([
-      AdminShapes.Source,
-      AdminShapes.Session,
-    ]),
-    componentType: PropTypes.oneOf(COMPONENT_TYPE),
+    selectedEntityId: PropTypes.string,
+    entityType: PropTypes.oneOf(ENTITY),
     onSelected: PropTypes.func.isRequired,
   }
 
@@ -53,19 +48,21 @@ class NameRender extends React.Component {
     * On button clicked callback
     */
   onClick = () => {
-    const { entity, onSelected, componentType } = this.props
-    onSelected(entity, componentType)
+    const {
+      entity, onSelected, entityType,
+    } = this.props
+    onSelected(entity, entityType)
   }
 
   isSelected = () => {
-    const { entity, selectedEntity, componentType } = this.props
+    const { entity, selectedEntityId, entityType } = this.props
     let isSelected = false
-    switch (componentType) {
-      case COMPONENT_TYPE_ENUM.SESSION:
-        isSelected = isEqual(entity.content.id, get(selectedEntity, 'content.id'))
+    switch (entityType) {
+      case ENTITY_ENUM.SESSION:
+        isSelected = entity.content.id === parseInt(selectedEntityId, 10)
         break
-      case COMPONENT_TYPE_ENUM.SOURCE:
-        isSelected = isEqual(entity.content.name, get(selectedEntity, 'content.name'))
+      case ENTITY_ENUM.SOURCE:
+        isSelected = entity.content.name === selectedEntityId
         break
       default:
     }

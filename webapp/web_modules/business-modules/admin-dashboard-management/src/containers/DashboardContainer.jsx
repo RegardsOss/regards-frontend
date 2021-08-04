@@ -19,6 +19,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import compose from 'lodash/fp/compose'
+import isEmpty from 'lodash/isEmpty'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import {
@@ -96,31 +97,26 @@ export class DashboardContainer extends React.Component {
    * @param {*} sourceFilters
    * @param {*} sessionFilters
    */
-  onRefresh = (sourceFilters, sessionFilters, selectedSource, selectedSession) => {
+  onRefresh = (sourceFilters, sessionFilters, selectedSourceId, selectedSessionId) => {
     const {
       fetchSessions, fetchSources, fetchSelectedSession,
     } = this.props
-    fetchSessions(0, DashboardContainer.PAGE_SIZE, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSource ? selectedSource.content.name : null })
+    fetchSessions(0, DashboardContainer.PAGE_SIZE, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSourceId || null })
     fetchSources(0, DashboardContainer.PAGE_SIZE, {}, { ...sourceFilters })
-    if (selectedSession) {
-      fetchSelectedSession(selectedSession.content.id)
+    if (!isEmpty(selectedSessionId)) {
+      fetchSelectedSession(selectedSessionId)
     }
   }
 
-  onDeleteSession = (sessionId, sourceFilters, sessionFilters, selectedSource, selectedSession) => {
+  onDeleteSession = (sessionId) => {
     const { deleteSession } = this.props
-    deleteSession(sessionId).then((actionResult) => {
-      if (!actionResult.error) {
-        this.onRefresh(sourceFilters, sessionFilters, selectedSource, selectedSession)
-      }
-    })
+    deleteSession(sessionId)
   }
 
   render() {
     const {
       params: { project }, relaunchProducts, relaunchAIP, retryRequests,
-      relaunchStorages, retryFEMRequests,
-      fetchSelectedSession, flushSelectedSession,
+      relaunchStorages, retryFEMRequests, fetchSelectedSession, flushSelectedSession,
     } = this.props
     return (
       <DashboardComponent
