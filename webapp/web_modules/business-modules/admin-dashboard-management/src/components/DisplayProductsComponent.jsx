@@ -50,10 +50,10 @@ class DisplayProductsComponent extends React.Component {
     const { sessionName } = this.props
     const { intl: { formatMessage } } = this.context
     const columns = [
-      new TableColumnBuilder('column.name').titleHeaderCell().label(formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.table.column.name' })).propertyRenderCell('content.productName')
+      new TableColumnBuilder('column.name').titleHeaderCell().label(formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.dialog.table.column.name' })).propertyRenderCell('content.productName')
         .fixedSizing(300)
         .build(),
-      new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.table.column.error' })).propertyRenderCell('content.error')
+      new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.dialog.table.column.error' })).propertyRenderCell('content.error')
         .build(),
     ]
     const requestParameters = { session: sessionName, sipState: DisplayProductsComponent.ERROR_SIP_STATES, state: DisplayProductsComponent.INVALID_INCOMPLETE_PRODUCT_STATES }

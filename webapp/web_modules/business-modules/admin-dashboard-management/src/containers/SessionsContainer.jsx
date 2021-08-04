@@ -18,28 +18,40 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import values from 'lodash/values'
+import isEmpty from 'lodash/isEmpty'
 import { AdminShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
 import { sessionsSelectors } from '../clients/SessionsClient'
 import SessionsComponent from '../components/SessionsComponent'
 import { SESSION_FILTER_PARAMS } from '../domain/filters'
 
 /**
- * Comment Here
+ * Sessions Container
  * @author Théo Lasserre
  */
 export class SessionsContainer extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    selectedSession: AdminShapes.Session,
     onSelected: PropTypes.func.isRequired,
     onApplyFilters: PropTypes.func.isRequired,
-    selectedSource: AdminShapes.Source,
     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     filters: PropTypes.object.isRequired,
+    selectedSessionId: PropTypes.string,
+    selectedSourceId: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
+    fetchSelectedSession: PropTypes.func.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     sessions: AdminShapes.SessionList,
+    // from mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    throwError: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   /**
@@ -51,6 +63,12 @@ export class SessionsContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       sessions: sessionsSelectors.getList(state),
+    }
+  }
+
+  static mapDispatchToProps(dispatch) {
+    return {
+      throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
     }
   }
 
@@ -73,22 +91,53 @@ export class SessionsContainer extends React.Component {
     return urlFilters
   }
 
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      selectedSessionId, fetchSelectedSession, throwError,
+    } = newProps
+    const { intl: { formatMessage } } = this.context
+    if (!isEmpty(selectedSessionId) && oldProps.selectedSessionId !== selectedSessionId) {
+      fetchSelectedSession(selectedSessionId).then((actionResult) => {
+        if (actionResult.error) {
+          throwError(formatMessage({ id: 'dashboard.sessions.fetch.error' }, { selectedSessionId }))
+        }
+      })
+    }
+  }
+
   render() {
     const {
-      project, onSelected, selectedSession, onApplyFilters, selectedSource, filters, sessions,
+      project, onSelected, onApplyFilters, filters, sessions,
+      selectedSourceId, selectedSessionId,
     } = this.props
     return (
       <SessionsComponent
         project={project}
         onSelected={onSelected}
-        selectedSession={selectedSession}
         onApplyFilters={onApplyFilters}
         sessions={sessions}
-        selectedSource={selectedSource}
         filters={filters}
+        selectedSourceId={selectedSourceId}
+        selectedSessionId={selectedSessionId}
       />
     )
   }
 }
 export default connect(
-  SessionsContainer.mapStateToProps, null)(SessionsContainer)
+  SessionsContainer.mapStateToProps, SessionsContainer.mapDispatchToProps)(SessionsContainer)

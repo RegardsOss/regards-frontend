@@ -74,8 +74,8 @@ class ReferencingComponent extends React.Component {
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.referencing.title' })}
-              subtitle={formatMessage({ id: 'dashboard.selectedsession.referencing.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
+              title={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.title' })}
+              subtitle={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
               titleStyle={cardTitleTextStyle}
               subtitleStyle={cardSubTitleTextStyle}
               style={cardTitleStyle}
