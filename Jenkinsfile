@@ -255,7 +255,11 @@ pipeline {
     }
     post {
         failure {
+            tuleapNotifyCommitStatus status: 'success', repositoryId: '872', credentialId: 'tuleap-ci-token'
             mattermostSend color: 'danger', message: "Build Failed - ${env.JOB_NAME}#${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", text: "Changes: \n"+getChangeString()
+        }
+        success {
+            tuleapNotifyCommitStatus status: 'failure', repositoryId: '872', credentialId: 'tuleap-ci-token'
         }
     }
 }
