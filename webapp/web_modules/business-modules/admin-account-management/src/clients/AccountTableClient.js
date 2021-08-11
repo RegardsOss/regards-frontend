@@ -16,18 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminInstanceDomain } from '@regardsoss/domain'
+import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
-export const Account = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    lastName: PropTypes.string,
-    email: PropTypes.string,
-    firstName: PropTypes.string,
-    status: PropTypes.oneOf(AdminInstanceDomain.ACCOUNT_STATUS),
-    origin: PropTypes.string,
-    project: PropTypes.string,
-  }),
-})
+const NAMESPACE = 'admin-account-management/accountsTable'
+const STORE_PATH = ['admin', 'account-management', 'accounts', 'accountsTable']
 
-export const AccountList = PropTypes.objectOf(Account)
+export const accountTableActions = new TableActions(NAMESPACE)
+export const accountTableReducer = getTableReducer(NAMESPACE)
+export const accountTableSelectors = getTableSelectors(STORE_PATH)

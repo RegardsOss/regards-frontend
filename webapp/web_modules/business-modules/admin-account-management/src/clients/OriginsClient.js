@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,19 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { AdminInstanceDomain } from '@regardsoss/domain'
+ */
+import { AdminInstanceClient } from '@regardsoss/client'
 
-export const Account = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    lastName: PropTypes.string,
-    email: PropTypes.string,
-    firstName: PropTypes.string,
-    status: PropTypes.oneOf(AdminInstanceDomain.ACCOUNT_STATUS),
-    origin: PropTypes.string,
-    project: PropTypes.string,
-  }),
-})
+/**
+ * Service Provider entities client.
+ *
+ * @author Théo Lasserre
+ */
+const ENTITIES_STORE_PATH = ['admin', 'account-management', 'accounts', 'origins']
+const REDUX_ACTION_NAMESPACE = 'admin-account-management/origins'
 
-export const AccountList = PropTypes.objectOf(Account)
+export const originReducer = AdminInstanceClient.getOriginReducer(REDUX_ACTION_NAMESPACE)
+export const originActions = new AdminInstanceClient.OriginActions(REDUX_ACTION_NAMESPACE)
+export const originSelectors = AdminInstanceClient.getOriginSelectors(ENTITIES_STORE_PATH)

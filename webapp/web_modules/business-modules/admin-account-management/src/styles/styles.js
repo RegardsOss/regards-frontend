@@ -23,6 +23,35 @@ const accountManagementStyles = (theme) => ({
       display: 'flex',
     },
   },
+  accounts: {
+    messagesDiv: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    waitingAccountsDiv: {
+      display: 'flex',
+      flexDirection: 'row',
+      marginLeft: '35px',
+      marginTop: '10px',
+      marginBottom: '10px',
+    },
+    waitingAccountsMessage: {
+      color: 'rgb(203, 22, 22)',
+      display: 'flex',
+      alignItems: 'center',
+    },
+    filtersDiv: {
+      display: 'flex',
+      justifyContent: 'left',
+      width: '100%',
+    },
+    fieldStyle: {
+      marginRight: '10px',
+    },
+    fieldWidth: {
+      width: '220px',
+    },
+  },
 })
 
 export default accountManagementStyles

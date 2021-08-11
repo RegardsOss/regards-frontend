@@ -39,3 +39,7 @@ export { default as RefuseAccountActions } from './account/RefuseAccountActions'
 export { default as getRefuseAccountReducer } from './account/RefuseAccountReducer'
 export { default as getRefuseAccountSelectors } from './account/RefuseAccountSelectors'
 export { default as UpdateSettingActions } from './account/UpdateSettingActions'
+
+export { default as OriginActions } from './origins/OriginActions'
+export { default as getOriginReducer } from './origins/OriginReducers'
+export { default as getOriginSelectors } from './origins/OriginSelectors'

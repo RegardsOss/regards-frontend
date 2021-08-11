@@ -15,19 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { AdminInstanceDomain } from '@regardsoss/domain'
+ */
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-export const Account = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    lastName: PropTypes.string,
-    email: PropTypes.string,
-    firstName: PropTypes.string,
-    status: PropTypes.oneOf(AdminInstanceDomain.ACCOUNT_STATUS),
-    origin: PropTypes.string,
-    project: PropTypes.string,
-  }),
-})
-
-export const AccountList = PropTypes.objectOf(Account)
+/**
+ * Export selectors builder on store path.
+ * @param storePath redux store path to access reduced data
+ * @return selectors instance
+ */
+export default (storePath) => new BasicPageableSelectors(storePath)

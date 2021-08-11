@@ -16,39 +16,48 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
+import get from 'lodash/get'
+import clone from 'lodash/clone'
 import size from 'lodash/size'
-import { Tabs, Tab } from 'material-ui/Tabs'
+import isEqual from 'lodash/isEqual'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import {
-  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
-} from 'material-ui/Table'
-import EditAccountIcon from 'mdi-material-ui/Pencil'
-import DeleteAccountIcon from 'mdi-material-ui/Delete'
-import ValidateAccountIcon from 'mdi-material-ui/AccountCheck'
-import RefuseAccountIcon from 'mdi-material-ui/AccountRemove'
-import EnabledAccountIcon from 'mdi-material-ui/AccountConvert'
-import { AdminInstanceDomain } from '@regardsoss/domain'
-import { AdminInstanceShapes } from '@regardsoss/shape'
+import ClearFilter from 'mdi-material-ui/Backspace'
+import Refresh from 'mdi-material-ui/Refresh'
+import TextField from 'material-ui/TextField'
+import FlatButton from 'material-ui/FlatButton'
+import SelectField from 'material-ui/SelectField'
+import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
+import FilterIcon from 'mdi-material-ui/Filter'
+import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
+import IconButton from 'material-ui/IconButton'
+import { MenuItem } from 'material-ui/IconMenu'
+import { CommonDomain, AdminInstanceDomain } from '@regardsoss/domain'
+import { AdminInstanceShapes, CommonShapes, AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
-  ActionsMenuCell, NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
-  ShowableAtRender, HelpMessageComponent, CardActionsComponent, HateoasIconAction,
+  NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
+  ShowableAtRender, HelpMessageComponent, CardActionsComponent, PageableInfiniteTableContainer,
+  TableColumnBuilder, TableLayout, TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
+  TableHeaderContentBox, TableColumnsVisibilityOption, TableHeaderLoadingComponent,
 } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator, HateoasKeys } from '@regardsoss/display-control'
+import { accountActions, accountSelectors } from '../clients/AccountClient'
+import AccountEditComponent from './render/AccountEditComponent'
+import AccountAcceptComponent from './render/AccountAcceptComponent'
+import AccountRefuseComponent from './render/AccountRefuseComponent'
+import AccountEnableComponent from './render/AccountEnableComponent'
+import AccountDeleteComponent from './render/AccountDeleteComponent'
 
-const actionsBreakpoints = [550, 1040, 1040, 1040, 1040]
-
-/**
- * Tabs Id
- */
-export const TABS = {
-  waiting: 0,
-  all: 1,
+const ACCOUNT_FILTERS = {
+  EMAIL: 'email',
+  FIRSTNAME: 'firstName',
+  LASTNAME: 'lastName',
+  STATUS: 'status',
+  ORIGIN: 'origin',
+  PROJECT: 'project',
 }
 
 /**
@@ -58,14 +67,18 @@ export class AccountListComponent extends React.Component {
   static propTypes = {
     allAccounts: PropTypes.objectOf(AdminInstanceShapes.Account),
     waitingAccounts: PropTypes.objectOf(AdminInstanceShapes.Account),
+    isFetching: PropTypes.bool.isRequired,
+    pageSize: PropTypes.number.isRequired,
     onAccept: PropTypes.func.isRequired,
     onRefuse: PropTypes.func.isRequired,
     onEnable: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
-    initialFecthing: PropTypes.bool.isRequired,
+    onRefresh: PropTypes.func.isRequired,
     isFetchingActions: PropTypes.bool.isRequired,
+    origins: CommonShapes.ServiceProviderList.isRequired,
+    projects: AdminShapes.ProjectList.isRequired,
   }
 
   static contextTypes = {
@@ -73,31 +86,136 @@ export class AccountListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static SUBHEADER_STYLES = {
-    paddingLeft: 0,
+  /**
+   * Default state for filters edition
+   */
+  static DEFAULT_FILTERS_STATE = {
+    [ACCOUNT_FILTERS.EMAIL]: '',
+    [ACCOUNT_FILTERS.FIRSTNAME]: '',
+    [ACCOUNT_FILTERS.LASTNAME]: '',
+    [ACCOUNT_FILTERS.STATUS]: '',
+    [ACCOUNT_FILTERS.ORIGIN]: '',
+    [ACCOUNT_FILTERS.PROJECT]: '',
   }
+
+  static COLUMN_KEYS = {
+    EMAIL: 'email',
+    FIRSTNAME: 'firstName',
+    LASTNAME: 'lastName',
+    STATUS: 'status',
+    ORIGIN: 'origin',
+    PROJECT: 'project',
+    ACTIONS: 'actions',
+  }
+
+  static COLUMN_ORDER_TO_QUERY = {
+    [CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER]: 'ASC',
+    [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
+  }
+
+  static LOADING_COMPONENT = (
+    <NoContentComponent
+      titleKey="account.list.table.content.loading"
+      Icon={SearchIcon}
+    />)
+
+  static EMPTY_COMPONENT = (
+    <NoContentComponent
+      titleKey="account.list.table.no.content.title"
+      messageKey="account.list.all.no.content.message"
+      Icon={AddToPhotos}
+    />)
 
   state = {
     deleteDialogOpened: false,
     refuseDialogOpened: false,
     entityToDeleteOrRefuse: null,
+    contextRequestURLParameters: {},
+    columnsSorting: [],
+    filters: AccountListComponent.DEFAULT_FILTERS_STATE,
+    /** columns visibility map (no assertion on child columns keys) */
+    columnsVisibility: {}, // note: empty by default, when column isn't found it should be considered visible
   }
 
   /**
-   * Lifecycle method: component will mount. Used here to initialize the selected tab
+   * Update a filter
+   * @param {*} newFilterValue
+   * @param {*} filterElement
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
-    if (this.props.initialFecthing && !nextProps.initialFecthing) {
-      // first loading: show waiting tab if there are any waiting account
-      this.selectTab(!isEmpty(nextProps.waitingAccounts) ? TABS.waiting : TABS.all)
+  updateFilter = (newFilterValue, filterElement) => {
+    const { filters, contextRequestURLParameters } = this.state
+    const newFilters = {
+      ...filters,
+      [filterElement]: newFilterValue && newFilterValue !== '' ? newFilterValue : undefined,
+    }
+    const newState = {
+      filters: newFilters,
+      contextRequestURLParameters: {
+        ...contextRequestURLParameters,
+        ...newFilters,
+      },
+    }
+    this.setState(newState)
+  }
+
+  /**
+   * Clear filters
+   */
+  clearFilters = () => {
+    const { contextRequestURLParameters, filters } = this.state
+    const newFilters = AccountListComponent.DEFAULT_FILTERS_STATE
+    if (!isEqual(filters, newFilters)) {
+      this.setState({
+        filters: newFilters,
+        contextRequestURLParameters: {
+          ...contextRequestURLParameters,
+          ...newFilters,
+        },
+      })
     }
   }
 
   /**
-   * User callback: changed tab
+   * User callbacker: user updated columns visibility (this container considers only columns keys)
+   * @param {[{key, visible}]} updatedColumns updated columns
    */
-  onTabChange = (value) => {
-    this.selectTab(value)
+   onChangeColumnsVisibility = (updatedColumns) => {
+     this.setState({
+       // map: associate each column key with its visible stae
+       columnsVisibility: updatedColumns.reduce((acc, { key, visible }) => ({
+         ...acc,
+         [key]: visible,
+       }), {}),
+     })
+   }
+
+  getColumnSortingData = (sortKey) => {
+    const { columnsSorting } = this.state
+    const columnIndex = columnsSorting.findIndex(({ columnKey }) => sortKey === columnKey)
+    return columnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[columnIndex].order, columnIndex]
+  }
+
+  buildSortURL = (columnsSorting) => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${AccountListComponent.COLUMN_ORDER_TO_QUERY[order]}`)
+
+  onSort = (columnSortKey, order) => {
+    const { columnsSorting, contextRequestURLParameters } = this.state
+
+    const columnIndex = columnsSorting.findIndex(({ columnKey }) => columnSortKey === columnKey)
+    const newColumnSorting = clone(columnsSorting)
+    if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
+      newColumnSorting.splice(columnIndex, 1)
+    } else if (columnIndex === -1) {
+      newColumnSorting.push({ columnKey: columnSortKey, order })
+    } else {
+      newColumnSorting.splice(columnIndex, 1, { columnKey: columnSortKey, order })
+    }
+    this.setState({
+      columnsSorting: newColumnSorting,
+      contextRequestURLParameters: {
+        ...contextRequestURLParameters,
+        sort: this.buildSortURL(newColumnSorting),
+      },
+    })
   }
 
   /**
@@ -141,45 +259,6 @@ export class AccountListComponent extends React.Component {
   }
 
   /**
-   * @return waiting accounts tab related content
-   */
-  getWaitingAccountsTabContent = () => ({
-    noDataMessageKey: 'account.list.waiting.no.content.message',
-    accounts: this.props.waitingAccounts,
-  })
-
-  /**
-   * @return waiting accounts tab related content
-   */
-  getAllAccountsTabContent = () => ({
-    noDataMessageKey: 'account.list.all.no.content.message',
-    accounts: this.props.allAccounts,
-  })
-
-  /**
-   * @return {boolean} true if administrator can accept this account
-   */
-  canAcceptAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
-
-  /**
-   * @return {boolean} true if administrator can refuse this account
-   */
-  canRefuseAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
-
-  /**
-   * @return {boolean} true if administrator can enabled this account
-   */
-  canEnableAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.INACTIVE === account.content.status
-
-  /**
-   * Shows selected tab
-   * @param selectedTab tab selected, that should be shown
-   */
-  selectTab = (selectedTab) => {
-    this.setState({ selectedTab })
-  }
-
-  /**
    * Renders account deletion confirmation dialog
    */
   renderDeleteConfirmDialog = () => {
@@ -217,151 +296,239 @@ export class AccountListComponent extends React.Component {
   }
 
   render() {
-    const selectedTab = this.state ? this.state.selectedTab : TABS.all
-    const tabContent = selectedTab === TABS.waiting ? this.getWaitingAccountsTabContent() : this.getAllAccountsTabContent()
-    const style = {
-      commonActionHoverColor: this.context.muiTheme.palette.primary1Color,
-      deleteActionHoverColor: this.context.muiTheme.palette.accent1Color,
-    }
     const {
-      allAccounts, waitingAccounts, initialFecthing, isFetchingActions,
-      onBack, onEdit, onAccept, onEnable,
+      isFetchingActions,
+      onBack, onEdit, onAccept, onEnable, isFetching,
+      pageSize, origins, projects, waitingAccounts, allAccounts, onRefresh,
     } = this.props
-    const { intl: { formatMessage } } = this.context
-    const emptyComponent = (<NoContentComponent
-      titleKey="account.list.table.no.content.title"
-      messageKey={tabContent.noDataMessageKey}
-    />)
+    const {
+      intl: { formatMessage }, muiTheme, moduleTheme: {
+        accounts: {
+          messagesDiv, waitingAccountsDiv, waitingAccountsMessage, filtersDiv, fieldStyle,
+          fieldWidth,
+        },
+      },
+    } = this.context
+    const {
+      filters, contextRequestURLParameters, columnsVisibility,
+    } = this.state
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
+    const columns = [ // eslint wont fix: Major API rework required
+      // 1 - email
+      new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.EMAIL)
+        .titleHeaderCell()
+        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.EMAIL}`)
+        .label(formatMessage({ id: 'account.list.table.email' }))
+        .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.EMAIL, true))
+        .sortableHeaderCell(...this.getColumnSortingData(AccountListComponent.COLUMN_KEYS.EMAIL), this.onSort)
+        .build(),
+      // 2 - firstname
+      new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.FIRSTNAME)
+        .titleHeaderCell()
+        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.FIRSTNAME}`)
+        .label(formatMessage({ id: 'account.list.table.firstname' }))
+        .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.FIRSTNAME, true))
+        .sortableHeaderCell(...this.getColumnSortingData(AccountListComponent.COLUMN_KEYS.FIRSTNAME), this.onSort)
+        .build(),
+      // 3 - lastname
+      new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.LASTNAME)
+        .titleHeaderCell()
+        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.LASTNAME}`)
+        .label(formatMessage({ id: 'account.list.table.lastname' }))
+        .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.LASTNAME, true))
+        .sortableHeaderCell(...this.getColumnSortingData(AccountListComponent.COLUMN_KEYS.LASTNAME), this.onSort)
+        .build(),
+      // 3 - status
+      new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.STATUS)
+        .titleHeaderCell()
+        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.STATUS}`)
+        .label(formatMessage({ id: 'account.list.table.status' }))
+        .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.STATUS, true))
+        .sortableHeaderCell(...this.getColumnSortingData(AccountListComponent.COLUMN_KEYS.STATUS), this.onSort)
+        .build(),
+      // 4 - origin
+      new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.ORIGIN)
+        .titleHeaderCell()
+        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.ORIGIN}`)
+        .label(formatMessage({ id: 'account.list.table.origin' }))
+        .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.ORIGIN, true))
+        .sortableHeaderCell(...this.getColumnSortingData(AccountListComponent.COLUMN_KEYS.ORIGIN), this.onSort)
+        .build(),
+      // 5 - project
+      new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.PROJECT)
+        .titleHeaderCell()
+        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.PROJECT}`)
+        .label(formatMessage({ id: 'account.list.table.project' }))
+        .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.PROJECT, true))
+        .sortableHeaderCell(...this.getColumnSortingData(AccountListComponent.COLUMN_KEYS.PROJECT), this.onSort)
+        .build(),
+      // 6 - options
+      new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.ACTIONS)
+        .titleHeaderCell()
+        .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.ACTIONS, true))
+        .label(formatMessage({ id: 'account.list.table.action' }))
+        .optionsColumn([{
+          OptionConstructor: AccountEditComponent,
+          optionProps: {
+            onEdit,
+            isFetchingActions,
+          },
+        }, {
+          OptionConstructor: AccountAcceptComponent,
+          optionProps: {
+            onAccept,
+            isFetchingActions,
+          },
+        }, {
+          OptionConstructor: AccountRefuseComponent,
+          optionProps: {
+            onOpenRefuseDialog: this.onOpenRefuseDialog,
+            isFetchingActions,
+          },
+        }, {
+          OptionConstructor: AccountEnableComponent,
+          optionProps: {
+            onEnable,
+            isFetchingActions,
+          },
+        }, {
+          OptionConstructor: AccountDeleteComponent,
+          optionProps: {
+            onOpenDeleteDialog: this.onOpenDeleteDialog,
+            isFetchingActions,
+          },
+        }])
+        .build(),
+    ]
 
     return (
       <Card>
         <CardTitle title={formatMessage({ id: 'accounts.title' })} subtitle={formatMessage({ id: 'accounts.subtitle' })} />
-        <Tabs onChange={this.onTabChange} value={selectedTab}>
-          <Tab
-            className="selenium-waitingTab"
-            label={formatMessage({ id: 'account.list.waiting.tab' }, { count: size(waitingAccounts) || '0' })}
-            value={TABS.waiting}
-          />
-          <Tab
-            className="selenium-allTab"
-            label={formatMessage({ id: 'account.list.all.tab' }, { count: size(allAccounts) || '0' })}
-            value={TABS.all}
-          />
-        </Tabs>
         <CardText>
-          <LoadableContentDisplayDecorator
-            isLoading={initialFecthing}
-            isEmpty={isEmpty(tabContent.accounts)}
-            emptyComponent={emptyComponent}
-          >
-            <div>
-              {this.renderDeleteConfirmDialog()}
-              {this.renderRefuseConfirmDialog()}
-              <HelpMessageComponent
-                message={this.context.intl.formatMessage({ id: 'account.list.info.why-cant-remove-account-having-project-user' })}
-              />
-              <Table
-                selectable={false}
+          <div style={messagesDiv}>
+            <HelpMessageComponent
+              message={formatMessage({ id: 'account.list.info.why-cant-remove-account-having-project-user' })}
+            />
+            <div style={waitingAccountsDiv}>
+              <div style={waitingAccountsMessage}>
+                {formatMessage({ id: 'account.list.info.nb.waiting.accounts' }, { value: size(waitingAccounts) || 0 })}
+              </div>
+              <IconButton
+                onClick={() => this.updateFilter(AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING, ACCOUNT_FILTERS.STATUS)}
+                title={formatMessage({ id: 'account.list.info.nb.waiting.accounts.filter' })}
               >
-                <TableHeader
-                  enableSelectAll={false}
-                  adjustForCheckbox={false}
-                  displaySelectAll={false}
-                >
-                  <TableRow>
-                    <TableHeaderColumn>{formatMessage({ id: 'account.list.table.email' })}</TableHeaderColumn>
-                    <TableHeaderColumn>{formatMessage({ id: 'account.list.table.firstName' })}</TableHeaderColumn>
-                    <TableHeaderColumn>{formatMessage({ id: 'account.list.table.lastName' })}</TableHeaderColumn>
-                    <TableHeaderColumn>{formatMessage({ id: 'account.list.table.status' })}</TableHeaderColumn>
-                    <TableHeaderColumn>{formatMessage({ id: 'account.list.table.action' })}</TableHeaderColumn>
-                  </TableRow>
-                </TableHeader>
-                <TableBody
-                  displayRowCheckbox={false}
-                  preScanRows={false}
-                  showRowHover
-                >
-                  {map(tabContent.accounts, (account, id) => (
-                    <TableRow className={`selenium-${account.content.email}`} key={id}>
-                      <TableRowColumn>
-                        {account.content.email}
-                      </TableRowColumn>
-                      <TableRowColumn>
-                        {account.content.firstName || '-'}
-                      </TableRowColumn>
-                      <TableRowColumn>
-                        {account.content.lastName || '-'}
-                      </TableRowColumn>
-                      <TableRowColumn>
-                        {formatMessage({ id: `account.list.table.status.label.${account.content.status}` })}
-                      </TableRowColumn>
-                      <TableRowColumn>
-                        <ActionsMenuCell
-                          breakpoints={actionsBreakpoints}
-                        >
-                          <HateoasIconAction
-                            className="selenium-editButton"
-                            title={formatMessage({ id: 'account.list.table.action.edit.tooltip' })}
-                            onClick={() => onEdit(account.content.id)}
-                            disabled={isFetchingActions}
-                            entityLinks={account.links}
-                            hateoasKey={HateoasKeys.UPDATE}
-                            alwaysDisplayforInstanceUser={false}
-                          >
-                            <EditAccountIcon hoverColor={style.commonActionHoverColor} />
-                          </HateoasIconAction>
-                          <HateoasIconAction
-                            className="selenium-acceptButton"
-                            title={formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
-                            onClick={() => onAccept(account.content.email)}
-                            disabled={isFetchingActions || !this.canAcceptAccount(account)}
-                            entityLinks={account.links}
-                            hateoasKey={HateoasKeys.ACCEPT}
-                            alwaysDisplayforInstanceUser={false}
-                          >
-                            <ValidateAccountIcon hoverColor={style.commonActionHoverColor} />
-                          </HateoasIconAction>
-                          <HateoasIconAction
-                            className="selenium-refuseButton"
-                            title={formatMessage({ id: 'account.list.table.action.refuse.tooltip' })}
-                            onClick={() => this.onOpenRefuseDialog(account)}
-                            disabled={isFetchingActions || !this.canRefuseAccount(account)}
-                            entityLinks={account.links}
-                            hateoasKey={HateoasKeys.REFUSE}
-                            alwaysDisplayforInstanceUser={false}
-                          >
-                            <RefuseAccountIcon hoverColor={style.deleteActionHoverColor} />
-                          </HateoasIconAction>
-                          <HateoasIconAction
-                            className="selenium-enableButton"
-                            title={formatMessage({ id: 'account.list.table.action.enable.tooltip' })}
-                            onClick={() => onEnable(account.content.email)}
-                            disabled={isFetchingActions || !this.canEnableAccount(account)}
-                            entityLinks={account.links}
-                            hateoasKey={HateoasKeys.ACTIVE}
-                            alwaysDisplayforInstanceUser={false}
-                          >
-                            <EnabledAccountIcon hoverColor={style.commonActionHoverColor} />
-                          </HateoasIconAction>
-                          <HateoasIconAction
-                            className="selenium-deleteButton"
-                            title={formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
-                            onClick={() => this.onOpenDeleteDialog(account)}
-                            disabled={isFetchingActions}
-                            entityLinks={account.links}
-                            hateoasKey={HateoasKeys.DELETE}
-                            alwaysDisplayforInstanceUser={false}
-                          >
-                            <DeleteAccountIcon hoverColor={style.deleteActionHoverColor} />
-                          </HateoasIconAction>
-                        </ActionsMenuCell>
-                      </TableRowColumn>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                <FilterIcon />
+              </IconButton>
             </div>
-          </LoadableContentDisplayDecorator>
+          </div>
+          <TableLayout>
+            <TableHeaderLine>
+              <div style={filtersDiv}>
+                <TableHeaderOptionsArea reducible>
+                  <TableHeaderOptionGroup>
+                    <TextField
+                      hintText={formatMessage({ id: 'account.list.table.filters.email' })}
+                      value={filters[ACCOUNT_FILTERS.EMAIL]}
+                      onChange={(event, value) => this.updateFilter(value, ACCOUNT_FILTERS.EMAIL)}
+                      style={{ ...fieldStyle, ...fieldWidth }}
+                    />
+                    <TextField
+                      hintText={formatMessage({ id: 'account.list.table.filters.firstname' })}
+                      value={filters[ACCOUNT_FILTERS.FIRSTNAME]}
+                      onChange={(event, value) => this.updateFilter(value, ACCOUNT_FILTERS.FIRSTNAME)}
+                      style={{ ...fieldStyle, ...fieldWidth }}
+                    />
+                    <TextField
+                      hintText={formatMessage({ id: 'account.list.table.filters.lastname' })}
+                      value={filters[ACCOUNT_FILTERS.LASTNAME]}
+                      onChange={(event, value) => this.updateFilter(value, ACCOUNT_FILTERS.LASTNAME)}
+                      style={fieldWidth}
+                    />
+                  </TableHeaderOptionGroup>
+                  <TableHeaderOptionGroup>
+                    <SelectField
+                      id="account.list.table.filters.status"
+                      value={filters[ACCOUNT_FILTERS.STATUS]}
+                      hintText={formatMessage({ id: 'account.list.table.filters.status' })}
+                      onChange={(event, index, value) => this.updateFilter(value, ACCOUNT_FILTERS.STATUS)}
+                      style={{ ...fieldStyle, ...fieldWidth }}
+                    >
+                      <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'account.list.table.filters.status.any' })} />
+                      {map(AdminInstanceDomain.ACCOUNT_STATUS_ENUM, (status) => (
+                        <MenuItem key={status} value={status} primaryText={formatMessage({ id: `account.list.table.filters.status.${status}` })} />
+                      ))}
+                    </SelectField>
+                    <SelectField
+                      id="account.list.table.filters.origin"
+                      value={filters[ACCOUNT_FILTERS.ORIGIN]}
+                      hintText={formatMessage({ id: 'account.list.table.filters.origin' })}
+                      onChange={(event, index, value) => this.updateFilter(value, ACCOUNT_FILTERS.ORIGIN)}
+                      style={{ ...fieldStyle, ...fieldWidth }}
+                    >
+                      <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'account.list.table.filters.origin.any' })} />
+                      {map(origins, (origin) => (
+                        <MenuItem key={origin} value={origin.content.name} primaryText={origin.content.name} />
+                      ))}
+                    </SelectField>
+                    <SelectField
+                      id="account.list.table.filters.project"
+                      value={filters[ACCOUNT_FILTERS.PROJECT]}
+                      hintText={formatMessage({ id: 'account.list.table.filters.project' })}
+                      onChange={(event, index, value) => this.updateFilter(value, ACCOUNT_FILTERS.PROJECT)}
+                      style={fieldWidth}
+                    >
+                      <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'account.list.table.filters.project.any' })} />
+                      {map(projects, (project) => (
+                        <MenuItem key={project} value={project.content.name} primaryText={project.content.name} />
+                      ))}
+                    </SelectField>
+                    <IconButton
+                      title={formatMessage({ id: 'account.list.table.filters.clear' })}
+                      onClick={this.clearFilters}
+                    >
+                      <ClearFilter />
+                    </IconButton>
+                  </TableHeaderOptionGroup>
+                </TableHeaderOptionsArea>
+              </div>
+            </TableHeaderLine>
+            <TableHeaderLine>
+              {/* 1 - accounts count */}
+              <TableHeaderContentBox>
+                {formatMessage({ id: 'account.list.info.nb.accounts' }, { value: size(allAccounts) || 0 })}
+              </TableHeaderContentBox>
+              {/* 2 - loading */}
+              <TableHeaderLoadingComponent loading={isFetching} />
+              {/* 3 - table options  */}
+              <TableHeaderOptionsArea>
+                <TableHeaderOptionGroup>
+                  {/* columns visibility configuration  */}
+                  <TableColumnsVisibilityOption
+                    columns={columns}
+                    onChangeColumnsVisibility={this.onChangeColumnsVisibility}
+                  />
+                  <FlatButton
+                    label={formatMessage({ id: 'account.list.refresh' })}
+                    icon={<Refresh />}
+                    onClick={() => onRefresh(contextRequestURLParameters)}
+                  />
+                </TableHeaderOptionGroup>
+              </TableHeaderOptionsArea>
+            </TableHeaderLine>
+            <PageableInfiniteTableContainer
+              name="accounts-list-table"
+              pageActions={accountActions}
+              pageSelectors={accountSelectors}
+              pageSize={pageSize}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
+              columns={columns}
+              requestParams={{ ...contextRequestURLParameters }}
+              emptyComponent={isFetching ? AccountListComponent.LOADING_COMPONENT : AccountListComponent.EMPTY_COMPONENT}
+            />
+          </TableLayout>
+          {this.renderDeleteConfirmDialog()}
+          {this.renderRefuseConfirmDialog()}
         </CardText>
         <CardActions>
           <CardActionsComponent

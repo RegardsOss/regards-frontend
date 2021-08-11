@@ -16,18 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminInstanceDomain } from '@regardsoss/domain'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { ServiceProviderConfiguration } from '@regardsoss/api'
+import OriginActions from './OriginActions'
 
-export const Account = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    lastName: PropTypes.string,
-    email: PropTypes.string,
-    firstName: PropTypes.string,
-    status: PropTypes.oneOf(AdminInstanceDomain.ACCOUNT_STATUS),
-    origin: PropTypes.string,
-    project: PropTypes.string,
-  }),
-})
+/**
+ * Service provider reducer
+ * @author Théo Lasserre
+ */
+class OriginReducers extends BasicPageableReducers {
+  constructor(namespace) {
+    super(ServiceProviderConfiguration, new OriginActions(namespace))
+  }
+}
 
-export const AccountList = PropTypes.objectOf(Account)
+/**
+ * Exports the reducer builder on namespace
+ * @param {string} namespace namespace
+ * @returns {function} reduce function
+ */
+export default (namespace) => {
+  const instance = new OriginReducers(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

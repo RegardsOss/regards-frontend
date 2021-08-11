@@ -31,6 +31,8 @@ const allAccounts = {
       email: 'em@il.com',
       firstName: 'first icon',
       status: 'PENDING',
+      origin: 'Origin1',
+      project: 'Project1',
     },
   },
 }
@@ -50,7 +52,14 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list container', () => {
       // from mapStateToProps
       allAccounts,
       waitingAccounts,
-      isFetchingContent: false,
+      isFetching: false,
+      pageMeta: {
+        number: 1,
+        size: 20,
+        totalElements: 20,
+      },
+      origins: {},
+      projects: {},
       // from mapDispatchToProps
       fetchAccountList: () => { },
       fetchWaitingAccountList: () => { },
@@ -58,6 +67,10 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list container', () => {
       sendRefuseUser: () => { },
       sendEnableUser: () => { },
       deleteAccount: () => { },
+      clearSelection: () => { },
+      fetchOrigins: () => { },
+      throwError: () => { },
+      fetchProjects: () => { },
     }
 
     const enzymeWrapper = shallow(<AccountListContainer {...props} />)

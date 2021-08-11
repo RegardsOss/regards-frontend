@@ -18,15 +18,21 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { browserHistory } from 'react-router'
-import { AdminInstanceShapes } from '@regardsoss/shape'
+import { AdminInstanceShapes, CommonShapes, AdminShapes } from '@regardsoss/shape'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { accountActions, accountSelectors } from '../clients/AccountClient'
 import { accountWaitingActions, accountWaitingSelectors } from '../clients/AccountWaitingClient'
 import { acceptAccountActions } from '../clients/AcceptAccountClient'
 import { enableAccountActions } from '../clients/EnableAccountClient'
 import { refuseAccountActions } from '../clients/RefuseAccountClient'
+import { accountTableActions } from '../clients/AccountTableClient'
+import { originActions, originSelectors } from '../clients/OriginsClient'
+import { projectActions, projectSelectors } from '../clients/ProjectsClient'
 import AccountListComponent from '../components/AccountListComponent'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * Show the list of REGARDS account
@@ -44,7 +50,14 @@ export class AccountListContainer extends React.Component {
         Account: AdminInstanceShapes.Account,
       }),
     }),
-    isFetchingContent: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    pageMeta: PropTypes.shape({ // use only in onPropertiesUpdate
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
+    origins: CommonShapes.ServiceProviderList.isRequired,
+    projects: AdminShapes.ProjectList.isRequired,
     // from mapDispatchToProps
     fetchAccountList: PropTypes.func.isRequired,
     fetchWaitingAccountList: PropTypes.func.isRequired,
@@ -52,27 +65,35 @@ export class AccountListContainer extends React.Component {
     sendRefuseUser: PropTypes.func.isRequired,
     sendEnableUser: PropTypes.func.isRequired,
     deleteAccount: PropTypes.func.isRequired,
+    clearSelection: PropTypes.func.isRequired,
+    fetchOrigins: PropTypes.func.isRequired,
+    throwError: PropTypes.func.isRequired,
+    fetchProjects: PropTypes.func.isRequired,
   }
 
-  state = { initialFecthing: true, isFetchingActions: false }
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+
+  state = { isFetchingActions: false }
+
+  UNSAFE_componentWillMount() {
+    const { throwError, fetchOrigins, fetchProjects } = this.props
+    Promise.resolve(fetchOrigins()).then((actionResult) => {
+      if (actionResult.error) {
+        throwError('Unable to retrieve account\'s origins list')
+      }
+    })
+    Promise.resolve(fetchProjects()).then((actionResult) => {
+      if (actionResult.error) {
+        throwError('Unable to retrieve projects list')
+      }
+    })
+  }
 
   /**
    * Lifecycle method: component did mount. Used here to fetch user lists
    */
   componentDidMount = () => {
-    this.setState({ initialFecthing: true, isFetchingActions: false })
-    this.props.fetchAccountList()
-    this.props.fetchWaitingAccountList()
-  }
-
-  /**
-   * Lifecycle method component will receive props, used here to detect initial fetching finished
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
-    // mark initial fetching done (ignore next ones)
-    if (this.props.isFetchingContent && !nextProps.isFetchingContent) {
-      this.setInitialFetching(false)
-    }
+    this.setState({ isFetchingActions: false })
   }
 
   /**
@@ -119,12 +140,6 @@ export class AccountListContainer extends React.Component {
   }
 
   /**
-   * Sets initial fetching state
-   * @param {bool} initialFetching is initially fetching?
-   */
-  setInitialFetching = (initialFecthing) => this.setState({ initialFecthing })
-
-  /**
    * Set actions fetching state
    * @param {bool} isFetchingActions is fetching actions?
    */
@@ -143,23 +158,41 @@ export class AccountListContainer extends React.Component {
     ]).then(onDone).catch(onDone)).catch(onDone)
   }
 
+  onRefresh = (contextRequestURLParameters) => {
+    const {
+      pageMeta, clearSelection, fetchAccountList,
+    } = this.props
+    const lastPage = (pageMeta && pageMeta.number) || 0
+    const fetchPageSize = AccountListContainer.PAGE_SIZE * (lastPage + 1)
+    clearSelection()
+    fetchAccountList(0, fetchPageSize, {}, { ...contextRequestURLParameters })
+  }
+
   render() {
-    const { allAccounts, waitingAccounts } = this.props
-    const { isFetchingActions, initialFecthing } = this.state
+    const {
+      allAccounts, waitingAccounts, isFetching, origins, projects,
+    } = this.props
+    const { isFetchingActions } = this.state
     return (
       <I18nProvider messages={messages}>
-        <AccountListComponent
-          allAccounts={allAccounts}
-          waitingAccounts={waitingAccounts}
-          initialFecthing={initialFecthing}
-          isFetchingActions={isFetchingActions}
-          onEdit={this.onEdit}
-          onAccept={this.onAccept}
-          onRefuse={this.onRefuse}
-          onEnable={this.onEnable}
-          onDelete={this.onDelete}
-          onBack={this.onBack}
-        />
+        <ModuleStyleProvider module={styles}>
+          <AccountListComponent
+            allAccounts={allAccounts}
+            waitingAccounts={waitingAccounts}
+            isFetchingActions={isFetchingActions}
+            isFetching={isFetching}
+            pageSize={AccountListContainer.PAGE_SIZE}
+            origins={origins}
+            projects={projects}
+            onRefresh={this.onRefresh}
+            onEdit={this.onEdit}
+            onAccept={this.onAccept}
+            onRefuse={this.onRefuse}
+            onEnable={this.onEnable}
+            onDelete={this.onDelete}
+            onBack={this.onBack}
+          />
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }
@@ -168,16 +201,23 @@ export class AccountListContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   allAccounts: accountSelectors.getList(state) || {},
   waitingAccounts: accountWaitingSelectors.getList(state) || {},
-  isFetchingContent: accountSelectors.isFetching(state) || accountWaitingSelectors.isFetching(state),
+  isFetching: accountSelectors.isFetching(state) || accountWaitingSelectors.isFetching(state),
+  pageMeta: accountSelectors.getMetaData(state),
+  origins: originSelectors.getList(state),
+  projects: projectSelectors.getList(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchAccountList: () => dispatch(accountActions.fetchPagedEntityList()),
+  fetchAccountList: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(accountActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
   fetchWaitingAccountList: () => dispatch(accountWaitingActions.fetchWaitingAccountsEntityList()),
   sendAcceptUser: (accountEmail) => dispatch(acceptAccountActions.sendAccept(accountEmail)),
   sendEnableUser: (accountEmail) => dispatch(enableAccountActions.sendEnable(accountEmail)),
   sendRefuseUser: (accountEmail) => dispatch(refuseAccountActions.sendRefuse(accountEmail)),
   deleteAccount: (accountId) => dispatch(accountActions.deleteEntity(accountId)),
+  clearSelection: () => dispatch(accountTableActions.unselectAll()),
+  fetchOrigins: () => dispatch(originActions.fetchPagedEntityList()),
+  throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
+  fetchProjects: () => dispatch(projectActions.fetchPagedEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountListContainer)

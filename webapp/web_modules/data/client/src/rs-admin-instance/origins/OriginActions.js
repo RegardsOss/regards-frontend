@@ -15,19 +15,25 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { AdminInstanceDomain } from '@regardsoss/domain'
+ */
+import { SERVICE_PROVIDER, SERVICE_PROVIDER_ARRAY } from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
-export const Account = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    lastName: PropTypes.string,
-    email: PropTypes.string,
-    firstName: PropTypes.string,
-    status: PropTypes.oneOf(AdminInstanceDomain.ACCOUNT_STATUS),
-    origin: PropTypes.string,
-    project: PropTypes.string,
-  }),
-})
+/**
+ * Actions for service provider
+ * @author Théo Lasserre
+ */
+class OriginActions extends BasicPageableActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts/origins`,
+      schemaTypes: {
+        ENTITY: SERVICE_PROVIDER,
+        ENTITY_ARRAY: SERVICE_PROVIDER_ARRAY,
+      },
+    })
+  }
+}
 
-export const AccountList = PropTypes.objectOf(Account)
+export default OriginActions
