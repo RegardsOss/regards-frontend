@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { PageableInfiniteTableContainer, TableHeaderLineLoadingAndResults } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, TableHeaderLineLoadingSelectAllAndResults } from '@regardsoss/components'
 import { CatalogDomain } from '@regardsoss/domain'
 import { searchDataobjectsActions, searchDataobjectsSelectors } from '../../../../src/client/ComplexSearchClient'
 import SelectionDetailResultsTableComponent from '../../../../src/components/user/detail/SelectionDetailResultsTableComponent'
@@ -56,7 +56,7 @@ describe('[Order Cart] Testing SelectionDetailResultsTableComponent', () => {
       isFetching: true,
     }
     const enzymeWrapper = shallow(<SelectionDetailResultsTableComponent {...props} />, { context })
-    testSuiteHelpers.assertCompWithProps(enzymeWrapper, TableHeaderLineLoadingAndResults, {
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, TableHeaderLineLoadingSelectAllAndResults, {
       resultsCount: props.resultsCount,
       isFetching: props.isFetching,
     })

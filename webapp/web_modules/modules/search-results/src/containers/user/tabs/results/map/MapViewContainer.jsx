@@ -22,7 +22,7 @@ import { connect } from '@regardsoss/redux'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { resultsContextActions } from '../../../../../clients/ResultsContextClient'
 import MapViewComponent from '../../../../../components/user/tabs/results/map/MapViewComponent'
-import { getTableClient } from '../../../../../clients/TableClient'
+import { getSelectionClient } from '../../../../../clients/SelectionClient'
 
 /**
  * Container for map view
@@ -36,7 +36,7 @@ export class MapViewContainer extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch, { tabType }) {
-    const { tableActions } = getTableClient(tabType)
+    const { tableActions } = getSelectionClient(tabType)
     return {
       dispatchSelectAll: () => dispatch(tableActions.selectAll()),
       updateResultsContext: (moduleId, newState) => dispatch(resultsContextActions.updateResultsContext(moduleId, newState)),

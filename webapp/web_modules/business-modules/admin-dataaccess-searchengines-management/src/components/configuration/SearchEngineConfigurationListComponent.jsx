@@ -24,7 +24,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import {
   TableLayout, PageableInfiniteTableContainer, TableColumnBuilder,
-  NoContentComponent, TableHeaderLineLoadingAndResults, TableDeleteOption, ConfirmDialogComponent,
+  NoContentComponent, TableHeaderLineLoadingSelectAllAndResults, TableDeleteOption, ConfirmDialogComponent,
   ConfirmDialogComponentTypes, CardActionsComponent,
 } from '@regardsoss/components'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -162,7 +162,7 @@ export class SearchEngineConfigurationListComponent extends React.Component {
         <CardText style={moduleTheme.root}>
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
-            <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={resultsCount} />
+            <TableHeaderLineLoadingSelectAllAndResults isFetching={isLoading} resultsCount={resultsCount} />
             <PageableInfiniteTableContainer
               name="search-engines"
               pageActions={searchEngineConfigurationsActions}

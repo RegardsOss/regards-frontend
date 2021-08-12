@@ -48,7 +48,7 @@ describe('[SEARCH RESULTS] Testing ResultFacetsHeaderRowContainer', () => {
       loadedResultsCount: 0,
       resultsCount: 0,
       facets: null,
-      updateResultsContext: () => {},
+      updateResultsContext: () => { },
     }
     const enzymeWrapper = shallow(<ResultFacetsHeaderRowContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(ResultFacetsHeaderRowComponent)
@@ -60,6 +60,8 @@ describe('[SEARCH RESULTS] Testing ResultFacetsHeaderRowContainer', () => {
       facetsEnabled: false,
       facets: [],
       onSelectFacetValue: enzymeWrapper.instance().onSelectFacetValue,
+      selectionEnabled: false,
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     }, 'Component should define the expected properties')
   })
   it('should render correctly with facets', () => {
@@ -73,7 +75,7 @@ describe('[SEARCH RESULTS] Testing ResultFacetsHeaderRowContainer', () => {
       loadedResultsCount: 20,
       resultsCount: 555,
       facets: resultsDump.facets,
-      updateResultsContext: () => {},
+      updateResultsContext: () => { },
     }
     const enzymeWrapper = shallow(<ResultFacetsHeaderRowContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(ResultFacetsHeaderRowComponent)
@@ -85,6 +87,8 @@ describe('[SEARCH RESULTS] Testing ResultFacetsHeaderRowContainer', () => {
       facetsEnabled: true,
       facets: enzymeWrapper.state().facets,
       onSelectFacetValue: enzymeWrapper.instance().onSelectFacetValue,
+      selectionEnabled: true,
+      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     }, 'Component should define the expected properties')
     assert.lengthOf(enzymeWrapper.state().facets, 1, 'One facet should have been converted from results (other attributes do not exist in configuration)')
   })

@@ -16,19 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import FlatButton from 'material-ui/FlatButton'
 import CheckBoxOutLineIcon from 'mdi-material-ui/CheckboxBlankOutline'
 import CheckBoxIcon from 'mdi-material-ui/CheckboxMarked'
-import { i18nContextType } from '@regardsoss/i18n'
+
+import TableHeaderOptionsSeparator from './TableHeaderOptionsSeparator'
 
 /**
- * Table select all component
- */
-export class TableSelectAllOption extends React.Component {
+* A button that allows user to select all entities from the table
+* @author Léo Mieulet
+*/
+class TableHeaderSelectAll extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool,
-    allSelected: PropTypes.bool.isRequired,
-    onToggleSelectAll: PropTypes.func.isRequired,
+    allSelected: PropTypes.bool,
+    onToggleSelectAll: PropTypes.func,
+    selectionEnabled: PropTypes.bool,
+    isFetching: PropTypes.bool,
   }
 
   static contextTypes = {
@@ -36,22 +42,23 @@ export class TableSelectAllOption extends React.Component {
   }
 
   render() {
-    const { allSelected, disabled, onToggleSelectAll } = this.props
-    const [icon, labelKey, titleKey] = !allSelected
+    const { allSelected, disabled, onToggleSelectAll, selectionEnabled, isFetching } = this.props
+    const [icon, labelKey] = !allSelected
       // select all
-      ? [<CheckBoxOutLineIcon key="0" />, 'table.select.all.label', 'table.select.all.tooltip']
+      ? [<CheckBoxOutLineIcon key="0" />, 'table.select.all.label']
       // deselect all
-      : [<CheckBoxIcon key="1" />, 'table.deselect.all.label', 'table.deselect.all.tooltip']
-    return (
-      <FlatButton
-        disabled={disabled}
-        onClick={onToggleSelectAll}
-        icon={icon}
-        title={this.context.intl.formatMessage({ id: titleKey })}
-        label={this.context.intl.formatMessage({ id: labelKey })}
-      />
+      : [<CheckBoxIcon key="1" />, 'table.deselect.all.label']
+    return selectionEnabled && !isFetching && (
+      <>
+        <FlatButton
+          disabled={disabled}
+          onClick={onToggleSelectAll}
+          icon={icon}
+          label={this.context.intl.formatMessage({ id: labelKey })}
+        />
+        <TableHeaderOptionsSeparator />
+      </>
     )
   }
 }
-
-export default TableSelectAllOption
+export default TableHeaderSelectAll

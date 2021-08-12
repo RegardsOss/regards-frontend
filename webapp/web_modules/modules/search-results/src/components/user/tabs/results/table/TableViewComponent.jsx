@@ -23,7 +23,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { TableColumnBuilder, PageableInfiniteTableContainer } from '@regardsoss/components'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
-import { getTableClient } from '../../../../../clients/TableClient'
+import { getSelectionClient } from '../../../../../clients/SelectionClient'
 import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesClient'
 import AddElementToCartContainer from '../../../../../containers/user/tabs/results/common/options/AddElementToCartContainer'
 import OneElementServicesContainer from '../../../../../containers/user/tabs/results/common/options/OneElementServicesContainer'
@@ -98,7 +98,7 @@ class TableViewComponent extends React.Component {
       enableSearchEntity, onSearchEntity,
     } = this.props
     const { intl: { formatMessage, locale } } = this.context
-    const { tableActions, tableSelectors } = getTableClient(tabType)
+    const { tableActions, tableSelectors } = getSelectionClient(tabType)
     const { searchSelectors } = getSearchCatalogClient(tabType)
     // map presentation models, with their current order, onto table columns
     return columnPresentationModels.map((model) => {
@@ -107,7 +107,7 @@ class TableViewComponent extends React.Component {
         case TableColumnBuilder.selectionColumnKey:
           return new TableColumnBuilder().label(formatMessage({ id: 'results.selection.column.label' }))
             .visible(model.visible)
-            .selectionColumn(true, searchSelectors, tableActions, tableSelectors)
+            .selectionColumn(false, searchSelectors, tableActions, tableSelectors)
             .build()
         // options column
         case TableColumnBuilder.optionsColumnKey:
@@ -144,7 +144,7 @@ class TableViewComponent extends React.Component {
         key={type} // unmount the table when change entity type (using key trick)
         pageActions={searchActions}
         pageSelectors={getSearchCatalogClient(tabType).searchSelectors}
-        tableActions={getTableClient(tabType).tableActions}
+        tableActions={getSelectionClient(tabType).tableActions}
         displayColumnsHeader
         lineHeight={lineHeight}
         columns={this.buildTableColumns()}

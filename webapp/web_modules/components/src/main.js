@@ -129,7 +129,7 @@ export { default as TableHeaderCheckbox } from './table/header/TableHeaderCheckb
 
 export { default as TableHeaderContentBox } from './table/header/TableHeaderContentBox'
 export { default as TableHeaderLine } from './table/header/TableHeaderLine'
-export { default as TableHeaderLineLoadingAndResults } from './table/header/TableHeaderLineLoadingAndResults'
+export { default as TableHeaderLineLoadingSelectAllAndResults } from './table/header/TableHeaderLineLoadingSelectAllAndResults'
 export { default as TableHeaderLoadingComponent } from './table/header/TableHeaderLoadingComponent'
 export { default as TableHeaderResultsCountMessage } from './table/header/TableHeaderResultsCountMessage'
 export { default as TableHeaderOptionsArea } from './table/header/TableHeaderOptionsArea'
@@ -141,7 +141,6 @@ export { default as TableLayout } from './table/TableLayout'
 export { default as TableNoDataMessage } from './table/content/TableNoDataMessage'
 export { default as TableDeleteOption } from './table/content/cells/options/TableDeleteOption'
 export { default as TableSimpleActionOption } from './table/content/cells/options/TableSimpleActionOption'
-export { default as TableSelectAllOption } from './table/options/TableSelectAllOption'
 export { default as TableSelectionModes } from './table/model/TableSelectionModes'
 export { default as TableStyles } from './table/styles/styles'
 

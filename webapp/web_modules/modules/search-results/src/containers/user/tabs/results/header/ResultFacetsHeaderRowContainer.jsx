@@ -175,7 +175,7 @@ export class ResultFacetsHeaderRowContainer extends React.Component {
       isFetching, loadedResultsCount, resultsCount,
     } = this.props
     const { facets } = this.state
-    const { tab, selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { tab, selectedTypeState, selectedModeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     return (
       <ResultFacetsHeaderRowComponent
@@ -183,8 +183,10 @@ export class ResultFacetsHeaderRowContainer extends React.Component {
         loadedResultsCount={loadedResultsCount}
         resultsCount={resultsCount}
         facetsEnabled={tab.facets.enabled && selectedTypeState.facetsAllowed && facets.length > 0}
+        selectionEnabled={selectedModeState.enableSelection}
         facets={facets}
         onSelectFacetValue={this.onSelectFacetValue}
+        tabType={tabType}
       />
     )
   }

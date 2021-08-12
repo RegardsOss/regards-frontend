@@ -31,7 +31,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import {
   CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
   TableLayout, InfiniteTableContainer, TableColumnBuilder,
-  NoContentComponent, TableHeaderLineLoadingAndResults,
+  NoContentComponent, TableHeaderLineLoadingSelectAllAndResults,
 } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -136,7 +136,7 @@ export class AttributeModelListComponent extends React.Component {
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
             <AttributeModelListFiltersComponent onFilter={this.onFilter} />
-            <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={filteredList.length} />
+            <TableHeaderLineLoadingSelectAllAndResults isFetching={isLoading} resultsCount={filteredList.length} />
             <InfiniteTableContainer
               // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
               columns={[ // eslint wont fix: API issue, major rework required

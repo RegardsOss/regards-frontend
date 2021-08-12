@@ -21,7 +21,7 @@ import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { TableSelectionModes } from '@regardsoss/components'
-import { getTableClient } from '../../../../../clients/TableClient'
+import { getSelectionClient } from '../../../../../clients/SelectionClient'
 import ListCellComponent, { ListThumbnailRenderData, ListAttributeRenderData } from '../../../../../components/user/tabs/results/list/ListCellComponent'
 
 /**
@@ -36,7 +36,7 @@ export class ListCellContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapStateToProps(state, { tabType }) {
-    const { tableSelectors } = getTableClient(tabType)
+    const { tableSelectors } = getSelectionClient(tabType)
     return {
       toggledElements: tableSelectors.getToggledElements(state),
       selectionMode: tableSelectors.getSelectionMode(state),
@@ -50,7 +50,7 @@ export class ListCellContainer extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps(dispatch, { rowIndex, entity, tabType }) {
-    const { tableActions } = getTableClient(tabType)
+    const { tableActions } = getSelectionClient(tabType)
     return {
       onSelect: () => dispatch(tableActions.toggleElement(rowIndex, entity)),
     }

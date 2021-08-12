@@ -101,7 +101,7 @@ export class ListViewContainer extends React.Component {
 
     // when view type changed, check if selection should be allowed
     if (!isEqual(selectedType, oldSelectedType)) {
-      newState.enableSelection = UIDomain.ResultsContextConstants.allowSelection(selectedType, UIDomain.RESULTS_VIEW_MODES_ENUM.LIST)
+      newState.enableSelection = UIDomain.ResultsContextConstants.allowSelection(selectedType)
     }
 
     // when presentation models changed, remerge into pre-built presentation models (pre-computed to avoid consuming render time)

@@ -25,7 +25,7 @@ import {
   TableColumnBuilder,
   TableLayout,
   PageableInfiniteTableContainer,
-  TableHeaderLineLoadingAndResults,
+  TableHeaderLineLoadingSelectAllAndResults,
 } from '@regardsoss/components'
 import { ProcessingShapes } from '@regardsoss/shape'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
@@ -139,7 +139,7 @@ export class ProcessingMonitoringComponent extends React.Component {
                 onRefresh={onRefresh}
                 onApplyFilters={this.applyFilters}
               />
-              <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
+              <TableHeaderLineLoadingSelectAllAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
               <PageableInfiniteTableContainer
                 name="processing-monitoring-table"
                 minRowCount={minRowCount}

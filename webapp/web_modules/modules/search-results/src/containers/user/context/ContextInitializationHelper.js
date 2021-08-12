@@ -44,7 +44,7 @@ export class ContextInitializationHelper {
       // compute selection allowed statuses:
       const modeState = {
         enabled: true,
-        enableSelection: UIDomain.ResultsContextConstants.allowSelection(type, mode),
+        enableSelection: UIDomain.ResultsContextConstants.allowSelection(type),
         presentationModels: PresentationHelper.buildPresentationModels(attributeModels, modeConfiguration.attributes, type, mode),
       }
       // specifities for by view types
@@ -82,7 +82,7 @@ export class ContextInitializationHelper {
   static buildSortingCriteria(sortConfigurationField = [], attributeModels) {
     return sortConfigurationField
       .map(({ attributes }) => {
-      // A - recover attribute JSON path
+        // A - recover attribute JSON path
         const attrPath = get(attributes, '[0].name', null)
         // B - build it using helper (that will return null if no attribute is found)
         return CriterionBuilder.buildSortCriterion(

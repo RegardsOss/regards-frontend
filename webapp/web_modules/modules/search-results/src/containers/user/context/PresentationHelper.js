@@ -45,7 +45,7 @@ export class PresentationHelper {
    */
   static isSortableModel(presentationModel) {
     return presentationModel.attributes.length === 1
-    && !this.NON_SORTABLE_ATTRIBUTES.includes(presentationModel.attributes[0].name)
+      && !this.NON_SORTABLE_ATTRIBUTES.includes(presentationModel.attributes[0].name)
   }
 
   /**
@@ -57,7 +57,7 @@ export class PresentationHelper {
    * @return {*} presentation model or null
    */
   static buildPresentationModel(attributeModels = {}, presentationModel, allowingSort, key) {
-  // 1 - Retrieve all attributes that can be retrieved
+    // 1 - Retrieve all attributes that can be retrieved
     const attributesAndRender = presentationModel.attributes.map(({ name, renderer }) => ({
       renderer,
       model: DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels),
@@ -86,7 +86,7 @@ export class PresentationHelper {
   static buildPresentationModels(attributeModels, configuredAttributes = [], viewType, viewMode) {
     const allowingSort = UIDomain.ResultsContextConstants.allowSorting(viewType)
     const addOptionsColumn = PresentationHelper.MODES_USING_OPTIONS_PM.includes(viewMode)
-    const addSelectionColumn = UIDomain.ResultsContextConstants.allowSelection(viewType, viewMode)
+    const addSelectionColumn = UIDomain.ResultsContextConstants.allowSelection(viewType)
       && PresentationHelper.MODES_USING_SELECTION_PM.includes(viewMode)
     return [
       // 1 - selection if enabled for current

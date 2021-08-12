@@ -24,7 +24,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import {
   TableLayout, InfiniteTableContainer, TableColumnBuilder,
-  NoContentComponent, TableHeaderLineLoadingAndResults, TableDeleteOption, ConfirmDialogComponent,
+  NoContentComponent, TableHeaderLineLoadingSelectAllAndResults, TableDeleteOption, ConfirmDialogComponent,
   ConfirmDialogComponentTypes, CardActionsComponent,
 } from '@regardsoss/components'
 import { CommonShapes } from '@regardsoss/shape'
@@ -159,7 +159,7 @@ export class ServiceListComponent extends React.Component {
         <CardText style={moduleTheme.root}>
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
-            <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length} />
+            <TableHeaderLineLoadingSelectAllAndResults isFetching={isLoading} resultsCount={entities.length} />
             <InfiniteTableContainer
               columns={columns}
               entities={entities}

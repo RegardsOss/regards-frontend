@@ -25,7 +25,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import {
   TableLayout, InfiniteTableContainer, TableColumnBuilder,
-  NoContentComponent, TableHeaderLineLoadingAndResults, TableDeleteOption, ConfirmDialogComponent,
+  NoContentComponent, TableHeaderLineLoadingSelectAllAndResults, TableDeleteOption, ConfirmDialogComponent,
   ConfirmDialogComponentTypes, PageableInfiniteTableContainer,
 } from '@regardsoss/components'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
@@ -162,7 +162,7 @@ export class AuthenticationPluginListComponent extends React.Component {
             <CardText style={moduleTheme.root}>
               {this.renderDeleteConfirmDialog()}
               <TableLayout>
-                <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length} />
+                <TableHeaderLineLoadingSelectAllAndResults isFetching={isLoading} resultsCount={entities.length} />
                 <InfiniteTableContainer
                   // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
                   columns={[ // eslint wont fix: Infinite table APi issue
@@ -199,7 +199,7 @@ export class AuthenticationPluginListComponent extends React.Component {
             />
             <CardText style={moduleTheme.root}>
               <TableLayout>
-                <TableHeaderLineLoadingAndResults resultsCount={serviceProviderCount} />
+                <TableHeaderLineLoadingSelectAllAndResults resultsCount={serviceProviderCount} />
                 <PageableInfiniteTableContainer
                   // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
                   columns={[ // eslint wont fix: Infinite table APi issue

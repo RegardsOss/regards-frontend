@@ -24,7 +24,6 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
 import TypeTabContainer from '../../../../../containers/user/tabs/results/header/options/TypeTabContainer'
 import ToggleFiltersContainer from '../../../../../containers/user/tabs/results/header/options/ToggleFiltersContainer'
 import ModeSelectorContainer from '../../../../../containers/user/tabs/results/header/options/ModeSelectorContainer'
-import SelectAllContainer from '../../../../../containers/user/tabs/results/header/options/SelectAllContainer'
 import SingleSortingContainer from '../../../../../containers/user/tabs/results/header/options/SingleSortingContainer'
 import EditColumnsSettingsContainer from '../../../../../containers/user/tabs/results/header/options/EditColumnsSettingsContainer'
 import SearchOptionContainer from '../../../../../containers/user/tabs/results/header/options/SearchOptionContainer'
@@ -144,12 +143,7 @@ class OptionsHeaderRowComponent extends React.Component {
               || (selectedMode !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE && selectedTypeState.enableSorting)
             }
           >
-            { // 2.C.1 - select all / none
-              selectedMode !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE && selectedModeState.enableSelection
-                ? <SelectAllContainer tabType={tabType} />
-                : null
-            }
-            { // 2.C.2 - sort on single attribute
+            { // 2.C - sort on single attribute
                 selectedMode !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE && selectedTypeState.enableSorting
                   ? (
                     <SingleSortingContainer

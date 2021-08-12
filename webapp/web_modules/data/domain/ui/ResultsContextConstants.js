@@ -19,7 +19,7 @@
 import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 import { MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
 import { MAP_VIEW_MODES_ENUM } from './MapViewModesEnum'
-import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
+import { RESULTS_VIEW_MODES_ENUM, RESULTS_VIEW_MODES } from './ResultsViewModeEnum'
 import { RESULTS_TABS_ENUM } from './ResultsTabs'
 import { MAP_ENGINE_ENUM } from './MapEngineEnum'
 
@@ -176,17 +176,13 @@ function allowSorting(type) {
 /** Types for which selection is allowed */
 const SELECTION_ALLOWING_TYPES = [ENTITY_TYPES_ENUM.DATA]
 
-/** Modes for which selection is allowed */
-const SELECTION_ALLOWING_MODES = [RESULTS_VIEW_MODES_ENUM.TABLE, RESULTS_VIEW_MODES_ENUM.LIST]
-
 /**
  * Is selection allowed for entity type and view mode as parameter (ie can entity be used to filter results?)
  * @param {string} type entity type, from ENTITY_TYPES_ENUM
- * @param {string} mode view results mode, from RESULTS_VIEW_MODES_ENUM
  * @return {boolean} true when allowed, false otherwise
  */
-function allowSelection(type, mode) {
-  return SELECTION_ALLOWING_TYPES.includes(type) && SELECTION_ALLOWING_MODES.includes(mode)
+function allowSelection(type) {
+  return SELECTION_ALLOWING_TYPES.includes(type)
 }
 
 /** Types for which services are allowed */

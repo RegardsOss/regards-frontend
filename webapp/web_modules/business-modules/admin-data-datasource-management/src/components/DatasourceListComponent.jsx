@@ -25,7 +25,7 @@ import { browserHistory } from 'react-router'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
   TableLayout, InfiniteTableContainer, TableColumnBuilder,
-  NoContentComponent, TableHeaderLineLoadingAndResults, TableDeleteOption, ConfirmDialogComponent,
+  NoContentComponent, TableHeaderLineLoadingSelectAllAndResults, TableDeleteOption, ConfirmDialogComponent,
   ConfirmDialogComponentTypes, CardActionsComponent, ShowableAtRender,
 } from '@regardsoss/components'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
@@ -167,7 +167,7 @@ export default class DatasourceListComponent extends React.Component {
         <CardText>
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
-            <TableHeaderLineLoadingAndResults resultsCount={datasourceList.length} />
+            <TableHeaderLineLoadingSelectAllAndResults resultsCount={datasourceList.length} />
             <InfiniteTableContainer
               columns={columns}
               entities={datasourceList}

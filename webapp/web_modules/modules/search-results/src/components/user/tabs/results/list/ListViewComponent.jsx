@@ -21,7 +21,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { TableColumnBuilder, PageableInfiniteTableContainer } from '@regardsoss/components'
-import { getTableClient } from '../../../../../clients/TableClient'
+import { getSelectionClient } from '../../../../../clients/SelectionClient'
 import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesClient'
 import ListCellContainer from '../../../../../containers/user/tabs/results/list/ListCellContainer'
 import EmptyTableContainer from '../../../../../containers/user/tabs/results/common/EmptyTableContainer'
@@ -106,7 +106,7 @@ class ListViewComponent extends React.Component {
         key={type} // unmount the table when change entity type (using key trick)
         pageActions={searchActions}
         pageSelectors={getSearchCatalogClient(tabType).searchSelectors}
-        tableActions={getTableClient(tabType).tableActions}
+        tableActions={getSelectionClient(tabType).tableActions}
         displayColumnsHeader={false}
         lineHeight={lineHeight}
         columns={this.buildListColumn()}

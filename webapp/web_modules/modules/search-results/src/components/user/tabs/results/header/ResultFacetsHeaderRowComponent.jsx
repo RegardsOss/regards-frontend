@@ -18,8 +18,9 @@
  **/
 import { CatalogDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
+import { UIDomain } from '@regardsoss/domain'
 import {
-  TableHeaderLineLoadingAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
+  TableHeaderLineLoadingSelectAllAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
   TableHeaderContentBox, TableHeaderText,
 } from '@regardsoss/components'
 import { UIFacetArray } from '../../../../../shapes/facets/FacetShape'
@@ -27,6 +28,7 @@ import BooleanFacetSelectorComponent from './facets/BooleanFacetSelectorComponen
 import DateRangeFacetSelectorComponent from './facets/DateRangeFacetSelectorComponent'
 import NumberRangeFacetSelectorComponent from './facets/NumberRangeFacetSelectorComponent'
 import WordFacetSelectorComponent from './facets/WordFacetSelectorComponent'
+import TableHeaderSelectAllContainer from '../../../../../containers/user/tabs/results/header/TableHeaderSelectAllContainer'
 
 /**
  * Result facets header row: shows results selectable facets, count and loading row
@@ -39,6 +41,8 @@ class ResultFacetsHeaderRowComponent extends React.Component {
     resultsCount: PropTypes.number.isRequired,
     facetsEnabled: PropTypes.bool.isRequired,
     facets: UIFacetArray.isRequired,
+    tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
+    selectionEnabled: PropTypes.bool.isRequired,
     // Facet valued selected callback (facet, facetValueQuery, facetValue) => ()
     onSelectFacetValue: PropTypes.func.isRequired,
   }
@@ -49,56 +53,59 @@ class ResultFacetsHeaderRowComponent extends React.Component {
 
   render() {
     const {
-      facetsEnabled, facets, onSelectFacetValue,
+      facetsEnabled, facets, onSelectFacetValue, tabType, selectionEnabled,
       loadedResultsCount, resultsCount, isFetching,
     } = this.props
     const { intl: { formatMessage } } = this.context
+
     return (
-      // 1 - results count message and loading
-      <TableHeaderLineLoadingAndResults loadedResultsCount={loadedResultsCount} resultsCount={resultsCount} isFetching={isFetching}>
-        {
-          // Render the facets component through an IIF as follow:
-          (() => {
-            if (isFetching || !facetsEnabled) {
-              // don't show anything while fetching or not filtering, but keep the room for layout to be stable
-              return <div />
-            }
-            if (!facets.length) {
-              // No facet while filtering is enabled: inform the user
+      // 1 - results count message, select all and loading
+      <TableHeaderSelectAllContainer tabType={tabType} selectionEnabled={selectionEnabled}>
+        <TableHeaderLineLoadingSelectAllAndResults loadedResultsCount={loadedResultsCount} resultsCount={resultsCount} isFetching={isFetching}>
+          {
+            // Render the facets component through an IIF as follow:
+            (() => {
+              if (isFetching || !facetsEnabled) {
+                // don't show anything while fetching or not filtering, but keep the room for layout to be stable
+                return <div />
+              }
+              if (!facets.length) {
+                // No facet while filtering is enabled: inform the user
+                return (
+                  <TableHeaderContentBox>
+                    <TableHeaderText
+                      text={formatMessage({ id: 'search.facets.no.facet.found' })}
+                    />
+                  </TableHeaderContentBox>
+                )
+              }
+              // enabled and facets available: provide facets selectors in a table header options group
               return (
-                <TableHeaderContentBox>
-                  <TableHeaderText
-                    text={formatMessage({ id: 'search.facets.no.facet.found' })}
-                  />
-                </TableHeaderContentBox>
-              )
-            }
-            // enabled and facets available: provide facets selectors in a table header options group
-            return (
-              <TableHeaderOptionsArea reducible>
-                <TableHeaderOptionGroup show={facetsEnabled}>
-                  {
-                    facets.map((facet) => {
-                      const selectorProps = { key: facet.attribute.content.jsonPath, facet, onSelectFacetValue }
-                      switch (facet.model.type) {
-                        case CatalogDomain.FACET_TYPES_ENUM.BOOLEAN:
-                          return (<BooleanFacetSelectorComponent {...selectorProps} />)
-                        case CatalogDomain.FACET_TYPES_ENUM.DATE:
-                          return (<DateRangeFacetSelectorComponent {...selectorProps} />)
-                        case CatalogDomain.FACET_TYPES_ENUM.NUMBER:
-                          return (<NumberRangeFacetSelectorComponent {...selectorProps} />)
-                        case CatalogDomain.FACET_TYPES_ENUM.STRING:
-                          return (<WordFacetSelectorComponent {...selectorProps} />)
-                        default:
-                          throw new Error(`Unknown facet type ${facet.type}`)
-                      }
-                    })
-                  }
-                </TableHeaderOptionGroup>
-              </TableHeaderOptionsArea>)
-          })()
-        }
-      </TableHeaderLineLoadingAndResults>)
+                <TableHeaderOptionsArea reducible>
+                  <TableHeaderOptionGroup show={facetsEnabled}>
+                    {
+                      facets.map((facet) => {
+                        const selectorProps = { key: facet.attribute.content.jsonPath, facet, onSelectFacetValue }
+                        switch (facet.model.type) {
+                          case CatalogDomain.FACET_TYPES_ENUM.BOOLEAN:
+                            return (<BooleanFacetSelectorComponent {...selectorProps} />)
+                          case CatalogDomain.FACET_TYPES_ENUM.DATE:
+                            return (<DateRangeFacetSelectorComponent {...selectorProps} />)
+                          case CatalogDomain.FACET_TYPES_ENUM.NUMBER:
+                            return (<NumberRangeFacetSelectorComponent {...selectorProps} />)
+                          case CatalogDomain.FACET_TYPES_ENUM.STRING:
+                            return (<WordFacetSelectorComponent {...selectorProps} />)
+                          default:
+                            throw new Error(`Unknown facet type ${facet.type}`)
+                        }
+                      })
+                    }
+                  </TableHeaderOptionGroup>
+                </TableHeaderOptionsArea>)
+            })()
+          }
+        </TableHeaderLineLoadingSelectAllAndResults>
+      </TableHeaderSelectAllContainer>)
   }
 }
 

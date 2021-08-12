@@ -48,7 +48,7 @@ const tagTableClient = {
  * @param {*} tabType tab type
  * @return {{tableActions: *, tableReducer: *, tableSelectors: *}} table client to use for current tab
  */
-export function getTableClient(tabType) {
+export function getSelectionClient(tabType) {
   switch (tabType) {
     case UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS:
       return mainTableClient

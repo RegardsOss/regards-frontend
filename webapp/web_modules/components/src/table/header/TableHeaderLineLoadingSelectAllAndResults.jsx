@@ -20,11 +20,13 @@ import TableHeaderLine from './TableHeaderLine'
 import TableHeaderContentBox from './TableHeaderContentBox'
 import TableHeaderResultsCountMessage from './TableHeaderResultsCountMessage'
 import TableHeaderLoadingComponent from './TableHeaderLoadingComponent'
+import TableHeaderSelectAll from './TableHeaderSelectAll'
 
 /**
- * Displays results on left. Alternates children or loading display at center.
+ * Displays results on left and a button to select all.
+ * Alternates children or loading display at center.
  */
-class TableHeaderLineLoadingAndResults extends React.Component {
+class TableHeaderLineLoadingSelectAllAndResults extends React.Component {
   static propTypes = {
     loadedResultsCount: PropTypes.number, // when not provided, shows only total
     resultsCount: PropTypes.number,
@@ -33,6 +35,11 @@ class TableHeaderLineLoadingAndResults extends React.Component {
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
+    // select all props
+    saDisabled: PropTypes.bool,
+    saAllSelected: PropTypes.bool,
+    saOnToggleSelectAll: PropTypes.func,
+    saSelectionEnabled: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -43,12 +50,19 @@ class TableHeaderLineLoadingAndResults extends React.Component {
 
   render() {
     const {
-      children = null, isFetching, loadedResultsCount, resultsCount,
+      children = null, isFetching, loadedResultsCount, resultsCount, saDisabled, saAllSelected, saOnToggleSelectAll, saSelectionEnabled,
     } = this.props
     return (
       <TableHeaderLine>
         {/* results count group */}
         <TableHeaderContentBox>
+          <TableHeaderSelectAll
+            disabled={saDisabled}
+            allSelected={saAllSelected}
+            onToggleSelectAll={saOnToggleSelectAll}
+            selectionEnabled={saSelectionEnabled}
+            isFetching={isFetching}
+          />
           <TableHeaderResultsCountMessage loadedResultsCount={loadedResultsCount} count={resultsCount} isFetching={isFetching} />
         </TableHeaderContentBox>
         { /* loading or custom childrens groups */}
@@ -62,4 +76,4 @@ class TableHeaderLineLoadingAndResults extends React.Component {
   }
 }
 
-export default TableHeaderLineLoadingAndResults
+export default TableHeaderLineLoadingSelectAllAndResults
