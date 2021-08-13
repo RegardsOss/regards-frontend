@@ -28,7 +28,6 @@ import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesCli
  * @author Léo Mieulet
  */
 export class TableHeaderSelectAllContainer extends React.Component {
-
   static propTypes = {
     // components children, where this container will inject select all related properties
     // eslint-disable-next-line react/no-unused-prop-types
@@ -38,6 +37,7 @@ export class TableHeaderSelectAllContainer extends React.Component {
     ]).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired, // used in mapStateToProps and mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
     selectionEnabled: PropTypes.bool.isRequired,
 
     // from mapStateToProps
@@ -105,12 +105,11 @@ export class TableHeaderSelectAllContainer extends React.Component {
   * @param newProps new component props
   */
   onPropertiesChanged = (oldProps, newProps) => {
-    const oldState = this.state || {}
     const newState = { ...(this.state || TableHeaderSelectAllContainer.DEFAULT_STATE) }
-    if (oldProps.children !== newProps.children ||
-      !isEqual(oldProps.pageMetadata, newProps.pageMetadata) ||
-      oldProps.allSelected !== newProps.allSelected ||
-      oldProps.selectionEnabled !== newProps.selectionEnabled) {
+    if (oldProps.children !== newProps.children
+      || !isEqual(oldProps.pageMetadata, newProps.pageMetadata)
+      || oldProps.allSelected !== newProps.allSelected
+      || oldProps.selectionEnabled !== newProps.selectionEnabled) {
       // pre render children (attempt to enhance render performances)
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {
         saDisabled: !newProps.pageMetadata || !newProps.pageMetadata.totalElements,
@@ -121,7 +120,6 @@ export class TableHeaderSelectAllContainer extends React.Component {
       this.setState(newState)
     }
   }
-
 
   onToggleSelectAll = () => {
     const { dispatchSelectAll, dispatchUnselectAll } = this.props

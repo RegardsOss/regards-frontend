@@ -16,9 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CatalogDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
-import { UIDomain } from '@regardsoss/domain'
+import { UIDomain, CatalogDomain } from '@regardsoss/domain'
 import {
   TableHeaderLineLoadingSelectAllAndResults, TableHeaderOptionsArea, TableHeaderOptionGroup,
   TableHeaderContentBox, TableHeaderText,

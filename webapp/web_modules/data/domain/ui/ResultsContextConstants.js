@@ -19,7 +19,7 @@
 import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 import { MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
 import { MAP_VIEW_MODES_ENUM } from './MapViewModesEnum'
-import { RESULTS_VIEW_MODES_ENUM, RESULTS_VIEW_MODES } from './ResultsViewModeEnum'
+import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
 import { RESULTS_TABS_ENUM } from './ResultsTabs'
 import { MAP_ENGINE_ENUM } from './MapEngineEnum'
 
@@ -235,7 +235,6 @@ const PAGE_SIZE_FOR = {
   [RESULTS_VIEW_MODES_ENUM.MAP]: STATIC_CONF.MAP.PAGE_SIZE_MAP,
   [RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: 200,
 }
-
 
 /** The local storage key for context storage */
 const CONTEXT_STORAGE_KEY = 'resultsContext'

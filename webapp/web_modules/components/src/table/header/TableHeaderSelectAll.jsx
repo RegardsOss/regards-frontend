@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import FlatButton from 'material-ui/FlatButton'
 import CheckBoxOutLineIcon from 'mdi-material-ui/CheckboxBlankOutline'
@@ -42,7 +41,9 @@ class TableHeaderSelectAll extends React.Component {
   }
 
   render() {
-    const { allSelected, disabled, onToggleSelectAll, selectionEnabled, isFetching } = this.props
+    const {
+      allSelected, disabled, onToggleSelectAll, selectionEnabled, isFetching,
+    } = this.props
     const [icon, labelKey] = !allSelected
       // select all
       ? [<CheckBoxOutLineIcon key="0" />, 'table.select.all.label']

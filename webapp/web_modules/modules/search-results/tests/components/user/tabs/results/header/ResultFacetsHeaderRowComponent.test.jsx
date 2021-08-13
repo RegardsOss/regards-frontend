@@ -98,7 +98,6 @@ describe('[SEARCH RESULTS] Testing ResultFacetsHeaderRowComponent', () => {
     assert.lengthOf(tableHeaderSelectAllContainer, 1, 'There should be the select all container')
     assert.equal(tableHeaderSelectAllContainer.props().tabType, props.tabType, 'Tab type should be transfered')
     assert.equal(tableHeaderSelectAllContainer.props().selectionEnabled, props.selectionEnabled, 'Bool selection enabled should be transfered')
-
   })
   it('should render correctly when facets are disabled', () => {
     const props = {
