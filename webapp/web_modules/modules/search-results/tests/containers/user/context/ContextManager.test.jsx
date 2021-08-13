@@ -439,7 +439,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       assert.equal(app, UIDomain.APPLICATIONS_ENUM.USER, 'Local storage wrong app parameter')
       assert.equal(project, 'testProject', 'Local storage wrong project parameter')
       assert.equal(moduleId, 25, 'Local storage wrong moduleId parameter')
-      assert.equal(storageKey, ContextStorageHelper.LOCAL_STORAGE_KEY, 'Local storage wrong storage key parameter')
+      assert.equal(storageKey, UIDomain.ResultsContextConstants.CONTEXT_STORAGE_KEY, 'Local storage wrong storage key parameter')
       return storageData
         ? JSON.stringify(storageData) // expected as string by caller
         : null

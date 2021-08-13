@@ -27,9 +27,6 @@ import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
  * @author Raphaël Mechali
  */
 export class ContextStorageHelper {
-  /** The local storage key for context storage */
-  static LOCAL_STORAGE_KEY = 'resultsContext'
-
   /**
    * Builds a tag from its searchKey: when tag is an URN, build unresolved tag model. Build simple word tag otherwise
    * @param {string} searchKey tag search key
@@ -326,7 +323,7 @@ export class ContextStorageHelper {
     }
     if (!ContextStorageHelper.hasURLResultsParameters(query)) {
       // when no DYNAMIC URL parameter, restore from local storage if there is some
-      const stored = UIDomain.LocalStorageData.getData(UIDomain.APPLICATIONS_ENUM.USER, project, moduleContextualKey, ContextStorageHelper.LOCAL_STORAGE_KEY)
+      const stored = UIDomain.LocalStorageData.getData(UIDomain.APPLICATIONS_ENUM.USER, project, moduleContextualKey, UIDomain.ResultsContextConstants.CONTEXT_STORAGE_KEY)
       if (stored) {
         resolutionSource = {
           ...resolutionSource, // any static parameter from query
@@ -394,7 +391,7 @@ export class ContextStorageHelper {
       // 2 - Store a minimal version of the query (where)
       const toSave = JSON.stringify(ContextStorageHelper.buildStorageObject(resultsContext))
       UIDomain.LocalStorageData.saveData(UIDomain.APPLICATIONS_ENUM.USER, project, moduleContextualKey,
-        ContextStorageHelper.LOCAL_STORAGE_KEY, toSave)
+        UIDomain.ResultsContextConstants.CONTEXT_STORAGE_KEY, toSave)
     }
   }
 

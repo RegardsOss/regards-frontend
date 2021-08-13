@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Schema, arrayOf } from 'normalizr'
+import sha256 from 'crypto-js/sha256'
+import Hex from 'crypto-js/enc-hex'
 
 export const ModuleConfiguration = {
   entityKey: 'id',
@@ -30,6 +32,8 @@ export const MODULE = new Schema(ModuleConfiguration.normalizrKey, {
     if (value) {
       if (value.conf) {
         try {
+          // eslint-disable-next-line no-param-reassign
+          output.content.confHash = sha256(value.conf).toString(Hex)
           // parse configuration in output (avoid later parsing in code)
           // eslint-disable-next-line no-param-reassign
           output.content.conf = JSON.parse(value.conf)

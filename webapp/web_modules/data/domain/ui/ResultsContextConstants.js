@@ -236,6 +236,10 @@ const PAGE_SIZE_FOR = {
   [RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: 200,
 }
 
+
+/** The local storage key for context storage */
+const CONTEXT_STORAGE_KEY = 'resultsContext'
+
 export default {
   RESULTS_INITIAL_TYPE_PREFERENCE,
   DEFAULT_RESULTS_CONTEXT,
@@ -244,6 +248,7 @@ export default {
   DISABLED_MAP_VIEW_MODE_STATE,
   DISABLED_TYPE_STATE,
   PAGE_SIZE_FOR,
+  CONTEXT_STORAGE_KEY,
   allowDownload,
   allowSorting,
   allowSelection,
