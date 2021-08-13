@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { UIDomain } from '@regardsoss/domain'
+import { browserHistory } from 'react-router'
 
 /**
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
@@ -177,6 +178,20 @@ export const commandsRouter = {
 }
 
 /**
+ * Redirect the user to the admin page when he comes from the user app
+ */
+export const moduleRouter = {
+  path: ':project/modules/:moduleId',
+  getChildRoutes(nextState) {
+    console.log(nextState)
+    const { params: { project } } = nextState
+    browserHistory.replace({
+      pathname: `/admin/${project}`,
+    })
+  },
+}
+
+/**
  * Main Routes for administration application
  */
 export default {
@@ -194,6 +209,7 @@ export default {
     modelsRouter,
     dataAccessRouter,
     commandsRouter,
+    moduleRouter,
   ],
   getComponent(nextState, cb) {
     require.ensure([], (require) => {

@@ -34,7 +34,7 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(12)
+    expect(Routes.childRoutes).to.have.length(13)
     expect(Routes.childRoutes[0].path).to.eq('projects')
     expect(Routes.childRoutes[1].path).to.eq('accounts')
     expect(Routes.childRoutes[2].path).to.eq('ui')
@@ -47,6 +47,7 @@ describe('[ADMIN MANAGEMENT] Testing admin router', () => {
     expect(Routes.childRoutes[9].path).to.eq(':project/data/models')
     expect(Routes.childRoutes[10].path).to.eq(':project/dataaccess')
     expect(Routes.childRoutes[11].path).to.eq(':project/commands')
+    expect(Routes.childRoutes[12].path).to.eq(':project/modules/:moduleId')
   })
 
   it('projects should return projectManagementRouter', (done) => {
