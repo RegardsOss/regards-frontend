@@ -130,7 +130,7 @@ export class AccountListComponent extends React.Component {
     deleteDialogOpened: false,
     refuseDialogOpened: false,
     entityToDeleteOrRefuse: null,
-    contextRequestURLParameters: {},
+    requestParameters: {},
     columnsSorting: [],
     filters: AccountListComponent.DEFAULT_FILTERS_STATE,
     /** columns visibility map (no assertion on child columns keys) */
@@ -143,15 +143,15 @@ export class AccountListComponent extends React.Component {
    * @param {*} filterElement
    */
   updateFilter = (newFilterValue, filterElement) => {
-    const { filters, contextRequestURLParameters } = this.state
+    const { filters, requestParameters } = this.state
     const newFilters = {
       ...filters,
       [filterElement]: newFilterValue && newFilterValue !== '' ? newFilterValue : undefined,
     }
     const newState = {
       filters: newFilters,
-      contextRequestURLParameters: {
-        ...contextRequestURLParameters,
+      requestParameters: {
+        ...requestParameters,
         ...newFilters,
       },
     }
@@ -162,13 +162,13 @@ export class AccountListComponent extends React.Component {
    * Clear filters
    */
   clearFilters = () => {
-    const { contextRequestURLParameters, filters } = this.state
+    const { requestParameters, filters } = this.state
     const newFilters = AccountListComponent.DEFAULT_FILTERS_STATE
     if (!isEqual(filters, newFilters)) {
       this.setState({
         filters: newFilters,
-        contextRequestURLParameters: {
-          ...contextRequestURLParameters,
+        requestParameters: {
+          ...requestParameters,
           ...newFilters,
         },
       })
@@ -179,15 +179,15 @@ export class AccountListComponent extends React.Component {
    * User callbacker: user updated columns visibility (this container considers only columns keys)
    * @param {[{key, visible}]} updatedColumns updated columns
    */
-   onChangeColumnsVisibility = (updatedColumns) => {
-     this.setState({
-       // map: associate each column key with its visible stae
-       columnsVisibility: updatedColumns.reduce((acc, { key, visible }) => ({
-         ...acc,
-         [key]: visible,
-       }), {}),
-     })
-   }
+  onChangeColumnsVisibility = (updatedColumns) => {
+    this.setState({
+      // map: associate each column key with its visible stae
+      columnsVisibility: updatedColumns.reduce((acc, { key, visible }) => ({
+        ...acc,
+        [key]: visible,
+      }), {}),
+    })
+  }
 
   getColumnSortingData = (sortKey) => {
     const { columnsSorting } = this.state
@@ -198,7 +198,7 @@ export class AccountListComponent extends React.Component {
   buildSortURL = (columnsSorting) => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${AccountListComponent.COLUMN_ORDER_TO_QUERY[order]}`)
 
   onSort = (columnSortKey, order) => {
-    const { columnsSorting, contextRequestURLParameters } = this.state
+    const { columnsSorting, requestParameters } = this.state
 
     const columnIndex = columnsSorting.findIndex(({ columnKey }) => columnSortKey === columnKey)
     const newColumnSorting = clone(columnsSorting)
@@ -211,8 +211,8 @@ export class AccountListComponent extends React.Component {
     }
     this.setState({
       columnsSorting: newColumnSorting,
-      contextRequestURLParameters: {
-        ...contextRequestURLParameters,
+      requestParameters: {
+        ...requestParameters,
         sort: this.buildSortURL(newColumnSorting),
       },
     })
@@ -310,7 +310,7 @@ export class AccountListComponent extends React.Component {
       },
     } = this.context
     const {
-      filters, contextRequestURLParameters, columnsVisibility,
+      filters, requestParameters, columnsVisibility,
     } = this.state
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = [ // eslint wont fix: Major API rework required
@@ -510,7 +510,7 @@ export class AccountListComponent extends React.Component {
                   <FlatButton
                     label={formatMessage({ id: 'account.list.refresh' })}
                     icon={<Refresh />}
-                    onClick={() => onRefresh(contextRequestURLParameters)}
+                    onClick={() => onRefresh(requestParameters)}
                   />
                 </TableHeaderOptionGroup>
               </TableHeaderOptionsArea>
@@ -523,7 +523,7 @@ export class AccountListComponent extends React.Component {
               minRowCount={minRowCount}
               maxRowCount={maxRowCount}
               columns={columns}
-              requestParams={{ ...contextRequestURLParameters }}
+              requestParams={requestParameters}
               emptyComponent={isFetching ? AccountListComponent.LOADING_COMPONENT : AccountListComponent.EMPTY_COMPONENT}
             />
           </TableLayout>
