@@ -46,7 +46,7 @@ const messages = {
 
   // Sessions
   'dashboard.sessions.table.empty': 'Aucune session trouvée',
-  'dashboard.sessions.fetch.error': 'Impossible de récupérer la session ayant pour id {selectedSessionId}',
+  'dashboard.sessions.fetch.error': 'Impossible de récupérer la session {selectedSessionId}',
   'dashboard.sessions.table.column.sessionName': 'Nom',
   'dashboard.sessions.table.column.referencedProducts': 'Produits référencés',
   'dashboard.sessions.table.column.diffusedProducts': 'Produits diffusés',

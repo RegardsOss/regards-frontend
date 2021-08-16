@@ -122,7 +122,7 @@ class DashboardComponent extends React.Component {
    * @param {*} type : either source or session
    * @returns
    */
-  getEntityId = (entity, type) => type === ENTITY_ENUM.SESSION ? get(entity, 'content.id', -1).toString() : get(entity, 'content.name', '')
+  getEntityId = (entity, type) => type === ENTITY_ENUM.SESSION ? get(entity, 'content.name', -1).toString() : get(entity, 'content.name', '')
 
   /**
    * Get user selected entity id. Must be different than currently selected. If not, return empty string.
@@ -154,6 +154,7 @@ class DashboardComponent extends React.Component {
           newQuery = {
             ...currentQuery,
             [ENTITY_ENUM.SESSION]: selectedElementId,
+            [ENTITY_ENUM.SOURCE]: get(entity, 'content.source', ''),
           }
         } else if (isEmpty(selectedElementId) && !isEmpty(this.state[ENTITY_ENUM.SOURCE])) { // a session is unselected and a source exist
           newQuery = {

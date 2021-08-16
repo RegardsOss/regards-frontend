@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import find from 'lodash/find'
+import filter from 'lodash/filter'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
@@ -109,15 +111,19 @@ export class SessionsContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      selectedSessionId, fetchSelectedSession, throwError,
+      selectedSessionId, fetchSelectedSession, throwError, sessions, selectedSourceId,
     } = newProps
     const { intl: { formatMessage } } = this.context
-    if (!isEmpty(selectedSessionId) && oldProps.selectedSessionId !== selectedSessionId) {
-      fetchSelectedSession(selectedSessionId).then((actionResult) => {
-        if (actionResult.error) {
-          throwError(formatMessage({ id: 'dashboard.sessions.fetch.error' }, { selectedSessionId }))
-        }
-      })
+    if (!isEmpty(selectedSessionId)) {
+      const filteredSessions = filter(sessions, (session) => session.content.source === selectedSourceId)
+      const selectedSession = find(filteredSessions, (session) => session.content.name === selectedSessionId)
+      if (selectedSession) {
+        fetchSelectedSession(selectedSession.content.id).then((actionResult) => {
+          if (actionResult.error) {
+            throwError(formatMessage({ id: 'dashboard.sessions.fetch.error' }, { selectedSessionId }))
+          }
+        })
+      }
     }
   }
 

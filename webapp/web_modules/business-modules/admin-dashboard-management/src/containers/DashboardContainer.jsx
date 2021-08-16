@@ -19,12 +19,13 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import compose from 'lodash/fp/compose'
-import isEmpty from 'lodash/isEmpty'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import { AdminShapes } from '@regardsoss/shape'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import {
   sessionsActions, sessionsRelaunchProductActions, sessionsRelaunchAIPActions,
   sessionDeleteActions, storagesRelaunchActions, fProviderRetryErrorsActions, requestRetryActions,
+  sessionsSelectors,
 } from '../clients/SessionsClient'
 import { selectedSessionActions } from '../clients/SelectedSessionClient'
 import { sourcesActions } from '../clients/SourcesClient'
@@ -43,6 +44,9 @@ export class DashboardContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
+    // from mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    sessions: AdminShapes.SessionList,
     // from mapDispatchToProps
     fetchSessions: PropTypes.func.isRequired,
     fetchSources: PropTypes.func.isRequired,
@@ -57,6 +61,18 @@ export class DashboardContainer extends React.Component {
   }
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      sessions: sessionsSelectors.getList(state),
+    }
+  }
 
   /**
    * Redux: map dispatch to props function
@@ -99,13 +115,10 @@ export class DashboardContainer extends React.Component {
    */
   onRefresh = (sourceFilters, sessionFilters, selectedSourceId, selectedSessionId) => {
     const {
-      fetchSessions, fetchSources, fetchSelectedSession,
+      fetchSessions, fetchSources,
     } = this.props
     fetchSessions(0, DashboardContainer.PAGE_SIZE, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSourceId || null })
     fetchSources(0, DashboardContainer.PAGE_SIZE, {}, { ...sourceFilters })
-    if (!isEmpty(selectedSessionId)) {
-      fetchSelectedSession(selectedSessionId)
-    }
   }
 
   onDeleteSession = (sessionId) => {

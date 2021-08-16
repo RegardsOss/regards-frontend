@@ -46,62 +46,81 @@ class DisplayPropertiesComponent extends React.Component {
     ...themeContextType,
   }
 
-  displayListItem = (property) => {
+  getIntValue = (sessionStep, property) => parseInt(get(sessionStep, `properties.${property}`, '0'), 10)
+
+  getPropValue = (property) => {
     const { sessionStep, stepSubType } = this.props
+    // Data provider specific properties
+    if (stepSubType === STEP_SUB_TYPES_ENUM.DATA_PROVIDER) {
+      if (property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
+        return this.getIntValue(sessionStep, 'generationError') + this.getIntValue(sessionStep, 'ingestionFailed')
+      }
+    }
+    // Feature manager specific properties
+    if (stepSubType === STEP_SUB_TYPES_ENUM.FEATURE_MANAGER) {
+      if (property === FEM_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+        return this.getIntValue(sessionStep, 'inErrorReferencingRequests') + this.getIntValue(sessionStep, 'inErrorDeleteRequests') + this.getIntValue(sessionStep, 'inErrorUpdateRequests') + this.getIntValue(sessionStep, 'inErrorNotifyRequests')
+      }
+    }
+    return this.getIntValue(sessionStep, property)
+  }
+
+  getItemStyle = (propValue, itemStyle1, itemStyle2) => propValue > 0 ? itemStyle1 : itemStyle2
+
+  getStyle = (property, propValue) => {
+    const { stepSubType } = this.props
     const {
-      intl: { formatMessage }, moduleTheme: {
+      moduleTheme: {
         selectedSessionStyle: {
           listItemStyle, listItemNoValueStyle, listItemErrorStyle,
           listItemWaitStyle,
         },
       },
     } = this.context
-    let propValue = get(sessionStep, `properties.${property}`, 0)
-    let style = listItemNoValueStyle
-    if (propValue > 0) {
-      style = listItemStyle
-    }
 
-    // Data provider specific properties : DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM
-    if (stepSubType === STEP_SUB_TYPES_ENUM.DATA_PROVIDER) {
-      if (property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
-        propValue = parseInt(get(sessionStep, 'properties.generationError', 0), 10) + parseInt(get(sessionStep, 'properties.ingestionFailed', 0), 10)
-        style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
-      }
+    let style = this.getItemStyle(propValue, listItemStyle, listItemNoValueStyle)
+
+    // Data provider specific style
+    if (stepSubType === STEP_SUB_TYPES_ENUM.DATA_PROVIDER
+        && property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
+      style = this.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
     }
-    // Feature provider specific properties
-    if (stepSubType === STEP_SUB_TYPES_ENUM.FEATURE_PROVIDER) {
-      if (property === FEATURE_PROVIDER_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-        style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
-      }
+    // Feature provider specific style
+    if (stepSubType === STEP_SUB_TYPES_ENUM.FEATURE_PROVIDER
+      && property === FEATURE_PROVIDER_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+      style = this.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
     }
-    // Feature manager specific properties
-    if (stepSubType === STEP_SUB_TYPES_ENUM.FEATURE_MANAGER) {
-      if (property === FEM_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-        propValue = parseInt(get(sessionStep, 'properties.inErrorReferencingRequests', 0), 10) + parseInt(get(sessionStep, 'properties.inErrorDeleteRequests', 0), 10) + parseInt(get(sessionStep, 'properties.inErrorUpdateRequests', 0), 10) + parseInt(get(sessionStep, 'properties.inErrorNotifyRequests', 0), 10)
-        style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
-      }
+    // Feature manager specific style
+    if (stepSubType === STEP_SUB_TYPES_ENUM.FEATURE_MANAGER
+      && property === FEM_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+      style = this.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
     }
-    // Ingest specific properties
+    // Ingest specific style
     if (stepSubType === STEP_SUB_TYPES_ENUM.INGEST) {
       if (property === INGEST_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-        style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
+        style = this.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
       } else if (property === INGEST_PRODUCTS_PROPERTIES_ENUM.PRODUCT_WAIT_VERSION_MODE) {
-        style = propValue > 0 ? listItemWaitStyle : listItemNoValueStyle
+        style = this.getItemStyle(propValue, listItemWaitStyle, listItemNoValueStyle)
       }
     }
-    // Storage specific properties
-    if (stepSubType === STEP_SUB_TYPES_ENUM.STORAGE) {
-      if (property === STORAGE_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-        style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
-      }
+    // Storage specific style
+    if (stepSubType === STEP_SUB_TYPES_ENUM.STORAGE
+      && property === STORAGE_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+      style = this.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
     }
     // Diffusion specific properties
-    if (stepSubType === STEP_SUB_TYPES_ENUM.DISSEMINATION) {
-      if (property === DIFFUSION_PRODUCTS_PROPERTIES_ENUM.INDEXED_ERROR) {
-        style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
-      }
+    if (stepSubType === STEP_SUB_TYPES_ENUM.DISSEMINATION
+      && property === DIFFUSION_PRODUCTS_PROPERTIES_ENUM.INDEXED_ERROR) {
+      style = this.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
     }
+    return style
+  }
+
+  displayListItem = (property) => {
+    const { sessionStep, stepSubType } = this.props
+    const { intl: { formatMessage } } = this.context
+    const propValue = this.getPropValue(property)
+    const style = this.getStyle(property, propValue)
 
     return (
       <ListItem

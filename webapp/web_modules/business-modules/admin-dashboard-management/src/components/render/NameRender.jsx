@@ -21,7 +21,7 @@ import FlatButton from 'material-ui/FlatButton'
 import { StringValueRender } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { ENTITY, ENTITY_ENUM } from '../../domain/entityTypes'
+import { ENTITY } from '../../domain/entityTypes'
 import DisplayIconsComponent from '../DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../../domain/displayIconTypes'
 
@@ -54,24 +54,11 @@ class NameRender extends React.Component {
     onSelected(entity, entityType)
   }
 
-  isSelected = () => {
-    const { entity, selectedEntityId, entityType } = this.props
-    let isSelected = false
-    switch (entityType) {
-      case ENTITY_ENUM.SESSION:
-        isSelected = entity.content.id === parseInt(selectedEntityId, 10)
-        break
-      case ENTITY_ENUM.SOURCE:
-        isSelected = entity.content.name === selectedEntityId
-        break
-      default:
-    }
-    return isSelected
-  }
+  isSelected = (entity, selectedEntityId) => entity.content.name === selectedEntityId
 
   render() {
     const {
-      entity,
+      entity, selectedEntityId,
     } = this.props
     const {
       moduleTheme: { dashboardStyle: { tableStyle } },
@@ -80,7 +67,7 @@ class NameRender extends React.Component {
     return <div style={tableStyle.nameRenderStyle.divStyle}>
       <FlatButton
         onClick={this.onClick}
-        style={this.isSelected() ? tableStyle.selectOptionStyle.textStyle : null}
+        style={this.isSelected(entity, selectedEntityId) ? tableStyle.selectOptionStyle.textStyle : null}
       >
         <StringValueRender
           value={entity.content.name}
