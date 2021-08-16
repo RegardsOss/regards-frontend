@@ -144,13 +144,12 @@ class AcquisitionProcessingChainActivityRenderer extends React.Component {
         {label}
         {
           !isEmpty(executionBlockers)
-            ? <IconButton
-                title={formatMessage({ id: 'acquisition-chain.list.activity.button.title' })}
-                onClick={this.toggleExecutionBlockersDialog}
-            >
-              <EyeIcon />
-            </IconButton>
-            : null
+          && <IconButton
+            title={formatMessage({ id: 'acquisition-chain.list.activity.button.title' })}
+            onClick={this.toggleExecutionBlockersDialog}
+          >
+            <EyeIcon />
+          </IconButton>
         }
         {this.renderExecutionBlockersDialog()}
       </div>
