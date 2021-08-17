@@ -147,14 +147,16 @@ class DashboardComponent extends React.Component {
     const selectedElementId = this.getSelectedEntityId(entity, entityId, this.state[type])
     let newQuery = {}
     let newState = {}
+    let source = ''
 
     switch (type) {
       case ENTITY_ENUM.SESSION:
+        source = entity ? get(entity, 'content.source') : this.state[ENTITY_ENUM.SOURCE]
         if (!isEmpty(selectedElementId)) { // a session is selected
           newQuery = {
             ...currentQuery,
             [ENTITY_ENUM.SESSION]: selectedElementId,
-            [ENTITY_ENUM.SOURCE]: get(entity, 'content.source', ''),
+            [ENTITY_ENUM.SOURCE]: source,
           }
         } else if (isEmpty(selectedElementId) && !isEmpty(this.state[ENTITY_ENUM.SOURCE])) { // a session is unselected and a source exist
           newQuery = {
@@ -165,6 +167,7 @@ class DashboardComponent extends React.Component {
         newState = {
           ...this.state,
           [ENTITY_ENUM.SESSION]: selectedElementId,
+          [ENTITY_ENUM.SOURCE]: source,
         }
         break
       case ENTITY_ENUM.SOURCE:
