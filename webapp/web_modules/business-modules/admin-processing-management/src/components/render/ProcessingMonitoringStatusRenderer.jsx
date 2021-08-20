@@ -24,17 +24,17 @@ import { ProcessingShapes } from '@regardsoss/shape'
  * @author Théo Lasserre
  */
 class ProcessingMonitoringStatusRenderer extends React.Component {
-    static propTypes = {
-      entity: ProcessingShapes.ProcessingMonitoring.isRequired,
-    }
+  static propTypes = {
+    entity: ProcessingShapes.ProcessingMonitoring.isRequired,
+  }
 
-    render() {
-      const { entity: { content: { steps } } } = this.props
+  render() {
+    const { entity: { content: { steps } } } = this.props
 
-      return steps.length > 0 ? (
-        <div>{steps[steps.length - 1].status}</div>
-      ) : null
-    }
+    return steps.length > 0 ? (
+      <div>{steps[steps.length - 1].status}</div>
+    ) : null
+  }
 }
 
 export default ProcessingMonitoringStatusRenderer

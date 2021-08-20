@@ -31,48 +31,48 @@ const styles = {
 
 
 class Main extends React.Component {
-    static propTypes = {
-      // theme stored on the server
-      overwrites: PropTypes.shape({
-        mainTheme: PropTypes.object,
-        secondaryTheme: PropTypes.object,
-      }),
-      // Regards components
-      customConfigurationKeys: PropTypes.arrayOf(PropTypes.string),
-      handleAddOverwrite: PropTypes.func,
-      handleRemoveOverwrite: PropTypes.func,
-      handleResetOverwrite: PropTypes.func,
-      // redraw the view on every modification
-      hackingKey: PropTypes.number,
+  static propTypes = {
+    // theme stored on the server
+    overwrites: PropTypes.shape({
+      mainTheme: PropTypes.object,
+      secondaryTheme: PropTypes.object,
+    }),
+    // Regards components
+    customConfigurationKeys: PropTypes.arrayOf(PropTypes.string),
+    handleAddOverwrite: PropTypes.func,
+    handleRemoveOverwrite: PropTypes.func,
+    handleResetOverwrite: PropTypes.func,
+    // redraw the view on every modification
+    hackingKey: PropTypes.number,
+  }
+
+  render() {
+    const { overwrites } = this.props
+    // Let's build the second theme runtime conf
+    const secondaryThemeConf = ThemeBuilder.getAlternativeTheme(overwrites)
+    const alternativeThemeSubset = getAlternativeThemeConfSubset(secondaryThemeConf)
+    const theme = {
+      mainTheme: ThemeBuilder.getPrimaryTheme(overwrites),
+      alternativeTheme: alternativeThemeSubset,
     }
 
-    render() {
-      const { overwrites } = this.props
-      // Let's build the second theme runtime conf
-      const secondaryThemeConf = ThemeBuilder.getAlternativeTheme(overwrites)
-      const alternativeThemeSubset = getAlternativeThemeConfSubset(secondaryThemeConf)
-      const theme = {
-        mainTheme: ThemeBuilder.getPrimaryTheme(overwrites),
-        alternativeTheme: alternativeThemeSubset,
-      }
+    const sideBar = <SideBar
+      theme={theme}
+      overwrites={overwrites}
+      customConfigurationKeys={this.props.customConfigurationKeys}
+      addToOverwrites={this.props.handleAddOverwrite}
+      removeFromOverwrites={this.props.handleRemoveOverwrite}
+      handleResetOverwrite={this.props.handleResetOverwrite}
+    />
 
-      const sideBar = <SideBar
-        theme={theme}
-        overwrites={overwrites}
-        customConfigurationKeys={this.props.customConfigurationKeys}
-        addToOverwrites={this.props.handleAddOverwrite}
-        removeFromOverwrites={this.props.handleRemoveOverwrite}
-        handleResetOverwrite={this.props.handleResetOverwrite}
+    return (
+      <Layout
+        muiTheme={theme.mainTheme}
+        sideBar={sideBar}
+        mainContent={<Components key={this.props.hackingKey} />}
       />
-
-      return (
-        <Layout
-          muiTheme={theme.mainTheme}
-          sideBar={sideBar}
-          mainContent={<Components key={this.props.hackingKey} />}
-        />
-      )
-    }
+    )
+  }
 }
 
 // export with intl context

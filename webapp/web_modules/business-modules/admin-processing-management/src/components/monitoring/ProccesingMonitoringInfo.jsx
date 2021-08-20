@@ -27,38 +27,38 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Théo Lasserre
  */
 class ProccesingMonitoringInfo extends React.Component {
-    static propTypes = {
-      entity: ProcessingShapes.ProcessingMonitoring,
-      onClick: PropTypes.func.isRequired,
-    }
+  static propTypes = {
+    entity: ProcessingShapes.ProcessingMonitoring,
+    onClick: PropTypes.func.isRequired,
+  }
 
-    static contextTypes = {
-      ...i18nContextType,
-      ...themeContextType,
-    }
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
+  }
 
-    render() {
-      const {
-        intl: { formatMessage },
-        moduleTheme: { iconStyle, buttonStyle },
-        moduleTheme,
-      } = this.context
-      const {
-        entity, entity: { content }, onClick,
-      } = this.props
+  render() {
+    const {
+      intl: { formatMessage },
+      moduleTheme: { iconStyle, buttonStyle },
+      moduleTheme,
+    } = this.context
+    const {
+      entity, entity: { content }, onClick,
+    } = this.props
 
-      return (
-        <IconButton
-          className={`selenium-edit-${content.id}`}
-          title={formatMessage({ id: 'processing.monitoring.list.tooltip.info.button' })}
-          iconStyle={iconStyle}
-          style={buttonStyle}
-          onClick={() => onClick(entity)}
-        >
-          <DetailIcon hoverColor={moduleTheme.hoverButtonEdit} />
-        </IconButton>
-      )
-    }
+    return (
+      <IconButton
+        className={`selenium-edit-${content.id}`}
+        title={formatMessage({ id: 'processing.monitoring.list.tooltip.info.button' })}
+        iconStyle={iconStyle}
+        style={buttonStyle}
+        onClick={() => onClick(entity)}
+      >
+        <DetailIcon hoverColor={moduleTheme.hoverButtonEdit} />
+      </IconButton>
+    )
+  }
 }
 
 export default ProccesingMonitoringInfo

@@ -66,6 +66,7 @@ export function computeQuotaState(current, max, warningCount) {
  * @author Raphaël Mechali
  */
 export const withQuotaInfo = (DecoratedComponent) => {
+
   class WithQuotaInfo extends React.Component {
     static propTypes = {
       // Set by mapStateToProps
