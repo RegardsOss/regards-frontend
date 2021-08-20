@@ -33,7 +33,6 @@ class ProcessingDeleteComponent extends React.Component {
     handleDelete: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,

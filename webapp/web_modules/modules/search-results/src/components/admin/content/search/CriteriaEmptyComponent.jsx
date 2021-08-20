@@ -52,17 +52,17 @@ class CriteriaEmptyComponent extends React.Component {
         size={loading.size}
         thickness={loading.thickness}
       />) : ( // render empty, with add group option
-      <div style={empty.root}>
-        <div style={empty.message}>
-          {formatMessage({ id: 'search.results.form.configuration.search.pane.empty.message' })}
+        <div style={empty.root}>
+          <div style={empty.message}>
+            {formatMessage({ id: 'search.results.form.configuration.search.pane.empty.message' })}
+          </div>
+          <FlatButton
+            label={formatMessage({ id: 'search.results.form.configuration.search.pane.empty.first.group.label' })}
+            icon={<InsertIcon />}
+            style={empty.button}
+            onClick={this.onAddGroup}
+          />
         </div>
-        <FlatButton
-          label={formatMessage({ id: 'search.results.form.configuration.search.pane.empty.first.group.label' })}
-          icon={<InsertIcon />}
-          style={empty.button}
-          onClick={this.onAddGroup}
-        />
-      </div>
     )
   }
 }
