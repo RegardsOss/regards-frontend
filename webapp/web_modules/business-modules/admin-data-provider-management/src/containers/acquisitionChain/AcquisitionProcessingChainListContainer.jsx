@@ -151,7 +151,8 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
   onRefresh = (filters) => {
     const { meta, fetchPage } = this.props
     const curentPage = get(meta, 'number', 0)
-    return fetchPage(0, AcquisitionProcessingChainListContainer.PAGE_SIZE * (curentPage + 1), filters)
+    const curentPageSize = get(meta, 'size', AcquisitionProcessingChainListContainer.PAGE_SIZE)
+    return fetchPage(0, curentPageSize * (curentPage + 1), filters)
   }
 
   /**
