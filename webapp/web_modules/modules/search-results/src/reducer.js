@@ -40,8 +40,8 @@ const searchResultsReducers = {
   datasetsModels: datasetModelReducer,
   mainSearchCatalog: mainSearchReducer,
   tagSearchCatalog: tagSearchReducer,
-  mainResultsTable: mainTableReducer,
-  tagResultsTable: tagTableReducer,
+  mainResultsSelection: mainTableReducer,
+  tagResultsSelection: tagTableReducer,
   // services
   mainPluginServices: mainPluginServicesReducer,
   tagPluginServices: tagPluginServicesReducer,

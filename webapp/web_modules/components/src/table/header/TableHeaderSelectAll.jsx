@@ -49,7 +49,8 @@ class TableHeaderSelectAll extends React.Component {
       ? [<CheckBoxOutLineIcon key="0" />, 'table.select.all.label']
       // deselect all
       : [<CheckBoxIcon key="1" />, 'table.deselect.all.label']
-    return selectionEnabled && !isFetching && (
+
+    return selectionEnabled && !isFetching ? (
       <>
         <FlatButton
           disabled={disabled}
@@ -59,7 +60,7 @@ class TableHeaderSelectAll extends React.Component {
         />
         <TableHeaderOptionsSeparator />
       </>
-    )
+    ) : null
   }
 }
 export default TableHeaderSelectAll

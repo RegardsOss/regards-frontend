@@ -23,7 +23,6 @@
  */
 
 import isEmpty from 'lodash/isEmpty'
-import head from 'lodash/head'
 import find from 'lodash/find'
 import filter from 'lodash/filter'
 import map from 'lodash/map'
@@ -40,37 +39,34 @@ const MAP_CLICK_EVENT = {
 let clickCount = MAP_CLICK_EVENT.INITIAL
 let singleClickTimer = null
 
+const WAITING_TIME_FOR_SINGLE_CLICK = 400
 /**
  * Manage Cesium & Mizar simple & double click on entities event
  * @param {*} selectedEntities
  * @param {*} onProductSelected funtion to call when there is a simple click on entities
- * @param {*} onFeaturesSelected function to call when there is a double click on entities
+ * @param {*} onProductZoomTo function to call when there is a double click on entities
  */
-export function clickOnEntitiesHandler(selectedEntities, onProductSelected, onFeaturesSelected) {
+export function clickOnEntitiesHandler(selectedEntities, onProductSelected, onProductZoomTo) {
   clickCount += 1
   // Handle single click
   if (clickCount === MAP_CLICK_EVENT.SIMPLE_CLICK) {
     singleClickTimer = root.setTimeout(() => {
       clickCount = MAP_CLICK_EVENT.INITIAL
-      const selectionFeature = {
-        id: '',
-        label: '',
-      }
-      if (!isEmpty(selectedEntities)) {
-        const selection = head(selectedEntities).feature
-        selectionFeature.id = selection.id
-        selectionFeature.label = selection.label
-      }
-      const shouldRemove = isEmpty(selectionFeature.id)
-      onProductSelected(shouldRemove, selectionFeature)
-    }, 800)
+      const featuresSelected = map(selectedEntities, (entity) => (
+        {
+          id: entity.feature.id,
+          label: entity.feature.label,
+        }
+      ))
+      onProductSelected(featuresSelected)
+    }, WAITING_TIME_FOR_SINGLE_CLICK)
     // Handle double click
   } else if (clickCount === MAP_CLICK_EVENT.DOUBLE_CLICK) {
     root.clearTimeout(singleClickTimer)
     clickCount = MAP_CLICK_EVENT.INITIAL
     // Do not send event if there is no REGARDS feature selected
     if (!isEmpty(selectedEntities)) {
-      onFeaturesSelected(selectedEntities)
+      onProductZoomTo(selectedEntities)
     }
   }
 }

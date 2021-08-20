@@ -619,14 +619,6 @@ const styles = (theme) => ({
         },
         menuItem: getMenuItemStyle(theme),
       },
-      selectedProductBox: {
-        display: 'flex',
-        alignItems: 'center',
-        paddingLeft: '5px',
-        labelStyle: {
-          marginTop: '5px',
-        },
-      },
       opacityToolsBox: {
         // overlay position
         position: 'absolute',

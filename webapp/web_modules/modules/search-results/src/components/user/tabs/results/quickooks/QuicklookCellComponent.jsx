@@ -24,7 +24,7 @@ import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 import ImageOff from 'mdi-material-ui/ImageOff'
 import { CommonDomain, DamDomain, UIDomain } from '@regardsoss/domain'
-import { AccessShapes, UIShapes } from '@regardsoss/shape'
+import { AccessShapes, UIShapes, CatalogShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/display-control'
@@ -55,7 +55,7 @@ export const specificCellPropertiesFields = {
   mapThumbnailHeight: PropTypes.number,
   primaryQuicklookGroup: PropTypes.string.isRequired,
   // Product selection management
-  selectedProducts: PropTypes.arrayOf(PropTypes.object),
+  selectedProducts: PropTypes.objectOf(CatalogShapes.Entity).isRequired, // inner object is entity type
   onProductSelected: PropTypes.func,
   // Pure component restrictions: provide locale as context
   locale: PropTypes.string.isRequired,
@@ -302,7 +302,7 @@ class QuicklookCellComponent extends React.PureComponent {
   /** User callback: close zoom view */
   onCloseZoom = () => this.setState({ zoomOpen: false })
 
-  isProductSelected = (selectedProducts, productId) => find(selectedProducts, (selectedProduct) => (selectedProduct.id === productId))
+  isProductSelected = (selectedProducts, productId) => find(selectedProducts, (selectedProduct) => (selectedProduct.content.id === productId))
 
   onImageClicked = () => {
     const {

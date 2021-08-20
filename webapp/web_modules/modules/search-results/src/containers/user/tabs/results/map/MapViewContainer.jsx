@@ -22,7 +22,6 @@ import { connect } from '@regardsoss/redux'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { resultsContextActions } from '../../../../../clients/ResultsContextClient'
 import MapViewComponent from '../../../../../components/user/tabs/results/map/MapViewComponent'
-import { getSelectionClient } from '../../../../../clients/SelectionClient'
 
 /**
  * Container for map view
@@ -35,11 +34,9 @@ export class MapViewContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch, { tabType }) {
-    const { tableActions } = getSelectionClient(tabType)
+  static mapDispatchToProps(dispatch, { moduleId }) {
     return {
-      dispatchSelectAll: () => dispatch(tableActions.selectAll()),
-      updateResultsContext: (moduleId, newState) => dispatch(resultsContextActions.updateResultsContext(moduleId, newState)),
+      updateResultsContext: (newState) => dispatch(resultsContextActions.updateResultsContext(moduleId, newState)),
     }
   }
 
@@ -59,16 +56,11 @@ export class MapViewContainer extends React.Component {
     onAddElementToCart: PropTypes.func, // used in onPropertiesUpdated
     // from mapDispatchToProps
     updateResultsContext: PropTypes.func.isRequired,
-    dispatchSelectAll: PropTypes.func.isRequired,
   }
 
   /** Initial state */
   state = {
     itemOfInterestPicked: null,
-  }
-
-  UNSAFE_componentWillMount = () => {
-    this.props.dispatchSelectAll()
   }
 
   /**
@@ -77,12 +69,12 @@ export class MapViewContainer extends React.Component {
    */
   onSplitDropped = (splitPosition) => {
     const {
-      moduleId, tabType, resultsContext, updateResultsContext,
+      tabType, resultsContext, updateResultsContext,
     } = this.props
     const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     // update current mode state by diff
-    updateResultsContext(moduleId, {
+    updateResultsContext({
       // update, for current tab and type, the split position in map mode state
       tabs: {
         [tabType]: {
@@ -101,28 +93,23 @@ export class MapViewContainer extends React.Component {
   }
 
   /**
-   * Handle product selection in Mizar/Cesium & in Quicklooks
-   * @param {*} remove if true remove product from selectedProducts list
-   * @param {*} product product selected : id & label
+   * Force the Quicklooks view to redraw
    */
-  onProductSelected = (remove, product) => {
+  onNewItemOfInterestPicked = (itemOfInterest) => {
     const {
-      moduleId, tabType, resultsContext, updateResultsContext,
+      tabType, resultsContext, updateResultsContext,
     } = this.props
     const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-    // We deal with only one selectedProduct for the moment
-    // Change it later if we want to use more products
-    const newSelectedProducts = remove ? [] : [product]
     // update current mode state by diff
-    updateResultsContext(moduleId, {
-      // update, for current tab and type, the selectedProducts
+    updateResultsContext({
+      // update, for current tab and type, the point of interest
       tabs: {
         [tabType]: {
           types: {
             [selectedType]: {
               modes: {
                 [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
-                  selectedProducts: newSelectedProducts,
+                  itemOfInterest,
                 },
               },
             },
@@ -157,7 +144,7 @@ export class MapViewContainer extends React.Component {
         accessToken={accessToken}
         projectName={projectName}
         onAddElementToCart={onAddElementToCart}
-        onProductSelected={this.onProductSelected}
+        onNewItemOfInterestPicked={this.onNewItemOfInterestPicked}
         onSplitDropped={this.onSplitDropped}
         itemOfInterestPicked={itemOfInterestPicked}
       />)

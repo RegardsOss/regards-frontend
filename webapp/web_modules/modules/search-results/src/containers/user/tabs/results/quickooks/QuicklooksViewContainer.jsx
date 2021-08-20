@@ -17,12 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
+import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { UIDomain } from '@regardsoss/domain'
 import { AccessProjectClient } from '@regardsoss/client'
-import { AccessShapes, CommonShapes, UIShapes } from '@regardsoss/shape'
+import {
+  AccessShapes, CommonShapes, UIShapes, CatalogShapes,
+} from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
+import { TableSelectionModes } from '@regardsoss/components'
 import QuicklooksViewComponent from '../../../../../components/user/tabs/results/quickooks/QuicklooksViewComponent'
+import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesClient'
+import { getSelectionClient } from '../../../../../clients/SelectionClient'
+import { getSelectedProducts } from '../map/withMapSelectionContainer'
 
 /** Default UI settings selectors instance, retrieving common user app settings data */
 const uiSettingsSelectors = AccessProjectClient.getUISettingsSelectors()
@@ -40,9 +47,16 @@ export class QuicklooksViewContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state) {
+  static mapStateToProps(state, { tabType }) {
+    const { searchSelectors } = getSearchCatalogClient(tabType)
+    const { tableSelectors } = getSelectionClient(tabType)
+
     return {
       settings: uiSettingsSelectors.getSettings(state),
+      // results entities
+      entities: searchSelectors.getOrderedList(state),
+      selectionMode: tableSelectors.getSelectionMode(state),
+      toggledElements: tableSelectors.getToggledElements(state),
     }
   }
 
@@ -75,7 +89,7 @@ export class QuicklooksViewContainer extends React.Component {
     onProductSelected: PropTypes.func, // used in onPropertiesUpdated
     // Manage selected product in quicklooks
     itemOfInterestPicked: PropTypes.number,
-    getItemOfInterest: PropTypes.func,
+    isItemOfInterest: PropTypes.func,
     // When parent container size change, it provides a different key to force re-rendering
     forceRenderingUsingKey: PropTypes.string,
 
@@ -84,6 +98,12 @@ export class QuicklooksViewContainer extends React.Component {
     theme: AccessShapes.Theme.isRequired, // used in onPropertiesUpdated, automatically add by REGARDS connect method
     // eslint-disable-next-line react/no-unused-prop-types
     i18n: PropTypes.string.isRequired, // used in onPropertiesUpdated, automatically add by REGARDS connect method
+    // eslint-disable-next-line react/no-unused-prop-types
+    entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
+    // eslint-disable-next-line react/no-unused-prop-types
+    selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
   }
 
   static defaultProps = {
@@ -113,17 +133,17 @@ export class QuicklooksViewContainer extends React.Component {
       tabType, resultsContext, descriptionAvailable, onShowDescription,
       accessToken, projectName, onAddElementToCart,
       embedInMap, mapThumbnailHeight, settings, onProductSelected,
-      theme, i18n,
+      theme, i18n, entities, toggledElements, selectionMode,
     } = newProps
     const {
       selectedTypeState: { enableDownload, enableServices },
-      selectedModeState: { presentationModels, selectedProducts },
+      selectedModeState: { presentationModels },
     } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     const { resultsContext: oldContext, tabType: oldTabType } = oldProps
     const {
       selectedTypeState: { enableDownload: oldEnableDownload, enableServices: oldEnableServices },
-      selectedModeState: { presentationModels: oldPresentationModels, selectedProducts: oldSelectedProducts },
+      selectedModeState: { presentationModels: oldPresentationModels },
     } = oldContext && oldTabType ? UIDomain.ResultsContextHelper.getViewData(oldProps.resultsContext, oldTabType) : {
       selectedTypeState: {},
       selectedModeState: {},
@@ -141,11 +161,13 @@ export class QuicklooksViewContainer extends React.Component {
       || !isEqual(oldProps.embedInMap, embedInMap)
       || !isEqual(oldProps.mapThumbnailHeight, mapThumbnailHeight)
       || !isEqual(oldProps.settings, settings)
-      || !isEqual(oldSelectedProducts, selectedProducts)
-      || !isEqual(oldProps.onProductSelected, onProductSelected)
+      || !isEqual(oldProps.entities, entities)
+      || !isEqual(oldProps.toggledElements, toggledElements)
+      || !isEqual(oldProps.selectionMode, selectionMode)
       || !isEqual(oldProps.theme, theme)
       || !isEqual(oldProps.i18n, i18n)
     ) {
+      const selectedProducts = getSelectedProducts(newProps)
       this.setState({
         cellProperties: {
           tabType,
@@ -172,7 +194,7 @@ export class QuicklooksViewContainer extends React.Component {
 
   render() {
     const {
-      tabType, requestParameters, searchActions, embedInMap, itemOfInterestPicked, getItemOfInterest, forceRenderingUsingKey,
+      tabType, requestParameters, searchActions, embedInMap, itemOfInterestPicked, isItemOfInterest, forceRenderingUsingKey,
     } = this.props
     const { cellProperties } = this.state
 
@@ -184,7 +206,7 @@ export class QuicklooksViewContainer extends React.Component {
         cellProperties={cellProperties}
         embedInMap={embedInMap}
         itemOfInterestPicked={itemOfInterestPicked}
-        getItemOfInterest={getItemOfInterest}
+        isItemOfInterest={isItemOfInterest}
         forceRenderingUsingKey={forceRenderingUsingKey}
       />
     )

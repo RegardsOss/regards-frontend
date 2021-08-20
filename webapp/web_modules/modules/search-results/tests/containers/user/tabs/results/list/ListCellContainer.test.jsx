@@ -104,17 +104,17 @@ describe('[SEARCH RESULTS] Testing ListCellContainer', () => {
       gridAttributesRenderData,
       enableSelection,
       descriptionAvailable,
-      onShowDescription: () => {},
+      onShowDescription: () => { },
       enableDownload,
       accessToken: 'abc',
       projectName: 'def',
-      onAddElementToCart: enableCart ? () => {} : null,
+      onAddElementToCart: enableCart ? () => { } : null,
       enableServices,
       enableSearchEntity,
-      onSearchEntity: () => {},
+      onSearchEntity: () => { },
       toggledElements: {},
       selectionMode: TableSelectionModes.includeSelected,
-      onSelect: () => {},
+      onSelect: () => { },
     }
     const enzymeWrapper = shallow(<ListCellContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(ListCellComponent)

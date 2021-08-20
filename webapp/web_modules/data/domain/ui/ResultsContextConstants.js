@@ -52,10 +52,11 @@ const DISABLED_MAP_VIEW_MODE_STATE = {
   presentationModels: [],
   mapEngine: MAP_ENGINE_ENUM.CESIUM,
   layers: [],
-  selectionMode: MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
+  mapSelectionMode: MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
   viewMode: MAP_VIEW_MODES_ENUM.MODE_3D,
   splitPosition: null,
-  selectedProducts: [],
+  itemOfInterest: null,
+  zoomTo: null,
 }
 
 /** To be used as default */

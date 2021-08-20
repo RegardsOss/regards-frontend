@@ -102,9 +102,9 @@ describe('[SEARCH RESULTS] Testing OrderCartContainer', () => {
   const hasAddSelectionCallback = ({
     viewObjectType, modules, isAuthenticated, availableDependencies, emptySelection,
   }) => isAuthenticated // use must be authenticated to access the cart functionality
-    && modules === modulesVals[1] // there must be cart module
-    && availableDependencies === availableDependenciesVals[1] // user must have all required dependencies
-    && !emptySelection // selection must not be empty
+  && modules === modulesVals[1] // there must be cart module
+  && availableDependencies === availableDependenciesVals[1] // user must have all required dependencies
+  && !emptySelection // selection must not be empty
     && viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA // there must be no selection callback when showing datasets (cannot add datasets groups)
 
   // run the tests for each properties back

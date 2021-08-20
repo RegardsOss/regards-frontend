@@ -42,7 +42,7 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
     assert.isDefined(MapToolsComponent)
   })
 
-  UIDomain.MAP_SELECTION_MODES.forEach((selectionMode) => it(`should render correctly when selected mode is ${selectionMode}`, () => {
+  UIDomain.MAP_SELECTION_MODES.forEach((mapSelectionMode) => it(`should render correctly when selected mode is ${mapSelectionMode}`, () => {
     const props = {
       layers: [{
         url: 'HELLO.touff',
@@ -52,32 +52,27 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
         enabled: true,
         layerName: 'Hello',
       }],
-      selectionMode,
+      mapSelectionMode,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
       onToggleSelectionMode: () => { },
       onToggleViewMode: () => { },
       opacity: 1,
       handleChangeOpacity: () => { },
-      selectedProducts: [],
-      onProductSelected: () => { },
     }
     const enzymeWrapper = shallow(<MapToolsComponent {...props} />, { context })
     const selectors = enzymeWrapper.find(MapSelectionModeOption)
     assert.lengthOf(selectors, UIDomain.MAP_SELECTION_MODES.length, 'There should be an option selector for each selection mode')
 
     UIDomain.MAP_SELECTION_MODES.forEach((localSelectionMode) => {
-      const modeSelector = selectors.findWhere((n) => n.props().selectionMode === localSelectionMode)
+      const modeSelector = selectors.findWhere((n) => n.props().mapSelectionMode === localSelectionMode)
       assert.lengthOf(modeSelector, 1, `There should be a selector for mode ${localSelectionMode}`)
       assert.equal(modeSelector.props().onToggleSelectionMode, props.onToggleSelectionMode, 'Selector callback should be correctly set')
-      if (localSelectionMode === selectionMode) {
+      if (localSelectionMode === mapSelectionMode) {
         assert.isTrue(modeSelector.props().selected, `${localSelectionMode} selector should be selected`)
       } else {
         assert.isFalse(modeSelector.props().selected, `${localSelectionMode} selector should not be selected`)
       }
     })
-
-    const removeSelected = enzymeWrapper.find(FlatButton)
-    assert.equal(removeSelected.length, 0, 'There should not be a remove selected product button')
   }))
 
   UIDomain.MAP_VIEW_MODES.forEach((viewMode) => it(`should render correctly when view mode is ${viewMode}`, () => {
@@ -97,17 +92,12 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
         enabled: true,
         layerName: 'Hello2',
       }],
-      selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
+      mapSelectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       viewMode,
       onToggleViewMode: () => { },
       onToggleSelectionMode: () => { },
       opacity: 1,
       handleChangeOpacity: () => { },
-      selectedProducts: [{
-        id: 'TestID',
-        label: 'TestLabel',
-      }],
-      onProductSelected: () => { },
     }
     const enzymeWrapper = shallow(<MapToolsComponent {...props} />, { context })
     const selectors = enzymeWrapper.find(MapViewModeOption)
@@ -123,9 +113,6 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
         assert.isFalse(modeSelector.props().selected, `${localViewMode} selector should not be selected`)
       }
     })
-
-    const removeSelected = enzymeWrapper.find(FlatButton)
-    assert.equal(removeSelected.length, 1, 'There should be a remove selected product button')
   }))
   it('should render correctly with features', () => {
     const props = {
@@ -137,17 +124,12 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
         enabled: true,
         layerName: 'Hello',
       }],
-      selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
+      mapSelectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
       onToggleViewMode: () => { },
       onToggleSelectionMode: () => { },
       opacity: 1,
       handleChangeOpacity: () => { },
-      selectedProducts: [{
-        id: 'TestID',
-        label: 'TestLabel',
-      }],
-      onProductSelected: () => { },
     }
     const enzymeWrapper = shallow(<MapToolsComponent {...props} />, { context })
     const selectors = enzymeWrapper.find(MapViewModeOption)
@@ -163,17 +145,12 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
         enabled: true,
         layerName: 'Hello',
       }],
-      selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
+      mapSelectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
       onToggleSelectionMode: () => { },
       onToggleViewMode: () => { },
       opacity: 1,
       handleChangeOpacity: () => { },
-      selectedProducts: [{
-        id: 'TestID',
-        label: 'TestLabel',
-      }],
-      onProductSelected: () => { },
     }
     const enzymeWrapper = shallow(<MapToolsComponent {...props} />, { context })
     const opacityOption = enzymeWrapper.find(MapOpacityOption)

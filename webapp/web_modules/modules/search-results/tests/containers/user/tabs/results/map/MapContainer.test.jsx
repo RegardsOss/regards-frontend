@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MapComponent from '../../../../../../src/components/user/tabs/results/map/MapComponent'
-import { MapContainer } from '../../../../../../src/containers/user/tabs/results/map/MapContainer'
+import { MapComponentWithSelection, MapContainer } from '../../../../../../src/containers/user/tabs/results/map/MapContainer'
 import styles from '../../../../../../src/styles'
 import resultsDump from '../../../../../dumps/results.dump'
 import { dataContext } from '../../../../../dumps/data.context.dump'
@@ -57,7 +57,7 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
           },
         },
       }),
-      onProductSelected: () => {},
+      onNewItemOfInterestPicked: () => { },
       entities: [
         // some entities (no valid geometry)
         ...resultsDump.content,
@@ -65,11 +65,11 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
         dataEntityWithGeometry,
       ],
       pageMetadata: resultsDump.metadata,
-      updateResultsContext: () => {},
+      updateResultsContext: () => { },
       uploadToponym: () => { },
     }
     const enzymeWrapper = shallow(<MapContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(MapComponent)
+    const componentWrapper = enzymeWrapper.find(MapComponentWithSelection)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       featuresCollection: {
@@ -77,14 +77,14 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
         type: 'FeatureCollection',
       },
       displayedAreas: [], // no area
-      selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
+      mapSelectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
       onToggleSelectionMode: enzymeWrapper.instance().onToggleSelectionMode,
       onToggleViewMode: enzymeWrapper.instance().onToggleViewMode,
       onDrawingSelectionUpdated: enzymeWrapper.instance().onDrawingSelectionUpdated,
       onDrawingSelectionDone: enzymeWrapper.instance().onDrawingSelectionDone,
-      onFeaturesPicked: enzymeWrapper.instance().onFeaturesPicked,
-      onProductSelected: props.onProductSelected,
+      onProductZoomTo: enzymeWrapper.instance().onProductZoomTo,
+      onNewItemOfInterestPicked: props.onNewItemOfInterestPicked,
       tabType: props.tabType,
       onToponymSelected: enzymeWrapper.instance().onToponymSelected,
       selectedToponyms: {

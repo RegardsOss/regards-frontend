@@ -51,13 +51,13 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       },
       mapEngine: UIDomain.MAP_ENGINE_ENUM.CESIUM,
       displayedAreas: [],
-      selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE,
+      mapSelectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
-      onToggleViewMode: () => {},
-      onToggleSelectionMode: () => {},
-      onDrawingSelectionUpdated: () => {},
-      onDrawingSelectionDone: () => {},
-      onFeaturesPicked: () => {},
+      onToggleViewMode: () => { },
+      onToggleSelectionMode: () => { },
+      onDrawingSelectionUpdated: () => { },
+      onDrawingSelectionDone: () => { },
+      onProductZoomTo: () => { },
       layers: [{
         url: 'HELLO.touff',
         type: UIDomain.MIZAR_LAYER_TYPES_ENUM.AsynchroneWMS,
@@ -67,8 +67,9 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
         visible: true,
         layerName: 'Hello',
       }],
-      selectedProducts: [],
-      onProductSelected: () => {},
+      selectedProducts: {},
+      zoomTo: {},
+      onProductSelected: () => { },
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       selectedToponyms: {},
       onToponymSelected: () => { },
@@ -77,12 +78,10 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
     const mapTools = enzymeWrapper.find(MapToolsComponent)
     assert.lengthOf(mapTools, 1, 'Map tools should be rendered')
     testSuiteHelpers.assertWrapperProperties(mapTools, {
-      selectionMode: props.selectionMode,
+      mapSelectionMode: props.mapSelectionMode,
       onToggleSelectionMode: props.onToggleSelectionMode,
       onToggleViewMode: props.onToggleViewMode,
       viewMode: props.viewMode,
-      selectedProducts: props.selectedProducts,
-      onProductSelected: props.onProductSelected,
     }, 'Map tools component properties should be correctly set')
     const searchToponyms = enzymeWrapper.find(SearchToponymContainer)
     assert.lengthOf(searchToponyms, 1, 'Search toponyms bar should be rendered')
@@ -98,7 +97,8 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       onDrawingSelectionUpdated: props.onDrawingSelectionUpdated,
       onDrawingSelectionDone: props.onDrawingSelectionDone,
       drawingSelection: true,
-      onFeaturesSelected: props.onFeaturesPicked,
+      onProductZoomTo: props.onProductZoomTo,
+      zoomTo: props.zoomTo,
       viewMode: props.viewMode,
       selectedProducts: props.selectedProducts,
       onProductSelected: props.onProductSelected,
@@ -127,13 +127,13 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
         },
       }],
       mapEngine: UIDomain.MAP_ENGINE_ENUM.MIZAR,
-      selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
+      mapSelectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
-      onToggleSelectionMode: () => {},
-      onToggleViewMode: () => {},
-      onDrawingSelectionUpdated: () => {},
-      onDrawingSelectionDone: () => {},
-      onFeaturesPicked: () => {},
+      onToggleSelectionMode: () => { },
+      onToggleViewMode: () => { },
+      onDrawingSelectionUpdated: () => { },
+      onDrawingSelectionDone: () => { },
+      onProductZoomTo: () => { },
       layers: [{
         url: 'HELLO.touff',
         type: UIDomain.MIZAR_LAYER_TYPES_ENUM.AsynchroneWMS,
@@ -143,8 +143,9 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
         visible: true,
         layerName: 'Hello',
       }],
-      selectedProducts: [],
-      onProductSelected: () => {},
+      selectedProducts: {},
+      zoomTo: {},
+      onProductSelected: () => { },
       tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
       selectedToponyms: {
         features: [{
@@ -163,12 +164,10 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
     assert.lengthOf(mapTools, 1, 'Map tools should be rendered')
     testSuiteHelpers.assertWrapperProperties(mapTools, {
       layers: props.layers,
-      selectionMode: props.selectionMode,
+      mapSelectionMode: props.mapSelectionMode,
       onToggleSelectionMode: props.onToggleSelectionMode,
       onToggleViewMode: props.onToggleViewMode,
       viewMode: props.viewMode,
-      selectedProducts: props.selectedProducts,
-      onProductSelected: props.onProductSelected,
     }, 'Map tools component properties should be correctly set')
     const searchToponyms = enzymeWrapper.find(SearchToponymContainer)
     assert.lengthOf(searchToponyms, 1, 'Search toponyms bar should be rendered')
@@ -184,9 +183,10 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       onDrawingSelectionUpdated: props.onDrawingSelectionUpdated,
       onDrawingSelectionDone: props.onDrawingSelectionDone,
       drawingSelection: false,
-      onFeaturesSelected: props.onFeaturesPicked,
+      onProductZoomTo: props.onProductZoomTo,
       viewMode: props.viewMode,
       selectedProducts: props.selectedProducts,
+      zoomTo: props.zoomTo,
       onProductSelected: props.onProductSelected,
       selectedToponyms: props.selectedToponyms,
     }, 'Map properties should be correctly set')

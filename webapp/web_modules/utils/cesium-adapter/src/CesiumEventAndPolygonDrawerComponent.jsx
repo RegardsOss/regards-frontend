@@ -55,7 +55,7 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
     // Currently shownig areas - ONLY used to display currently applyed areas
     // eslint-disable-next-line react/no-unused-prop-types
     drawnAreas: PropTypes.arrayOf(GeoJsonFeature),
-    onFeaturesSelected: PropTypes.func.isRequired,
+    onProductZoomTo: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     onProductSelected: PropTypes.func.isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
@@ -186,7 +186,7 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
         return null
       }))
     }
-    UIDomain.clickOnEntitiesHandler(selectedEntities, this.props.onProductSelected, this.props.onFeaturesSelected)
+    UIDomain.clickOnEntitiesHandler(selectedEntities, this.props.onProductSelected, this.props.onProductZoomTo)
   }
 
   handleLeftClick = (movement) => {

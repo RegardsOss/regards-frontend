@@ -60,7 +60,7 @@ describe('[COMPONENTS] Testing InfiniteGalleryContainer', () => {
       authentication: {
 
       },
-      getItemOfInterest: () => {},
+      isItemOfInterest: () => {},
     }
     shallow(<InfiniteGalleryContainer name {...props} />, { context })
     // cannot test content as it is in Measure

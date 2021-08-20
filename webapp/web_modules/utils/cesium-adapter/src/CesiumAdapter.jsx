@@ -17,17 +17,15 @@
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { GeoJsonFeaturesCollection, GeoJsonFeature } from '@regardsoss/mizar-adapter'
-import { UIShapes } from '@regardsoss/shape'
+import { UIShapes, CatalogShapes } from '@regardsoss/shape'
 import { UIDomain } from '@regardsoss/domain'
 import { Measure } from '@regardsoss/adapters'
-import { console } from 'window-or-global'
 import { createRef } from 'react'
 import isEqual from 'lodash/isEqual'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
 import map from 'lodash/map'
 import has from 'lodash/has'
-import last from 'lodash/last'
 import isEmpty from 'lodash/isEmpty'
 import {
   Viewer, GeoJsonDataSource, SkyBox, SkyAtmosphere, Sun, Moon, ImageryLayer, CameraFlyTo, Scene,
@@ -56,17 +54,23 @@ export default class CesiumAdapter extends React.Component {
     drawColor: PropTypes.string,
     // Currently shownig areas (may be used for selection feedback, currently applying areas, ...)
     drawnAreas: PropTypes.arrayOf(GeoJsonFeature),
-    // should notify parent on pick selection
-    onFeaturesSelected: PropTypes.func,
     // view management
     viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired,
     // product selection management
     // eslint-disable-next-line react/no-unused-prop-types
-    selectedProducts: PropTypes.arrayOf(PropTypes.object),
+    selectedProducts: PropTypes.objectOf(CatalogShapes.Entity).isRequired, // inner object is entity type
     onProductSelected: PropTypes.func.isRequired,
     selectedFeatureColor: PropTypes.string.isRequired,
     selectedColorOutlineWidth: PropTypes.number,
+    // eslint-disable-next-line react/no-unused-prop-types
+    zoomTo: PropTypes.shape({
+      feature: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }),
+    }),
+    // should notify parent on pick selection
     // toponym selection management
+    onProductZoomTo: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
     selectedToponyms: PropTypes.object,
 
@@ -184,7 +188,7 @@ export default class CesiumAdapter extends React.Component {
     */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      featuresCollection, selectedProducts, drawnAreas, drawingSelection, viewMode, layers,
+      featuresCollection, selectedProducts, drawnAreas, drawingSelection, viewMode, layers, zoomTo,
     } = newProps
     const oldState = this.state || {}
     const newState = { ...oldState }
@@ -193,7 +197,7 @@ export default class CesiumAdapter extends React.Component {
     if (!isEqual(oldProps.featuresCollection, featuresCollection) || !isEqual(oldProps.selectedProducts, selectedProducts)) {
       const selectedFeatures = this.getSelectedFeatures(featuresCollection, selectedProducts)
       newState.selectedProducts = {
-        ...featuresCollection,
+        type: 'FeatureCollection',
         features: !isEmpty(selectedFeatures) ? selectedFeatures : [],
       }
     }
@@ -202,12 +206,11 @@ export default class CesiumAdapter extends React.Component {
       newState.backgroundVisibleProvider = this.getBackgroundVisibleProvider(layers, viewMode, rectangle)
     }
     // Manage camera destination
-    if (!isEqual(oldProps.selectedProducts, selectedProducts) || !isEqual(oldProps.drawnAreas, drawnAreas)) {
-      if (!isEqual(oldProps.selectedProducts, selectedProducts)) {
-        const selectedFeatures = this.getSelectedFeatures(featuresCollection, selectedProducts)
-        if (!isEmpty(selectedFeatures)) {
-          const lastFeatureSelected = last(selectedFeatures)
-          const { time, destination } = this.getNewCameraDestination(lastFeatureSelected.geometry)
+    if (!isEqual(oldProps.zoomTo, zoomTo) || !isEqual(oldProps.drawnAreas, drawnAreas)) {
+      if (!isEqual(oldProps.zoomTo, zoomTo)) {
+        const zoomToFeature = this.getZoomToFeature(featuresCollection, zoomTo)
+        if (zoomToFeature) {
+          const { time, destination } = this.getNewCameraDestination(zoomToFeature.geometry)
           newState.cameraDestination = destination
           newState.cameraDestinationTime = time
         }
@@ -226,7 +229,9 @@ export default class CesiumAdapter extends React.Component {
     }
   }
 
-  getSelectedFeatures = (featuresCollection, selectedProducts) => filter(featuresCollection.features, (feature) => find(selectedProducts, (selectedProduct) => feature.id === selectedProduct.id))
+  getSelectedFeatures = (featuresCollection, selectedProducts) => filter(featuresCollection.features, (feature) => find(selectedProducts, (selectedProduct) => feature.id === selectedProduct.content.id))
+
+  getZoomToFeature = (featuresCollection, zoomToFeature) => find(featuresCollection.features, (feature) => feature.id === zoomToFeature.feature.id)
 
   getGreyBackgroundProvider = (layers, viewMode) => {
     const backgroundLayerInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode, UIDomain.MAP_ENGINE_ENUM.CESIUM)
@@ -298,7 +303,7 @@ export default class CesiumAdapter extends React.Component {
 
   render() {
     const {
-      featuresCollection, drawingSelection, drawnAreas, onDrawingSelectionDone, onFeaturesSelected, customLayersOpacity,
+      featuresCollection, drawingSelection, drawnAreas, onDrawingSelectionDone, onProductZoomTo, customLayersOpacity,
       viewMode, onProductSelected, selectedToponyms, featureShapefile,
     } = this.props
     const {
@@ -395,7 +400,7 @@ export default class CesiumAdapter extends React.Component {
                 drawingSelection={drawingSelection}
                 drawnAreas={drawnAreas}
                 onDrawingSelectionDone={onDrawingSelectionDone}
-                onFeaturesSelected={onFeaturesSelected}
+                onProductZoomTo={onProductZoomTo}
                 onProductSelected={onProductSelected}
                 featuresCollection={featuresCollection}
               />

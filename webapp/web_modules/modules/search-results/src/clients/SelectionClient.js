@@ -20,8 +20,8 @@ import { UIDomain } from '@regardsoss/domain'
 import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
 /** Main results table action  */
-const MAIN_NAMESPACE = 'search-results/main-table'
-const MAIN_STORE_PATH = ['modules.search-results', 'mainResultsTable']
+const MAIN_NAMESPACE = 'search-results/main-selection'
+const MAIN_STORE_PATH = ['modules.search-results', 'mainResultsSelection']
 export const mainTableActions = new TableActions(MAIN_NAMESPACE)
 export const mainTableReducer = getTableReducer(MAIN_NAMESPACE)
 export const mainTableSelectors = getTableSelectors(MAIN_STORE_PATH)
@@ -32,8 +32,8 @@ const mainTableClient = {
 }
 
 /** Tag results table */
-const TAG_NAMESPACE = 'search-results/tag-table'
-const TAG_STORE_PATH = ['modules.search-results', 'tagResultsTable']
+const TAG_NAMESPACE = 'search-results/tag-selection'
+const TAG_STORE_PATH = ['modules.search-results', 'tagResultsSelection']
 export const tagTableActions = new TableActions(TAG_NAMESPACE)
 export const tagTableReducer = getTableReducer(TAG_NAMESPACE)
 export const tagTableSelectors = getTableSelectors(TAG_STORE_PATH)

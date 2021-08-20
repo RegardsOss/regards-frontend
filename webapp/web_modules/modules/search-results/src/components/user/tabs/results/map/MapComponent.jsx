@@ -20,6 +20,7 @@ import { UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { MizarProvider, GeoJsonFeaturesCollection, GeoJsonFeature } from '@regardsoss/mizar-adapter'
 import { CesiumProvider } from '@regardsoss/cesium-adapter'
+import { CatalogShapes } from '@regardsoss/shape'
 import MapToolsComponent from './MapToolsComponent'
 import { LayerConfiguration } from '../../../../../shapes/ModuleConfiguration'
 import SearchToponymContainer from '../../../../../containers/user/tabs/results/map/SearchToponymContainer'
@@ -36,7 +37,7 @@ class MapComponent extends React.Component {
     displayedAreas: PropTypes.arrayOf(GeoJsonFeature).isRequired, // holds currently drawing area or currently applying area
 
     // Selection mode  & view mode management
-    selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired,
+    mapSelectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired,
     viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired,
     onToggleSelectionMode: PropTypes.func.isRequired,
     onToggleViewMode: PropTypes.func.isRequired,
@@ -44,8 +45,13 @@ class MapComponent extends React.Component {
     // drawing selection management
     onDrawingSelectionUpdated: PropTypes.func.isRequired,
     onDrawingSelectionDone: PropTypes.func.isRequired,
-    // Direct features selection management
-    onFeaturesPicked: PropTypes.func.isRequired, // ([entities] => ())
+    // Features that are zoom on
+    onProductZoomTo: PropTypes.func.isRequired, // ([entities] => ())
+    zoomTo: PropTypes.shape({
+      feature: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }),
+    }),
 
     // Map layers
     layers: PropTypes.arrayOf(LayerConfiguration).isRequired,
@@ -54,7 +60,7 @@ class MapComponent extends React.Component {
     mapEngine: PropTypes.oneOf(UIDomain.MAP_ENGINE).isRequired,
 
     // product selection management
-    selectedProducts: PropTypes.arrayOf(PropTypes.object),
+    selectedProducts: PropTypes.objectOf(CatalogShapes.Entity).isRequired, // inner object is entity type
     onProductSelected: PropTypes.func.isRequired,
 
     // Identifies a unique instance of this component (required for MizarAdapter ID)
@@ -85,11 +91,11 @@ class MapComponent extends React.Component {
   render() {
     const {
       featuresCollection, displayedAreas, mapEngine,
-      selectionMode, onDrawingSelectionUpdated, onDrawingSelectionDone,
+      mapSelectionMode, onDrawingSelectionUpdated, onDrawingSelectionDone,
       viewMode, onToggleSelectionMode, onToggleViewMode,
-      onFeaturesPicked, layers,
+      onProductZoomTo, layers,
       selectedProducts, onProductSelected, onToponymSelected, selectedToponyms,
-      featureShapefile,
+      featureShapefile, zoomTo,
     } = this.props
     const { customLayersOpacity } = this.state
 
@@ -102,8 +108,8 @@ class MapComponent extends React.Component {
       drawnAreas: displayedAreas,
       onDrawingSelectionUpdated,
       onDrawingSelectionDone,
-      drawingSelection: selectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE,
-      onFeaturesSelected: onFeaturesPicked,
+      drawingSelection: mapSelectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE,
+      onProductZoomTo,
       featuresColor: featureColor,
       drawColor,
       customLayersOpacity,
@@ -114,24 +120,23 @@ class MapComponent extends React.Component {
       viewMode,
       selectedToponyms,
       featureShapefile,
+      zoomTo,
     }
     return (
       <>
         <MapToolsComponent
           layers={layers}
-          selectionMode={selectionMode}
+          mapSelectionMode={mapSelectionMode}
           viewMode={viewMode}
           onToggleViewMode={onToggleViewMode}
           onToggleSelectionMode={onToggleSelectionMode}
           handleChangeOpacity={this.handleChangeOpacity}
           opacity={customLayersOpacity}
-          selectedProducts={selectedProducts}
-          onProductSelected={onProductSelected}
         />
         <SearchToponymContainer
           onToponymSelected={onToponymSelected}
         />
-        { (() => {
+        {(() => {
           switch (mapEngine) {
             case UIDomain.MAP_ENGINE_ENUM.MIZAR:
               // canvasId required by MizarProvider for multi instance (issue regards/regards#945)

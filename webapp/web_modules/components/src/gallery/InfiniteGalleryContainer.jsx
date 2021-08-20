@@ -72,7 +72,7 @@ export class InfiniteGalleryContainer extends React.Component {
     authentication: AuthenticateShape, // authentication data, used to refetch on authentication change
 
     itemOfInterestPicked: PropTypes.number,
-    getItemOfInterest: PropTypes.func,
+    isItemOfInterest: PropTypes.func,
 
     // When parent container size change, it provides a different key to force re-rendering
     forceRenderingUsingKey: PropTypes.string,
@@ -207,7 +207,7 @@ export class InfiniteGalleryContainer extends React.Component {
     const { entities } = this.state
     const {
       itemComponent, columnWidth, columnGutter, entitiesFetching, loadingComponent, emptyComponent, itemProps, itemOfInterestPicked,
-      getItemOfInterest, forceRenderingUsingKey,
+      isItemOfInterest, forceRenderingUsingKey,
     } = this.props
     const currentTotalEntities = this.getCurrentTotalEntities()
 
@@ -226,7 +226,7 @@ export class InfiniteGalleryContainer extends React.Component {
           alignCenter
           onInfiniteLoad={this.fetchMoreEntities}
           itemOfInterestPicked={itemOfInterestPicked}
-          getItemOfInterest={getItemOfInterest}
+          isItemOfInterest={isItemOfInterest}
         />
       </MeasureResultProvider>
     )
