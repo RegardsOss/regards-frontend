@@ -62,7 +62,8 @@ export class DatasetListContainer extends React.Component {
   onRefresh = (filters) => {
     const { meta, fetchDatasetList } = this.props
     const curentPage = get(meta, 'number', 0)
-    return fetchDatasetList(0, DatasetListComponent.PAGE_SIZE * (curentPage + 1), {}, filters)
+    const curentPageSize = get(meta, 'size', DatasetListComponent.PAGE_SIZE)
+    return fetchDatasetList(0, curentPageSize * (curentPage + 1), {}, filters)
   }
 
   getCreateUrl = () => {
