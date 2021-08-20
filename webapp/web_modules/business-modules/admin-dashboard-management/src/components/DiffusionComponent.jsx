@@ -16,11 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
-import { ListItem } from 'material-ui/List'
 import { AdminShapes } from '@regardsoss/shape'
 import { CommonDomain } from '@regardsoss/domain'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -28,8 +26,10 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
-import { DIFFUSION_PRODUCTS_PROPERTIES, DIFFUSION_PRODUCTS_PROPERTIES_ENUM } from '../domain/diffusionProperties'
+import { DIFFUSION_PRODUCTS_PROPERTIES } from '../domain/diffusionProperties'
+import DisplayPropertiesComponent from './DisplayPropertiesComponent'
 import { ICON_TYPE_ENUM } from '../domain/iconType'
+import { STEP_SUB_TYPES_ENUM } from '../domain/stepSubTypes'
 
 const {
   displayNumber,
@@ -55,34 +55,6 @@ class DiffusionComponent extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/datasource/monitor`)
   }
 
-  displayListItem = (property) => {
-    const { sessionStep } = this.props
-    const {
-      intl: { formatMessage }, moduleTheme: {
-        selectedSessionStyle: {
-          listItemStyle, listItemNoValueStyle, listItemErrorStyle,
-        },
-      },
-    } = this.context
-    const propValue = get(sessionStep, `properties.${property}`, false)
-    let style = listItemNoValueStyle
-    if (propValue > 0) {
-      style = listItemStyle
-    }
-    if (property === DIFFUSION_PRODUCTS_PROPERTIES_ENUM.INDEXED_ERROR) {
-      style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
-    }
-    return (
-      <ListItem
-        key={property}
-        primaryText={formatMessage({ id: `dashboard.selectedsession.diffusion.${property}` }, { value: propValue || 0 })}
-        title={formatMessage({ id: `dashboard.selectedsession.diffusion.${property}.tooltip` }, { value: propValue || 0 })}
-        disabled
-        style={style}
-      />
-    )
-  }
-
   render() {
     const { sessionStep } = this.props
     const {
@@ -102,8 +74,8 @@ class DiffusionComponent extends React.Component {
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.diffusion.title' })}
-              subtitle={formatMessage({ id: 'dashboard.selectedsession.diffusion.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
+              title={formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.diffusion.title' })}
+              subtitle={formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.diffusion.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
               titleStyle={cardTitleTextStyle}
               subtitleStyle={cardSubTitleTextStyle}
               style={cardTitleStyle}
@@ -119,17 +91,19 @@ class DiffusionComponent extends React.Component {
             <div style={listItemDivStyle}>
               <div style={propertiesTitleStyle}>
                 <div style={propertiesDivStyle}>
-                  {formatMessage({ id: 'dashboard.selectedsession.diffusion.properties.products.title' })}
+                  {formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.diffusion.properties.products.title' })}
                 </div>
-                {
-                  map(DIFFUSION_PRODUCTS_PROPERTIES, (property) => (this.displayListItem(property)))
-                }
+                <DisplayPropertiesComponent
+                  properties={DIFFUSION_PRODUCTS_PROPERTIES}
+                  sessionStep={sessionStep}
+                  stepSubType={STEP_SUB_TYPES_ENUM.DISSEMINATION}
+                />
               </div>
             </div>
             <div style={cardButtonStyle}>
               <RaisedButton
                 onClick={this.onClick}
-                label={formatMessage({ id: 'dashboard.selectedsession.diffusion.button.see-detail' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.diffusion.button.see-detail' })}
                 primary
                 style={raisedListStyle}
               />

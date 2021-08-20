@@ -74,8 +74,8 @@ class AcquisitionComponent extends React.Component {
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.acquisition.title' })}
-              subtitle={formatMessage({ id: 'dashboard.selectedsession.acquisition.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
+              title={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.title' })}
+              subtitle={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
               titleStyle={cardTitleTextStyle}
               subtitleStyle={cardSubTitleTextStyle}
               style={cardTitleStyle}

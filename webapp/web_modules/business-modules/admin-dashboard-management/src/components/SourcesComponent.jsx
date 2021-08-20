@@ -18,6 +18,7 @@
  **/
 import throttle from 'lodash/throttle'
 import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -43,7 +44,7 @@ import { sourcesActions, sourcesSelectors } from '../clients/SourcesClient'
 import ReferencedProductsRender from './render/ReferencedProductsRender'
 import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
-import { COMPONENT_TYPE_ENUM } from '../domain/componentTypes'
+import { ENTITY_ENUM } from '../domain/entityTypes'
 import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
 import { SOURCE_FILTER_PARAMS } from '../domain/filters'
 /**
@@ -53,14 +54,14 @@ import { SOURCE_FILTER_PARAMS } from '../domain/filters'
 class SourcesComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    selectedSource: AdminShapes.Source,
     onSelected: PropTypes.func.isRequired,
-    selectedSession: AdminShapes.Session,
     onApplyFilters: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     sources: AdminShapes.SourceList,
     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     filters: PropTypes.object.isRequired,
+    selectedSessionId: PropTypes.string,
+    selectedSourceId: PropTypes.string,
   }
 
   static contextTypes = {
@@ -116,14 +117,16 @@ class SourcesComponent extends React.Component {
         [filterElement]: newStateValue,
       },
     }
-    onApplyFilters(newState.filters, COMPONENT_TYPE_ENUM.SOURCE)
-    this.applySourceFilters(newState.filters)
-    this.setState(newState)
+    if (!isEqual(newState.filters, filters)) {
+      onApplyFilters(newState.filters, ENTITY_ENUM.SOURCE)
+      this.applySourceFilters(newState.filters)
+      this.setState(newState)
+    }
   }
 
   render() {
     const {
-      project, onSelected, selectedSource, selectedSession, filters,
+      project, onSelected, filters, selectedSessionId, selectedSourceId,
     } = this.props
     const { sourceFilters } = this.state
     const {
@@ -145,8 +148,8 @@ class SourcesComponent extends React.Component {
           Constructor: NameRender,
           props: {
             onSelected,
-            selectedEntity: selectedSource,
-            componentType: COMPONENT_TYPE_ENUM.SOURCE,
+            selectedEntityId: selectedSourceId,
+            entityType: ENTITY_ENUM.SOURCE,
           },
         }).titleHeaderCell()
         .build(),
@@ -155,7 +158,7 @@ class SourcesComponent extends React.Component {
         .label(formatMessage({ id: 'dashboard.sources.table.column.referencedProducts' }))
         .rowCellDefinition({
           Constructor: ReferencedProductsRender,
-          props: { componentType: COMPONENT_TYPE_ENUM.SOURCE },
+          props: { entityType: ENTITY_ENUM.SOURCE },
         }).titleHeaderCell()
         .optionsSizing(2.75)
         .build(),
@@ -164,7 +167,7 @@ class SourcesComponent extends React.Component {
         .label(formatMessage({ id: 'dashboard.sources.table.column.diffusedProducts' }))
         .rowCellDefinition({
           Constructor: DiffusedProductsRender,
-          props: { componentType: COMPONENT_TYPE_ENUM.SOURCE },
+          props: { entityType: ENTITY_ENUM.SOURCE },
         }).titleHeaderCell()
         .optionsSizing(2.5)
         .build(),
@@ -212,7 +215,7 @@ class SourcesComponent extends React.Component {
               key="source"
               name="sources-table"
               minRowCount={minRowCount}
-              maxRowCount={!isEmpty(selectedSession) ? minRowCount : maxRowCount}
+              maxRowCount={!isEmpty(selectedSessionId) ? minRowCount : maxRowCount}
               pageActions={sourcesActions}
               pageSelectors={sourcesSelectors}
               requestParams={{ ...sourceFilters, tenant: project }}

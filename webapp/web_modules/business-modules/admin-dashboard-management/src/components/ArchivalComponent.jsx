@@ -17,20 +17,20 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { AdminShapes } from '@regardsoss/shape'
 import { CommonDomain } from '@regardsoss/domain'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
-import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { STORAGE_FILES_PROPERTIES, STORAGE_REQUESTS_PROPERTIES_ENUM, STORAGE_REQUESTS_PROPERTIES } from '../domain/storageProperties'
+import { STORAGE_FILES_PROPERTIES, STORAGE_REQUESTS_PROPERTIES } from '../domain/storageProperties'
 import DisplayIconsComponent from './DisplayIconsComponent'
+import DisplayPropertiesComponent from './DisplayPropertiesComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 import { ICON_TYPE_ENUM } from '../domain/iconType'
+import { STEP_SUB_TYPES_ENUM } from '../domain/stepSubTypes'
 
 const {
   displayNumber,
@@ -61,34 +61,6 @@ class ArchivalComponent extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/storage/storages`)
   }
 
-  displayListItem = (property) => {
-    const { sessionStep } = this.props
-    const {
-      intl: { formatMessage }, moduleTheme: {
-        selectedSessionStyle: {
-          listItemStyle, listItemNoValueStyle, listItemErrorStyle,
-        },
-      },
-    } = this.context
-    const propValue = get(sessionStep, `properties.${property}`, false)
-    let style = listItemNoValueStyle
-    if (propValue > 0) {
-      style = listItemStyle
-    }
-    if (property === STORAGE_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-      style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
-    }
-    return (
-      <ListItem
-        key={property}
-        primaryText={formatMessage({ id: `dashboard.selectedsession.storage.${property}` }, { value: propValue || 0 })}
-        title={formatMessage({ id: `dashboard.selectedsession.storage.${property}.tooltip` }, { value: propValue || 0 })}
-        disabled
-        style={style}
-      />
-    )
-  }
-
   // Case Storage
   displayStorage = () => {
     const {
@@ -105,25 +77,29 @@ class ArchivalComponent extends React.Component {
       <div style={listItemDivStyle}>
         <div style={propertiesTitleStyle}>
           <div style={propertiesDivStyleAlt}>
-            {formatMessage({ id: 'dashboard.selectedsession.storage.properties.requests.title' })}
+            {formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.properties.requests.title' })}
           </div>
-          {
-            map(STORAGE_REQUESTS_PROPERTIES, (property) => (this.displayListItem(property)))
-          }
+          <DisplayPropertiesComponent
+            properties={STORAGE_REQUESTS_PROPERTIES}
+            sessionStep={sessionStep}
+            stepSubType={STEP_SUB_TYPES_ENUM.STORAGE}
+          />
         </div>
         <div style={propertiesTitleStyleAlt}>
           <div style={propertiesDivStyle}>
-            {formatMessage({ id: 'dashboard.selectedsession.storage.properties.files.title' })}
+            {formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.properties.files.title' })}
           </div>
-          {
-            map(STORAGE_FILES_PROPERTIES, (property) => (this.displayListItem(property)))
-          }
+          <DisplayPropertiesComponent
+            properties={STORAGE_FILES_PROPERTIES}
+            sessionStep={sessionStep}
+            stepSubType={STEP_SUB_TYPES_ENUM.STORAGE}
+          />
         </div>
       </div>
       <div style={cardButtonStyle}>
         <RaisedButton
           onClick={this.onClick}
-          label={formatMessage({ id: 'dashboard.selectedsession.storage.button.see-stockage' })}
+          label={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.button.see-stockage' })}
           primary
           style={raisedListStyle}
         />
@@ -132,7 +108,7 @@ class ArchivalComponent extends React.Component {
         nbErrors !== 0
           ? <RaisedButton
               onClick={this.toggleRetryErrorsDialog}
-              label={formatMessage({ id: 'dashboard.selectedsession.storage.button.retry-errors' })}
+              label={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.button.retry-errors' })}
               primary
               style={raisedListStyle}
           /> : null
@@ -153,8 +129,8 @@ class ArchivalComponent extends React.Component {
     return (
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.CONFIRM}
-        title={formatMessage({ id: 'dashboard.selectedsession.storage.dialog.retry.title' })}
-        message={formatMessage({ id: 'dashboard.selectedsession.storage.dialog.retry.message' })}
+        title={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.dialog.retry.title' })}
+        message={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.dialog.retry.message' })}
         onConfirm={this.onRetryErrors}
         onClose={this.toggleRetryErrorsDialog}
         open={isRetryErrorsDialogOpen}
@@ -184,8 +160,8 @@ class ArchivalComponent extends React.Component {
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.storage.title' })}
-              subtitle={formatMessage({ id: 'dashboard.selectedsession.storage.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
+              title={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.title' })}
+              subtitle={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
               titleStyle={cardTitleTextStyle}
               subtitleStyle={cardSubTitleTextStyle}
               style={cardTitleStyle}

@@ -27,7 +27,7 @@ import SourcesComponent from '../components/SourcesComponent'
 import { SOURCE_FILTER_PARAMS } from '../domain/filters'
 
 /**
- * Comment Here
+ * Sources Container
  * @author Théo Lasserre
  */
 export class SourcesContainer extends React.Component {
@@ -39,6 +39,8 @@ export class SourcesContainer extends React.Component {
     onApplyFilters: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     filters: PropTypes.object.isRequired,
+    selectedSessionId: PropTypes.string,
+    selectedSourceId: PropTypes.string,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     sources: AdminShapes.SourceList,
@@ -83,7 +85,7 @@ export class SourcesContainer extends React.Component {
   render() {
     const {
       project, onSelected, selectedSource, selectedSession, onApplyFilters,
-      filters, sources,
+      filters, sources, selectedSessionId, selectedSourceId,
     } = this.props
     return (
       <SourcesComponent
@@ -94,6 +96,8 @@ export class SourcesContainer extends React.Component {
         onApplyFilters={onApplyFilters}
         sources={sources}
         filters={filters}
+        selectedSessionId={selectedSessionId}
+        selectedSourceId={selectedSourceId}
       />
     )
   }

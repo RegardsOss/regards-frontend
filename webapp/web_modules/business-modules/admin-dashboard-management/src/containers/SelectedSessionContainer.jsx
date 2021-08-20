@@ -18,7 +18,6 @@
  **/
 import { connect } from '@regardsoss/redux'
 import isEmpty from 'lodash/isEmpty'
-import isEqual from 'lodash/isEqual'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
@@ -39,10 +38,6 @@ export class SelectedSessionContainer extends React.Component {
     retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
     retryFEMRequests: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
-    sourceFilters: PropTypes.object.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
-    sessionFilters: PropTypes.object.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     selectedSession: AdminShapes.Session,
@@ -65,67 +60,26 @@ export class SelectedSessionContainer extends React.Component {
     ...themeContextType,
   }
 
-  state = {
-    selectedSession: null,
+  render() {
+    const {
+      project, onSelected, relaunchProducts,
+      relaunchAIP, retryRequests, relaunchStorages, deleteSession, retryFEMRequests, selectedSession,
+    } = this.props
+    return (
+      !isEmpty(selectedSession)
+        ? <SelectedSessionComponent
+            project={project}
+            selectedSession={selectedSession}
+            onSelected={onSelected}
+            relaunchProducts={relaunchProducts}
+            relaunchAIP={relaunchAIP}
+            retryRequests={retryRequests}
+            relaunchStorages={relaunchStorages}
+            deleteSession={deleteSession}
+            retryFEMRequests={retryFEMRequests}
+        /> : null
+    )
   }
-
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-   UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-   /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-   /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-   onPropertiesUpdated = (oldProps, newProps) => {
-     const {
-       selectedSession,
-     } = newProps
-
-     const oldState = this.state || {}
-     const newState = { ...oldState }
-
-     if (!isEqual(oldProps.selectedSession, selectedSession)) {
-       newState.selectedSession = selectedSession
-     }
-     // update when there is a state change
-     if (!isEqual(oldState, newState)) {
-       this.setState(newState)
-     }
-   }
-
-   render() {
-     const {
-       project, onSelected, relaunchProducts,
-       relaunchAIP, retryRequests, relaunchStorages, deleteSession, sourceFilters,
-       sessionFilters, retryFEMRequests,
-     } = this.props
-     const { selectedSession } = this.state
-     return (
-       !isEmpty(selectedSession)
-         ? <SelectedSessionComponent
-             project={project}
-             selectedSession={selectedSession}
-             onSelected={onSelected}
-             relaunchProducts={relaunchProducts}
-             relaunchAIP={relaunchAIP}
-             retryRequests={retryRequests}
-             relaunchStorages={relaunchStorages}
-             deleteSession={deleteSession}
-             sourceFilters={sourceFilters}
-             sessionFilters={sessionFilters}
-             retryFEMRequests={retryFEMRequests}
-         /> : null
-     )
-   }
 }
 export default connect(
   SelectedSessionContainer.mapStateToProps, null)(SelectedSessionContainer)

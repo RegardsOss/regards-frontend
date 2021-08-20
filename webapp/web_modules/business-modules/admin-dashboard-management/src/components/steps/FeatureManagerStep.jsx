@@ -16,19 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import get from 'lodash/get'
 import forEach from 'lodash/forEach'
 import { browserHistory } from 'react-router'
 import { FemDomain } from '@regardsoss/domain'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
-import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FEM_REQUESTS_PROPERTIES, FEM_PRODUCTS_PROPERTIES, FEM_REQUESTS_PROPERTIES_ENUM } from '../../domain/femProperties'
+import { FEM_REQUESTS_PROPERTIES, FEM_PRODUCTS_PROPERTIES } from '../../domain/femProperties'
+import DisplayPropertiesComponent from '../DisplayPropertiesComponent'
 import { ICON_TYPE_ENUM } from '../../domain/iconType'
+import { STEP_SUB_TYPES_ENUM } from '../../domain/stepSubTypes'
 
 /**
   * FeatureManagerStep
@@ -81,35 +81,6 @@ class FeatureManagerStep extends React.Component {
     return Promise.resolve(tasks)
   }
 
-  displayListItem = (property) => {
-    const { sessionStep } = this.props
-    const {
-      intl: { formatMessage }, moduleTheme: {
-        selectedSessionStyle: {
-          listItemStyle, listItemNoValueStyle, listItemErrorStyle,
-        },
-      },
-    } = this.context
-    let propValue = get(sessionStep, `properties.${property}`, false)
-    let style = listItemNoValueStyle
-    if (propValue > 0) {
-      style = listItemStyle
-    }
-    if (property === FEM_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-      propValue = +get(sessionStep, 'properties.inErrorReferencingRequests', 0) + +get(sessionStep, 'properties.inErrorDeleteRequests', 0) + +get(sessionStep, 'properties.inErrorUpdateRequests', 0) + +get(sessionStep, 'properties.inErrorNotifyRequests', 0)
-      style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
-    }
-    return (
-      <ListItem
-        key={property}
-        primaryText={formatMessage({ id: `dashboard.selectedsession.referencing.fem.${property}` }, { value: propValue || 0 })}
-        title={formatMessage({ id: `dashboard.selectedsession.referencing.fem.${property}.tooltip` }, { value: propValue || 0 })}
-        disabled
-        style={style}
-      />
-    )
-  }
-
   toggleRetryErrorsDialog = () => {
     const { isRetryErrorsDialogOpen } = this.state
     this.setState({
@@ -123,8 +94,8 @@ class FeatureManagerStep extends React.Component {
     return (
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.CONFIRM}
-        title={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.dialog.retry.title' })}
-        message={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.dialog.retry.message' })}
+        title={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.fem.dialog.retry.title' })}
+        message={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.fem.dialog.retry.message' })}
         onConfirm={this.onRetryErrors}
         onClose={this.toggleRetryErrorsDialog}
         open={isRetryErrorsDialogOpen}
@@ -147,25 +118,29 @@ class FeatureManagerStep extends React.Component {
       <div style={listItemDivStyle}>
         <div style={propertiesTitleStyle}>
           <div style={propertiesDivStyleAlt}>
-            {formatMessage({ id: 'dashboard.selectedsession.referencing.fem.properties.requests.title' })}
+            {formatMessage({ id: 'dashboard.selectedsession.REFERENCING.fem.properties.requests.title' })}
           </div>
-          {
-            map(FEM_REQUESTS_PROPERTIES, (property) => (this.displayListItem(property)))
-          }
+          <DisplayPropertiesComponent
+            properties={FEM_REQUESTS_PROPERTIES}
+            sessionStep={sessionStep}
+            stepSubType={STEP_SUB_TYPES_ENUM.FEATURE_MANAGER}
+          />
         </div>
         <div style={propertiesTitleStyleAlt}>
           <div style={propertiesDivStyle}>
-            {formatMessage({ id: 'dashboard.selectedsession.referencing.fem.properties.products.title' })}
+            {formatMessage({ id: 'dashboard.selectedsession.REFERENCING.fem.properties.products.title' })}
           </div>
-          {
-            map(FEM_PRODUCTS_PROPERTIES, (property) => (this.displayListItem(property)))
-          }
+          <DisplayPropertiesComponent
+            properties={FEM_PRODUCTS_PROPERTIES}
+            sessionStep={sessionStep}
+            stepSubType={STEP_SUB_TYPES_ENUM.FEATURE_MANAGER}
+          />
         </div>
       </div>
       <div style={cardButtonStyle}>
         <RaisedButton
           onClick={this.onSeeReferenced}
-          label={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.button.see-referenced' })}
+          label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.fem.button.see-referenced' })}
           primary
           style={raisedListStyle}
         />
@@ -174,13 +149,13 @@ class FeatureManagerStep extends React.Component {
             ? <div style={cardButtonStyle}>
               <RaisedButton
                 onClick={this.onSeeErrors}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.button.see-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.fem.button.see-errors' })}
                 primary
                 style={raisedListStyle}
               />
               <RaisedButton
                 onClick={this.toggleRetryErrorsDialog}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.button.retry-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.fem.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
               />
