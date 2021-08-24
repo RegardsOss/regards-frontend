@@ -18,6 +18,7 @@
  **/
 import throttle from 'lodash/throttle'
 import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -43,7 +44,7 @@ import { sessionsActions, sessionsSelectors } from '../clients/SessionsClient'
 import ReferencedProductsRender from './render/ReferencedProductsRender'
 import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
-import { COMPONENT_TYPE_ENUM } from '../domain/componentTypes'
+import { ENTITY_ENUM } from '../domain/entityTypes'
 import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
 import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS } from '../domain/filters'
 
@@ -54,14 +55,14 @@ import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS } from '../domain/filters'
 class SessionsComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    selectedSession: AdminShapes.Session,
     onSelected: PropTypes.func.isRequired,
     onApplyFilters: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     sessions: AdminShapes.SessionList,
-    selectedSource: AdminShapes.Source,
     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     filters: PropTypes.object.isRequired,
+    selectedSourceId: PropTypes.string,
+    selectedSessionId: PropTypes.string,
   }
 
   static contextTypes = {
@@ -117,14 +118,16 @@ class SessionsComponent extends React.Component {
         [filterElement]: newStateValue,
       },
     }
-    onApplyFilters(newState.filters, COMPONENT_TYPE_ENUM.SESSION)
-    this.applySessionFilters(newState.filters)
-    this.setState(newState)
+    if (!isEqual(newState.filters, filters)) {
+      onApplyFilters(newState.filters, ENTITY_ENUM.SESSION)
+      this.applySessionFilters(newState.filters)
+      this.setState(newState)
+    }
   }
 
   render() {
     const {
-      project, onSelected, selectedSession, selectedSource, filters,
+      project, onSelected, filters, selectedSourceId, selectedSessionId,
     } = this.props
     const { sessionFilters } = this.state
     const {
@@ -146,8 +149,8 @@ class SessionsComponent extends React.Component {
           Constructor: NameRender,
           props: {
             onSelected,
-            selectedEntity: selectedSession,
-            componentType: COMPONENT_TYPE_ENUM.SESSION,
+            selectedEntityId: selectedSessionId,
+            entityType: ENTITY_ENUM.SESSION,
           },
         }).titleHeaderCell()
         .build(),
@@ -156,7 +159,7 @@ class SessionsComponent extends React.Component {
         .label(formatMessage({ id: 'dashboard.sessions.table.column.referencedProducts' }))
         .rowCellDefinition({
           Constructor: ReferencedProductsRender,
-          props: { componentType: COMPONENT_TYPE_ENUM.SESSION },
+          props: { entityType: ENTITY_ENUM.SESSION },
         }).titleHeaderCell()
         .optionsSizing(2.75)
         .build(),
@@ -165,7 +168,7 @@ class SessionsComponent extends React.Component {
         .label(formatMessage({ id: 'dashboard.sessions.table.column.diffusedProducts' }))
         .rowCellDefinition({
           Constructor: DiffusedProductsRender,
-          props: { componentType: COMPONENT_TYPE_ENUM.SESSION },
+          props: { entityType: ENTITY_ENUM.SESSION },
         }).titleHeaderCell()
         .optionsSizing(2.5)
         .build(),
@@ -210,10 +213,10 @@ class SessionsComponent extends React.Component {
             <PageableInfiniteTableContainer
               name="sessions-table"
               minRowCount={minRowCount}
-              maxRowCount={!isEmpty(selectedSession) ? minRowCount : maxRowCount}
+              maxRowCount={!isEmpty(selectedSessionId) ? minRowCount : maxRowCount}
               pageActions={sessionsActions}
               pageSelectors={sessionsSelectors}
-              requestParams={{ ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSource ? selectedSource.content.name : null, tenant: project }}
+              requestParams={{ ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSourceId || null, tenant: project }}
               pageSize={SessionsComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={SessionsComponent.EMPTY_COMPONENT}

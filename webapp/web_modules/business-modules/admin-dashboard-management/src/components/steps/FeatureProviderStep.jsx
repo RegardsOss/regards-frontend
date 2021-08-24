@@ -17,17 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { FemDomain } from '@regardsoss/domain'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
-import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FEATURE_PROVIDER_REQUESTS_PROPERTIES, FEATURE_PROVIDER_REQUESTS_PROPERTIES_ENUM, FEATURE_PROVIDER_PRODUCTS_PROPERTIES } from '../../domain/featureProviderProperties'
+import { FEATURE_PROVIDER_REQUESTS_PROPERTIES, FEATURE_PROVIDER_PRODUCTS_PROPERTIES } from '../../domain/featureProviderProperties'
+import DisplayPropertiesComponent from '../DisplayPropertiesComponent'
 import { ICON_TYPE_ENUM } from '../../domain/iconType'
+import { STEP_SUB_TYPES_ENUM } from '../../domain/stepSubTypes'
 
 /**
  * FeatureProviderStep
@@ -73,8 +73,8 @@ class FeatureProviderStep extends React.Component {
     return (
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.CONFIRM}
-        title={formatMessage({ id: 'dashboard.selectedsession.acquisition.fp.dialog.retry.title' })}
-        message={formatMessage({ id: 'dashboard.selectedsession.acquisition.fp.dialog.retry.message' })}
+        title={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.fp.dialog.retry.title' })}
+        message={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.fp.dialog.retry.message' })}
         onConfirm={this.onRetryErrors}
         onClose={this.toggleRetryErrorsDialog}
         open={isRetryErrorsDialogOpen}
@@ -94,34 +94,6 @@ class FeatureProviderStep extends React.Component {
     }, FemDomain.REQUEST_TYPES_ENUM.EXTRACTION)
   }
 
-  displayListItem = (property) => {
-    const { sessionStep } = this.props
-    const {
-      intl: { formatMessage }, moduleTheme: {
-        selectedSessionStyle: {
-          listItemStyle, listItemNoValueStyle, listItemErrorStyle,
-        },
-      },
-    } = this.context
-    const propValue = get(sessionStep, `properties.${property}`, false)
-    let style = listItemNoValueStyle
-    if (propValue > 0) {
-      style = listItemStyle
-    }
-    if (property === FEATURE_PROVIDER_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-      style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
-    }
-    return (
-      <ListItem
-        key={property}
-        primaryText={formatMessage({ id: `dashboard.selectedsession.acquisition.fp.${property}` }, { value: propValue || 0 })}
-        title={formatMessage({ id: `dashboard.selectedsession.acquisition.fp.${property}.tooltip` }, { value: propValue || 0 })}
-        disabled
-        style={style}
-      />
-    )
-  }
-
   render() {
     const { sessionStep } = this.props
     const {
@@ -137,25 +109,29 @@ class FeatureProviderStep extends React.Component {
       <div style={listItemDivStyle}>
         <div style={propertiesTitleStyle}>
           <div style={propertiesDivStyleAlt}>
-            {formatMessage({ id: 'dashboard.selectedsession.acquisition.fp.properties.requests.title' })}
+            {formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.fp.properties.requests.title' })}
           </div>
-          {
-            map(FEATURE_PROVIDER_REQUESTS_PROPERTIES, (property) => (this.displayListItem(property)))
-          }
+          <DisplayPropertiesComponent
+            properties={FEATURE_PROVIDER_REQUESTS_PROPERTIES}
+            sessionStep={sessionStep}
+            stepSubType={STEP_SUB_TYPES_ENUM.FEATURE_PROVIDER}
+          />
         </div>
         <div style={propertiesTitleStyleAlt}>
           <div style={propertiesDivStyle}>
-            {formatMessage({ id: 'dashboard.selectedsession.acquisition.fp.properties.products.title' })}
+            {formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.fp.properties.products.title' })}
           </div>
-          {
-            map(FEATURE_PROVIDER_PRODUCTS_PROPERTIES, (property) => (this.displayListItem(property)))
-          }
+          <DisplayPropertiesComponent
+            properties={FEATURE_PROVIDER_PRODUCTS_PROPERTIES}
+            sessionStep={sessionStep}
+            stepSubType={STEP_SUB_TYPES_ENUM.FEATURE_PROVIDER}
+          />
         </div>
       </div>
       <div style={cardButtonStyle}>
         <RaisedButton
           onClick={this.onSeeReferenced}
-          label={formatMessage({ id: 'dashboard.selectedsession.acquisition.fp.button.see-referenced' })}
+          label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.fp.button.see-referenced' })}
           primary
           style={raisedListStyle}
         />
@@ -164,13 +140,13 @@ class FeatureProviderStep extends React.Component {
             ? (<div style={cardButtonStyle}>
               <RaisedButton
                 onClick={this.onSeeErrors}
-                label={formatMessage({ id: 'dashboard.selectedsession.acquisition.fp.button.see-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.fp.button.see-errors' })}
                 primary
                 style={raisedListStyle}
               />
               <RaisedButton
                 onClick={this.toggleRetryErrorsDialog}
-                label={formatMessage({ id: 'dashboard.selectedsession.acquisition.fp.button.retry-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.fp.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
               />

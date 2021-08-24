@@ -94,9 +94,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       relaunchAIP: props.relaunchAIP,
       retryRequests: props.retryRequests,
       relaunchStorages: props.relaunchStorages,
-      deleteSession: enzymeWrapper.instance().onDeleteSession,
-      sourceFilters: enzymeWrapper.instance().state.sourceFilters,
-      sessionFilters: enzymeWrapper.instance().state.sessionFilters,
+      deleteSession: props.deleteSession,
       retryFEMRequests: props.retryFEMRequests,
     }, 'Component should define the expected properties')
   })

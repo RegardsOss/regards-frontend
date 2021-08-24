@@ -33,100 +33,100 @@ import ProcessingListComponent from '../components/ProcessingListComponent'
  * @author Théo Lasserre
  */
 export class ProcessingListContainer extends React.Component {
-    /**
-     * Redux: map state to props function
-     * @param {*} state: current redux state
-     * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-     * @return {*} list of component properties extracted from redux state
-     */
-    static mapStateToProps = (state) => ({
-      processingList: processingSelectors.getOrderedList(state),
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps = (state) => ({
+    processingList: processingSelectors.getOrderedList(state),
+  })
+
+  /**
+   * Redux: map to dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps = (dispatch) => ({
+    fetchProcessingList: (pathParams, queryParams) => dispatch(processingActions.fetchEntityList(pathParams, queryParams)),
+    deleteProcessing: (businessId) => dispatch(processingActions.deleteEntity(businessId)),
+  })
+
+  static propTypes = {
+    // from router
+    params: PropTypes.shape({
+      project: PropTypes.string,
+    }),
+    // from mapStateToProp
+    processingList: ProcessingShapes.ProcessingArray.isRequired,
+    // from mapDispatchToProps
+    fetchProcessingList: PropTypes.func.isRequired,
+    deleteProcessing: PropTypes.func.isRequired,
+  }
+
+  state = {
+    isLoading: true,
+  }
+
+  UNSAFE_componentWillMount() {
+    this.props.fetchProcessingList().then((actionResult) => {
+      if (!actionResult.error) {
+        this.setState({
+          isLoading: false,
+        })
+      }
     })
+  }
 
-    /**
-     * Redux: map to dispatch to props function
-     * @param {*} dispatch: redux dispatch function
-     * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-     * @return {*} list of actions ready to be dispatched in the redux store
-     */
-    static mapDispatchToProps = (dispatch) => ({
-      fetchProcessingList: (pathParams, queryParams) => dispatch(processingActions.fetchEntityList(pathParams, queryParams)),
-      deleteProcessing: (businessId) => dispatch(processingActions.deleteEntity(businessId)),
-    })
+  onRefresh = (filters) => {
+    const { fetchProcessingList } = this.props
+    return fetchProcessingList({}, filters)
+  }
 
-    static propTypes = {
-      // from router
-      params: PropTypes.shape({
-        project: PropTypes.string,
-      }),
-      // from mapStateToProp
-      processingList: ProcessingShapes.ProcessingArray.isRequired,
-      // from mapDispatchToProps
-      fetchProcessingList: PropTypes.func.isRequired,
-      deleteProcessing: PropTypes.func.isRequired,
-    }
+  getCreateUrl = () => {
+    const { params: { project } } = this.props
+    return `/admin/${project}/commands/processing/create`
+  }
 
-    state = {
-      isLoading: true,
-    }
+  getBackURL = () => {
+    const { params: { project } } = this.props
+    return `/admin/${project}/commands/board`
+  }
 
-    UNSAFE_componentWillMount() {
-      this.props.fetchProcessingList().then((actionResult) => {
-        if (!actionResult.error) {
-          this.setState({
-            isLoading: false,
-          })
-        }
-      })
-    }
+  navigateToCreateProcessing = () => {
+    browserHistory.push(this.getCreateUrl())
+  }
 
-    onRefresh = (filters) => {
-      const { fetchProcessingList } = this.props
-      return fetchProcessingList({}, filters)
-    }
+  handleEdit = (businessId) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/commands/processing/${businessId}/edit`
+    browserHistory.push(url)
+  }
 
-    getCreateUrl = () => {
-      const { params: { project } } = this.props
-      return `/admin/${project}/commands/processing/create`
-    }
+  handleDelete = (businessId) => this.props.deleteProcessing(businessId)
 
-    getBackURL = () => {
-      const { params: { project } } = this.props
-      return `/admin/${project}/commands/board`
-    }
+  render() {
+    const { processingList } = this.props
+    const { isLoading } = this.state
 
-    navigateToCreateProcessing = () => {
-      browserHistory.push(this.getCreateUrl())
-    }
-
-    handleEdit = (businessId) => {
-      const { params: { project } } = this.props
-      const url = `/admin/${project}/commands/processing/${businessId}/edit`
-      browserHistory.push(url)
-    }
-
-    handleDelete = (businessId) => this.props.deleteProcessing(businessId)
-
-    render() {
-      const { processingList } = this.props
-      const { isLoading } = this.state
-
-      return (
-        <I18nProvider messages={messages}>
-          <LoadableContentDisplayDecorator isLoading={isLoading}>
-            <ProcessingListComponent
-              processingList={processingList}
-              handleDelete={this.handleDelete}
-              handleEdit={this.handleEdit}
-              backUrl={this.getBackURL()}
-              createUrl={this.getCreateUrl()}
-              navigateToCreateProcessing={this.navigateToCreateProcessing}
-              onRefresh={this.onRefresh}
-            />
-          </LoadableContentDisplayDecorator>
-        </I18nProvider>
-      )
-    }
+    return (
+      <I18nProvider messages={messages}>
+        <LoadableContentDisplayDecorator isLoading={isLoading}>
+          <ProcessingListComponent
+            processingList={processingList}
+            handleDelete={this.handleDelete}
+            handleEdit={this.handleEdit}
+            backUrl={this.getBackURL()}
+            createUrl={this.getCreateUrl()}
+            navigateToCreateProcessing={this.navigateToCreateProcessing}
+            onRefresh={this.onRefresh}
+          />
+        </LoadableContentDisplayDecorator>
+      </I18nProvider>
+    )
+  }
 }
 
 export default compose(

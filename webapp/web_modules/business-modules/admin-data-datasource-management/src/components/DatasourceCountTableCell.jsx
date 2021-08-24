@@ -26,26 +26,26 @@ import { i18nContextType } from '@regardsoss/i18n'
   */
 
 class DatasourceCountTableCell extends React.Component {
-    static propTypes = {
-      // from table cell API
-      entity: DataManagementShapes.CrawlerDatasource.isRequired,
-    }
+  static propTypes = {
+    // from table cell API
+    entity: DataManagementShapes.CrawlerDatasource.isRequired,
+  }
 
-    static contextTypes = {
-      ...i18nContextType,
-    }
+  static contextTypes = {
+    ...i18nContextType,
+  }
 
-    static lineWrapper = {
-      display: 'flex',
-      alignItems: 'center',
-    }
+  static lineWrapper = {
+    display: 'flex',
+    alignItems: 'center',
+  }
 
-    render() {
-      const { entity } = this.props
-      const okCount = get(entity, 'content.savedObjectsCount', 0)
-      const errorCount = get(entity, 'content.inErrorObjectsCount', 0)
-      return (<div style={DatasourceCountTableCell.lineWrapper}>{`${okCount} / ${okCount + errorCount}`}</div>)
-    }
+  render() {
+    const { entity } = this.props
+    const okCount = get(entity, 'content.savedObjectsCount', 0)
+    const errorCount = get(entity, 'content.inErrorObjectsCount', 0)
+    return (<div style={DatasourceCountTableCell.lineWrapper}>{`${okCount} / ${okCount + errorCount}`}</div>)
+  }
 }
 
 export default DatasourceCountTableCell

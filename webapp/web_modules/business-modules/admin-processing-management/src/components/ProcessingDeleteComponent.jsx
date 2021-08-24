@@ -28,36 +28,36 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Théo Lasserre
  */
 class ProcessingDeleteComponent extends React.Component {
-    static propTypes = {
-      entity: ProcessingShapes.Processing.isRequired,
-      handleDelete: PropTypes.func.isRequired,
-    }
+  static propTypes = {
+    entity: ProcessingShapes.Processing.isRequired,
+    handleDelete: PropTypes.func.isRequired,
+  }
 
-    static contextTypes = {
-      ...i18nContextType,
-      ...themeContextType,
-    }
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
+  }
 
-    /**
-     * User callback: on delete project user, locally wrapped
-     */
-    onDelete = () => {
-      const { entity, handleDelete } = this.props
-      handleDelete(entity)
-    }
+  /**
+   * User callback: on delete project user, locally wrapped
+   */
+  onDelete = () => {
+    const { entity, handleDelete } = this.props
+    handleDelete(entity)
+  }
 
-    render() {
-      const { intl: { formatMessage }, moduleTheme } = this.context
+  render() {
+    const { intl: { formatMessage }, moduleTheme } = this.context
 
-      return (
-        <IconButton
-          title={formatMessage({ id: 'processing.management.list.delete.button' })}
-          onClick={this.onDelete}
-        >
-          <DeleteIcon hoverColor={moduleTheme.hoverButtonDelete} />
-        </IconButton>
-      )
-    }
+    return (
+      <IconButton
+        title={formatMessage({ id: 'processing.management.list.delete.button' })}
+        onClick={this.onDelete}
+      >
+        <DeleteIcon hoverColor={moduleTheme.hoverButtonDelete} />
+      </IconButton>
+    )
+  }
 }
 
 export default ProcessingDeleteComponent

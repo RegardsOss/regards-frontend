@@ -52,181 +52,181 @@ const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButt
  * @author Théo Lasserre
  */
 class ProcessingListComponent extends React.Component {
-    static propTypes = {
-      processingList: ProcessingShapes.ProcessingArray.isRequired,
-      handleDelete: PropTypes.func.isRequired,
-      handleEdit: PropTypes.func.isRequired,
-      createUrl: PropTypes.string.isRequired,
-      navigateToCreateProcessing: PropTypes.func.isRequired,
-      onRefresh: PropTypes.func.isRequired,
-      backUrl: PropTypes.string.isRequired,
-    }
+  static propTypes = {
+    processingList: ProcessingShapes.ProcessingArray.isRequired,
+    handleDelete: PropTypes.func.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    navigateToCreateProcessing: PropTypes.func.isRequired,
+    onRefresh: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
+  }
 
-    static contextTypes = {
-      ...themeContextType,
-      ...i18nContextType,
-    }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
-    state = {
-      processingToDelete: null,
+  state = {
+    processingToDelete: null,
+    deleteDialogOpened: false,
+    filters: {},
+    errorMessage: null,
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
       deleteDialogOpened: false,
-      filters: {},
-      errorMessage: null,
-    }
+      processingToDelete: null,
+    })
+  }
 
-    closeDeleteDialog = () => {
-      this.setState({
-        deleteDialogOpened: false,
-        processingToDelete: null,
-      })
-    }
+  openDeleteDialog = (processing) => {
+    this.setState({
+      deleteDialogOpened: true,
+      processingToDelete: processing.content,
+    })
+  }
 
-    openDeleteDialog = (processing) => {
-      this.setState({
-        deleteDialogOpened: true,
-        processingToDelete: processing.content,
-      })
-    }
+  onApplyFilters = (filters) => {
+    this.setState({ filters })
+    this.props.onRefresh(filters)
+  }
 
-    onApplyFilters = (filters) => {
-      this.setState({ filters })
-      this.props.onRefresh(filters)
-    }
+  onRefresh = () => {
+    this.props.onRefresh(this.state.filters)
+  }
 
-    onRefresh = () => {
-      this.props.onRefresh(this.state.filters)
-    }
-
-    onDelete = () => {
-      this.props.handleDelete(this.state.processingToDelete.pluginConfiguration.businessId).then((actionResult) => {
-        if (actionResult.error) {
-          this.setState({ errorMessage: this.context.intl.formatMessage({ id: 'processing.management.list.delete.error' }) })
-        } else {
-          this.onRefresh()
-        }
-        this.closeDeleteDialog()
-      })
-    }
-
-    renderDeleteConfirmDialog = () => {
-      const name = this.state.processingToDelete
-        ? ProcessingDomain.getProcessingName(this.state.processingToDelete)
-        : 'processNameNotFound'
-      const title = this.context.intl.formatMessage({ id: 'processing.management.list.delete.title' }, { name })
-      return (
-        <ShowableAtRender show={this.state.deleteDialogOpened}>
-          <ConfirmDialogComponent
-            dialogType={ConfirmDialogComponentTypes.DELETE}
-            onConfirm={this.onDelete}
-            onClose={this.closeDeleteDialog}
-            title={title}
-          />
-        </ShowableAtRender>
-      )
-    }
-
-    renderErrors = () => {
-      if (this.state.errorMessage == null) {
-        return null
+  onDelete = () => {
+    this.props.handleDelete(this.state.processingToDelete.pluginConfiguration.businessId).then((actionResult) => {
+      if (actionResult.error) {
+        this.setState({ errorMessage: this.context.intl.formatMessage({ id: 'processing.management.list.delete.error' }) })
+      } else {
+        this.onRefresh()
       }
-      return (
-        <ErrorDecoratorComponent>
-          <span>{this.state.errorMessage}</span>
-        </ErrorDecoratorComponent>
-      )
+      this.closeDeleteDialog()
+    })
+  }
+
+  renderDeleteConfirmDialog = () => {
+    const name = this.state.processingToDelete
+      ? ProcessingDomain.getProcessingName(this.state.processingToDelete)
+      : 'processNameNotFound'
+    const title = this.context.intl.formatMessage({ id: 'processing.management.list.delete.title' }, { name })
+    return (
+      <ShowableAtRender show={this.state.deleteDialogOpened}>
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponentTypes.DELETE}
+          onConfirm={this.onDelete}
+          onClose={this.closeDeleteDialog}
+          title={title}
+        />
+      </ShowableAtRender>
+    )
+  }
+
+  renderErrors = () => {
+    if (this.state.errorMessage == null) {
+      return null
     }
+    return (
+      <ErrorDecoratorComponent>
+        <span>{this.state.errorMessage}</span>
+      </ErrorDecoratorComponent>
+    )
+  }
 
-    render() {
-      const {
-        processingList, handleEdit, createUrl, backUrl, navigateToCreateProcessing,
-      } = this.props
-      const { intl: { formatMessage }, muiTheme } = this.context
-      const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
+  render() {
+    const {
+      processingList, handleEdit, createUrl, backUrl, navigateToCreateProcessing,
+    } = this.props
+    const { intl: { formatMessage }, muiTheme } = this.context
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
-      const columns = [
-        // 1 - process name column
-        new TableColumnBuilder('column.processName')
-          .titleHeaderCell()
-          .rowCellDefinition({ Constructor: ProcessingProcessNameRenderer })
-          .label(formatMessage({ id: 'processing.monitoring.list.header.name.label' }))
-          .build(),
-        // 2 - process user role
-        new TableColumnBuilder('column.userRole')
-          .titleHeaderCell()
-          .propertyRenderCell('content.rights.role')
-          .label(formatMessage({ id: 'processing.monitoring.list.header.userRole' }))
-          .build(),
-        // 3 - Options
-        new TableColumnBuilder('column.options')
-          .label(formatMessage({ id: 'processing.monitoring.list.header.option' }))
-          .optionsColumn([{
-            OptionConstructor: ProcessingEditComponent,
-            optionProps: { handleEdit },
-          }, {
-            OptionConstructor: ProcessingDeleteComponent,
-            optionProps: { handleDelete: this.openDeleteDialog },
-          }]).build(),
-      ]
+    const columns = [
+      // 1 - process name column
+      new TableColumnBuilder('column.processName')
+        .titleHeaderCell()
+        .rowCellDefinition({ Constructor: ProcessingProcessNameRenderer })
+        .label(formatMessage({ id: 'processing.monitoring.list.header.name.label' }))
+        .build(),
+      // 2 - process user role
+      new TableColumnBuilder('column.userRole')
+        .titleHeaderCell()
+        .propertyRenderCell('content.rights.role')
+        .label(formatMessage({ id: 'processing.monitoring.list.header.userRole' }))
+        .build(),
+      // 3 - Options
+      new TableColumnBuilder('column.options')
+        .label(formatMessage({ id: 'processing.monitoring.list.header.option' }))
+        .optionsColumn([{
+          OptionConstructor: ProcessingEditComponent,
+          optionProps: { handleEdit },
+        }, {
+          OptionConstructor: ProcessingDeleteComponent,
+          optionProps: { handleDelete: this.openDeleteDialog },
+        }]).build(),
+    ]
 
-      const emptyContentAction = (
-        <FlatButtonWithResourceDisplayControl
-          resourceDependencies={processingDependencies.addProcessingDependencies}
-          label={formatMessage({ id: 'processing.management.list.no.processing.subtitle' })}
-          onClick={navigateToCreateProcessing}
-          primary
+    const emptyContentAction = (
+      <FlatButtonWithResourceDisplayControl
+        resourceDependencies={processingDependencies.addProcessingDependencies}
+        label={formatMessage({ id: 'processing.management.list.no.processing.subtitle' })}
+        onClick={navigateToCreateProcessing}
+        primary
+      />
+    )
+
+    const emptyComponent = (
+      <NoContentComponent
+        titleKey="processing.management.list.no.processing.title"
+        Icon={AddToPhotos}
+        action={emptyContentAction}
+      />
+    )
+
+    return (
+      <Card>
+        <CardTitle
+          title={this.context.intl.formatMessage({ id: 'processing.management.list.title' })}
+          subtitle={this.context.intl.formatMessage({ id: 'processing.management.list.subtitle' })}
         />
-      )
-
-      const emptyComponent = (
-        <NoContentComponent
-          titleKey="processing.management.list.no.processing.title"
-          Icon={AddToPhotos}
-          action={emptyContentAction}
-        />
-      )
-
-      return (
-        <Card>
-          <CardTitle
-            title={this.context.intl.formatMessage({ id: 'processing.management.list.title' })}
-            subtitle={this.context.intl.formatMessage({ id: 'processing.management.list.subtitle' })}
-          />
-          <CardText>
-            {this.renderDeleteConfirmDialog()}
-            {this.renderErrors()}
-            <TableLayout>
-              <ProcessingListFiltersComponent onApplyFilters={this.onApplyFilters} />
-              <TableHeaderLine>
-                <TableHeaderOptionsArea>
-                  <TableHeaderOptionGroup>
-                    <FlatButton
-                      label={formatMessage({ id: 'processing.management.table.refresh.button' })}
-                      icon={<Refresh />}
-                      onClick={this.onRefresh}
-                    />
-                  </TableHeaderOptionGroup>
-                </TableHeaderOptionsArea>
-              </TableHeaderLine>
-              <InfiniteTableContainer
-                minRowCount={minRowCount}
-                maxRowCount={maxRowCount}
-                columns={columns}
-                emptyComponent={emptyComponent}
-                entities={processingList}
-              />
-            </TableLayout>
-          </CardText>
-          <CardActions>
-            <CardActionsComponent
-              mainButtonUrl={createUrl}
-              mainButtonLabel={formatMessage({ id: 'processing.management.list.add.button' })}
-              mainHateoasDependencies={processingDependencies.addProcessingDependencies}
-              secondaryButtonLabel={formatMessage({ id: 'processing.management.list.cancel.button' })}
-              secondaryButtonUrl={backUrl}
+        <CardText>
+          {this.renderDeleteConfirmDialog()}
+          {this.renderErrors()}
+          <TableLayout>
+            <ProcessingListFiltersComponent onApplyFilters={this.onApplyFilters} />
+            <TableHeaderLine>
+              <TableHeaderOptionsArea>
+                <TableHeaderOptionGroup>
+                  <FlatButton
+                    label={formatMessage({ id: 'processing.management.table.refresh.button' })}
+                    icon={<Refresh />}
+                    onClick={this.onRefresh}
+                  />
+                </TableHeaderOptionGroup>
+              </TableHeaderOptionsArea>
+            </TableHeaderLine>
+            <InfiniteTableContainer
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
+              columns={columns}
+              emptyComponent={emptyComponent}
+              entities={processingList}
             />
-          </CardActions>
-        </Card>
-      )
-    }
+          </TableLayout>
+        </CardText>
+        <CardActions>
+          <CardActionsComponent
+            mainButtonUrl={createUrl}
+            mainButtonLabel={formatMessage({ id: 'processing.management.list.add.button' })}
+            mainHateoasDependencies={processingDependencies.addProcessingDependencies}
+            secondaryButtonLabel={formatMessage({ id: 'processing.management.list.cancel.button' })}
+            secondaryButtonUrl={backUrl}
+          />
+        </CardActions>
+      </Card>
+    )
+  }
 }
 export default ProcessingListComponent

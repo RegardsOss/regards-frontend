@@ -62,7 +62,8 @@ export class CollectionListContainer extends React.Component {
   onRefresh = (filters) => {
     const { meta, fetchCollectionList } = this.props
     const curentPage = get(meta, 'number', 0)
-    return fetchCollectionList(0, CollectionListComponent.PAGE_SIZE * (curentPage + 1), {}, filters)
+    const curentPageSize = get(meta, 'size', CollectionListComponent.PAGE_SIZE)
+    return fetchCollectionList(0, curentPageSize * (curentPage + 1), {}, filters)
   }
 
   getCreateUrl = () => {

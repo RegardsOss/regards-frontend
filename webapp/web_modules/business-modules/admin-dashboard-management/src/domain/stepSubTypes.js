@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,24 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { ProcessingShapes } from '@regardsoss/shape'
+import values from 'lodash/values'
 
-/**
- * ProcessingMonitoringStatusRenderer
- * @author Théo Lasserre
- */
-class ProcessingMonitoringStatusRenderer extends React.Component {
-  static propTypes = {
-    entity: ProcessingShapes.ProcessingMonitoring.isRequired,
-  }
-
-  render() {
-    const { entity: { content: { steps } } } = this.props
-
-    return steps.length > 0 ? (
-      <div>{steps[steps.length - 1].status}</div>
-    ) : null
-  }
+export const STEP_SUB_TYPES_ENUM = {
+  DATA_PROVIDER: 'dp',
+  FEATURE_PROVIDER: 'fp',
+  FEATURE_MANAGER: 'fem',
+  INGEST: 'ingest',
+  STORAGE: 'archival',
+  DISSEMINATION: 'diffusion',
 }
 
-export default ProcessingMonitoringStatusRenderer
+export const STEP_SUB_TYPES = values(STEP_SUB_TYPES_ENUM)

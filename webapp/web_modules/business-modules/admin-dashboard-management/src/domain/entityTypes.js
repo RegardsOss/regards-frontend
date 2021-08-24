@@ -19,9 +19,9 @@
 
 import values from 'lodash/values'
 
-export const COMPONENT_TYPE_ENUM = {
-  SOURCE: 'SOURCE',
-  SESSION: 'SESSION',
+export const ENTITY_ENUM = {
+  SOURCE: 'source',
+  SESSION: 'session',
 }
 
-export const COMPONENT_TYPE = values(COMPONENT_TYPE_ENUM)
+export const ENTITY = values(ENTITY_ENUM)

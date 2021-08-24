@@ -38,157 +38,157 @@ export const ButtonWithConfirmDialog = withConfirmDialog(FlatButton)
 * @author Théo Lasserre
 */
 export class ManageDatasetProcessingComponent extends React.Component {
-    static propTypes = {
-      // eslint-disable-next-line react/forbid-prop-types
-      processingConfParametersObjects: PropTypes.object.isRequired,
-      // eslint-disable-next-line react/forbid-prop-types
-      processingConfParametersSelected: PropTypes.object,
-      isProcessingConfSelectedConfigurable: PropTypes.bool.isRequired,
-      onSelectedProcessingConfChanged: PropTypes.func.isRequired,
-      onConfigurationDone: PropTypes.func.isRequired,
-      onRemoveProcessing: PropTypes.func.isRequired,
-      processBusinessId: PropTypes.string,
-      disabled: PropTypes.bool.isRequired,
+  static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
+    processingConfParametersObjects: PropTypes.object.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    processingConfParametersSelected: PropTypes.object,
+    isProcessingConfSelectedConfigurable: PropTypes.bool.isRequired,
+    onSelectedProcessingConfChanged: PropTypes.func.isRequired,
+    onConfigurationDone: PropTypes.func.isRequired,
+    onRemoveProcessing: PropTypes.func.isRequired,
+    processBusinessId: PropTypes.string,
+    disabled: PropTypes.bool.isRequired,
 
-      // from reduxForm
-      invalid: PropTypes.bool,
-      handleSubmit: PropTypes.func.isRequired,
-      initialize: PropTypes.func.isRequired,
-    }
+    // from reduxForm
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+  }
 
-    static contextTypes = {
-      ...themeContextType,
-      ...i18nContextType,
-    }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
-    state = {
-      isManageProcessingDialogOpened: false,
-    }
+  state = {
+    isManageProcessingDialogOpened: false,
+  }
 
-    openOrCloseManageProcessingDialog = () => {
-      const { isManageProcessingDialogOpened } = this.state
-      this.setState({
-        isManageProcessingDialogOpened: !isManageProcessingDialogOpened,
-      })
-    }
+  openOrCloseManageProcessingDialog = () => {
+    const { isManageProcessingDialogOpened } = this.state
+    this.setState({
+      isManageProcessingDialogOpened: !isManageProcessingDialogOpened,
+    })
+  }
 
-    onSubmit = (values) => {
-      const { onConfigurationDone } = this.props
-      this.openOrCloseManageProcessingDialog()
-      onConfigurationDone(values)
-    }
+  onSubmit = (values) => {
+    const { onConfigurationDone } = this.props
+    this.openOrCloseManageProcessingDialog()
+    onConfigurationDone(values)
+  }
 
-    onRemove = () => {
-      const { onRemoveProcessing } = this.props
-      this.openOrCloseManageProcessingDialog()
-      onRemoveProcessing()
-    }
+  onRemove = () => {
+    const { onRemoveProcessing } = this.props
+    this.openOrCloseManageProcessingDialog()
+    onRemoveProcessing()
+  }
 
-    renderManageDatasetProcessingDialog = () => {
-      const {
-        processingConfParametersObjects, processingConfParametersSelected, processBusinessId,
-        onSelectedProcessingConfChanged, isProcessingConfSelectedConfigurable, initialize, handleSubmit, invalid,
-      } = this.props
-      const { intl: { formatMessage }, moduleTheme: { pluginServiceDialog } } = this.context
+  renderManageDatasetProcessingDialog = () => {
+    const {
+      processingConfParametersObjects, processingConfParametersSelected, processBusinessId,
+      onSelectedProcessingConfChanged, isProcessingConfSelectedConfigurable, initialize, handleSubmit, invalid,
+    } = this.props
+    const { intl: { formatMessage }, moduleTheme: { pluginServiceDialog } } = this.context
 
-      const processingLabel = get(processingConfParametersSelected, 'label', 'unknown')
+    const processingLabel = get(processingConfParametersSelected, 'label', 'unknown')
 
-      return (
-        <ShowableAtRender show={this.state.isManageProcessingDialogOpened}>
-          <PositionedDialog
-            dialogHeightPercent={pluginServiceDialog.heightPercent}
-            dialogWidthPercent={pluginServiceDialog.widthPercent}
-            bodyStyle={pluginServiceDialog.commonBodyStyles}
-            autoScrollBodyContent
-            title={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.title' })}
-            open
-            modal
-            actions={<>
-              <ButtonWithConfirmDialog
-                key="delete"
-                id="delete"
-                dialogTitle={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove.confirmation.title' })}
-                dialogMessage={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove.confirmation.message' }, { processingLabel })}
-                title={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove.tooltip' })}
-                label={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove' })}
-                icon={<RemoveIcon />}
-                onClick={this.onRemove}
-                disabled={!processBusinessId}
-                style={pluginServiceDialog.removeProcessingButton}
-              />
-              <FlatButton
-                key="cancel"
-                id="cancel"
-                label={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.cancel' })}
-                onClick={this.openOrCloseManageProcessingDialog}
-              />
-              <FlatButton
-                key="confirm"
-                id="confirm"
-                label={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.confirm' })}
-                disabled={invalid}
-                onClick={handleSubmit(this.onSubmit)}
-                primary
-                keyboardFocused
-              />
-            </>}
+    return (
+      <ShowableAtRender show={this.state.isManageProcessingDialogOpened}>
+        <PositionedDialog
+          dialogHeightPercent={pluginServiceDialog.heightPercent}
+          dialogWidthPercent={pluginServiceDialog.widthPercent}
+          bodyStyle={pluginServiceDialog.commonBodyStyles}
+          autoScrollBodyContent
+          title={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.title' })}
+          open
+          modal
+          actions={<>
+            <ButtonWithConfirmDialog
+              key="delete"
+              id="delete"
+              dialogTitle={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove.confirmation.title' })}
+              dialogMessage={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove.confirmation.message' }, { processingLabel })}
+              title={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove.tooltip' })}
+              label={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove' })}
+              icon={<RemoveIcon />}
+              onClick={this.onRemove}
+              disabled={!processBusinessId}
+              style={pluginServiceDialog.removeProcessingButton}
+            />
+            <FlatButton
+              key="cancel"
+              id="cancel"
+              label={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.cancel' })}
+              onClick={this.openOrCloseManageProcessingDialog}
+            />
+            <FlatButton
+              key="confirm"
+              id="confirm"
+              label={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.confirm' })}
+              disabled={invalid}
+              onClick={handleSubmit(this.onSubmit)}
+              primary
+              keyboardFocused
+            />
+          </>}
+        >
+          <SelectField
+            floatingLabelText={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.select.label' })}
+            value={processingConfParametersSelected.businessId}
+            fullWidth
+            onChange={onSelectedProcessingConfChanged}
           >
-            <SelectField
-              floatingLabelText={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.select.label' })}
-              value={processingConfParametersSelected.businessId}
-              fullWidth
-              onChange={onSelectedProcessingConfChanged}
-            >
-              {
-                    map(processingConfParametersObjects, (processingConfParametersObject) => (
-                      <MenuItem
-                        key={processingConfParametersObject.businessId}
-                        value={processingConfParametersObject.businessId}
-                        primaryText={processingConfParametersObject.label}
-                      />
-                    ))
-                }
-            </SelectField>
             {
-              isProcessingConfSelectedConfigurable && !isEmpty(processingConfParametersSelected) ? <ParametersConfigurationComponent
-                parameters={processingConfParametersSelected.resolvedParameters}
-                parametersValues={processingConfParametersSelected.parameters}
-                initialize={initialize}
-              /> : null
+              map(processingConfParametersObjects, (processingConfParametersObject) => (
+                <MenuItem
+                  key={processingConfParametersObject.businessId}
+                  value={processingConfParametersObject.businessId}
+                  primaryText={processingConfParametersObject.label}
+                />
+              ))
             }
-          </PositionedDialog>
-        </ShowableAtRender>
-      )
-    }
+          </SelectField>
+          {
+            isProcessingConfSelectedConfigurable && !isEmpty(processingConfParametersSelected) ? <ParametersConfigurationComponent
+              parameters={processingConfParametersSelected.resolvedParameters}
+              parametersValues={processingConfParametersSelected.parameters}
+              initialize={initialize}
+            /> : null
+          }
+        </PositionedDialog>
+      </ShowableAtRender>
+    )
+  }
 
-    render() {
-      const {
-        disabled, processingConfParametersObjects, processBusinessId,
-      } = this.props
-      const { intl: { formatMessage } } = this.context
+  render() {
+    const {
+      disabled, processingConfParametersObjects, processBusinessId,
+    } = this.props
+    const { intl: { formatMessage } } = this.context
 
-      const processingSelected = get(processingConfParametersObjects, `${processBusinessId}`, {})
-      const pLabel = !isEmpty(processingSelected) ? get(processingSelected, 'label', '') : ''
-      const title = !isEmpty(processingSelected) ? 'entities.common.backend.pluginback.processing.button.edit.title' : 'entities.common.backend.pluginback.processing.button.add.title'
-      const label = !isEmpty(processingSelected) ? 'entities.common.backend.pluginback.processing.button.edit.label' : 'entities.common.backend.pluginback.processing.button.add.label'
-      const icon = !isEmpty(processingSelected) ? <Pencil /> : <AddIcon />
+    const processingSelected = get(processingConfParametersObjects, `${processBusinessId}`, {})
+    const pLabel = !isEmpty(processingSelected) ? get(processingSelected, 'label', '') : ''
+    const title = !isEmpty(processingSelected) ? 'entities.common.backend.pluginback.processing.button.edit.title' : 'entities.common.backend.pluginback.processing.button.add.title'
+    const label = !isEmpty(processingSelected) ? 'entities.common.backend.pluginback.processing.button.edit.label' : 'entities.common.backend.pluginback.processing.button.add.label'
+    const icon = !isEmpty(processingSelected) ? <Pencil /> : <AddIcon />
 
-      return (
-        <div>
-          <FlatButton
-            key="openDialog"
-            id="openDialog"
-            label={formatMessage({ id: label }, { label: pLabel })}
-            title={formatMessage({ id: title })}
-            icon={icon}
-            disabled={disabled || isEmpty(processingConfParametersObjects)}
-            onClick={this.openOrCloseManageProcessingDialog}
-          />
-          {!isEmpty(processingConfParametersObjects) ? this.renderManageDatasetProcessingDialog() : null}
-        </div>
+    return (
+      <div>
+        <FlatButton
+          key="openDialog"
+          id="openDialog"
+          label={formatMessage({ id: label }, { label: pLabel })}
+          title={formatMessage({ id: title })}
+          icon={icon}
+          disabled={disabled || isEmpty(processingConfParametersObjects)}
+          onClick={this.openOrCloseManageProcessingDialog}
+        />
+        {!isEmpty(processingConfParametersObjects) ? this.renderManageDatasetProcessingDialog() : null}
+      </div>
 
-      )
-    }
+    )
+  }
 }
 
 export default reduxForm({ form: 'backend.pluginBack.parameters.form' })(ManageDatasetProcessingComponent)

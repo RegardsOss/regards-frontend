@@ -17,9 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import RefreshIndicator from 'material-ui/RefreshIndicator'
+import EyeIcon from 'mdi-material-ui/Eye'
+import IconButton from 'material-ui/IconButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
+import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
+import Dialog from 'material-ui/Dialog'
+import RaisedButton from 'material-ui/RaisedButton'
+import { ListItem } from 'material-ui/List'
 
 /**
 * Component to render the activity indicator for ne chain into the chain  list
@@ -56,15 +63,62 @@ class AcquisitionProcessingChainActivityRenderer extends React.Component {
     minute: 'numeric',
   }
 
+  state = {
+    isExecutionBlockersDialogOpen: false,
+  }
+
+  toggleExecutionBlockersDialog = () => {
+    const { isExecutionBlockersDialogOpen } = this.state
+    this.setState({
+      isExecutionBlockersDialogOpen: !isExecutionBlockersDialogOpen,
+    })
+  }
+
+  renderExecutionBlockersDialog = () => {
+    const {
+      entity: {
+        content: {
+          executionBlockers,
+        },
+      },
+    } = this.props
+    const { intl: { formatMessage } } = this.context
+    const { isExecutionBlockersDialogOpen } = this.state
+    return (
+      <Dialog
+        open={isExecutionBlockersDialogOpen}
+        title={formatMessage({ id: 'acquisition-chain.list.activity.dialog.title' })}
+        actions={<>
+          <RaisedButton
+            key="close"
+            label={formatMessage({ id: 'acquisition-chain.list.activity.dialog.close' })}
+            primary
+            onClick={this.toggleExecutionBlockersDialog}
+          />
+        </>}
+      >
+        {
+          map(executionBlockers, (executionBlocker) => (
+            <ListItem
+              key={executionBlocker}
+              primaryText={executionBlocker}
+              disabled
+            />
+          ))
+        }
+      </Dialog>
+    )
+  }
+
   render() {
     const {
       entity: {
         content: {
-          chain, active,
+          chain, active, executionBlockers,
         },
       },
     } = this.props
-    const { intl: { formatMessage, formatDate } } = this.context
+    const { intl: { formatMessage, formatDate }, moduleTheme: { chains: { stateStyle } } } = this.context
     if (active) {
       return [
         <RefreshIndicator
@@ -86,8 +140,18 @@ class AcquisitionProcessingChainActivityRenderer extends React.Component {
         { date: formatDate(chain.lastActivationDate, AcquisitionProcessingChainActivityRenderer.DATETIME_OPTIONS) })
     }
     return (
-      <div>
+      <div style={stateStyle}>
         {label}
+        {
+          !isEmpty(executionBlockers)
+          && <IconButton
+            title={formatMessage({ id: 'acquisition-chain.list.activity.button.title' })}
+            onClick={this.toggleExecutionBlockersDialog}
+          >
+            <EyeIcon />
+          </IconButton>
+        }
+        {this.renderExecutionBlockersDialog()}
       </div>
     )
   }

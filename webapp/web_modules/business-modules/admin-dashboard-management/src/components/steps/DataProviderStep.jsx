@@ -17,19 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { IngestDomain } from '@regardsoss/domain'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import Dialog from 'material-ui/Dialog'
-import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DATA_PROVIDER_PRODUCTS_PROPERTIES, DATA_PROVIDER_FILES_PROPERTIES, DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM } from '../../domain/dataProviderProperties'
+import { DATA_PROVIDER_PRODUCTS_PROPERTIES, DATA_PROVIDER_FILES_PROPERTIES } from '../../domain/dataProviderProperties'
 import DisplayProductsComponent from '../DisplayProductsComponent'
+import DisplayPropertiesComponent from '../DisplayPropertiesComponent'
 import { ICON_TYPE_ENUM } from '../../domain/iconType'
+import { STEP_SUB_TYPES_ENUM } from '../../domain/stepSubTypes'
 
 /**
   * DataProviderStep
@@ -72,35 +72,6 @@ class DataProviderStep extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=requests&state=${IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE}`)
   }
 
-  displayListItem = (property) => {
-    const { sessionStep } = this.props
-    const {
-      intl: { formatMessage }, moduleTheme: {
-        selectedSessionStyle: {
-          listItemStyle, listItemNoValueStyle, listItemErrorStyle,
-        },
-      },
-    } = this.context
-    let propValue = get(sessionStep, `properties.${property}`, false)
-    let style = listItemNoValueStyle
-    if (propValue > 0) {
-      style = listItemStyle
-    }
-    if (property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
-      propValue = +get(sessionStep, 'properties.generationError', 0) + +get(sessionStep, 'properties.ingestionFailed', 0)
-      style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
-    }
-    return (
-      <ListItem
-        key={property}
-        primaryText={formatMessage({ id: `dashboard.selectedsession.acquisition.dp.${property}` }, { value: propValue || 0 })}
-        title={formatMessage({ id: `dashboard.selectedsession.acquisition.dp.${property}.tooltip` }, { value: propValue || 0 })}
-        disabled
-        style={style}
-      />
-    )
-  }
-
   toggleRetryErrorsDialog = () => {
     const { isRetryErrorsDialogOpen } = this.state
     this.setState({
@@ -121,8 +92,8 @@ class DataProviderStep extends React.Component {
     return (
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.CONFIRM}
-        title={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.retry.title' })}
-        message={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.retry.message' })}
+        title={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.dialog.retry.title' })}
+        message={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.dialog.retry.message' })}
         onConfirm={this.onRetryErrors}
         onClose={this.toggleRetryErrorsDialog}
         open={isRetryErrorsDialogOpen}
@@ -143,11 +114,11 @@ class DataProviderStep extends React.Component {
     return (
       <Dialog
         open={isProductDialogOpen}
-        title={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.title' })}
+        title={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.dialog.title' })}
         actions={<>
           <RaisedButton
             key="close"
-            label={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.button.close' })}
+            label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.dialog.button.close' })}
             primary
             onClick={this.toggleProductDialog}
           />
@@ -178,19 +149,23 @@ class DataProviderStep extends React.Component {
       <div style={listItemDivStyle}>
         <div style={propertiesTitleStyle}>
           <div style={propertiesDivStyle}>
-            {formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.properties.files.title' })}
+            {formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.properties.files.title' })}
           </div>
-          {
-            map(DATA_PROVIDER_FILES_PROPERTIES, (property) => (this.displayListItem(property)))
-          }
+          <DisplayPropertiesComponent
+            properties={DATA_PROVIDER_FILES_PROPERTIES}
+            sessionStep={sessionStep}
+            stepSubType={STEP_SUB_TYPES_ENUM.DATA_PROVIDER}
+          />
         </div>
         <div style={propertiesTitleStyleAlt}>
           <div style={propertiesDivStyle}>
-            {formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.properties.products.title' })}
+            {formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.properties.products.title' })}
           </div>
-          {
-            map(DATA_PROVIDER_PRODUCTS_PROPERTIES, (property) => (this.displayListItem(property)))
-          }
+          <DisplayPropertiesComponent
+            properties={DATA_PROVIDER_PRODUCTS_PROPERTIES}
+            sessionStep={sessionStep}
+            stepSubType={STEP_SUB_TYPES_ENUM.DATA_PROVIDER}
+          />
         </div>
       </div>
       <div style={cardButtonStyle}>
@@ -198,7 +173,7 @@ class DataProviderStep extends React.Component {
           nbWaiting !== 0
             ? <RaisedButton
                 onClick={this.onSeeWaiting}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.button.see-waiting' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.see-waiting' })}
                 primary
                 style={raisedListStyle}
             /> : null
@@ -208,13 +183,13 @@ class DataProviderStep extends React.Component {
             ? <div style={cardButtonStyle}>
               <RaisedButton
                 onClick={this.onSeeErrors}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.button.see-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.see-errors' })}
                 primary
                 style={raisedListStyle}
               />
               <RaisedButton
                 onClick={this.toggleRetryErrorsDialog}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.button.retry-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
               />

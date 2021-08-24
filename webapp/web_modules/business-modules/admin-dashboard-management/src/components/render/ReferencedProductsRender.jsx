@@ -20,7 +20,7 @@ import find from 'lodash/find'
 import { StringValueRender } from '@regardsoss/components'
 import { AdminDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
-import { COMPONENT_TYPE, COMPONENT_TYPE_ENUM } from '../../domain/componentTypes'
+import { ENTITY, ENTITY_ENUM } from '../../domain/entityTypes'
 
 /**
   * Table cell render for attribute
@@ -32,7 +32,7 @@ class ReferencedProductsRender extends React.Component {
       AdminShapes.Source,
       AdminShapes.Session,
     ]).isRequired,
-    componentType: PropTypes.oneOf(COMPONENT_TYPE),
+    entityType: PropTypes.oneOf(ENTITY),
   }
 
   /**
@@ -41,18 +41,18 @@ class ReferencedProductsRender extends React.Component {
    * @param {intl} intl from context
    * @return string to show as render
    */
-  static getReferencedProducts(attributeModel, componentType) {
+  static getReferencedProducts(attributeModel, entityType) {
     const { steps } = attributeModel.content
     const referencingStep = find(steps, (step) => step.type === AdminDomain.STEP_TYPE_ENUM.REFERENCING)
     if (referencingStep) {
-      return componentType === COMPONENT_TYPE_ENUM.SOURCE ? referencingStep.totalOut : referencingStep.outputRelated
+      return entityType === ENTITY_ENUM.SOURCE ? referencingStep.totalOut : referencingStep.outputRelated
     }
     return 0
   }
 
   render() {
-    const { entity, componentType } = this.props
-    return <StringValueRender value={ReferencedProductsRender.getReferencedProducts(entity, componentType)} />
+    const { entity, entityType } = this.props
+    return <StringValueRender value={ReferencedProductsRender.getReferencedProducts(entity, entityType)} />
   }
 }
 export default ReferencedProductsRender

@@ -28,13 +28,13 @@ import { modulesManager } from '@regardsoss/modules'
  * @author Raphaël Mechali
  */
 export class DescriptionHelper {
-    /** Dependencies to be able showing description */
-    static DESCRIPTION_DEPENDENCIES = [
-      // the current user must be able to fetch model attributes
-      new DataManagementClient.ModelAttributesActions('').getDependency(RequestVerbEnum.GET_LIST),
-    ]
+  /** Dependencies to be able showing description */
+  static DESCRIPTION_DEPENDENCIES = [
+    // the current user must be able to fetch model attributes
+    new DataManagementClient.ModelAttributesActions('').getDependency(RequestVerbEnum.GET_LIST),
+  ]
 
-    /** Keep a track of the warning log, to avoid loggin it multiple times */
+  /** Keep a track of the warning log, to avoid loggin it multiple times */
   static hasLoggedWarning = false
 
   /**

@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEqual from 'lodash/isEqual'
+import { browserHistory } from 'react-router'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -26,7 +28,7 @@ import {
 import SourcesContainer from '../containers/SourcesContainer'
 import SessionsContainer from '../containers/SessionsContainer'
 import SelectedSessionContainer from '../containers/SelectedSessionContainer'
-import { COMPONENT_TYPE_ENUM } from '../domain/componentTypes'
+import { ENTITY_ENUM } from '../domain/entityTypes'
 
 /**
  * DashboardComponent
@@ -40,10 +42,10 @@ class DashboardComponent extends React.Component {
     relaunchStorages: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
-    fetchSelectedSession: PropTypes.func.isRequired,
     getBackURL: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     retryFEMRequests: PropTypes.func.isRequired,
+    fetchSelectedSession: PropTypes.func.isRequired,
     flushSelectedSession: PropTypes.func.isRequired,
   }
 
@@ -55,78 +57,148 @@ class DashboardComponent extends React.Component {
   state = {
     sourceFilters: SourcesContainer.extractFiltersFromURL(),
     sessionFilters: SessionsContainer.extractFiltersFromURL(),
-    selectedSource: null,
-    selectedSession: null,
+    [ENTITY_ENUM.SOURCE]: '', // id of the currently selected source
+    [ENTITY_ENUM.SESSION]: '', // id of the currently selected session
   }
 
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount() {
+    // Extract session & source parameters from url
+    const { query: currentQuery } = browserHistory.getCurrentLocation()
+    let newState = {}
+    const selectedSessionId = get(currentQuery, ENTITY_ENUM.SESSION, '')
+    const selectedSourceId = get(currentQuery, ENTITY_ENUM.SOURCE, '')
+    if (!isEmpty(selectedSessionId)) {
+      newState = {
+        ...newState,
+        [ENTITY_ENUM.SESSION]: selectedSessionId,
+      }
+    }
+    if (!isEmpty(selectedSourceId)) {
+      newState = {
+        ...newState,
+        [ENTITY_ENUM.SOURCE]: selectedSourceId,
+      }
+    }
+    this.setState(newState)
+  }
+
+  /**
+   * Apply new filters. Either source filters or session filters
+   * @param {*} filters
+   * @param {*} type
+   */
   onApplyFilters = (filters, type) => {
-    const { flushSelectedSession } = this.props
-    flushSelectedSession()
     let nextState = {
       ...this.state,
-      selectedSession: null,
+      [ENTITY_ENUM.SESSION]: '',
     }
+    this.onSelected(null, ENTITY_ENUM.SESSION) // clear selected session
     switch (type) {
-      case COMPONENT_TYPE_ENUM.SESSION:
+      case ENTITY_ENUM.SESSION:
         nextState = {
           ...nextState,
           sessionFilters: filters,
         }
         break
-      case COMPONENT_TYPE_ENUM.SOURCE:
+      case ENTITY_ENUM.SOURCE:
         nextState = {
           ...nextState,
-          selectedSource: null,
           sourceFilters: filters,
+          [ENTITY_ENUM.SOURCE]: '',
         }
+        this.onSelected(null, ENTITY_ENUM.SOURCE) // clear selected source
         break
       default:
     }
     this.setState(nextState)
   }
 
+  /**
+   * Get entity id. Depends on a type.
+   * @param {*} entity
+   * @param {*} type : either source or session
+   * @returns
+   */
+  getEntityId = (entity, type) => type === ENTITY_ENUM.SESSION ? get(entity, 'content.name', -1).toString() : get(entity, 'content.name', '')
+
+  /**
+   * Get user selected entity id. Must be different than currently selected. If not, return empty string.
+   * Allow to clear url and component state when a user select twice the same entity.
+   * @param {*} entity: new entity
+   * @param {*} entityId : new entity's id
+   * @param {*} selectedEntityId : current selected entity id
+   * @returns
+   */
+  getSelectedEntityId = (entity, entityId, selectedEntityId) => entity && entityId !== selectedEntityId ? entityId : ''
+
+  /**
+   * Handle source and session selection
+   * @param {*} entity selected
+   * @param {*} selectedEntityId previous entity selected id
+   * @param {*} type or source or session
+   */
   onSelected = (entity, type) => {
-    const { fetchSelectedSession, flushSelectedSession } = this.props
-    const {
-      selectedSource, selectedSession,
-    } = this.state
-    let newSelectedSession
+    const { flushSelectedSession } = this.props
+    const { pathname, query: currentQuery } = browserHistory.getCurrentLocation()
+    const entityId = this.getEntityId(entity, type)
+    const selectedElementId = this.getSelectedEntityId(entity, entityId, this.state[type])
+    let newQuery = {}
+    let newState = {}
+    let source = ''
+
     switch (type) {
-      case COMPONENT_TYPE_ENUM.SESSION:
-        newSelectedSession = !isEqual(entity, selectedSession) ? entity : null
-        if (newSelectedSession) {
-          fetchSelectedSession(entity.content.id)
-        } else {
+      case ENTITY_ENUM.SESSION:
+        source = entity ? get(entity, 'content.source') : this.state[ENTITY_ENUM.SOURCE]
+        if (!isEmpty(selectedElementId)) { // a session is selected
+          newQuery = {
+            ...currentQuery,
+            [ENTITY_ENUM.SESSION]: selectedElementId,
+            [ENTITY_ENUM.SOURCE]: source,
+          }
+        } else if (isEmpty(selectedElementId) && !isEmpty(this.state[ENTITY_ENUM.SOURCE])) { // a session is unselected and a source exist
+          newQuery = {
+            [ENTITY_ENUM.SOURCE]: this.state[ENTITY_ENUM.SOURCE],
+          }
           flushSelectedSession()
         }
-        this.setState({
-          selectedSession: newSelectedSession,
-        })
+        newState = {
+          ...this.state,
+          [ENTITY_ENUM.SESSION]: selectedElementId,
+          [ENTITY_ENUM.SOURCE]: source,
+        }
         break
-      case COMPONENT_TYPE_ENUM.SOURCE:
+      case ENTITY_ENUM.SOURCE:
+        if (!isEmpty(selectedElementId)) { // a source is selected
+          newQuery = {
+            [ENTITY_ENUM.SOURCE]: selectedElementId,
+          }
+        }
+        newState = {
+          ...this.state,
+          [ENTITY_ENUM.SOURCE]: selectedElementId,
+          [ENTITY_ENUM.SESSION]: '',
+        }
         flushSelectedSession()
-        this.setState({
-          selectedSource: !isEqual(entity, selectedSource) ? entity : null,
-          selectedSession: null,
-        })
         break
       default:
     }
-  }
 
-  onDeleteSession = (sessionId) => {
-    const { deleteSession } = this.props
-    const {
-      sourceFilters, sessionFilters, selectedSource, selectedSession,
-    } = this.state
-    deleteSession(sessionId, sourceFilters, sessionFilters, selectedSource, selectedSession)
+    // Update url & state
+    browserHistory.replace({
+      pathname,
+      query: newQuery,
+    })
+    this.setState(newState)
   }
 
   render() {
     const {
       project, getBackURL, relaunchProducts, relaunchAIP, retryRequests,
       onRefresh, relaunchStorages,
-      retryFEMRequests,
+      retryFEMRequests, deleteSession, fetchSelectedSession,
     } = this.props
     const {
       intl: { formatMessage },
@@ -136,8 +208,10 @@ class DashboardComponent extends React.Component {
       },
     } = this.context
     const {
-      sourceFilters, sessionFilters, selectedSource, selectedSession,
+      sourceFilters, sessionFilters,
     } = this.state
+    const selectedSourceId = this.state[ENTITY_ENUM.SOURCE]
+    const selectedSessionId = this.state[ENTITY_ENUM.SESSION]
     return (
       <Card>
         <div style={headerDivStyle}>
@@ -149,7 +223,7 @@ class DashboardComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'dashboard.refresh' })}
               mainButtonType="submit"
-              mainButtonClick={() => onRefresh(sourceFilters, sessionFilters, selectedSource, selectedSession)}
+              mainButtonClick={() => onRefresh(sourceFilters, sessionFilters, selectedSourceId, selectedSessionId)}
               secondaryButtonLabel={formatMessage({ id: 'dashboard.back' })}
               secondaryButtonClick={getBackURL}
             />
@@ -161,18 +235,19 @@ class DashboardComponent extends React.Component {
               <SourcesContainer
                 project={project}
                 onSelected={this.onSelected}
-                selectedSource={selectedSource}
-                selectedSession={selectedSession}
                 onApplyFilters={this.onApplyFilters}
                 filters={sourceFilters}
+                selectedSessionId={selectedSessionId}
+                selectedSourceId={selectedSourceId}
               />
               <SessionsContainer
                 project={project}
                 onSelected={this.onSelected}
-                selectedSession={selectedSession}
                 onApplyFilters={this.onApplyFilters}
-                selectedSource={selectedSource}
                 filters={sessionFilters}
+                selectedSessionId={selectedSessionId}
+                selectedSourceId={selectedSourceId}
+                fetchSelectedSession={fetchSelectedSession}
               />
             </div>
             <SelectedSessionContainer
@@ -182,9 +257,7 @@ class DashboardComponent extends React.Component {
               relaunchAIP={relaunchAIP}
               retryRequests={retryRequests}
               relaunchStorages={relaunchStorages}
-              deleteSession={this.onDeleteSession}
-              sourceFilters={sourceFilters}
-              sessionFilters={sessionFilters}
+              deleteSession={deleteSession}
               retryFEMRequests={retryFEMRequests}
             />
           </div>

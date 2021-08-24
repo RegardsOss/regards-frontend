@@ -28,36 +28,36 @@ import { i18nContextType } from '@regardsoss/i18n'
  * @author Théo Lasserre
  */
 class ProcessingEditComponent extends React.Component {
-    static propTypes = {
-      entity: ProcessingShapes.Processing.isRequired,
-      handleEdit: PropTypes.func.isRequired,
-    }
+  static propTypes = {
+    entity: ProcessingShapes.Processing.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+  }
 
-    static contextTypes = {
-      ...i18nContextType,
-      ...themeContextType,
-    }
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
+  }
 
-    /**
-     * User callback: on edit project user, locally wrapped
-     */
-    onEdit = () => {
-      const { entity, handleEdit } = this.props
-      handleEdit(entity.content.pluginConfiguration.businessId)
-    }
+  /**
+   * User callback: on edit project user, locally wrapped
+   */
+  onEdit = () => {
+    const { entity, handleEdit } = this.props
+    handleEdit(entity.content.pluginConfiguration.businessId)
+  }
 
-    render() {
-      const { intl: { formatMessage }, moduleTheme } = this.context
+  render() {
+    const { intl: { formatMessage }, moduleTheme } = this.context
 
-      return (
-        <IconButton
-          title={formatMessage({ id: 'processing.management.list.edit.button' })}
-          onClick={this.onEdit}
-        >
-          <EditIcon hoverColor={moduleTheme.hoverButtonEdit} />
-        </IconButton>
-      )
-    }
+    return (
+      <IconButton
+        title={formatMessage({ id: 'processing.management.list.edit.button' })}
+        onClick={this.onEdit}
+      >
+        <EditIcon hoverColor={moduleTheme.hoverButtonEdit} />
+      </IconButton>
+    )
+  }
 }
 
 export default ProcessingEditComponent
