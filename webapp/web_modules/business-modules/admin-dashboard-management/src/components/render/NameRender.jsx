@@ -17,13 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import isEqual from 'lodash/isEqual'
-import get from 'lodash/get'
 import FlatButton from 'material-ui/FlatButton'
 import { StringValueRender } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { COMPONENT_TYPE, COMPONENT_TYPE_ENUM } from '../../domain/componentTypes'
+import { ENTITY } from '../../domain/entityTypes'
 import DisplayIconsComponent from '../DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../../domain/displayIconTypes'
 
@@ -37,11 +35,8 @@ class NameRender extends React.Component {
       AdminShapes.Source,
       AdminShapes.Session,
     ]).isRequired,
-    selectedEntity: PropTypes.oneOfType([
-      AdminShapes.Source,
-      AdminShapes.Session,
-    ]),
-    componentType: PropTypes.oneOf(COMPONENT_TYPE),
+    selectedEntityId: PropTypes.string,
+    entityType: PropTypes.oneOf(ENTITY),
     onSelected: PropTypes.func.isRequired,
   }
 
@@ -53,28 +48,17 @@ class NameRender extends React.Component {
     * On button clicked callback
     */
   onClick = () => {
-    const { entity, onSelected, componentType } = this.props
-    onSelected(entity, componentType)
+    const {
+      entity, onSelected, entityType,
+    } = this.props
+    onSelected(entity, entityType)
   }
 
-  isSelected = () => {
-    const { entity, selectedEntity, componentType } = this.props
-    let isSelected = false
-    switch (componentType) {
-      case COMPONENT_TYPE_ENUM.SESSION:
-        isSelected = isEqual(entity.content.id, get(selectedEntity, 'content.id'))
-        break
-      case COMPONENT_TYPE_ENUM.SOURCE:
-        isSelected = isEqual(entity.content.name, get(selectedEntity, 'content.name'))
-        break
-      default:
-    }
-    return isSelected
-  }
+  isSelected = (entity, selectedEntityId) => entity.content.name === selectedEntityId
 
   render() {
     const {
-      entity,
+      entity, selectedEntityId,
     } = this.props
     const {
       moduleTheme: { dashboardStyle: { tableStyle } },
@@ -83,7 +67,7 @@ class NameRender extends React.Component {
     return <div style={tableStyle.nameRenderStyle.divStyle}>
       <FlatButton
         onClick={this.onClick}
-        style={this.isSelected() ? tableStyle.selectOptionStyle.textStyle : null}
+        style={this.isSelected(entity, selectedEntityId) ? tableStyle.selectOptionStyle.textStyle : null}
       >
         <StringValueRender
           value={entity.content.name}

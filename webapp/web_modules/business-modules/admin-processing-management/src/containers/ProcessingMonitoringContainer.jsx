@@ -34,105 +34,106 @@ import ProcessingMonitoringComponent from '../components/ProcessingMonitoringCom
  * @author Théo Lasserre
  */
 export class ProcessingMonitoringContainer extends React.Component {
-    /**
-     * Redux: map state to props function
-     * @param {*} state: current redux state
-     * @param {*} props: (option) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-     * @return {*} list of component properties extracted from redux state
-     */
-    static mapStateToProps = (state) => ({
-      meta: processingMonitoringSelectors.getMetaData(state),
-      processingList: processingSelectors.getList(state),
-      entitiesLoading: processingMonitoringSelectors.isFetching(state),
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (option) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps = (state) => ({
+    meta: processingMonitoringSelectors.getMetaData(state),
+    processingList: processingSelectors.getList(state),
+    entitiesLoading: processingMonitoringSelectors.isFetching(state),
+  })
+
+  /**
+   * Redux: map to dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps = (dispatch) => ({
+    fetchProcessingMonitorList: (pageIndex, pageSize, requestParams, queryParams) => dispatch(processingMonitoringActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
+    fetchProcessingList: () => dispatch(processingActions.fetchEntityList()),
+  })
+
+  static propTypes = {
+    meta: PropTypes.shape({
+      // use only in onPropertiesUpdate
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
+    // from router
+    params: PropTypes.shape({
+      project: PropTypes.string,
+    }),
+    // from mapStateToProps
+    processingList: ProcessingShapes.ProcessingList.isRequired,
+    entitiesLoading: PropTypes.bool,
+    // from mapDispatchToProps
+    fetchProcessingMonitorList: PropTypes.func,
+    fetchProcessingList: PropTypes.func,
+  }
+
+  static defaultProps = {
+    meta: {
+      totalElements: 0,
+    },
+  }
+
+  /**
+   * Initial state
+   */
+  state = {
+    isLoading: true,
+  }
+
+  UNSAFE_componentWillMount() {
+    this.props.fetchProcessingList().then((actionResult) => {
+      if (!actionResult.error) {
+        this.setState({
+          isLoading: false,
+        })
+      }
     })
+  }
 
-    /**
-     * Redux: map to dispatch to props function
-     * @param {*} dispatch: redux dispatch function
-     * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-     * @return {*} list of actions ready to be dispatched in the redux store
-     */
-    static mapDispatchToProps = (dispatch) => ({
-      fetchProcessingMonitorList: (pageIndex, pageSize, requestParams, queryParams) => dispatch(processingMonitoringActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
-      fetchProcessingList: () => dispatch(processingActions.fetchEntityList()),
-    })
+  onRefresh = (filters) => {
+    const { meta, fetchProcessingMonitorList } = this.props
+    const curentPage = get(meta, 'number', 0)
+    const curentPageSize = get(meta, 'size', ProcessingMonitoringComponent.PAGE_SIZE)
+    return fetchProcessingMonitorList(0, curentPageSize * (curentPage + 1), {}, filters)
+  }
 
-    static propTypes = {
-      meta: PropTypes.shape({
-        // use only in onPropertiesUpdate
-        number: PropTypes.number,
-        size: PropTypes.number,
-        totalElements: PropTypes.number,
-      }),
-      // from router
-      params: PropTypes.shape({
-        project: PropTypes.string,
-      }),
-      // from mapStateToProps
-      processingList: ProcessingShapes.ProcessingList.isRequired,
-      entitiesLoading: PropTypes.bool,
-      // from mapDispatchToProps
-      fetchProcessingMonitorList: PropTypes.func,
-      fetchProcessingList: PropTypes.func,
-    }
+  getBackURL = () => {
+    const { params: { project } } = this.props
+    return `/admin/${project}/commands/board`
+  }
 
-    static defaultProps = {
-      meta: {
-        totalElements: 0,
-      },
-    }
+  render() {
+    const {
+      isLoading,
+    } = this.state
+    const {
+      processingList, meta, entitiesLoading, params: { project },
+    } = this.props
 
-    /**
-     * Initial state
-     */
-    state = {
-      isLoading: true,
-    }
-
-    UNSAFE_componentWillMount() {
-      this.props.fetchProcessingList().then((actionResult) => {
-        if (!actionResult.error) {
-          this.setState({
-            isLoading: false,
-          })
-        }
-      })
-    }
-
-    onRefresh = (filters) => {
-      const { meta, fetchProcessingMonitorList } = this.props
-      const curentPage = get(meta, 'number', 0)
-      return fetchProcessingMonitorList(0, ProcessingMonitoringComponent.PAGE_SIZE * (curentPage + 1), {}, filters)
-    }
-
-    getBackURL = () => {
-      const { params: { project } } = this.props
-      return `/admin/${project}/commands/board`
-    }
-
-    render() {
-      const {
-        isLoading,
-      } = this.state
-      const {
-        processingList, meta, entitiesLoading, params: { project },
-      } = this.props
-
-      return (
-        <I18nProvider messages={messages}>
-          <LoadableContentDisplayDecorator isLoading={isLoading}>
-            <ProcessingMonitoringComponent
-              project={project}
-              onRefresh={this.onRefresh}
-              backUrl={this.getBackURL()}
-              processingList={processingList}
-              resultsCount={meta.totalElements}
-              entitiesLoading={entitiesLoading}
-            />
-          </LoadableContentDisplayDecorator>
-        </I18nProvider>
-      )
-    }
+    return (
+      <I18nProvider messages={messages}>
+        <LoadableContentDisplayDecorator isLoading={isLoading}>
+          <ProcessingMonitoringComponent
+            project={project}
+            onRefresh={this.onRefresh}
+            backUrl={this.getBackURL()}
+            processingList={processingList}
+            resultsCount={meta.totalElements}
+            entitiesLoading={entitiesLoading}
+          />
+        </LoadableContentDisplayDecorator>
+      </I18nProvider>
+    )
+  }
 }
 
 export default compose(

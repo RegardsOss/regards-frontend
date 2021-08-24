@@ -30,48 +30,48 @@ import find from 'lodash/find'
  * @author Théo Lasserre
  */
 export class OrderDatasetsProcessingContainer extends React.Component {
-    /**
-     * Redux: map state to props function
-     * @param {*} state: current redux state
-     * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-     * @return {*} list of component properties extracted from redux state
-     */
-    static mapStateToProps = (state, { processingSelectors }) => ({
-      processingList: processingSelectors.getList(state),
-    })
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps = (state, { processingSelectors }) => ({
+    processingList: processingSelectors.getList(state),
+  })
 
-    static propTypes = {
-      entity: OrderShapes.DatasetTask.isRequired,
-      // eslint-disable-next-line react/no-unused-prop-types
-      processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
-      // from mapStateToProps
-      // eslint-disable-next-line react/no-unused-prop-types
-      processingList: ProcessingShapes.ProcessingList.isRequired,
-    }
+  static propTypes = {
+    entity: OrderShapes.DatasetTask.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    // from mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    processingList: ProcessingShapes.ProcessingList.isRequired,
+  }
 
-    static contextTypes = {
-      ...i18nContextType,
-    }
+  static contextTypes = {
+    ...i18nContextType,
+  }
 
-    getProcessingLabel = () => {
-      const { entity, processingList } = this.props
-      const { intl: { formatMessage } } = this.context
-      let processingLabel = formatMessage({ id: 'datasets.list.column.processing.undefined' })
-      if (!isUndefined(entity.processing)) {
-        const processingFound = find(processingList, (processing) => (
-          processing.content.pluginConfiguration.businessId === entity.processing.uuid
-        ))
-        processingLabel = ProcessingDomain.getProcessingName(processingFound)
-      }
-      return processingLabel
+  getProcessingLabel = () => {
+    const { entity, processingList } = this.props
+    const { intl: { formatMessage } } = this.context
+    let processingLabel = formatMessage({ id: 'datasets.list.column.processing.undefined' })
+    if (!isUndefined(entity.processing)) {
+      const processingFound = find(processingList, (processing) => (
+        processing.content.pluginConfiguration.businessId === entity.processing.uuid
+      ))
+      processingLabel = ProcessingDomain.getProcessingName(processingFound)
     }
+    return processingLabel
+  }
 
-    render() {
-      return (
-        <StringValueRender
-          value={this.getProcessingLabel()}
-        />
-      )
-    }
+  render() {
+    return (
+      <StringValueRender
+        value={this.getProcessingLabel()}
+      />
+    )
+  }
 }
 export default connect(OrderDatasetsProcessingContainer.mapStateToProps)(OrderDatasetsProcessingContainer)

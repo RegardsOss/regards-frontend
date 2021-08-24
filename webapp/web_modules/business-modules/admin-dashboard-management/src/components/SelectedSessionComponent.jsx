@@ -30,7 +30,7 @@ import AcquisitionComponent from './AcquisitionComponent'
 import ReferencingComponent from './ReferencingComponent'
 import ArchivalComponent from './ArchivalComponent'
 import DiffusionComponent from './DiffusionComponent'
-import { COMPONENT_TYPE_ENUM } from '../domain/componentTypes'
+import { ENTITY_ENUM } from '../domain/entityTypes'
 
 /**
  * SelectedSessionComponent
@@ -72,9 +72,9 @@ class SelectedSessionComponent extends React.Component {
     deleteSession(selectedSession.content.id)
   }
 
-  handleSessionSelected = () => {
+  handleCloseSessionSelected = () => {
     const { onSelected } = this.props
-    onSelected(null, COMPONENT_TYPE_ENUM.SESSION)
+    onSelected(null, ENTITY_ENUM.SESSION)
   }
 
   renderDeleteDialog = () => {
@@ -125,7 +125,7 @@ class SelectedSessionComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.close' })}
               mainButtonType="submit"
-              mainButtonClick={this.handleSessionSelected}
+              mainButtonClick={this.handleCloseSessionSelected}
             />
           </CardActions>
         </div>

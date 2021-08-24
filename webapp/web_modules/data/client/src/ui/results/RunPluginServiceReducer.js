@@ -24,35 +24,35 @@ import RunPluginServiceActions from './RunPluginServiceActions'
  */
 export class RunPluginServiceReducer {
   /** Default state */
-    static DEFAULT_STATE = {
-      serviceRunModel: null,
-    }
+  static DEFAULT_STATE = {
+    serviceRunModel: null,
+  }
 
-    /**
-   * Constructor
-   * @param {string} namespace actions namespace, default user interface namespace when not provided
+  /**
+ * Constructor
+ * @param {string} namespace actions namespace, default user interface namespace when not provided
+ */
+  constructor(namespace) {
+    this.actions = new RunPluginServiceActions(namespace)
+  }
+
+  /**
+   * Reducer implementation for dialog requests
    */
-    constructor(namespace) {
-      this.actions = new RunPluginServiceActions(namespace)
+  reduce = (state = RunPluginServiceReducer.DEFAULT_STATE, action) => {
+    switch (action.type) {
+      case this.actions.RUN_SERVICE:
+        return {
+          serviceRunModel: action.serviceRunModel,
+        }
+      case this.actions.CLOSE_SERVICE:
+        return {
+          serviceRunModel: null,
+        }
+      default:
+        return state
     }
-
-    /**
-     * Reducer implementation for dialog requests
-     */
-    reduce =(state = RunPluginServiceReducer.DEFAULT_STATE, action) => {
-      switch (action.type) {
-        case this.actions.RUN_SERVICE:
-          return {
-            serviceRunModel: action.serviceRunModel,
-          }
-        case this.actions.CLOSE_SERVICE:
-          return {
-            serviceRunModel: null,
-          }
-        default:
-          return state
-      }
-    }
+  }
 }
 
 /**
