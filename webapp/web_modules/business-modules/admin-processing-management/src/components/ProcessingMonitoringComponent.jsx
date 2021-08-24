@@ -139,7 +139,7 @@ export class ProcessingMonitoringComponent extends React.Component {
               onRefresh={onRefresh}
               onApplyFilters={this.applyFilters}
             />
-            <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
+            <TableHeaderLineLoadingSelectAllAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
             <PageableInfiniteTableContainer
               name="processing-monitoring-table"
               minRowCount={minRowCount}
