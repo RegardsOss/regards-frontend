@@ -64,13 +64,11 @@ export default class CesiumAdapter extends React.Component {
     selectedColorOutlineWidth: PropTypes.number,
     // eslint-disable-next-line react/no-unused-prop-types
     zoomTo: PropTypes.shape({
-      feature: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      }),
+      id: PropTypes.string.isRequired,
     }),
     // should notify parent on pick selection
     // toponym selection management
-    onProductZoomTo: PropTypes.func,
+    onProductsZoomTo: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
     selectedToponyms: PropTypes.object,
 
@@ -231,7 +229,7 @@ export default class CesiumAdapter extends React.Component {
 
   getSelectedFeatures = (featuresCollection, selectedProducts) => filter(featuresCollection.features, (feature) => find(selectedProducts, (selectedProduct) => feature.id === selectedProduct.content.id))
 
-  getZoomToFeature = (featuresCollection, zoomToFeature) => find(featuresCollection.features, (feature) => feature.id === zoomToFeature.feature.id)
+  getZoomToFeature = (featuresCollection, zoomTo) => find(featuresCollection.features, (feature) => feature.id === zoomTo.id)
 
   getGreyBackgroundProvider = (layers, viewMode) => {
     const backgroundLayerInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode, UIDomain.MAP_ENGINE_ENUM.CESIUM)
@@ -303,7 +301,7 @@ export default class CesiumAdapter extends React.Component {
 
   render() {
     const {
-      featuresCollection, drawingSelection, drawnAreas, onDrawingSelectionDone, onProductZoomTo, customLayersOpacity,
+      featuresCollection, drawingSelection, drawnAreas, onDrawingSelectionDone, onProductsZoomTo, customLayersOpacity,
       viewMode, onProductSelected, selectedToponyms, featureShapefile,
     } = this.props
     const {
@@ -400,7 +398,7 @@ export default class CesiumAdapter extends React.Component {
                 drawingSelection={drawingSelection}
                 drawnAreas={drawnAreas}
                 onDrawingSelectionDone={onDrawingSelectionDone}
-                onProductZoomTo={onProductZoomTo}
+                onProductsZoomTo={onProductsZoomTo}
                 onProductSelected={onProductSelected}
                 featuresCollection={featuresCollection}
               />

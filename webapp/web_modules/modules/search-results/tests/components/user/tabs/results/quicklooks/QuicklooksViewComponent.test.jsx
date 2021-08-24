@@ -45,6 +45,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
     const props = {
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       requestParameters: {},
+      loadedEntities: [],
       searchActions: searchDataobjectsActions,
       cellProperties: {
         tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
@@ -74,6 +75,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
       pageActions: props.searchActions,
       requestParams: props.requestParameters,
       itemProps: props.cellProperties,
+      loadedEntities: props.loadedEntities,
       pageSelectors: searchSelectors,
     }, 'Gallery wrapper properties should be correctly set')
     assert.isOk(galleryWrapper.props().pageSelectors, 'Page selectors should be provided')
@@ -85,6 +87,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
     const props = {
       tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
       requestParameters: {},
+      loadedEntities: [],
       searchActions: searchDataobjectsActions,
       cellProperties: {
         tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
@@ -114,6 +117,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
       pageActions: props.searchActions,
       requestParams: props.requestParameters,
       itemProps: props.cellProperties,
+      loadedEntities: props.loadedEntities,
       pageSelectors: searchSelectors,
     }, 'Gallery wrapper properties should be correctly set')
     assert.isOk(galleryWrapper.props().columnWidth, 'Column width should be provided')

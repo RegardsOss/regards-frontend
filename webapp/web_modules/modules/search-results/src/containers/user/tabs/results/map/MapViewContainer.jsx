@@ -22,7 +22,9 @@ import { connect } from '@regardsoss/redux'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { resultsContextActions } from '../../../../../clients/ResultsContextClient'
 import MapViewComponent from '../../../../../components/user/tabs/results/map/MapViewComponent'
+import { withEntitiesCacheContainer } from '../common/withEntitiesCacheContainer'
 
+export const MapViewCompoWithEntitiesCache = withEntitiesCacheContainer(MapViewComponent)
 /**
  * Container for map view
  * @author Sebastien Binda
@@ -122,6 +124,36 @@ export class MapViewContainer extends React.Component {
     })
   }
 
+  /**
+   * User double click on a single feature, let's save that feature into store
+   * @param {*} zoomToProduct picked feature, matches Catalog.Entity shape (content)
+   */
+  onProductZoomTo = (zoomToProduct) => {
+    if (zoomToProduct) {
+      const {
+        tabType, updateResultsContext, resultsContext,
+      } = this.props
+      const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+
+      // update selection mode in mode state
+      updateResultsContext({
+        tabs: {
+          [tabType]: {
+            types: {
+              [selectedType]: {
+                modes: {
+                  [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
+                    zoomTo: zoomToProduct,
+                  },
+                },
+              },
+            },
+          },
+        },
+      })
+    }
+  }
+
   render() {
     const {
       moduleId, tabType, resultsContext, requestParameters, searchActions,
@@ -133,7 +165,7 @@ export class MapViewContainer extends React.Component {
     } = this.state
 
     return (
-      <MapViewComponent
+      <MapViewCompoWithEntitiesCache
         moduleId={moduleId}
         tabType={tabType}
         resultsContext={resultsContext}
@@ -147,6 +179,7 @@ export class MapViewContainer extends React.Component {
         onNewItemOfInterestPicked={this.onNewItemOfInterestPicked}
         onSplitDropped={this.onSplitDropped}
         itemOfInterestPicked={itemOfInterestPicked}
+        onProductZoomTo={this.onProductZoomTo}
       />)
   }
 }

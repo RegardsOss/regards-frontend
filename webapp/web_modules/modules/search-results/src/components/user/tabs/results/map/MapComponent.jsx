@@ -46,11 +46,9 @@ class MapComponent extends React.Component {
     onDrawingSelectionUpdated: PropTypes.func.isRequired,
     onDrawingSelectionDone: PropTypes.func.isRequired,
     // Features that are zoom on
-    onProductZoomTo: PropTypes.func.isRequired, // ([entities] => ())
+    onProductsZoomTo: PropTypes.func.isRequired, // ([entities] => ())
     zoomTo: PropTypes.shape({
-      feature: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      }),
+      id: PropTypes.string.isRequired,
     }),
 
     // Map layers
@@ -93,7 +91,7 @@ class MapComponent extends React.Component {
       featuresCollection, displayedAreas, mapEngine,
       mapSelectionMode, onDrawingSelectionUpdated, onDrawingSelectionDone,
       viewMode, onToggleSelectionMode, onToggleViewMode,
-      onProductZoomTo, layers,
+      onProductsZoomTo, layers,
       selectedProducts, onProductSelected, onToponymSelected, selectedToponyms,
       featureShapefile, zoomTo,
     } = this.props
@@ -109,7 +107,7 @@ class MapComponent extends React.Component {
       onDrawingSelectionUpdated,
       onDrawingSelectionDone,
       drawingSelection: mapSelectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE,
-      onProductZoomTo,
+      onProductsZoomTo,
       featuresColor: featureColor,
       drawColor,
       customLayersOpacity,

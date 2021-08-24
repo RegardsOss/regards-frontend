@@ -44,21 +44,15 @@ const WAITING_TIME_FOR_SINGLE_CLICK = 400
  * Manage Cesium & Mizar simple & double click on entities event
  * @param {*} selectedEntities
  * @param {*} onProductSelected funtion to call when there is a simple click on entities
- * @param {*} onProductZoomTo function to call when there is a double click on entities
+ * @param {*} onProductsZoomTo function to call when there is a double click on entities
  */
-export function clickOnEntitiesHandler(selectedEntities, onProductSelected, onProductZoomTo) {
+export function clickOnEntitiesHandler(selectedEntities, onProductSelected, onProductsZoomTo) {
   clickCount += 1
   // Handle single click
   if (clickCount === MAP_CLICK_EVENT.SIMPLE_CLICK) {
     singleClickTimer = root.setTimeout(() => {
       clickCount = MAP_CLICK_EVENT.INITIAL
-      const featuresSelected = map(selectedEntities, (entity) => (
-        {
-          id: entity.feature.id,
-          label: entity.feature.label,
-        }
-      ))
-      onProductSelected(featuresSelected)
+      onProductSelected(selectedEntities)
     }, WAITING_TIME_FOR_SINGLE_CLICK)
     // Handle double click
   } else if (clickCount === MAP_CLICK_EVENT.DOUBLE_CLICK) {
@@ -66,7 +60,7 @@ export function clickOnEntitiesHandler(selectedEntities, onProductSelected, onPr
     clickCount = MAP_CLICK_EVENT.INITIAL
     // Do not send event if there is no REGARDS feature selected
     if (!isEmpty(selectedEntities)) {
-      onProductZoomTo(selectedEntities)
+      onProductsZoomTo(selectedEntities)
     }
   }
 }

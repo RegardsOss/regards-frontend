@@ -226,9 +226,7 @@ const MapViewModeState = PropTypes.shape({
   viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired, // current view mode
   splitPosition: PropTypes.number, // current split position
   zoomTo: PropTypes.shape({
-    feature: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }),
+    id: PropTypes.string.isRequired,
   }),
 })
 

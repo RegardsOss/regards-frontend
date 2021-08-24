@@ -36,6 +36,8 @@ export class InfiniteGalleryContainer extends React.Component {
       PropTypes.element,
       PropTypes.func,
     ]).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    loadedEntities: PropTypes.arrayOf(PropTypes.object),
     columnWidth: PropTypes.number,
     columnGutter: PropTypes.number,
     loadingComponent: PropTypes.element,
@@ -48,9 +50,6 @@ export class InfiniteGalleryContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
 
-    // already provided by this component, just fill in the other ones =)
-    // eslint-disable-next-line react/no-unused-prop-types
-    entities: PropTypes.arrayOf(PropTypes.object),
     // eslint-disable-next-line react/no-unused-prop-types
     entitiesFetching: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -90,10 +89,6 @@ export class InfiniteGalleryContainer extends React.Component {
   /** Root div style to span all */
   static SPAN_ALL_STYLE = { minHeight: 0, flexGrow: 1, flexShrink: 1 }
 
-  static DEFAULT_STATE = {
-    entities: [],
-  }
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -102,8 +97,6 @@ export class InfiniteGalleryContainer extends React.Component {
    */
   static mapStateToProps(state, { pageSelectors }) {
     return {
-      // results entities
-      entities: pageSelectors.getOrderedList(state),
       pageMetadata: pageSelectors.getMetaData(state),
       entitiesFetching: pageSelectors.isFetching(state),
       // authentication, mapped to reload entities on changes
@@ -152,13 +145,8 @@ export class InfiniteGalleryContainer extends React.Component {
       // Fetch new ones (clear store first)
       this.flush(nextProps)
       this.fetchEntityPage(nextProps)
-    } else if (!isEqual(previousProps.entities, nextProps.entities) || nextState.entities.length < get(nextProps, 'entities.length', 0)) {
-      // update row entities (add new one to previously known ones)
-      const entitiesPageIndex = get(nextProps.pageMetadata, 'number', 0)
-      const firstReloadingIndex = entitiesPageIndex * nextProps.queryPageSize
-      const oldEntities = (previousState.entities || []).slice()
-      const restoredEntities = oldEntities.slice(0, Math.min(oldEntities.length, firstReloadingIndex))
-      nextState.entities = [...restoredEntities, ...nextProps.entities]
+      // Entities stored is managed outside this container. After fetching, we receive
+      // the new full list of items inside the loadedEntities props
     }
 
     if (!isEqual(previousState, nextState)) {
@@ -171,7 +159,7 @@ export class InfiniteGalleryContainer extends React.Component {
    */
   getCurrentTotalEntities = () => {
     const entitiesCount = get(this.props.pageMetadata, 'totalElements', 0)
-    return Math.max(entitiesCount || 0, (this.props.entities || []).length)
+    return Math.max(entitiesCount || 0, (this.props.loadedEntities || []).length)
   }
 
   /**
@@ -200,21 +188,20 @@ export class InfiniteGalleryContainer extends React.Component {
     }
   }
 
-  hasMoreEntities = () => this.state.entities.length < this.getCurrentTotalEntities()
+  hasMoreEntities = () => this.props.loadedEntities.length < this.getCurrentTotalEntities()
 
   render() {
     // except actions / selectors, we need all properties through
-    const { entities } = this.state
     const {
       itemComponent, columnWidth, columnGutter, entitiesFetching, loadingComponent, emptyComponent, itemProps, itemOfInterestPicked,
-      isItemOfInterest, forceRenderingUsingKey,
+      isItemOfInterest, forceRenderingUsingKey, loadedEntities,
     } = this.props
     const currentTotalEntities = this.getCurrentTotalEntities()
 
     return (
       <MeasureResultProvider style={InfiniteGalleryContainer.SPAN_ALL_STYLE} targetPropertyName="componentSize" key={forceRenderingUsingKey}>
         <InfiniteGalleryComponent
-          items={entities}
+          items={loadedEntities}
           itemComponent={itemComponent}
           itemProps={itemProps}
           columnWidth={columnWidth}

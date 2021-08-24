@@ -58,7 +58,7 @@ describe('[SEARCH RESULTS] Testing MapViewComponent', () => {
         },
 
       },
-      zoomTo: {},
+      loadedEntities: [],
       requestParameters: {},
       searchActions: getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS).searchDataobjectsActions,
       descriptionAvailable: true,
@@ -66,6 +66,7 @@ describe('[SEARCH RESULTS] Testing MapViewComponent', () => {
       accessToken: 'abc',
       projectName: 'def',
       onAddElementToCart: () => { },
+      onProductZoomTo: () => { },
       onSplitDropped: () => { },
       onNewItemOfInterestPicked: () => { },
     }

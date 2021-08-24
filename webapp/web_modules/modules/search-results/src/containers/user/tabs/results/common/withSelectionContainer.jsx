@@ -19,33 +19,16 @@
 import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import head from 'lodash/head'
+import map from 'lodash/map'
 import reduce from 'lodash/reduce'
 import values from 'lodash/values'
 import { UIDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { TableSelectionModes } from '@regardsoss/components'
-import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesClient'
 import { getSelectionClient } from '../../../../../clients/SelectionClient'
 
 const getReactCompoName = (WrappedComponent) => WrappedComponent.displayName || WrappedComponent.name || 'Component'
-
-/**
- * Return the list of displayed entity selected
- * When selectionMode is exclude, compute the displayed list
- */
-export function getSelectedProducts({ selectionMode, toggledElements, entities }) {
-  if (TableSelectionModes.includeSelected === selectionMode) {
-    return toggledElements
-  }
-  return reduce(entities, (acc, entity) => {
-    const entityId = entity.content.id
-    if (!find(toggledElements, (toggledElement) => toggledElement.content.id === entityId)) {
-      acc[entityId] = entity
-    }
-    return acc
-  }, {})
-}
 
 /**
  * Decorates a React component to inject (table) selection related functionnalities and values
@@ -55,21 +38,23 @@ export function getSelectedProducts({ selectionMode, toggledElements, entities }
  * @return {React.Component}
  * @author Léo Mieulet
  */
-export const withMapSelectionContainer = (DecoratedComponent) => {
+export const withSelectionContainer = (DecoratedComponent) => {
   /**
    * Handle feature selection on map
    * @author Léo Mieulet
    */
-  class MapSelectionContainer extends React.Component {
+  class SelectionContainer extends React.Component {
     static propTypes = {
       // eslint-disable-next-line react/no-unused-prop-types
       tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
       // Call when user has selected a new product on map
-      onNewItemOfInterestPicked: PropTypes.func.isRequired,
+      onNewItemOfInterestPicked: PropTypes.func,
+      // When loaded in map context
+      // We use here the loadedEntities as it contains data from others loaded page
+      // Otherwise when an user select an entity fetched on a previously page, the attribute entities does not contain it
+      loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired, // Entities cached
 
-      // product selection management
       // from mapStateToProps
-      entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
       toggledElements: PropTypes.objectOf(CatalogShapes.Entity).isRequired, // inner object is entity type
       // eslint-disable-next-line react/no-unused-prop-types
       selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
@@ -78,7 +63,12 @@ export const withMapSelectionContainer = (DecoratedComponent) => {
       setSelection: PropTypes.func.isRequired,
     }
 
-    static displayName = `withMapSelectionContainer(${getReactCompoName(DecoratedComponent)})`
+    static defaultProps = {
+      // Noop when displayed on quicklook view
+      onNewItemOfInterestPicked: () => { },
+    }
+
+    static displayName = `withSelectionContainer(${getReactCompoName(DecoratedComponent)})`
 
     /**
      * Redux: map state to props function
@@ -87,12 +77,9 @@ export const withMapSelectionContainer = (DecoratedComponent) => {
      * @return {*} list of component properties extracted from redux state
      */
     static mapStateToProps(state, { tabType }) {
-      const { searchSelectors } = getSearchCatalogClient(tabType)
       const { tableSelectors } = getSelectionClient(tabType)
 
       return {
-        // results entities
-        entities: searchSelectors.getOrderedList(state),
         selectionMode: tableSelectors.getSelectionMode(state),
         toggledElements: tableSelectors.getToggledElements(state),
       }
@@ -109,6 +96,40 @@ export const withMapSelectionContainer = (DecoratedComponent) => {
       return {
         setSelection: (selectionMode, toggledElements) => dispatch(tableActions.setSelection(selectionMode, toggledElements)),
       }
+    }
+
+    /**
+     * Return a collection that can safely iterated
+     * On map instance, loadedEntities contains ALL pages that have been fetched from the beginning of the user visit
+     * Whereas entites only contains the current page
+     * @returns [{content: {id: ...}}] a collection that can be parsed in the same way, with
+     */
+    static getExistingProducts = (loadedEntities, entities) => {
+      if (loadedEntities) {
+        // When loadedEntities exists, it contains all features displayed on the map
+        return map(loadedEntities.features, (feature) => ({ content: feature }))
+      }
+      // Otherwise, fallback to entities stored in redux
+      return entities
+    }
+
+    /**
+     * Return the list of displayed entity selected
+     * When selectionMode is exclude, compute the displayed list
+     */
+    static getSelectedProducts = ({
+      selectionMode, toggledElements, loadedEntities,
+    }) => {
+      if (TableSelectionModes.includeSelected === selectionMode) {
+        return toggledElements
+      }
+      return reduce(loadedEntities, (acc, existingProduct) => {
+        const entityId = existingProduct.content.id
+        if (!find(toggledElements, (toggledElement) => toggledElement.content.id === entityId)) {
+          acc[entityId] = existingProduct
+        }
+        return acc
+      }, {})
     }
 
     state = {
@@ -133,14 +154,13 @@ export const withMapSelectionContainer = (DecoratedComponent) => {
     */
     onPropertiesChanged = (oldProps, newProps) => {
       const {
-        toggledElements, entities, selectionMode,
+        toggledElements, loadedEntities, selectionMode,
       } = newProps
-
       if (!isEqual(oldProps.toggledElements, toggledElements)
         || oldProps.selectionMode !== selectionMode
-        || !isEqual(oldProps.entities, entities)) {
+        || !isEqual(oldProps.loadedEntities, loadedEntities)) {
         this.setState({
-          selectedProducts: getSelectedProducts(newProps),
+          selectedProducts: SelectionContainer.getSelectedProducts(newProps),
         })
       }
     }
@@ -148,18 +168,13 @@ export const withMapSelectionContainer = (DecoratedComponent) => {
     /**
      * Add provided products to the initElements list
      */
-    includeProductsIntoResult = (initElements, products) => {
-      const {
-        entities,
-      } = this.props
-      return {
-        ...initElements,
-        ...reduce(products, (acc, product) => {
-          acc[product.id] = find(entities, (entity) => entity.content.id === product.id)
-          return acc
-        }, {}),
-      }
-    }
+    includeProductsIntoResult = (initElements, products) => ({
+      ...initElements,
+      ...reduce(products, (acc, product) => {
+        acc[product.id] = { content: product }
+        return acc
+      }, {}),
+    })
 
     /**
      * Remove provided products from the initElements list
@@ -195,9 +210,10 @@ export const withMapSelectionContainer = (DecoratedComponent) => {
     render() {
       const {
         // eslint-disable-next-line no-unused-vars
-        toggledElements, entities, selectionMode, setSelection, onNewItemOfInterestPicked, ...props
+        toggledElements, selectionMode, setSelection, onNewItemOfInterestPicked, ...props
       } = this.props
       const { selectedProducts } = this.state
+
       return <DecoratedComponent
         {...props}
         onProductSelected={this.onProductSelected}
@@ -206,6 +222,6 @@ export const withMapSelectionContainer = (DecoratedComponent) => {
     }
   }
   return connect(
-    MapSelectionContainer.mapStateToProps,
-    MapSelectionContainer.mapDispatchToProps)(MapSelectionContainer)
+    SelectionContainer.mapStateToProps,
+    SelectionContainer.mapDispatchToProps)(SelectionContainer)
 }

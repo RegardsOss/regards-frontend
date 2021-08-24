@@ -28,6 +28,9 @@ import TableViewContainer from '../../../../containers/user/tabs/results/table/T
 import ListViewContainer from '../../../../containers/user/tabs/results/list/ListViewContainer'
 import QuicklooksViewContainer from '../../../../containers/user/tabs/results/quickooks/QuicklooksViewContainer'
 import MapViewContainer from '../../../../containers/user/tabs/results/map/MapViewContainer'
+import { withEntitiesCacheContainer } from '../../../../containers/user/tabs/results/common/withEntitiesCacheContainer'
+
+export const QuicklooksViewContainerWithEntitiesCache = withEntitiesCacheContainer(QuicklooksViewContainer)
 
 /**
  * Search results root component: it shows either:
@@ -136,7 +139,7 @@ class SearchResultsComponent extends React.Component {
                 )
               case UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK:
                 return (
-                  <QuicklooksViewContainer
+                  <QuicklooksViewContainerWithEntitiesCache
                     tabType={tabType}
                     resultsContext={resultsContext}
                     requestParameters={requestParameters}

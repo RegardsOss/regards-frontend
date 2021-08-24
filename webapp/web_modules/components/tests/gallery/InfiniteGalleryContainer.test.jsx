@@ -45,7 +45,7 @@ describe('[COMPONENTS] Testing InfiniteGalleryContainer', () => {
 
       pageActions: new BasicPageableActions({ schemaTypes: {} }),
       pageSelectors: new BasicPageableSelectors(['test']),
-      entities: values(DumpProvider.get('AccessProjectClient', 'DataobjectEntity')),
+      loadedEntities: values(DumpProvider.get('AccessProjectClient', 'DataobjectEntity')),
       entitiesFetching: true,
       pageMetadata: { // use only in onPropertiesUpdate
         number: 4,
@@ -60,7 +60,7 @@ describe('[COMPONENTS] Testing InfiniteGalleryContainer', () => {
       authentication: {
 
       },
-      isItemOfInterest: () => {},
+      isItemOfInterest: () => { },
     }
     shallow(<InfiniteGalleryContainer name {...props} />, { context })
     // cannot test content as it is in Measure

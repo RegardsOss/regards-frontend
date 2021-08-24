@@ -35,6 +35,8 @@ import AddElementToCartContainer from '../../../../../containers/user/tabs/resul
 import QuicklookCellAttributesComponent from './QuicklookCellAttributesComponent'
 import EntityDescriptionComponent from '../common/options/EntityDescriptionComponent'
 import DownloadEntityFileComponent from '../common/options/DownloadEntityFileComponent'
+import QuicklookZoomToOptionComponent from './QuicklookZoomToOptionComponent'
+import QuicklookShowZoomedPictureComponent from './QuicklookShowZoomedPictureComponent'
 
 export const specificCellPropertiesFields = {
   tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
@@ -57,6 +59,8 @@ export const specificCellPropertiesFields = {
   // Product selection management
   selectedProducts: PropTypes.objectOf(CatalogShapes.Entity).isRequired, // inner object is entity type
   onProductSelected: PropTypes.func,
+  // Handler when zoom to button is fired
+  onProductZoomTo: PropTypes.func,
   // Pure component restrictions: provide locale as context
   locale: PropTypes.string.isRequired,
   // Note: current theme should also be provided to ensure redraw is done on theme change, but it is not
@@ -251,10 +255,13 @@ class QuicklookCellComponent extends React.PureComponent {
   onPropertiesUpdated = (oldProps, newProps) => {
     const nextState = { ...this.state }
     const {
-      left, top, width, gridWidth, selectedProducts, entity, embedInMap,
+      left, top, width, gridWidth, selectedProducts, entity,
     } = newProps
     const { muiTheme } = this.context
-    if (!isEqual(left, oldProps.left) || !isEqual(top, oldProps.top) || !isEqual(width, oldProps.width)) {
+    if (!isEqual(left, oldProps.left)
+      || !isEqual(top, oldProps.top)
+      || !isEqual(width, oldProps.width)
+      || !isEqual(selectedProducts, oldProps.selectedProducts)) {
       nextState.cardStyle = {
         position: 'absolute',
         left: isFinite(left) && left > 0 ? left : 0,
@@ -262,6 +269,9 @@ class QuicklookCellComponent extends React.PureComponent {
         width: isFinite(width) && width > 0 ? width : 0,
         padding: 0,
         transition: undefined, // remove MUI transition that is quite inadequate
+        backgroundColor: this.isProductSelected(selectedProducts, entity.content.id)
+          ? muiTheme.module.searchResults.map.quicklooks.selectedColor
+          : 'transparent',
       }
     }
 
@@ -271,15 +281,6 @@ class QuicklookCellComponent extends React.PureComponent {
         width: alignedWidth / 2,
         height: alignedWidth / 2,
         margin: `${alignedWidth / 10}px ${alignedWidth / 4}px`,
-      }
-    }
-
-    if (!isEqual(selectedProducts, oldProps.selectedProducts) && embedInMap) {
-      nextState.cardStyle = {
-        ...nextState.cardStyle,
-        backgroundColor: this.isProductSelected(selectedProducts, entity.content.id)
-          ? muiTheme.module.searchResults.map.quicklooks.selectedColor
-          : 'transparent',
       }
     }
 
@@ -306,21 +307,11 @@ class QuicklookCellComponent extends React.PureComponent {
 
   onImageClicked = () => {
     const {
-      onProductSelected, selectedProducts, embedInMap, entity,
+      onProductSelected, entity,
     } = this.props
-    // Handle product selection in map view
-    if (embedInMap) {
-      const entityContent = entity.content
-      const selectedProduct = {
-        id: entityContent.id,
-        label: entityContent.label,
-      }
-      // Handle second click on selectedProduct -> remove selection
-      const shouldRemove = this.isProductSelected(selectedProducts, entityContent.id)
-      onProductSelected(shouldRemove, selectedProduct)
-    } else {
-      this.onOpenZoom()
-    }
+    const selectedProduct = [entity.content]
+    // Handle second click on selectedProduct -> remove selection
+    onProductSelected(selectedProduct)
   }
 
   render() {
@@ -328,7 +319,7 @@ class QuicklookCellComponent extends React.PureComponent {
       tabType, entity, presentationModels,
       enableDownload, accessToken, projectName,
       descriptionAvailable, onAddElementToCart,
-      enableServices,
+      enableServices, onProductZoomTo,
       primaryQuicklookGroup,
       embedInMap, locale,
     } = this.props
@@ -358,7 +349,10 @@ class QuicklookCellComponent extends React.PureComponent {
           containerStyle={cardContentContainer}
         >
           { /** 1 - render vertically the picture and attributes */}
-          <div style={pictureAndAttributesContainer}>
+          <div
+            style={pictureAndAttributesContainer}
+            onClick={this.onImageClicked}
+          >
             {/* 1.a - picture */}
             <div style={defaultPic ? quicklookContainerStyle : null}>
               {
@@ -367,7 +361,6 @@ class QuicklookCellComponent extends React.PureComponent {
                     src={defaultPic.uri}
                     alt={formatMessage({ id: 'results.quicklooks.picture.alt' })}
                     style={actualImageStyle}
-                    onClick={this.onImageClicked}
                   />)
                   : <ImageOff style={iconStyle} />
               }
@@ -397,7 +390,15 @@ class QuicklookCellComponent extends React.PureComponent {
                 iconStyle={option.iconStyles}
               />
             </ShowableAtRender>
-            {/* 2.b - services, when enabled */}
+            {/* 2.b - Show thumbnail  */}
+            <ShowableAtRender show={!!defaultPic}>
+              <QuicklookShowZoomedPictureComponent
+                onOpenZoom={this.onOpenZoom}
+                style={option.buttonStyles}
+                iconStyle={option.iconStyles}
+              />
+            </ShowableAtRender>
+            {/* 2.c - services, when enabled */}
             <ShowableAtRender show={enableServices && get(entity, 'content.services.length', 0) > 0}>
               <OneElementServicesContainer
                 tabType={tabType}
@@ -406,7 +407,7 @@ class QuicklookCellComponent extends React.PureComponent {
                 iconStyle={option.iconStyles}
               />
             </ShowableAtRender>
-            {/* 2.c - add to cart,  when available (ie has callback) - not showable because callback is required by the AddElementToCartContainer */}
+            {/* 2.d - add to cart,  when available (ie has callback) - not showable because callback is required by the AddElementToCartContainer */}
             {onAddElementToCart ? (
               <AddElementToCartContainer
                 entity={entity}
@@ -414,7 +415,7 @@ class QuicklookCellComponent extends React.PureComponent {
                 style={option.buttonStyles}
                 iconStyle={option.iconStyles}
               />) : null}
-            {/* 2.d - Download, when available. Like below, due to props, we can't use a showable at render */}
+            {/* 2.e - Download, when available. Like below, due to props, we can't use a showable at render */}
             <ShowableAtRender show={enableDownload}>
               <DownloadEntityFileComponent
                 entity={entity}
@@ -422,6 +423,15 @@ class QuicklookCellComponent extends React.PureComponent {
                 iconStyle={option.iconStyles}
                 accessToken={accessToken}
                 projectName={projectName}
+              />
+            </ShowableAtRender>
+            {/* 2.f - zoom to product button, when available. */}
+            <ShowableAtRender show={embedInMap}>
+              <QuicklookZoomToOptionComponent
+                entity={entity}
+                style={option.buttonStyles}
+                iconStyle={option.iconStyles}
+                onProductZoomTo={onProductZoomTo}
               />
             </ShowableAtRender>
           </div>

@@ -52,12 +52,10 @@ export default class MizarAdapter extends React.Component {
     drawnAreas: PropTypes.arrayOf(GeoJsonFeature),
     // should notify parent on pick selection
     // eslint-disable-next-line react/no-unused-prop-types
-    onProductZoomTo: PropTypes.func,
+    onProductsZoomTo: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     zoomTo: PropTypes.shape({
-      feature: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      }),
+      id: PropTypes.string.isRequired,
     }),
     // view management
     viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired,
@@ -166,7 +164,7 @@ export default class MizarAdapter extends React.Component {
     if (!isEqual(oldProps.zoomTo, zoomTo) || !isEqual(oldProps.drawnAreas, drawnAreas)) {
       // Handle zoom on selected product
       if (!isEqual(oldProps.zoomTo, zoomTo) && zoomTo) {
-        const lastFeatureSelected = find(featuresCollection.features, (feature) => feature.id === zoomTo.feature.id)
+        const lastFeatureSelected = find(featuresCollection.features, (feature) => feature.id === zoomTo.id)
         this.zoomOnGeometry(lastFeatureSelected.geometry)
       } else if (!isEmpty(drawnAreas)) {
         // When user stop drawing area or toponym change
@@ -439,8 +437,8 @@ export default class MizarAdapter extends React.Component {
       // compute selection
       const pickingManager = this.mizar.instance.getServiceByName(Mizar.SERVICE.PickingManager)
       const newSelection = pickingManager.computePickSelection(pickPoint)
-      const selectedFeatures = filter(newSelection, (selection) => find(this.props.featuresCollection.features, (feature) => selection.feature.id === feature.id))
-      UIDomain.clickOnEntitiesHandler(selectedFeatures, this.props.onProductSelected, this.props.onProductZoomTo)
+      const selectedFeatures = filter(this.props.featuresCollection.features, (feature) => find(newSelection, (selection) => selection.feature.id === feature.id))
+      UIDomain.clickOnEntitiesHandler(selectedFeatures, this.props.onProductSelected, this.props.onProductsZoomTo)
     }
   }
 

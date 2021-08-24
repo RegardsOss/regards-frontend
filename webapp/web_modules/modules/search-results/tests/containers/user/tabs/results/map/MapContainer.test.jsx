@@ -57,13 +57,13 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
         },
       }),
       onNewItemOfInterestPicked: () => { },
-      entities: [
+      onProductZoomTo: () => { },
+      loadedEntities: [
         // some entities (no valid geometry)
         ...resultsDump.content,
         // an entity with geometry
         dataEntityWithGeometry,
       ],
-      pageMetadata: resultsDump.metadata,
       updateResultsContext: () => { },
       uploadToponym: () => { },
     }
@@ -82,7 +82,7 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
       onToggleViewMode: enzymeWrapper.instance().onToggleViewMode,
       onDrawingSelectionUpdated: enzymeWrapper.instance().onDrawingSelectionUpdated,
       onDrawingSelectionDone: enzymeWrapper.instance().onDrawingSelectionDone,
-      onProductZoomTo: enzymeWrapper.instance().onProductZoomTo,
+      onProductsZoomTo: enzymeWrapper.instance().onProductsZoomTo,
       onNewItemOfInterestPicked: props.onNewItemOfInterestPicked,
       tabType: props.tabType,
       onToponymSelected: enzymeWrapper.instance().onToponymSelected,

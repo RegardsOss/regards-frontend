@@ -20,7 +20,7 @@ import isNumber from 'lodash/isNumber'
 import get from 'lodash/get'
 import SplitPane from 'react-split-pane'
 import { UIDomain } from '@regardsoss/domain'
-import { CommonShapes, UIShapes } from '@regardsoss/shape'
+import { CommonShapes, UIShapes, CatalogShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { Measure } from '@regardsoss/adapters'
@@ -41,11 +41,10 @@ class MapViewComponent extends React.Component {
     resultsContext: UIShapes.ResultsContext.isRequired,
     requestParameters: CommonShapes.RequestParameters.isRequired,
     searchActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
-    zoomTo: PropTypes.shape({
-      feature: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      }),
-    }),
+    // Entities cached
+    loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
+    // Zoom to management
+    onProductZoomTo: PropTypes.func.isRequired,
     // Description management
     descriptionAvailable: PropTypes.bool.isRequired,
     onShowDescription: PropTypes.func,
@@ -141,7 +140,7 @@ class MapViewComponent extends React.Component {
   render() {
     const {
       moduleId, tabType, resultsContext, requestParameters, searchActions,
-      descriptionAvailable, onShowDescription,
+      descriptionAvailable, onShowDescription, onProductZoomTo, loadedEntities,
       accessToken, projectName, onAddElementToCart, onNewItemOfInterestPicked, itemOfInterestPicked,
     } = this.props
     const { width, height = 0 } = this.state
@@ -190,6 +189,8 @@ class MapViewComponent extends React.Component {
                   tabType={tabType}
                   resultsContext={resultsContext}
                   onNewItemOfInterestPicked={onNewItemOfInterestPicked}
+                  onProductZoomTo={onProductZoomTo}
+                  loadedEntities={loadedEntities}
                 />
               </div>
               { /* Right: qiuicklooks container */}
@@ -210,6 +211,8 @@ class MapViewComponent extends React.Component {
                   embedInMap
                   itemOfInterestPicked={itemOfInterestPicked}
                   isItemOfInterest={this.isItemOfInterest}
+                  onProductZoomTo={onProductZoomTo}
+                  loadedEntities={loadedEntities}
                   // see force redraw workaround comment above
                   forceRenderingUsingKey={`${leftPaneWidth}x${height}`}
                 />)}
