@@ -62,6 +62,7 @@ class TableHeaderLineLoadingSelectAllAndResults extends React.Component {
             onToggleSelectAll={saOnToggleSelectAll}
             selectionEnabled={saSelectionEnabled}
             isFetching={isFetching}
+            count={resultsCount}
           />
           <TableHeaderResultsCountMessage loadedResultsCount={loadedResultsCount} count={resultsCount} isFetching={isFetching} />
         </TableHeaderContentBox>

@@ -34,6 +34,7 @@ class TableHeaderSelectAll extends React.Component {
     onToggleSelectAll: PropTypes.func,
     selectionEnabled: PropTypes.bool,
     isFetching: PropTypes.bool,
+    count: PropTypes.number.isRequired,
   }
 
   static contextTypes = {
@@ -42,15 +43,15 @@ class TableHeaderSelectAll extends React.Component {
 
   render() {
     const {
-      allSelected, disabled, onToggleSelectAll, selectionEnabled, isFetching,
+      allSelected, disabled, onToggleSelectAll, selectionEnabled, isFetching, count,
     } = this.props
     const [icon, labelKey] = !allSelected
       // select all
       ? [<CheckBoxOutLineIcon key="0" />, 'table.select.all.label']
       // deselect all
       : [<CheckBoxIcon key="1" />, 'table.deselect.all.label']
-
-    return selectionEnabled && !isFetching ? (
+    // display when enabled, there is result or not fetching
+    return selectionEnabled && (!isFetching || count) ? (
       <>
         <FlatButton
           disabled={disabled}
