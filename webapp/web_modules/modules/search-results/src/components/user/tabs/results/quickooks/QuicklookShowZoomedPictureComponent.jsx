@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import PictureLoopIcon from 'mdi-material-ui/MagnifyPlusOutline'
+import PictureLoopIcon from 'mdi-material-ui/ImageSearchOutline'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**

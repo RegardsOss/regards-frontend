@@ -208,7 +208,7 @@ const messages = {
   'add.selection.to.cart.label': 'Add to basket',
   'add.selection.to.cart.tooltip': 'Add selected items to my cart',
   'zoom.to.product.tooltip': 'Zoom to this product on the map',
-  'open.zoomed.picture.tooltip': 'View the quicklook in high resolution',
+  'open.zoomed.picture.tooltip': 'Visualize the quicklook',
   'results.no.content.title': 'No result',
   'results.no.content.subtitle': 'Your search returned no result. Try to change your criteria',
   'results.loading.title': 'Searching',
