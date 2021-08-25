@@ -77,8 +77,7 @@ class ColumnsSettingsComponent extends React.Component {
     if (!oldProps.open && newProps.open) {
       // update state through inner callback
       this.onEditionModelsUpdate(
-        newProps.presentationModels,
-        newProps.presentationModels.map((model) => ({ ...model })))
+        newProps.presentationModels)
     }
   }
 
