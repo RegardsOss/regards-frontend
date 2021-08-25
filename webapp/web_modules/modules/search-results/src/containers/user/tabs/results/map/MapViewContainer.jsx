@@ -143,7 +143,7 @@ export class MapViewContainer extends React.Component {
               [selectedType]: {
                 modes: {
                   [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
-                    zoomToFeature: zoomToFeature,
+                    zoomToFeature,
                   },
                 },
               },
