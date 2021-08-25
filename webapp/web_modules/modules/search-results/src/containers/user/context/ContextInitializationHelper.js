@@ -61,7 +61,7 @@ export class ContextInitializationHelper {
           modeState.viewMode = modeConfiguration.initialViewMode || UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D
           modeState.splitPosition = null
           modeState.itemOfInterest = null
-          modeState.zoomTo = null
+          modeState.zoomToFeature = null
           break
         // nothing to do for other modes
         case UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK:

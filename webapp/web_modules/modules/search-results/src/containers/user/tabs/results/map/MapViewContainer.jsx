@@ -126,10 +126,10 @@ export class MapViewContainer extends React.Component {
 
   /**
    * User double click on a single feature, let's save that feature into store
-   * @param {*} zoomToProduct picked feature, matches Catalog.Entity shape (content)
+   * @param {*} zoomToFeature picked feature, matches Catalog.Entity shape (content)
    */
-  onProductZoomTo = (zoomToProduct) => {
-    if (zoomToProduct) {
+  onZoomToFeature = (zoomToFeature) => {
+    if (zoomToFeature) {
       const {
         tabType, updateResultsContext, resultsContext,
       } = this.props
@@ -143,7 +143,7 @@ export class MapViewContainer extends React.Component {
               [selectedType]: {
                 modes: {
                   [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
-                    zoomTo: zoomToProduct,
+                    zoomToFeature: zoomToFeature,
                   },
                 },
               },
@@ -179,7 +179,7 @@ export class MapViewContainer extends React.Component {
         onNewItemOfInterestPicked={this.onNewItemOfInterestPicked}
         onSplitDropped={this.onSplitDropped}
         itemOfInterestPicked={itemOfInterestPicked}
-        onProductZoomTo={this.onProductZoomTo}
+        onZoomToFeature={this.onZoomToFeature}
       />)
   }
 }

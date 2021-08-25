@@ -54,7 +54,7 @@ export default class MizarAdapter extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     onProductsZoomTo: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
-    zoomTo: PropTypes.shape({
+    zoomToFeature: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }),
     // view management
@@ -132,7 +132,7 @@ export default class MizarAdapter extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
       featuresCollection, drawingSelection, drawnAreas, customLayersOpacity, viewMode,
-      selectedProducts, selectedToponyms, zoomTo,
+      selectedProducts, selectedToponyms, zoomToFeature,
     } = newProps
     if (!isEqual(oldProps.featuresCollection, featuresCollection) || !isEqual(oldProps.selectedProducts, selectedProducts)) {
       // Handle not selected features
@@ -161,10 +161,10 @@ export default class MizarAdapter extends React.Component {
       this.onToggleViewMode()
     }
     // Manage camera destination
-    if (!isEqual(oldProps.zoomTo, zoomTo) || !isEqual(oldProps.drawnAreas, drawnAreas)) {
+    if (!isEqual(oldProps.zoomToFeature, zoomToFeature) || !isEqual(oldProps.drawnAreas, drawnAreas)) {
       // Handle zoom on selected product
-      if (!isEqual(oldProps.zoomTo, zoomTo) && zoomTo) {
-        const lastFeatureSelected = find(featuresCollection.features, (feature) => feature.id === zoomTo.id)
+      if (!isEqual(oldProps.zoomToFeature, zoomToFeature) && zoomToFeature) {
+        const lastFeatureSelected = find(featuresCollection.features, (feature) => feature.id === zoomToFeature.id)
         this.zoomOnGeometry(lastFeatureSelected.geometry)
       } else if (!isEmpty(drawnAreas)) {
         // When user stop drawing area or toponym change
@@ -413,7 +413,7 @@ export default class MizarAdapter extends React.Component {
       const centerPoint = polygonCenter(geometry)
       const centerX = centerPoint.coordinates[0]
       const centerY = centerPoint.coordinates[1]
-      this.mizar.instance.getActivatedContext().getNavigation().zoomTo([centerX, centerY], { distance: 200000, duration: 5000 })
+      this.mizar.instance.getActivatedContext().getNavigation().zoomToFeature([centerX, centerY], { distance: 200000, duration: 5000 })
     }
   }
 

@@ -57,7 +57,7 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
         },
       }),
       onNewItemOfInterestPicked: () => { },
-      onProductZoomTo: () => { },
+      onZoomToFeature: () => { },
       loadedEntities: [
         // some entities (no valid geometry)
         ...resultsDump.content,

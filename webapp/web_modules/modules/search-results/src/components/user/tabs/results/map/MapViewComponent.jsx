@@ -44,7 +44,7 @@ class MapViewComponent extends React.Component {
     // Entities cached
     loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
     // Zoom to management
-    onProductZoomTo: PropTypes.func.isRequired,
+    onZoomToFeature: PropTypes.func.isRequired,
     // Description management
     descriptionAvailable: PropTypes.bool.isRequired,
     onShowDescription: PropTypes.func,
@@ -140,7 +140,7 @@ class MapViewComponent extends React.Component {
   render() {
     const {
       moduleId, tabType, resultsContext, requestParameters, searchActions,
-      descriptionAvailable, onShowDescription, onProductZoomTo, loadedEntities,
+      descriptionAvailable, onShowDescription, onZoomToFeature, loadedEntities,
       accessToken, projectName, onAddElementToCart, onNewItemOfInterestPicked, itemOfInterestPicked,
     } = this.props
     const { width, height = 0 } = this.state
@@ -189,7 +189,7 @@ class MapViewComponent extends React.Component {
                   tabType={tabType}
                   resultsContext={resultsContext}
                   onNewItemOfInterestPicked={onNewItemOfInterestPicked}
-                  onProductZoomTo={onProductZoomTo}
+                  onZoomToFeature={onZoomToFeature}
                   loadedEntities={loadedEntities}
                 />
               </div>
@@ -211,7 +211,7 @@ class MapViewComponent extends React.Component {
                   embedInMap
                   itemOfInterestPicked={itemOfInterestPicked}
                   isItemOfInterest={this.isItemOfInterest}
-                  onProductZoomTo={onProductZoomTo}
+                  onZoomToFeature={onZoomToFeature}
                   loadedEntities={loadedEntities}
                   // see force redraw workaround comment above
                   forceRenderingUsingKey={`${leftPaneWidth}x${height}`}

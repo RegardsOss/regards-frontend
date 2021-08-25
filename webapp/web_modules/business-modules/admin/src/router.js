@@ -183,7 +183,6 @@ export const commandsRouter = {
 export const moduleRouter = {
   path: ':project/modules/:moduleId',
   getChildRoutes(nextState) {
-    console.log(nextState)
     const { params: { project } } = nextState
     browserHistory.replace({
       pathname: `/admin/${project}`,

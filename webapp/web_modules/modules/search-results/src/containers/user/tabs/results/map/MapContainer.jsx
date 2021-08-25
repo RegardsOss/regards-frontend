@@ -48,7 +48,7 @@ export class MapContainer extends React.Component {
     // product selection management
     onNewItemOfInterestPicked: PropTypes.func.isRequired,
     // product zoom to management
-    onProductZoomTo: PropTypes.func.isRequired,
+    onZoomToFeature: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired, // Entities cached
     // from mapStateToProps
@@ -320,17 +320,17 @@ export class MapContainer extends React.Component {
 
   /**
    * User double click on a list of features, let's zoom on the first one
-   * @param {*} zoomToProduct picked features list
+   * @param {*} zoomToFeatureProduct picked features list
    */
-  onProductsZoomTo = (zoomToProduct) => {
+  onProductsZoomTo = (zoomToFeatureProduct) => {
     // skip when selection is empty
-    if (!zoomToProduct.length) {
+    if (!zoomToFeatureProduct.length) {
       return
     }
-    const firstZoomToProduct = head(zoomToProduct)
+    const firstZoomToProduct = head(zoomToFeatureProduct)
     if (firstZoomToProduct) {
-      const { onProductZoomTo } = this.props
-      onProductZoomTo(firstZoomToProduct)
+      const { onZoomToFeature } = this.props
+      onZoomToFeature(firstZoomToProduct)
     }
   }
 
@@ -375,7 +375,7 @@ export class MapContainer extends React.Component {
     // pre: respects necessarily MapViewModeState shapes
     const {
       selectedModeState: {
-        layers, mapSelectionMode, mapEngine, viewMode, zoomTo,
+        layers, mapSelectionMode, mapEngine, viewMode, zoomToFeature,
       },
     } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
@@ -402,7 +402,7 @@ export class MapContainer extends React.Component {
           onToponymSelected={this.onToponymSelected}
           selectedToponyms={selectedToponyms}
           featureShapefile={featureShapefile}
-          zoomTo={zoomTo}
+          zoomToFeature={zoomToFeature}
           // Selection container props
           onNewItemOfInterestPicked={onNewItemOfInterestPicked}
         />

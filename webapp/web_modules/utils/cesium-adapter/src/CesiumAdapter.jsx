@@ -63,7 +63,7 @@ export default class CesiumAdapter extends React.Component {
     selectedFeatureColor: PropTypes.string.isRequired,
     selectedColorOutlineWidth: PropTypes.number,
     // eslint-disable-next-line react/no-unused-prop-types
-    zoomTo: PropTypes.shape({
+    zoomToFeature: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }),
     // should notify parent on pick selection
@@ -186,7 +186,7 @@ export default class CesiumAdapter extends React.Component {
     */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      featuresCollection, selectedProducts, drawnAreas, drawingSelection, viewMode, layers, zoomTo,
+      featuresCollection, selectedProducts, drawnAreas, drawingSelection, viewMode, layers, zoomToFeature,
     } = newProps
     const oldState = this.state || {}
     const newState = { ...oldState }
@@ -204,11 +204,11 @@ export default class CesiumAdapter extends React.Component {
       newState.backgroundVisibleProvider = this.getBackgroundVisibleProvider(layers, viewMode, rectangle)
     }
     // Manage camera destination
-    if (!isEqual(oldProps.zoomTo, zoomTo) || !isEqual(oldProps.drawnAreas, drawnAreas)) {
-      if (!isEqual(oldProps.zoomTo, zoomTo)) {
-        const zoomToFeature = this.getZoomToFeature(featuresCollection, zoomTo)
-        if (zoomToFeature) {
-          const { time, destination } = this.getNewCameraDestination(zoomToFeature.geometry)
+    if (!isEqual(oldProps.zoomToFeature, zoomToFeature) || !isEqual(oldProps.drawnAreas, drawnAreas)) {
+      if (!isEqual(oldProps.zoomToFeature, zoomToFeature)) {
+        const zoomToFeatureFeature = this.getZoomToFeature(featuresCollection, zoomToFeature)
+        if (zoomToFeatureFeature) {
+          const { time, destination } = this.getNewCameraDestination(zoomToFeatureFeature.geometry)
           newState.cameraDestination = destination
           newState.cameraDestinationTime = time
         }
@@ -229,7 +229,7 @@ export default class CesiumAdapter extends React.Component {
 
   getSelectedFeatures = (featuresCollection, selectedProducts) => filter(featuresCollection.features, (feature) => find(selectedProducts, (selectedProduct) => feature.id === selectedProduct.content.id))
 
-  getZoomToFeature = (featuresCollection, zoomTo) => find(featuresCollection.features, (feature) => feature.id === zoomTo.id)
+  getZoomToFeature = (featuresCollection, zoomToFeature) => find(featuresCollection.features, (feature) => feature.id === zoomToFeature.id)
 
   getGreyBackgroundProvider = (layers, viewMode) => {
     const backgroundLayerInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode, UIDomain.MAP_ENGINE_ENUM.CESIUM)

@@ -56,7 +56,7 @@ const DISABLED_MAP_VIEW_MODE_STATE = {
   viewMode: MAP_VIEW_MODES_ENUM.MODE_3D,
   splitPosition: null,
   itemOfInterest: null,
-  zoomTo: null,
+  zoomToFeature: null,
 }
 
 /** To be used as default */

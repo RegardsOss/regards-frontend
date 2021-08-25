@@ -28,7 +28,7 @@ import { AccessShapes } from '@regardsoss/shape'
  */
 class QuicklookZoomToOptionComponent extends React.Component {
   static propTypes = {
-    onProductZoomTo: PropTypes.func,
+    onZoomToFeature: PropTypes.func,
     // Entity. Note: when used in options column, this is provided by the table cell API
     entity: AccessShapes.EntityWithServices.isRequired,
   }
@@ -38,11 +38,11 @@ class QuicklookZoomToOptionComponent extends React.Component {
   }
 
   /** Properties that should not be reported to render child button */
-  static NON_REPORTED_PROPS = ['entity', 'onProductZoomTo']
+  static NON_REPORTED_PROPS = ['entity', 'onZoomToFeature']
 
-  onProductZoomTo = () => {
-    const { onProductZoomTo, entity } = this.props
-    onProductZoomTo({
+  onZoomToFeature = () => {
+    const { onZoomToFeature, entity } = this.props
+    onZoomToFeature({
       id: entity.content.id,
       label: entity.content.label,
     })
@@ -53,7 +53,7 @@ class QuicklookZoomToOptionComponent extends React.Component {
     return (
       <IconButton
         title={formatMessage({ id: 'zoom.to.product.tooltip' })}
-        onClick={this.onProductZoomTo}
+        onClick={this.onZoomToFeature}
         {...omit(this.props, QuicklookZoomToOptionComponent.NON_REPORTED_PROPS)}
       >
         <MapSearchIcon />

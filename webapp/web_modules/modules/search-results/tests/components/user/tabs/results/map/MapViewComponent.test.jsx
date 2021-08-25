@@ -66,7 +66,7 @@ describe('[SEARCH RESULTS] Testing MapViewComponent', () => {
       accessToken: 'abc',
       projectName: 'def',
       onAddElementToCart: () => { },
-      onProductZoomTo: () => { },
+      onZoomToFeature: () => { },
       onSplitDropped: () => { },
       onNewItemOfInterestPicked: () => { },
     }

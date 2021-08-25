@@ -60,7 +60,7 @@ export const specificCellPropertiesFields = {
   selectedProducts: PropTypes.objectOf(CatalogShapes.Entity).isRequired, // inner object is entity type
   onProductSelected: PropTypes.func,
   // Handler when zoom to button is fired
-  onProductZoomTo: PropTypes.func,
+  onZoomToFeature: PropTypes.func,
   // Pure component restrictions: provide locale as context
   locale: PropTypes.string.isRequired,
   // Note: current theme should also be provided to ensure redraw is done on theme change, but it is not
@@ -319,7 +319,7 @@ class QuicklookCellComponent extends React.PureComponent {
       tabType, entity, presentationModels,
       enableDownload, accessToken, projectName,
       descriptionAvailable, onAddElementToCart,
-      enableServices, onProductZoomTo,
+      enableServices, onZoomToFeature,
       primaryQuicklookGroup,
       embedInMap, locale,
     } = this.props
@@ -431,7 +431,7 @@ class QuicklookCellComponent extends React.PureComponent {
                 entity={entity}
                 style={option.buttonStyles}
                 iconStyle={option.iconStyles}
-                onProductZoomTo={onProductZoomTo}
+                onZoomToFeature={onZoomToFeature}
               />
             </ShowableAtRender>
           </div>

@@ -47,7 +47,7 @@ class MapComponent extends React.Component {
     onDrawingSelectionDone: PropTypes.func.isRequired,
     // Features that are zoom on
     onProductsZoomTo: PropTypes.func.isRequired, // ([entities] => ())
-    zoomTo: PropTypes.shape({
+    zoomToFeature: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }),
 
@@ -93,7 +93,7 @@ class MapComponent extends React.Component {
       viewMode, onToggleSelectionMode, onToggleViewMode,
       onProductsZoomTo, layers,
       selectedProducts, onProductSelected, onToponymSelected, selectedToponyms,
-      featureShapefile, zoomTo,
+      featureShapefile, zoomToFeature,
     } = this.props
     const { customLayersOpacity } = this.state
 
@@ -118,7 +118,7 @@ class MapComponent extends React.Component {
       viewMode,
       selectedToponyms,
       featureShapefile,
-      zoomTo,
+      zoomToFeature,
     }
     return (
       <>

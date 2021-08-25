@@ -80,7 +80,7 @@ export class QuicklooksViewContainer extends React.Component {
     itemOfInterestPicked: PropTypes.number,
     isItemOfInterest: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
-    onProductZoomTo: PropTypes.func, // Handler when zoom to button is fired
+    onZoomToFeature: PropTypes.func, // Handler when zoom to button is fired
     // When parent container size change, it provides a different key to force re-rendering
     forceRenderingUsingKey: PropTypes.string,
 
@@ -123,7 +123,7 @@ export class QuicklooksViewContainer extends React.Component {
       tabType, resultsContext, descriptionAvailable, onShowDescription,
       accessToken, projectName, onAddElementToCart,
       embedInMap, mapThumbnailHeight, settings, onProductSelected,
-      theme, i18n, selectedProducts, toggledElements, selectionMode, onProductZoomTo,
+      theme, i18n, selectedProducts, toggledElements, selectionMode, onZoomToFeature,
     } = newProps
     const {
       selectedTypeState: { enableDownload, enableServices },
@@ -154,7 +154,7 @@ export class QuicklooksViewContainer extends React.Component {
       || !isEqual(oldProps.selectedProducts, selectedProducts)
       || !isEqual(oldProps.toggledElements, toggledElements)
       || !isEqual(oldProps.selectionMode, selectionMode)
-      || !isEqual(oldProps.onProductZoomTo, onProductZoomTo)
+      || !isEqual(oldProps.onZoomToFeature, onZoomToFeature)
       || !isEqual(oldProps.theme, theme)
       || !isEqual(oldProps.i18n, i18n)
     ) {
@@ -174,7 +174,7 @@ export class QuicklooksViewContainer extends React.Component {
           primaryQuicklookGroup: settings.primaryQuicklookGroup,
           selectedProducts,
           onProductSelected,
-          onProductZoomTo,
+          onZoomToFeature,
           // Quicklooks cells are pure components so they require the theme and locale to redraw
           currentTheme: theme,
           locale: i18n,
