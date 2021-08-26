@@ -95,10 +95,13 @@ export class ProjectUserListContainer extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
+    const { authentication } = newProps
     // when authentication changed, update the link to get CSV user list
-    this.setState({
-      csvLink: csvSummaryFileActions.getFileDownloadLink(get(newProps, 'authentication.result.access_token')),
-    })
+    if (oldProps.authentication !== authentication) {
+      this.setState({
+        csvLink: csvSummaryFileActions.getFileDownloadLink(get(newProps, 'authentication.result.access_token')),
+      })
+    }
   }
 
   onRefresh = (contextRequestURLParameters) => {
