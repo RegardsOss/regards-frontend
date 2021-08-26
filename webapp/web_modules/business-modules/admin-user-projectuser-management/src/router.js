@@ -29,6 +29,18 @@ export const listProjectUserRoute = {
   },
 }
 
+export const listProjectUserRouteVisualisation = {
+  path: 'list/:visualisationMode',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const ProjectUserListContainer = require('./containers/ProjectUserListContainer')
+      cb(null, {
+        content: ProjectUserListContainer.default,
+      })
+    })
+  },
+}
+
 export const createProjectUserRoute = {
   path: 'create',
   getComponents(nextState, cb) {
@@ -67,6 +79,7 @@ export const settingsProjectUserRoute = {
 const projectUserManagementRouter = {
   childRoutes: [
     listProjectUserRoute,
+    listProjectUserRouteVisualisation,
     createProjectUserRoute,
     editProjectUserRoute,
     settingsProjectUserRoute,

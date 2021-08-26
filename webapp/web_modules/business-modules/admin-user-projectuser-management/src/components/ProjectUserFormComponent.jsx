@@ -137,7 +137,7 @@ export class ProjectUserFormComponent extends React.Component {
     } else {
       // A.2 - only when editing: initialize groups already associated with user, and restore other user values
       const currentUserGroups = this.getCurrentUserGroups(currentUser.content)
-      initialFormValues.groups = currentUserGroups
+      initialFormValues.accessGroups = currentUserGroups
       this.setState({
         tempGroups: currentUserGroups,
       })
@@ -177,14 +177,14 @@ export class ProjectUserFormComponent extends React.Component {
         ...this.state.tempGroups,
         groupName,
       ],
-    }, () => this.props.change('groups', this.state.tempGroups))
+    }, () => this.props.change('accessGroups', this.state.tempGroups))
     this.handlePopoverClose()
   }
 
   handleRemoveGroup = (groupName) => {
     this.setState({
       tempGroups: this.state.tempGroups.filter((val) => val !== groupName),
-    }, () => this.props.change('groups', this.state.tempGroups))
+    }, () => this.props.change('accessGroups', this.state.tempGroups))
   }
 
   renderChipInput = () => {

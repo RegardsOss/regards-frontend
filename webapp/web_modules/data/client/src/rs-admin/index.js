@@ -121,3 +121,9 @@ export { default as getMyUserSelectors } from './user/MyUserSelectors'
 export { default as ProjectUserSignalActions } from './user/ProjectUserSignalActions'
 export { default as getProjectUserSignalReducer } from './user/ProjectUserSignalReducer'
 export { default as getProjectUserSignalSelectors } from './user/ProjectUserSignalSelectors'
+
+export { default as ProjectUserEmailConfirmationActions } from './user/ProjectUserEmailConfirmationActions'
+export { default as getProjectUserEmailConfirmationReducer } from './user/ProjectUserEmailConfirmationReducer'
+export { default as getProjectUserEmailConfirmationSelectors } from './user/ProjectUserEmailConfirmationSelectors'
+
+export { default as DownloadUserMetalinkFileAtions } from './user/DownloadUserMetalinkFileAtions'

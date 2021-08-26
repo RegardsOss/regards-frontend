@@ -18,11 +18,20 @@
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
-export default class UserGroupActions extends BasicSignalActions {
+/**
+ * Specific signal to re send user email confirmation
+ */
+export default class ProjectUserEmailConfirmationActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/accessgroups/{name}/{email}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/users/{email}/verification/resend`,
+    })
+  }
+
+  sendEmailConfirmation(email) {
+    return this.sendSignal('GET', null, {
+      email,
     })
   }
 }

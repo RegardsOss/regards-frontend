@@ -23,7 +23,6 @@ import { acceptAccountReducer } from './clients/AcceptAccountClient'
 import { enableAccountReducer } from './clients/EnableAccountClient'
 import { refuseAccountReducer } from './clients/RefuseAccountClient'
 import { accountSettingsReducer } from './clients/AccountSettingsClient'
-import { accountTableReducer } from './clients/AccountTableClient'
 import { originReducer } from './clients/OriginsClient'
 import { projectReducer } from './clients/ProjectsClient'
 
@@ -34,7 +33,6 @@ const accountManagementReducer = combineReducers({
   enableAccount: enableAccountReducer,
   refuseAccount: refuseAccountReducer,
   settings: accountSettingsReducer,
-  accountsTable: accountTableReducer,
   origins: originReducer,
   projects: projectReducer,
 })

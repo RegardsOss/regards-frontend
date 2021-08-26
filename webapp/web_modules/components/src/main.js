@@ -144,6 +144,7 @@ export { default as TableSimpleActionOption } from './table/content/cells/option
 export { default as TableSelectAllOption } from './table/options/TableSelectAllOption'
 export { default as TableSelectionModes } from './table/model/TableSelectionModes'
 export { default as TableStyles } from './table/styles/styles'
+export { default as TableFilterSortingAndVisibilityContainer } from './table/options/TableFilterSortingAndVisibilityContainer'
 
 export { default as Title } from './titles/Title'
 

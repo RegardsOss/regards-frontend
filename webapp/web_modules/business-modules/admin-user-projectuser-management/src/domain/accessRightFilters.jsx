@@ -16,17 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalReducers } from '@regardsoss/store-utils'
-import UserGroupActions from './UserGroupActions'
 
-class UserGroupReducer extends BasicSignalReducers {
-  constructor(namespace) {
-    super(new UserGroupActions(namespace))
-  }
+const ACCESS_RIGHT_FILTERS = {
+  EMAIL: 'email',
+  FIRSTNAME: 'firstName',
+  LASTNAME: 'lastName',
+  GROUP: 'accessGroup',
 }
 
-/** Closure builder for reducer function */
-export default (namespace) => {
-  const reducerInstance = new UserGroupReducer(namespace)
-  return (state, action) => reducerInstance.reduce(state, action)
-}
+export default ACCESS_RIGHT_FILTERS

@@ -21,13 +21,13 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { browserHistory } from 'react-router'
 import { AdminInstanceShapes, CommonShapes, AdminShapes } from '@regardsoss/shape'
+import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { accountActions, accountSelectors } from '../clients/AccountClient'
 import { accountWaitingActions, accountWaitingSelectors } from '../clients/AccountWaitingClient'
 import { acceptAccountActions } from '../clients/AcceptAccountClient'
 import { enableAccountActions } from '../clients/EnableAccountClient'
 import { refuseAccountActions } from '../clients/RefuseAccountClient'
-import { accountTableActions } from '../clients/AccountTableClient'
 import { originActions, originSelectors } from '../clients/OriginsClient'
 import { projectActions, projectSelectors } from '../clients/ProjectsClient'
 import AccountListComponent from '../components/AccountListComponent'
@@ -51,7 +51,7 @@ export class AccountListContainer extends React.Component {
       }),
     }),
     isFetching: PropTypes.bool.isRequired,
-    pageMeta: PropTypes.shape({ // use only in onPropertiesUpdate
+    pageMeta: PropTypes.shape({
       number: PropTypes.number,
       size: PropTypes.number,
       totalElements: PropTypes.number,
@@ -59,19 +59,51 @@ export class AccountListContainer extends React.Component {
     origins: CommonShapes.ServiceProviderList.isRequired,
     projects: AdminShapes.ProjectList.isRequired,
     // from mapDispatchToProps
-    fetchAccountList: PropTypes.func.isRequired,
     fetchWaitingAccountList: PropTypes.func.isRequired,
     sendAcceptUser: PropTypes.func.isRequired,
     sendRefuseUser: PropTypes.func.isRequired,
     sendEnableUser: PropTypes.func.isRequired,
     deleteAccount: PropTypes.func.isRequired,
-    clearSelection: PropTypes.func.isRequired,
     fetchOrigins: PropTypes.func.isRequired,
     throwError: PropTypes.func.isRequired,
     fetchProjects: PropTypes.func.isRequired,
   }
 
-  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      allAccounts: accountSelectors.getList(state) || {},
+      waitingAccounts: accountWaitingSelectors.getList(state) || {},
+      isFetching: accountSelectors.isFetching(state) || accountWaitingSelectors.isFetching(state),
+      pageMeta: accountSelectors.getMetaData(state),
+      origins: originSelectors.getList(state),
+      projects: projectSelectors.getList(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      fetchWaitingAccountList: () => dispatch(accountWaitingActions.fetchWaitingAccountsEntityList()),
+      sendAcceptUser: (accountEmail) => dispatch(acceptAccountActions.sendAccept(accountEmail)),
+      sendEnableUser: (accountEmail) => dispatch(enableAccountActions.sendEnable(accountEmail)),
+      sendRefuseUser: (accountEmail) => dispatch(refuseAccountActions.sendRefuse(accountEmail)),
+      deleteAccount: (accountId) => dispatch(accountActions.deleteEntity(accountId)),
+      fetchOrigins: () => dispatch(originActions.fetchPagedEntityList()),
+      throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
+      fetchProjects: () => dispatch(projectActions.fetchPagedEntityList()),
+    }
+  }
 
   state = { isFetchingActions: false }
 
@@ -93,14 +125,9 @@ export class AccountListContainer extends React.Component {
    * Lifecycle method: component did mount. Used here to fetch user lists
    */
   componentDidMount = () => {
+    const { fetchWaitingAccountList } = this.props
     this.setState({ isFetchingActions: false })
-  }
-
-  /**
-   * Account deletion confirmed callback: performs delete then updates list
-   */
-  onDelete = (accountId) => {
-    this.performAll([this.props.deleteAccount(accountId)])
+    fetchWaitingAccountList()
   }
 
   /**
@@ -119,24 +146,31 @@ export class AccountListContainer extends React.Component {
   }
 
   /**
+   * Account deletion confirmed callback: performs delete then updates list
+   */
+  onDelete = (accountId, onRefresh) => {
+    this.performAll([this.props.deleteAccount(accountId)], onRefresh)
+  }
+
+  /**
    * Account acceptation callback: performs accept then updates list
    */
-  onAccept = (accountEmail) => {
-    this.performAll([this.props.sendAcceptUser(accountEmail)])
+  onAccept = (accountEmail, onRefresh) => {
+    this.performAll([this.props.sendAcceptUser(accountEmail)], onRefresh)
   }
 
   /**
    * User refusal confirmed callback: performs delete then updates list
    */
-  onRefuse = (accountEmail) => {
-    this.performAll([this.props.sendRefuseUser(accountEmail)])
+  onRefuse = (accountEmail, onRefresh) => {
+    this.performAll([this.props.sendRefuseUser(accountEmail)], onRefresh)
   }
 
   /**
    * User enabled callback: performs enabled then updates list
    */
-  onEnable = (accountEmail) => {
-    this.performAll([this.props.sendEnableUser(accountEmail)])
+  onEnable = (accountEmail, onRefresh) => {
+    this.performAll([this.props.sendEnableUser(accountEmail)], onRefresh)
   }
 
   /**
@@ -149,75 +183,54 @@ export class AccountListContainer extends React.Component {
    * Marks fetching true, performs all promises as parameter, update waiting users state then marks fetching false
    * @param promises promises
    */
-  performAll = (promises) => {
+  performAll = (promises, onRefresh) => {
     this.setFetchingActions(true)
     const onDone = () => { this.setFetchingActions(false) }
     Promise.all(promises).then(() => Promise.all([
       this.props.fetchWaitingAccountList(),
-      this.props.fetchAccountList(),
+      onRefresh(),
     ]).then(onDone).catch(onDone)).catch(onDone)
   }
 
-  onRefresh = (contextRequestURLParameters) => {
-    const {
-      pageMeta, clearSelection, fetchAccountList,
-    } = this.props
-    const lastPage = (pageMeta && pageMeta.number) || 0
-    const fetchPageSize = AccountListContainer.PAGE_SIZE * (lastPage + 1)
-    clearSelection()
-    fetchAccountList(0, fetchPageSize, {}, { ...contextRequestURLParameters })
-  }
-
-  render() {
+  renderListComp = (filterSortingAndVisibilityProps) => {
     const {
       allAccounts, waitingAccounts, isFetching, origins, projects,
     } = this.props
     const { isFetchingActions } = this.state
     return (
+      <AccountListComponent
+        {...filterSortingAndVisibilityProps}
+        allAccounts={allAccounts}
+        waitingAccounts={waitingAccounts}
+        isFetchingActions={isFetchingActions}
+        isFetching={isFetching}
+        origins={origins}
+        projects={projects}
+        onEdit={this.onEdit}
+        onBack={this.onBack}
+      />
+    )
+  }
+
+  render() {
+    return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={styles}>
-          <AccountListComponent
-            allAccounts={allAccounts}
-            waitingAccounts={waitingAccounts}
-            isFetchingActions={isFetchingActions}
-            isFetching={isFetching}
-            pageSize={AccountListContainer.PAGE_SIZE}
-            origins={origins}
-            projects={projects}
-            onRefresh={this.onRefresh}
-            onEdit={this.onEdit}
+          <TableFilterSortingAndVisibilityContainer
+            pageActions={accountActions}
+            pageSelectors={accountSelectors}
+            defaultFiltersState={AccountListComponent.DEFAULT_FILTERS_STATE}
             onAccept={this.onAccept}
             onRefuse={this.onRefuse}
             onEnable={this.onEnable}
             onDelete={this.onDelete}
-            onBack={this.onBack}
-          />
+          >
+            {this.renderListComp}
+          </TableFilterSortingAndVisibilityContainer>
         </ModuleStyleProvider>
       </I18nProvider>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  allAccounts: accountSelectors.getList(state) || {},
-  waitingAccounts: accountWaitingSelectors.getList(state) || {},
-  isFetching: accountSelectors.isFetching(state) || accountWaitingSelectors.isFetching(state),
-  pageMeta: accountSelectors.getMetaData(state),
-  origins: originSelectors.getList(state),
-  projects: projectSelectors.getList(state),
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchAccountList: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(accountActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
-  fetchWaitingAccountList: () => dispatch(accountWaitingActions.fetchWaitingAccountsEntityList()),
-  sendAcceptUser: (accountEmail) => dispatch(acceptAccountActions.sendAccept(accountEmail)),
-  sendEnableUser: (accountEmail) => dispatch(enableAccountActions.sendEnable(accountEmail)),
-  sendRefuseUser: (accountEmail) => dispatch(refuseAccountActions.sendRefuse(accountEmail)),
-  deleteAccount: (accountId) => dispatch(accountActions.deleteEntity(accountId)),
-  clearSelection: () => dispatch(accountTableActions.unselectAll()),
-  fetchOrigins: () => dispatch(originActions.fetchPagedEntityList()),
-  throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
-  fetchProjects: () => dispatch(projectActions.fetchPagedEntityList()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(AccountListContainer)
+export default connect(AccountListContainer.mapStateToProps, AccountListContainer.mapDispatchToProps)(AccountListContainer)

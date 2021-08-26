@@ -144,9 +144,40 @@ export default function buildStyles(theme) {
           },
         },
       },
+      selectVisualisationModeStyle: {
+        marginLeft: '20px',
+        width: '350px',
+      },
       actionsStyles: {
         display: 'flex',
         justifyContent: 'space-between',
+      },
+      filters: {
+        mainDivStyle: {
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+        },
+        dateFilterDiv: {
+          display: 'flex',
+          alignItems: 'center',
+        },
+        dateFilterDivAlt: {
+          display: 'flex',
+          alignItems: 'center',
+          marginRight: '20px',
+        },
+        dateFilterLabel: {
+          marginTop: '10px',
+          marginRight: '10px',
+        },
+        fieldMargin: {
+          marginRight: '20px',
+        },
+        quotaDivStyle: {
+          width: '140px',
+          marginBottom: '10px',
+        },
       },
     },
     settings: {

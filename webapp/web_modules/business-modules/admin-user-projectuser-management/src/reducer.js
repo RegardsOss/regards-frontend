@@ -21,22 +21,24 @@ import { accessGroupReducer } from './clients/AccessGroupClient'
 import { accountPasswordReducer } from './clients/AccountPasswordClient'
 import { projectUserReducer } from './clients/ProjectUserClient'
 import { roleReducer } from './clients/RoleClient'
-import { userGroupReducer } from './clients/UserGroupClient'
 import { projectUserSignalReducer } from './clients/ProjectUserSignalClient'
 import { projectUserSettingsReducer } from './clients/ProjectUserSettingsClient'
 import { uiSettingsReducer } from './clients/UISettingsClient'
 import { setQuotaReducer } from './clients/SetQuotaClient'
+import { projectUserEmailConfirmationSignalReducer } from './clients/ProjectUserEmailConfirmationClient'
+import { originReducer } from './clients/OriginsClient'
 
 const projectUserManagementReducer = combineReducers({
   accessGroup: accessGroupReducer,
   accountPassword: accountPasswordReducer,
   projectUser: projectUserReducer,
   role: roleReducer,
-  userGroup: userGroupReducer,
   projectUserSignals: projectUserSignalReducer,
   settings: projectUserSettingsReducer,
   uiSettings: uiSettingsReducer,
   setQuota: setQuotaReducer,
+  emailConfirmationSignal: projectUserEmailConfirmationSignalReducer,
+  origins: originReducer,
 })
 
 export default projectUserManagementReducer

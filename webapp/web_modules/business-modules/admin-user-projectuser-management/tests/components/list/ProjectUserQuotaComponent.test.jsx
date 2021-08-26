@@ -20,38 +20,42 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import {
   TableLayout, TableColumnsVisibilityOption, PageableInfiniteTableContainer,
+  DownloadButton,
 } from '@regardsoss/components'
 import { CommonDomain } from '@regardsoss/domain'
+import FlatButton from 'material-ui/FlatButton'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import AccountListComponent from '../../src/components/AccountListComponent'
-import AccountFiltersComponent from '../../src/components/filters/AccountFiltersComponent'
-import styles from '../../src/styles/styles'
+import ProjectUserQuotaComponent from '../../../src/components/list/ProjectUserQuotaComponent'
+import ProjectUserQuotaFiltersComponent from '../../../src/components/list/filters/ProjectUserQuotaFiltersComponent'
+import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 // Test a component rendering
-describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
+describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user quota list component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AccountListComponent)
+    assert.isDefined(ProjectUserQuotaComponent)
   })
   it('should render correctly', () => {
     const props = {
+      csvLink: '',
       allAccounts: {},
-      waitingAccounts: {},
-      isFetching: true,
-      pageSize: 15,
-      onAccept: () => { },
-      onRefuse: () => { },
-      onEnable: () => { },
+      pageSize: 20,
+      isLoading: false,
       onEdit: () => { },
-      onDelete: () => { },
-      onBack: () => { },
-      isFetchingActions: false,
-      origins: {},
-      projects: {},
+      onDeleteAccount: () => { },
+      uiSettings: {
+        showVersion: true,
+        documentModels: [],
+        primaryQuicklookGroup: '',
+        quotaWarningCount: 50,
+        rateWarningCount: 50,
+      },
+      onSetMaxQuota: () => { },
+      showQuota: false,
 
       // table sorting, column visiblity & filters management
       requestParameters: {},
@@ -64,18 +68,19 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
       onSort: () => { },
     }
-    const enzymeWrapper = shallow(<AccountListComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<ProjectUserQuotaComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
-    const filterComponent = enzymeWrapper.find(AccountFiltersComponent)
-    assert.lengthOf(filterComponent, 1, 'AccountFiltersComponent should be set')
+    const filterComponent = enzymeWrapper.find(ProjectUserQuotaFiltersComponent)
     testSuiteHelpers.assertWrapperProperties(filterComponent, {
-      origins: props.origins,
-      projects: props.projects,
+      onToggleOnlyLowQuotaUsers: enzymeWrapper.instance().onToggleOnlyLowQuotaUsers,
       filters: props.filters,
       updateFilter: props.updateFilter,
-      clearFilters: props.clearFilters,
+      clearFilters: enzymeWrapper.instance().onClearFilters,
     }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(ProjectUserQuotaFiltersComponent), 1, 'ProjectUserQuotaFiltersComponent should be set')
     assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be 1 TableColumnsVisibilityOption')
+    assert.lengthOf(enzymeWrapper.find(DownloadButton), 1, 'There should be 1 DownloadButton')
+    assert.lengthOf(enzymeWrapper.find(FlatButton), 1, 'There should be 1 FlatButton')
     assert.lengthOf(enzymeWrapper.find(PageableInfiniteTableContainer), 1, 'There should be 1 PageableInfiniteTableContainer')
   })
 })

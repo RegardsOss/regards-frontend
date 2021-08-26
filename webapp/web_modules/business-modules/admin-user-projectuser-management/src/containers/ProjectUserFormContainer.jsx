@@ -18,12 +18,8 @@
  **/
 import concat from 'lodash/concat'
 import every from 'lodash/every'
-import flow from 'lodash/flow'
 import isNil from 'lodash/isNil'
-import fpfilter from 'lodash/fp/filter'
-import fpmap from 'lodash/fp/map'
 import omit from 'lodash/omit'
-import some from 'lodash/some'
 import root from 'window-or-global'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
@@ -39,7 +35,6 @@ import { roleActions, roleSelectors } from '../clients/RoleClient'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import { accountPasswordActions, accountPasswordSelectors } from '../clients/AccountPasswordClient'
-import { userGroupActions } from '../clients/UserGroupClient'
 import { projectUserSettingsActions, projectUserSettingsSelectors } from '../clients/ProjectUserSettingsClient'
 import ProjectUserFormComponent from '../components/ProjectUserFormComponent'
 import messages from '../i18n'
@@ -68,8 +63,6 @@ export class ProjectUserFormContainer extends React.Component {
     fetchGroupList: PropTypes.func.isRequired,
     fetchPasswordRules: PropTypes.func.isRequired,
     fetchPasswordValidity: PropTypes.func.isRequired,
-    assignGroup: PropTypes.func,
-    unassignGroup: PropTypes.func,
   }
 
   /**
@@ -102,14 +95,6 @@ export class ProjectUserFormContainer extends React.Component {
       updateProjectUser: (id, values) => dispatch(projectUserActions.updateEntity(id, omit(values, ['useExistingAccount']))),
       fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
       fetchGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList()),
-      assignGroup: (group, user) => dispatch(userGroupActions.sendSignal('PUT', null, {
-        name: group,
-        email: user,
-      })),
-      unassignGroup: (group, user) => dispatch(userGroupActions.sendSignal('DELETE', null, {
-        name: group,
-        email: user,
-      })),
       fetchPasswordValidity: (newPassword) => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
       fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
     }
@@ -175,29 +160,23 @@ export class ProjectUserFormContainer extends React.Component {
    */
   onUpdate = (values) => {
     const {
-      email, roleName, groups, maxQuota, rateLimit,
+      email, roleName, accessGroups, maxQuota, rateLimit,
     } = values
-    const { user, groupList } = this.props
+    const { user } = this.props
     const updatedUser = {
-      ...user.content,
-      email,
-      role: { name: roleName },
+      accessRequest: {
+        ...user.content,
+        email,
+        role: { name: roleName },
+        metadata: packMetadataField(user, values),
+        accessGroups,
+      },
       maxQuota,
       rateLimit,
-      metadata: packMetadataField(user, values),
     }
+
     const updateUser = this.props.updateProjectUser(this.props.params.user_id, updatedUser)
-    // Retrieve new group
-    const addUserToGroupTasks = flow(
-      fpfilter((currentGroup) => every(groupList[currentGroup].content.users, (userInfo) => userInfo.email !== email)),
-      fpmap((currentGroup) => this.props.assignGroup(currentGroup, email)),
-    )(groups)
-    const removeUserFromGroupTasks = flow(
-      fpfilter((currentGroup) => some(currentGroup.content.users, { email })
-        && every(groups, (groupName) => groupName !== currentGroup.content.name)),
-      fpmap((currentGroup) => this.props.unassignGroup(currentGroup.content.name, email)),
-    )(groupList)
-    const tasks = concat(updateUser, addUserToGroupTasks, removeUserFromGroupTasks)
+    const tasks = concat(updateUser)
 
     return Promise.all(tasks).then((actionResults) => {
       if (tasks.length === 0 || every(actionResults, (actionResultUserToGroup) => !actionResultUserToGroup.error)) {
@@ -207,44 +186,45 @@ export class ProjectUserFormContainer extends React.Component {
     })
   }
 
+  // const payload = {
+  //   accessRequest : champs utilisateurs
+  //   maxQuota
+  //   rateLimit
+  // }
+
   /**
    * Callback: on create user
    * @param {*} values form values
    * @return {Promise} submission promise
    */
   onCreate = (values) => {
-    const { params, groupList } = this.props
+    const { params, createProjectUser } = this.props
     const projectName = params.project
     const frontendParameter = `${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail}`
-
-    return Promise.resolve(this.props.createProjectUser({
-      email: values.email,
-      roleName: values.roleName,
-      firstName: values.firstName,
-      lastName: values.lastName,
-      password: values.password,
+    const newUser = {
+      accessRequest: {
+        email: values.email,
+        roleName: values.roleName,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        password: values.password,
+        metadata: packMetadataField({}, values),
+        // Destination of logged users
+        originUrl: '/',
+        // the backend will use that URL in the email
+        requestLink: `${root.location.protocol}//${root.location.host}/user/${projectName}?${frontendParameter}`,
+        accessGroups: values.groups,
+      },
       maxQuota: values.maxQuota,
       rateLimit: values.rateLimit,
-      metadata: packMetadataField({}, values),
-      // Destination of logged users
-      originUrl: '/',
-      // the backend will use that URL in the email
-      requestLink: `${root.location.protocol}//${root.location.host}/user/${projectName}?${frontendParameter}`,
-    }))
+    }
+
+    return Promise.resolve(createProjectUser(newUser))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          // Retrieve new group
-          const addUserToGroupTasks = flow(
-            fpfilter((currentGroup) => every(groupList[currentGroup].content.users, (userInfo) => userInfo.email !== values.email)),
-            fpmap((currentGroup) => this.props.assignGroup(currentGroup, values.email)),
-          )(values.groups)
-          return Promise.all(addUserToGroupTasks).then((actionResults) => {
-            if (addUserToGroupTasks.length === 0 || every(actionResults, (actionResultUserToGroup) => !actionResultUserToGroup.error)) {
-              const url = this.getBackUrl()
-              browserHistory.push(url)
-            }
-          })
+          const url = this.getBackUrl()
+          browserHistory.push(url)
         }
         return null
       })

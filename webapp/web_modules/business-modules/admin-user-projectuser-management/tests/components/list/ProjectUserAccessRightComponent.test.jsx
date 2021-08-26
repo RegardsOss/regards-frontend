@@ -20,38 +20,34 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import {
   TableLayout, TableColumnsVisibilityOption, PageableInfiniteTableContainer,
+  DownloadButton,
 } from '@regardsoss/components'
 import { CommonDomain } from '@regardsoss/domain'
+import FlatButton from 'material-ui/FlatButton'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import AccountListComponent from '../../src/components/AccountListComponent'
-import AccountFiltersComponent from '../../src/components/filters/AccountFiltersComponent'
-import styles from '../../src/styles/styles'
+import ProjectUserAccessRightComponent from '../../../src/components/list/ProjectUserAccessRightComponent'
+import ProjectUserAccessRightFiltersComponent from '../../../src/components/list/filters/ProjectUserAccessRightFiltersComponent'
+import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 // Test a component rendering
-describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
+describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user access right component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AccountListComponent)
+    assert.isDefined(ProjectUserAccessRightComponent)
   })
   it('should render correctly', () => {
     const props = {
+      csvLink: '',
       allAccounts: {},
-      waitingAccounts: {},
-      isFetching: true,
-      pageSize: 15,
-      onAccept: () => { },
-      onRefuse: () => { },
-      onEnable: () => { },
+      pageSize: 20,
+      isLoading: false,
       onEdit: () => { },
-      onDelete: () => { },
-      onBack: () => { },
-      isFetchingActions: false,
-      origins: {},
-      projects: {},
+      onDeleteAccount: () => { },
+      groups: {},
 
       // table sorting, column visiblity & filters management
       requestParameters: {},
@@ -64,18 +60,19 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
       onSort: () => { },
     }
-    const enzymeWrapper = shallow(<AccountListComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<ProjectUserAccessRightComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
-    const filterComponent = enzymeWrapper.find(AccountFiltersComponent)
-    assert.lengthOf(filterComponent, 1, 'AccountFiltersComponent should be set')
+    const filterComponent = enzymeWrapper.find(ProjectUserAccessRightFiltersComponent)
     testSuiteHelpers.assertWrapperProperties(filterComponent, {
-      origins: props.origins,
-      projects: props.projects,
+      groups: props.groups,
       filters: props.filters,
       updateFilter: props.updateFilter,
       clearFilters: props.clearFilters,
     }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(ProjectUserAccessRightFiltersComponent), 1, 'ProjectUserAccessRightFiltersComponent should be set')
     assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be 1 TableColumnsVisibilityOption')
+    assert.lengthOf(enzymeWrapper.find(DownloadButton), 1, 'There should be 1 DownloadButton')
+    assert.lengthOf(enzymeWrapper.find(FlatButton), 1, 'There should be 1 FlatButton')
     assert.lengthOf(enzymeWrapper.find(PageableInfiniteTableContainer), 1, 'There should be 1 PageableInfiniteTableContainer')
   })
 })

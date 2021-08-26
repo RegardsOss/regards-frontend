@@ -29,11 +29,12 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing project user router', () =
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(4)
+    expect(Routes.childRoutes).to.have.length(5)
     expect(Routes.childRoutes[0].path).to.eq('list')
-    expect(Routes.childRoutes[1].path).to.eq('create')
-    expect(Routes.childRoutes[2].path).to.eq(':user_id/edit')
-    expect(Routes.childRoutes[3].path).to.eq('settings')
+    expect(Routes.childRoutes[1].path).to.eq('list/:visualisationMode')
+    expect(Routes.childRoutes[2].path).to.eq('create')
+    expect(Routes.childRoutes[3].path).to.eq(':user_id/edit')
+    expect(Routes.childRoutes[4].path).to.eq('settings')
   })
   it('list should return users list container', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -42,20 +43,20 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing project user router', () =
     })
   })
   it('create should return user form', (done) => {
-    Routes.childRoutes[1].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ProjectUserFormContainer)
       done()
     })
   })
   it('edit should return user form', (done) => {
-    Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ProjectUserFormContainer)
       done()
     })
   })
 
   it('settings should return settings form', (done) => {
-    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ProjectUserSettingsFormContainer)
       done()
     })

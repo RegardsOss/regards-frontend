@@ -18,37 +18,36 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
-import { browserHistory } from 'react-router'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ProjectUserListComponent from '../../../src/components/list/ProjectUserListComponent'
-import styles from '../../../src/styles'
+import IconButton from 'material-ui/IconButton'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import AccountFiltersComponent from '../../../src/components/filters/AccountFiltersComponent'
+import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 // Test a component rendering
-describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project project user list component', () => {
+describe('[ADMIN ACCOUNT MANAGEMENT] Testing account filters component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ProjectUserListComponent)
+    assert.isDefined(AccountFiltersComponent)
   })
   it('should render correctly', () => {
-    browserHistory.setMockedResult({
-      pathname: 'test://www.test.tst',
-      query: {},
-      hash: '',
-    })
     const props = {
-      project: '',
-      csvLink: '',
-      visualisationMode: 'account',
-      onRefresh: () => { },
-      onCreate: () => { },
-      onBack: () => { },
+      origins: {},
+      projects: {},
+
+      // table sorting, column visiblity & filters management
+      filters: {},
+      updateFilter: () => { },
+      clearFilters: () => { },
     }
-    const enzymeWrapper = shallow(<ProjectUserListComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(SelectField), 1, 'SelectField should be set')
+    const enzymeWrapper = shallow(<AccountFiltersComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(TextField), 3, 'There should be 3 TextField')
+    assert.lengthOf(enzymeWrapper.find(SelectField), 3, 'There should be 3 SelectField')
+    assert.lengthOf(enzymeWrapper.find(IconButton), 1, 'There should be 1 IconButton')
   })
 })

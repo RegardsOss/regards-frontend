@@ -16,9 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DataManagementClient } from '@regardsoss/client'
 
-const namespace = 'admin-user-projectuser-management/user-group'
-export const userGroupActions = new DataManagementClient.UserGroupActions(namespace)
-export const userGroupReducer = DataManagementClient.getUserGroupReducer(namespace)
-export const userGroupSelectors = DataManagementClient.getUserGroupSelectors(['admin', 'user-management', 'project-user-management', 'userGroup'])
+const ACCOUNT_FILTERS = {
+  EMAIL: 'email',
+  FIRSTNAME: 'firstName',
+  LASTNAME: 'lastName',
+  STATUS: 'status',
+  ORIGIN: 'origin',
+  PROJECT: 'project', // liste
+}
+
+export default ACCOUNT_FILTERS
