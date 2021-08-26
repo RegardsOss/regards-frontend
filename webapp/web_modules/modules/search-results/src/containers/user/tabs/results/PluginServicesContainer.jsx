@@ -29,7 +29,7 @@ import { AccessShapes, CommonShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { HOCUtils } from '@regardsoss/display-control'
 import { getSearchCatalogClient } from '../../../../clients/SearchEntitiesClient'
-import { getTableClient } from '../../../../clients/TableClient'
+import { getSelectionClient } from '../../../../clients/SelectionClient'
 import { getServicesClient } from '../../../../clients/PluginServiceClient'
 import { getRunServiceClient } from '../../../../clients/RunPluginServiceClient'
 
@@ -173,7 +173,7 @@ export class PluginServicesContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapStateToProps(state, { tabType }) {
-    const { tableSelectors } = getTableClient(tabType)
+    const { tableSelectors } = getSelectionClient(tabType)
     const { searchSelectors } = getSearchCatalogClient(tabType)
     const { servicesSelectors } = getServicesClient(tabType)
     const { runServiceSelectors } = getRunServiceClient(tabType)

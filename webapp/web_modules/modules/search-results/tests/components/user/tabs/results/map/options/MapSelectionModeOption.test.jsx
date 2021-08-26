@@ -39,12 +39,12 @@ describe('[SEARCH RESULTS] Testing MapSelectionModeOption', () => {
     assert.isDefined(MapSelectionModeOption)
   })
 
-  UIDomain.MAP_SELECTION_MODES.forEach((selectionMode) => {
-    [true, false].forEach((selected) => it(`Should render correctly for mode ${selectionMode} when ${selected ? 'selected' : 'unselected'}`, () => {
+  UIDomain.MAP_SELECTION_MODES.forEach((mapSelectionMode) => {
+    [true, false].forEach((selected) => it(`Should render correctly for mode ${mapSelectionMode} when ${selected ? 'selected' : 'unselected'}`, () => {
       const props = {
         selected,
-        selectionMode,
-        onToggleSelectionMode: () => {},
+        mapSelectionMode,
+        onToggleSelectionMode: () => { },
         index: 0,
       }
       const enzymeWrapper = shallow(<MapSelectionModeOption {...props} />, { context })
@@ -52,7 +52,7 @@ describe('[SEARCH RESULTS] Testing MapSelectionModeOption', () => {
 
       testSuiteHelpers.assertWrapperProperties(button, {
         onClick: enzymeWrapper.instance().onClicked,
-        title: `results.map.tools.tooltip.for.${selectionMode}`,
+        title: `results.map.tools.tooltip.for.${mapSelectionMode}`,
         secondary: selected,
       }, 'Button properties should be correctly set')
       assert.isOk(button.props().icon, 'There should be an icon')

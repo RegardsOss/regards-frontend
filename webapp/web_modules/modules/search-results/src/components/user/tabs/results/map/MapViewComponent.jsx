@@ -18,10 +18,9 @@
  **/
 import isNumber from 'lodash/isNumber'
 import get from 'lodash/get'
-import find from 'lodash/find'
 import SplitPane from 'react-split-pane'
 import { UIDomain } from '@regardsoss/domain'
-import { CommonShapes, UIShapes } from '@regardsoss/shape'
+import { CommonShapes, UIShapes, CatalogShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { Measure } from '@regardsoss/adapters'
@@ -42,6 +41,10 @@ class MapViewComponent extends React.Component {
     resultsContext: UIShapes.ResultsContext.isRequired,
     requestParameters: CommonShapes.RequestParameters.isRequired,
     searchActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
+    // Entities cached
+    loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
+    // Zoom to management
+    onZoomToFeature: PropTypes.func.isRequired,
     // Description management
     descriptionAvailable: PropTypes.bool.isRequired,
     onShowDescription: PropTypes.func,
@@ -53,7 +56,7 @@ class MapViewComponent extends React.Component {
     // split management
     onSplitDropped: PropTypes.func.isRequired,
     // product selection management
-    onProductSelected: PropTypes.func.isRequired,
+    onNewItemOfInterestPicked: PropTypes.func.isRequired,
     itemOfInterestPicked: PropTypes.number,
   }
 
@@ -91,13 +94,13 @@ class MapViewComponent extends React.Component {
    *
    * @param {*} item
    */
-  getItemOfInterest = (item) => {
+  isItemOfInterest = (item) => {
     const {
       tabType, resultsContext,
     } = this.props
-    const { selectedModeState: { selectedProducts } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { selectedModeState: { itemOfInterest } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     const itemId = get(item, 'props.content.id', null)
-    return find(selectedProducts, (selectedProduct) => selectedProduct.id === itemId)
+    return itemOfInterest && itemOfInterest.id === itemId
   }
 
   /**
@@ -137,8 +140,8 @@ class MapViewComponent extends React.Component {
   render() {
     const {
       moduleId, tabType, resultsContext, requestParameters, searchActions,
-      descriptionAvailable, onShowDescription,
-      accessToken, projectName, onAddElementToCart, onProductSelected, itemOfInterestPicked,
+      descriptionAvailable, onShowDescription, onZoomToFeature, loadedEntities,
+      accessToken, projectName, onAddElementToCart, onNewItemOfInterestPicked, itemOfInterestPicked,
     } = this.props
     const { width, height = 0 } = this.state
     const { moduleTheme: { user: { mapViewStyles } }, muiTheme } = this.context
@@ -185,7 +188,9 @@ class MapViewComponent extends React.Component {
                   moduleId={moduleId}
                   tabType={tabType}
                   resultsContext={resultsContext}
-                  onProductSelected={onProductSelected}
+                  onNewItemOfInterestPicked={onNewItemOfInterestPicked}
+                  onZoomToFeature={onZoomToFeature}
+                  loadedEntities={loadedEntities}
                 />
               </div>
               { /* Right: qiuicklooks container */}
@@ -204,9 +209,10 @@ class MapViewComponent extends React.Component {
                   onAddElementToCart={onAddElementToCart}
                   mapThumbnailHeight={quicklooks.thumbnailHeight}
                   embedInMap
-                  onProductSelected={onProductSelected}
                   itemOfInterestPicked={itemOfInterestPicked}
-                  getItemOfInterest={this.getItemOfInterest}
+                  isItemOfInterest={this.isItemOfInterest}
+                  onZoomToFeature={onZoomToFeature}
+                  loadedEntities={loadedEntities}
                   // see force redraw workaround comment above
                   forceRenderingUsingKey={`${leftPaneWidth}x${height}`}
                 />)}

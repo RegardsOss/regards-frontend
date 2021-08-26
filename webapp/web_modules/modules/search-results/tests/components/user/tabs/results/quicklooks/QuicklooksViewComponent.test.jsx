@@ -45,25 +45,27 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
     const props = {
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       requestParameters: {},
+      loadedEntities: [],
       searchActions: searchDataobjectsActions,
       cellProperties: {
         tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
         presentationModels: [],
         enableServices: true,
         descriptionAvailable: true,
-        onAddElementToCart: () => {},
-        onShowDescription: () => {},
+        onAddElementToCart: () => { },
+        onShowDescription: () => { },
         enableDownload: true,
         accessToken: 'abc',
         projectName: 'def',
         embedInMap: true,
         mapThumbnailHeight: 150,
         primaryQuicklookGroup: 'myMainGroup',
-        onProductSelected: () => {},
+        onProductSelected: () => { },
         locale: UIDomain.LOCALES_ENUM.en,
+        selectedProducts: {},
       },
       embedInMap: true,
-      getItemOfInterest: () => {},
+      isItemOfInterest: () => { },
     }
     const enzymeWrapper = shallow(<QuicklooksViewComponent {...props} />, { context })
     const galleryWrapper = enzymeWrapper.find(InfiniteGalleryContainer)
@@ -73,6 +75,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
       pageActions: props.searchActions,
       requestParams: props.requestParameters,
       itemProps: props.cellProperties,
+      loadedEntities: props.loadedEntities,
       pageSelectors: searchSelectors,
     }, 'Gallery wrapper properties should be correctly set')
     assert.isOk(galleryWrapper.props().pageSelectors, 'Page selectors should be provided')
@@ -84,6 +87,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
     const props = {
       tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
       requestParameters: {},
+      loadedEntities: [],
       searchActions: searchDataobjectsActions,
       cellProperties: {
         tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
@@ -91,18 +95,19 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
         enableServices: false,
         descriptionAvailable: false,
         onAddElementToCart: null,
-        onShowDescription: () => {},
+        onShowDescription: () => { },
         enableDownload: false,
         accessToken: 'abc',
         projectName: 'def',
         embedInMap: false,
         mapThumbnailHeight: 150,
         primaryQuicklookGroup: 'myMainGroup',
-        onProductSelected: () => {},
+        onProductSelected: () => { },
         locale: UIDomain.LOCALES_ENUM.fr,
+        selectedProducts: {},
       },
       embedInMap: false,
-      getItemOfInterest: () => {},
+      isItemOfInterest: () => { },
     }
     const enzymeWrapper = shallow(<QuicklooksViewComponent {...props} />, { context })
     const galleryWrapper = enzymeWrapper.find(InfiniteGalleryContainer)
@@ -112,6 +117,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
       pageActions: props.searchActions,
       requestParams: props.requestParameters,
       itemProps: props.cellProperties,
+      loadedEntities: props.loadedEntities,
       pageSelectors: searchSelectors,
     }, 'Gallery wrapper properties should be correctly set')
     assert.isOk(galleryWrapper.props().columnWidth, 'Column width should be provided')

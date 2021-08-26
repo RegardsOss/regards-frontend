@@ -110,7 +110,7 @@ describe('[SEARCH RESULTS] Testing PluginServicesContainer', () => {
       ...commonProperties,
       // For sub component search results
       // specifically spied values
-      selectionMode: TableSelectionModes.includeSelected,
+      mapSelectionMode: TableSelectionModes.includeSelected,
       pageMetadata: { number: 0, size: 10, totalElements: 20 },
       emptySelection: false,
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,

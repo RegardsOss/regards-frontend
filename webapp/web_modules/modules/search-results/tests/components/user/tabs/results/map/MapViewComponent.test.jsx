@@ -58,15 +58,17 @@ describe('[SEARCH RESULTS] Testing MapViewComponent', () => {
         },
 
       },
+      loadedEntities: [],
       requestParameters: {},
       searchActions: getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS).searchDataobjectsActions,
       descriptionAvailable: true,
-      onShowDescription: () => {},
+      onShowDescription: () => { },
       accessToken: 'abc',
       projectName: 'def',
-      onAddElementToCart: () => {},
-      onSplitDropped: () => {},
-      onProductSelected: () => {},
+      onAddElementToCart: () => { },
+      onZoomToFeature: () => { },
+      onSplitDropped: () => { },
+      onNewItemOfInterestPicked: () => { },
     }
     shallow(<MapViewComponent {...props} />, { context })
     // cannot test further due to Measure HOC

@@ -211,6 +211,8 @@ const messages = {
   'add.to.cart.tooltip': 'Ajouter l\'élément à mon panier',
   'add.selection.to.cart.label': 'Ajouter au panier',
   'add.selection.to.cart.tooltip': 'Ajouter les éléments sélectionnés à mon panier',
+  'zoom.to.product.tooltip': 'Zoomer sur ce produit sur la carte',
+  'open.zoomed.picture.tooltip': 'Visualiser l\'imagette',
   'results.no.content.title': 'Pas de résultat',
   'results.no.content.subtitle': 'Votre recherche n\'a donné aucun résultat. Essayez de modifier vos critères',
   'results.loading.title': 'Recherche',

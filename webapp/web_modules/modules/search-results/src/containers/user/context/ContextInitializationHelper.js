@@ -44,7 +44,7 @@ export class ContextInitializationHelper {
       // compute selection allowed statuses:
       const modeState = {
         enabled: true,
-        enableSelection: UIDomain.ResultsContextConstants.allowSelection(type, mode),
+        enableSelection: UIDomain.ResultsContextConstants.allowSelection(type),
         presentationModels: PresentationHelper.buildPresentationModels(attributeModels, modeConfiguration.attributes, type, mode),
       }
       // specifities for by view types
@@ -57,10 +57,11 @@ export class ContextInitializationHelper {
           // report map configuration and initial values
           modeState.mapEngine = modeConfiguration.mapEngine || UIDomain.MAP_ENGINE_ENUM.CESIUM
           modeState.layers = modeConfiguration.layers || []
-          modeState.selectionMode = UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK
+          modeState.mapSelectionMode = UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK
           modeState.viewMode = modeConfiguration.initialViewMode || UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D
           modeState.splitPosition = null
-          modeState.selectedProducts = []
+          modeState.itemOfInterest = null
+          modeState.zoomToFeature = null
           break
         // nothing to do for other modes
         case UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK:
@@ -82,7 +83,7 @@ export class ContextInitializationHelper {
   static buildSortingCriteria(sortConfigurationField = [], attributeModels) {
     return sortConfigurationField
       .map(({ attributes }) => {
-      // A - recover attribute JSON path
+        // A - recover attribute JSON path
         const attrPath = get(attributes, '[0].name', null)
         // B - build it using helper (that will return null if no attribute is found)
         return CriterionBuilder.buildSortCriterion(

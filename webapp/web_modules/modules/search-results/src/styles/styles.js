@@ -48,7 +48,6 @@ const styles = (theme) => ({
           display: 'flex',
           justifyContent: 'flex-start',
           alignItems: 'center',
-          cursor: 'pointer',
         },
         selected: {
           icon: {
@@ -140,7 +139,6 @@ const styles = (theme) => ({
             padding: 5,
             flexGrow: 1,
             textAlign: 'left',
-            cursor: 'pointer',
             wordBreak: 'break-word',
 
           },
@@ -148,7 +146,6 @@ const styles = (theme) => ({
             padding: 5,
             flexGrow: 1,
             textAlign: 'left',
-            cursor: 'default',
             wordBreak: 'break-word',
 
           },
@@ -157,7 +154,6 @@ const styles = (theme) => ({
             flexGrow: 1,
             color: theme.formsExtensions.validation.errorColor,
             textAlign: 'left',
-            cursor: 'pointer',
             wordBreak: 'break-word',
           },
         },
@@ -166,14 +162,12 @@ const styles = (theme) => ({
             paddingLeft: 32,
             flexGrow: 1,
             textAlign: 'left',
-            cursor: 'pointer',
           },
           error: {
             paddingLeft: 32,
             color: theme.formsExtensions.validation.errorColor,
             flexGrow: 1,
             textAlign: 'left',
-            cursor: 'pointer',
           },
           menuItem: {
             headerRow: {
@@ -522,7 +516,6 @@ const styles = (theme) => ({
         flexShrink: 1,
       },
       quicklookContainerStyle: {
-        cursor: 'zoom-in',
         flexGrow: 1,
       },
       iconStyle: {
@@ -618,14 +611,6 @@ const styles = (theme) => ({
           left: '0px',
         },
         menuItem: getMenuItemStyle(theme),
-      },
-      selectedProductBox: {
-        display: 'flex',
-        alignItems: 'center',
-        paddingLeft: '5px',
-        labelStyle: {
-          marginTop: '5px',
-        },
       },
       opacityToolsBox: {
         // overlay position

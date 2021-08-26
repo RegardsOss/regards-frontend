@@ -32,7 +32,7 @@ import { AccessShapes, CommonShapes } from '@regardsoss/shape'
 import { modulesManager } from '@regardsoss/modules'
 import { TableSelectionModes } from '@regardsoss/components'
 import { allMatchHateoasDisplayLogic, HOCUtils } from '@regardsoss/display-control'
-import { getTableClient } from '../../../../clients/TableClient'
+import { getSelectionClient } from '../../../../clients/SelectionClient'
 import { getSearchCatalogClient } from '../../../../clients/SearchEntitiesClient'
 import AddElementToCartContainer from './common/options/AddElementToCartContainer'
 
@@ -111,7 +111,7 @@ export class OrderCartContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapStateToProps(state, { tabType }) {
-    const { tableSelectors } = getTableClient(tabType)
+    const { tableSelectors } = getSelectionClient(tabType)
     const { searchSelectors } = getSearchCatalogClient(tabType)
     return {
       // cart availability related

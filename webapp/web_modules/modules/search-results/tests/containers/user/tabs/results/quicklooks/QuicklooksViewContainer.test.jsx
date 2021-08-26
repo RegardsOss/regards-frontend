@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { TableSelectionModes } from '@regardsoss/components'
 import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
 import QuicklooksViewComponent from '../../../../../../src/components/user/tabs/results/quickooks/QuicklooksViewComponent'
 import { QuicklooksViewContainer } from '../../../../../../src/containers/user/tabs/results/quickooks/QuicklooksViewContainer'
@@ -57,10 +58,12 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
           },
         },
       }),
+      loadedEntities: [],
       requestParameters: {},
       searchActions: searchDataobjectsActions,
       descriptionAvailable: true,
-      onShowDescription: () => {},
+      onShowDescription: () => { },
+      onZoomToFeature: () => { },
       accessToken: 'abc',
       projectName: 'def',
       onAddElementToCart: null,
@@ -73,7 +76,8 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         quotaWarningCount: 150,
         rateWarningCount: 5,
       },
-      onProductSelected: () => {},
+      selectedProducts: {},
+      onProductSelected: () => { },
       theme: {
         id: 11,
         name: 'Fake thme',
@@ -81,7 +85,10 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         configuration: { fakeColor: '#Z0V5YY' },
       },
       i18n: 'en',
-      getItemOfInterest: () => {},
+      isItemOfInterest: () => { },
+      entities: [],
+      selectionMode: TableSelectionModes.includeSelected,
+      toggledElements: {},
     }
     const enzymeWrapper = shallow(<QuicklooksViewContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(QuicklooksViewComponent)
@@ -92,7 +99,9 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
       requestParameters: props.requestParameters,
       searchActions: searchDataobjectsActions,
       embedInMap: false,
+      loadedEntities: props.loadedEntities,
       cellProperties: {
+        selectedProducts: props.selectedProducts,
         tabType: props.tabType,
         presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].presentationModels,
         enableServices: true,
@@ -105,7 +114,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         embedInMap: false,
         mapThumbnailHeight: null,
         primaryQuicklookGroup: 'myMainGroup',
-        selectedProducts: undefined,
+        onZoomToFeature: props.onZoomToFeature,
         onProductSelected: props.onProductSelected,
         currentTheme: props.theme,
         locale: props.i18n,
@@ -129,13 +138,15 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
           },
         },
       }),
+      loadedEntities: [],
       requestParameters: {},
       searchActions: searchDataobjectsActions,
       descriptionAvailable: false,
-      onShowDescription: () => {},
+      onShowDescription: () => { },
       accessToken: 'abc',
       projectName: 'def',
-      onAddElementToCart: () => {},
+      onAddElementToCart: () => { },
+      onZoomToFeature: () => { },
       embedInMap: true,
       mapThumbnailHeight: 55,
       settings: {
@@ -145,7 +156,8 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         quotaWarningCount: 150,
         rateWarningCount: 5,
       },
-      onProductSelected: () => {},
+      selectedProducts: {},
+      onProductSelected: () => { },
       theme: {
         id: 11,
         name: 'Fake thme',
@@ -153,7 +165,10 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         configuration: { fakeColor: '#Z0V5YY' },
       },
       i18n: 'en',
-      getItemOfInterest: () => {},
+      isItemOfInterest: () => { },
+      entities: [],
+      selectionMode: TableSelectionModes.includeSelected,
+      toggledElements: {},
     }
     const enzymeWrapper = shallow(<QuicklooksViewContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(QuicklooksViewComponent)
@@ -164,7 +179,9 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
       requestParameters: props.requestParameters,
       searchActions: searchDataobjectsActions,
       embedInMap: true,
+      loadedEntities: props.loadedEntities,
       cellProperties: {
+        selectedProducts: props.selectedProducts,
         tabType: props.tabType,
         presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].presentationModels,
         enableServices: true,
@@ -177,7 +194,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         embedInMap: true,
         mapThumbnailHeight: 55,
         primaryQuicklookGroup: 'myMainGroup',
-        selectedProducts: [],
+        onZoomToFeature: props.onZoomToFeature,
         onProductSelected: props.onProductSelected,
         currentTheme: props.theme,
         locale: props.i18n,

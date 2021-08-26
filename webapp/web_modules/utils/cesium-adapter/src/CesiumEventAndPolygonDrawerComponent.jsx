@@ -55,7 +55,7 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
     // Currently shownig areas - ONLY used to display currently applyed areas
     // eslint-disable-next-line react/no-unused-prop-types
     drawnAreas: PropTypes.arrayOf(GeoJsonFeature),
-    onFeaturesSelected: PropTypes.func.isRequired,
+    onProductsZoomTo: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     onProductSelected: PropTypes.func.isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
@@ -173,20 +173,12 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
         if (has(entity, 'id') && CatalogDomain.TagsHelper.isURNTag(entity.id.id)) {
           // sometimes entity selected only have id stored, when need to do this to get its label everytime
           // we need to use includes & not strict egal here because multipolygons have particular ids, each polygons ids contains product id plus _X (where X is a number)
-          const selectedFeature = find(featuresCollection.features, (feature) => entity.id.id.includes(feature.id))
-          if (selectedFeature) {
-            return {
-              feature: {
-                id: selectedFeature.id,
-                label: selectedFeature.label,
-              },
-            }
-          }
+          return find(featuresCollection.features, (feature) => entity.id.id.includes(feature.id))
         }
         return null
       }))
     }
-    UIDomain.clickOnEntitiesHandler(selectedEntities, this.props.onProductSelected, this.props.onFeaturesSelected)
+    UIDomain.clickOnEntitiesHandler(selectedEntities, this.props.onProductSelected, this.props.onProductsZoomTo)
   }
 
   handleLeftClick = (movement) => {

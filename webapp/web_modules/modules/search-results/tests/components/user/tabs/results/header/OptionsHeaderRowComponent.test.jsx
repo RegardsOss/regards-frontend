@@ -26,7 +26,6 @@ import OptionsHeaderRowComponent from '../../../../../../src/components/user/tab
 import TypeTabContainer from '../../../../../../src/containers/user/tabs/results/header/options/TypeTabContainer'
 import ToggleFiltersContainer from '../../../../../../src/containers/user/tabs/results/header/options/ToggleFiltersContainer'
 import ModeSelectorContainer from '../../../../../../src/containers/user/tabs/results/header/options/ModeSelectorContainer'
-import SelectAllContainer from '../../../../../../src/containers/user/tabs/results/header/options/SelectAllContainer'
 import SingleSortingContainer from '../../../../../../src/containers/user/tabs/results/header/options/SingleSortingContainer'
 import EditColumnsSettingsContainer from '../../../../../../src/containers/user/tabs/results/header/options/EditColumnsSettingsContainer'
 import SearchOptionContainer from '../../../../../../src/containers/user/tabs/results/header/options/SearchOptionContainer'
@@ -141,9 +140,9 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
                 }),
                 requestParameters: {},
                 searchActions: getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS).searchDataobjectsActions,
-                onAddSelectionToCart: () => {},
+                onAddSelectionToCart: () => { },
                 selectionServices: services,
-                onStartSelectionService: () => {},
+                onStartSelectionService: () => { },
               }
               const enzymeWrapper = shallow(<OptionsHeaderRowComponent {...props} />, { context: renderContext })
               // 1 - check tabs are shown / hidden
@@ -177,14 +176,7 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
                 moduleId: props.moduleId,
                 resultsContext: props.resultsContext,
               }, 'Toggle filters container properties should be correctly set')
-              // 5 - Select all for view modes with selection (but not table)
-              const selectAllContainer = enzymeWrapper.find(SelectAllContainer)
-              if (typeMode.enableSelection && modeKey !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE) {
-                assert.lengthOf(selectAllContainer, 1, 'There should be select all container')
-              } else {
-                assert.lengthOf(selectAllContainer, 0, 'Select all container should be hidden')
-              }
-              // 6 - Sort on single attributes for view types allowing sorting (but not in table mode)
+              // 5 - Sort on single attributes for view types allowing sorting (but not in table mode)
               const sortContainer = enzymeWrapper.find(SingleSortingContainer)
               if (tabType.enableSorting && modeKey !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE) {
                 assert.lengthOf(sortContainer, 1, 'There should be sort container')
@@ -195,14 +187,14 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
               } else {
                 assert.lengthOf(sortContainer, 0, 'Sort container should be hidden')
               }
-              // 7 - Columns settings (container is auto hiding when in table mode, not to be tested here)
+              // 6 - Columns settings (container is auto hiding when in table mode, not to be tested here)
               const columnsSettingsContainer = enzymeWrapper.find(EditColumnsSettingsContainer)
               assert.lengthOf(columnsSettingsContainer, 1, 'There should be columns settings container')
               testSuiteHelpers.assertWrapperProperties(columnsSettingsContainer, {
                 moduleId: props.moduleId,
                 resultsContext: props.resultsContext,
               }, 'Columns settings container properties should be correctly set')
-              // 8 - Check mode selectors (they must be disabled when mode is)
+              // 7 - Check mode selectors (they must be disabled when mode is)
               const enabledModes = OptionsHeaderRowComponent.MODE_DISPLAY_ORDER.reduce(
                 (acc, mode) => tabType.modes[mode] && tabType.modes[mode].enabled ? [...acc, mode] : acc, [])
               const modeSelectors = enzymeWrapper.find(ModeSelectorContainer)
@@ -217,11 +209,11 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
                   mode,
                 }, `Mode ${mode} properties should be correctly computed (and modes should be created in right order)`)
               })
-              // 8.B: check parent is shown when at least one mode selector is
+              // 7.B: check parent is shown when at least one mode selector is
               if (modeSelectors.length) {
                 assert.isTrue(modeSelectors.at(0).parent().props().show, 'Mode selectors node should be displayed only when there are children')
               }
-              // 9 - Search mode
+              // 8 - Search mode
               const searchOptionWrapper = enzymeWrapper.find(SearchOptionContainer)
               assert.lengthOf(searchOptionWrapper, 1, 'There should be search option')
               testSuiteHelpers.assertWrapperProperties(searchOptionWrapper, {
@@ -234,7 +226,7 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
               } else {
                 assert.isFalse(searchOptionWrapper.parent().props().show, 'Search option')
               }
-              // 10 - Refresh table
+              // 9 - Refresh table
               const refreshTableComponent = enzymeWrapper.find(RefreshTableComponent)
               assert.lengthOf(refreshTableComponent, 1, 'There should be refresh table container')
               testSuiteHelpers.assertWrapperProperties(refreshTableComponent, {

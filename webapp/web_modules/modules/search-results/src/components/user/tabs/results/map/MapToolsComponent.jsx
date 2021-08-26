@@ -16,10 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import DeleteIcon from 'mdi-material-ui/CloseCircleOutline'
 import find from 'lodash/find'
-import last from 'lodash/last'
-import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import uniq from 'lodash/uniq'
 import map from 'lodash/map'
@@ -29,7 +26,6 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   TableHeaderLine, TableHeaderOptionGroup, TableHeaderOptionsArea,
 } from '@regardsoss/components'
-import FlatButton from 'material-ui/FlatButton'
 import MapSelectionModeOption from './options/MapSelectionModeOption'
 import MapViewModeOption from './options/MapViewModeOption'
 import MapOpacityOption from './options/MapOpacityOption'
@@ -44,14 +40,12 @@ class MapToolsComponent extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     layers: PropTypes.arrayOf(PropTypes.object).isRequired,
-    selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
+    mapSelectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
     viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired, // current view mode
     onToggleViewMode: PropTypes.func.isRequired,
     onToggleSelectionMode: PropTypes.func.isRequired,
     opacity: PropTypes.number.isRequired,
     handleChangeOpacity: PropTypes.func.isRequired,
-    selectedProducts: PropTypes.arrayOf(PropTypes.object),
-    onProductSelected: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -112,26 +106,18 @@ class MapToolsComponent extends React.Component {
     })
   }
 
-  handleRemoveSelectedProduct = () => {
-    const {
-      selectedProducts, onProductSelected,
-    } = this.props
-    const lastSelectedProduct = last(selectedProducts)
-    onProductSelected(true, lastSelectedProduct)
-  }
-
   render() {
     const {
-      selectionMode: currentSelectionMode, opacity, handleChangeOpacity,
+      mapSelectionMode: currentSelectionMode, opacity, handleChangeOpacity,
       viewMode: currentViewMode,
-      onToggleSelectionMode, onToggleViewMode, selectedProducts,
+      onToggleSelectionMode, onToggleViewMode,
     } = this.props
     const { openOpacitySlider, availableModeList, dataLayerExist } = this.state
     const {
       moduleTheme: {
         user: {
           mapViewStyles: {
-            toolsBox, selectedProductBox, opacityToolsBox, iconToolButton,
+            toolsBox, opacityToolsBox,
           },
         },
       },
@@ -146,11 +132,11 @@ class MapToolsComponent extends React.Component {
           <TableHeaderOptionsArea>
             <TableHeaderOptionGroup>
               { /** Show a selector for each available selection mode */
-                UIDomain.MAP_SELECTION_MODES.map((selectionMode, index) => <MapSelectionModeOption
-                  key={selectionMode}
+                UIDomain.MAP_SELECTION_MODES.map((mapSelectionMode, index) => <MapSelectionModeOption
+                  key={mapSelectionMode}
                   index={index}
-                  selected={currentSelectionMode === selectionMode}
-                  selectionMode={selectionMode}
+                  selected={currentSelectionMode === mapSelectionMode}
+                  mapSelectionMode={mapSelectionMode}
                   onToggleSelectionMode={onToggleSelectionMode}
                 />)
               }
@@ -163,13 +149,13 @@ class MapToolsComponent extends React.Component {
                   viewMode={viewMode}
                   onToggleViewMode={onToggleViewMode}
                   index={index}
-                  addStylingOption={isEmpty(selectedProducts) && !dataLayerExist}
+                  addStylingOption={!dataLayerExist}
                   availableModeListLenght={availableModeList.length - 1}
                 />)
               }
             </TableHeaderOptionGroup>
             {dataLayerExist && (<TableHeaderOptionGroup>
-              <div style={isEmpty(selectedProducts) ? toolsBox.lastBoxStyle : null}>
+              <div style={toolsBox.lastBoxStyle}>
                 <MapOpacityOption
                   handleToggleOpacitySlider={this.handleToggleOpacitySlider}
                   open={openOpacitySlider}
@@ -178,24 +164,6 @@ class MapToolsComponent extends React.Component {
 
             </TableHeaderOptionGroup>
             )}
-            {
-              !isEmpty(selectedProducts)
-                /** Show a chip of for lastSelectedProduct */
-                ? <TableHeaderOptionGroup>
-                  <div style={selectedProductBox}>
-                    <div style={selectedProductBox.labelStyle}>
-                      {last(selectedProducts).label}
-                    </div>
-                    <FlatButton
-                      icon={<DeleteIcon />}
-                      onClick={this.handleRemoveSelectedProduct}
-                      style={iconToolButton}
-                    />
-                  </div>
-
-                </TableHeaderOptionGroup>
-                : null
-            }
           </TableHeaderOptionsArea>
         </TableHeaderLine>
       </div>,

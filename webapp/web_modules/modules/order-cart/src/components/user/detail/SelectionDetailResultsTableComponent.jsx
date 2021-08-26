@@ -22,7 +22,7 @@ import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import {
-  PageableInfiniteTableContainer, TableLayout, TableHeaderLineLoadingAndResults, NoContentComponent,
+  PageableInfiniteTableContainer, TableLayout, TableHeaderLineLoadingSelectAllAndResults, NoContentComponent,
 } from '@regardsoss/components'
 
 /**
@@ -90,7 +90,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
     } = this.props
     return (
       <TableLayout>
-        <TableHeaderLineLoadingAndResults resultsCount={resultsCount} isFetching={isFetching} />
+        <TableHeaderLineLoadingSelectAllAndResults resultsCount={resultsCount} isFetching={isFetching} />
         <PageableInfiniteTableContainer
           pageActions={pageActions}
           pageSelectors={pageSelectors}

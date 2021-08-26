@@ -1,6 +1,6 @@
 import {
   TableLayout, InfiniteTableContainer, TableColumnBuilder,
-  TableHeaderLineLoadingAndResults,
+  TableHeaderLineLoadingSelectAllAndResults,
 } from '@regardsoss/components'
 import Dollar from 'mdi-material-ui/CurrencyUsd'
 import IconButton from 'material-ui/IconButton'
@@ -49,7 +49,7 @@ const sampleEntities = [
 const InfiniteTable = (props,
   { muiTheme: { components: { infiniteTable: { admin: { minRowCount, maxRowCount } } } } }) => (
     <TableLayout>
-      <TableHeaderLineLoadingAndResults isFetching={false} resultsCount={sampleEntities.length} />
+      <TableHeaderLineLoadingSelectAllAndResults isFetching={false} resultsCount={sampleEntities.length} />
       <InfiniteTableContainer
         columns={getColumns()}
         entities={sampleEntities}

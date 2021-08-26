@@ -20,11 +20,13 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { TableHeaderText } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { UIDomain } from '@regardsoss/domain'
 import ResultFacetsHeaderRowComponent from '../../../../../../src/components/user/tabs/results/header/ResultFacetsHeaderRowComponent'
 import BooleanFacetSelectorComponent from '../../../../../../src/components/user/tabs/results/header/facets/BooleanFacetSelectorComponent'
 import DateRangeFacetSelectorComponent from '../../../../../../src/components/user/tabs/results/header/facets/DateRangeFacetSelectorComponent'
 import NumberRangeFacetSelectorComponent from '../../../../../../src/components/user/tabs/results/header/facets/NumberRangeFacetSelectorComponent'
 import WordFacetSelectorComponent from '../../../../../../src/components/user/tabs/results/header/facets/WordFacetSelectorComponent'
+import TableHeaderSelectAllContainer from '../../../../../../src/containers/user/tabs/results/header/TableHeaderSelectAllContainer'
 import styles from '../../../../../../src/styles'
 import { attributes } from '../../../../../dumps/attributes.dump'
 import resultsDump from '../../../../../dumps/results.dump'
@@ -67,7 +69,9 @@ describe('[SEARCH RESULTS] Testing ResultFacetsHeaderRowComponent', () => {
       resultsCount: 100,
       facetsEnabled: true,
       facets: someFacets,
-      onSelectFacetValue: () => {},
+      onSelectFacetValue: () => { },
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      selectionEnabled: true,
     }
     const enzymeWrapper = shallow(<ResultFacetsHeaderRowComponent {...props} />, { context })
     // There should be no facet selector nor message
@@ -77,6 +81,24 @@ describe('[SEARCH RESULTS] Testing ResultFacetsHeaderRowComponent', () => {
     assert.lengthOf(enzymeWrapper.find(NumberRangeFacetSelectorComponent), 0, 'There should be no number range facet selector')
     assert.lengthOf(enzymeWrapper.find(WordFacetSelectorComponent), 0, 'There should be no word facet selector')
   })
+  it('should render correctly table header select all', () => {
+    const props = {
+      isFetching: false,
+      loadedResultsCount: 25,
+      resultsCount: 100,
+      facetsEnabled: false,
+      facets: someFacets,
+      onSelectFacetValue: () => { },
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      selectionEnabled: true,
+    }
+    const enzymeWrapper = shallow(<ResultFacetsHeaderRowComponent {...props} />, { context })
+
+    const tableHeaderSelectAllContainer = enzymeWrapper.find(TableHeaderSelectAllContainer)
+    assert.lengthOf(tableHeaderSelectAllContainer, 1, 'There should be the select all container')
+    assert.equal(tableHeaderSelectAllContainer.props().tabType, props.tabType, 'Tab type should be transfered')
+    assert.equal(tableHeaderSelectAllContainer.props().selectionEnabled, props.selectionEnabled, 'Bool selection enabled should be transfered')
+  })
   it('should render correctly when facets are disabled', () => {
     const props = {
       isFetching: false,
@@ -84,7 +106,9 @@ describe('[SEARCH RESULTS] Testing ResultFacetsHeaderRowComponent', () => {
       resultsCount: 100,
       facetsEnabled: false,
       facets: someFacets,
-      onSelectFacetValue: () => {},
+      onSelectFacetValue: () => { },
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      selectionEnabled: true,
     }
     const enzymeWrapper = shallow(<ResultFacetsHeaderRowComponent {...props} />, { context })
     // There should be no facet selector nor message
@@ -101,7 +125,9 @@ describe('[SEARCH RESULTS] Testing ResultFacetsHeaderRowComponent', () => {
       resultsCount: 100,
       facetsEnabled: true,
       facets: [],
-      onSelectFacetValue: () => {},
+      onSelectFacetValue: () => { },
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      selectionEnabled: true,
     }
     const enzymeWrapper = shallow(<ResultFacetsHeaderRowComponent {...props} />, { context })
     // There should be empty facets list message
@@ -121,7 +147,9 @@ describe('[SEARCH RESULTS] Testing ResultFacetsHeaderRowComponent', () => {
       resultsCount: 100,
       facetsEnabled: true,
       facets: someFacets,
-      onSelectFacetValue: () => {},
+      onSelectFacetValue: () => { },
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      selectionEnabled: true,
     }
     const enzymeWrapper = shallow(<ResultFacetsHeaderRowComponent {...props} />, { context })
     // There should not be empty facets list message

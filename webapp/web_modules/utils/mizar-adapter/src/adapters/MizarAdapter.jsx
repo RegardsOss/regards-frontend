@@ -21,12 +21,11 @@ import isEqual from 'lodash/isEqual'
 import forEach from 'lodash/forEach'
 import find from 'lodash/find'
 import filter from 'lodash/filter'
-import last from 'lodash/last'
 import { UIDomain } from '@regardsoss/domain'
 import './Mizar.css'
 import Mizar from 'regards-mizar'
 import polygonCenter from 'geojson-polygon-center'
-import { UIShapes } from '@regardsoss/shape'
+import { UIShapes, CatalogShapes } from '@regardsoss/shape'
 import { GeoJsonFeaturesCollection, GeoJsonFeature } from '../shapes/FeaturesCollection'
 
 /**
@@ -53,12 +52,16 @@ export default class MizarAdapter extends React.Component {
     drawnAreas: PropTypes.arrayOf(GeoJsonFeature),
     // should notify parent on pick selection
     // eslint-disable-next-line react/no-unused-prop-types
-    onFeaturesSelected: PropTypes.func,
+    onProductsZoomTo: PropTypes.func,
+    // eslint-disable-next-line react/no-unused-prop-types
+    zoomToFeature: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
     // view management
     viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired,
     // product selection management
     // eslint-disable-next-line react/no-unused-prop-types
-    selectedProducts: PropTypes.arrayOf(PropTypes.object),
+    selectedProducts: PropTypes.objectOf(CatalogShapes.Entity).isRequired, // inner object is entity type
     // eslint-disable-next-line react/no-unused-prop-types
     onProductSelected: PropTypes.func.isRequired,
     selectedFeatureColor: PropTypes.string.isRequired,
@@ -129,7 +132,7 @@ export default class MizarAdapter extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
       featuresCollection, drawingSelection, drawnAreas, customLayersOpacity, viewMode,
-      selectedProducts, selectedToponyms,
+      selectedProducts, selectedToponyms, zoomToFeature,
     } = newProps
     if (!isEqual(oldProps.featuresCollection, featuresCollection) || !isEqual(oldProps.selectedProducts, selectedProducts)) {
       // Handle not selected features
@@ -158,10 +161,10 @@ export default class MizarAdapter extends React.Component {
       this.onToggleViewMode()
     }
     // Manage camera destination
-    if (!isEqual(oldProps.selectedProducts, selectedProducts) || !isEqual(oldProps.drawnAreas, drawnAreas)) {
+    if (!isEqual(oldProps.zoomToFeature, zoomToFeature) || !isEqual(oldProps.drawnAreas, drawnAreas)) {
       // Handle zoom on selected product
-      if (!isEqual(oldProps.selectedProducts, selectedProducts) && !isEmpty(selectedProducts)) {
-        const lastFeatureSelected = find(featuresCollection.features, (feature) => feature.id === last(selectedProducts).id)
+      if (!isEqual(oldProps.zoomToFeature, zoomToFeature) && zoomToFeature) {
+        const lastFeatureSelected = find(featuresCollection.features, (feature) => feature.id === zoomToFeature.id)
         this.zoomOnGeometry(lastFeatureSelected.geometry)
       } else if (!isEmpty(drawnAreas)) {
         // When user stop drawing area or toponym change
@@ -323,7 +326,7 @@ export default class MizarAdapter extends React.Component {
    *                           false -> return features from featuresCollection that are not inside selectedProducts
    */
   getIncludedFeatures = (featuresCollection, selectedProducts, isIntersection) => {
-    const isIncluded = (feature) => find(selectedProducts, (selectedProduct) => (selectedProduct.id === feature.id))
+    const isIncluded = (feature) => find(selectedProducts, (selectedProduct) => (selectedProduct.content.id === feature.id))
     if (isIntersection) {
       return filter(featuresCollection.features, (feature) => (
         isIncluded(feature)
@@ -341,7 +344,7 @@ export default class MizarAdapter extends React.Component {
    */
   onNotSelectedFeaturesUpdated = (featuresCollection, selectedProducts) => {
     if (!this.unmounted) {
-      const includedFeatures = this.getIncludedFeatures(featuresCollection, selectedProducts, true)
+      const includedFeatures = this.getIncludedFeatures(featuresCollection, selectedProducts, false)
       this.addFeatureToLayer(this.mizar.featuresLayer, featuresCollection, includedFeatures)
     }
   }
@@ -353,7 +356,7 @@ export default class MizarAdapter extends React.Component {
    */
   onSelectedFeaturesUpdated = (featuresCollection, selectedProducts) => {
     if (!this.unmounted) {
-      const includedFeatures = this.getIncludedFeatures(featuresCollection, selectedProducts, false)
+      const includedFeatures = this.getIncludedFeatures(featuresCollection, selectedProducts, true)
       this.addFeatureToLayer(this.mizar.selectedFeaturesLayer, featuresCollection, includedFeatures)
     }
   }
@@ -410,7 +413,7 @@ export default class MizarAdapter extends React.Component {
       const centerPoint = polygonCenter(geometry)
       const centerX = centerPoint.coordinates[0]
       const centerY = centerPoint.coordinates[1]
-      this.mizar.instance.getActivatedContext().getNavigation().zoomTo([centerX, centerY], { distance: 200000, duration: 5000 })
+      this.mizar.instance.getActivatedContext().getNavigation().zoomToFeature([centerX, centerY], { distance: 200000, duration: 5000 })
     }
   }
 
@@ -434,8 +437,8 @@ export default class MizarAdapter extends React.Component {
       // compute selection
       const pickingManager = this.mizar.instance.getServiceByName(Mizar.SERVICE.PickingManager)
       const newSelection = pickingManager.computePickSelection(pickPoint)
-      const selectedFeatures = filter(newSelection, (selection) => find(this.props.featuresCollection.features, (feature) => selection.feature.id === feature.id))
-      UIDomain.clickOnEntitiesHandler(selectedFeatures, this.props.onProductSelected, this.props.onFeaturesSelected)
+      const selectedFeatures = filter(this.props.featuresCollection.features, (feature) => find(newSelection, (selection) => selection.feature.id === feature.id))
+      UIDomain.clickOnEntitiesHandler(selectedFeatures, this.props.onProductSelected, this.props.onProductsZoomTo)
     }
   }
 

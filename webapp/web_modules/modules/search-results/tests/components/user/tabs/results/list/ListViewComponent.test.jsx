@@ -23,7 +23,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PageableInfiniteTableContainer } from '@regardsoss/components'
 import ListViewComponent from '../../../../../../src/components/user/tabs/results/list/ListViewComponent'
 import ListViewContainer from '../../../../../../src/containers/user/tabs/results/list/ListViewContainer'
-import { getTableClient } from '../../../../../../src/clients/TableClient'
+import { getSelectionClient } from '../../../../../../src/clients/SelectionClient'
 import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
 import EmptyTableContainer from '../../../../../../src/containers/user/tabs/results/common/EmptyTableContainer'
 import styles from '../../../../../../src/styles'
@@ -107,7 +107,7 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
     testSuiteHelpers.assertWrapperProperties(tableWrapper, {
       pageActions: props.searchActions,
       pageSelectors: searchSelectors,
-      tableActions: getTableClient(tabType).tableActions,
+      tableActions: getSelectionClient(tabType).tableActions,
       requestParams: props.requestParameters,
       displayColumnsHeader: false,
 

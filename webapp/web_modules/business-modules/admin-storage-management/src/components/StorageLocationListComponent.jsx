@@ -26,7 +26,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import {
   TableLayout, InfiniteTableContainer, TableColumnBuilder, TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
-  NoContentComponent, TableHeaderLineLoadingAndResults, ConfirmDialogComponent,
+  NoContentComponent, TableHeaderLineLoadingSelectAllAndResults, ConfirmDialogComponent,
   ConfirmDialogComponentTypes, PositionedDialog,
 } from '@regardsoss/components'
 import { StorageShapes } from '@regardsoss/shape'
@@ -433,7 +433,7 @@ export class StorageLocationListComponent extends React.Component {
         {this.renderCopyFilesConfirmDialog()}
         {this.renderRelaunchMonitoringConfirmDialog()}
         <TableLayout>
-          <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length} />
+          <TableHeaderLineLoadingSelectAllAndResults isFetching={isLoading} resultsCount={entities.length} />
           <TableHeaderLine key="filtersLine">
             <TableHeaderOptionsArea key="filtersArea" reducible alignRight>
               <TableHeaderOptionGroup>

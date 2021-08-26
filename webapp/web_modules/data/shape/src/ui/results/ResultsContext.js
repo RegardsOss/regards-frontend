@@ -222,10 +222,12 @@ const MapViewModeState = PropTypes.shape({
   mapEngine: PropTypes.oneOf(UIDomain.MAP_ENGINE).isRequired,
   presentationModels: PropTypes.arrayOf(AttributePresentationModel).isRequired,
   layers: PropTypes.arrayOf(LayerDefinition).isRequired,
-  selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
+  mapSelectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current map selection mode
   viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired, // current view mode
   splitPosition: PropTypes.number, // current split position
-  selectedProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  zoomToFeature: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }),
 })
 
 /**

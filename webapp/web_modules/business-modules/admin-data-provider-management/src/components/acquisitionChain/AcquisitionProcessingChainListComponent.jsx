@@ -25,7 +25,7 @@ import { CommonDomain } from '@regardsoss/domain'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 import {
-  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingAndResults,
+  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingSelectAllAndResults,
   NoContentComponent, CardActionsComponent, FormErrorMessage, Breadcrumb, TableDeleteOption, ConfirmDialogComponent,
   ConfirmDialogComponentTypes, PositionedDialog, HelpMessageComponent,
 } from '@regardsoss/components'
@@ -448,7 +448,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
               onMultiToggleSelection={onMultiToggleSelection}
               isOneCheckboxToggled={isOneCheckboxToggled}
             />
-            <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
+            <TableHeaderLineLoadingSelectAllAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
             <PageableInfiniteTableContainer
               name="acquisition-chain-table"
               pageActions={AcquisitionProcessingChainActions}

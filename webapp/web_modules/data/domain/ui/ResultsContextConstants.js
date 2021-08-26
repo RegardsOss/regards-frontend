@@ -52,10 +52,11 @@ const DISABLED_MAP_VIEW_MODE_STATE = {
   presentationModels: [],
   mapEngine: MAP_ENGINE_ENUM.CESIUM,
   layers: [],
-  selectionMode: MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
+  mapSelectionMode: MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
   viewMode: MAP_VIEW_MODES_ENUM.MODE_3D,
   splitPosition: null,
-  selectedProducts: [],
+  itemOfInterest: null,
+  zoomToFeature: null,
 }
 
 /** To be used as default */
@@ -176,17 +177,13 @@ function allowSorting(type) {
 /** Types for which selection is allowed */
 const SELECTION_ALLOWING_TYPES = [ENTITY_TYPES_ENUM.DATA]
 
-/** Modes for which selection is allowed */
-const SELECTION_ALLOWING_MODES = [RESULTS_VIEW_MODES_ENUM.TABLE, RESULTS_VIEW_MODES_ENUM.LIST]
-
 /**
  * Is selection allowed for entity type and view mode as parameter (ie can entity be used to filter results?)
  * @param {string} type entity type, from ENTITY_TYPES_ENUM
- * @param {string} mode view results mode, from RESULTS_VIEW_MODES_ENUM
  * @return {boolean} true when allowed, false otherwise
  */
-function allowSelection(type, mode) {
-  return SELECTION_ALLOWING_TYPES.includes(type) && SELECTION_ALLOWING_MODES.includes(mode)
+function allowSelection(type) {
+  return SELECTION_ALLOWING_TYPES.includes(type)
 }
 
 /** Types for which services are allowed */
@@ -240,6 +237,9 @@ const PAGE_SIZE_FOR = {
   [RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: 200,
 }
 
+/** The local storage key for context storage */
+const CONTEXT_STORAGE_KEY = 'resultsContext'
+
 export default {
   RESULTS_INITIAL_TYPE_PREFERENCE,
   DEFAULT_RESULTS_CONTEXT,
@@ -248,6 +248,7 @@ export default {
   DISABLED_MAP_VIEW_MODE_STATE,
   DISABLED_TYPE_STATE,
   PAGE_SIZE_FOR,
+  CONTEXT_STORAGE_KEY,
   allowDownload,
   allowSorting,
   allowSelection,

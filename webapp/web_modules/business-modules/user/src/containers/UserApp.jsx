@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import forEach from 'lodash/forEach'
 import reduce from 'lodash/reduce'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
@@ -42,6 +43,9 @@ import QuotaInformationUpdater from './QuotaInformationUpdater'
  * Provides the theme to sub containers
  */
 export class UserApp extends React.Component {
+  /** The local storage key for storing the hash of the module configuration */
+  static LOCAL_STORAGE_HASH_KEY = 'moduleConfHash'
+
   /**
    * @type {{theme: string, content: React.Component}}
    */
@@ -140,6 +144,7 @@ export class UserApp extends React.Component {
       fetchUISettings(),
     ])
       .then(() => {
+        this.clearDeprecatedConfigurationOnLocalStorage()
         this.setState({
           isInitialLoading: false,
         })
@@ -190,6 +195,19 @@ export class UserApp extends React.Component {
   componentWillUnmount() {
     const { flushModules } = this.props
     flushModules()
+  }
+
+  clearDeprecatedConfigurationOnLocalStorage() {
+    const { modules, params: { project } } = this.props
+    forEach(modules, (module) => {
+      const { content: { id: moduleId, confHash } } = module
+      const previousModuleHash = UIDomain.LocalStorageData.getData(UIDomain.APPLICATIONS_ENUM.USER, project, moduleId, UserApp.LOCAL_STORAGE_HASH_KEY)
+      // If a previous version of the module hash is found and not same than the current module hash, clear previous user conf
+      if (previousModuleHash && previousModuleHash !== confHash) {
+        UIDomain.LocalStorageData.clearData(UIDomain.APPLICATIONS_ENUM.USER, project, moduleId, UIDomain.ResultsContextConstants.CONTEXT_STORAGE_KEY)
+      }
+      UIDomain.LocalStorageData.saveData(UIDomain.APPLICATIONS_ENUM.USER, project, moduleId, UserApp.LOCAL_STORAGE_HASH_KEY, confHash)
+    })
   }
 
   /**

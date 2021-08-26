@@ -22,7 +22,7 @@ import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { PageableInfiniteTableContainer } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
-import { getTableClient } from '../../../../../../src/clients/TableClient'
+import { getSelectionClient } from '../../../../../../src/clients/SelectionClient'
 import TableViewComponent from '../../../../../../src/components/user/tabs/results/table/TableViewComponent'
 import { TableViewContainer } from '../../../../../../src/containers/user/tabs/results/table/TableViewContainer'
 import EmptyTableContainer from '../../../../../../src/containers/user/tabs/results/common/EmptyTableContainer'
@@ -95,7 +95,7 @@ describe('[SEARCH RESULTS] Testing TableViewComponent', () => {
     testSuiteHelpers.assertWrapperProperties(tableWrapper, {
       pageActions: props.searchActions,
       pageSelectors: searchSelectors,
-      tableActions: getTableClient(tabType).tableActions,
+      tableActions: getSelectionClient(tabType).tableActions,
       requestParams: props.requestParameters,
       displayColumnsHeader: true,
       emptyComponent: <EmptyTableContainer tabType={tabType} />,

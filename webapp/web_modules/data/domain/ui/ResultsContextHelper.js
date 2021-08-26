@@ -74,7 +74,7 @@ export class ResultsContextHelper {
  * selected type state, selected mode and selected mode
  */
   static getViewData(resultsContext = {}, tabType) {
-  // check tab type
+    // check tab type
     if (!RESULTS_TABS.includes(tabType)) {
       throw new Error(`Invalid tab type ${tabType}`)
     }

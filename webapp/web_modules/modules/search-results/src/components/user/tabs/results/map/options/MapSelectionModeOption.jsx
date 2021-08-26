@@ -32,7 +32,7 @@ class MapSelectionModeOption extends React.Component {
   static propTypes = {
     index: PropTypes.number.isRequired, // mandatory for styling purpose
     selected: PropTypes.bool.isRequired,
-    selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
+    mapSelectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
     onToggleSelectionMode: PropTypes.func.isRequired,
   }
 
@@ -50,14 +50,14 @@ class MapSelectionModeOption extends React.Component {
    * Callback: user clicked on this selector, call parent callback to set corresponding mode
    */
   onClicked = () => {
-    const { selectionMode, onToggleSelectionMode } = this.props
-    onToggleSelectionMode(selectionMode)
+    const { mapSelectionMode, onToggleSelectionMode } = this.props
+    onToggleSelectionMode(mapSelectionMode)
   }
 
   render() {
-    const { selected, selectionMode, index } = this.props
+    const { selected, mapSelectionMode, index } = this.props
     const { moduleTheme: { user: { mapViewStyles } }, intl: { formatMessage } } = this.context
-    const IconConstructor = MapSelectionModeOption.ICON_CONSTRUCTOR_BY_MODE[selectionMode]
+    const IconConstructor = MapSelectionModeOption.ICON_CONSTRUCTOR_BY_MODE[mapSelectionMode]
     return (
       <div style={index === 0 ? mapViewStyles.toolsBox.firstBoxStyle : null}>
         <FlatButton
@@ -65,7 +65,7 @@ class MapSelectionModeOption extends React.Component {
           icon={<IconConstructor />}
           secondary={selected}
           style={mapViewStyles.iconToolButton}
-          title={formatMessage({ id: `results.map.tools.tooltip.for.${selectionMode}` })}
+          title={formatMessage({ id: `results.map.tools.tooltip.for.${mapSelectionMode}` })}
         />
       </div>
 

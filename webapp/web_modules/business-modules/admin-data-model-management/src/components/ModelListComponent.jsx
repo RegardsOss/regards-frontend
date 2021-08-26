@@ -29,7 +29,7 @@ import {
 import {
   CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
   TableLayout, InfiniteTableContainer, TableColumnBuilder,
-  NoContentComponent, TableHeaderLineLoadingAndResults,
+  NoContentComponent, TableHeaderLineLoadingSelectAllAndResults,
 } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -177,7 +177,7 @@ export class ModelListComponent extends React.Component {
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
             <ModelListFiltersComponent onFilter={this.onFilter} />
-            <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={filteredModelList.length} />
+            <TableHeaderLineLoadingSelectAllAndResults isFetching={isLoading} resultsCount={filteredModelList.length} />
             <InfiniteTableContainer
               columns={columns}
               entities={filteredModelList}

@@ -71,7 +71,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     }), // not required as it exists in HOC
 
     itemOfInterestPicked: PropTypes.number,
-    getItemOfInterest: PropTypes.func,
+    isItemOfInterest: PropTypes.func,
   }
 
   static defaultProps = {
@@ -144,7 +144,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     }
     if (!isEqual(nextProps.itemOfInterestPicked, this.props.itemOfInterestPicked)) {
       const itemFound = reduce(this.state.pages, (res, page) => (
-        res || find(page.items, this.props.getItemOfInterest)
+        res || find(page.items, this.props.isItemOfInterest)
       ), undefined)
 
       if (itemFound && this.scrollArea.current) {

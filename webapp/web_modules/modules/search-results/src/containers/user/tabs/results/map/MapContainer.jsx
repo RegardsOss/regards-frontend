@@ -21,17 +21,19 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import find from 'lodash/find'
+import head from 'lodash/head'
 import map from 'lodash/map'
 import { ToponymUploader, UPLOADER_DISPLAY_MODES } from '@regardsoss/components'
 import { CatalogDomain, UIDomain } from '@regardsoss/domain'
 import { AccessShapes, CatalogShapes, UIShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesClient'
 import { resultsContextActions } from '../../../../../clients/ResultsContextClient'
 import MapComponent from '../../../../../components/user/tabs/results/map/MapComponent'
 import { toAreaFeature, toBoxCoordinates, geometryToAreaFeature } from '../../../../../../../../utils/mizar-adapter/src/main'
 import { toponymSelectors } from '../../../../../clients/ToponymClient'
+import { withSelectionContainer } from '../common/withSelectionContainer'
 
+export const MapComponentWithSelection = withSelectionContainer(MapComponent)
 /**
  * Map container: adapts current context and results to display it on a map. Provides corresponding callbacks
  * @author Raphaël Mechali
@@ -44,17 +46,14 @@ export class MapContainer extends React.Component {
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
     resultsContext: UIShapes.ResultsContext.isRequired,
     // product selection management
-    onProductSelected: PropTypes.func.isRequired,
+    onNewItemOfInterestPicked: PropTypes.func.isRequired,
+    // product zoom to management
+    onZoomToFeature: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired, // Entities cached
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
-    entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired, // used only in onPropertiesUpdated
-    // eslint-disable-next-line react/no-unused-prop-types
     toponymList: AccessShapes.ToponymList,
-    pageMetadata: PropTypes.shape({
-      number: PropTypes.number,
-      size: PropTypes.number,
-      totalElements: PropTypes.number,
-    }),
     // from mapDispatchToProps
     updateResultsContext: PropTypes.func.isRequired,
   }
@@ -71,12 +70,8 @@ export class MapContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { tabType }) {
-    const { searchSelectors } = getSearchCatalogClient(tabType)
+  static mapStateToProps(state) {
     return {
-      // results entities
-      entities: searchSelectors.getOrderedList(state),
-      pageMetadata: searchSelectors.getMetaData(state),
       toponymList: toponymSelectors.getList(state),
     }
   }
@@ -122,8 +117,6 @@ export class MapContainer extends React.Component {
 
   /** Initial state */
   state = {
-    // Holds all loaded entities (outside content field)
-    loadedEntities: [],
     // Holds loaded entities with geometry as features collection
     featuresCollection: MapContainer.buildGeoJSONFeatureCollection([]),
     // holds the single area user is currently drawing (as array to avoid creating it at runtime)
@@ -132,8 +125,6 @@ export class MapContainer extends React.Component {
     criteriaAreas: [],
     // holds the background layer conf
     backgroundLayerConf: {},
-    /** Holds selected products */
-    selectedProducts: [],
     /** Holds selected toponyms */
     selectedToponyms: [],
     featureShapefile: MapContainer.buildGeoJSONFeatureCollection([]),
@@ -158,45 +149,30 @@ export class MapContainer extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const nextState = { ...this.state }
     const {
-      entities: oldEntities, resultsContext: oldResultsContext, tabType: oldTabType,
+      loadedEntities: oldLoadedEntities, resultsContext: oldResultsContext, tabType: oldTabType,
       toponymList: oldToponymList,
     } = oldProps
     const {
-      entities,
-      pageMetadata = { number: 0, size: UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.MAP] },
+      loadedEntities,
       resultsContext,
       tabType,
       toponymList,
       // fetchToponym,
     } = newProps
+
     // detect entities list changes: re build locally the full list shown (Note: both entities and metadata change together, see BasicPageReducers)
-    if (!isEqual(oldEntities, entities)) {
-      // to handle refresh and filters add, make sure fetched page index is taken in account:
-      // keep old entities up to fetched page, then replace list end with the last fetched page
-      // as a consequence, when loading sequentially, last page will simply be added at end
-      // Note 1: that algorithm assumes no page can be "jumped over"
-      // Note 2: slice(0, 0) returns [] and slice (0, 100) => [(0)...(99)]
-      const entitiesToKeep = this.state.loadedEntities.slice(0, pageMetadata.number * pageMetadata.size)
-      nextState.loadedEntities = [
-        ...entitiesToKeep,
-        // add newly loaded entities, removing content field level, as expected for features
-        ...entities.map((e) => e.content),
-      ]
-      nextState.featuresCollection = MapContainer.buildGeoJSONFeatureCollection(nextState.loadedEntities)
+    if (!isEqual(oldLoadedEntities, loadedEntities)) {
+      // add newly loaded entities, removing content field level, as expected for features
+      nextState.featuresCollection = MapContainer.buildGeoJSONFeatureCollection(loadedEntities.map((e) => e.content))
     }
 
     // Handle feedback displayed area: each time selection mode change, reset it to empty
-    const { tab, selectedModeState: { selectionMode, selectedProducts } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-    const { tab: oldTab, selectedModeState: { selectionMode: oldSelectionMode, selectedProducts: oldSelectedProducts } } = oldResultsContext && oldTabType
+    const { tab, selectedModeState: { mapSelectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { tab: oldTab, selectedModeState: { mapSelectionMode: oldSelectionMode } } = oldResultsContext && oldTabType
       ? UIDomain.ResultsContextHelper.getViewData(oldResultsContext, oldTabType)
       : { tab: null, selectedModeState: {} }
-    if (!isEqual(oldSelectionMode, selectionMode)) {
+    if (!isEqual(oldSelectionMode, mapSelectionMode)) {
       nextState.currentlyDrawingAreas = []
-    }
-
-    // Handle selected product changes
-    if (!isEqual(oldSelectedProducts, selectedProducts)) {
-      nextState.selectedProducts = selectedProducts
     }
 
     // Handle criteria update: pre-compute the list of areas in state
@@ -259,7 +235,7 @@ export class MapContainer extends React.Component {
     } = this.props
     const { selectedType, selectedModeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     // update only when there is some change
-    if (mode !== selectedModeState.selectionMode) {
+    if (mode !== selectedModeState.mapSelectionMode) {
       // update selection mode in mode state
       updateResultsContext(moduleId, {
         tabs: {
@@ -268,7 +244,7 @@ export class MapContainer extends React.Component {
               [selectedType]: {
                 modes: {
                   [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
-                    selectionMode: mode,
+                    mapSelectionMode: mode,
                   },
                 },
               },
@@ -331,7 +307,7 @@ export class MapContainer extends React.Component {
               [selectedType]: {
                 modes: {
                   [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
-                    selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
+                    mapSelectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
                   },
                 },
               },
@@ -343,34 +319,19 @@ export class MapContainer extends React.Component {
   }
 
   /**
-   * User picked some features one map, apply them as research criterion
-   * @param {*} selectedFeatures picked features list, matches Catalog.Entity shape (content)
+   * User double click on a list of features, let's zoom on the first one
+   * @param {*} zoomToFeatureProduct picked features list
    */
-  onFeaturesPicked = (selectedFeatures) => {
+  onProductsZoomTo = (zoomToFeatureProduct) => {
     // skip when selection is empty
-    if (!selectedFeatures.length) {
+    if (!zoomToFeatureProduct.length) {
       return
     }
-    const { moduleId, tabType, updateResultsContext } = this.props
-    updateResultsContext(moduleId, {
-      tabs: {
-        [tabType]: {
-          criteria: {
-            entitiesSelection: [{ // add or replace selection parameter
-              entitiesCount: selectedFeatures.length,
-              requestParameters: {
-                [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-                  new CatalogDomain.OpenSearchQuery([ // q: id=({selected ID 1} OR {selected ID 2} OR...)
-                    new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.SAPN.id,
-                      CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(
-                        selectedFeatures.map((selectedFeature) => selectedFeature.feature.id)))])
-                    .toQueryString(),
-              },
-            }],
-          },
-        },
-      },
-    })
+    const firstZoomToProduct = head(zoomToFeatureProduct)
+    if (firstZoomToProduct) {
+      const { onZoomToFeature } = this.props
+      onZoomToFeature(firstZoomToProduct)
+    }
   }
 
   /**
@@ -404,17 +365,17 @@ export class MapContainer extends React.Component {
 
   render() {
     const {
-      tabType, resultsContext, onProductSelected,
+      tabType, resultsContext, onNewItemOfInterestPicked, loadedEntities,
     } = this.props
     const {
-      featuresCollection, currentlyDrawingAreas, criteriaAreas, selectedProducts,
+      featuresCollection, currentlyDrawingAreas, criteriaAreas,
       selectedToponyms, featureShapefile,
     } = this.state
 
     // pre: respects necessarily MapViewModeState shapes
     const {
       selectedModeState: {
-        layers, selectionMode, mapEngine, viewMode,
+        layers, mapSelectionMode, mapEngine, viewMode, zoomToFeature,
       },
     } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
@@ -422,26 +383,28 @@ export class MapContainer extends React.Component {
         onToponymUploaded={this.onToponymSelected}
         displayMode={UPLOADER_DISPLAY_MODES.LARGE}
       >
-        <MapComponent
+        <MapComponentWithSelection
+          loadedEntities={loadedEntities}
           featuresCollection={featuresCollection}
-          displayedAreas={selectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE
+          displayedAreas={mapSelectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE
             ? currentlyDrawingAreas /* drawing: show feedback area */
             : criteriaAreas /* not drawing: show criteria areas */}
-          selectionMode={selectionMode}
+          mapSelectionMode={mapSelectionMode}
           viewMode={viewMode}
           onToggleViewMode={this.onToggleViewMode}
           onToggleSelectionMode={this.onToggleSelectionMode}
           onDrawingSelectionUpdated={this.onDrawingSelectionUpdated}
           onDrawingSelectionDone={this.onDrawingSelectionDone}
-          onFeaturesPicked={this.onFeaturesPicked}
-          selectedProducts={selectedProducts}
-          onProductSelected={onProductSelected}
+          onProductsZoomTo={this.onProductsZoomTo}
           layers={layers}
           mapEngine={mapEngine}
           tabType={tabType}
           onToponymSelected={this.onToponymSelected}
           selectedToponyms={selectedToponyms}
           featureShapefile={featureShapefile}
+          zoomToFeature={zoomToFeature}
+          // Selection container props
+          onNewItemOfInterestPicked={onNewItemOfInterestPicked}
         />
       </ToponymUploader>
     )

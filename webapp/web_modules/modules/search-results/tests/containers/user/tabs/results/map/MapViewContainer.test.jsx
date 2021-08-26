@@ -21,8 +21,7 @@ import { assert } from 'chai'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
-import MapViewComponent from '../../../../../../src/components/user/tabs/results/map/MapViewComponent'
-import { MapViewContainer } from '../../../../../../src/containers/user/tabs/results/map/MapViewContainer'
+import { MapViewCompoWithEntitiesCache, MapViewContainer } from '../../../../../../src/containers/user/tabs/results/map/MapViewContainer'
 import styles from '../../../../../../src/styles'
 import { dataContext } from '../../../../../dumps/data.context.dump'
 
@@ -64,15 +63,15 @@ describe('[SEARCH RESULTS] Testing MapViewContainer', () => {
         requestParameters: {},
         searchActions: getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS).searchDataobjectsActions,
         descriptionAvailable,
-        onShowDescription: () => {},
+        onShowDescription: () => { },
         accessToken: 'abc',
         projectName: 'def',
-        onAddElementToCart: enableCart ? () => {} : null,
-        updateResultsContext: () => {},
-        dispatchSelectAll: () => {},
+        onAddElementToCart: enableCart ? () => { } : null,
+        updateResultsContext: () => { },
+        dispatchSelectAll: () => { },
       }
       const enzymeWrapper = shallow(<MapViewContainer {...props} />, { context })
-      const componentWrapper = enzymeWrapper.find(MapViewComponent)
+      const componentWrapper = enzymeWrapper.find(MapViewCompoWithEntitiesCache)
       assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
       testSuiteHelpers.assertWrapperProperties(componentWrapper, {
         moduleId: props.moduleId,

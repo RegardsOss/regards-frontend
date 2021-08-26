@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { UIDomain } from '@regardsoss/domain'
-import { CommonShapes } from '@regardsoss/shape'
+import { CommonShapes, CatalogShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { InfiniteGalleryContainer } from '@regardsoss/components'
@@ -32,13 +32,14 @@ import QuicklookCellComponent, { SpecificCellProperties } from './QuicklookCellC
  */
 class QuicklooksViewComponent extends React.Component {
   static propTypes = {
+    loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
     requestParameters: CommonShapes.RequestParameters.isRequired,
     searchActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     cellProperties: SpecificCellProperties.isRequired,
     embedInMap: PropTypes.bool.isRequired,
     itemOfInterestPicked: PropTypes.number,
-    getItemOfInterest: PropTypes.func,
+    isItemOfInterest: PropTypes.func,
     // When parent container size change, it provides a different key to force re-rendering
     forceRenderingUsingKey: PropTypes.string,
   }
@@ -49,7 +50,8 @@ class QuicklooksViewComponent extends React.Component {
 
   render() {
     const {
-      tabType, requestParameters, searchActions, cellProperties, embedInMap, itemOfInterestPicked, getItemOfInterest, forceRenderingUsingKey,
+      tabType, requestParameters, searchActions, cellProperties, embedInMap, loadedEntities,
+      itemOfInterestPicked, isItemOfInterest, forceRenderingUsingKey,
     } = this.props
     // Recover column with and gap from theme: map specific theme if embedded in map, quicklooks otherwise
     const searchResultsTheme = this.context.muiTheme.module.searchResults
@@ -60,6 +62,7 @@ class QuicklooksViewComponent extends React.Component {
     return (
       <InfiniteGalleryContainer
         itemComponent={QuicklookCellComponent}
+        loadedEntities={loadedEntities}
         pageActions={searchActions}
         pageSelectors={getSearchCatalogClient(tabType).searchSelectors}
         columnWidth={columnWidth}
@@ -69,7 +72,7 @@ class QuicklooksViewComponent extends React.Component {
         emptyComponent={<EmptyTableContainer tabType={tabType} />}
         itemProps={cellProperties}
         itemOfInterestPicked={itemOfInterestPicked}
-        getItemOfInterest={getItemOfInterest}
+        isItemOfInterest={isItemOfInterest}
         forceRenderingUsingKey={forceRenderingUsingKey}
       />
     )
