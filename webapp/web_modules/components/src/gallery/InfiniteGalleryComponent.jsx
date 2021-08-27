@@ -323,7 +323,9 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     const viewableWidth = componentSize.width
     const viewableHeight = componentSize.height
 
-    const maxColumns = Math.floor(viewableWidth / (columnWidth + columnGutter))
+    // Use maxColumns=1 on falsy values
+    // To avoid rendering all entities
+    const maxColumns = Math.floor(viewableWidth / (columnWidth + columnGutter)) || 1
     const spannableWidth = (maxColumns * columnWidth) + (columnGutter * (maxColumns - 1))
     const viewableStart = props.alignCenter ? (viewableWidth - spannableWidth) / 2 : 0
 

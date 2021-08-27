@@ -58,10 +58,8 @@ describe('[ Module name] Testing SearchToponymComponent', () => {
     const enzymeWrapper = shallow(<SearchToponymComponent {...props} />, { context })
     // Check autocomplete field is correctly configured
     const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
-    const stateComputedHints = enzymeWrapper.state().currentHints
     testSuiteHelpers.assertWrapperProperties(subComponentWrapper, {
       currentHintText: 'idk', // field text being entered by the user
-      currentHints: stateComputedHints,
       isFetching: false,
       isInError: false,
       onUpdateInput: props.onUpdateToponymsFilter,

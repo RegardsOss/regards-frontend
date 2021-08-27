@@ -30,7 +30,7 @@ export const HeadlessPlaceholder = (props) => (
  */
 export default class MizarProvider extends React.Component {
   state = {
-    MizarAdapter: null,
+    loaded: false,
   }
 
   UNSAFE_componentWillMount() {
@@ -38,18 +38,19 @@ export default class MizarProvider extends React.Component {
       // load required elements
       require.ensure([], (require) => {
         // load adapter
-        const MizarAdapter = require('./MizarAdapter').default
+        this.MizarAdapter = require('./MizarAdapter').default
         // store libs in state
-        this.setState({ MizarAdapter })
+        this.setState({ loaded: true })
       })
     }
   }
 
   render() {
-    const { MizarAdapter } = this.state
-    if (!MizarAdapter) {
+    const { loaded } = this.state
+    if (!loaded) {
       return null // loading
     }
+    const { MizarAdapter } = this
     return (
       <MizarAdapter {...this.props} />
     )

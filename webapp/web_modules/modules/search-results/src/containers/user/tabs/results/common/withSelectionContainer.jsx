@@ -19,7 +19,6 @@
 import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import head from 'lodash/head'
-import map from 'lodash/map'
 import reduce from 'lodash/reduce'
 import values from 'lodash/values'
 import { UIDomain } from '@regardsoss/domain'
@@ -96,21 +95,6 @@ export const withSelectionContainer = (DecoratedComponent) => {
       return {
         setSelection: (selectionMode, toggledElements) => dispatch(tableActions.setSelection(selectionMode, toggledElements)),
       }
-    }
-
-    /**
-     * Return a collection that can safely iterated
-     * On map instance, loadedEntities contains ALL pages that have been fetched from the beginning of the user visit
-     * Whereas entites only contains the current page
-     * @returns [{content: {id: ...}}] a collection that can be parsed in the same way, with
-     */
-    static getExistingProducts = (loadedEntities, entities) => {
-      if (loadedEntities) {
-        // When loadedEntities exists, it contains all features displayed on the map
-        return map(loadedEntities.features, (feature) => ({ content: feature }))
-      }
-      // Otherwise, fallback to entities stored in redux
-      return entities
     }
 
     /**
