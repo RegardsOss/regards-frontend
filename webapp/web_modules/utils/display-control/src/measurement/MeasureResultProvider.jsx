@@ -46,7 +46,6 @@ class MeasureResultProvider extends React.Component {
   state = {
     width: 0,
     height: 0,
-    children: null,
   }
 
   /**
