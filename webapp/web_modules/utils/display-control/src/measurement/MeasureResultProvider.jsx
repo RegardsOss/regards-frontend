@@ -21,7 +21,7 @@ import { Measure } from '@regardsoss/adapters'
 import HOCUtils from '../hoc/HOCUtils'
 
 /**
- * Measure provider: it measures children nodes, an provide children with the result of toMeasureResult in [targetPropertyName], each time size changes
+ * Measure provider: it measures children nodes, and provide children with the result of toMeasureResult in [targetPropertyName], each time size changes
  * Nota: when using default toMeasureResult and target property name, child object will receive the property **dimension: {width, height}**. However, that
  * system also allows to perform something like **{SizeChangeEvent} =>  {style: toMeasureResult(size)}**, which is a common use case of measure.
  * @author Raphaël Mechali
@@ -50,60 +50,18 @@ class MeasureResultProvider extends React.Component {
   }
 
   /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-   UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const { children: oldChildren, targetPropertyName: oldTargetPropertyName, toMeasureResult: oldToMeasureResult } = oldProps
-    const { children, targetPropertyName, toMeasureResult } = newProps
-    if (oldChildren !== children || oldTargetPropertyName !== targetPropertyName || oldToMeasureResult !== toMeasureResult) {
-      this.onUpdateMeasureResult(this.state.width, this.state.height, targetPropertyName, toMeasureResult, children, newProps)
-    }
-  }
-
-  /**
    * Resized event reveived
    * @param {*} sizes size by component name
    */
   onSizeChanged = ({ measureDiv: { width, height } }) => {
-    const { targetPropertyName, toMeasureResult, children } = this.props
     const nextWidth = Math.floor(width)
     const nextHeight = Math.floor(height)
     if (this.state.width !== nextWidth || this.state.height !== nextHeight) {
-      this.onUpdateMeasureResult(nextWidth, nextHeight, targetPropertyName, toMeasureResult, children, this.props)
+      this.setState({
+        width,
+        height,
+      })
     }
-  }
-
-  /**
-   * Measure, children or conversion function changed: update final children list with measure result property
-   * @param {number} width width
-   * @param {number} height height
-   * @param {string} targetPropertyName name of the property to add in children
-   * @param {function} toMeasureResult conversion function
-   * @param {*} single child
-   * @param {*} thisProps this component current properties
-   */
-  onUpdateMeasureResult = (width, height, targetPropertyName, toMeasureResult, children, thisProps) => {
-    this.setState({
-      width,
-      height,
-      children: HOCUtils.cloneChildrenWith(children, {
-        [targetPropertyName]: toMeasureResult(width, height),
-        ...omit(thisProps, ['style', 'targetPropertyName', 'toMeasureResult', 'children']),
-      }),
-    })
   }
 
   /**
@@ -111,18 +69,24 @@ class MeasureResultProvider extends React.Component {
    * @param {*} measureParams from react-measure API
    */
   bindAndRender = ({ bind }) => {
-    const { style } = this.props
-    const { children } = this.state
+    const {
+      style, children, toMeasureResult, targetPropertyName,
+    } = this.props
+    const { width, height } = this.state
+    const compoProps = {
+      [targetPropertyName]: toMeasureResult(width, height),
+      ...omit(this.props, ['style', 'targetPropertyName', 'toMeasureResult', 'children']),
+    }
     return (
       <div style={style} {...bind('measureDiv')}>
-        { HOCUtils.renderChildren(children) }
+        {HOCUtils.cloneChildrenWith(children, compoProps)}
       </div>)
   }
 
   render() {
     return (
       <Measure bounds onMeasure={this.onSizeChanged}>
-        { this.bindAndRender }
+        {this.bindAndRender}
       </Measure>)
   }
 }

@@ -81,8 +81,6 @@ export class QuicklooksViewContainer extends React.Component {
     isItemOfInterest: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     onZoomToFeature: PropTypes.func, // Handler when zoom to button is fired
-    // When parent container size change, it provides a different key to force re-rendering
-    forceRenderingUsingKey: PropTypes.string,
 
     // eslint-disable-next-line react/no-unused-prop-types
     onProductSelected: PropTypes.func, // used in onPropertiesUpdated
@@ -185,7 +183,7 @@ export class QuicklooksViewContainer extends React.Component {
 
   render() {
     const {
-      tabType, requestParameters, searchActions, embedInMap, itemOfInterestPicked, isItemOfInterest, forceRenderingUsingKey, loadedEntities,
+      tabType, requestParameters, searchActions, embedInMap, itemOfInterestPicked, isItemOfInterest, loadedEntities,
     } = this.props
     const { cellProperties } = this.state
 
@@ -198,7 +196,6 @@ export class QuicklooksViewContainer extends React.Component {
         embedInMap={embedInMap}
         itemOfInterestPicked={itemOfInterestPicked}
         isItemOfInterest={isItemOfInterest}
-        forceRenderingUsingKey={forceRenderingUsingKey}
         loadedEntities={loadedEntities}
       />
     )
