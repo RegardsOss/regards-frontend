@@ -85,7 +85,7 @@ const messages = {
   'account.settings.action.confirm': 'Confirmer',
   'account.settings.action.cancel': 'Annuler',
 
-  'account.fetch.origin.error': 'Impossible de récupérer la liste des système d\'authentification des comptes',
+  'account.fetch.origin.error': 'Impossible de récupérer la liste des systèmes d\'authentification des comptes',
   ...Locales.fr,
 }
 

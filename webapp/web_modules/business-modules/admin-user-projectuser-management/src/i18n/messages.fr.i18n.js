@@ -95,7 +95,7 @@ const messages = {
   'projectUser.list.edit.quota.dialog.remaining.quota.unlimited': 'illimité',
   'projectUser.list.edit.quota.dialog.cancel': 'Annuler',
   'projectUser.list.edit.quota.dialog.confirm': 'Confirmer',
-  'projectUser.list.table.filters.clear': 'Reset les filtres',
+  'projectUser.list.table.filters.clear': 'Effacer filtres',
   'projectUser.list.info.nb.accounts': '{value} Résultats',
   'projectUser.list.refresh': 'Rafraîchir',
   'projectUser.list.exportCSV.label': 'Résumé',

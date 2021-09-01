@@ -39,18 +39,23 @@ class AccountAcceptComponent extends React.Component {
     ...themeContextType,
   }
 
+  onAccept = () => {
+    const { entity, onAccept } = this.props
+    onAccept(entity.content.email)
+  }
+
   /**
    * @return {boolean} true if administrator can accept this account
    */
   canAcceptAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
 
   render() {
-    const { entity, onAccept } = this.props
+    const { entity } = this.props
     const { intl: { formatMessage }, muiTheme: { palette } } = this.context
     return (
       <HateoasIconAction
         title={formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
-        onClick={() => onAccept(entity.content.email)}
+        onClick={this.onAccept}
         disabled={!this.canAcceptAccount(entity)}
         entityLinks={entity.links}
         hateoasKey={HateoasKeys.ACCEPT}

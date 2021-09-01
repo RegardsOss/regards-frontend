@@ -149,28 +149,28 @@ export class AccountListContainer extends React.Component {
    * Account deletion confirmed callback: performs delete then updates list
    */
   onDelete = (accountId, onRefresh) => {
-    this.performAll([this.props.deleteAccount(accountId)], onRefresh)
+    this.perform(this.props.deleteAccount(accountId), onRefresh)
   }
 
   /**
    * Account acceptation callback: performs accept then updates list
    */
   onAccept = (accountEmail, onRefresh) => {
-    this.performAll([this.props.sendAcceptUser(accountEmail)], onRefresh)
+    this.perform(this.props.sendAcceptUser(accountEmail), onRefresh)
   }
 
   /**
    * User refusal confirmed callback: performs delete then updates list
    */
   onRefuse = (accountEmail, onRefresh) => {
-    this.performAll([this.props.sendRefuseUser(accountEmail)], onRefresh)
+    this.perform(this.props.sendRefuseUser(accountEmail), onRefresh)
   }
 
   /**
    * User enabled callback: performs enabled then updates list
    */
   onEnable = (accountEmail, onRefresh) => {
-    this.performAll([this.props.sendEnableUser(accountEmail)], onRefresh)
+    this.perform(this.props.sendEnableUser(accountEmail), onRefresh)
   }
 
   /**
@@ -180,13 +180,13 @@ export class AccountListContainer extends React.Component {
   setFetchingActions = (isFetchingActions) => this.setState({ isFetchingActions })
 
   /**
-   * Marks fetching true, performs all promises as parameter, update waiting users state then marks fetching false
-   * @param promises promises
+   * Marks fetching true, performs promise as parameter, update waiting users state then marks fetching false
+   * @param promise
    */
-  performAll = (promises, onRefresh) => {
+  perform = (promise, onRefresh) => {
     this.setFetchingActions(true)
     const onDone = () => { this.setFetchingActions(false) }
-    Promise.all(promises).then(() => Promise.all([
+    Promise.resolve(promise).then(() => Promise.all([
       this.props.fetchWaitingAccountList(),
       onRefresh(),
     ]).then(onDone).catch(onDone)).catch(onDone)

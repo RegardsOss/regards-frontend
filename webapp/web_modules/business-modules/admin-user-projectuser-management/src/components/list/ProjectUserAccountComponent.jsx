@@ -18,8 +18,6 @@
  **/
 import get from 'lodash/get'
 import size from 'lodash/size'
-import keys from 'lodash/keys'
-import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import { AccessShapes, CommonShapes } from '@regardsoss/shape'
@@ -43,6 +41,7 @@ import SendEmailComponent from './options/SendEmailComponent'
 import ProjectUserAccountFiltersComponent from './filters/ProjectUserAccountFiltersComponent'
 import ACCOUNT_FILTERS from '../../domain/AccountFilters'
 import HeaderActionsBar from './HeaderActionsBar'
+import { getQueryString } from '../../domain/QueryUtils'
 
 export class ProjectUserAccountComponent extends React.Component {
   static propTypes = {
@@ -139,10 +138,9 @@ export class ProjectUserAccountComponent extends React.Component {
     } = newProps
 
     if (!isEqual(filters, oldProps.filters) || csvLink !== oldProps.csvLink) {
-      // const queryString = Object.keys(filters).map((key) => `${key}=${filters[key]}`).join('&')
-      const queryString = map(keys(filters), (key) => `${key}=${filters[key]}`).join('&')
+      const queryString = getQueryString(filters)
       this.setState({
-        csvLink: `${csvLink}&${queryString}`,
+        csvLink: `${csvLink}${queryString}`,
       })
     }
   }

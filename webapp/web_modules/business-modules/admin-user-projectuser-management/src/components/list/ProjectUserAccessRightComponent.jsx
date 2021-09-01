@@ -18,8 +18,6 @@
  **/
 import get from 'lodash/get'
 import size from 'lodash/size'
-import keys from 'lodash/keys'
-import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
@@ -40,6 +38,7 @@ import DeleteProjectUserComponent from './options/DeleteProjectUserComponent'
 import ProjectUserAccessRightFiltersComponent from './filters/ProjectUserAccessRightFiltersComponent'
 import ACCESS_RIGHT_FILTERS from '../../domain/AccessRightFilters'
 import HeaderActionsBar from './HeaderActionsBar'
+import { getQueryString } from '../../domain/QueryUtils'
 
 export class ProjectUserAccessRightComponent extends React.Component {
   static propTypes = {
@@ -123,10 +122,9 @@ export class ProjectUserAccessRightComponent extends React.Component {
     } = newProps
 
     if (!isEqual(filters, oldProps.filters) || csvLink !== oldProps.csvLink) {
-      // const queryString = Object.keys(filters).map((key) => `${key}=${filters[key]}`).join('&')
-      const queryString = map(keys(filters), (key) => `${key}=${filters[key]}`).join('&')
+      const queryString = getQueryString(filters)
       this.setState({
-        csvLink: `${csvLink}&${queryString}`,
+        csvLink: `${csvLink}${queryString}`,
       })
     }
   }

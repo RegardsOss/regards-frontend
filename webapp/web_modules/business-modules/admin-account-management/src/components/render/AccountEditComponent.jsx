@@ -39,14 +39,19 @@ class AccountEditComponent extends React.Component {
     ...themeContextType,
   }
 
+  onEdit = () => {
+    const { entity, onEdit } = this.props
+    onEdit(entity.content.id)
+  }
+
   render() {
-    const { entity, onEdit, isFetchingActions } = this.props
+    const { entity, isFetchingActions } = this.props
     const { intl: { formatMessage }, muiTheme: { palette } } = this.context
     return (
       <HateoasIconAction
         className="selenium-editButton"
         title={formatMessage({ id: 'account.list.table.action.edit.tooltip' })}
-        onClick={() => onEdit(entity.content.id)}
+        onClick={this.onEdit}
         disabled={isFetchingActions}
         entityLinks={entity.links}
         hateoasKey={HateoasKeys.UPDATE}

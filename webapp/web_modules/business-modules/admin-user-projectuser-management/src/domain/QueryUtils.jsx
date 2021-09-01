@@ -15,25 +15,21 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { SERVICE_PROVIDER, SERVICE_PROVIDER_ARRAY } from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+ **/
+import pickBy from 'lodash/pickBy'
+import map from 'lodash/map'
+import keys from 'lodash/keys'
 
 /**
- * Actions for fetching account's origin/authentication systeme.
+ * Helper for csv query filters construction
  * @author Théo Lasserre
  */
-class OriginActions extends BasicPageableActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts/origins`,
-      schemaTypes: {
-        ENTITY: SERVICE_PROVIDER,
-        ENTITY_ARRAY: SERVICE_PROVIDER_ARRAY,
-      },
-    })
-  }
+
+function pickFilters(filters) {
+  return pickBy(filters, (filt) => filt !== '' && filt !== undefined && filt !== false)
 }
 
-export default OriginActions
+export function getQueryString(filters) {
+  const filteredFilters = pickFilters(filters)
+  return map(keys(filteredFilters), (key) => `&${key}=${filters[key]}`).join('')
+}

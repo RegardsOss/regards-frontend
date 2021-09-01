@@ -46,9 +46,14 @@ class HeaderActionsBar extends React.Component {
     ...i18nContextType,
   }
 
+  onRefresh = () => {
+    const { onRefresh, requestParameters } = this.props
+    onRefresh(requestParameters)
+  }
+
   render() {
     const {
-      csvLink, columns, requestParameters, onRefresh, onChangeColumnsVisibility,
+      csvLink, columns, onChangeColumnsVisibility,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
@@ -68,7 +73,7 @@ class HeaderActionsBar extends React.Component {
         <FlatButton
           label={formatMessage({ id: 'projectUser.list.refresh' })}
           icon={<Refresh />}
-          onClick={() => onRefresh(requestParameters)}
+          onClick={this.onRefresh}
         />
       </TableHeaderOptionGroup>
     )

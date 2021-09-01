@@ -114,32 +114,32 @@ export class ProjectUserAccountContainer extends React.Component {
 
   onDeleteAccount = (accountId, onRefresh) => {
     const { onDeleteAccount } = this.props
-    this.performAll([onDeleteAccount(accountId)], onRefresh)
+    this.perform(onDeleteAccount(accountId), onRefresh)
   }
 
   onEnableProjectUser = (accountId, onRefresh) => {
     const { onEnableProjectUser } = this.props
-    this.performAll([onEnableProjectUser(accountId)], onRefresh)
+    this.perform(onEnableProjectUser(accountId), onRefresh)
   }
 
   onValidateProjectUser = (accountId, onRefresh) => {
     const { onValidateProjectUser } = this.props
-    this.performAll([onValidateProjectUser(accountId)], onRefresh)
+    this.perform(onValidateProjectUser(accountId), onRefresh)
   }
 
   onDenyProjectUser = (accountId, onRefresh) => {
     const { onDenyProjectUser } = this.props
-    this.performAll([onDenyProjectUser(accountId)], onRefresh)
+    this.perform(onDenyProjectUser(accountId), onRefresh)
   }
 
   onDisableProjectUser = (accountId, onRefresh) => {
     const { onDisableProjectUser } = this.props
-    this.performAll([onDisableProjectUser(accountId)], onRefresh)
+    this.perform(onDisableProjectUser(accountId), onRefresh)
   }
 
   onSendEmailConfirmation = (accountId, onRefresh) => {
     const { onSendEmailConfirmation } = this.props
-    this.performAll([onSendEmailConfirmation(accountId)], onRefresh)
+    this.perform(onSendEmailConfirmation(accountId), onRefresh)
   }
 
   /**
@@ -149,15 +149,15 @@ export class ProjectUserAccountContainer extends React.Component {
   setFetching = (isFetching) => this.setState({ isFetching })
 
   /**
-   * Marks fetching true, performs all promises as parameter, update waiting users state then marks fetching false
-   * @param promises promises
+   * Marks fetching true, performs promise as parameter, update waiting users state then marks fetching false
+   * @param promise
    */
-  performAll = (promises, onRefresh) => {
+  perform = (promise, onRefresh) => {
     this.setFetching(true)
     const onDone = () => { this.setFetching(false) }
-    Promise.all(promises).then(() => Promise.all([
+    Promise.resolve(promise).then(() => Promise.resolve(
       onRefresh(),
-    ]).then(onDone).catch(onDone)).catch(onDone)
+    ).then(onDone).catch(onDone)).catch(onDone)
   }
 
   renderListComp = (filterSortingAndVisibilityProps) => {

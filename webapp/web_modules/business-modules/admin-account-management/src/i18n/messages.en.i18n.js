@@ -63,7 +63,7 @@ const messages = {
   'account.list.refuse.message': 'Refuse the request?',
   'account.list.refuse.message.detail': 'This will remove the account {name}',
   'account.list.info.why-cant-remove-account-having-project-user': 'You can\'t delete an account if it has a project user',
-  'account.list.info.nb.accounts': '{value} résults',
+  'account.list.info.nb.accounts': '{value} results',
   'account.list.refresh': 'Refresh',
   'account.list.info.nb.waiting.accounts': '{value} waiting accounts',
   'account.list.info.nb.waiting.accounts.filter': 'Waiting accounts',

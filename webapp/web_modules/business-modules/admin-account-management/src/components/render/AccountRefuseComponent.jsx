@@ -40,19 +40,24 @@ class AccountRefuseComponent extends React.Component {
     ...themeContextType,
   }
 
+  onOpenRefuseDialog = () => {
+    const { onOpenRefuseDialog, entity } = this.props
+    onOpenRefuseDialog(entity)
+  }
+
   /**
    * @return {boolean} true if administrator can refuse this account
    */
   canRefuseAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
 
   render() {
-    const { entity, onOpenRefuseDialog, isFetchingActions } = this.props
+    const { entity, isFetchingActions } = this.props
     const { intl: { formatMessage }, muiTheme: { palette } } = this.context
     return (
       <HateoasIconAction
         className="selenium-refuseButton"
         title={formatMessage({ id: 'account.list.table.action.refuse.tooltip' })}
-        onClick={() => onOpenRefuseDialog(entity)}
+        onClick={this.onOpenRefuseDialog}
         disabled={isFetchingActions || !this.canRefuseAccount(entity)}
         entityLinks={entity.links}
         hateoasKey={HateoasKeys.REFUSE}
