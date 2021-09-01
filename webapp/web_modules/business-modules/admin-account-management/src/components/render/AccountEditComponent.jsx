@@ -25,7 +25,6 @@ import { HateoasKeys } from '@regardsoss/display-control'
 import EditAccountIcon from 'mdi-material-ui/Pencil'
 
 /**
- * AccountEditComponent
  * @author Théo Lasserre
  */
 class AccountEditComponent extends React.Component {

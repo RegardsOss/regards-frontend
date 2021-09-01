@@ -29,10 +29,9 @@ import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableFilterSortingAndVisibilityContainer, DatePickerField,
 } from '@regardsoss/components'
-import ACCOUNT_FILTERS from '../../../domain/accountFilters'
+import ACCOUNT_FILTERS from '../../../domain/AccountFilters'
 
 /**
- * ProjectUserAccountFiltersComponent
  * @author Théo Lasserre
  */
 class ProjectUserAccountFiltersComponent extends React.Component {

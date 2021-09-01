@@ -26,7 +26,6 @@ import { themeContextType } from '@regardsoss/theme'
 import DeleteAccountIcon from 'mdi-material-ui/Delete'
 
 /**
- * AccountDeleteComponent
  * @author Théo Lasserre
  */
 class AccountDeleteComponent extends React.Component {
@@ -41,19 +40,24 @@ class AccountDeleteComponent extends React.Component {
     ...themeContextType,
   }
 
+  onOpenDeleteDialog = () => {
+    const { entity, onOpenDeleteDialog } = this.props
+    onOpenDeleteDialog(entity)
+  }
+
   /**
    * @return {boolean} true if administrator can refuse this account
    */
   canRefuseAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
 
   render() {
-    const { entity, onOpenDeleteDialog, isFetchingActions } = this.props
+    const { entity, isFetchingActions } = this.props
     const { intl: { formatMessage }, muiTheme: { palette } } = this.context
     return (
       <HateoasIconAction
         className="selenium-deleteButton"
         title={formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
-        onClick={() => onOpenDeleteDialog(entity)}
+        onClick={this.onOpenDeleteDialog}
         disabled={isFetchingActions}
         entityLinks={entity.links}
         hateoasKey={HateoasKeys.DELETE}

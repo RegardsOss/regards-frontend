@@ -26,7 +26,6 @@ import { themeContextType } from '@regardsoss/theme'
 import ValidateAccountIcon from 'mdi-material-ui/AccountCheck'
 
 /**
- * AccountAcceptComponent
  * @author Théo Lasserre
  */
 class AccountAcceptComponent extends React.Component {
@@ -50,7 +49,6 @@ class AccountAcceptComponent extends React.Component {
     const { intl: { formatMessage }, muiTheme: { palette } } = this.context
     return (
       <HateoasIconAction
-        className="selenium-acceptButton"
         title={formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
         onClick={() => onAccept(entity.content.email)}
         disabled={!this.canAcceptAccount(entity)}

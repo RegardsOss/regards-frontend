@@ -186,12 +186,6 @@ export class ProjectUserFormContainer extends React.Component {
     })
   }
 
-  // const payload = {
-  //   accessRequest : champs utilisateurs
-  //   maxQuota
-  //   rateLimit
-  // }
-
   /**
    * Callback: on create user
    * @param {*} values form values

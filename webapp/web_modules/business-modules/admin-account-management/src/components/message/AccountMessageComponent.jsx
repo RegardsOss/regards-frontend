@@ -24,10 +24,9 @@ import { AdminInstanceShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HelpMessageComponent } from '@regardsoss/components'
-import ACCOUNT_FILTERS from '../../domain/accountFilters'
+import ACCOUNT_FILTERS from '../../domain/AccountFilters'
 
 /**
- * AccountMessageComponent
  * @author Théo Lasserre
  */
 class AccountMessageComponent extends React.Component {
@@ -41,9 +40,14 @@ class AccountMessageComponent extends React.Component {
     ...i18nContextType,
   }
 
+  updateFilter = () => {
+    const { updateFilter } = this.props
+    updateFilter(AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING, ACCOUNT_FILTERS.STATUS)
+  }
+
   render() {
     const {
-      waitingAccounts, updateFilter,
+      waitingAccounts,
     } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
@@ -62,7 +66,7 @@ class AccountMessageComponent extends React.Component {
             {formatMessage({ id: 'account.list.info.nb.waiting.accounts' }, { value: size(waitingAccounts) || 0 })}
           </div>
           <IconButton
-            onClick={() => updateFilter(AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING, ACCOUNT_FILTERS.STATUS)}
+            onClick={this.updateFilter}
             title={formatMessage({ id: 'account.list.info.nb.waiting.accounts.filter' })}
           >
             <FilterIcon />

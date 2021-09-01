@@ -19,11 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import {
-  TableLayout, TableColumnsVisibilityOption, PageableInfiniteTableContainer,
-  DownloadButton,
+  TableLayout, PageableInfiniteTableContainer,
 } from '@regardsoss/components'
 import { CommonDomain } from '@regardsoss/domain'
-import FlatButton from 'material-ui/FlatButton'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ProjectUserQuotaComponent from '../../../src/components/list/ProjectUserQuotaComponent'
 import ProjectUserQuotaFiltersComponent from '../../../src/components/list/filters/ProjectUserQuotaFiltersComponent'
@@ -78,9 +76,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user quota list compone
       clearFilters: enzymeWrapper.instance().onClearFilters,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(ProjectUserQuotaFiltersComponent), 1, 'ProjectUserQuotaFiltersComponent should be set')
-    assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be 1 TableColumnsVisibilityOption')
-    assert.lengthOf(enzymeWrapper.find(DownloadButton), 1, 'There should be 1 DownloadButton')
-    assert.lengthOf(enzymeWrapper.find(FlatButton), 1, 'There should be 1 FlatButton')
     assert.lengthOf(enzymeWrapper.find(PageableInfiniteTableContainer), 1, 'There should be 1 PageableInfiniteTableContainer')
   })
 })

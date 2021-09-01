@@ -65,7 +65,7 @@ const messages = {
   'account.list.info.why-cant-remove-account-having-project-user': 'You can\'t delete an account if it has a project user',
   'account.list.info.nb.accounts': '{value} résults',
   'account.list.refresh': 'Refresh',
-  'account.list.info.nb.waiting.accounts': 'Waiting accounts : {value}',
+  'account.list.info.nb.waiting.accounts': '{value} waiting accounts',
   'account.list.info.nb.waiting.accounts.filter': 'Waiting accounts',
   'account.list.action.cancel': 'Cancel',
 
@@ -85,7 +85,7 @@ const messages = {
   'account.settings.action.confirm': 'Confirm',
   'account.settings.action.cancel': 'Cancel',
 
-  'account.fetch.origin.error': 'Unable to retrieve account\'s origins list',
+  'account.fetch.origin.error': 'Unable to retrieve authentication system list',
   ...Locales.en,
 }
 

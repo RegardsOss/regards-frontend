@@ -26,7 +26,6 @@ import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroup
 import ProjectUserAccessRightComponent from '../components/list/ProjectUserAccessRightComponent'
 
 /**
- * ProjectUserAccessRightContainer
  * @author Théo Lasserre
  */
 export class ProjectUserAccessRightContainer extends React.Component {

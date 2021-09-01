@@ -28,7 +28,6 @@ import { originActions, originSelectors } from '../clients/OriginsClient'
 import ProjectUserAccountComponent from '../components/list/ProjectUserAccountComponent'
 
 /**
- * ProjectUserAccountContainer
  * @author Théo Lasserre
  */
 export class ProjectUserAccountContainer extends React.Component {

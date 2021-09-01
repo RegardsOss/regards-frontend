@@ -71,7 +71,7 @@ const messages = {
   'projectUser.list.table.actions': 'Actions',
   'projectUser.list.table.quota': 'Quota',
   'projectUser.list.table.groups': 'Groups',
-  'projectUser.list.table.groups.label.any': 'Tous les groupes',
+  'projectUser.list.table.groups.label.any': 'All groups',
   'projectUser.list.table.unlimited.quota.message': 'Unlimited',
   'projectUser.list.table.current.quota.message': '{currentQuota} / {maxQuota}',
   'projectUser.list.table.action': 'Actions',

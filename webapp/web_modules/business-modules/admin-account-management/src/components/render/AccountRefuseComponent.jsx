@@ -26,7 +26,6 @@ import RefuseAccountIcon from 'mdi-material-ui/AccountRemove'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
- * AccountRefuseComponent
  * @author Théo Lasserre
  */
 class AccountRefuseComponent extends React.Component {

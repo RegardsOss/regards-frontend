@@ -175,7 +175,7 @@ export default function buildStyles(theme) {
           marginRight: '20px',
         },
         quotaDivStyle: {
-          width: '140px',
+          width: '180px',
           marginBottom: '10px',
         },
       },

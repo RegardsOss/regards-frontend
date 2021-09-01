@@ -28,10 +28,9 @@ import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
-import ACCESS_RIGHT_FILTERS from '../../../domain/accessRightFilters'
+import ACCESS_RIGHT_FILTERS from '../../../domain/AccessRightFilters'
 
 /**
- * ProjectUserAccessRightFiltersComponent
  * @author Théo Lasserre
  */
 class ProjectUserAccessRightFiltersComponent extends React.Component {

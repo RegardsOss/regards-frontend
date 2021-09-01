@@ -25,10 +25,9 @@ import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
-import QUOTA_FILTERS from '../../../domain/quotaFilters'
+import QUOTA_FILTERS from '../../../domain/QuotaFilters'
 
 /**
- * ProjectUserQuotaFiltersComponent
  * @author Théo Lasserre
  */
 class ProjectUserQuotaFiltersComponent extends React.Component {

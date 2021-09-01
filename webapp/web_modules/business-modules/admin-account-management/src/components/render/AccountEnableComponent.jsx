@@ -26,7 +26,6 @@ import { themeContextType } from '@regardsoss/theme'
 import EnabledAccountIcon from 'mdi-material-ui/AccountConvert'
 
 /**
- * AccountEnableComponent
  * @author Théo Lasserre
  */
 class AccountEnableComponent extends React.Component {

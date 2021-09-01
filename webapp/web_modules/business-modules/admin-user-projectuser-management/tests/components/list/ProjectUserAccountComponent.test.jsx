@@ -19,11 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import {
-  TableLayout, TableColumnsVisibilityOption, PageableInfiniteTableContainer,
-  DownloadButton,
+  TableLayout, PageableInfiniteTableContainer,
 } from '@regardsoss/components'
 import { CommonDomain } from '@regardsoss/domain'
-import FlatButton from 'material-ui/FlatButton'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ProjectUserAccountComponent from '../../../src/components/list/ProjectUserAccountComponent'
 import ProjectUserAccountFiltersComponent from '../../../src/components/list/filters/ProjectUserAccountFiltersComponent'
@@ -75,9 +73,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user project account list compo
       clearFilters: props.clearFilters,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(ProjectUserAccountFiltersComponent), 1, 'ProjectUserAccountFiltersComponent should be set')
-    assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be 1 TableColumnsVisibilityOption')
-    assert.lengthOf(enzymeWrapper.find(DownloadButton), 1, 'There should be 1 DownloadButton')
-    assert.lengthOf(enzymeWrapper.find(FlatButton), 1, 'There should be 1 FlatButton')
     assert.lengthOf(enzymeWrapper.find(PageableInfiniteTableContainer), 1, 'There should be 1 PageableInfiniteTableContainer')
   })
 })

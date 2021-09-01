@@ -42,7 +42,7 @@ import AccountEnableComponent from './render/AccountEnableComponent'
 import AccountDeleteComponent from './render/AccountDeleteComponent'
 import AccountFiltersComponent from './filters/AccountFiltersComponent'
 import AccountMessageComponent from './message/AccountMessageComponent'
-import ACCOUNT_FILTERS from '../domain/accountFilters'
+import ACCOUNT_FILTERS from '../domain/AccountFilters'
 
 /**
  * React component to list all REGARDS account.

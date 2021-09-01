@@ -22,7 +22,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
 
 /**
- * SendEmailComponent
  * @author Théo Lasserre
  */
 class SendEmailComponent extends React.Component {

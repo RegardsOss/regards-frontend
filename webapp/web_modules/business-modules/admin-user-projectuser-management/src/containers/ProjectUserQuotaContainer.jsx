@@ -30,7 +30,6 @@ import { uiSettingsActions, uiSettingsSelectors } from '../clients/UISettingsCli
 import ProjectUserQuotaComponent from '../components/list/ProjectUserQuotaComponent'
 
 /**
- * ProjectUserQuotaContainer
  * @author Théo Lasserre
  */
 export class ProjectUserQuotaContainer extends React.Component {

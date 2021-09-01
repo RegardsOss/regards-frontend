@@ -31,7 +31,6 @@ import styles from '../styles'
 const csvSummaryFileActions = new AdminClient.DownloadUserMetalinkFileAtions()
 
 /**
- * ProjectUserListContainer
  * @author Théo Lasserre
  */
 export class ProjectUserListContainer extends React.Component {

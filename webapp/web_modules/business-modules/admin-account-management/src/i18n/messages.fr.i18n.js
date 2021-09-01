@@ -65,8 +65,8 @@ const messages = {
   'account.list.info.why-cant-remove-account-having-project-user': 'Vous ne pouvez pas supprimer un compte s\'il est lié à un utilisateur projet',
   'account.list.info.nb.accounts': '{value} résultats',
   'account.list.refresh': 'Rafraîchir',
-  'account.list.info.nb.waiting.accounts': 'Utilisateurs en attente d\'acceptation : {value}',
-  'account.list.info.nb.waiting.accounts.filter': 'Comptes en attentes',
+  'account.list.info.nb.waiting.accounts': '{value} utilisateurs en attente d\'acceptation',
+  'account.list.info.nb.waiting.accounts.filter': 'Comptes en attente',
   'account.list.action.cancel': 'Annuler',
 
   'account.form.input.firstName': 'Prénom',
@@ -85,7 +85,7 @@ const messages = {
   'account.settings.action.confirm': 'Confirmer',
   'account.settings.action.cancel': 'Annuler',
 
-  'account.fetch.origin.error': 'Impossible de récupérer la liste des origines des comptes',
+  'account.fetch.origin.error': 'Impossible de récupérer la liste des système d\'authentification des comptes',
   ...Locales.fr,
 }
 

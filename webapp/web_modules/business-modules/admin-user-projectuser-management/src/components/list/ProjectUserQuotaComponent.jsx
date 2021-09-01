@@ -19,19 +19,19 @@
 import { browserHistory } from 'react-router'
 import get from 'lodash/get'
 import size from 'lodash/size'
-import Refresh from 'mdi-material-ui/Refresh'
-import FlatButton from 'material-ui/FlatButton'
+import keys from 'lodash/keys'
+import map from 'lodash/map'
+import isEqual from 'lodash/isEqual'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
-import DownloadCSVIcon from 'mdi-material-ui/BriefcaseDownload'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
   ShowableAtRender, PageableInfiniteTableContainer,
-  TableColumnBuilder, TableLayout, TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
-  TableHeaderContentBox, TableColumnsVisibilityOption, TableHeaderLoadingComponent,
-  TableFilterSortingAndVisibilityContainer, DownloadButton,
+  TableColumnBuilder, TableLayout, TableHeaderLine, TableHeaderOptionsArea,
+  TableHeaderContentBox, TableHeaderLoadingComponent,
+  TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
 import { projectUserActions, projectUserSelectors } from '../../clients/ProjectUserClient'
 import NoUserComponent from './NoUserComponent'
@@ -41,13 +41,12 @@ import EditQuotaComponent from './options/EditQuotaComponent'
 import ProjectUserQuotaFiltersComponent from './filters/ProjectUserQuotaFiltersComponent'
 import MaxQuotaDialogComponent from './dialog/MaxQuotaDialogComponent'
 import QuotaRenderer from './render/QuotaRenderer'
-import QUOTA_FILTERS from '../../domain/quotaFilters'
+import QUOTA_FILTERS from '../../domain/QuotaFilters'
+import HeaderActionsBar from './HeaderActionsBar'
 
-/**
- * ProjectUserQuotaComponent
- */
 export class ProjectUserQuotaComponent extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types
     csvLink: PropTypes.string.isRequired,
     allAccounts: AccessShapes.ProjectUserList.isRequired,
     pageSize: PropTypes.number.isRequired,
@@ -104,6 +103,7 @@ export class ProjectUserQuotaComponent extends React.Component {
     deleteDialogOpened: false,
     quotaDialogOpened: false,
     entityToProcess: null,
+    csvLink: '',
   }
 
   /**
@@ -116,6 +116,33 @@ export class ProjectUserQuotaComponent extends React.Component {
     const onlyLowQuota = get(currentQuery, QUOTA_FILTERS.QUOTA_LOW, '')
     if (onlyLowQuota) {
       updateFilter(!!onlyLowQuota, QUOTA_FILTERS.QUOTA_LOW)
+    }
+    this.onPropertiesUpdated({}, this.props)
+  }
+
+  /**
+  * Lifecycle method: component receive props. Used here to detect properties change and update local state
+  * @param {*} nextProps next component properties
+  */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+  * Properties change detected: update local state
+  * @param oldProps previous component properties
+  * @param newProps next component properties
+  */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      filters,
+      csvLink,
+    } = newProps
+
+    if (!isEqual(filters, oldProps.filters) || csvLink !== oldProps.csvLink) {
+      // const queryString = Object.keys(filters).map((key) => `${key}=${filters[key]}`).join('&')
+      const queryString = map(keys(filters), (key) => `${key}=${filters[key]}`).join('&')
+      this.setState({
+        csvLink: `${csvLink}&${queryString}`,
+      })
     }
   }
 
@@ -214,9 +241,10 @@ export class ProjectUserQuotaComponent extends React.Component {
     const {
       onEdit, pageSize, allAccounts, onRefresh, isLoading,
       getColumnSortingData, filters, requestParameters, columnsVisibility,
-      onSort, updateFilter, onChangeColumnsVisibility, csvLink,
+      onSort, updateFilter, onChangeColumnsVisibility,
       uiSettings, showQuota,
     } = this.props
+    const { csvLink } = this.state
     const { quotaDialogOpened, entityToProcess } = this.state
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -309,25 +337,13 @@ export class ProjectUserQuotaComponent extends React.Component {
           <TableHeaderLoadingComponent loading={isLoading} />
           {/* 3 - table options  */}
           <TableHeaderOptionsArea>
-            <TableHeaderOptionGroup>
-              <DownloadButton
-                ButtonConstructor={FlatButton}
-                icon={<DownloadCSVIcon />}
-                label={formatMessage({ id: 'projectUser.list.exportCSV.label' })}
-                downloadURL={csvLink}
-                title={formatMessage({ id: 'projectUser.list.exportCSV.tooltip' })}
-              />
-              {/* columns visibility configuration  */}
-              <TableColumnsVisibilityOption
-                columns={columns}
-                onChangeColumnsVisibility={onChangeColumnsVisibility}
-              />
-              <FlatButton
-                label={formatMessage({ id: 'projectUser.list.refresh' })}
-                icon={<Refresh />}
-                onClick={() => onRefresh(requestParameters)}
-              />
-            </TableHeaderOptionGroup>
+            <HeaderActionsBar
+              csvLink={csvLink}
+              columns={columns}
+              requestParameters={requestParameters}
+              onRefresh={onRefresh}
+              onChangeColumnsVisibility={onChangeColumnsVisibility}
+            />
           </TableHeaderOptionsArea>
         </TableHeaderLine>
         <PageableInfiniteTableContainer
