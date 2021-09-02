@@ -33,8 +33,8 @@ const messages = {
   'order.settings.fieldgroup.userOrderParameters': 'User order settings',
   'order.settings.fieldgroup.userOrderParameters.subOrderDuration': 'Sub order user duration (in hour)',
   'order.settings.fieldgroup.userOrderParameters.delayBeforeEmailNotification': 'Delay before email notification when an order is ready (in hour)',
-  'order.settings.action.confirm': 'Confirmer',
-  'order.settings.action.cancel': 'Retour',
+  'order.settings.action.confirm': 'Confirm',
+  'order.settings.action.cancel': 'Back',
   ...Locales.en,
 }
 
