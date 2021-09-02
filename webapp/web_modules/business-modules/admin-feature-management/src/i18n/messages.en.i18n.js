@@ -131,7 +131,7 @@ const messages = {
   'feature.request.step.REMOTE_STORAGE_ERROR': 'Storage error',
 
   // Settings
-  'feature.settings.title': 'OAIS Product manager settings',
+  'feature.settings.title': 'GeoJson product manager settings',
   'feature.settings.subtitle': 'Configure settings',
   'feature.settings.field.activeNotifications': 'Enable notifications',
   'feature.settings.fieldgroup.dumpParameters': 'Dump parameters',
