@@ -18,6 +18,10 @@
  **/
 import { themeContextType } from '@regardsoss/theme'
 import Chip from 'material-ui/Chip'
+import find from 'lodash/find'
+import {
+  DataManagementShapes,
+} from '@regardsoss/shape'
 
 /**
  * Shows a user group chip, allowing delete operation
@@ -26,6 +30,8 @@ import Chip from 'material-ui/Chip'
 class UserGroupChip extends React.Component {
   static propTypes = {
     groupName: PropTypes.string.isRequired,
+    isAdded: PropTypes.bool.isRequired, // We can remove added group. We cannot remove initialized public group.
+    groupList: DataManagementShapes.AccessGroupList,
     onRemoveGroup: PropTypes.func.isRequired,
   }
 
@@ -34,25 +40,38 @@ class UserGroupChip extends React.Component {
   }
 
   /**
-   * User callback: removes this group
+   * User callback: removes this group (only if group is not public)
    */
   onRemoveGroup = () => {
-    const { groupName, onRemoveGroup } = this.props
+    const {
+      groupName, onRemoveGroup,
+    } = this.props
     onRemoveGroup(groupName)
   }
 
   render() {
-    const { groupName } = this.props
+    const { groupName, groupList, isAdded } = this.props
     const { moduleTheme: { userForm: { chip } } } = this.context
+    const groupFound = find(groupList, (group) => group.content.name === groupName)
+    if (groupFound && groupFound.content.isPublic && !isAdded) {
+      return (
+        <Chip
+          style={chip}
+          key={groupName}
+        >
+          {groupName}
+        </Chip>
+      )
+    }
     return (
       <Chip
         onRequestDelete={this.onRemoveGroup}
         style={chip}
         key={groupName}
-        className="selenium-chip"
       >
         {groupName}
-      </Chip>)
+      </Chip>
+    )
   }
 }
 export default UserGroupChip

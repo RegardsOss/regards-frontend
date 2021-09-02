@@ -164,13 +164,11 @@ export class ProjectUserFormContainer extends React.Component {
     } = values
     const { user } = this.props
     const updatedUser = {
-      accessRequest: {
-        ...user.content,
-        email,
-        role: { name: roleName },
-        metadata: packMetadataField(user, values),
-        accessGroups,
-      },
+      ...user.content,
+      email,
+      role: { name: roleName },
+      metadata: packMetadataField(user, values),
+      accessGroups,
       maxQuota,
       rateLimit,
     }
@@ -196,19 +194,17 @@ export class ProjectUserFormContainer extends React.Component {
     const projectName = params.project
     const frontendParameter = `${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail}`
     const newUser = {
-      accessRequest: {
-        email: values.email,
-        roleName: values.roleName,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        password: values.password,
-        metadata: packMetadataField({}, values),
-        // Destination of logged users
-        originUrl: '/',
-        // the backend will use that URL in the email
-        requestLink: `${root.location.protocol}//${root.location.host}/user/${projectName}?${frontendParameter}`,
-        accessGroups: values.groups,
-      },
+      email: values.email,
+      roleName: values.roleName,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      password: values.password,
+      metadata: packMetadataField({}, values),
+      // Destination of logged users
+      originUrl: '/',
+      // the backend will use that URL in the email
+      requestLink: `${root.location.protocol}//${root.location.host}/user/${projectName}?${frontendParameter}`,
+      accessGroups: values.groups,
       maxQuota: values.maxQuota,
       rateLimit: values.rateLimit,
     }

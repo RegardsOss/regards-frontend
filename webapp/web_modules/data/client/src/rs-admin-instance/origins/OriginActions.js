@@ -20,7 +20,7 @@ import { SERVICE_PROVIDER, SERVICE_PROVIDER_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Actions for fetching account's origin/authentication systeme.
+ * Actions for fetching account's origin/authentication system.
  * @author Théo Lasserre
  */
 class OriginActions extends BasicPageableActions {

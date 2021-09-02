@@ -73,7 +73,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user quota list compone
       onToggleOnlyLowQuotaUsers: enzymeWrapper.instance().onToggleOnlyLowQuotaUsers,
       filters: props.filters,
       updateFilter: props.updateFilter,
-      clearFilters: enzymeWrapper.instance().onClearFilters,
+      clearFilters: props.clearFilters,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(ProjectUserQuotaFiltersComponent), 1, 'ProjectUserQuotaFiltersComponent should be set')
     assert.lengthOf(enzymeWrapper.find(PageableInfiniteTableContainer), 1, 'There should be 1 PageableInfiniteTableContainer')

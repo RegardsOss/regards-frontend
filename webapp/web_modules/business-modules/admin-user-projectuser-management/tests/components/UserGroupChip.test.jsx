@@ -39,6 +39,7 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing UserGroupChip', () => {
   it('should render correctly', () => {
     const props = {
       groupName: 'myGroup',
+      isAdded: false,
       onRemoveGroup: () => {},
     }
     const enzymeWrapper = shallow(<UserGroupChip {...props} />, { context })

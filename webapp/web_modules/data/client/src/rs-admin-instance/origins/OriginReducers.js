@@ -21,7 +21,7 @@ import { ServiceProviderConfiguration } from '@regardsoss/api'
 import OriginActions from './OriginActions'
 
 /**
- * Service provider reducer
+ * Reducer for account's origin/authentication system.
  * @author Théo Lasserre
  */
 class OriginReducers extends BasicPageableReducers {

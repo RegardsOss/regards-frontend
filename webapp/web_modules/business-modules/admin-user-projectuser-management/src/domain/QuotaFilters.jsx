@@ -21,7 +21,7 @@ const QUOTA_FILTERS = {
   EMAIL: 'email',
   FIRSTNAME: 'firstName',
   LASTNAME: 'lastName',
-  QUOTA_LOW: 'lowQuota',
+  QUOTA_LOW: 'quotaWarningCount',
 }
 
 export default QUOTA_FILTERS

@@ -37,7 +37,13 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user access right filters compo
   })
   it('should render correctly', () => {
     const props = {
-      onToggleOnlyLowQuotaUsers: () => { },
+      uiSettings: {
+        showVersion: true,
+        documentModels: [],
+        primaryQuicklookGroup: '',
+        quotaWarningCount: 50,
+        rateWarningCount: 50,
+      },
 
       // table sorting, column visiblity & filters management
       filters: {},

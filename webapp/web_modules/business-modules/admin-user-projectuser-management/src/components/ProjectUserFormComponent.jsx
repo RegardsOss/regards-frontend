@@ -20,6 +20,7 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import find from 'lodash/find'
+import pickBy from 'lodash/pickBy'
 import some from 'lodash/some'
 import forEach from 'lodash/forEach'
 import map from 'lodash/map'
@@ -99,7 +100,7 @@ export class ProjectUserFormComponent extends React.Component {
   state = {
     isCreating: isNil(this.props.currentUser),
     popoverOpen: false,
-    tempGroups: [],
+    tempGroups: {},
   }
 
   componentDidMount() {
@@ -107,10 +108,16 @@ export class ProjectUserFormComponent extends React.Component {
   }
 
   getCurrentUserGroups = (user) => {
-    const currentUserGroups = []
+    let currentUserGroups = {}
     forEach(this.props.groupList, (group) => {
       if (some(group.content.users, (groupUser) => groupUser.email === user.email)) {
-        currentUserGroups.push(group.content.name)
+        currentUserGroups = {
+          ...currentUserGroups,
+          [group.content.name]: {
+            name: group.content.name,
+            isAdded: false,
+          },
+        }
       }
     })
     return currentUserGroups
@@ -173,29 +180,40 @@ export class ProjectUserFormComponent extends React.Component {
 
   handleAddGroup = (groupName) => {
     this.setState({
-      tempGroups: [
+      tempGroups: {
         ...this.state.tempGroups,
-        groupName,
-      ],
-    }, () => this.props.change('accessGroups', this.state.tempGroups))
+        [groupName]: {
+          name: groupName,
+          isAdded: true,
+        },
+      },
+    }, () => this.props.change('accessGroups', map(this.state.tempGroups, (group) => group.name)))
     this.handlePopoverClose()
   }
 
+  // handleRemoveGroup = (groupName) => {
+  //   this.setState({
+  //     tempGroups: reject(this.state.tempGroups, (val) => val.name !== groupName),
+  //   }, () => this.props.change('accessGroups', map(this.state.tempGroups, (group) => group.name)))
+  // }
+
   handleRemoveGroup = (groupName) => {
     this.setState({
-      tempGroups: this.state.tempGroups.filter((val) => val !== groupName),
-    }, () => this.props.change('accessGroups', this.state.tempGroups))
+      tempGroups: pickBy(this.state.tempGroups, (val) => val.name !== groupName),
+    }, () => this.props.change('accessGroups', map(this.state.tempGroups, (group) => group.name)))
   }
 
   renderChipInput = () => {
+    const { groupList } = this.props
     const { moduleTheme: { userForm }, intl: { formatMessage } } = this.context
-
     return (
       <div style={userForm.renderChipInput}>
-        {map(this.state.tempGroups, (groupName) => (
+        {map(this.state.tempGroups, (group) => (
           <UserGroupChip
-            key={groupName}
-            groupName={groupName}
+            key={group.name}
+            groupName={group.name}
+            isAdded={group.isAdded}
+            groupList={groupList}
             onRemoveGroup={this.handleRemoveGroup}
           />))}
         <ShowableAtRender show={this.state.tempGroups.length !== Object.keys(this.props.groupList).length}>
@@ -219,7 +237,7 @@ export class ProjectUserFormComponent extends React.Component {
             {map(this.props.groupList, (group) => (
               <ShowableAtRender
                 key={group.content.name}
-                show={!find(this.state.tempGroups, (o) => isEqual(o, group.content.name))}
+                show={!find(this.state.tempGroups, (o) => isEqual(o.name, group.content.name))}
               >
                 <MenuItem
                   primaryText={group.content.name}

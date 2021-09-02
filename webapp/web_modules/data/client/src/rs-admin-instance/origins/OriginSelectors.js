@@ -19,6 +19,7 @@
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
+ * Selector for account's origin/authentication system.
  * Export selectors builder on store path.
  * @param storePath redux store path to access reduced data
  * @return selectors instance

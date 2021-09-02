@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
 import get from 'lodash/get'
 import size from 'lodash/size'
 import isEqual from 'lodash/isEqual'
@@ -80,14 +79,14 @@ export class ProjectUserQuotaComponent extends React.Component {
     [QUOTA_FILTERS.EMAIL]: '',
     [QUOTA_FILTERS.LASTNAME]: '',
     [QUOTA_FILTERS.FIRSTNAME]: '',
-    [QUOTA_FILTERS.QUOTA_LOW]: false,
+    [QUOTA_FILTERS.QUOTA_LOW]: '',
   }
 
   static COLUMN_KEYS = {
     EMAIL: 'email',
     LASTNAME: 'lastName',
     FIRSTNAME: 'firstName',
-    QUOTA: 'QUOTA',
+    QUOTA: 'currentQuota',
     LAST_CONNEXION: 'lastConnexion',
     ACTIONS: 'actions',
   }
@@ -108,16 +107,7 @@ export class ProjectUserQuotaComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount() {
-    const { updateFilter } = this.props
-    // Extract quota filter from url
-    const { query: currentQuery } = browserHistory.getCurrentLocation()
-    const onlyLowQuota = get(currentQuery, QUOTA_FILTERS.QUOTA_LOW, '')
-    if (onlyLowQuota) {
-      updateFilter(!!onlyLowQuota, QUOTA_FILTERS.QUOTA_LOW)
-    }
-    this.onPropertiesUpdated({}, this.props)
-  }
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
   * Lifecycle method: component receive props. Used here to detect properties change and update local state
@@ -142,39 +132,6 @@ export class ProjectUserQuotaComponent extends React.Component {
         csvLink: `${csvLink}${queryString}`,
       })
     }
-  }
-
-  onClearFilters = () => {
-    const { clearFilters } = this.props
-    this.onUpdateLocation()
-    clearFilters()
-  }
-
-  /**
-   * Inner callback: updates location with user state changes (not yet reflected in class state)
-   * @param {boolean} showOnlyLowQuotaUsers show only low quota users?
-   */
-  onUpdateLocation = (showOnlyLowQuotaUsers = false) => {
-    const { pathname } = browserHistory.getCurrentLocation()
-    let newQuery = {}
-    if (showOnlyLowQuotaUsers) {
-      newQuery = {
-        [QUOTA_FILTERS.QUOTA_LOW]: 'true',
-      }
-    }
-    browserHistory.replace({
-      pathname,
-      query: newQuery,
-    })
-  }
-
-  /**
-  * User callback: toggle only low quota
-  */
-  onToggleOnlyLowQuotaUsers = (onlyLowQuotaNewValue) => {
-    const { updateFilter } = this.props
-    this.onUpdateLocation(onlyLowQuotaNewValue)
-    updateFilter(onlyLowQuotaNewValue, QUOTA_FILTERS.QUOTA_LOW)
   }
 
   onToggleDeleteDialog = (entity = null) => {
@@ -240,7 +197,7 @@ export class ProjectUserQuotaComponent extends React.Component {
       onEdit, pageSize, allAccounts, onRefresh, isLoading,
       getColumnSortingData, filters, requestParameters, columnsVisibility,
       onSort, updateFilter, onChangeColumnsVisibility,
-      uiSettings, showQuota,
+      uiSettings, showQuota, clearFilters,
     } = this.props
     const { csvLink } = this.state
     const { quotaDialogOpened, entityToProcess } = this.state
@@ -320,10 +277,10 @@ export class ProjectUserQuotaComponent extends React.Component {
       <TableLayout>
         <TableHeaderLine>
           <ProjectUserQuotaFiltersComponent
-            onToggleOnlyLowQuotaUsers={this.onToggleOnlyLowQuotaUsers}
+            uiSettings={uiSettings}
             filters={filters}
             updateFilter={updateFilter}
-            clearFilters={this.onClearFilters}
+            clearFilters={clearFilters}
           />
         </TableHeaderLine>
         <TableHeaderLine>
