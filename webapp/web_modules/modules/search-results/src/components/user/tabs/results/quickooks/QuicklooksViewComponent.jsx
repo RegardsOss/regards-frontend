@@ -40,8 +40,6 @@ class QuicklooksViewComponent extends React.Component {
     embedInMap: PropTypes.bool.isRequired,
     itemOfInterestPicked: PropTypes.number,
     isItemOfInterest: PropTypes.func,
-    // When parent container size change, it provides a different key to force re-rendering
-    forceRenderingUsingKey: PropTypes.string,
   }
 
   static contextTypes = {
@@ -51,7 +49,7 @@ class QuicklooksViewComponent extends React.Component {
   render() {
     const {
       tabType, requestParameters, searchActions, cellProperties, embedInMap, loadedEntities,
-      itemOfInterestPicked, isItemOfInterest, forceRenderingUsingKey,
+      itemOfInterestPicked, isItemOfInterest,
     } = this.props
     // Recover column with and gap from theme: map specific theme if embedded in map, quicklooks otherwise
     const searchResultsTheme = this.context.muiTheme.module.searchResults
@@ -73,7 +71,6 @@ class QuicklooksViewComponent extends React.Component {
         itemProps={cellProperties}
         itemOfInterestPicked={itemOfInterestPicked}
         isItemOfInterest={isItemOfInterest}
-        forceRenderingUsingKey={forceRenderingUsingKey}
       />
     )
   }

@@ -35,8 +35,6 @@ export class AceEditorAdapter extends React.Component {
   /** supported modes */
   static supportedModesToImport = []
 
-  static LOADED_COMPONENT = null
-
   static contextTypes = {
     ...themeContextType,
   }
@@ -55,51 +53,37 @@ export class AceEditorAdapter extends React.Component {
     $blockScrolling: Infinity,
   }
 
-  /**
-   * Initializes this adapter static data: loads the component or replace with headless
-   * component when in headles environment
-   * @param onAsyncDone on asynchronous loading done callback (not call if synchronous)
-   */
-  static initialize(onAsyncLoadingDone) {
-    if (!AceEditorAdapter.LOADED_COMPONENT) {
-      const headlessEnvironment = ['test', 'coverage'].includes(process.env.NODE_ENV)
-      if (headlessEnvironment) {
-        // no loading, use headless replacement
-        AceEditorAdapter.LOADED_COMPONENT = HeadlessAdapter
-      } else {
-        // load required elements
-        require.ensure([], (require) => {
-          AceEditorAdapter.LOADED_COMPONENT = require('react-ace').default
-          // supported themes
-          require('ace-builds/src-noconflict/theme-monokai')
-          // supported languages
-          require('ace-builds/src-noconflict/mode-css')
-          require('ace-builds/src-noconflict/mode-javascript')
-          require('ace-builds/src-noconflict/mode-json')
-          require('ace-builds/src-noconflict/mode-xml')
-          onAsyncLoadingDone()
-        })
-      }
-    }
-  }
-
-  state = { RenderComponent: AceEditorAdapter.LOADED_COMPONENT }
+  state = { loaded: false }
 
   componentDidMount() {
-    // check if runtime data as initialize (callback is called only when there is something new loaded)
-    AceEditorAdapter.initialize(() => {
-      // note: this callback can only be called after the component was mount
-      this.setState({ RenderComponent: AceEditorAdapter.LOADED_COMPONENT })
-    })
+    const headlessEnvironment = ['test', 'coverage'].includes(process.env.NODE_ENV)
+    if (headlessEnvironment) {
+      // no loading, use headless replacement
+      this.LOADED_COMPONENT = HeadlessAdapter
+    } else {
+      // load required elements
+      require.ensure([], (require) => {
+        this.LOADED_COMPONENT = require('react-ace').default
+        // supported themes
+        require('ace-builds/src-noconflict/theme-monokai')
+        // supported languages
+        require('ace-builds/src-noconflict/mode-css')
+        require('ace-builds/src-noconflict/mode-javascript')
+        require('ace-builds/src-noconflict/mode-json')
+        require('ace-builds/src-noconflict/mode-xml')
+        this.setState({ loaded: true })
+      })
+    }
   }
 
   render() {
     const { mode, ...otherEditorProps } = this.props
     const { muiTheme } = this.context
-    const { RenderComponent } = this.state
-    if (!RenderComponent) {
+    const { loaded } = this.state
+    if (!loaded) {
       return null // loading
     }
+    const { RenderComponent } = this
     return (
       <RenderComponent mode={mode} theme={muiTheme.components.editorACE.theme} editorProps={AceEditorAdapter.editorProps} {...otherEditorProps} />
     )

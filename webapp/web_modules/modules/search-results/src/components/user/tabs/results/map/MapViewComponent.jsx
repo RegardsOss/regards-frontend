@@ -152,9 +152,7 @@ class MapViewComponent extends React.Component {
     const { quicklooks, mizar } = muiTheme.module.searchResults.map
     const leftPaneWidth = this.getLeftPaneWidth()
     /*
-     * XXX-Workaround-Force-Redraw: the split pane "forgets repainting" the property "size" changes.
-     * Therefore, we force children repainting, using a key built on size
-     * However, as the InfiniteGalleryContainer fetch entities, we force redraw on that container and not here
+     * XXX-Workaround-Force-Redraw: Mizar "forgets repainting" on property "size" changes.
      */
     let mapKey
     if (mapEngine === UIDomain.MAP_ENGINE_ENUM.CESIUM) {
@@ -213,8 +211,6 @@ class MapViewComponent extends React.Component {
                   isItemOfInterest={this.isItemOfInterest}
                   onZoomToFeature={onZoomToFeature}
                   loadedEntities={loadedEntities}
-                  // see force redraw workaround comment above
-                  forceRenderingUsingKey={`${leftPaneWidth}x${height}`}
                 />)}
               </div>
             </SplitPane>

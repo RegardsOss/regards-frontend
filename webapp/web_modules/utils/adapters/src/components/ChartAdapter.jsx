@@ -33,34 +33,33 @@ export default class ChartAdapter extends React.Component {
   }
 
   state = {
-    RenderComponent: null,
+    loaded: false,
   }
 
   UNSAFE_componentWillMount() {
     const { ChartComponent } = this.props
 
-    let RenderComponent
     if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'coverage') {
       // in test, avoid loading the library
-      RenderComponent = HeadlessPlaceholder
+      this.RenderComponent = HeadlessPlaceholder
       // store place holder in state
-      this.setState({ RenderComponent })
+      this.setState({ loaded: true })
     } else {
       // load required elements
       require.ensure([], (require) => {
         // load component from library
-        RenderComponent = require('react-chartjs-2')[ChartComponent]
-        // store place holder in state
-        this.setState({ RenderComponent })
+        this.RenderComponent = require('react-chartjs-2')[ChartComponent]
+        this.setState({ loaded: true })
       })
     }
   }
 
   render() {
-    const { RenderComponent } = this.state
-    if (!RenderComponent) {
+    const { loaded } = this.state
+    if (!loaded) {
       return null // loading
     }
+    const { RenderComponent } = this
     return (
       <RenderComponent {...this.props} />
     )

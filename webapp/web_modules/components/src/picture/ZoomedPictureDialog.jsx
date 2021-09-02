@@ -50,6 +50,17 @@ export class ZoomedPictureDialog extends React.Component {
   }
 
   /**
+   * Avoid to transfer the picture if the component is dying
+   * see https://stackoverflow.com/a/5278475/2294168
+   */
+  componentWillUnmount() {
+    if (this.img) {
+      this.img.onload = () => { }
+      this.img.src = ''
+    }
+  }
+
+  /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
   UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
@@ -76,11 +87,11 @@ export class ZoomedPictureDialog extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     if (oldProps.picURL !== newProps.picURL) {
       // load picture to ensure dialog best max width
-      const img = new root.Image()
-      img.src = newProps.picURL
-      img.onload = () => this.setState({
+      this.img = new root.Image()
+      this.img.src = newProps.picURL
+      this.img.onload = () => this.setState({
         contentStyle: {
-          maxWidth: Math.max(img.width, ZoomedPictureDialog.MIN_WIDTH),
+          maxWidth: Math.max(this.img.width, ZoomedPictureDialog.MIN_WIDTH),
         },
       })
     }

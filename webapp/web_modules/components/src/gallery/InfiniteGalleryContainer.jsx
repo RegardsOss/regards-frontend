@@ -72,15 +72,11 @@ export class InfiniteGalleryContainer extends React.Component {
 
     itemOfInterestPicked: PropTypes.number,
     isItemOfInterest: PropTypes.func,
-
-    // When parent container size change, it provides a different key to force re-rendering
-    forceRenderingUsingKey: PropTypes.string,
   }
 
   static defaultProps = {
     queryPageSize: 20,
     loadingComponent: (<GalleryLoadingComponent />),
-    forceRenderingUsingKey: 'default-key',
   }
 
   /** List of properties that should not be reported to children */
@@ -194,12 +190,12 @@ export class InfiniteGalleryContainer extends React.Component {
     // except actions / selectors, we need all properties through
     const {
       itemComponent, columnWidth, columnGutter, entitiesFetching, loadingComponent, emptyComponent, itemProps, itemOfInterestPicked,
-      isItemOfInterest, forceRenderingUsingKey, loadedEntities,
+      isItemOfInterest, loadedEntities,
     } = this.props
     const currentTotalEntities = this.getCurrentTotalEntities()
 
     return (
-      <MeasureResultProvider style={InfiniteGalleryContainer.SPAN_ALL_STYLE} targetPropertyName="componentSize" key={forceRenderingUsingKey}>
+      <MeasureResultProvider style={InfiniteGalleryContainer.SPAN_ALL_STYLE} targetPropertyName="componentSize">
         <InfiniteGalleryComponent
           items={loadedEntities}
           itemComponent={itemComponent}

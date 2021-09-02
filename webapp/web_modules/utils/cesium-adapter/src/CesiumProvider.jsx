@@ -38,26 +38,28 @@ if (process.env.NODE_ENV === 'production') {
  */
 export default class CesiumProvider extends React.Component {
   state = {
-    CesiumAdapter: null,
+    loaded: false,
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     if (process.env.NODE_ENV !== 'test' || process.env.NODE_ENV !== 'coverage') {
       // load required elements
       require.ensure([], (require) => {
         // load adapter
         const CesiumAdapter = require('./CesiumAdapter').default
         // store libs in state
-        this.setState({ CesiumAdapter })
+        this.CesiumAdapter = CesiumAdapter
+        this.setState({ loaded: true })
       })
     }
   }
 
   render() {
-    const { CesiumAdapter } = this.state
-    if (!CesiumAdapter) {
+    const { loaded } = this.state
+    if (!loaded) {
       return null // loading
     }
+    const { CesiumAdapter } = this
     return (
       <CesiumAdapter {...this.props} />
     )

@@ -73,7 +73,6 @@ class LazyModuleComponent extends React.Component {
 
   state = {
     isLoaded: false,
-    ModuleContainer: null,
     moduleMessages: null,
     moduleStyles: null,
     moduleDependencies: [],
@@ -104,7 +103,6 @@ class LazyModuleComponent extends React.Component {
           self.setState({
             isLoaded: false,
             moduleDependencies: [],
-            ModuleContainer: null,
             loadedModule: null,
           })
         } else if (!this.props.admin && !loadedModule.moduleContainer) {
@@ -116,12 +114,12 @@ class LazyModuleComponent extends React.Component {
             loadedModuleReducer[loadedModuleReducerName] = configureReducers(loadedModule.reducer)
             getReducerRegistry().register(loadedModuleReducer)
           }
+          self.ModuleContainer = (self.props.admin ? loadedModule.adminContainer : loadedModule.moduleContainer) || null
           self.setState({
             isLoaded: true,
             moduleMessages: get(loadedModule, 'messages'),
             moduleStyles: { styles: get(loadedModule, 'styles') },
             moduleDependencies: get(loadedModule, `dependencies.${self.props.admin ? 'admin' : 'user'}`, []),
-            ModuleContainer: (self.props.admin ? loadedModule.adminContainer : loadedModule.moduleContainer) || null,
           })
         }
         if (this.props.onLoadAction) {
@@ -139,12 +137,13 @@ class LazyModuleComponent extends React.Component {
   render() {
     const { admin, module: { active } } = this.props
     const {
-      isLoaded, ModuleContainer, moduleMessages,
+      isLoaded, moduleMessages,
       moduleStyles, moduleDependencies,
     } = this.state
 
     // If module is loaded then render. The module load is asynchrone due to require.ensure method.
     if (isLoaded && (active || admin)) { // Hide non loaded modules or disabled modules in user app
+      const { ModuleContainer } = this
       return (
         <I18nProvider messages={moduleMessages}>
           <ModuleStyleProvider module={moduleStyles}>

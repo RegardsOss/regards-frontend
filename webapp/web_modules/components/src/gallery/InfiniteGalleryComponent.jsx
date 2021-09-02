@@ -323,7 +323,9 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     const viewableWidth = componentSize.width
     const viewableHeight = componentSize.height
 
-    const maxColumns = Math.floor(viewableWidth / (columnWidth + columnGutter))
+    // Use maxColumns=1 on falsy values
+    // To avoid rendering all entities
+    const maxColumns = Math.floor(viewableWidth / (columnWidth + columnGutter)) || 1
     const spannableWidth = (maxColumns * columnWidth) + (columnGutter * (maxColumns - 1))
     const viewableStart = props.alignCenter ? (viewableWidth - spannableWidth) / 2 : 0
 
@@ -478,6 +480,10 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     const layoutHeight = (pages[pages.length - 1] || noPage).stop
     const layoutStyle = { height: `${layoutHeight}px`, position: 'relative' }
 
+    const scrollbarStyle = {
+      height: componentSize.height,
+      width: '100%',
+    }
     this.setState({
       pages,
       lastWorkingIndex,
@@ -486,6 +492,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       columnGaps,
       maxColumns,
       layoutStyle,
+      scrollbarStyle,
     })
   }
 
@@ -571,12 +578,12 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       emptyComponent,
       isLoading,
       isEmpty,
-      componentSize,
     } = this.props
 
     const {
       pages,
       layoutStyle,
+      scrollbarStyle,
     } = this.state
 
     return (
@@ -587,7 +594,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
         <ScrollArea
           ref={this.scrollArea}
           onScroll={this.onScroll}
-          style={componentSize}
+          style={scrollbarStyle}
           vertical
         >
           <div

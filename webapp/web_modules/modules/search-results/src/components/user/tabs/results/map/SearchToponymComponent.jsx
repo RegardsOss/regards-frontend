@@ -24,7 +24,6 @@ import {
   AutoCompleteTextField,
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import isEqual from 'lodash/isEqual'
 
 /**
  * Map form component to search in toponym list
@@ -43,86 +42,44 @@ class SearchToponymComponent extends React.Component {
     currentLocale: PropTypes.string.isRequired,
   }
 
-  state = {
-    currentHints: [],
-  }
-
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
   }
 
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
- * Properties change detected: update local state
- * @param oldProps previous component properties
- * @param newProps next component properties
- */
-onPropertiesUpdated = (oldProps, newProps) => {
-  const {
-    moduleTheme: {
-      user: {
-        mapViewStyles: {
-          toponymField: {
-            menuItem,
+  render() {
+    const {
+      toponymFilterText, isFetching, isInError, onUpdateToponymsFilter, onToponymFilterSelected,
+      matchingToponyms, currentLocale,
+    } = this.props
+    const {
+      intl: { formatMessage },
+      moduleTheme: {
+        user: {
+          mapViewStyles: {
+            toponymField,
           },
         },
       },
-    },
-  } = this.context
-  // when available values change, rebuild the hints datasource (avoids consuming time and memory at render)
-  if (!isEqual(oldProps.matchingToponyms, newProps.matchingToponyms)) {
-    this.setState({
-      currentHints: getToponymHints(newProps.matchingToponyms, newProps.currentLocale, menuItem),
-    })
+    } = this.context
+    return (
+      <div style={toponymField.wrapperStyle}>
+        <AutoCompleteTextField
+          name="searchToponym"
+          hintText={formatMessage({ id: 'results.map.search.hintText' })}
+          currentHintText={toponymFilterText}
+          currentHints={getToponymHints(matchingToponyms, currentLocale, toponymField.menuItem)}
+          isFetching={isFetching}
+          isInError={isInError}
+          onUpdateInput={onUpdateToponymsFilter}
+          onFilterSelected={onToponymFilterSelected}
+          openOnFocus
+          listStyle={toponymField.listStyle}
+          textFieldStyle={toponymField.textFieldStyle}
+          underlineStyle={toponymField.underlineStyle}
+        />
+      </div>
+    )
   }
-}
-
-render() {
-  const {
-    toponymFilterText, isFetching, isInError, onUpdateToponymsFilter, onToponymFilterSelected,
-  } = this.props
-  const {
-    currentHints,
-  } = this.state
-  const {
-    intl: { formatMessage },
-    moduleTheme: {
-      user: {
-        mapViewStyles: {
-          toponymField,
-        },
-      },
-    },
-  } = this.context
-  return (
-    <div style={toponymField.wrapperStyle}>
-      <AutoCompleteTextField
-        name="searchToponym"
-        hintText={formatMessage({ id: 'results.map.search.hintText' })}
-        currentHintText={toponymFilterText}
-        currentHints={currentHints}
-        isFetching={isFetching}
-        isInError={isInError}
-        onUpdateInput={onUpdateToponymsFilter}
-        onFilterSelected={onToponymFilterSelected}
-        openOnFocus
-        listStyle={toponymField.listStyle}
-        textFieldStyle={toponymField.textFieldStyle}
-        underlineStyle={toponymField.underlineStyle}
-      />
-    </div>
-  )
-}
 }
 export default SearchToponymComponent
