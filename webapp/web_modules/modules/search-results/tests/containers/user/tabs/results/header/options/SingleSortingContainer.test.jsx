@@ -38,7 +38,7 @@ describe('[SEARCH RESULTS] Testing SingleSortingContainer', () => {
   it('should exists', () => {
     assert.isDefined(SingleSortingContainer)
   })
-  it('should render correctly when sortable', () => {
+  it('should render correctly when sortable (data)', () => {
     const props = {
       moduleId: 1,
       tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
@@ -75,15 +75,15 @@ describe('[SEARCH RESULTS] Testing SingleSortingContainer', () => {
         `Attribute sorting model for ${attributeSortingModel.presentationModel.label.en} should not be marked selected as default model is`)
     })
   })
-  it('should render correctly when not sortable', () => {
+  it('should render correctly when sortable (dataset)', () => {
     const props = {
       moduleId: 1,
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
-      resultsContext: dataContext, // DATASETS forbid sorting
+      resultsContext: dataContext, // DATASETS allow sorting
       updateResultsContext: () => {},
     }
     const enzymeWrapper = shallow(<SingleSortingContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(SingleSortingComponent)
-    assert.lengthOf(componentWrapper, 0, 'There should not be the corresponding component, as state doesn\'t allow sorting')
+    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component, as state allow sorting')
   })
 })

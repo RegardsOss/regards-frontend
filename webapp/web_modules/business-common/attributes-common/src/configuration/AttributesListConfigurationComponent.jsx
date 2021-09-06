@@ -132,7 +132,6 @@ export class AttributesListConfigurationComponent extends React.Component {
       attributesListFieldName,
       attributesFilter,
     } = newProps
-
     // 1 - Update current configurations when selectable attributes change
     const oldState = this.state || {}
     const newState = { ...oldState }
@@ -141,7 +140,7 @@ export class AttributesListConfigurationComponent extends React.Component {
       || !isEqual(oldProps.i18n, newProps.i18n)) && selectableAttributes) {
       // 1.a - prepare the list of attributes that user can select, allowing standard attributes and sorted on label
       newState.attributeModels = [
-        ...DamDomain.AttributeModelController.standardAttributesAsModel, // all standard attributes
+        ...DamDomain.AttributeModelController.getSortableStandardAttributes(), // all sortable standard attributes
         ...values(selectableAttributes), // all server attributes
       ].filter(attributesFilter) // filter on allowed elements only
         .sort(({ content: { jsonPath: j1 } }, { content: { jsonPath: j2 } }) => StringComparison.compare(j1, j2))

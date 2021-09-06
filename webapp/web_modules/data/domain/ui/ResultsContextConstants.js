@@ -163,7 +163,7 @@ function allowDownload(type) {
 }
 
 /** Types for which sorting is allowed */
-const SORTING_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA]
+const SORTING_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA, ENTITY_TYPES_ENUM.DATASET]
 
 /**
  * Is sorting allowed for entity type as parameter (ie can entity be used to filter results?)
