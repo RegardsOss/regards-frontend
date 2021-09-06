@@ -358,7 +358,7 @@ export class DescriptionEntityHelper {
       reference: dataFile.reference,
       mimeType: dataFile.mimeType,
       // append token / project when data file is not a reference. Also add this location to bypass cross domain issues
-      uri: `${DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)}${dataFile.reference ? '' : uriOriginParam}${STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(dataFile.mimeType) ? '&isContentInline=true' : ''}`,
+      uri: `${DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)}${dataFile.reference ? '' : uriOriginParam}${STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(dataFile.mimeType) && !dataFile.reference ? '&isContentInline=true' : ''}`,
     }))
   }
 
