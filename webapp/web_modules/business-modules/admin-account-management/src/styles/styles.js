@@ -32,8 +32,6 @@ const accountManagementStyles = (theme) => ({
       display: 'flex',
       flexDirection: 'row',
       marginLeft: '35px',
-      marginTop: '10px',
-      marginBottom: '10px',
     },
     waitingAccountsMessage: {
       color: 'rgb(203, 22, 22)',
