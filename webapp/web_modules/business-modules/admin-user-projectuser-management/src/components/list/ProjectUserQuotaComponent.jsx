@@ -88,7 +88,7 @@ export class ProjectUserQuotaComponent extends React.Component {
     FIRSTNAME: 'firstName',
     QUOTA: 'currentQuota',
     LAST_CONNEXION: 'lastConnexion',
-    ACTIONS: 'actions',
+    ACTIONS: 'column.table.options',
   }
 
   static LOADING_COMPONENT = (

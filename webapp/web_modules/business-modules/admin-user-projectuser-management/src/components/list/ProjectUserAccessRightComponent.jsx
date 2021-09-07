@@ -84,7 +84,7 @@ export class ProjectUserAccessRightComponent extends React.Component {
     FIRSTNAME: 'firstName',
     GROUPS: 'accessGroups',
     ROLE: 'role',
-    ACTIONS: 'actions',
+    ACTIONS: 'column.table.options',
   }
 
   static LOADING_COMPONENT = (
