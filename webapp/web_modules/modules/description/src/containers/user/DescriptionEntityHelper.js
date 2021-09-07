@@ -20,6 +20,7 @@ import get from 'lodash/get'
 import isArray from 'lodash/isArray'
 import isEmpty from 'lodash/isEmpty'
 import isNil from 'lodash/isNil'
+import includes from 'lodash/includes'
 import isString from 'lodash/isString'
 import root from 'window-or-global'
 import reduce from 'lodash/reduce'
@@ -341,6 +342,29 @@ export class DescriptionEntityHelper {
     } : null
   }
 
+  static getSeparator(uri) {
+    return includes(uri, '?') ? '&' : '?'
+  }
+
+  static buildURI(dataFile, accessToken, projectName) {
+    const uriOriginParam = `origin=${root.location.protocol}//${root.location.host}`
+    let uri = DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)
+    const isMimeType = includes(`${STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES}`, dataFile.mimeType)
+    const contentInlineParameter = 'isContentInline=true'
+    const separator = this.getSeparator(uri)
+
+    // not a reference so we add origin param
+    if (!includes(uri, `${GATEWAY_HOSTNAME}/${API_URL}/`)) {
+      uri = `${uri}${separator}${uriOriginParam}`
+      // not a reference & is mime type so we add isContentInline
+      if (isMimeType) {
+        uri = `${uri}${this.getSeparator(uri)}${contentInlineParameter}`
+      }
+    }
+
+    return uri
+  }
+
   /**
    * Converts entity files into common description file data elements
    * @param {*} entity entity
@@ -350,7 +374,6 @@ export class DescriptionEntityHelper {
    * @return {[*]} converted files matching DescriptionState.FileData
    */
   static toFileData(entity, type, accessToken, projectName) {
-    const uriOriginParam = `&origin=${root.location.protocol}//${root.location.host}`
     return get(entity.content, `files.${type}`, []).map((dataFile) => ({
       label: dataFile.filename,
       available: DamDomain.DataFileController.isAvailableNow(dataFile),
@@ -358,7 +381,8 @@ export class DescriptionEntityHelper {
       reference: dataFile.reference,
       mimeType: dataFile.mimeType,
       // append token / project when data file is not a reference. Also add this location to bypass cross domain issues
-      uri: `${DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)}${dataFile.reference ? '' : uriOriginParam}${STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(dataFile.mimeType) && !dataFile.reference ? '&isContentInline=true' : ''}`,
+      // uri: `${DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)}${dataFile.reference ? '' : uriOriginParam}${STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(dataFile.mimeType) && !dataFile.reference ? '&isContentInline=true' : ''}`,
+      uri: this.buildURI(dataFile, accessToken, projectName),
     }))
   }
 
