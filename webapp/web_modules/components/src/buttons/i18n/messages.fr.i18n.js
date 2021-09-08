@@ -19,7 +19,7 @@
 
 const messages = {
   'clear.button.tooltip': 'Effacer le contenu du champ',
-  'reset.default.value.button.tooltip': 'Reset à la valeur par défaut',
+  'reset.default.value.button.tooltip': 'Retour à la valeur par défaut',
   'components.buttons.select.all': 'Tout sélectionner',
   'components.buttons.unselect.all': 'Tout désélectionner',
   'numerical.comparator.selector.EQ.label': 'égal(e) à',
