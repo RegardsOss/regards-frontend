@@ -59,11 +59,11 @@ export class AceEditorAdapter extends React.Component {
     const headlessEnvironment = ['test', 'coverage'].includes(process.env.NODE_ENV)
     if (headlessEnvironment) {
       // no loading, use headless replacement
-      this.LOADED_COMPONENT = HeadlessAdapter
+      this.RenderComponent = HeadlessAdapter
     } else {
       // load required elements
       require.ensure([], (require) => {
-        this.LOADED_COMPONENT = require('react-ace').default
+        this.RenderComponent = require('react-ace').default
         // supported themes
         require('ace-builds/src-noconflict/theme-monokai')
         // supported languages

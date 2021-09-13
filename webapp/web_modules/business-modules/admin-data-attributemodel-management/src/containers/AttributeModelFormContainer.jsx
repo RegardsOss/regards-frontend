@@ -104,7 +104,6 @@ export class AttributeModelFormContainer extends React.Component {
       if (this.state.isLoading) {
         return (<FormLoadingComponent />)
       }
-      console.error('attrModelRestrictionList', attrModelRestrictionList)
       if (attrModel) {
         return (<AttributeModelFormComponent
           onSubmit={this.handleUpdate}

@@ -48,6 +48,7 @@ const messages = {
   'attrmodel.form.precision': 'Précision',
   'attrmodel.form.alterable': 'Modifiable',
   'attrmodel.form.optional': 'Optionnel',
+  'attrmodel.form.esmapping': 'ElasticSearch Mapping',
   'attrmodel.form.type': 'Type',
   'attrmodel.form.action.cancel': 'Annuler',
   'attrmodel.form.action.submit': 'Sauvegarder',
