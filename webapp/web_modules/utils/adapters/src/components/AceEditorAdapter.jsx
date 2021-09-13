@@ -63,14 +63,23 @@ export class AceEditorAdapter extends React.Component {
     } else {
       // load required elements
       require.ensure([], (require) => {
-        this.RenderComponent = require('react-ace').default
+        // ace dynamically download its files when they are needed
+        // we ask webpack to dispose these dependencies inside public folder
         // supported themes
         require('ace-builds/src-noconflict/theme-monokai')
         // supported languages
+        require('ace-builds/src-noconflict/worker-json')
+        require('ace-builds/src-noconflict/worker-css')
+        require('ace-builds/src-noconflict/worker-xml')
+        require('ace-builds/src-noconflict/worker-javascript')
         require('ace-builds/src-noconflict/mode-css')
         require('ace-builds/src-noconflict/mode-javascript')
         require('ace-builds/src-noconflict/mode-json')
         require('ace-builds/src-noconflict/mode-xml')
+        this.RenderComponent = require('react-ace').default
+        // override ace config to let it find its files
+        window.ace.config.set('basePath', '/ace')
+
         this.setState({ loaded: true })
       })
     }

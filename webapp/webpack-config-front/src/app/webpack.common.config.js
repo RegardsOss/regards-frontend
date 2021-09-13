@@ -88,6 +88,14 @@ module.exports = function (projectContextPath, mode = 'dev') {
           },
         },
         {
+          test: /ace-builds\/src-noconflict/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'ace/',
+          },
+        },
+        {
           test: /\.css$/,
           use:
             mode !== 'test'
