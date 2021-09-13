@@ -349,15 +349,14 @@ export class DescriptionEntityHelper {
   static buildURI(dataFile, accessToken, projectName) {
     const uriOriginParam = `origin=${root.location.protocol}//${root.location.host}`
     let uri = DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)
-    const isMimeType = includes(`${STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES}`, dataFile.mimeType)
     const contentInlineParameter = 'isContentInline=true'
     const separator = this.getSeparator(uri)
 
-    // not a reference so we add origin param
+    // file is not distributed by REGARDS microservice,, we need to add token
     if (!includes(uri, `${GATEWAY_HOSTNAME}/${API_URL}/`)) {
       uri = `${uri}${separator}${uriOriginParam}`
-      // not a reference & is mime type so we add isContentInline
-      if (isMimeType) {
+      // we add isContentInline parameter for specific file
+      if (includes(`${STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES}`, dataFile.mimeType)) {
         uri = `${uri}${this.getSeparator(uri)}${contentInlineParameter}`
       }
     }
