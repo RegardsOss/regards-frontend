@@ -352,10 +352,11 @@ export class DescriptionEntityHelper {
     const contentInlineParameter = 'isContentInline=true'
     const separator = this.getSeparator(uri)
 
-    // file is not distributed by REGARDS microservice,, we need to add token
-    if (!includes(uri, `${GATEWAY_HOSTNAME}/${API_URL}/`)) {
+    // file is distributed by REGARDS microservice
+    // we add get param need by storage
+    if (!dataFile.reference && includes(uri, `${GATEWAY_HOSTNAME}/${API_URL}/`)) {
       uri = `${uri}${separator}${uriOriginParam}`
-      // we add isContentInline parameter for specific file
+      // does this file is allowed to be displayed in a frame
       if (includes(`${STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES}`, dataFile.mimeType)) {
         uri = `${uri}${this.getSeparator(uri)}${contentInlineParameter}`
       }
