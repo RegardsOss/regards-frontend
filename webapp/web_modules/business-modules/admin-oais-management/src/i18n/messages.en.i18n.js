@@ -26,8 +26,8 @@ export default {
   'oais.button.back': 'Back',
 
   'oais.packages.close': 'Close',
-  'oais.packages.switch-to.requests.label': 'Treatments ({requestsNb})',
-  'oais.packages.switch-to.requests.title': 'See treatments',
+  'oais.packages.switch-to.requests.label': 'Processings ({requestsNb})',
+  'oais.packages.switch-to.requests.title': 'See processings',
   'oais.packages.list.filters.providerId': 'Provider ID',
   'oais.packages.list.filters.type': 'Type',
   'oais.package.type.DATA': 'Data',
