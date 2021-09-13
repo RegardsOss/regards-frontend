@@ -100,7 +100,7 @@ export class ProjectUserAccountComponent extends React.Component {
     ORIGIN: 'origin',
     CREATION_DATE: 'created',
     LAST_CONNEXION: 'lastConnexion',
-    ACTIONS: 'actions',
+    ACTIONS: 'column.table.options',
   }
 
   static LOADING_COMPONENT = (

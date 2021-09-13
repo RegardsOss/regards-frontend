@@ -99,7 +99,7 @@ export class AccountListComponent extends React.Component {
     STATUS: 'status',
     ORIGIN: 'origin',
     PROJECT: 'project',
-    ACTIONS: 'actions',
+    ACTIONS: 'column.table.options',
   }
 
   static LOADING_COMPONENT = (
