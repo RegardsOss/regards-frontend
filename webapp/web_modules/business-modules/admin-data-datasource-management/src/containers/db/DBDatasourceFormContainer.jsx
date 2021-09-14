@@ -25,7 +25,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
-import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
+import { IDBDatasourceParamsEnum, DATASOURCE_PLUGIN_TYPE_ENUM } from '@regardsoss/domain/dam'
 import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -33,6 +33,7 @@ import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import StaticAttributeListDB from '../../domain/db/StaticAttributeListDB'
 import { datasourceSelectors, datasourceActions } from '../../clients/DatasourceClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetaDataClient'
+import { connectionTableSelectors } from '../../clients/ConnectionTableClient'
 import DBDatasourceFormAttributesContainer from './DBDatasourceFormAttributesContainer'
 import DBDatasourceFormMappingContainer from './DBDatasourceFormMappingContainer'
 import messages from '../../i18n'
@@ -57,6 +58,11 @@ export class DBDatasourceFormContainer extends React.Component {
     // from mapStateToProps
     currentDatasource: DataManagementShapes.Datasource,
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
+    tableList: PropTypes.objectOf(PropTypes.shape({
+      name: PropTypes.string,
+      schema: PropTypes.string,
+      pKey: PropTypes.string,
+    })),
     // from mapDispatchToProps
     createDatasource: PropTypes.func.isRequired,
     updateDatasource: PropTypes.func.isRequired,
@@ -230,7 +236,8 @@ export class DBDatasourceFormContainer extends React.Component {
    * This function saves the entity on the server
    * @param values
    */
-  saveMapping = (formValuesSubset, modelAttributeList, tableAttributeList) => {
+  saveMapping = (formValuesSubset, modelAttributeList) => {
+    const { tableList } = this.props
     const { currentDatasource } = this.state
     const attributesMapping = []
     const newParameters = []
@@ -259,10 +266,18 @@ export class DBDatasourceFormContainer extends React.Component {
       }
     })
     if (formValuesSubset.table) {
+      let tableParamValue = formValuesSubset.table
+      const tableFound = find(tableList, (table) => table.name === formValuesSubset.table)
+      const tableFoundSchema = get(tableFound, 'schema', '')
+      const currentPlugin = this.getCurrentPluginMetaData()
+      if (currentPlugin.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.DB_POSTGRES_SINGLE_TABLE && tableFoundSchema !== 'public') {
+        tableParamValue = `${tableFoundSchema}.${formValuesSubset.table}`
+      }
+
       newParameters.push({
         name: IDBDatasourceParamsEnum.TABLE,
         type: CommonDomain.PluginParameterTypes.STRING,
-        value: formValuesSubset.table,
+        value: tableParamValue,
         dynamic: false,
         dynamicsValues: [],
       })
@@ -345,6 +360,7 @@ export class DBDatasourceFormContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   currentDatasource: ownProps.params.datasourceId ? datasourceSelectors.getByBusinessId(state, ownProps.params.datasourceId) : null,
   pluginMetaDataList: pluginMetaDataSelectors.getList(state),
+  tableList: connectionTableSelectors.getResult(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -141,7 +141,7 @@ export class DBDatasourceFormMappingContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
   tableList: connectionTableSelectors.getResult(state),
   tableAttributeList: connectionTableAttributesSelectors.getResult(state),
   modelAttributeList: modelAttributesSelectors.getList(state),
