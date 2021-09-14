@@ -232,6 +232,7 @@ class StorageLocationFormComponent extends React.Component {
             microserviceName={STATIC_CONF.MSERVICES.STORAGE}
             hideDynamicParameterConf
             hideGlobalParameterConf
+            disabled={mode !== 'create'}
           />
         </div>
       </>

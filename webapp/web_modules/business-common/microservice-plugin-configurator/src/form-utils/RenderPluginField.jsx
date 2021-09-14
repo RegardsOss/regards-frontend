@@ -41,6 +41,7 @@ export class RenderPluginField extends React.Component {
     simpleGlobalParameterConf: PropTypes.bool, // Use this parameter to hide the global configuration of plugins
     hideGlobalParameterConf: PropTypes.bool, // Hide the global parameters configuration
     hideDynamicParameterConf: PropTypes.bool, // Hide the dynmaic configuration of parameters
+    disabled: PropTypes.bool, // Disable the plugin selection
     // From redux field
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
     meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
@@ -50,6 +51,7 @@ export class RenderPluginField extends React.Component {
     hideGlobalParameterConf: false,
     hideDynamicParameterConf: false,
     simpleGlobalParameterConf: false,
+    disabled: false,
   }
 
   static listLabelStyle = { minWidth: '220px' }
@@ -83,7 +85,7 @@ export class RenderPluginField extends React.Component {
    */
   getPluginSelector = () => {
     const {
-      pluginType, input: { value }, selectLabel, title, meta: { error }, microserviceName,
+      pluginType, input: { value }, selectLabel, title, meta: { error }, microserviceName, disabled,
     } = this.props
     const { intl } = this.context
     const errorMessage = error && isString(error) ? RenderHelper.getErrorMessage(true, error, intl) : undefined
@@ -98,6 +100,7 @@ export class RenderPluginField extends React.Component {
         displayTitle={false}
         errorText={errorMessage}
         displayMoreInfoButton
+        disabled={disabled}
       />
     )
   }
