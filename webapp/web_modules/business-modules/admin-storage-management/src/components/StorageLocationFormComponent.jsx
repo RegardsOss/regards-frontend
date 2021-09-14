@@ -39,6 +39,11 @@ import { StorageShapes } from '@regardsoss/shape'
 import messages from '../i18n'
 import styles from '../styles'
 
+export const FORM_MODE = {
+  CREATE: 'create',
+  EDIT: 'edit',
+}
+
 /**
 * Component to create/edit/diplicate a storage location plugin configuration
 * @author Sébastien Binda
@@ -91,7 +96,7 @@ class StorageLocationFormComponent extends React.Component {
 
   handleInitialize = () => {
     const { mode, entity, initialize } = this.props
-    if (mode === 'edit' && entity) {
+    if (mode === FORM_MODE.EDIT && entity) {
       initialize({
         name: get(entity, 'content.name'),
         allocatedSize: get(entity, 'content.configuration.allocatedSizeInKo') ? this.calculateUnitAndReturnValue(entity.content.configuration.allocatedSizeInKo) : null,
@@ -188,7 +193,7 @@ class StorageLocationFormComponent extends React.Component {
     const { mode, entity } = this.props
     const { intl: { formatMessage } } = this.context
     const pluginType = StorageDomain.PluginTypeEnum.STORAGE
-    if (mode !== 'create' && !entity) {
+    if (mode !== FORM_MODE.CREATE && !entity) {
       return (
         <NoContentComponent
           titleKey="storage.location.form.invalid.id"
@@ -206,7 +211,7 @@ class StorageLocationFormComponent extends React.Component {
           value=""
           label={formatMessage({ id: 'storage.location.form.name.label' })}
           validate={validateName}
-          disabled={mode !== 'create'}
+          disabled={mode !== FORM_MODE.CREATE}
         />
         <div style={StorageLocationFormComponent.SIZE_AND_UNIT_CONTAINER}>
           <Field
@@ -232,7 +237,7 @@ class StorageLocationFormComponent extends React.Component {
             microserviceName={STATIC_CONF.MSERVICES.STORAGE}
             hideDynamicParameterConf
             hideGlobalParameterConf
-            disabled={mode !== 'create'}
+            disabled={mode !== FORM_MODE.CREATE}
           />
         </div>
       </>
@@ -246,7 +251,7 @@ class StorageLocationFormComponent extends React.Component {
     } = this.props
 
     let onSubmitAction
-    if (mode === 'create') {
+    if (mode === FORM_MODE.CREATE) {
       onSubmitAction = this.createStorageLocationConf
     } else {
       onSubmitAction = get(entity, 'content.configuration.id') ? this.updateStorageLocationConf : this.createStorageLocationConf
@@ -254,10 +259,10 @@ class StorageLocationFormComponent extends React.Component {
 
     const { intl: { formatMessage }, moduleTheme } = this.context
 
-    const title = mode === 'edit'
+    const title = mode === FORM_MODE.EDIT
       ? formatMessage({ id: 'storage.location.form.edit.title' }, { name: get(entity, 'content.name') })
       : formatMessage({ id: 'storage.location.form.create.title' })
-    const buttonTitle = mode === 'edit'
+    const buttonTitle = mode === FORM_MODE.EDIT
       ? formatMessage({ id: 'storage.location.form.submit.edit.button' })
       : formatMessage({ id: 'storage.location.form.submit.button' })
     return (

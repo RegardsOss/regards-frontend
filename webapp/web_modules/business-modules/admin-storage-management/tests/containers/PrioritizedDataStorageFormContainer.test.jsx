@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import StorageLocationFormComponent from '../../src/components/StorageLocationFormComponent'
+import StorageLocationFormComponent, { FORM_MODE } from '../../src/components/StorageLocationFormComponent'
 import { StorageLocationFormContainer } from '../../src/containers/StorageLocationFormContainer'
 import styles from '../../src/styles/styles'
 
@@ -58,7 +58,7 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing  StorageLocationFormContainer', () 
     assert.equal(components.length, 1, 'There should have a StorageLocationFormComponent rendered')
     const component = components.at(0)
     const expectedProps = {
-      mode: 'create',
+      mode: FORM_MODE.CREATE,
       entity: null,
       backUrl: `/admin/${props.params.project}/data/acquisition/storage/storages`,
       onUpdate: props.update,
@@ -72,7 +72,7 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing  StorageLocationFormContainer', () 
       // from router
       params: {
         project: 'test',
-        mode: 'edit',
+        mode: FORM_MODE.EDIT,
         name: `${entity.content.name}`,
       },
       entity,
@@ -94,7 +94,7 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing  StorageLocationFormContainer', () 
     assert.equal(components.length, 1, 'There should have a StorageLocationFormComponent rendered')
     const component = components.at(0)
     const expectedProps = {
-      mode: 'edit',
+      mode: FORM_MODE.EDIT,
       entity,
       backUrl: `/admin/${props.params.project}/data/acquisition/storage/storages`,
       onUpdate: props.update,
