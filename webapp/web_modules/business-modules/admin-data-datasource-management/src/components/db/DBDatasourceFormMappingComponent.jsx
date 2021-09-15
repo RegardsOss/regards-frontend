@@ -20,7 +20,6 @@ import find from 'lodash/find'
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
 import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { ErrorTypes, reduxForm } from '@regardsoss/form-utils'
@@ -141,7 +140,7 @@ export class DBDatasourceFormMappingComponent extends React.Component {
     if (this.props.isSingleTable) {
       const tableFound = find(tableList, (table) => table.name === values[states.FROM_TABLE].table)
       const tableFoundSchema = get(tableFound, 'schema', '')
-      const tableName = !isEmpty(tableFoundSchema) ? `${tableFoundSchema}.${values[states.FROM_TABLE].table}` : values[states.FROM_TABLE].table
+      const tableName = [tableFoundSchema, values[states.FROM_TABLE].table].filter((c) => !!c).join('.')
       formValuesSubset = {
         ...values[states.FROM_TABLE],
         table: tableName,
