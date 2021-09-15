@@ -40,9 +40,9 @@ describe('[ Module name] Testing LayerInfoItemComponent', () => {
     const props = {
       name: 'any',
       mapEngine: 'CESIUM',
-      getMenuItems: () => {},
-      validateBackgroundURL: () => {},
-      validateBackgroundConf: () => {},
+      getMenuItems: () => { },
+      validateBackgroundURL: () => { },
+      validateBackgroundConf: () => { },
       entity: {
         background: false,
         enabled: false,
@@ -64,7 +64,6 @@ describe('[ Module name] Testing LayerInfoItemComponent', () => {
     assert.lengthOf(groupWrapper, 2)
 
     const commonFields = groupWrapper.findWhere((n) => n.props().name === `${props.name}.commonFields`)
-    console.log(commonFields.debug({ verbose: true }))
     assert.lengthOf(commonFields.findWhere((n) => n.props().name === `${props.name}.layerName`), 1,
       'Layer name field should be shown')
     assert.lengthOf(commonFields.findWhere((n) => n.props().name === `${props.name}.enabled`), 1,
@@ -80,9 +79,9 @@ describe('[ Module name] Testing LayerInfoItemComponent', () => {
     const props = {
       name: 'any',
       mapEngine: 'CESIUM',
-      getMenuItems: () => {},
-      validateBackgroundURL: () => {},
-      validateBackgroundConf: () => {},
+      getMenuItems: () => { },
+      validateBackgroundURL: () => { },
+      validateBackgroundConf: () => { },
       entity: {
         background: true,
         enabled: true,
@@ -107,7 +106,6 @@ describe('[ Module name] Testing LayerInfoItemComponent', () => {
     assert.lengthOf(groupWrapper, 2)
 
     const commonFields = groupWrapper.findWhere((n) => n.props().name === `${props.name}.commonFields`)
-    console.log(commonFields.debug({ verbose: true }))
     assert.lengthOf(commonFields.findWhere((n) => n.props().name === `${props.name}.layerName`), 1,
       'Layer name field should be shown')
     assert.lengthOf(commonFields.findWhere((n) => n.props().name === `${props.name}.enabled`), 1,
@@ -123,9 +121,9 @@ describe('[ Module name] Testing LayerInfoItemComponent', () => {
     const props = {
       name: 'any',
       mapEngine: 'CESIUM',
-      getMenuItems: () => {},
-      validateBackgroundURL: () => {},
-      validateBackgroundConf: () => {},
+      getMenuItems: () => { },
+      validateBackgroundURL: () => { },
+      validateBackgroundConf: () => { },
       entity: {
         background: false,
         enabled: false,
@@ -151,7 +149,6 @@ describe('[ Module name] Testing LayerInfoItemComponent', () => {
     assert.lengthOf(groupWrapper, 2)
 
     const commonFields = groupWrapper.findWhere((n) => n.props().name === `${props.name}.commonFields`)
-    console.log(commonFields.debug({ verbose: true }))
     assert.lengthOf(commonFields.findWhere((n) => n.props().name === `${props.name}.layerName`), 1,
       'Layer name field should be shown')
     assert.lengthOf(commonFields.findWhere((n) => n.props().name === `${props.name}.enabled`), 1,

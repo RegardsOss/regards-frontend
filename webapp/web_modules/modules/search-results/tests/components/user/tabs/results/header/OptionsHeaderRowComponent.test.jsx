@@ -26,7 +26,7 @@ import OptionsHeaderRowComponent from '../../../../../../src/components/user/tab
 import TypeTabContainer from '../../../../../../src/containers/user/tabs/results/header/options/TypeTabContainer'
 import ToggleFiltersContainer from '../../../../../../src/containers/user/tabs/results/header/options/ToggleFiltersContainer'
 import ModeSelectorContainer from '../../../../../../src/containers/user/tabs/results/header/options/ModeSelectorContainer'
-import SingleSortingContainer from '../../../../../../src/containers/user/tabs/results/header/options/SingleSortingContainer'
+import SortingManagerContainer from '../../../../../../src/containers/user/tabs/results/header/options/SortingManagerContainer'
 import EditColumnsSettingsContainer from '../../../../../../src/containers/user/tabs/results/header/options/EditColumnsSettingsContainer'
 import SearchOptionContainer from '../../../../../../src/containers/user/tabs/results/header/options/SearchOptionContainer'
 import SelectionServiceComponent from '../../../../../../src/components/user/tabs/results/header/options/SelectionServiceComponent'
@@ -177,15 +177,16 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
                 resultsContext: props.resultsContext,
               }, 'Toggle filters container properties should be correctly set')
               // 5 - Sort on single attributes for view types allowing sorting (but not in table mode)
-              const sortContainer = enzymeWrapper.find(SingleSortingContainer)
-              if (tabType.enableSorting && modeKey !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE) {
-                assert.lengthOf(sortContainer, 1, 'There should be sort container')
-                testSuiteHelpers.assertWrapperProperties(sortContainer, {
+              const sortManagerContainer = enzymeWrapper.find(SortingManagerContainer)
+              if (tabType.enableSorting) {
+                assert.lengthOf(sortManagerContainer, 1, 'There should be sort container')
+                testSuiteHelpers.assertWrapperProperties(sortManagerContainer, {
                   moduleId: props.moduleId,
+                  tabType: props.tabType,
                   resultsContext: props.resultsContext,
                 }, 'Sort container properties should be correctly set')
               } else {
-                assert.lengthOf(sortContainer, 0, 'Sort container should be hidden')
+                assert.lengthOf(sortManagerContainer, 0, 'Sort container should be hidden')
               }
               // 6 - Columns settings (container is auto hiding when in table mode, not to be tested here)
               const columnsSettingsContainer = enzymeWrapper.find(EditColumnsSettingsContainer)

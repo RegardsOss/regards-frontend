@@ -105,10 +105,10 @@ const messages = {
   'search.results.form.restrictions.configuration.selection.dataset.count.max': 'Please select datasets up to {max}. If you need more complex retriction use the opensearch filter above.',
   'search.results.form.restrictions.configuration.selection.model.count.max': 'Please select models up to {max}. If you need more complex retriction use the opensearch filter above.',
   'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount} selected element{selectionCount, plural, 
-    =0 {} 
-    one {} 
-    other {s}
-  }`,
+     =0 {} 
+     one {} 
+     other {s}
+   }`,
   'search.results.form.restrictions.configuration.filter.by.name.message': 'Filter',
   'search.results.form.restrictions.configuration.no.data.title': 'No data',
   'search.results.form.restrictions.configuration.no.dataset.existing.message': 'There is no dataset, please select another results restriction mode.',
@@ -177,13 +177,30 @@ const messages = {
   'search.results.configure.columns.move.tooltip': 'Move that column',
   'search.results.configure.columns.move.column.at.first.position': 'First',
   'search.results.configure.columns.move.column.after': 'After {columnLabel}',
+  'search.results.configure.sorting.column.priority': 'Priority',
+  'search.results.configure.sorting.column.order': 'Order',
+  'search.results.configure.sorting.column.label': 'Label',
+  'search.results.configure.sorting.dialog.reset': 'Reset',
+  'search.results.configure.sorting.dialog.reset.tooltip': 'Reset sort to their initial configuration',
+  'search.results.configure.sorting.dialog.cancel': 'Cancel',
+  'search.results.configure.sorting.dialog.confirm': 'Confirm',
+  'search.results.configure.sorting.move.column.at.first.position': 'En premier',
+  'search.results.configure.sorting.move.column.after': 'After {columnLabel}',
+  'search.results.configure.sorting.move.tooltip': 'Move that column',
+  'search.results.configure.sorting.asc.title': 'Modify the sort order from ascendant to descendant',
+  'search.results.configure.sorting.desc.title': 'Modify the sort order from descendant to ascendant',
+  'search.results.configure.sorting.delete.title': 'Delete that sort',
+  'search.results.configure.sorting.create.tooltip': 'Create a new sort',
+  'search.results.configure.sorting.create.before.position': 'Add a new before after',
+  'search.results.configure.sorting.create.after.position': 'Add a new sort after',
+  'search.results.configure.sorting.create.new.sort': 'New sort',
+  'search.results.configure.sorting.create.new.sort.input': 'Select an attribute',
+
   'search.results.default.tab.label.for.DATA': 'Data',
   'search.results.default.tab.label.for.DATASET': 'Datasets',
   'search.results.default.tab.label.for.COLLECTION': 'Collections',
   'search.results.toggle.filters': 'Filters',
-  'search.results.list.sort.label': 'Sort: {sortElement}',
-  'search.results.list.sort.default.label': 'Default',
-  'search.results.list.sort.custom.label': 'Custom',
+  'search.results.toggle.sort': 'Sort',
   'view.type.selector.tooltip.for.LIST': 'Display results as list',
   'view.type.selector.tooltip.for.TABLE': 'Display results in table',
   'view.type.selector.tooltip.for.MAP': 'Display results over map',

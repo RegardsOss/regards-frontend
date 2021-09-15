@@ -20,23 +20,23 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SingleSortingComponent from '../../../../../../../src/components/user/tabs/results/header/options/SingleSortingComponent'
-import { SingleSortingContainer } from '../../../../../../../src/containers/user/tabs/results/header/options/SingleSortingContainer'
+import SortSettingsComponent from '../../../../../../../src/components/user/tabs/results/header/options/sort/SortSettingsComponent'
+import { SortingManagerContainer } from '../../../../../../../src/containers/user/tabs/results/header/options/SortingManagerContainer'
 import { dataContext } from '../../../../../../dumps/data.context.dump'
 import styles from '../../../../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SingleSortingContainer
+ * Test SortingManagerContainer
  * @author Raphaël Mechali
  */
-describe('[SEARCH RESULTS] Testing SingleSortingContainer', () => {
+describe('[SEARCH RESULTS] Testing SortingManagerContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SingleSortingContainer)
+    assert.isDefined(SortingManagerContainer)
   })
   it('should render correctly when sortable', () => {
     const props = {
@@ -54,36 +54,34 @@ describe('[SEARCH RESULTS] Testing SingleSortingContainer', () => {
           },
         },
       }),
-      updateResultsContext: () => {},
+      updateResultsContext: () => { },
     }
-    const enzymeWrapper = shallow(<SingleSortingContainer {...props} />, { context })
-    const state = enzymeWrapper.state()
-    const componentWrapper = enzymeWrapper.find(SingleSortingComponent)
+    const enzymeWrapper = shallow(<SortingManagerContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(SortSettingsComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
+
+    const {
+      selectedTypeState: {
+        isInInitialSorting, initialSorting, criteria: { sorting: currentSorting },
+      },
+    } = UIDomain.ResultsContextHelper.getViewData(props.resultsContext, props.tabType)
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      defaultSortingModel: state.defaultSortingModel,
-      customSortingModel: state.customSortingModel,
-      attributeSortingModels: state.attributeSortingModels,
-      onSortBy: enzymeWrapper.instance().onSortBy,
+      sortableAttributes: enzymeWrapper.state().sortableAttributes,
+      isInInitialSorting,
+      initialSorting,
+      currentSorting,
+      onApply: enzymeWrapper.instance().onApply,
     }, 'Component should define the expected properties')
-    // Default state: there should be Default option and each attribute
-    assert.isTrue(state.defaultSortingModel.selected, 'Default sorting model should be provided')
-    assert.isNotOk(state.customSortingModel, 'There should not be the custom sorting model')
-    assert.lengthOf(state.attributeSortingModels, 3, 'Each configured sortable attribute should be provided as possible sorting option')
-    state.attributeSortingModels.forEach((attributeSortingModel) => {
-      assert.isFalse(attributeSortingModel.selected,
-        `Attribute sorting model for ${attributeSortingModel.presentationModel.label.en} should not be marked selected as default model is`)
-    })
   })
   it('should render correctly when not sortable', () => {
     const props = {
       moduleId: 1,
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       resultsContext: dataContext, // DATASETS forbid sorting
-      updateResultsContext: () => {},
+      updateResultsContext: () => { },
     }
-    const enzymeWrapper = shallow(<SingleSortingContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(SingleSortingComponent)
+    const enzymeWrapper = shallow(<SortingManagerContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(SortSettingsComponent)
     assert.lengthOf(componentWrapper, 0, 'There should not be the corresponding component, as state doesn\'t allow sorting')
   })
 })

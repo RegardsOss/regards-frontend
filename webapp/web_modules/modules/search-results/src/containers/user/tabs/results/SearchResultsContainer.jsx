@@ -91,7 +91,7 @@ export class SearchResultsContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-   UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state

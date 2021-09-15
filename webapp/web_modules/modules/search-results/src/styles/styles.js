@@ -400,6 +400,25 @@ const styles = (theme) => ({
         textAlign: 'left',
       },
     },
+    ordersDialog: {
+      widthPercent: 50,
+      heightPercent: 80,
+      labelColumnCell: {
+        color: theme.palette.textColor,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        flexGrow: 1,
+        flexShrink: 1,
+      },
+      actionsContainer: {
+        display: 'flex',
+      },
+      actionsSeparator: {
+        flexGrow: 1,
+        flexShrink: 1,
+      },
+    },
     filters: {
       iconColor: theme.palette.accent1Color,
       errorColor: theme.textField.errorColor,

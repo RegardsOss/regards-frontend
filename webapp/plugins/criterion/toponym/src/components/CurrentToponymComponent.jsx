@@ -40,7 +40,6 @@ class TrickToponymComponent extends React.Component {
   }
 
   render() {
-    console.log(this.context)
     const {
       intl: { formatMessage },
       moduleTheme: {
