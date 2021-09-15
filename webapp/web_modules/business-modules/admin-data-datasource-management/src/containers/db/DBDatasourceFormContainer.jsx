@@ -270,7 +270,7 @@ export class DBDatasourceFormContainer extends React.Component {
       const tableFound = find(tableList, (table) => table.name === formValuesSubset.table)
       const tableFoundSchema = get(tableFound, 'schema', '')
       const currentPlugin = this.getCurrentPluginMetaData()
-      if (currentPlugin.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.DB_POSTGRES_SINGLE_TABLE && tableFoundSchema !== 'public') {
+      if (currentPlugin.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.DB_POSTGRES_SINGLE_TABLE) {
         tableParamValue = `${tableFoundSchema}.${formValuesSubset.table}`
       }
 
