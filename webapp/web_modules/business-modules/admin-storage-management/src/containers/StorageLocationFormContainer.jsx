@@ -21,7 +21,7 @@ import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { storageLocationActions, storageLocationSelectors } from '../clients/StorageLocationClient'
-import StorageLocationFormComponent from '../components/StorageLocationFormComponent'
+import StorageLocationFormComponent, { FORM_MODE } from '../components/StorageLocationFormComponent'
 
 /**
 * Container to handle create/edit/duplicate form of a storage location plugin
@@ -90,7 +90,7 @@ export class StorageLocationFormContainer extends React.Component {
       >
         {() => (
           <StorageLocationFormComponent
-            mode={mode || 'create'}
+            mode={mode || FORM_MODE.CREATE}
             entity={entity}
             backUrl={`/admin/${project}/data/acquisition/storage/storages`}
             onUpdate={update}
