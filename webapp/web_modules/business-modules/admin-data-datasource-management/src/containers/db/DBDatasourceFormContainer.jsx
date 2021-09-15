@@ -33,7 +33,6 @@ import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import StaticAttributeListDB from '../../domain/db/StaticAttributeListDB'
 import { datasourceSelectors, datasourceActions } from '../../clients/DatasourceClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetaDataClient'
-import { connectionTableSelectors } from '../../clients/ConnectionTableClient'
 import DBDatasourceFormAttributesContainer from './DBDatasourceFormAttributesContainer'
 import DBDatasourceFormMappingContainer from './DBDatasourceFormMappingContainer'
 import messages from '../../i18n'
@@ -58,7 +57,6 @@ export class DBDatasourceFormContainer extends React.Component {
     return {
       currentDatasource: ownProps.params.datasourceId ? datasourceSelectors.getByBusinessId(state, ownProps.params.datasourceId) : null,
       pluginMetaDataList: pluginMetaDataSelectors.getList(state),
-      tableList: connectionTableSelectors.getResult(state),
     }
   }
 
