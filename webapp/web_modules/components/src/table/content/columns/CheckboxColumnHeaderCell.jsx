@@ -96,8 +96,8 @@ class CheckboxColumnHeaderCell extends React.Component {
     const { displaySelectAll, allSelected } = this.props
 
     const [tooltipKey, iconStyle, Icon] = allSelected
-      ? ['table.deselect.all.tooltip', checkedIcon, Checked]
-      : ['table.select.all.tooltip', uncheckedIcon, Unchecked]
+      ? ['table.deselect.all.label', checkedIcon, Checked]
+      : ['table.select.all.label', uncheckedIcon, Unchecked]
 
     return (
       displaySelectAll
