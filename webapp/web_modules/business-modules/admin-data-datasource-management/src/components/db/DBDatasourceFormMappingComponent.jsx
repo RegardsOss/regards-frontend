@@ -70,7 +70,10 @@ export class DBDatasourceFormMappingComponent extends React.Component {
   }
 
   state = {
-    currentTableSelected: this.props.isEditing && this.props.isSingleTable ? findParam(this.props.currentDatasource, IDBDatasourceParamsEnum.TABLE).value : '',
+    currentTableSelected: {
+      fullname: '', // ex: schema.table
+      name: '', // ex: table
+    },
   }
 
   componentDidMount() {
@@ -92,7 +95,7 @@ export class DBDatasourceFormMappingComponent extends React.Component {
         })
         const obj = {
           [states.FROM_TABLE]: {
-            table: currentTableSelected,
+            table: currentTableSelected.fullname,
             attributes,
           },
         }
@@ -116,16 +119,62 @@ export class DBDatasourceFormMappingComponent extends React.Component {
     }
   }
 
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { isEditing, isSingleTable } = newProps
+    if (isEditing && isSingleTable) {
+      const tableFullName = findParam(this.props.currentDatasource, IDBDatasourceParamsEnum.TABLE).value || ''
+      this.setState({
+        currentTableSelected: {
+          fullname: tableFullName,
+          name: tableFullName.split('.')[1],
+        },
+      })
+    }
+  }
+
+  /**
+   * Concat schema name to table name
+   * @param {*} tableName : ex : table1
+   * @returns ex : schema1.table1
+   */
+  getTableFullName = (tableName) => {
+    const { tableList } = this.props
+    const tableFound = find(tableList, (table) => table.name === tableName)
+    const tableFoundSchema = get(tableFound, 'schema', '')
+    const tableFullName = [tableFoundSchema, tableName].filter((c) => !!c).join('.')
+    return tableFullName
+  }
+
   handleTableSelected = (tableName) => {
     this.props.onTableSelected(tableName)
     const { isSingleTable } = this.props
     // Save the table name if we are in single table configuration
     if (isSingleTable) {
+      const tableFullName = this.getTableFullName(tableName)
       this.setState({
-        currentTableSelected: tableName,
+        currentTableSelected: {
+          fullname: tableFullName,
+          name: tableName,
+        },
       })
       const formValues = {
-        table: tableName,
+        table: tableFullName,
         attributes: {},
       }
       this.props.initialize({
@@ -135,16 +184,10 @@ export class DBDatasourceFormMappingComponent extends React.Component {
   }
 
   handleSave = (values) => {
-    const { onSubmit, modelAttributeList, tableList } = this.props
+    const { onSubmit, modelAttributeList, isSingleTable } = this.props
     let formValuesSubset
-    if (this.props.isSingleTable) {
-      const tableFound = find(tableList, (table) => table.name === values[states.FROM_TABLE].table)
-      const tableFoundSchema = get(tableFound, 'schema', '')
-      const tableName = [tableFoundSchema, values[states.FROM_TABLE].table].filter((c) => !!c).join('.')
-      formValuesSubset = {
-        ...values[states.FROM_TABLE],
-        table: tableName,
-      }
+    if (isSingleTable) {
+      formValuesSubset = values[states.FROM_TABLE]
     } else {
       formValuesSubset = values[states.CUSTOM_FROM]
     }
@@ -183,19 +226,19 @@ export class DBDatasourceFormMappingComponent extends React.Component {
                     tableAttributeList={tableAttributeList}
                     tableList={tableList}
                     onTableSelected={this.handleTableSelected}
-                    initialTableOpen={currentTableSelected}
+                    initialTableOpen={currentTableSelected.name}
                     displayTableAsSelected
                   />
                 </Card>
               </div>
               <div className="col-sm-68 col-sm-offset-2">
                 <ShowableAtRender
-                  show={currentTableSelected.length > 0}
+                  show={currentTableSelected.name.length > 0}
                 >
                   <Card>
                     <div>
                       <DBDatasourceFormMappingFromTableComponent
-                        table={tableList[currentTableSelected]}
+                        table={tableList[currentTableSelected.name]}
                         tableAttributeList={tableAttributeList}
                         modelAttributeList={modelAttributeList}
                         currentDatasource={currentDatasource}
@@ -218,7 +261,6 @@ export class DBDatasourceFormMappingComponent extends React.Component {
                     tableAttributeList={tableAttributeList}
                     tableList={tableList}
                     onTableSelected={this.handleTableSelected}
-                    initialTableOpen={currentTableSelected}
                   />
                 </Card>
               </div>
@@ -226,7 +268,6 @@ export class DBDatasourceFormMappingComponent extends React.Component {
                 <Card>
                   <div>
                     <DBDatasourceFormMappingCustomComponent
-                      table={tableList[currentTableSelected]}
                       tableAttributeList={tableAttributeList}
                       modelAttributeList={modelAttributeList}
                       change={change}

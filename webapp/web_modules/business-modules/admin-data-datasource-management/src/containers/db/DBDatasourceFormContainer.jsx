@@ -66,7 +66,7 @@ export class DBDatasourceFormContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { searchToponymClient }) {
+  static mapDispatchToProps(dispatch) {
     return {
       fetchDatasource: (id) => dispatch(datasourceActions.fetchEntity(id)),
       createDatasource: (values) => dispatch(datasourceActions.createEntity(values)),
