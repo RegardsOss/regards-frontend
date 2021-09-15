@@ -25,7 +25,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
-import { IDBDatasourceParamsEnum, DATASOURCE_PLUGIN_TYPE_ENUM } from '@regardsoss/domain/dam'
+import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -48,6 +48,41 @@ const states = {
  * Show the datasource form
  */
 export class DBDatasourceFormContainer extends React.Component {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, ownProps) {
+    return {
+      currentDatasource: ownProps.params.datasourceId ? datasourceSelectors.getByBusinessId(state, ownProps.params.datasourceId) : null,
+      pluginMetaDataList: pluginMetaDataSelectors.getList(state),
+      tableList: connectionTableSelectors.getResult(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch, { searchToponymClient }) {
+    return {
+      fetchDatasource: (id) => dispatch(datasourceActions.fetchEntity(id)),
+      createDatasource: (values) => dispatch(datasourceActions.createEntity(values)),
+      updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
+      fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList(
+        {
+          microserviceName: 'rs-dam',
+        }, {
+          pluginType: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin',
+        },
+      )),
+    }
+  }
+
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -58,11 +93,6 @@ export class DBDatasourceFormContainer extends React.Component {
     // from mapStateToProps
     currentDatasource: DataManagementShapes.Datasource,
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
-    tableList: PropTypes.objectOf(PropTypes.shape({
-      name: PropTypes.string,
-      schema: PropTypes.string,
-      pKey: PropTypes.string,
-    })),
     // from mapDispatchToProps
     createDatasource: PropTypes.func.isRequired,
     updateDatasource: PropTypes.func.isRequired,
@@ -237,7 +267,6 @@ export class DBDatasourceFormContainer extends React.Component {
    * @param values
    */
   saveMapping = (formValuesSubset, modelAttributeList) => {
-    const { tableList } = this.props
     const { currentDatasource } = this.state
     const attributesMapping = []
     const newParameters = []
@@ -266,18 +295,10 @@ export class DBDatasourceFormContainer extends React.Component {
       }
     })
     if (formValuesSubset.table) {
-      let tableParamValue = formValuesSubset.table
-      const tableFound = find(tableList, (table) => table.name === formValuesSubset.table)
-      const tableFoundSchema = get(tableFound, 'schema', '')
-      const currentPlugin = this.getCurrentPluginMetaData()
-      if (currentPlugin.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.DB_POSTGRES_SINGLE_TABLE) {
-        tableParamValue = `${tableFoundSchema}.${formValuesSubset.table}`
-      }
-
       newParameters.push({
         name: IDBDatasourceParamsEnum.TABLE,
         type: CommonDomain.PluginParameterTypes.STRING,
-        value: tableParamValue,
+        value: formValuesSubset.table,
         dynamic: false,
         dynamicsValues: [],
       })
@@ -357,23 +378,4 @@ export class DBDatasourceFormContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  currentDatasource: ownProps.params.datasourceId ? datasourceSelectors.getByBusinessId(state, ownProps.params.datasourceId) : null,
-  pluginMetaDataList: pluginMetaDataSelectors.getList(state),
-  tableList: connectionTableSelectors.getResult(state),
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchDatasource: (id) => dispatch(datasourceActions.fetchEntity(id)),
-  createDatasource: (values) => dispatch(datasourceActions.createEntity(values)),
-  updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
-  fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList(
-    {
-      microserviceName: 'rs-dam',
-    }, {
-      pluginType: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin',
-    },
-  )),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(DBDatasourceFormContainer)
+export default connect(DBDatasourceFormContainer.mapStateToProps, DBDatasourceFormContainer.mapDispatchToProps)(DBDatasourceFormContainer)
