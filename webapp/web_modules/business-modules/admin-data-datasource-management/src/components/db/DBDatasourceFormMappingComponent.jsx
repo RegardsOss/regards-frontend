@@ -122,21 +122,9 @@ export class DBDatasourceFormMappingComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const { isEditing, isSingleTable } = newProps
+  UNSAFE_componentWillMount = () => {
+    const { isEditing, isSingleTable } = this.props
+    // Initialise state with selected table when editing
     if (isEditing && isSingleTable) {
       const tableFullName = findParam(this.props.currentDatasource, IDBDatasourceParamsEnum.TABLE).value || ''
       this.setState({
