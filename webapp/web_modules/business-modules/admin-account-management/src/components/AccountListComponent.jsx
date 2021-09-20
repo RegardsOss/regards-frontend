@@ -33,6 +33,7 @@ import {
   ShowableAtRender, CardActionsComponent, PageableInfiniteTableContainer,
   TableColumnBuilder, TableLayout, TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
   TableHeaderContentBox, TableColumnsVisibilityOption, TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
+  StringArrayValueRender,
 } from '@regardsoss/components'
 import { accountActions, accountSelectors } from '../clients/AccountClient'
 import AccountEditComponent from './render/AccountEditComponent'
@@ -98,7 +99,7 @@ export class AccountListComponent extends React.Component {
     LASTNAME: 'lastName',
     STATUS: 'status',
     ORIGIN: 'origin',
-    PROJECT: 'project',
+    PROJECT: 'projects',
     ACTIONS: 'column.table.options',
   }
 
@@ -232,7 +233,7 @@ export class AccountListComponent extends React.Component {
       // 5 - project
       new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.PROJECT)
         .titleHeaderCell()
-        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.PROJECT}`)
+        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.PROJECT}`, StringArrayValueRender)
         .label(formatMessage({ id: 'account.list.table.project' }))
         .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.PROJECT, true))
         .sortableHeaderCell(...getColumnSortingData(AccountListComponent.COLUMN_KEYS.PROJECT), onSort)

@@ -117,8 +117,6 @@ export class AcquisitionProcessingChainStorageConfComponent extends React.Compon
     const { intl: { formatMessage }, moduleTheme: { storageInfos: { storageTabStyle, storageTypeListStyle, typeStyle } } } = this.context
     let component
 
-    console.error('storages', storages)
-
     if (this.state.mode === AcquisitionProcessingChainStorageConfComponent.STORE_MODE) {
       component = <FieldArray
         name="storages"

@@ -189,5 +189,33 @@ export default function styles(theme) {
         marginLeft: 10,
       },
     },
+    renderFieldArray: {
+      fieldListStyle: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-end',
+        flexWrap: 'wrap',
+        marginBottom: 20,
+      },
+      chipSeparator: {
+        height: 24,
+        width: 1,
+        background: theme.toolbar.separatorColor,
+        margin: '12px 25px 12px 10px',
+      },
+      info: {
+        marginTop: '26px',
+        marginBottom: '-5px',
+      },
+      warnMessageStyle: {
+        color: theme.formsExtensions.validation.warningColor,
+      },
+      errorMessageStyle: {
+        color: theme.formsExtensions.validation.errorColor,
+      },
+      chip: {
+        margin: '8px 20px 8px 0',
+      },
+    },
   }
 }

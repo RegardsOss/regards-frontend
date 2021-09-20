@@ -19,6 +19,7 @@
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 import Chip from 'material-ui/Chip'
+import isEmpty from 'lodash/isEmpty'
 import AddSvg from 'mdi-material-ui/Plus'
 import Avatar from 'material-ui/Avatar'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
@@ -37,7 +38,8 @@ import { AdminShapes, DataManagementShapes, CommonShapes } from '@regardsoss/sha
 import { i18nContextType } from '@regardsoss/i18n'
 import { CardActionsComponent, ShowableAtRender, ClearSettingFieldButton } from '@regardsoss/components'
 import {
-  RenderSelectField, Field, reduxForm, RenderTextField, ValidationHelpers, FieldHelp,
+  RenderSelectField, Field, reduxForm, RenderTextField, ValidationHelpers, FieldHelp, RenderFieldArray,
+  FieldArray,
 } from '@regardsoss/form-utils'
 
 import { themeContextType } from '@regardsoss/theme'
@@ -54,6 +56,7 @@ export const SETTINGS = {
   MODE: 'acceptance_mode',
   GROUPS: 'default_groups',
   ROLE: 'default_role',
+  EMAILS_CONFIRM: 'user_creation_mail_recipients',
 }
 
 /**
@@ -80,6 +83,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
     editedMode: PropTypes.string,
     editedRole: PropTypes.string,
     editedGroups: PropTypes.arrayOf(PropTypes.string),
+    editedEmailsConfirm: PropTypes.arrayOf(PropTypes.string),
   }
 
   static QUOTA_RESTRICTION_VALIDATORS = [
@@ -98,6 +102,14 @@ export class ProjectUserSettingsFormComponent extends React.Component {
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  static validateEmail(value) {
+    let error = false
+    if (!isEmpty(value)) {
+      error = ValidationHelpers.email(value)
+    }
+    return error
   }
 
   state = {
@@ -119,15 +131,18 @@ export class ProjectUserSettingsFormComponent extends React.Component {
       [SETTINGS.RATE_LIMIT]: (getValue(settings, SETTINGS.RATE_LIMIT) || 0).toString(),
       [SETTINGS.ROLE]: (role || AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC),
       [SETTINGS.GROUPS]: groups,
+      [SETTINGS.EMAILS_CONFIRM]: getValue(settings, SETTINGS.EMAILS_CONFIRM) || [],
     })
   }
 
   getRoleName = (name = 'empty') => {
-    const formatted = this.context.intl.formatMessage({ id: `project.user.settings.role.${name}` })
-    if (formatted !== `project.user.settings.role.${name}`) {
-      return formatted
+    const { intl: { formatMessage } } = this.context
+    let roleName = name
+    const defaultRoleFound = find(AdminDomain.DEFAULT_ROLES_ENUM, (defaultRole) => defaultRole === name)
+    if (defaultRoleFound) {
+      roleName = formatMessage({ id: `project.user.settings.role.${name}` })
     }
-    return name
+    return roleName
   }
 
   /**
@@ -142,6 +157,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
       [SETTINGS.RATE_LIMIT]: getUpdatedSettingValue(settings, SETTINGS.RATE_LIMIT, parseInt(values[SETTINGS.RATE_LIMIT], 10)),
       [SETTINGS.ROLE]: getUpdatedSettingValue(settings, SETTINGS.ROLE, values[SETTINGS.ROLE]),
       [SETTINGS.GROUPS]: getUpdatedSettingValue(settings, SETTINGS.GROUPS, values[SETTINGS.GROUPS]),
+      [SETTINGS.EMAILS_CONFIRM]: getUpdatedSettingValue(settings, SETTINGS.EMAILS_CONFIRM, values[SETTINGS.EMAILS_CONFIRM]),
     })
   }
 
@@ -187,6 +203,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
             key={groupName}
             groupName={groupName}
             onRemoveGroup={this.handleRemoveGroup}
+            isAdded
           />))}
         <ShowableAtRender show={this.state.tempGroups.length !== Object.keys(this.props.groupList).length}>
           <Chip className="selenium-addChip" style={userForm.chip} onClick={this.handlePopoverOpen} backgroundColor={userForm.chipBackground}>
@@ -250,6 +267,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
       submitting, pristine, invalid,
       handleSubmit, onBack, roleList, settings, editedMaxQuota,
       editedRateLimit, editedMode, editedRole, editedGroups,
+      editedEmailsConfirm,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { userForm, settings: { settingDiv } } } = this.context
     return (
@@ -274,13 +292,13 @@ export class ProjectUserSettingsFormComponent extends React.Component {
                 label={formatMessage({ id: 'project.user.settings.mode.field' })}
               >
                 { /* provide choice for every modes */
-                map(AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM, (value, key) => (
-                  <MenuItem
-                    key={key}
-                    primaryText={formatMessage({ id: `project.user.settings.mode.${key}` })}
-                    value={value}
-                  />))
-              }
+                  map(AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM, (value, key) => (
+                    <MenuItem
+                      key={key}
+                      primaryText={formatMessage({ id: `project.user.settings.mode.${key}` })}
+                      value={value}
+                    />))
+                }
               </Field>
             </div>
             <div style={settingDiv}>
@@ -343,8 +361,26 @@ export class ProjectUserSettingsFormComponent extends React.Component {
               <div style={userForm.groupsLabel}>
                 {formatMessage({ id: 'projectUser.create.input.groups' })}
                 {this.renderChipInput()}
-
               </div>
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.EMAILS_CONFIRM)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.EMAILS_CONFIRM, editedEmailsConfirm)}
+                addAlternateStyle
+              />
+              <FieldArray
+                name={SETTINGS.EMAILS_CONFIRM}
+                fullWidth
+                component={RenderFieldArray}
+                canBeEmpty
+                title={formatMessage({ id: 'projectUser.create.input.emails_confirmation' })}
+                warningText={formatMessage({ id: 'projectUser.create.input.emails_confirmation.add.warn' })}
+                errorText={formatMessage({ id: 'projectUser.create.input.emails_confirmation.add.error' })}
+                alreadyExistText={formatMessage({ id: 'projectUser.create.input.emails_confirmation.add.exist' })}
+                floatingLabelText={formatMessage({ id: 'projectUser.create.input.emails_confirmation.add.floating.text' })}
+                validateFunction={ProjectUserSettingsFormComponent.validateEmail}
+              />
             </div>
           </CardText>
           <CardActions>
@@ -375,6 +411,7 @@ function selectedSetting(state) {
     editedMode: formValuesSelector(state, [SETTINGS.MODE]),
     editedRole: formValuesSelector(state, [SETTINGS.ROLE]),
     editedGroups: formValuesSelector(state, [SETTINGS.GROUPS]),
+    editedEmailsConfirm: formValuesSelector(state, [SETTINGS.EMAILS_CONFIRM]),
   }
 }
 

@@ -18,6 +18,7 @@
  **/
 import get from 'lodash/get'
 import map from 'lodash/map'
+import find from 'lodash/find'
 import isNil from 'lodash/isNil'
 import {
   Card, CardActions, CardTitle, CardText,
@@ -36,7 +37,7 @@ import { formValueSelector } from 'redux-form'
 import MenuItem from 'material-ui/MenuItem'
 import { PluginLoader } from '@regardsoss/plugins'
 import { ShowableAtRender } from '@regardsoss/display-control'
-import { AccessDomain } from '@regardsoss/domain'
+import { AccessDomain, AdminDomain } from '@regardsoss/domain'
 import PluginDefinitionComponent from './PluginDefinitionComponent'
 
 /**
@@ -121,11 +122,13 @@ class PluginFormComponent extends React.Component {
   }
 
   getRoleName = (name = 'empty') => {
-    const formated = this.context.intl.formatMessage({ id: `role.name.${name}` })
-    if (formated !== `role.name.${name}`) {
-      return formated
+    const { intl: { formatMessage } } = this.context
+    let roleName = name
+    const defaultRoleFound = find(AdminDomain.DEFAULT_ROLES_ENUM, (defaultRole) => defaultRole === name)
+    if (defaultRoleFound) {
+      roleName = formatMessage({ id: `role.name.${name}` })
     }
-    return name
+    return roleName
   }
 
   /**

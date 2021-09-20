@@ -106,6 +106,14 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
             },
           },
         },
+        5: {
+          content: {
+            name: SETTINGS.EMAILS_CONFIRM,
+            description: '',
+            value: [],
+            defaultValue: [],
+          },
+        },
       },
       roleList: {
         REGISTERED_USER: {
@@ -150,6 +158,7 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
       [SETTINGS.RATE_LIMIT]: getValue(props.settings, SETTINGS.RATE_LIMIT).toString(),
       [SETTINGS.ROLE]: getValue(props.settings, SETTINGS.ROLE),
       [SETTINGS.GROUPS]: getValue(props.settings, SETTINGS.GROUPS),
+      [SETTINGS.EMAILS_CONFIRM]: getValue(props.settings, SETTINGS.EMAILS_CONFIRM),
     })
 
     // check fields

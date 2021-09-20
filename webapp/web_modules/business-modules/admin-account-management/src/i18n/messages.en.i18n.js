@@ -26,7 +26,7 @@ const messages = {
   'account.list.table.email': 'E-mail',
   'account.list.table.status': 'Status',
   'account.list.table.origin': 'Origin',
-  'account.list.table.project': 'Project',
+  'account.list.table.project': 'Projects',
   'account.list.table.filters.firstname': 'First name',
   'account.list.table.filters.lastname': 'Last name',
   'account.list.table.filters.email': 'E-mail',
