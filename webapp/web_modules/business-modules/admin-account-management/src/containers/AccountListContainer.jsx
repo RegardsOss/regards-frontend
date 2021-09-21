@@ -20,7 +20,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { browserHistory } from 'react-router'
-import { AdminInstanceShapes, CommonShapes, AdminShapes } from '@regardsoss/shape'
+import { AdminInstanceShapes, AdminShapes } from '@regardsoss/shape'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { accountActions, accountSelectors } from '../clients/AccountClient'
@@ -56,7 +56,7 @@ export class AccountListContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
-    origins: CommonShapes.ServiceProviderList.isRequired,
+    origins: PropTypes.arrayOf(PropTypes.string),
     projects: AdminShapes.ProjectList.isRequired,
     // from mapDispatchToProps
     fetchWaitingAccountList: PropTypes.func.isRequired,
@@ -81,7 +81,7 @@ export class AccountListContainer extends React.Component {
       waitingAccounts: accountWaitingSelectors.getList(state) || {},
       isFetching: accountSelectors.isFetching(state) || accountWaitingSelectors.isFetching(state),
       pageMeta: accountSelectors.getMetaData(state),
-      origins: originSelectors.getList(state),
+      origins: originSelectors.getArray(state),
       projects: projectSelectors.getList(state),
     }
   }
@@ -99,7 +99,7 @@ export class AccountListContainer extends React.Component {
       sendEnableUser: (accountEmail) => dispatch(enableAccountActions.sendEnable(accountEmail)),
       sendRefuseUser: (accountEmail) => dispatch(refuseAccountActions.sendRefuse(accountEmail)),
       deleteAccount: (accountId) => dispatch(accountActions.deleteEntity(accountId)),
-      fetchOrigins: () => dispatch(originActions.fetchPagedEntityList()),
+      fetchOrigins: () => dispatch(originActions.fetchEntityList()),
       throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
       fetchProjects: () => dispatch(projectActions.fetchPagedEntityList()),
     }

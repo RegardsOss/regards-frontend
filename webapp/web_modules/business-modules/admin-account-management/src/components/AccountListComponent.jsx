@@ -25,7 +25,7 @@ import Refresh from 'mdi-material-ui/Refresh'
 import FlatButton from 'material-ui/FlatButton'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
-import { AdminInstanceShapes, CommonShapes, AdminShapes } from '@regardsoss/shape'
+import { AdminInstanceShapes, AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -60,7 +60,7 @@ export class AccountListComponent extends React.Component {
     onDelete: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     isFetchingActions: PropTypes.bool.isRequired,
-    origins: CommonShapes.ServiceProviderList.isRequired,
+    origins: PropTypes.arrayOf(PropTypes.string),
     projects: AdminShapes.ProjectList.isRequired,
 
     // table sorting, column visiblity & filters management

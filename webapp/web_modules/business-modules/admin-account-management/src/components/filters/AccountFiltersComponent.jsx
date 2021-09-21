@@ -23,7 +23,7 @@ import SelectField from 'material-ui/SelectField'
 import IconButton from 'material-ui/IconButton'
 import { MenuItem } from 'material-ui/IconMenu'
 import { AdminInstanceDomain } from '@regardsoss/domain'
-import { CommonShapes, AdminShapes } from '@regardsoss/shape'
+import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -36,7 +36,7 @@ import ACCOUNT_FILTERS from '../../domain/AccountFilters'
  */
 class AccountFiltersComponent extends React.Component {
   static propTypes = {
-    origins: CommonShapes.ServiceProviderList.isRequired,
+    origins: PropTypes.arrayOf(PropTypes.string),
     projects: AdminShapes.ProjectList.isRequired,
 
     // table sorting, column visiblity & filters management
@@ -106,7 +106,7 @@ class AccountFiltersComponent extends React.Component {
             >
               <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'account.list.table.filters.origin.any' })} />
               {map(origins, (origin) => (
-                <MenuItem key={origin} value={origin.content.name} primaryText={origin.content.name} />
+                <MenuItem key={origin} value={origin} primaryText={origin} />
               ))}
             </SelectField>
             <SelectField
@@ -115,6 +115,7 @@ class AccountFiltersComponent extends React.Component {
               hintText={formatMessage({ id: 'account.list.table.filters.project' })}
               onChange={(event, index, value) => updateFilter(value, ACCOUNT_FILTERS.PROJECT)}
               style={fieldWidth}
+              multiple
             >
               <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'account.list.table.filters.project.any' })} />
               {map(projects, (project) => (
