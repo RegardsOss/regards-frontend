@@ -19,7 +19,6 @@
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { CommonDomain } from '@regardsoss/domain'
 import IconButton from 'material-ui/IconButton'
 import DeleteIcon from 'mdi-material-ui/DeleteForever'
 import NewSortingShape from './NewSortingShape'
