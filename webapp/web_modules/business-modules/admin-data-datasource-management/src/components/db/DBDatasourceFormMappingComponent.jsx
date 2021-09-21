@@ -76,14 +76,81 @@ export class DBDatasourceFormMappingComponent extends React.Component {
     },
   }
 
-  componentDidMount() {
+  // componentDidMount() {
+  //   const {
+  //     isEditing, isSingleTable, initialize, currentDatasource,
+  //   } = this.props
+  //   // Initialize forms inputs
+  //   if (isEditing) {
+  //     const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MAPPING), 'value', [])
+  //     if (isSingleTable) {
+  //       const { tableAttributeList } = this.props
+  //       const { currentTableSelected } = this.state
+  //       const attributes = {}
+  //       forEach(attributesMapping, (attributeMapping) => {
+  //         // Check if the value provided by attributeMapping.nameDs exists in table attributes
+  //         const existingTable = find(tableAttributeList, (tableAttribute) => tableAttribute.name === attributeMapping.nameDS)
+  //         attributes[attributeMapping.name] = {
+  //           tableAttribute: existingTable ? attributeMapping.nameDS : '',
+  //           sql: existingTable ? '' : attributeMapping.nameDS,
+  //         }
+  //       })
+  //       const obj = {
+  //         [states.FROM_TABLE]: {
+  //           table: currentTableSelected.fullname,
+  //           attributes,
+  //         },
+  //       }
+  //       initialize(obj)
+  //       // Initialise state with selected table when editing
+  //       if (isEditing && isSingleTable) {
+  //         const tableFullName = findParam(currentDatasource, IDBDatasourceParamsEnum.TABLE).value || ''
+  //         this.setState({
+  //           currentTableSelected: {
+  //             fullname: tableFullName,
+  //             name: tableFullName.split('.')[1],
+  //           },
+  //         })
+  //       }
+  //     } else {
+  //       const fromClause = get(findParam(currentDatasource, IDBDatasourceParamsEnum.FROM_CLAUSE), 'value')
+  //       const attributes = {}
+  //       forEach(attributesMapping, (attributeMapping) => {
+  //         attributes[attributeMapping.name] = {
+  //           sql: attributeMapping.nameDS,
+  //         }
+  //       })
+  //       const obj = {
+  //         [states.CUSTOM_FROM]: {
+  //           fromClause,
+  //           attributes,
+  //         },
+  //       }
+  //       initialize(obj)
+  //     }
+  //   }
+  // }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => {
+    const {
+      isEditing, isSingleTable, initialize, currentDatasource,
+    } = this.props
     // Initialize forms inputs
-    if (this.props.isEditing) {
-      const { currentDatasource } = this.props
+    if (isEditing) {
       const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MAPPING), 'value', [])
-      if (this.props.isSingleTable) {
+      if (isSingleTable) {
         const { tableAttributeList } = this.props
-        const { currentTableSelected } = this.state
+        // Initialise state
+        const tableFullName = findParam(currentDatasource, IDBDatasourceParamsEnum.TABLE).value || ''
+        this.setState({
+          currentTableSelected: {
+            fullname: tableFullName,
+            name: tableFullName.split('.')[1],
+          },
+        })
         const attributes = {}
         forEach(attributesMapping, (attributeMapping) => {
           // Check if the value provided by attributeMapping.nameDs exists in table attributes
@@ -95,11 +162,11 @@ export class DBDatasourceFormMappingComponent extends React.Component {
         })
         const obj = {
           [states.FROM_TABLE]: {
-            table: currentTableSelected.fullname,
+            table: tableFullName,
             attributes,
           },
         }
-        this.props.initialize(obj)
+        initialize(obj)
       } else {
         const fromClause = get(findParam(currentDatasource, IDBDatasourceParamsEnum.FROM_CLAUSE), 'value')
         const attributes = {}
@@ -114,25 +181,8 @@ export class DBDatasourceFormMappingComponent extends React.Component {
             attributes,
           },
         }
-        this.props.initialize(obj)
+        initialize(obj)
       }
-    }
-  }
-
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  UNSAFE_componentWillMount = () => {
-    const { isEditing, isSingleTable } = this.props
-    // Initialise state with selected table when editing
-    if (isEditing && isSingleTable) {
-      const tableFullName = findParam(this.props.currentDatasource, IDBDatasourceParamsEnum.TABLE).value || ''
-      this.setState({
-        currentTableSelected: {
-          fullname: tableFullName,
-          name: tableFullName.split('.')[1],
-        },
-      })
     }
   }
 
