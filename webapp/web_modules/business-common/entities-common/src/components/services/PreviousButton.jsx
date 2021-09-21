@@ -24,7 +24,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 * Button to show previous step action
 * @author Raphaël Mechali
 */
-class PreviousButtonComponent extends React.Component {
+class PreviousButton extends React.Component {
   static propTypes = {
     onPrevious: PropTypes.func.isRequired,
   }
@@ -47,4 +47,4 @@ class PreviousButtonComponent extends React.Component {
   }
 }
 
-export default PreviousButtonComponent
+export default PreviousButton

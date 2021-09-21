@@ -28,7 +28,7 @@ const DEFAULT_PARTITION_STATE = {
 /**
  * Selectors for partitioned actions, exposes store data by partition key
  */
-class BasicPartitionSelector extends BasicSelector {
+class BasicPartitionSelectors extends BasicSelector {
   getPartition(state, partitionKey) {
     const allPartitions = this.uncombineStore(state)
     const partition = allPartitions ? allPartitions[partitionKey] : null
@@ -52,4 +52,4 @@ class BasicPartitionSelector extends BasicSelector {
   }
 }
 
-export default BasicPartitionSelector
+export default BasicPartitionSelectors

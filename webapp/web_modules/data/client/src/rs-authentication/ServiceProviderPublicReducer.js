@@ -24,7 +24,7 @@ import ServiceProviderPublicActions from './ServiceProviderPublicActions'
  * Service provider reducer
  * @author Théo Lasserre
  */
-class ServiceProviderReducers extends BasicPageableReducers {
+class ServiceProviderPublicReducer extends BasicPageableReducers {
   constructor(namespace) {
     super(ServiceProviderConfiguration, new ServiceProviderPublicActions(namespace))
   }
@@ -36,6 +36,6 @@ class ServiceProviderReducers extends BasicPageableReducers {
  * @returns {function} reduce function
  */
 export default (namespace) => {
-  const instance = new ServiceProviderReducers(namespace)
+  const instance = new ServiceProviderPublicReducer(namespace)
   return (state, action) => instance.reduce(state, action)
 }

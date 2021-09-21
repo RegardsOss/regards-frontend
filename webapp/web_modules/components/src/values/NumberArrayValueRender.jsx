@@ -23,7 +23,7 @@ import { NumberValueRender } from './NumberValueRender'
 /**
  * Component to display a number array values
  * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
- * Note 2: when using this render outside table, provide context using withValueRenderContext method
+ * Note 2: when using this render outside table, provide context using withValuesRenderContext method
  *
  * @author Raphaël Mechali
  */

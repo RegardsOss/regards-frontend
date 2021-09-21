@@ -220,10 +220,9 @@ export class OAISRequestManagerComponent extends React.Component {
       pageMeta, pageSize, clearSelection, fetchPage,
     } = this.props
     const { contextRequestBodyParameters, contextRequestURLParameters, columnsSorting } = this.state
-    let fetchPageSize = pageSize
     // compute page size to refresh all current entities in the table
     const lastPage = (pageMeta && pageMeta.number) || 0
-    fetchPageSize = pageSize * (lastPage + 1)
+    const fetchPageSize = pageSize * (lastPage + 1)
     clearSelection()
     fetchPage(0, fetchPageSize, {}, columnsSorting, { ...contextRequestBodyParameters, ...contextRequestURLParameters })
   }
@@ -258,13 +257,13 @@ export class OAISRequestManagerComponent extends React.Component {
 
   onChangeStateFilter = (event, index, filterValues) => {
     const { updateStateFromRequestManager } = this.props
-    const finalNewValue = filterValues && filterValues !== '' ? filterValues : undefined
+    const finalNewValue = filterValues || undefined
     updateStateFromRequestManager({ state: finalNewValue })
   }
 
   onChangeTypeFilter = (event, index, filterValues) => {
     const { updateStateFromRequestManager } = this.props
-    const finalNewValue = filterValues && filterValues !== '' ? filterValues : undefined
+    const finalNewValue = filterValues || undefined
     updateStateFromRequestManager({ type: finalNewValue })
   }
 
@@ -512,7 +511,7 @@ export class OAISRequestManagerComponent extends React.Component {
             fetchUsingPostMethod
           />
         </TableLayout>
-        { /** -------- Dialogs -------- **/ }
+        { /** -------- Dialogs -------- **/}
         <Dialog // 1. errors
           title={formatMessage({ id: 'oais.aips.list.aip-details.title' })}
           open={this.state[OAISRequestManagerComponent.DIALOG_TYPES.errorsDialog].open}

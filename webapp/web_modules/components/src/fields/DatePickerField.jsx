@@ -193,8 +193,8 @@ export default class DatePickerField extends React.Component {
       nextState.timeText = value ? format(value, DatePickerField.TIME_FORMAT) : ''
     }
     if (oldProps.displayTime !== displayTime
-        || oldProps.fullWidth !== fullWidth
-        || oldProps.style !== style) {
+      || oldProps.fullWidth !== fullWidth
+      || oldProps.style !== style) {
       nextState.style = {
         ...style,
         ...(fullWidth ? DatePickerField.FULL_WIDTH_STYLE : DatePicker.DEFAULT_STYLE),
@@ -308,7 +308,6 @@ export default class DatePickerField extends React.Component {
     let newDateText
     if (!isEmpty(timeText)) {
       if (dateText) {
-        newDateText = dateText
         parsedDate = DatePickerField.parseDateWithLocale(dateText, locale, timeText)
       } else {
         newDateText = DatePickerField.formatDateWithLocale(new Date(), locale)

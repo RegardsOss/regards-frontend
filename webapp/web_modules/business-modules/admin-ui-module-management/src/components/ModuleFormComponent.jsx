@@ -148,7 +148,7 @@ class ModuleFormComponent extends React.Component {
    * Renders static module configuration part
    */
   renderStaticModuleConfiguration = () => {
-    const { intl: { formatMessage }, moduleTheme: { form } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { form: formStyle } } = this.context
     return (
       <div>
         <Field
@@ -178,7 +178,7 @@ class ModuleFormComponent extends React.Component {
           validate={ValidationHelpers.required}
         />
         <Field
-          style={form.containerFieldStyle}
+          style={formStyle.containerFieldStyle}
           name="container"
           fullWidth
           component={RenderSelectField}
@@ -294,7 +294,7 @@ class ModuleFormComponent extends React.Component {
     } = this.props
     const { dynamicContainerSelected, moduleSelected } = this.state
     const { isDuplicating, isCreating } = this.props.adminForm
-    const { intl: { formatMessage }, moduleTheme: { form } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { form: formStyle } } = this.context
 
     let title = 'module.form.title.update'
     if (isDuplicating) {
@@ -312,31 +312,31 @@ class ModuleFormComponent extends React.Component {
           <Card>
             <CardTitle
               title={formatMessage({ id: title })}
-              style={form.cardTitleLessSpaced}
+              style={formStyle.cardTitleLessSpaced}
             />
-            <CardText id="staticFields" style={form.cardContentLessSpaced}>
-              {this.renderStaticModuleConfiguration(form)}
+            <CardText id="staticFields" style={formStyle.cardContentLessSpaced}>
+              {this.renderStaticModuleConfiguration()}
             </CardText>
           </Card>
 
           {/* 2. render dynamic modules page configuration */
             dynamicContainerSelected ? (
-              <Card style={form.cardEspaced}>
+              <Card style={formStyle.cardEspaced}>
                 <CardTitle
-                  style={form.cardTitleLessSpaced}
+                  style={formStyle.cardTitleLessSpaced}
                   title={formatMessage({ id: 'module.form.page.settings.title' })}
                 />
-                <CardText id="pageFields" style={form.cardContentLessSpaced}>
-                  {this.renderModulePageConfiguration(form)}
+                <CardText id="pageFields" style={formStyle.cardContentLessSpaced}>
+                  {this.renderModulePageConfiguration()}
                 </CardText>
               </Card>) : null
           }
 
           {/* 3. render specific dynamic module configuration */
             moduleSelected ? (
-              <Card style={form.cardEspaced}>
+              <Card style={formStyle.cardEspaced}>
                 <CardTitle
-                  style={form.cardTitleLessSpaced}
+                  style={formStyle.cardTitleLessSpaced}
                   title={formatMessage({ id: 'module.form.module.settings.title' })}
                 />
                 <CardText id="dynamicFields">
@@ -346,7 +346,7 @@ class ModuleFormComponent extends React.Component {
           }
 
           {/* 4. render buttons */}
-          <Card style={form.cardEspaced}>
+          <Card style={formStyle.cardEspaced}>
             <CardActions>
               <CardActionsComponent
                 mainButtonLabel={formatMessage({ id: isCreating ? 'module.form.submit.button' : 'module.form.update.button' })}

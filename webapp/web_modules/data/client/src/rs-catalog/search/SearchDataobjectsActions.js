@@ -22,7 +22,7 @@ import SearchEntitiesActions from './SearchEntitiesActions'
 /**
  * Actions to search for catalog dataobjects, reduced by the same handler than catalog dataset entity actions
  */
-export default class CatalogDataobjectEntityActions extends SearchEntitiesActions {
+export default class SearchDataobjectsActions extends SearchEntitiesActions {
   constructor(namespace) {
     super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/engines/${CatalogDomain.LEGACY_SEARCH_ENGINE}/dataobjects/search`)
   }

@@ -20,7 +20,7 @@ import { connect } from '@regardsoss/redux'
 import { CommonShapes, OrderShapes } from '@regardsoss/shape'
 import { OrderClient } from '@regardsoss/client'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
-import DeleteOrderComponent from '../../../components/orders/options/DeleteOrderComponent'
+import DeleteSuperficiallyOrderComponent from '../../../components/orders/options/DeleteSuperficiallyOrderComponent'
 
 /**
  * Delete order table option container.
@@ -162,7 +162,7 @@ export class DeleteOrderContainer extends React.Component {
   render() {
     const { isFetching } = this.state
     return (
-      <DeleteOrderComponent
+      <DeleteSuperficiallyOrderComponent
         isCompleteDelete={this.canDeleteCompletely()}
         canDelete={!isFetching && (this.canDeleteSuperficially() || this.canDeleteCompletely())}
         onDelete={this.onDeleteRequest}

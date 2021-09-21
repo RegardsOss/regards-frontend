@@ -25,7 +25,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 * Info action for collections.
 * @author Sébastien Binda
 */
-class DatasetListInfoAction extends React.Component {
+class CollectionListInfoAction extends React.Component {
   static propTypes = {
     hoverColor: PropTypes.string,
     entity: DataManagementShapes.Collection,
@@ -50,8 +50,8 @@ class DatasetListInfoAction extends React.Component {
       <IconButton
         className={`selenium-edit-${content.id}`}
         title={formatMessage({ id: 'collection.list.tooltip.info.button' })}
-        iconStyle={DatasetListInfoAction.iconStyle}
-        style={DatasetListInfoAction.buttonStyle}
+        iconStyle={CollectionListInfoAction.iconStyle}
+        style={CollectionListInfoAction.buttonStyle}
         onClick={() => onClick(entity)}
       >
         <DetailIcon hoverColor={hoverColor} />
@@ -59,4 +59,4 @@ class DatasetListInfoAction extends React.Component {
     )
   }
 }
-export default DatasetListInfoAction
+export default CollectionListInfoAction

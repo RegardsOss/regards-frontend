@@ -171,9 +171,9 @@ export class SessionsMonitoringComponent extends React.Component {
   * Show acknowledge confirm dialog
   * @param sessionToAcknowledge : session to acknowledge
   */
- onShowDeleteConfirm = (sessionToDelete) => {
-   this.setState({ sessionToDelete })
- }
+  onShowDeleteConfirm = (sessionToDelete) => {
+    this.setState({ sessionToDelete })
+  }
 
   onCloseDeleteConfirm = () => {
     this.setState({ sessionToDelete: null })

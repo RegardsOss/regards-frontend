@@ -28,7 +28,7 @@ import {
   TableColumnsVisibilityOption, StorageCapacityRender, NoContentComponent, StringValueRender,
 } from '@regardsoss/components'
 import FileDownloadContainer from '../../containers/files/FileDownloadContainer'
-import DatasetFilesCountHeaderMessage from './DatasetFilesCountHeaderMessage'
+import OrderDatasetsCountHeaderMessage from './OrderDatasetsCountHeaderMessage'
 import OrderFileStatusRender from './OrderFileStatusRender'
 
 // Column keys
@@ -157,7 +157,7 @@ class DatasetFilesComponent extends React.Component {
         <TableHeaderLine>
           {/* 1 - commands count */}
           <TableHeaderContentBox>
-            <DatasetFilesCountHeaderMessage totalFilesCount={totalFilesCount} />
+            <OrderDatasetsCountHeaderMessage totalFilesCount={totalFilesCount} />
           </TableHeaderContentBox>
           {/* 2 - loading */}
           <TableHeaderLoadingComponent loading={isFetching} />

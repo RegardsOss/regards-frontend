@@ -37,7 +37,7 @@ import { FORM_PAGES_ENUM } from '../../../domain/form/FormPagesEnum'
  * Browsing tree cell
  * @author Raphaël Mechali
  */
-class BrowsingTreeCell extends React.Component {
+class BrowsingTreeCellComponent extends React.Component {
   static propTypes = {
     section: FormSection.isRequired,
     page: FormPage,
@@ -80,13 +80,13 @@ class BrowsingTreeCell extends React.Component {
     const isSelected = page ? page.selected : false
     // retrieve icon construcor
     const IconConstructor = isSection
-      ? BrowsingTreeCell.SECTION_ICON_CONSTRUCTORS[section.type]
-      : BrowsingTreeCell.PAGE_ICON_CONSTRUCTORS[page.type]
+      ? BrowsingTreeCellComponent.SECTION_ICON_CONSTRUCTORS[section.type]
+      : BrowsingTreeCellComponent.PAGE_ICON_CONSTRUCTORS[page.type]
 
     const stateStyles = isSelected ? selected : regular
     return (
       <div style={root}>
-        { /* Icon */ }
+        { /* Icon */}
         <IconConstructor style={stateStyles.icon} />
         <div style={isSection ? stateStyles.section : stateStyles.page}>
           { /* Label */
@@ -100,4 +100,4 @@ class BrowsingTreeCell extends React.Component {
       </div>)
   }
 }
-export default BrowsingTreeCell
+export default BrowsingTreeCellComponent

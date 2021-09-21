@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { OrderDomain } from '@regardsoss/domain'
 import { OrderClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import DeleteOrderComponent from '../../../../src/components/orders/options/DeleteOrderComponent'
+import DeleteSuperficiallyOrderComponent from '../../../../src/components/orders/options/DeleteSuperficiallyOrderComponent'
 import { DeleteOrderContainer } from '../../../../src/containers/orders/options/DeleteOrderContainer'
 import { SOME_ORDERS } from '../../../dumps/Orders.dumb'
 import styles from '../../../../src/styles/styles'
@@ -111,7 +111,7 @@ describe('[Order Common] Testing DeleteOrderContainer', () => {
         fetchOrders: () => { },
       }
       const enzymeWrapper = shallow(<DeleteOrderContainer {...props} />, { context })
-      const component = enzymeWrapper.find(DeleteOrderComponent)
+      const component = enzymeWrapper.find(DeleteSuperficiallyOrderComponent)
       assert.lengthOf(component, 1, 'There should be the component')
       const deleteCallback = enzymeWrapper.instance().onDeleteRequest
       assert.equal(component.props().onDelete, deleteCallback, 'Callback should be set')

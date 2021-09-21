@@ -20,27 +20,27 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TableHeaderText } from '@regardsoss/components'
-import DatasetFilesCountHeaderMessage from '../../../src/components/files/DatasetFilesCountHeaderMessage'
+import OrderDatasetsCountHeaderMessage from '../../../src/components/files/OrderDatasetsCountHeaderMessage'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test DatasetFilesCountHeaderMessage
+* Test OrderDatasetsCountHeaderMessage
 * @author Raphaël Mechali
 */
-describe('[Order Common] Testing DatasetFilesCountHeaderMessage', () => {
+describe('[Order Common] Testing OrderDatasetsCountHeaderMessage', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DatasetFilesCountHeaderMessage)
+    assert.isDefined(OrderDatasetsCountHeaderMessage)
   })
   it('should internation correctly no data', () => {
     const props = {
       totalFilesCount: 0,
     }
-    const enzymeWrapper = shallow(<DatasetFilesCountHeaderMessage {...props} />, { context })
+    const enzymeWrapper = shallow(<OrderDatasetsCountHeaderMessage {...props} />, { context })
     const tableHeaderTextWrapper = enzymeWrapper.find(TableHeaderText)
     assert.lengthOf(tableHeaderTextWrapper, 1, 'There should be a table header text wrapper')
     assert.equal(tableHeaderTextWrapper.props().text, 'files.list.no.file.header.message', 'The text should show a no data')
@@ -50,7 +50,7 @@ describe('[Order Common] Testing DatasetFilesCountHeaderMessage', () => {
     const props = {
       totalFilesCount: 10,
     }
-    const enzymeWrapper = shallow(<DatasetFilesCountHeaderMessage {...props} />, { context })
+    const enzymeWrapper = shallow(<OrderDatasetsCountHeaderMessage {...props} />, { context })
     const tableHeaderTextWrapper = enzymeWrapper.find(TableHeaderText)
     assert.lengthOf(tableHeaderTextWrapper, 1, 'There should be a table header text wrapper')
     assert.equal(tableHeaderTextWrapper.props().text, 'files.list.files.header.message', 'The text should show a no data')
