@@ -39,11 +39,6 @@ class SortDeleteRender extends React.Component {
     ...i18nContextType,
   }
 
-  isAscending = () => {
-    const { entity: { sortOrder } } = this.props
-    return sortOrder === CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER
-  }
-
   onDelete = () => {
     const { onDelete, entity } = this.props
     onDelete(entity)
