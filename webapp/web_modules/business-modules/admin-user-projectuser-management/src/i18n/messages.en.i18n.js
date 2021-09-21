@@ -109,7 +109,7 @@ const messages = {
   'projectUser.create.input.role': 'Role',
   'projectUser.create.input.role.default': 'Default Role',
   'projectUser.create.input.emails_confirmation': 'Emails to which confirmation mail will be send',
-  'projectUser.create.input.emails_confirmation.add.warn': 'Confirmer email add',
+  'projectUser.create.input.emails_confirmation.add.warn': 'Confirm email add',
   'projectUser.create.input.emails_confirmation.add.error': 'Invalid email address',
   'projectUser.create.input.emails_confirmation.add.exist': 'Email already exist',
   'projectUser.create.input.emails_confirmation.add.floating.text': 'Insert email',
