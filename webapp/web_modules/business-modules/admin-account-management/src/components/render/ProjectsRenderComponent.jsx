@@ -16,26 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminDomain } from '@regardsoss/domain'
-import URL from '../rs-common/URL'
+import { AdminShapes } from '@regardsoss/shape'
+import map from 'lodash/map'
 
-export const ProjectContent = PropTypes.shape({
-  id: PropTypes.number,
-  label: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  icon: URL,
-  licenseLink: URL,
-  isDeleted: PropTypes.bool.isRequired,
-  isPublic: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
-  host: PropTypes.string,
-  crs: PropTypes.oneOf(AdminDomain.PROJECT_CRS),
-  isPoleToBeManaged: PropTypes.bool,
-})
+/**
+* @author Raphaël Mechali
+*/
+class ProjectsRenderComponent extends React.Component {
+  static propTypes = {
+    value: AdminShapes.ProjectArray,
+  }
 
-export const Project = PropTypes.shape({
-  content: ProjectContent,
-})
-
-export const ProjectList = PropTypes.objectOf(Project)
-export const ProjectArray = PropTypes.arrayOf(Project)
+  render() {
+    const { value } = this.props
+    return (
+      <div>
+        {map(value, (val) => val.name).join(', ')}
+      </div>
+    )
+  }
+}
+export default ProjectsRenderComponent

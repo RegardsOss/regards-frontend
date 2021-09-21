@@ -33,12 +33,12 @@ import {
   ShowableAtRender, CardActionsComponent, PageableInfiniteTableContainer,
   TableColumnBuilder, TableLayout, TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
   TableHeaderContentBox, TableColumnsVisibilityOption, TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
-  StringArrayValueRender,
 } from '@regardsoss/components'
 import { accountActions, accountSelectors } from '../clients/AccountClient'
 import AccountEditComponent from './render/AccountEditComponent'
 import AccountAcceptComponent from './render/AccountAcceptComponent'
 import AccountRefuseComponent from './render/AccountRefuseComponent'
+import ProjectsRenderComponent from './render/ProjectsRenderComponent'
 import AccountEnableComponent from './render/AccountEnableComponent'
 import AccountDeleteComponent from './render/AccountDeleteComponent'
 import AccountFiltersComponent from './filters/AccountFiltersComponent'
@@ -233,7 +233,7 @@ export class AccountListComponent extends React.Component {
       // 5 - project
       new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.PROJECTS)
         .titleHeaderCell()
-        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.PROJECTS}`, StringArrayValueRender)
+        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.PROJECTS}`, ProjectsRenderComponent)
         .label(formatMessage({ id: 'account.list.table.project' }))
         .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.PROJECTS, true))
         .sortableHeaderCell(...getColumnSortingData(AccountListComponent.COLUMN_KEYS.PROJECTS), onSort)

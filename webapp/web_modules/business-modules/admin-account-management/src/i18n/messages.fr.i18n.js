@@ -38,7 +38,7 @@ const messages = {
   'account.list.table.filters.status.INACTIVE': 'Inactif',
   'account.list.table.filters.origin': 'Origine',
   'account.list.table.filters.origin.any': 'Toutes origines',
-  'account.list.table.filters.projects': 'Projet',
+  'account.list.table.filters.projects': 'Projets',
   'account.list.table.filters.projects.any': 'Tout projet',
   'account.list.table.filters.clear': 'Effacer les filtres',
   'account.list.table.status.label.PENDING': 'En attente validation administrateur',

@@ -115,6 +115,7 @@ class AccountFiltersComponent extends React.Component {
               hintText={formatMessage({ id: 'account.list.table.filters.projects' })}
               onChange={(event, index, value) => updateFilter(value, ACCOUNT_FILTERS.PROJECTS)}
               style={fieldWidth}
+              multiple
             >
               <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'account.list.table.filters.projects.any' })} />
               {map(projects, (project) => (
