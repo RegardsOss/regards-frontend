@@ -23,12 +23,14 @@
  */
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
 const webpack = require('webpack')
-console.log("You are running a production build on PERF")
-console.log("You need to:")
-console.log("   - run npm run build:production-dll")
-console.log("   - mkdir -p dist/prod/conf && cp webpack-config-front/src/conf/staticConfiguration.js dist/prod/conf/")
-console.log("   - add inside file dist/prod/conf/staticConfiguration.js")
-console.log("     API_URL = 'api/v1';GATEWAY_HOSTNAME = 'http://172.26.47.52'")
+
+// You are running a production build on PERF
+// You need to:
+//    - run npm run build:production-dll
+//    - mkdir -p dist/prod/conf && cp webpack-config-front/src/conf/staticConfiguration.js dist/prod/conf/
+//    - add inside file dist/prod/conf/staticConfiguration.js
+//      API_URL = 'api/v1';GATEWAY_HOSTNAME = 'http://172.26.47.52'
+
 const conf = webpackConfigurator
   .generateConfig({
     mode: 'prod',
