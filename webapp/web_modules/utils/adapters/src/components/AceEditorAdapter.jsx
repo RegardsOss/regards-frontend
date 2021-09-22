@@ -19,6 +19,8 @@
 import reduce from 'lodash/reduce'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import styles from '../styles'
+// Fix underscore not visible on Ace.
+import './ace.css'
 
 const HeadlessAdapter = (props) => <div>{reduce(props, (acc, value, key) => `${acc}<br />${key}: ${value}`, '')}</div>
 
@@ -67,6 +69,7 @@ export class AceEditorAdapter extends React.Component {
         // we ask webpack to dispose these dependencies inside public folder
         // supported themes
         require('ace-builds/src-noconflict/theme-monokai')
+
         // supported languages
         require('ace-builds/src-noconflict/worker-json')
         require('ace-builds/src-noconflict/worker-css')
@@ -79,7 +82,8 @@ export class AceEditorAdapter extends React.Component {
         this.RenderComponent = require('react-ace').default
         // override ace config to let it find its files
         window.ace.config.set('basePath', '/ace')
-
+        window.ace.config.set('themePath', '/ace')
+        window.ace.config.set('modePath', '/ace')
         this.setState({ loaded: true })
       })
     }
@@ -94,7 +98,7 @@ export class AceEditorAdapter extends React.Component {
     }
     const { RenderComponent } = this
     return (
-      <RenderComponent mode={mode} theme={muiTheme.components.editorACE.theme} editorProps={AceEditorAdapter.editorProps} {...otherEditorProps} />
+      <RenderComponent mode={mode} fontSize={14} theme={muiTheme.components.editorACE.theme} editorProps={AceEditorAdapter.editorProps} {...otherEditorProps} />
     )
   }
 }
