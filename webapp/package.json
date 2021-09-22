@@ -30,6 +30,7 @@
     "start:withcnespp": "webpack serve --https --progress --config webpack.dev.cnespp.config.js",
     "start:withcnesprod": "webpack serve --https --progress --config webpack.dev.cnesprod.config.js",
     "start:withvmvalidation": "webpack serve --progress --config webpack.dev.vmvalidation.config.js",
+    "start:prodvmperf": "webpack serve --progress --config webpack.dev.vmperf.config.js",
     "start:withic": "webpack serve --progress --config webpack.dev.ic.config.js",
     "start:copy-plugins": "./scripts/copyPlugins.sh",
     "pretest": "npm run lint:fix || true",
