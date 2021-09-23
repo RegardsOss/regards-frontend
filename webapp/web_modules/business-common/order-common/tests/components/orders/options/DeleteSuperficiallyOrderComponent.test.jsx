@@ -20,21 +20,21 @@ import IconButton from 'material-ui/IconButton'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import DeleteOrderComponent from '../../../../src/components/orders/options/DeleteOrderComponent'
+import DeleteSuperficiallyOrderComponent from '../../../../src/components/orders/options/DeleteSuperficiallyOrderComponent'
 import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test DeleteOrderComponent
+* Test DeleteSuperficiallyOrderComponent
 * @author Raphaël Mechali
 */
-describe('[Order Common] Testing DeleteOrderComponent', () => {
+describe('[Order Common] Testing DeleteSuperficiallyOrderComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DeleteOrderComponent)
+    assert.isDefined(DeleteSuperficiallyOrderComponent)
   })
   it('should render correctly disabled', () => {
     const props = {
@@ -42,7 +42,7 @@ describe('[Order Common] Testing DeleteOrderComponent', () => {
       canDelete: false,
       onDelete: () => { },
     }
-    const enzymeWrapper = shallow(<DeleteOrderComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<DeleteSuperficiallyOrderComponent {...props} />, { context })
     const iconWrapper = enzymeWrapper.find(IconButton)
     assert.lengthOf(iconWrapper, 1, 'There should be a button')
     assert.isTrue(iconWrapper.props().disabled, 'it should be disabled')
@@ -53,7 +53,7 @@ describe('[Order Common] Testing DeleteOrderComponent', () => {
       canDelete: true,
       onDelete: () => { },
     }
-    const enzymeWrapper = shallow(<DeleteOrderComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<DeleteSuperficiallyOrderComponent {...props} />, { context })
     const iconWrapper = enzymeWrapper.find(IconButton)
     assert.lengthOf(iconWrapper, 1, 'There should be a button')
     assert.isFalse(iconWrapper.props().disabled, 'it should be enabled')
@@ -66,7 +66,7 @@ describe('[Order Common] Testing DeleteOrderComponent', () => {
       canDelete: true,
       onDelete: () => { },
     }
-    const enzymeWrapper = shallow(<DeleteOrderComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<DeleteSuperficiallyOrderComponent {...props} />, { context })
     const iconWrapper = enzymeWrapper.find(IconButton)
     assert.lengthOf(iconWrapper, 1, 'There should be a button')
     assert.isFalse(iconWrapper.props().disabled, 'it should be enabled')

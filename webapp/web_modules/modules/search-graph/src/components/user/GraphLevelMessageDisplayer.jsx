@@ -22,7 +22,7 @@ import { themeContextType } from '@regardsoss/theme'
 /**
 * Level message displayer
 */
-class GraphLevelFetchErrorDisplayer extends React.Component {
+class GraphLevelMessageDisplayer extends React.Component {
   static propTypes = {
     // internationalized message key
     messageKey: PropTypes.string.isRequired,
@@ -42,4 +42,4 @@ class GraphLevelFetchErrorDisplayer extends React.Component {
     )
   }
 }
-export default GraphLevelFetchErrorDisplayer
+export default GraphLevelMessageDisplayer

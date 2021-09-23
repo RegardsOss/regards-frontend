@@ -26,7 +26,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 * Edit table action for search engine configurations
 * @author Sébastien Binda
 */
-class SearchConfigurationInfoAction extends React.Component {
+class SearchEngineConfigurationInfoAction extends React.Component {
   static propTypes = {
     entity: CommonShapes.PluginConfiguration,
     onClick: PropTypes.func.isRequired,
@@ -52,8 +52,8 @@ class SearchConfigurationInfoAction extends React.Component {
       <IconButton
         className={`selenium-edit-${content.id}`}
         title={formatMessage({ id: 'dataaccess.searchengines.list.info.button' })}
-        iconStyle={SearchConfigurationInfoAction.iconStyle}
-        style={SearchConfigurationInfoAction.buttonStyle}
+        iconStyle={SearchEngineConfigurationInfoAction.iconStyle}
+        style={SearchEngineConfigurationInfoAction.buttonStyle}
         onClick={() => onClick(entity)}
         disabled={!this.infoAvailable()}
       >
@@ -62,4 +62,4 @@ class SearchConfigurationInfoAction extends React.Component {
     )
   }
 }
-export default SearchConfigurationInfoAction
+export default SearchEngineConfigurationInfoAction

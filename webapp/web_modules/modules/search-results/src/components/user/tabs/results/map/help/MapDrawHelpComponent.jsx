@@ -24,7 +24,7 @@ import Select from 'mdi-material-ui/Select'
  * Map draw help
  * @author Léo Mieulet
  */
-class MapToponymDrawComponent extends React.Component {
+class MapDrawHelpComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -59,4 +59,4 @@ class MapToponymDrawComponent extends React.Component {
     )
   }
 }
-export default MapToponymDrawComponent
+export default MapDrawHelpComponent

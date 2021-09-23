@@ -23,7 +23,7 @@ import { ENTITY, ENTITY_ARRAY } from '@regardsoss/api'
 /**
  * Direct research entities actions
  */
-export default class CatalogSearchEntitiesActions extends BasicFacetsPageableActions {
+export default class SearchEntitiesActions extends BasicFacetsPageableActions {
   /**
    * Constructor
    * @param {*} namespace namespace for actions

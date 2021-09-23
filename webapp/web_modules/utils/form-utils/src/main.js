@@ -48,4 +48,6 @@ export { default as ValidationHelpers } from './domain/ValidationHelpers'
 
 export { default as Locales } from './i18n'
 
+export { default as RenderFieldArray } from './components/render/RenderFieldArray'
+
 export * from './shapes/FieldHelpShape'

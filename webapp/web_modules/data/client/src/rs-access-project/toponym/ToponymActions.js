@@ -24,7 +24,7 @@ import { TOPONYM, TOPONYM_ARRAY } from '@regardsoss/api'
  * Actions to get a toponym
  * @author Théo Lasserre
  */
-export default class ToponymsActions extends BasicListActions {
+export default class ToponymActions extends BasicListActions {
   constructor(namespace) {
     super({
       namespace,

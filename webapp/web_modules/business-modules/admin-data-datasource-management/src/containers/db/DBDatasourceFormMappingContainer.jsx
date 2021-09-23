@@ -36,6 +36,40 @@ const { findParam, hasParam } = PluginConfParamsUtils
  * Show the datasource form
  */
 export class DBDatasourceFormMappingContainer extends React.Component {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, ownProps) {
+    return {
+      tableList: connectionTableSelectors.getResult(state),
+      tableAttributeList: connectionTableAttributesSelectors.getResult(state),
+      modelAttributeList: modelAttributesSelectors.getList(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      fetchTable: (connectionId) => dispatch(connectionTableActions.sendSignal('GET', null, {
+        connectionId,
+      })),
+      fetchTableAttributes: (connectionId, tableName) => dispatch(connectionTableAttributesActions.sendSignal('GET', null, {
+        connectionId,
+        tableName,
+      })),
+      flushTableAttributes: (connectionId, tableName) => dispatch(connectionTableAttributesActions.flush()),
+      fetchModelAttributeList: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+    }
+  }
+
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
     isEditing: PropTypes.bool,
@@ -141,22 +175,4 @@ export class DBDatasourceFormMappingContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  tableList: connectionTableSelectors.getResult(state),
-  tableAttributeList: connectionTableAttributesSelectors.getResult(state),
-  modelAttributeList: modelAttributesSelectors.getList(state),
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchTable: (connectionId) => dispatch(connectionTableActions.sendSignal('GET', null, {
-    connectionId,
-  })),
-  fetchTableAttributes: (connectionId, tableName) => dispatch(connectionTableAttributesActions.sendSignal('GET', null, {
-    connectionId,
-    tableName,
-  })),
-  flushTableAttributes: (connectionId, tableName) => dispatch(connectionTableAttributesActions.flush()),
-  fetchModelAttributeList: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(DBDatasourceFormMappingContainer)
+export default connect(DBDatasourceFormMappingContainer.mapStateToProps, DBDatasourceFormMappingContainer.mapDispatchToProps)(DBDatasourceFormMappingContainer)

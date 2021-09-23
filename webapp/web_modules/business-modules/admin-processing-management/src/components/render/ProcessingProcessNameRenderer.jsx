@@ -25,22 +25,22 @@ import { ProcessingDomain } from '@regardsoss/domain'
   * @author Théo Lasserre
   */
 class ProcessingProcessNameRenderer extends React.Component {
-   static propTypes = {
-     entity: ProcessingShapes.Processing.isRequired,
-   }
+  static propTypes = {
+    entity: ProcessingShapes.Processing.isRequired,
+  }
 
-   render() {
-     const { entity } = this.props
-     return (
-       <div>
-         {
-           entity
-             ? ProcessingDomain.getProcessingName(entity)
-             : 'processNameNotFound'
-         }
-       </div>
-     )
-   }
+  render() {
+    const { entity } = this.props
+    return (
+      <div>
+        {
+          entity
+            ? ProcessingDomain.getProcessingName(entity)
+            : 'processNameNotFound'
+        }
+      </div>
+    )
+  }
 }
 
 export default ProcessingProcessNameRenderer

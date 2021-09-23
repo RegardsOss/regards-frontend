@@ -38,3 +38,4 @@ export const Project = PropTypes.shape({
 })
 
 export const ProjectList = PropTypes.objectOf(Project)
+export const ProjectArray = PropTypes.arrayOf(Project)

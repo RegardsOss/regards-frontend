@@ -19,7 +19,9 @@
 
 export { ConnectivityCheck, ConnectivityCheckList } from './ConnectivityCheck'
 export { MetadataContent, MetadataContentArray } from './Metadata'
-export { ProjectContent, Project, ProjectList } from './Project'
+export {
+  ProjectContent, Project, ProjectList, ProjectArray,
+} from './Project'
 export { ProjectConnection, ProjectConnectionList } from './ProjectConnection'
 export { Resource, ResourceList, ResourceArray } from './Resource'
 export { Role, RoleList, RoleArray } from './Role'

@@ -16,25 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNil from 'lodash/isNil'
+import { AdminShapes } from '@regardsoss/shape'
+import map from 'lodash/map'
 
 /**
- * Common static query parameter (avoid parsing needs in specific cases)
- * @author Raphaël Mechali
- */
-export default class StaticParameter {
-  /**
-   * Static query parameter constructor
-   * @param value parameter value
-   */
-  constructor(value) {
-    this.value = value
+* @author Raphaël Mechali
+*/
+class ProjectsRenderComponent extends React.Component {
+  static propTypes = {
+    value: AdminShapes.ProjectArray,
   }
 
-  /**
-   * @return parameter query string when parameter is value valid, null otherwise
-   */
-  toQueryString() {
-    return isNil(this.value) ? null : this.value
+  render() {
+    const { value } = this.props
+    return (
+      <div>
+        {map(value, (val) => val.name).join(', ')}
+      </div>
+    )
   }
 }
+export default ProjectsRenderComponent

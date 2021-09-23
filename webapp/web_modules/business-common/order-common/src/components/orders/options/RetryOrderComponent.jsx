@@ -25,27 +25,27 @@ import { i18nContextType } from '@regardsoss/i18n'
   * @author Sébastien Binda
   */
 class RetryOrderComponent extends React.Component {
-   static propTypes = {
-     canRetry: PropTypes.bool.isRequired,
-     onRetry: PropTypes.func.isRequired,
-   }
+  static propTypes = {
+    canRetry: PropTypes.bool.isRequired,
+    onRetry: PropTypes.func.isRequired,
+  }
 
-   static contextTypes = {
-     ...i18nContextType,
-   }
+  static contextTypes = {
+    ...i18nContextType,
+  }
 
-   render() {
-     const { onRetry, canRetry } = this.props
-     const { intl: { formatMessage } } = this.context
-     return (
-       <IconButton
-         disabled={!canRetry}
-         onClick={onRetry}
-         title={formatMessage({ id: 'order.list.option.cell.retry.order.tooltip' })}
-       >
-         <RetryIcon />
-       </IconButton>
-     )
-   }
+  render() {
+    const { onRetry, canRetry } = this.props
+    const { intl: { formatMessage } } = this.context
+    return (
+      <IconButton
+        disabled={!canRetry}
+        onClick={onRetry}
+        title={formatMessage({ id: 'order.list.option.cell.retry.order.tooltip' })}
+      >
+        <RetryIcon />
+      </IconButton>
+    )
+  }
 }
 export default RetryOrderComponent

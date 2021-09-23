@@ -32,7 +32,7 @@ import GraphLevelMessageDisplayer from './GraphLevelMessageDisplayer'
 /**
 * A collection content displayer: shows the collections and datasets within root collection
 */
-class GraphLevelDispayer extends React.Component {
+class GraphLevelDisplayer extends React.Component {
   static propTypes = {
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
     descriptionProperties: DescriptionProperties.isRequired, // From description HOC
@@ -81,7 +81,7 @@ class GraphLevelDispayer extends React.Component {
           </ShowableAtRender>
           <ShowableAtRender show={!isLoading && !hasError && hasContent}>
             { // collections
-              values(collections).sort(GraphLevelDispayer.compareEntities).map((collection) => (<CollectionItemContainer
+              values(collections).sort(GraphLevelDisplayer.compareEntities).map((collection) => (<CollectionItemContainer
                 key={collection.content.id}
                 collection={collection}
                 descriptionProperties={descriptionProperties}
@@ -90,7 +90,7 @@ class GraphLevelDispayer extends React.Component {
               />))
             }
             { // datasets
-              values(datasets).sort(GraphLevelDispayer.compareEntities).map((dataset) => (<DatasetItemContainer
+              values(datasets).sort(GraphLevelDisplayer.compareEntities).map((dataset) => (<DatasetItemContainer
                 key={dataset.content.id}
                 dataset={dataset}
                 graphDatasetAttributes={graphDatasetAttributes}
@@ -104,4 +104,4 @@ class GraphLevelDispayer extends React.Component {
     )
   }
 }
-export default GraphLevelDispayer
+export default GraphLevelDisplayer

@@ -24,7 +24,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  * Actions for service provider
  * @author Théo Lasserre
  */
-class ServiceProviderActions extends BasicPageableActions {
+class ServiceProviderPublicActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
@@ -40,4 +40,4 @@ class ServiceProviderActions extends BasicPageableActions {
   getMsDependency = (verb, microserviceName) => replace(this.getDependency(verb), '{microserviceName}', microserviceName)
 }
 
-export default ServiceProviderActions
+export default ServiceProviderPublicActions

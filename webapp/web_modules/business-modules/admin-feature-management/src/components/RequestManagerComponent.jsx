@@ -309,14 +309,11 @@ export class RequestManagerComponent extends React.Component {
     let confirmDialogType
     let functionToCall
     switch (dialogType) {
-      case RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG:
-        confirmDialogType = RequestManagerComponent.DIALOG_TYPES.CONFIRM_DELETE_DIALOG
-        functionToCall = deleteRequests
-        break
       case RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG:
         confirmDialogType = RequestManagerComponent.DIALOG_TYPES.CONFIRM_RETRY_DIALOG
         functionToCall = retryRequests
         break
+      case RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG:
       default:
         confirmDialogType = RequestManagerComponent.DIALOG_TYPES.CONFIRM_DELETE_DIALOG
         functionToCall = deleteRequests

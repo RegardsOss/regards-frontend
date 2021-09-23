@@ -168,7 +168,7 @@ class DatabaseConnectionTester extends React.Component {
         action="OK"
       />)
 
-    let result = testButton
+    let result
     switch (this.state.status) {
       case EnumConnectivity.PENDING:
         result = pendingProgress

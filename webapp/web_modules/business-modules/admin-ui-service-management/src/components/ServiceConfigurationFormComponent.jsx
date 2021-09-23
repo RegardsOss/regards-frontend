@@ -138,12 +138,12 @@ export class ServiceConfigurationFormComponent extends React.Component {
                         staticParameter
                       />
                     ))
-}
+                  }
                   <br />
                   <br />
                 </div>
               )
-}
+            }
             {
               isEmpty(plugin.info.conf.static) ? null : (
                 <div>
@@ -160,7 +160,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
                   ))}
                 </div>
               )
-}
+            }
             <Field
               name="isActive"
               fullWidth

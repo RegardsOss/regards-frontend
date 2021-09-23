@@ -21,7 +21,7 @@
  * Handles a lazy map of plugin clients by plugin instance ID and client name
  * @author Raphaël Mechali
  */
-export default class PluginClientsMap {
+export default class PluginsClientsMap {
   /** Map of plugin instance ID => builder => builderResult */
   instancesClientsMap = {}
 

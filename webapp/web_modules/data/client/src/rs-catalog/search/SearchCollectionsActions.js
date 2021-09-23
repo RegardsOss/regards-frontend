@@ -23,7 +23,7 @@ import SearchEntitiesActions from './SearchEntitiesActions'
  * Actions to search for catalog collections
  * @author Raphaël Mechali
  */
-export default class CatalogCollectionsEntityActions extends SearchEntitiesActions {
+export default class SearchCollectionsActions extends SearchEntitiesActions {
   constructor(namespace) {
     super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/engines/${CatalogDomain.LEGACY_SEARCH_ENGINE}/collections/search`)
   }

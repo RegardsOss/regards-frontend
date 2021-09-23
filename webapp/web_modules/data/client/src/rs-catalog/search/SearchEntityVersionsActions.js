@@ -25,7 +25,7 @@ import SearchDatasetsActions from './SearchDatasetsActions'
 /**
  * Actions to search for an entity other versions (helper actions)
  */
-export default class FetchEntityVersionsActions {
+export default class SearchEntityVersionsActions {
   constructor(namespace) {
     this.searchDelegates = {
       [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: new SearchCollectionsActions(namespace),

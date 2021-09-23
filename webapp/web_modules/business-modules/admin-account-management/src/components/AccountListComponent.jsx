@@ -38,6 +38,7 @@ import { accountActions, accountSelectors } from '../clients/AccountClient'
 import AccountEditComponent from './render/AccountEditComponent'
 import AccountAcceptComponent from './render/AccountAcceptComponent'
 import AccountRefuseComponent from './render/AccountRefuseComponent'
+import ProjectsRenderComponent from './render/ProjectsRenderComponent'
 import AccountEnableComponent from './render/AccountEnableComponent'
 import AccountDeleteComponent from './render/AccountDeleteComponent'
 import AccountFiltersComponent from './filters/AccountFiltersComponent'
@@ -89,7 +90,7 @@ export class AccountListComponent extends React.Component {
     [ACCOUNT_FILTERS.LASTNAME]: '',
     [ACCOUNT_FILTERS.STATUS]: '',
     [ACCOUNT_FILTERS.ORIGIN]: '',
-    [ACCOUNT_FILTERS.PROJECT]: '',
+    [ACCOUNT_FILTERS.PROJECTS]: '',
   }
 
   static COLUMN_KEYS = {
@@ -98,7 +99,7 @@ export class AccountListComponent extends React.Component {
     LASTNAME: 'lastName',
     STATUS: 'status',
     ORIGIN: 'origin',
-    PROJECT: 'project',
+    PROJECTS: 'projects',
     ACTIONS: 'column.table.options',
   }
 
@@ -230,12 +231,12 @@ export class AccountListComponent extends React.Component {
         .sortableHeaderCell(...getColumnSortingData(AccountListComponent.COLUMN_KEYS.ORIGIN), onSort)
         .build(),
       // 5 - project
-      new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.PROJECT)
+      new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.PROJECTS)
         .titleHeaderCell()
-        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.PROJECT}`)
-        .label(formatMessage({ id: 'account.list.table.project' }))
-        .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.PROJECT, true))
-        .sortableHeaderCell(...getColumnSortingData(AccountListComponent.COLUMN_KEYS.PROJECT), onSort)
+        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.PROJECTS}`, ProjectsRenderComponent)
+        .label(formatMessage({ id: 'account.list.table.projects' }))
+        .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.PROJECTS, true))
+        .sortableHeaderCell(...getColumnSortingData(AccountListComponent.COLUMN_KEYS.PROJECTS), onSort)
         .build(),
       // 6 - options
       new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.ACTIONS)

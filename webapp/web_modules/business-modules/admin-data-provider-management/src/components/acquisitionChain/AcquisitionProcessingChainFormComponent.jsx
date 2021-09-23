@@ -38,12 +38,12 @@ import {
 import {
   RenderTextField, RenderPageableAutoCompleteField, RenderSelectField, reduxForm,
   RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray,
+  RenderFieldArray,
 } from '@regardsoss/form-utils'
 import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../../clients/IngestProcessingChainClient'
 import AcquisitionProcessingChainFormPluginsComponent from './AcquisitionProcessingChainFormPluginsComponent'
 import AcquisitionFileInfoComponent from './AcquisitionFileInfoComponent'
-import { CategoriesFieldArrayRenderer } from './CategoriesFieldArrayRenderer'
 import CronDescriptionDialog from './CronDescriptionDialog'
 import AcquisitionProcessingChainStorageConfComponent from './AcquisitionProcessingChainStorageConfComponent'
 import styles from '../../styles'
@@ -354,9 +354,13 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                 <FieldArray
                   name="categories"
                   fullWidth
-                  component={CategoriesFieldArrayRenderer}
+                  component={RenderFieldArray}
                   canBeEmpty
                   label={formatMessage({ id: 'acquisition-chain.form.general.section.periodicity' })}
+                  title={formatMessage({ id: 'acquisition-chain.form.general.section.info.category' })}
+                  warningText={formatMessage({ id: 'acquisition-chain.form.general.section.click.category.add.warn' })}
+                  alreadyExistText={formatMessage({ id: 'acquisition-chain.form.general.section.click.category.add.exist' })}
+                  floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.category-hint' })}
                 />
               </Tab>
               <Tab

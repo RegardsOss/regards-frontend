@@ -55,6 +55,7 @@ const messages = {
   'acquisition-chain.form.general.section.info.category': 'Les catégories permettent de filtrer les AIPs à aspirer par les sources de données',
   'acquisition-chain.form.general.section.category-hint': 'Nouvelle categorie',
   'acquisition-chain.form.general.section.click.category.add.warn': 'Confirmer l\'ajout de la categorie',
+  'acquisition-chain.form.general.section.click.category.add.exist': 'Cette catégorie existe déjà',
 
   // 1.3 Storage configuration section
   'acquisition-chain.form.storage.section': 'Stockage',

@@ -210,10 +210,9 @@ export class OAISPackageManagerComponent extends React.Component {
       pageMeta, pageSize, clearSelection, fetchPage,
     } = this.props
     const { contextRequestBodyParameters, contextRequestURLParameters, columnsSorting } = this.state
-    let fetchPageSize = pageSize
     // compute page size to refresh all current entities in the table
     const lastPage = (pageMeta && pageMeta.number) || 0
-    fetchPageSize = pageSize * (lastPage + 1)
+    const fetchPageSize = pageSize * (lastPage + 1)
     clearSelection()
     fetchPage(0, fetchPageSize, {}, columnsSorting, { ...contextRequestBodyParameters, ...contextRequestURLParameters })
   }
@@ -262,7 +261,7 @@ export class OAISPackageManagerComponent extends React.Component {
    */
   onChangeStateFilter = (event, index, values) => {
     const { updateStateFromPackageManager } = this.props
-    const finalNewValue = values && values !== '' ? values : undefined
+    const finalNewValue = values || undefined
     updateStateFromPackageManager({ state: finalNewValue })
   }
 
@@ -274,7 +273,7 @@ export class OAISPackageManagerComponent extends React.Component {
    */
   onChangeTypeFilter = (event, index, values) => {
     const { updateStateFromPackageManager } = this.props
-    const finalNewValue = values && values !== '' ? values : undefined
+    const finalNewValue = values || undefined
     updateStateFromPackageManager({ type: finalNewValue })
   }
 
@@ -286,7 +285,7 @@ export class OAISPackageManagerComponent extends React.Component {
    */
   onChangeStorageFilter = (event, index, values) => {
     const { updateStateFromPackageManager } = this.props
-    const finalNewValue = values && values !== '' ? values : undefined
+    const finalNewValue = values || undefined
     updateStateFromPackageManager({ storage: finalNewValue })
   }
 

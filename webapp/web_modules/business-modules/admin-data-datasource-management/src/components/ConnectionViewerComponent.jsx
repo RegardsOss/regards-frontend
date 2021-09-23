@@ -44,6 +44,7 @@ export class ConnectionViewerComponent extends React.Component {
     onTableSelected: PropTypes.func.isRequired,
     displayTableAsSelected: PropTypes.bool,
     // The parent component can force to mark a table as selected from the beginning
+    // eslint-disable-next-line react/no-unused-prop-types
     initialTableOpen: PropTypes.string,
   }
 
@@ -53,7 +54,32 @@ export class ConnectionViewerComponent extends React.Component {
   }
 
   state = {
-    tableOpen: this.props.initialTableOpen || '',
+    tableOpen: '',
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { initialTableOpen } = newProps
+    if (oldProps.initialTableOpen !== initialTableOpen) {
+      this.setState({
+        tableOpen: initialTableOpen,
+      })
+    }
   }
 
   /**
