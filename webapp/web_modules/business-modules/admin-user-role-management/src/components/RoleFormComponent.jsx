@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import find from 'lodash/find'
 import trim from 'lodash/trim'
 import {
   Card, CardActions, CardTitle, CardText,
@@ -29,6 +30,7 @@ import {
   RenderTextField, Field, RenderSelectField, ValidationHelpers, reduxForm,
 } from '@regardsoss/form-utils'
 import { AdminShapes } from '@regardsoss/shape'
+import { AdminDomain } from '@regardsoss/domain'
 
 const nameValidator = [ValidationHelpers.required, ValidationHelpers.validAlphaNumericUnderscore]
 
@@ -82,11 +84,13 @@ export class RoleFormComponent extends React.Component {
   }
 
   getRoleName = (name = 'empty') => {
-    const formated = this.context.intl.formatMessage({ id: `role.name.${name}` })
-    if (formated !== `role.name.${name}`) {
-      return formated
+    const { intl: { formatMessage } } = this.context
+    let roleName = name
+    const defaultRoleFound = find(AdminDomain.DEFAULT_ROLES_ENUM, (defaultRole) => defaultRole === name)
+    if (defaultRoleFound) {
+      roleName = formatMessage({ id: `role.name.${name}` })
     }
-    return name
+    return roleName
   }
 
   render() {

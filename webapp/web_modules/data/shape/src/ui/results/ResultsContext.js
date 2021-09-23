@@ -359,3 +359,15 @@ export const ResultsContext = PropTypes.shape({
     [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: ResultsTab.isRequired,
   }),
 })
+
+/** A sortable attribute */
+export const SortableAttribute = PropTypes.shape({
+  // The model referenced attribute
+  attribute: AttributeModel.isRequired,
+  // internationalized label for presentation, optional
+  label: PropTypes.shape({
+    en: PropTypes.string.isRequired,
+    fr: PropTypes.string.isRequired,
+  }),
+})
+export const SortableAttributes = PropTypes.objectOf(SortableAttribute)
