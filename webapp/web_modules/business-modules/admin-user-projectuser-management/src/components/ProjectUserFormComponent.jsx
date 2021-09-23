@@ -41,7 +41,7 @@ import {
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, AdminDomain } from '@regardsoss/domain'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import {
@@ -121,11 +121,13 @@ export class ProjectUserFormComponent extends React.Component {
   }
 
   getRoleName = (name = 'empty') => {
-    const formatted = this.context.intl.formatMessage({ id: `role.name.${name}` })
-    if (formatted !== `role.name.${name}`) {
-      return formatted
+    const { intl: { formatMessage } } = this.context
+    let roleName = name
+    const defaultRoleFound = find(AdminDomain.DEFAULT_ROLES_ENUM, (defaultRole) => defaultRole === name)
+    if (defaultRoleFound) {
+      roleName = formatMessage({ id: `role.name.${name}` })
     }
-    return name
+    return roleName
   }
 
   handleInitialize = () => {

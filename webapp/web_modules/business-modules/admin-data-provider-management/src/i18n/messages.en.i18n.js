@@ -55,6 +55,7 @@ const messages = {
   'acquisition-chain.form.general.section.info.category': 'Categories allow you to filter the AIPs for datasources crawling',
   'acquisition-chain.form.general.section.category-hint': 'New category',
   'acquisition-chain.form.general.section.click.category.add.warn': 'Confirm category add',
+  'acquisition-chain.form.general.section.click.category.add.exist': 'Category already exist',
 
   // 1.3 Storage configuration section
   'acquisition-chain.form.storage.section': 'Storage',

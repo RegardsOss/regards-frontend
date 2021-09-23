@@ -110,14 +110,14 @@ class AccountFiltersComponent extends React.Component {
               ))}
             </SelectField>
             <SelectField
-              id="account.list.table.filters.project"
-              value={filters[ACCOUNT_FILTERS.PROJECT]}
-              hintText={formatMessage({ id: 'account.list.table.filters.project' })}
-              onChange={(event, index, value) => updateFilter(value, ACCOUNT_FILTERS.PROJECT)}
+              id="account.list.table.filters.projects"
+              value={filters[ACCOUNT_FILTERS.PROJECTS]}
+              hintText={formatMessage({ id: 'account.list.table.filters.projects' })}
+              onChange={(event, index, value) => updateFilter(value, ACCOUNT_FILTERS.PROJECTS)}
               style={fieldWidth}
               multiple
             >
-              <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'account.list.table.filters.project.any' })} />
+              <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'account.list.table.filters.projects.any' })} />
               {map(projects, (project) => (
                 <MenuItem key={project} value={project.content.name} primaryText={project.content.name} />
               ))}

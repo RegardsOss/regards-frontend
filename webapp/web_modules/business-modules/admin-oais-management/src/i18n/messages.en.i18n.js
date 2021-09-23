@@ -123,7 +123,7 @@ export default {
   'oais.requests.list.filters.buttons.operations.button': 'Operations',
   'oais.requests.list.filters.buttons.version.option': 'Version option',
   'oais.requests.list.filters.buttons.retry': 'Retry selection',
-  'oais.requests.list.filters.buttons.abort': 'Abort running treatments',
+  'oais.requests.list.filters.buttons.abort': 'Abort running processings',
   'oais.requests.list.filters.buttons.delete': 'Delete selection',
   'oais.requests.confirm.delete': 'Delete',
   'oais.requests.confirm.delete.close': 'Close',
