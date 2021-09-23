@@ -24,7 +24,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
 import TypeTabContainer from '../../../../../containers/user/tabs/results/header/options/TypeTabContainer'
 import ToggleFiltersContainer from '../../../../../containers/user/tabs/results/header/options/ToggleFiltersContainer'
 import ModeSelectorContainer from '../../../../../containers/user/tabs/results/header/options/ModeSelectorContainer'
-import SingleSortingContainer from '../../../../../containers/user/tabs/results/header/options/SingleSortingContainer'
+import SortingManagerContainer from '../../../../../containers/user/tabs/results/header/options/SortingManagerContainer'
 import EditColumnsSettingsContainer from '../../../../../containers/user/tabs/results/header/options/EditColumnsSettingsContainer'
 import SearchOptionContainer from '../../../../../containers/user/tabs/results/header/options/SearchOptionContainer'
 import SelectionServiceComponent from './options/SelectionServiceComponent'
@@ -76,7 +76,7 @@ class OptionsHeaderRowComponent extends React.Component {
     } = this.props
 
     const {
-      tab, selectedMode, selectedTypeState, selectedModeState,
+      tab, selectedMode, selectedTypeState,
     } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     const showTypeTabs = reduce(tab.types, (count, typeState) => typeState.enabled ? count + 1 : count, 0) > 1
@@ -87,20 +87,20 @@ class OptionsHeaderRowComponent extends React.Component {
     return (
       <TableHeaderLine key="table.options">
         {/* 1. Type selection tabs, on left, when many type can be selected, place holder otherwise */
-        showTypeTabs ? (
-          <TableHeaderOptionGroup show>
-            {
-              OptionsHeaderRowComponent.TYPE_DISPLAY_ORDER.map((type) => tab.types[type].enabled
-                ? <TypeTabContainer
-                    key={`tab.selector.${type}`}
-                    moduleId={moduleId}
-                    type={type}
-                    tabType={tabType}
-                    resultsContext={resultsContext}
-                />
-                : null)
-            }
-          </TableHeaderOptionGroup>) : <div /> // placeholder
+          showTypeTabs ? (
+            <TableHeaderOptionGroup show>
+              {
+                OptionsHeaderRowComponent.TYPE_DISPLAY_ORDER.map((type) => tab.types[type].enabled
+                  ? <TypeTabContainer
+                      key={`tab.selector.${type}`}
+                      moduleId={moduleId}
+                      type={type}
+                      tabType={tabType}
+                      resultsContext={resultsContext}
+                  />
+                  : null)
+              }
+            </TableHeaderOptionGroup>) : <div /> // placeholder
         }
         { /* 2. Mode selection and options, on right */}
         <TableHeaderOptionsArea reducible>
@@ -114,7 +114,7 @@ class OptionsHeaderRowComponent extends React.Component {
                   onRunService={onStartSelectionService}
                 />)) : null
             }
-            { /** 2.A.2 - Add selection to cart */ }
+            { /** 2.A.2 - Add selection to cart */}
             <AddSelectionToCartComponent onAddSelectionToCart={onAddSelectionToCart} />
           </TableHeaderOptionGroup>
           {/* 2.B Extended options: Add refresh button */}
@@ -134,24 +134,21 @@ class OptionsHeaderRowComponent extends React.Component {
               resultsContext={resultsContext}
             />
           </TableHeaderOptionGroup>
-          {/* 2.D - Results options:
-            1- select all / none (when mode allows selection but not in table mode as that option is provided through column headers)
-            2- sort on single attribute (when type allows sorting but not in table mode as that option is provided through column headers)
-          */}
+          {/* 2.D - sort modal
+           */}
           <TableHeaderOptionGroup show={
-              (selectedMode !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE && selectedModeState.enableSelection)
-              || (selectedMode !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE && selectedTypeState.enableSorting)
-            }
+            selectedTypeState.enableSorting
+          }
           >
             { // 2.C - sort on single attribute
-                selectedMode !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE && selectedTypeState.enableSorting
-                  ? (
-                    <SingleSortingContainer
-                      moduleId={moduleId}
-                      tabType={tabType}
-                      resultsContext={resultsContext}
-                    />
-                  ) : null
+              selectedTypeState.enableSorting
+                ? (
+                  <SortingManagerContainer
+                    moduleId={moduleId}
+                    tabType={tabType}
+                    resultsContext={resultsContext}
+                  />
+                ) : null
             }
           </TableHeaderOptionGroup>
           {/* 2.E - Configure table columns (available only for table mode) */}
@@ -173,7 +170,7 @@ class OptionsHeaderRowComponent extends React.Component {
                   resultsContext={resultsContext}
                   mode={aMode}
                 />) : null)
-          }
+            }
           </TableHeaderOptionGroup>
           {/* 2.G - Search option, when it is available*/}
           <TableHeaderOptionGroup show={tab.search.enabled}>

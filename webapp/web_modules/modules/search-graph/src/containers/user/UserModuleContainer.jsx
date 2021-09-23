@@ -29,7 +29,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { getTypeRender } from '@regardsoss/attributes-common'
-import { withValueRenderContext } from '@regardsoss/components'
+import { withValuesRenderContext } from '@regardsoss/components'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import { SelectionPath } from '../../shapes/SelectionShape'
 import graphContextActions from '../../model/graph/GraphContextActions'
@@ -223,4 +223,4 @@ export class UserModuleContainer extends React.Component {
 // tables to enhance render process)
 export default compose(
   connect(UserModuleContainer.mapStateToProps, UserModuleContainer.mapDispatchToProps),
-  withValueRenderContext)(UserModuleContainer)
+  withValuesRenderContext)(UserModuleContainer)

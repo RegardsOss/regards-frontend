@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import forEach from 'lodash/forEach'
+import reduce from 'lodash/reduce'
 import keys from 'lodash/keys'
 import isArray from 'lodash/isArray'
 import isEmpty from 'lodash/isEmpty'
@@ -146,5 +147,40 @@ export class ResultsContextHelper {
       return keys(modelTree).reduce((acc, key) => acc && checkSubTree(testedTree[key], modelTree[key]), true)
     }
     return checkSubTree(resultsContext, ResultsContextConstants.DEFAULT_RESULTS_CONTEXT)
+  }
+
+  /**
+   * Compute the list of sortable attributes
+   * @param {*} resultsContext context
+   * @param {string} tabType tab (one of RESULTS_TABS_ENUM.MAIN_RESULTS | RESULTS_TABS_ENUM.TAG_RESULTS)
+   * @returns {{SortableAttributes}} an object containing sortable attributes
+   */
+  static getSortableAttributes(resultsContext, tabType) {
+    const { tab, selectedType } = ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { initialSorting, modes } = tab.types[selectedType]
+    return {
+      // 1- Compute the attributes list from initial sorting
+      ...reduce(initialSorting, (acc, sort) => {
+        const { attribute } = sort
+        acc[attribute.content.id] = { attribute }
+        return acc
+      }, {}),
+      // 2- Compute the attributes list using all fields displayed in all view mode activated
+      ...reduce(modes, (acc, mode) => {
+        if (mode.enabled) {
+          mode.presentationModels.forEach((presentationModel) => {
+            const { attributes, enableSorting, label } = presentationModel
+            if (enableSorting && attributes.length === 1) {
+              const { model } = attributes[0]
+              acc[model.content.id] = {
+                attribute: model,
+                label,
+              }
+            }
+          })
+        }
+        return acc
+      }, {}),
+    }
   }
 }

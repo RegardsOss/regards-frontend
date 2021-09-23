@@ -23,7 +23,7 @@ import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 /**
 * Search result configuration form, using search result module
 */
-class SearchResultFormComponent extends React.Component {
+class SearchResultForm extends React.Component {
   static propTypes = {
     project: PropTypes.string,
     appName: PropTypes.string.isRequired,
@@ -92,4 +92,4 @@ class SearchResultFormComponent extends React.Component {
     )
   }
 }
-export default SearchResultFormComponent
+export default SearchResultForm

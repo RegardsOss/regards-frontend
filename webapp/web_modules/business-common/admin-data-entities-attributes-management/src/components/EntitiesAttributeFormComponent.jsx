@@ -61,7 +61,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
   static getComplexRestriction(restriction) {
     const restrictions = []
     if (restriction) {
-      switch (restriction && restriction.type) {
+      switch (restriction.type) {
         case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.PATTERN:
           restrictions.push(ValidationHelpers.matchRegex(restriction.pattern))
           break

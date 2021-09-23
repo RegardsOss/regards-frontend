@@ -142,7 +142,7 @@ class ConnectionTesterIconButton extends React.Component {
       action="OK"
     />)
 
-    let result = testButton
+    let result
     switch (this.state.status) {
       case states.PENDING:
         result = pendingProgress

@@ -27,7 +27,7 @@ import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
  * Renders the list of attributes in a quicklook cell
  * @author Raphaël Mechali
  */
-class QuicklookCellParametersComponent extends React.PureComponent {
+class QuicklookCellAttributesComponent extends React.PureComponent {
   static propTypes = {
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
     presentationModels: PropTypes.arrayOf(UIShapes.AttributePresentationModel).isRequired,
@@ -61,15 +61,15 @@ class QuicklookCellParametersComponent extends React.PureComponent {
             map(presentationModels, (attributePresentationModel) => (
               <div style={valueCellStyle} key={attributePresentationModel.key}>
                 {
-                    AttributeColumnBuilder.buildRenderDelegates(attributePresentationModel.attributes).map(({
-                      path, RenderConstructor, props,
-                    }) => (
-                      <RenderConstructor
-                        key={path}
-                        value={get(this.props.entity, path)}
-                        {...props}
-                      />))
-                  }
+                  AttributeColumnBuilder.buildRenderDelegates(attributePresentationModel.attributes).map(({
+                    path, RenderConstructor, props,
+                  }) => (
+                    <RenderConstructor
+                      key={path}
+                      value={get(this.props.entity, path)}
+                      {...props}
+                    />))
+                }
               </div>))
           }
         </div>
@@ -78,4 +78,4 @@ class QuicklookCellParametersComponent extends React.PureComponent {
   }
 }
 
-export default QuicklookCellParametersComponent
+export default QuicklookCellAttributesComponent

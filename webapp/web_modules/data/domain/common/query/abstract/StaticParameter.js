@@ -22,7 +22,7 @@ import isNil from 'lodash/isNil'
  * Common static query parameter (avoid parsing needs in specific cases)
  * @author Raphaël Mechali
  */
-export default class QueryParameter {
+export default class StaticParameter {
   /**
    * Static query parameter constructor
    * @param value parameter value

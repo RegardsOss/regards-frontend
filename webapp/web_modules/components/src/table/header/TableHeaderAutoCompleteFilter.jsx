@@ -50,48 +50,48 @@ class TableHeaderAutoCompleteFilter extends React.Component {
   /**
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
-    UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
-   /**
-    * Lifecycle method: component receive props. Used here to detect properties change and update local state
-    * @param {*} nextProps next component properties
-    */
-   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
-   /**
-    * Properties change detected: update local state
-    * @param oldProps previous component properties
-    * @param nextProps next component properties
-    */
-    onPropertiesUpdated = (oldProps, nextProps) => {
-      if (!isEqual(oldProps, nextProps)) {
-        const nextHints = map(nextProps.currentHints, (element) => nextProps.prepareHints(element))
-        this.setState({ currentHints: nextHints })
-      }
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param nextProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, nextProps) => {
+    if (!isEqual(oldProps, nextProps)) {
+      const nextHints = map(nextProps.currentHints, (element) => nextProps.prepareHints(element))
+      this.setState({ currentHints: nextHints })
     }
+  }
 
-    render() {
-      const {
-        // eslint-disable-next-line no-unused-vars
-        text, onUpdateInput, onFilterSelected, hintText, isFetching, noData, style, prepareHints, ...otherProps
-      } = this.props
-      const { currentHints } = this.state
-      const { moduleTheme: { header: { autocomplete } } } = this.context
+  render() {
+    const {
+      // eslint-disable-next-line no-unused-vars
+      text, onUpdateInput, onFilterSelected, hintText, isFetching, noData, style, prepareHints, ...otherProps
+    } = this.props
+    const { currentHints } = this.state
+    const { moduleTheme: { header: { autocomplete } } } = this.context
 
-      return (
-        <AutoCompleteTextField
-          {...otherProps}
-          hintText={hintText}
-          currentHintText={text}
-          currentHints={currentHints}
-          isFetching={isFetching}
-          isInError={noData}
-          onUpdateInput={onUpdateInput}
-          onFilterSelected={onFilterSelected}
-          textFieldStyle={autocomplete.textStyle}
-          style={style}
-        />
-      )
-    }
+    return (
+      <AutoCompleteTextField
+        {...otherProps}
+        hintText={hintText}
+        currentHintText={text}
+        currentHints={currentHints}
+        isFetching={isFetching}
+        isInError={noData}
+        onUpdateInput={onUpdateInput}
+        onFilterSelected={onFilterSelected}
+        textFieldStyle={autocomplete.textStyle}
+        style={style}
+      />
+    )
+  }
 }
 export default TableHeaderAutoCompleteFilter

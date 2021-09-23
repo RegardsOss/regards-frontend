@@ -65,7 +65,7 @@ export class ProjectUserQuotaContainer extends React.Component {
       allAccounts: projectUserSelectors.getList(state) || {},
       isFetchingViewData: projectUserSelectors.isFetching(state),
       isFetchingActions: projectUserSignalSelectors.isFetching(state)
-      || uiSettingsSelectors.isFetching(state),
+        || uiSettingsSelectors.isFetching(state),
       uiSettings: uiSettingsSelectors.getSettings(state),
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     }
@@ -90,10 +90,10 @@ export class ProjectUserQuotaContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-   UNSAFE_componentWillMount = () => {
-     const { fetchUISettings } = this.props
-     fetchUISettings()
-   }
+  UNSAFE_componentWillMount = () => {
+    const { fetchUISettings } = this.props
+    fetchUISettings()
+  }
 
   /**
    * Lifecycle method: component did mount. Used here to fetch user lists

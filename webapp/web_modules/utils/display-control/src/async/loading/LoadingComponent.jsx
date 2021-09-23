@@ -27,7 +27,7 @@ const wrapperStyle = {
   alignItems: 'center',
   justifyContent: 'center',
 }
-const Loading = () => (
+const LoadingComponent = () => (
   <div
     className="selenium-content-loading"
     style={wrapperStyle}
@@ -41,4 +41,4 @@ const Loading = () => (
   </div>
 )
 
-export default Loading
+export default LoadingComponent

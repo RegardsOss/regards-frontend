@@ -70,17 +70,32 @@ export class DBDatasourceFormMappingComponent extends React.Component {
   }
 
   state = {
-    currentTableSelected: this.props.isEditing && this.props.isSingleTable ? findParam(this.props.currentDatasource, IDBDatasourceParamsEnum.TABLE).value : '',
+    currentTableSelected: {
+      fullname: '', // ex: schema.table
+      name: '', // ex: table
+    },
   }
 
-  componentDidMount() {
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => {
+    const {
+      isEditing, isSingleTable, initialize, currentDatasource,
+    } = this.props
     // Initialize forms inputs
-    if (this.props.isEditing) {
-      const { currentDatasource } = this.props
+    if (isEditing) {
       const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MAPPING), 'value', [])
-      if (this.props.isSingleTable) {
+      if (isSingleTable) {
         const { tableAttributeList } = this.props
-        const { currentTableSelected } = this.state
+        // Initialise state
+        const tableFullName = findParam(currentDatasource, IDBDatasourceParamsEnum.TABLE).value || ''
+        this.setState({
+          currentTableSelected: {
+            fullname: tableFullName,
+            name: tableFullName.split('.')[1],
+          },
+        })
         const attributes = {}
         forEach(attributesMapping, (attributeMapping) => {
           // Check if the value provided by attributeMapping.nameDs exists in table attributes
@@ -92,11 +107,11 @@ export class DBDatasourceFormMappingComponent extends React.Component {
         })
         const obj = {
           [states.FROM_TABLE]: {
-            table: currentTableSelected,
+            table: tableFullName,
             attributes,
           },
         }
-        this.props.initialize(obj)
+        initialize(obj)
       } else {
         const fromClause = get(findParam(currentDatasource, IDBDatasourceParamsEnum.FROM_CLAUSE), 'value')
         const attributes = {}
@@ -111,9 +126,22 @@ export class DBDatasourceFormMappingComponent extends React.Component {
             attributes,
           },
         }
-        this.props.initialize(obj)
+        initialize(obj)
       }
     }
+  }
+
+  /**
+   * Concat schema name to table name
+   * @param {*} tableName : ex : table1
+   * @returns ex : schema1.table1
+   */
+  getTableFullName = (tableName) => {
+    const { tableList } = this.props
+    const tableFound = find(tableList, (table) => table.name === tableName)
+    const tableFoundSchema = get(tableFound, 'schema', '')
+    const tableFullName = [tableFoundSchema, tableName].filter((c) => !!c).join('.')
+    return tableFullName
   }
 
   handleTableSelected = (tableName) => {
@@ -121,11 +149,15 @@ export class DBDatasourceFormMappingComponent extends React.Component {
     const { isSingleTable } = this.props
     // Save the table name if we are in single table configuration
     if (isSingleTable) {
+      const tableFullName = this.getTableFullName(tableName)
       this.setState({
-        currentTableSelected: tableName,
+        currentTableSelected: {
+          fullname: tableFullName,
+          name: tableName,
+        },
       })
       const formValues = {
-        table: tableName,
+        table: tableFullName,
         attributes: {},
       }
       this.props.initialize({
@@ -135,9 +167,9 @@ export class DBDatasourceFormMappingComponent extends React.Component {
   }
 
   handleSave = (values) => {
-    const { onSubmit, modelAttributeList, tableAttributeList } = this.props
+    const { onSubmit, modelAttributeList, isSingleTable } = this.props
     let formValuesSubset
-    if (this.props.isSingleTable) {
+    if (isSingleTable) {
       formValuesSubset = values[states.FROM_TABLE]
     } else {
       formValuesSubset = values[states.CUSTOM_FROM]
@@ -146,7 +178,7 @@ export class DBDatasourceFormMappingComponent extends React.Component {
       ...modelAttributeList,
       ...StaticAttributeListDB,
     }
-    onSubmit(formValuesSubset, modelAttributeDynAndStaticList, tableAttributeList)
+    onSubmit(formValuesSubset, modelAttributeDynAndStaticList)
   }
 
   render() {
@@ -177,19 +209,19 @@ export class DBDatasourceFormMappingComponent extends React.Component {
                     tableAttributeList={tableAttributeList}
                     tableList={tableList}
                     onTableSelected={this.handleTableSelected}
-                    initialTableOpen={currentTableSelected}
+                    initialTableOpen={currentTableSelected.name}
                     displayTableAsSelected
                   />
                 </Card>
               </div>
               <div className="col-sm-68 col-sm-offset-2">
                 <ShowableAtRender
-                  show={currentTableSelected.length > 0}
+                  show={currentTableSelected.name.length > 0}
                 >
                   <Card>
                     <div>
                       <DBDatasourceFormMappingFromTableComponent
-                        table={tableList[currentTableSelected]}
+                        table={tableList[currentTableSelected.name]}
                         tableAttributeList={tableAttributeList}
                         modelAttributeList={modelAttributeList}
                         currentDatasource={currentDatasource}
@@ -212,7 +244,6 @@ export class DBDatasourceFormMappingComponent extends React.Component {
                     tableAttributeList={tableAttributeList}
                     tableList={tableList}
                     onTableSelected={this.handleTableSelected}
-                    initialTableOpen={currentTableSelected}
                   />
                 </Card>
               </div>
@@ -220,7 +251,6 @@ export class DBDatasourceFormMappingComponent extends React.Component {
                 <Card>
                   <div>
                     <DBDatasourceFormMappingCustomComponent
-                      table={tableList[currentTableSelected]}
                       tableAttributeList={tableAttributeList}
                       modelAttributeList={modelAttributeList}
                       change={change}

@@ -111,7 +111,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     reduce(newPropsToProxy, (acc, newProp, key) => {
       acc[key] = (...params) => newProp(...params, this.onRefresh)
       return acc
-    }, { })
+    }, {})
   )
 
   onRefresh = () => {
@@ -133,7 +133,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     const { filters, requestParameters } = this.state
     const newFilters = {
       ...filters,
-      [filterElement]: newFilterValue && newFilterValue !== '' ? newFilterValue : undefined,
+      [filterElement]: newFilterValue || undefined,
     }
     const newState = {
       filters: newFilters,

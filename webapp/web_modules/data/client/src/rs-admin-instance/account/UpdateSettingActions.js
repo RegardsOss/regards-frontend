@@ -29,9 +29,9 @@ export default class UpdateSettingActions extends BasicSignalActions {
     })
   }
 
-   updateSetting = (settingName, settingValue) => this.sendSignal('PUT', {
-     ...settingValue,
-   }, {
-     name: settingName,
-   })
+  updateSetting = (settingName, settingValue) => this.sendSignal('PUT', {
+    ...settingValue,
+  }, {
+    name: settingName,
+  })
 }

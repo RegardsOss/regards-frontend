@@ -22,7 +22,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import AccessRightsEnum from './AccessRightsEnum'
 
-class AccessRightsMetadataAcccessTableCustomCell extends React.Component {
+class AccessRightsMetadataAccessTableCustomCell extends React.Component {
   static propTypes = {
     // from table cell API
     entity: DataManagementShapes.DatasetWithAccessRight,
@@ -41,4 +41,4 @@ class AccessRightsMetadataAcccessTableCustomCell extends React.Component {
   }
 }
 
-export default AccessRightsMetadataAcccessTableCustomCell
+export default AccessRightsMetadataAccessTableCustomCell

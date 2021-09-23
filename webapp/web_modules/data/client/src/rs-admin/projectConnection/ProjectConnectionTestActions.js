@@ -28,11 +28,11 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  *
  * The namespace is used by redux to understand what to do with the action.
  * If you want to manage two different list of ProjectConnection. You have to define two
- * ProjectConnectionActions with two different namespace.
+ * ProjectConnectionTestActions with two different namespace.
  *
  * @author Sébastien Binda
  */
-export default class ProjectConnectionActions extends BasicSignalActions {
+export default class ProjectConnectionTestActions extends BasicSignalActions {
   /**
    * Constructor
    * @param namespace

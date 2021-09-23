@@ -107,8 +107,8 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
     const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context })
 
     let loader = enzymeWrapper.find(LoadableContentDisplayDecorator)
-    expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
-    assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'A loading component should not be displayed during access group retrieve')
+    expect(loader).to.have.length(1)
+    assert.isTrue(loader.props().isLoading, 'A loading component should not be displayed during access group retrieve')
     assert.isTrue(fetchAccessGroupSpy.calledOnce, 'The fetchAccessGroup method should not be called if group is already present')
 
     // Simulate loading finished

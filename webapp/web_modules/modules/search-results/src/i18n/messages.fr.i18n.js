@@ -102,17 +102,17 @@ const messages = {
   'search.results.form.restrictions.configuration.opensearch.dialog.link': 'Lien vers la documentation',
   'search.results.form.restrictions.configuration.opensearch.dialog.message': 'Pour savoir comment construire une requête OpenSearch rendez-vous sur la documentation REGARDS: section Backend, sous-section Catalogue, puis SearchAPI.',
   'search.results.form.restrictions.configuration.no.selection.message': 'Aucune sélection',
-  'search.results.form.restrictions.configuration.selection.dataset.count.max': 'Veuillez sélectionner jusqu\'à {max} jeux. Si vous avez besoin d\'un filtre plus comlpexe veuillez utiliser la requête opensearch de filtre proposée plus haut.',
-  'search.results.form.restrictions.configuration.selection.model.count.max': 'Veuillez sélectionner jusqu\'à {max} modèles. Si vous avez besoin d\'un filtre plus comlpexe veuillez utiliser la requête opensearch de filtre proposée plus haut.',
+  'search.results.form.restrictions.configuration.selection.dataset.count.max': 'Veuillez sélectionner jusqu\'à {max} jeux. Si vous avez besoin d\'un filtre plus complexe veuillez utiliser la requête opensearch de filtre proposée plus haut.',
+  'search.results.form.restrictions.configuration.selection.model.count.max': 'Veuillez sélectionner jusqu\'à {max} modèles. Si vous avez besoin d\'un filtre plus complexe veuillez utiliser la requête opensearch de filtre proposée plus haut.',
   'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount}/{max} element{selectionCount, plural, 
-    =0 {} 
-    one {} 
-    other {s}
-  } sélectionné{selectionCount, plural, 
-    =0 {} 
-    one {} 
-    other {s}
-  }`,
+     =0 {} 
+     one {} 
+     other {s}
+   } sélectionné{selectionCount, plural, 
+     =0 {} 
+     one {} 
+     other {s}
+   }`,
   'search.results.form.restrictions.configuration.filter.by.name.message': 'Filtre',
   'search.results.form.restrictions.configuration.no.data.title': 'Aucun élément',
   'search.results.form.restrictions.configuration.no.dataset.existing.message': 'Il n\'y a aucun jeu de données, veuillez sélectionner un autre mode de restriction des résultats.',
@@ -181,13 +181,30 @@ const messages = {
   'search.results.configure.columns.move.tooltip': 'Déplacer cette colonne',
   'search.results.configure.columns.move.column.at.first.position': 'En premier',
   'search.results.configure.columns.move.column.after': 'Après {columnLabel}',
+  'search.results.configure.sorting.column.priority': 'Priorité',
+  'search.results.configure.sorting.column.order': 'Ordre',
+  'search.results.configure.sorting.column.label': 'Label',
+  'search.results.configure.sorting.dialog.reset': 'Réinitialiser',
+  'search.results.configure.sorting.dialog.reset.tooltip': 'Réinitialiser les tris à leur état initial',
+  'search.results.configure.sorting.dialog.cancel': 'Annuler',
+  'search.results.configure.sorting.dialog.confirm': 'Confirmer',
+  'search.results.configure.sorting.move.column.at.first.position': 'En premier',
+  'search.results.configure.sorting.move.column.after': 'Après {columnLabel}',
+  'search.results.configure.sorting.move.tooltip': 'Déplacer cette colonne',
+  'search.results.configure.sorting.asc.title': 'Modifie l\'ordre de ce tri d\'ascendant à descendant',
+  'search.results.configure.sorting.desc.title': 'Modifie l\'ordre de ce tri de descendant à ascendant',
+  'search.results.configure.sorting.delete.title': 'Supprimer le tri',
+  'search.results.configure.sorting.create.tooltip': 'Créer un nouveau tri',
+  'search.results.configure.sorting.create.before.position': 'Ajout un tri avant',
+  'search.results.configure.sorting.create.after.position': 'Ajout un tri après',
+  'search.results.configure.sorting.create.new.sort': 'Nouveau tri',
+  'search.results.configure.sorting.create.new.sort.input': 'Selectionner un attribut',
+
   'search.results.default.tab.label.for.DATA': 'Données',
   'search.results.default.tab.label.for.DATASET': 'Jeux de données',
   'search.results.default.tab.label.for.COLLECTION': 'Collections',
   'search.results.toggle.filters': 'Filtres',
-  'search.results.list.sort.label': 'Tri: {sortElement}',
-  'search.results.list.sort.default.label': 'Initial',
-  'search.results.list.sort.custom.label': 'Spécifique',
+  'search.results.toggle.sort': 'Tri',
   'view.type.selector.tooltip.for.LIST': 'Afficher les résultats en liste',
   'view.type.selector.tooltip.for.TABLE': 'Afficher les résultats dans un tableau',
   'view.type.selector.tooltip.for.MAP': 'Afficher les résultats sur une carte',

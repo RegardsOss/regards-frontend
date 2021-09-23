@@ -14,11 +14,12 @@ Frontend boot, is a maven project to create an executable WAR with its own jetty
 
 ## Java Build
 
-The [README](https://github.com/RegardsOss/regards-deployment/blob/master/README.md) of the project [rs-deployment](https://github.com/RegardsOss/regards-deployment) describes how to generate all the REGARDS repositories.
+Run the here under command to build an executable war java file.
+```
+./build.sh
+```
 
 To run the compiled WAR file run command :
 ```
 java -jar frontend-boot/target/bootstrap-frontend-<version>.war
 ```
-
-Note : The `webapp` must be compiled before (see [Webbapp README](webapp/README.md))

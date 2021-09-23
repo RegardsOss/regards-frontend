@@ -40,7 +40,7 @@ e passed {@link Connection}.<br>
  * @author Xavier-Alexandre Brochard
  * @author Léo Mieulet
  */
-class ConnectionTesterIconButton extends React.Component {
+class DatasetSubsettingTesterIconButton extends React.Component {
   static propTypes = {
     currentDataset: SubsettingEditionDataset.isRequired,
     subsetting: PropTypes.string,
@@ -160,4 +160,4 @@ class ConnectionTesterIconButton extends React.Component {
   }
 }
 
-export default ConnectionTesterIconButton
+export default DatasetSubsettingTesterIconButton

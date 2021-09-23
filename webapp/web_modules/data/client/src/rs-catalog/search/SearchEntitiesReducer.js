@@ -24,13 +24,13 @@ import SearchEntitiesActions from './SearchEntitiesActions'
  * Redux store reducer for ALL entities actions (can be single instantiated for all or one for each actions)
  * @author Sébastien binda
  */
-class CatalogEntityReducer extends BasicFacetsPageableReducers {
+class SearchEntitiesReducer extends BasicFacetsPageableReducers {
   constructor(namespace) {
     super(EntityConfiguration, new SearchEntitiesActions(namespace))
   }
 }
 
 export default (namespace) => {
-  const instance = new CatalogEntityReducer(namespace)
+  const instance = new SearchEntitiesReducer(namespace)
   return (state, action) => instance.reduce(state, action)
 }
