@@ -31,6 +31,8 @@ import MapViewContainer from '../../../../containers/user/tabs/results/map/MapVi
 import { withEntitiesCacheContainer } from '../../../../containers/user/tabs/results/common/withEntitiesCacheContainer'
 
 export const QuicklooksViewContainerWithEntitiesCache = withEntitiesCacheContainer(QuicklooksViewContainer)
+export const ListViewContainerWithEntitiesCache = withEntitiesCacheContainer(ListViewContainer)
+export const TableViewContainerWithEntitiesCache = withEntitiesCacheContainer(TableViewContainer)
 
 /**
  * Search results root component: it shows either:
@@ -108,7 +110,7 @@ class SearchResultsComponent extends React.Component {
             switch (selectedMode) {
               case UIDomain.RESULTS_VIEW_MODES_ENUM.LIST:
                 return (
-                  <ListViewContainer
+                  <ListViewContainerWithEntitiesCache
                     tabType={tabType}
                     resultsContext={resultsContext}
                     requestParameters={requestParameters}
@@ -123,7 +125,7 @@ class SearchResultsComponent extends React.Component {
                 )
               case UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE:
                 return (
-                  <TableViewContainer
+                  <TableViewContainerWithEntitiesCache
                     moduleId={moduleId}
                     tabType={tabType}
                     resultsContext={resultsContext}

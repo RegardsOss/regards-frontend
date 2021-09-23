@@ -18,12 +18,13 @@
  **/
 import isEqual from 'lodash/isEqual'
 import { CommonDomain, UIDomain } from '@regardsoss/domain'
-import { CommonShapes, UIShapes } from '@regardsoss/shape'
+import { CommonShapes, UIShapes, CatalogShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { resultsContextActions } from '../../../../../clients/ResultsContextClient'
 import { CriterionBuilder } from '../../../../../definitions/CriterionBuilder'
 import TableViewComponent from '../../../../../components/user/tabs/results/table/TableViewComponent'
+import { withSelectionContainer } from '../common/withSelectionContainer'
 
 /**
  * Container for search results table component: it translates current model into usable models for columns
@@ -60,6 +61,8 @@ export class TableViewContainer extends React.Component {
     onSearchEntity: PropTypes.func.isRequired,
     // from mapDispatchToProps
     updateResultsContext: PropTypes.func.isRequired,
+    // Entities cached
+    loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
   }
 
   /**
@@ -167,13 +170,9 @@ export class TableViewContainer extends React.Component {
         // add or swap order in sorting list
         if (indexInCurrentSorting >= 0) {
           // 1. Sorting Criterion already exists
-          nextSorting = isInInitialSorting
-            // A - when exiting initial sorting, we remove all other elements and keep only the new sorting element
-            ? [CriterionBuilder.buildSortCriterion(sortingAttribute, newSortOrder)]
-            // B - Default case: change only updated criterion in existing list
-            : sorting.map((sortingElt, index) => index !== indexInCurrentSorting
-              ? sortingElt
-              : CriterionBuilder.buildSortCriterion(sortingAttribute, newSortOrder))
+          nextSorting = sorting.map((sortingElt, index) => index !== indexInCurrentSorting
+            ? sortingElt
+            : CriterionBuilder.buildSortCriterion(sortingAttribute, newSortOrder))
         } else {
           // 2 - Sorting criterion has just been added
           nextSorting = [...(isInInitialSorting ? [] : sorting), CriterionBuilder.buildSortCriterion(sortingAttribute, newSortOrder)]
@@ -211,12 +210,11 @@ export class TableViewContainer extends React.Component {
     const {
       resultsContext, tabType, requestParameters, searchActions,
       descriptionAvailable, onShowDescription,
-      accessToken, projectName, onAddElementToCart,
+      accessToken, projectName, onAddElementToCart, loadedEntities,
       onSearchEntity,
     } = this.props
     const { columnPresentationModels } = this.state
     const { selectedType, selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-
     return (
       <TableViewComponent
         tabType={tabType}
@@ -234,10 +232,12 @@ export class TableViewContainer extends React.Component {
         enableServices={selectedTypeState.enableServices}
         enableSearchEntity={selectedTypeState.enableSearchEntity}
         onSearchEntity={onSearchEntity}
+        loadedEntities={loadedEntities}
       />
     )
   }
 }
-export default connect(
+
+export default withSelectionContainer(connect(
   TableViewContainer.mapStateToProps,
-  TableViewContainer.mapDispatchToProps)(TableViewContainer)
+  TableViewContainer.mapDispatchToProps)(TableViewContainer))

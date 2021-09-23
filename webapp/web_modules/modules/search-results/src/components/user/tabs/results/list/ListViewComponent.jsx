@@ -17,11 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { CommonShapes } from '@regardsoss/shape'
+import { CommonShapes, CatalogShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { TableColumnBuilder, PageableInfiniteTableContainer } from '@regardsoss/components'
-import { getSelectionClient } from '../../../../../clients/SelectionClient'
 import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesClient'
 import ListCellContainer from '../../../../../containers/user/tabs/results/list/ListCellContainer'
 import EmptyTableContainer from '../../../../../containers/user/tabs/results/common/EmptyTableContainer'
@@ -56,6 +55,8 @@ class ListViewComponent extends React.Component {
     // Search entity management
     enableSearchEntity: PropTypes.bool.isRequired,
     onSearchEntity: PropTypes.func.isRequired,
+    // Entities cached
+    loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
   }
 
   static contextTypes = {
@@ -98,7 +99,7 @@ class ListViewComponent extends React.Component {
 
   render() {
     const {
-      searchActions, tabType, type, requestParameters,
+      searchActions, tabType, type, requestParameters, loadedEntities,
     } = this.props
     const { lineHeight } = this.context.muiTheme.module.searchResults.list
     return (
@@ -106,13 +107,13 @@ class ListViewComponent extends React.Component {
         key={type} // unmount the table when change entity type (using key trick)
         pageActions={searchActions}
         pageSelectors={getSearchCatalogClient(tabType).searchSelectors}
-        tableActions={getSelectionClient(tabType).tableActions}
         displayColumnsHeader={false}
         lineHeight={lineHeight}
         columns={this.buildListColumn()}
         queryPageSize={UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST]}
         requestParams={requestParameters}
         emptyComponent={<EmptyTableContainer tabType={tabType} />}
+        loadedEntities={loadedEntities}
       />
     )
   }
