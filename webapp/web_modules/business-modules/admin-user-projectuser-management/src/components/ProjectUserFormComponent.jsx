@@ -21,7 +21,6 @@ import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import find from 'lodash/find'
 import pickBy from 'lodash/pickBy'
-import some from 'lodash/some'
 import forEach from 'lodash/forEach'
 import map from 'lodash/map'
 import trim from 'lodash/trim'
@@ -109,15 +108,13 @@ export class ProjectUserFormComponent extends React.Component {
 
   getCurrentUserGroups = (user) => {
     let currentUserGroups = {}
-    forEach(this.props.groupList, (group) => {
-      if (some(group.content.users, (groupUser) => groupUser.email === user.email)) {
-        currentUserGroups = {
-          ...currentUserGroups,
-          [group.content.name]: {
-            name: group.content.name,
-            isAdded: false,
-          },
-        }
+    forEach(user.accessGroups, (group) => {
+      currentUserGroups = {
+        ...currentUserGroups,
+        [group]: {
+          name: group,
+          isAdded: false,
+        },
       }
     })
     return currentUserGroups
@@ -190,12 +187,6 @@ export class ProjectUserFormComponent extends React.Component {
     }, () => this.props.change('accessGroups', map(this.state.tempGroups, (group) => group.name)))
     this.handlePopoverClose()
   }
-
-  // handleRemoveGroup = (groupName) => {
-  //   this.setState({
-  //     tempGroups: reject(this.state.tempGroups, (val) => val.name !== groupName),
-  //   }, () => this.props.change('accessGroups', map(this.state.tempGroups, (group) => group.name)))
-  // }
 
   handleRemoveGroup = (groupName) => {
     this.setState({
