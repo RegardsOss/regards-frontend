@@ -234,7 +234,7 @@ export class AccountListComponent extends React.Component {
       new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.PROJECTS)
         .titleHeaderCell()
         .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.PROJECTS}`, ProjectsRenderComponent)
-        .label(formatMessage({ id: 'account.list.table.project' }))
+        .label(formatMessage({ id: 'account.list.table.projects' }))
         .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.PROJECTS, true))
         .sortableHeaderCell(...getColumnSortingData(AccountListComponent.COLUMN_KEYS.PROJECTS), onSort)
         .build(),
