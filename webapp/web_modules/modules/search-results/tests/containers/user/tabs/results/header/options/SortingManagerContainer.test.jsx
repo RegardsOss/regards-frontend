@@ -38,7 +38,7 @@ describe('[SEARCH RESULTS] Testing SortingManagerContainer', () => {
   it('should exists', () => {
     assert.isDefined(SortingManagerContainer)
   })
-  it('should render correctly when sortable', () => {
+  it('should render correctly when sortable (data)', () => {
     const props = {
       moduleId: 1,
       tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
@@ -73,15 +73,39 @@ describe('[SEARCH RESULTS] Testing SortingManagerContainer', () => {
       onApply: enzymeWrapper.instance().onApply,
     }, 'Component should define the expected properties')
   })
-  it('should render correctly when not sortable', () => {
+  it('should render correctly when sortable (dataset)', () => {
     const props = {
       moduleId: 1,
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
-      resultsContext: dataContext, // DATASETS forbid sorting
+      resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
+        tabs: {
+          [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+            selectedType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+            types: {
+              [DamDomain.ENTITY_TYPES_ENUM.DATASET]: {
+                selectedMode: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
+              },
+            },
+          },
+        },
+      }),
       updateResultsContext: () => { },
     }
     const enzymeWrapper = shallow(<SortingManagerContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(SortSettingsComponent)
-    assert.lengthOf(componentWrapper, 0, 'There should not be the corresponding component, as state doesn\'t allow sorting')
+    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
+
+    const {
+      selectedTypeState: {
+        isInInitialSorting, initialSorting, criteria: { sorting: currentSorting },
+      },
+    } = UIDomain.ResultsContextHelper.getViewData(props.resultsContext, props.tabType)
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      sortableAttributes: enzymeWrapper.state().sortableAttributes,
+      isInInitialSorting,
+      initialSorting,
+      currentSorting,
+      onApply: enzymeWrapper.instance().onApply,
+    }, 'Component should define the expected properties')
   })
 })

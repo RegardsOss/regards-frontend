@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { TableLayout } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import SearchResultsComponent, { QuicklooksViewContainerWithEntitiesCache } from '../../../../../src/components/user/tabs/results/SearchResultsComponent'
+import SearchResultsComponent, { QuicklooksViewContainerWithEntitiesCache, ListViewContainerWithEntitiesCache, TableViewContainerWithEntitiesCache } from '../../../../../src/components/user/tabs/results/SearchResultsComponent'
 import OptionsHeaderRowComponent from '../../../../../src/components/user/tabs/results/header/OptionsHeaderRowComponent'
 import ResultFacetsHeaderRowContainer from '../../../../../src/containers/user/tabs/results/header/ResultFacetsHeaderRowContainer'
 import ApplyingCriteriaHeaderRowContainer from '../../../../../src/containers/user/tabs/results/header/ApplyingCriteriaHeaderRowContainer'
@@ -135,7 +135,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsComponent', () => {
       switch (mode) {
         case UIDomain.RESULTS_VIEW_MODES_ENUM.LIST:
           {
-            const listViewContainer = enzymeWrapper.find(ListViewContainer)
+            const listViewContainer = enzymeWrapper.find(ListViewContainerWithEntitiesCache)
             assert.lengthOf(listViewContainer, 1, `[${tab}/${type}/${mode}] There should be the list container`)
             assert.lengthOf(enzymeWrapper.find(TableViewContainer), 0, `[${tab}/${type}/${mode}] There should not be the table container`)
             assert.lengthOf(enzymeWrapper.find(QuicklooksViewContainerWithEntitiesCache), 0, `[${tab}/${type}/${mode}] There should not be the quicklook container`)
@@ -144,7 +144,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsComponent', () => {
           break
         case UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE:
           {
-            const tableViewContainer = enzymeWrapper.find(TableViewContainer)
+            const tableViewContainer = enzymeWrapper.find(TableViewContainerWithEntitiesCache)
             assert.lengthOf(tableViewContainer, 1, `[${tab}/${type}/${mode}] There should be the table container`)
             assert.lengthOf(enzymeWrapper.find(ListViewContainer), 0, `[${tab}/${type}/${mode}] There should not be the list container`)
             assert.lengthOf(enzymeWrapper.find(QuicklooksViewContainerWithEntitiesCache), 0, `[${tab}/${type}/${mode}] There should not be the quicklooks container`)
