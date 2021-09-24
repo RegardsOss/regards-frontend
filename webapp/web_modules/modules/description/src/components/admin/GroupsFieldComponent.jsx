@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
+import filter from 'lodash/filter'
 import { fieldArrayFieldsPropTypes } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import AddIcon from 'mdi-material-ui/Plus'
@@ -91,7 +93,9 @@ class GroupsFieldComponent extends React.Component {
   render() {
     const { fields: { getAll }, availableAttributes } = this.props
     const { intl: { formatMessage }, moduleTheme: { admin: { topSeparator } } } = this.context
-    const allGroups = getAll() || []
+    // Ensure configuration is valid and remove unvalid groups (possible merge error from old description module configuration)
+    const allGroups = filter((getAll() || []), group => !isNil(group.showTitle))
+
     return (
       <>
         { /** Nota: here we have to send an array instead of many evaluated blocks  */
