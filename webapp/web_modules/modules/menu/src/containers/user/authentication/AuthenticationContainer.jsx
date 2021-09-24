@@ -147,7 +147,7 @@ export class AuthenticationContainer extends React.Component {
       if (logoutUrl) {
         browserHistory.push(`${logoutUrl}?post_logout_redirect_uri=${root.location.origin}/${appName}/${project}`)
       } else {
-        root.location = `${logoutUrl}?post_logout_redirect_uri=${root.location.origin}/${appName}/${project}`
+        this.onGoToHomePage()
       }
     } else {
       this.onGoToHomePage()
