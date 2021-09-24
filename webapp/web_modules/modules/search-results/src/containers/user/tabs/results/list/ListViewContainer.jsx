@@ -18,11 +18,10 @@
  **/
 import isEqual from 'lodash/isEqual'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { UIShapes, CommonShapes, CatalogShapes } from '@regardsoss/shape'
+import { UIShapes, CommonShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 import ListViewComponent from '../../../../../components/user/tabs/results/list/ListViewComponent'
-import { withSelectionContainer } from '../common/withSelectionContainer'
 
 /**
  * Container for search results list component. Converts current model into list render data to enhance render performances
@@ -44,8 +43,6 @@ export class ListViewContainer extends React.Component {
     onAddElementToCart: PropTypes.func,
     // Search entity management
     onSearchEntity: PropTypes.func.isRequired,
-    // Entities cached
-    loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
   }
 
   /**
@@ -134,7 +131,7 @@ export class ListViewContainer extends React.Component {
     const {
       resultsContext, tabType, searchActions, requestParameters,
       descriptionAvailable, onShowDescription, onSearchEntity,
-      accessToken, projectName, onAddElementToCart, loadedEntities,
+      accessToken, projectName, onAddElementToCart,
     } = this.props
     const { enableSelection, thumbnailRenderData, gridAttributesRenderData } = this.state
     const { selectedType, selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
@@ -157,9 +154,9 @@ export class ListViewContainer extends React.Component {
         enableServices={selectedTypeState.enableServices}
         enableSearchEntity={selectedTypeState.enableSearchEntity}
         onSearchEntity={onSearchEntity}
-        loadedEntities={loadedEntities}
       />
     )
   }
 }
-export default withSelectionContainer(ListViewContainer)
+// export default withSelectionContainer(ListViewContainer)
+export default ListViewContainer

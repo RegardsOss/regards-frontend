@@ -94,7 +94,6 @@ describe('[SEARCH RESULTS] Testing ListViewContainer', () => {
       projectName: 'def',
       onAddElementToCart: enableCart ? () => {} : null,
       onSearchEntity: () => {},
-      loadedEntities: [],
     }
     const enzymeWrapper = shallow(<ListViewContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(ListViewComponent)
@@ -117,7 +116,6 @@ describe('[SEARCH RESULTS] Testing ListViewContainer', () => {
       enableServices: expectServicesEnabled,
       enableSearchEntity: expectSearchEnabled,
       onSearchEntity: props.onSearchEntity,
-      loadedEntities: props.loadedEntities,
     }, 'Component should define the expected properties')
     // check thumbnail expectations
     if (expectThumbnail) {

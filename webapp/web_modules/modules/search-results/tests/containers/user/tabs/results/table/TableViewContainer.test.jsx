@@ -92,7 +92,6 @@ describe('[SEARCH RESULTS] Testing TableViewContainer', () => {
       onAddElementToCart: enableCart ? () => {} : null,
       onSearchEntity: () => {},
       updateResultsContext: () => {},
-      loadedEntities: [],
     }
     const enzymeWrapper = shallow(<TableViewContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(TableViewComponent)
@@ -114,7 +113,6 @@ describe('[SEARCH RESULTS] Testing TableViewContainer', () => {
       enableSearchEntity: expectSearchEnabled,
       onSearchEntity: props.onSearchEntity,
       onSort: enzymeWrapper.instance().onSort,
-      loadedEntities: props.loadedEntities,
     }, 'Component should define the expected properties')
     assert.lengthOf(columnPresentationModels,
       props.resultsContext.tabs[tabType].types[type].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE].presentationModels.length,

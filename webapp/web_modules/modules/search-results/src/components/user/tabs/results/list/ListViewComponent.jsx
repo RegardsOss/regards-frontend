@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { CommonShapes, CatalogShapes } from '@regardsoss/shape'
+import { CommonShapes } from '@regardsoss/shape'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { TableColumnBuilder, PageableInfiniteTableContainer } from '@regardsoss/components'
@@ -55,8 +55,6 @@ class ListViewComponent extends React.Component {
     // Search entity management
     enableSearchEntity: PropTypes.bool.isRequired,
     onSearchEntity: PropTypes.func.isRequired,
-    // Entities cached
-    loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
   }
 
   static contextTypes = {
@@ -99,7 +97,7 @@ class ListViewComponent extends React.Component {
 
   render() {
     const {
-      searchActions, tabType, type, requestParameters, loadedEntities,
+      searchActions, tabType, type, requestParameters,
     } = this.props
     const { lineHeight } = this.context.muiTheme.module.searchResults.list
     return (
@@ -113,7 +111,6 @@ class ListViewComponent extends React.Component {
         queryPageSize={UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST]}
         requestParams={requestParameters}
         emptyComponent={<EmptyTableContainer tabType={tabType} />}
-        loadedEntities={loadedEntities}
       />
     )
   }
