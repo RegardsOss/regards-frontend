@@ -18,13 +18,12 @@
  **/
 import isEqual from 'lodash/isEqual'
 import { CommonDomain, UIDomain } from '@regardsoss/domain'
-import { CommonShapes, UIShapes, CatalogShapes } from '@regardsoss/shape'
+import { CommonShapes, UIShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { resultsContextActions } from '../../../../../clients/ResultsContextClient'
 import { CriterionBuilder } from '../../../../../definitions/CriterionBuilder'
 import TableViewComponent from '../../../../../components/user/tabs/results/table/TableViewComponent'
-import { withSelectionContainer } from '../common/withSelectionContainer'
 
 /**
  * Container for search results table component: it translates current model into usable models for columns
@@ -61,8 +60,6 @@ export class TableViewContainer extends React.Component {
     onSearchEntity: PropTypes.func.isRequired,
     // from mapDispatchToProps
     updateResultsContext: PropTypes.func.isRequired,
-    // Entities cached
-    loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
   }
 
   /**
@@ -210,7 +207,7 @@ export class TableViewContainer extends React.Component {
     const {
       resultsContext, tabType, requestParameters, searchActions,
       descriptionAvailable, onShowDescription,
-      accessToken, projectName, onAddElementToCart, loadedEntities,
+      accessToken, projectName, onAddElementToCart,
       onSearchEntity,
     } = this.props
     const { columnPresentationModels } = this.state
@@ -232,12 +229,11 @@ export class TableViewContainer extends React.Component {
         enableServices={selectedTypeState.enableServices}
         enableSearchEntity={selectedTypeState.enableSearchEntity}
         onSearchEntity={onSearchEntity}
-        loadedEntities={loadedEntities}
       />
     )
   }
 }
 
-export default withSelectionContainer(connect(
+export default connect(
   TableViewContainer.mapStateToProps,
-  TableViewContainer.mapDispatchToProps)(TableViewContainer))
+  TableViewContainer.mapDispatchToProps)(TableViewContainer)

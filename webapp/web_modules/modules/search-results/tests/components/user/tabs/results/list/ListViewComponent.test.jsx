@@ -99,7 +99,6 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
       enableServices,
       enableSearchEntity,
       onSearchEntity: () => {},
-      loadedEntities: [],
     }
     const enzymeWrapper = shallow(<ListViewComponent {...props} />, { context })
     const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
@@ -109,7 +108,6 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
       pageSelectors: searchSelectors,
       requestParams: props.requestParameters,
       displayColumnsHeader: false,
-
       queryPageSize: UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST],
       emptyComponent: <EmptyTableContainer tabType={tabType} />,
     })
