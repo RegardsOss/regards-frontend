@@ -19,7 +19,8 @@
 import EmailIcon from 'mdi-material-ui/Email'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import IconButton from 'material-ui/IconButton'
+import { HateoasIconAction } from '@regardsoss/components'
+import { HateoasKeys } from '@regardsoss/display-control'
 
 /**
  * @author Théo Lasserre
@@ -42,17 +43,20 @@ class SendEmailComponent extends React.Component {
   }
 
   render() {
-    const { isLoading } = this.props
+    const { isLoading, entity } = this.props
     const { intl: { formatMessage } } = this.context
     return (
-      <IconButton
+      <HateoasIconAction
         disabled={isLoading}
         title={formatMessage({ id: 'projectUser.list.table.action.send.email' })}
         onClick={this.onClick}
-        className="selectium-sendEmail"
+        // HATOAS control
+        entityLinks={entity.links}
+        hateoasKey={HateoasKeys.SEND_VERIFICATION_EMAIL}
+        disableInsteadOfHide
       >
         <EmailIcon />
-      </IconButton>
+      </HateoasIconAction>
     )
   }
 }

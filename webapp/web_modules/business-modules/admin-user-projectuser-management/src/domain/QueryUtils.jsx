@@ -26,7 +26,7 @@ import keys from 'lodash/keys'
  */
 
 function pickFilters(filters) {
-  return pickBy(filters, (filt) => filt !== '' && filt !== undefined && filt !== false)
+  return pickBy(filters, (filt) => filt !== '' && filt !== undefined && filt !== false && filt !== null)
 }
 
 export function getQueryString(filters) {

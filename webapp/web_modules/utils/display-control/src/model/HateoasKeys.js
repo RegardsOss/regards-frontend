@@ -33,4 +33,5 @@ export default {
   REFUSE: 'refuse',
   ACTIVE: 'active',
   INACTIVE: 'inactive',
+  SEND_VERIFICATION_EMAIL: 'sendVerificationEmail',
 }
