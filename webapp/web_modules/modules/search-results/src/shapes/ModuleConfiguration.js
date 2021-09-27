@@ -111,6 +111,7 @@ export const DataViewsConfiguration = PropTypes.shape({
  */
 export const DatasetViewsConfiguration = PropTypes.shape({
   ...commonViewsGroupFields,
+  sorting: DataManagementShapes.AttributeModelArray,
 })
 
 /** Describes possible restriction on data */

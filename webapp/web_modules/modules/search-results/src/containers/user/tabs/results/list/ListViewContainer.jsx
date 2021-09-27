@@ -158,4 +158,5 @@ export class ListViewContainer extends React.Component {
     )
   }
 }
+// export default withSelectionContainer(ListViewContainer)
 export default ListViewContainer

@@ -22,8 +22,7 @@ import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PageableInfiniteTableContainer } from '@regardsoss/components'
 import ListViewComponent from '../../../../../../src/components/user/tabs/results/list/ListViewComponent'
-import ListViewContainer from '../../../../../../src/containers/user/tabs/results/list/ListViewContainer'
-import { getSelectionClient } from '../../../../../../src/clients/SelectionClient'
+import { ListViewContainer } from '../../../../../../src/containers/user/tabs/results/list/ListViewContainer'
 import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
 import EmptyTableContainer from '../../../../../../src/containers/user/tabs/results/common/EmptyTableContainer'
 import styles from '../../../../../../src/styles'
@@ -107,10 +106,8 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
     testSuiteHelpers.assertWrapperProperties(tableWrapper, {
       pageActions: props.searchActions,
       pageSelectors: searchSelectors,
-      tableActions: getSelectionClient(tabType).tableActions,
       requestParams: props.requestParameters,
       displayColumnsHeader: false,
-
       queryPageSize: UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST],
       emptyComponent: <EmptyTableContainer tabType={tabType} />,
     })
