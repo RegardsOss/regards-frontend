@@ -94,7 +94,15 @@ class GroupsFieldComponent extends React.Component {
     const { fields: { getAll, remove }, availableAttributes } = this.props
     const { intl: { formatMessage }, moduleTheme: { admin: { topSeparator } } } = this.context
     // Ensure configuration is valid and remove unvalid groups (possible merge error from old description module configuration)
-    const allGroups = filter((getAll() || []), (group) => !isNil(group.showTitle))
+    let loopIdx = 0
+    const allGroups = filter((getAll() || []), (group) => {
+      if (isNil(group.showTitle)) {
+        remove(loopIdx)
+      }
+
+      loopIdx += 1
+      return !isNil(group.showTitle)
+    })
 
     return (
       <>
