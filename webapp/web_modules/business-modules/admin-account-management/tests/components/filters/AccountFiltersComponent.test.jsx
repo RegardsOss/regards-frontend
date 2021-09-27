@@ -37,7 +37,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account filters component', () => {
   })
   it('should render correctly', () => {
     const props = {
-      origins: {},
+      origins: [],
       projects: {},
 
       // table sorting, column visiblity & filters management

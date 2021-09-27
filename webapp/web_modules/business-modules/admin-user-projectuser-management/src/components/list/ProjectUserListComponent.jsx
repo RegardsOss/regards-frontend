@@ -37,18 +37,14 @@ import dependencies from '../../dependencies'
 import ProjectUserAccountContainer from '../../containers/ProjectUserAccountContainer'
 import ProjectUserQuotaContainer from '../../containers/ProjectUserQuotaContainer'
 import ProjectUserAccessRightContainer from '../../containers/ProjectUserAccessRightContainer'
+import { VISUALISATION_MODES, VISUALISATION_MODES_ENUM } from '../../domain/VisualisationModes'
 
-const VISUALISATION_MODES = {
-  ACCOUNT: 'account',
-  QUOTA: 'quota',
-  ACCESS_RIGHT: 'accessRight',
-}
 class ProjectUserListComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     csvLink: PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    visualisationMode: PropTypes.oneOf(VISUALISATION_MODES),
+    visualisationMode: PropTypes.oneOf(VISUALISATION_MODES_ENUM),
     onRefresh: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,

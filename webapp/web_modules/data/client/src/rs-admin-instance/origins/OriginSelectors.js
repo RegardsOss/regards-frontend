@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { BasicArraySelectors } from '@regardsoss/store-utils'
 
 /**
  * Selector for account's origin/authentication system.
@@ -24,4 +24,4 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  * @param storePath redux store path to access reduced data
  * @return selectors instance
  */
-export default (storePath) => new BasicPageableSelectors(storePath)
+export default (storePath) => new BasicArraySelectors(storePath)
