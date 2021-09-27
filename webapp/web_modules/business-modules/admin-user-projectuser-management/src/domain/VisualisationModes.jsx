@@ -16,19 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
-export const AccessGroupContent = PropTypes.shape({
-  id: PropTypes.number,
-  name: PropTypes.string,
-  isPublic: PropTypes.bool,
-  accessRights: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-  })),
-  isPrivate: PropTypes.bool,
-})
+export const VISUALISATION_MODES = {
+  ACCOUNT: 'account',
+  QUOTA: 'quota',
+  ACCESS_RIGHT: 'accessRight',
+}
 
-export const AccessGroup = PropTypes.shape({
-  content: AccessGroupContent.isRequired,
-})
-
-export const AccessGroupList = PropTypes.objectOf(AccessGroup)
+export const VISUALISATION_MODES_ENUM = values(VISUALISATION_MODES)

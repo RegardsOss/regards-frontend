@@ -25,7 +25,7 @@ export default class ProjectUserEmailConfirmationActions extends BasicSignalActi
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/users/{email}/verification/resend`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/users/email/{email}/verification/resend`,
     })
   }
 

@@ -59,7 +59,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list container', () => {
         size: 20,
         totalElements: 20,
       },
-      origins: {},
+      origins: [],
       projects: {},
       // from mapDispatchToProps
       fetchAccountList: () => { },

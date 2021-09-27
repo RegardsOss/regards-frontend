@@ -50,7 +50,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
       onDelete: () => { },
       onBack: () => { },
       isFetchingActions: false,
-      origins: {},
+      origins: [],
       projects: {},
 
       // table sorting, column visiblity & filters management

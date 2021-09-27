@@ -16,17 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicPageableReducers } from '@regardsoss/store-utils'
-import { ServiceProviderConfiguration } from '@regardsoss/api'
+import { BasicArrayReducers } from '@regardsoss/store-utils'
 import OriginActions from './OriginActions'
 
 /**
  * Reducer for account's origin/authentication system.
  * @author Théo Lasserre
  */
-class OriginReducers extends BasicPageableReducers {
+class OriginReducers extends BasicArrayReducers {
   constructor(namespace) {
-    super(ServiceProviderConfiguration, new OriginActions(namespace))
+    super(new OriginActions(namespace))
   }
 }
 

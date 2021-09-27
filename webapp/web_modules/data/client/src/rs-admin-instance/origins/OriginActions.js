@@ -16,22 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { SERVICE_PROVIDER, SERVICE_PROVIDER_ARRAY } from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { BasicArrayActions } from '@regardsoss/store-utils'
 
 /**
  * Actions for fetching account's origin/authentication system.
  * @author Théo Lasserre
  */
-class OriginActions extends BasicPageableActions {
+class OriginActions extends BasicArrayActions {
   constructor(namespace) {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts/origins`,
-      schemaTypes: {
-        ENTITY: SERVICE_PROVIDER,
-        ENTITY_ARRAY: SERVICE_PROVIDER_ARRAY,
-      },
     })
   }
 }
