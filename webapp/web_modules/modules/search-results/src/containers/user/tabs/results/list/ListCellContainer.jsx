@@ -49,17 +49,16 @@ export class ListCellContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch, { rowIndex, entity, tabType }) {
+  static mapDispatchToProps(dispatch, { entity, tabType }) {
     const { tableActions } = getSelectionClient(tabType)
     return {
-      onSelect: () => dispatch(tableActions.toggleElement(rowIndex, entity)),
+      onSelect: () => dispatch(tableActions.toggleElement(entity.content.id, entity)),
     }
   }
 
   static propTypes = {
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired, // used in mapStateToProps and mapDispatchToProps
     // From table cell API
-    rowIndex: PropTypes.number.isRequired,
     entity: AccessShapes.EntityWithServices.isRequired,
     // attributes render data
     thumbnailRenderData: ListThumbnailRenderData, // no thumbnail when not provided
@@ -101,9 +100,9 @@ export class ListCellContainer extends React.Component {
    * @return true if row is selected
    */
   isSelectedRow = () => {
-    const { rowIndex, selectionMode, toggledElements } = this.props
-    return (selectionMode === TableSelectionModes.includeSelected && !!toggledElements[rowIndex])
-      || (selectionMode === TableSelectionModes.excludeSelected && !toggledElements[rowIndex])
+    const { entity, selectionMode, toggledElements } = this.props
+    return (selectionMode === TableSelectionModes.includeSelected && !!toggledElements[entity.content.id])
+      || (selectionMode === TableSelectionModes.excludeSelected && !toggledElements[entity.content.id])
   }
 
   render() {

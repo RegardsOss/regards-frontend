@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { CheckBoxCell } from '@regardsoss/components'
-import { console } from 'window-or-global'
 
 /**
  * Option (checkbox) to toggle element selection on / off.

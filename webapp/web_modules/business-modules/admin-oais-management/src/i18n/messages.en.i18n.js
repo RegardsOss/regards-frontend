@@ -170,7 +170,7 @@ export default {
   'oais.aips.list.table.headers.lastUpdate': 'Last updated',
   'oais.aips.list.table.headers.nbFiles': 'Number of files',
   'oais.aips.list.table.headers.version': 'Version',
-  'oais.aips.list.aip-details.title': 'AIP details',
+  'oais.aips.list.aip-details.title': 'Request errors',
   'oais.aips.list.delete.files.on.all.storages.label': 'Full delete',
   'oais.aips.list.delete.files.on.all.storages.title': 'Delete selected AIP and its files on all storages',
   'oais.aips.list.delete.files.on.some.storages.label': 'Partial delete',

@@ -31,6 +31,7 @@ import EmptyTableContainer from '../../../../../containers/user/tabs/results/com
 import EntityDescriptionComponent from '../common/options/EntityDescriptionComponent'
 import DownloadEntityFileComponent from '../common/options/DownloadEntityFileComponent'
 import SearchRelatedEntitiesComponent from '../common/options/SearchRelatedEntitiesComponent'
+import ToggleElementComponent from '../header/options/ToggleElementComponent'
 /**
  * Expected shape for attribute presentation model to be used as column
  */
@@ -99,15 +100,19 @@ class TableViewComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage, locale } } = this.context
     const { tableActions, tableSelectors } = getSelectionClient(tabType)
-    const { searchSelectors } = getSearchCatalogClient(tabType)
     // map presentation models, with their current order, onto table columns
     return columnPresentationModels.map((model) => {
       switch (model.key) {
         // selection column
         case TableColumnBuilder.selectionColumnKey:
-          return new TableColumnBuilder().label(formatMessage({ id: 'results.selection.column.label' }))
+          return new TableColumnBuilder(TableColumnBuilder.selectionColumnKey)
+            .label(formatMessage({ id: 'results.selection.column.label' }))
             .visible(model.visible)
-            .selectionColumn(false, searchSelectors, tableActions, tableSelectors)
+            .optionsSizing(1)
+            .rowCellDefinition({
+              Constructor: ToggleElementComponent,
+              props: { tableActions, tableSelectors },
+            })
             .build()
         // options column
         case TableColumnBuilder.optionsColumnKey:
@@ -144,7 +149,6 @@ class TableViewComponent extends React.Component {
         key={type} // unmount the table when change entity type (using key trick)
         pageActions={searchActions}
         pageSelectors={getSearchCatalogClient(tabType).searchSelectors}
-        tableActions={getSelectionClient(tabType).tableActions}
         displayColumnsHeader
         lineHeight={lineHeight}
         columns={this.buildTableColumns()}

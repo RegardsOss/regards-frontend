@@ -88,7 +88,7 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
     }, 'Table properties should be correctly computed and reported')
 
     // check attributes contain all standard attributes (and not more, as the attributeModel is empty)
-    assert.lengthOf(wrapperState.attributeModels, DamDomain.AttributeModelController.standardAttributesAsModel.length, 'Attribute models should contain only standard attributes')
+    assert.lengthOf(wrapperState.attributeModels, DamDomain.AttributeModelController.getSortableStandardAttributes().length, 'Attribute models should contain only sortable standard attributes')
   })
   it('should render correctly with attributes and filter non existing ones', () => {
     let spiedChangeField = { name: null, value: null }

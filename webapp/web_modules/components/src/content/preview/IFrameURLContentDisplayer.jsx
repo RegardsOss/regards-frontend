@@ -121,6 +121,7 @@ export class IFrameURLContentDisplayer extends React.Component {
         wrapperStyle: {
           ...style,
           position: 'relative',
+          backgroundColor: 'white',
           // user or common style
           ...(iFrameStyle || fileContentStyle),
         },

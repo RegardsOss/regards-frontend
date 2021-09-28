@@ -167,13 +167,9 @@ export class TableViewContainer extends React.Component {
         // add or swap order in sorting list
         if (indexInCurrentSorting >= 0) {
           // 1. Sorting Criterion already exists
-          nextSorting = isInInitialSorting
-            // A - when exiting initial sorting, we remove all other elements and keep only the new sorting element
-            ? [CriterionBuilder.buildSortCriterion(sortingAttribute, newSortOrder)]
-            // B - Default case: change only updated criterion in existing list
-            : sorting.map((sortingElt, index) => index !== indexInCurrentSorting
-              ? sortingElt
-              : CriterionBuilder.buildSortCriterion(sortingAttribute, newSortOrder))
+          nextSorting = sorting.map((sortingElt, index) => index !== indexInCurrentSorting
+            ? sortingElt
+            : CriterionBuilder.buildSortCriterion(sortingAttribute, newSortOrder))
         } else {
           // 2 - Sorting criterion has just been added
           nextSorting = [...(isInInitialSorting ? [] : sorting), CriterionBuilder.buildSortCriterion(sortingAttribute, newSortOrder)]
@@ -216,7 +212,6 @@ export class TableViewContainer extends React.Component {
     } = this.props
     const { columnPresentationModels } = this.state
     const { selectedType, selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-
     return (
       <TableViewComponent
         tabType={tabType}
@@ -238,6 +233,7 @@ export class TableViewContainer extends React.Component {
     )
   }
 }
+
 export default connect(
   TableViewContainer.mapStateToProps,
   TableViewContainer.mapDispatchToProps)(TableViewContainer)
