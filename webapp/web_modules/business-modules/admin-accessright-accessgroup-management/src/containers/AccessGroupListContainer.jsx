@@ -22,6 +22,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
+import { groupsCountActions, groupsCountSelectors } from '../clients/GroupsCountClient'
 import AccessGroupListComponent from '../components/AccessGroupListComponent'
 import messages from '../i18n'
 
@@ -37,13 +38,17 @@ export class AccessGroupListContainer extends React.Component {
     // from mapStateToProps
     accessGroupList: DataManagementShapes.AccessGroupList.isRequired,
     isFetching: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    groupsCount: PropTypes.object,
     // from mapDispatchToProps
     fetchAccessGroupList: PropTypes.func,
     deleteAccessGroup: PropTypes.func,
+    fetchGroupsCount: PropTypes.func,
   }
 
   UNSAFE_componentWillMount() {
     this.props.fetchAccessGroupList()
+    this.props.fetchGroupsCount()
   }
 
   getCreateUrl = () => {
@@ -88,7 +93,7 @@ export class AccessGroupListContainer extends React.Component {
   }
 
   render() {
-    const { accessGroupList, isFetching } = this.props
+    const { accessGroupList, isFetching, groupsCount } = this.props
     return (
       <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
@@ -103,6 +108,7 @@ export class AccessGroupListContainer extends React.Component {
             handleEditAccessRights={this.handleEditAccessRights}
             backUrl={this.getBackUrl()}
             createUrl={this.getCreateUrl()}
+            groupsCount={groupsCount}
           />
         </LoadableContentDisplayDecorator>
       </I18nProvider>
@@ -113,11 +119,13 @@ export class AccessGroupListContainer extends React.Component {
 const mapStateToProps = (state, ownProps) => ({
   accessGroupList: accessGroupSelectors.getList(state),
   isFetching: accessGroupSelectors.isFetching(state),
+  groupsCount: groupsCountSelectors.getGroupsCount(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchAccessGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList(0, 100)),
   deleteAccessGroup: (id) => dispatch(accessGroupActions.deleteEntity(id)),
+  fetchGroupsCount: () => dispatch(groupsCountActions.fetchGroupsCount()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccessGroupListContainer)

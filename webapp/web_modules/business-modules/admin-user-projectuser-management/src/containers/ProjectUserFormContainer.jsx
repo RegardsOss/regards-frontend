@@ -204,7 +204,7 @@ export class ProjectUserFormContainer extends React.Component {
       originUrl: '/',
       // the backend will use that URL in the email
       requestLink: `${root.location.protocol}//${root.location.host}/user/${projectName}?${frontendParameter}`,
-      accessGroups: values.groups,
+      accessGroups: values.accessGroups,
       maxQuota: values.maxQuota,
       rateLimit: values.rateLimit,
     }

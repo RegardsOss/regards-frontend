@@ -43,10 +43,13 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListContainer',
       // from mapStateToProps
       accessGroupList: {},
       isFetching: true,
+      groupsCount: {
+        test: 2,
+      },
       // from mapDispatchToProps
       fetchAccessGroupList: fetchListSpy,
       deleteAccessGroup: () => {},
-
+      fetchGroupsCount: () => {},
     }
     const enzymeWrapper = shallow(<AccessGroupListContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
@@ -63,10 +66,13 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListContainer',
       // from mapStateToProps
       accessGroupList: DumpProvider.get('DataManagementClient', 'AccessGroup'),
       isFetching: false,
+      groupsCount: {
+        test: 2,
+      },
       // from mapDispatchToProps
       fetchAccessGroupList: fetchListSpy,
       deleteAccessGroup: () => {},
-
+      fetchGroupsCount: () => {},
     }
     const enzymeWrapper = shallow(<AccessGroupListContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)

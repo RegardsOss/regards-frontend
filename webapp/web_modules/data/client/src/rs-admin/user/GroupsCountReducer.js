@@ -15,14 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { combineReducers } from 'redux'
-import { accessGroupReducer } from './clients/AccessGroupClient'
-import { groupsCountReducer } from './clients/GroupsCountClient'
+ */
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import GroupsCountActions from './GroupsCountActions'
 
-const accessGroupManagementReducer = combineReducers({
-  'access-group': accessGroupReducer,
-  'groups-count': groupsCountReducer,
-})
+class GroupsCountReducer extends BasicSignalReducers {
+  constructor(namespace) {
+    super(new GroupsCountActions(namespace))
+  }
+}
 
-export default accessGroupManagementReducer
+export default (namespace) => {
+  const instance = new GroupsCountReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

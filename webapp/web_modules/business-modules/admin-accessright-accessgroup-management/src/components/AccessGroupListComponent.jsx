@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import find from 'lodash/find'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
@@ -67,6 +68,8 @@ export class AccessGroupListComponent extends React.Component {
     handleDuplicate: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    groupsCount: PropTypes.object,
   }
 
   static contextTypes = {
@@ -116,6 +119,15 @@ export class AccessGroupListComponent extends React.Component {
     )
   }
 
+  getNumberOfUsers = (group) => {
+    const { groupsCount } = this.props
+    const { intl: { formatMessage } } = this.context
+    if (group.content.isPublic) {
+      return formatMessage({ id: 'group.list.table.all.users' })
+    }
+    return find(groupsCount, (groupCount, key) => group.content.name === key) || 0
+  }
+
   render() {
     const {
       accessGroupList, handleShowGroupUsers, handleEdit, handleEditAccessRights, handleDuplicate, createUrl, backUrl,
@@ -160,9 +172,7 @@ export class AccessGroupListComponent extends React.Component {
                   <TableRowColumn>{accessGroup.content.name}</TableRowColumn>
                   <TableRowColumn>
                     { // Show number of users or ALL for public groups
-                      accessGroup.content.isPublic
-                        ? formatMessage({ id: 'group.list.table.all.users' })
-                        : accessGroup.content.users.length
+                      this.getNumberOfUsers(accessGroup)
                     }
                   </TableRowColumn>
                   <TableRowColumn>

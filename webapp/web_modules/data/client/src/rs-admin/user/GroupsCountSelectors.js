@@ -15,14 +15,20 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { combineReducers } from 'redux'
-import { accessGroupReducer } from './clients/AccessGroupClient'
-import { groupsCountReducer } from './clients/GroupsCountClient'
+ */
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
-const accessGroupManagementReducer = combineReducers({
-  'access-group': accessGroupReducer,
-  'groups-count': groupsCountReducer,
-})
+class GroupsCountSelectors extends BasicSignalSelectors {
+  /**
+   * Returns fetched user on last REST action (since both GET and PUT should return user data)
+   * @param {*} state redux store
+   */
+  getGroupsCount(state) {
+    return this.uncombineStore(state).result || null
+  }
+}
 
-export default accessGroupManagementReducer
+/**
+ * Builds selectors on expected store path
+ */
+export default (storePath) => new GroupsCountSelectors(storePath)

@@ -127,3 +127,7 @@ export { default as getProjectUserEmailConfirmationReducer } from './user/Projec
 export { default as getProjectUserEmailConfirmationSelectors } from './user/ProjectUserEmailConfirmationSelectors'
 
 export { default as DownloadUserMetalinkFileAtions } from './user/DownloadUserMetalinkFileAtions'
+
+export { default as GroupsCountActions } from './user/GroupsCountActions'
+export { default as getGroupsCountReducer } from './user/GroupsCountReducer'
+export { default as getGroupsCountSelectors } from './user/GroupsCountSelectors'

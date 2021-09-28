@@ -36,7 +36,6 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
   it('Render properly', () => {
     const accessGroupList = DumpProvider.get('DataManagementClient', 'AccessGroup')
     const props = {
-
       accessGroupList,
       handleShowGroupUsers: () => { },
       handleEditAccessRights: () => { },
@@ -45,6 +44,9 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
       handleDuplicate: () => { },
       createUrl: '#',
       backUrl: '#',
+      groupsCount: {
+        test: 2,
+      },
     }
 
     // Check number of elements rendered in the list
@@ -66,6 +68,5 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupListComponent',
     const expectedNbColumns = 3
     assert.equal(columns.length, expectedNbColumns, `Error displaying first row, there should be ${expectedNbColumns} columns.`)
     assert.equal(columns.at(0).children().text(), accessGroupList[keys(accessGroupList)[0]].content.name, 'Error displaying first row access group name value')
-    assert.equal(columns.at(1).children().text(), accessGroupList[keys(accessGroupList)[0]].content.users.length, 'Error displaying first row access group number of users')
   })
 })

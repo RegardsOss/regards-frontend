@@ -16,13 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { accessGroupReducer } from './clients/AccessGroupClient'
-import { groupsCountReducer } from './clients/GroupsCountClient'
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
-const accessGroupManagementReducer = combineReducers({
-  'access-group': accessGroupReducer,
-  'groups-count': groupsCountReducer,
-})
+/**
+ * My user actions, user interface: fetches authenticated project user and updates it (GET / PUT on the same URL)
+ */
+export default class GroupsCountActions extends BasicSignalActions {
+  /**
+   * Constructor
+   */
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/users/count`,
+      namespace,
+    })
+  }
 
-export default accessGroupManagementReducer
+  /**
+   * Fetches my project user from server
+   */
+  fetchGroupsCount() {
+    return this.sendSignal('GET')
+  }
+}
