@@ -26,6 +26,7 @@ import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss
 */
 class DeleteOrderConfirmationComponent extends React.Component {
   static propTypes = {
+    orderLabel: PropTypes.string.isRequired,
     // is complete delete operation?
     isCompleteDelete: PropTypes.bool.isRequired,
     // is curretnly visible?
@@ -53,13 +54,15 @@ class DeleteOrderConfirmationComponent extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { isCompleteDelete, visible, onClose } = this.props
+    const {
+      isCompleteDelete, visible, onClose, orderLabel,
+    } = this.props
 
     const displayModeKey = isCompleteDelete ? 'completely' : 'superficially'
     return (
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.DELETE}
-        title={formatMessage({ id: `order.list.option.cell.delete.${displayModeKey}.confirmation.title` })}
+        title={formatMessage({ id: `order.list.option.cell.delete.${displayModeKey}.confirmation.title` }, { name: orderLabel })}
         message={formatMessage({ id: `order.list.option.cell.delete.${displayModeKey}.confirmation.message` })}
         onConfirm={this.onDeleteConfirmed}
         confirmMessageKey={`order.list.option.cell.delete.${displayModeKey}.confirmation.button`}

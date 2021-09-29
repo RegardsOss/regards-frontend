@@ -38,6 +38,7 @@ describe('[Order Common] Testing DeleteOrderConfirmationComponent', () => {
   })
   it('should render correctly closed', () => {
     const props = {
+      orderLabel: 'test',
       isCompleteDelete: false,
       visible: false,
       onClose: () => { },
@@ -50,6 +51,7 @@ describe('[Order Common] Testing DeleteOrderConfirmationComponent', () => {
   })
   it('should render correctly a superficial delete', () => {
     const props = {
+      orderLabel: 'test',
       isCompleteDelete: false,
       visible: true,
       onClose: () => { },
@@ -64,6 +66,7 @@ describe('[Order Common] Testing DeleteOrderConfirmationComponent', () => {
   })
   it('should render correctly a complete delete', () => {
     const props = {
+      orderLabel: 'test',
       isCompleteDelete: true,
       visible: true,
       onClose: () => { },
@@ -80,6 +83,7 @@ describe('[Order Common] Testing DeleteOrderConfirmationComponent', () => {
     let closeCount = 0
     let deleteCount = 0
     const props = {
+      orderLabel: 'test',
       isCompleteDelete: true,
       visible: true,
       onClose: () => { closeCount += 1 },
