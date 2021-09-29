@@ -86,7 +86,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
     const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context })
     // A - init
     assert.deepEqual(spyInit.values, {
-      accessGroups: {},
+      accessGroups: [],
       email: props.currentUser.content.email,
       roleName: props.currentUser.content.role.name,
       maxQuota: props.currentUser.content.maxQuota,
