@@ -49,6 +49,8 @@ class ProjectUserAccountFiltersComponent extends React.Component {
     ...i18nContextType,
   }
 
+  getDateValue = (filterValue) => filterValue ? new Date(filterValue) : null
+
   render() {
     const {
       origins, updateFilter, clearFilters, filters,
@@ -73,18 +75,18 @@ class ProjectUserAccountFiltersComponent extends React.Component {
                   {formatMessage({ id: 'projectUser.list.table.created.label' })}
                 </div>
                 <DatePickerField
-                  id={`filter.${ACCOUNT_FILTERS.CREATED_BEFORE}`}
-                  dateHintText={formatMessage({ id: `projectUser.list.table.created.${ACCOUNT_FILTERS.CREATED_BEFORE}.label` })}
-                  onChange={(value) => updateFilter(value.toISOString(), ACCOUNT_FILTERS.CREATED_BEFORE)}
-                  locale={locale}
-                  value={filters[ACCOUNT_FILTERS.CREATED_BEFORE]}
-                />
-                <DatePickerField
                   id={`filter.${ACCOUNT_FILTERS.CREATED_AFTER}`}
                   dateHintText={formatMessage({ id: `projectUser.list.table.created.${ACCOUNT_FILTERS.CREATED_AFTER}.label` })}
                   onChange={(value) => updateFilter(value.toISOString(), ACCOUNT_FILTERS.CREATED_AFTER)}
                   locale={locale}
-                  value={filters[ACCOUNT_FILTERS.CREATED_AFTER]}
+                  value={this.getDateValue(filters[ACCOUNT_FILTERS.CREATED_AFTER])}
+                />
+                <DatePickerField
+                  id={`filter.${ACCOUNT_FILTERS.CREATED_BEFORE}`}
+                  dateHintText={formatMessage({ id: `projectUser.list.table.created.${ACCOUNT_FILTERS.CREATED_BEFORE}.label` })}
+                  onChange={(value) => updateFilter(value.toISOString(), ACCOUNT_FILTERS.CREATED_BEFORE)}
+                  locale={locale}
+                  value={this.getDateValue(filters[ACCOUNT_FILTERS.CREATED_BEFORE])}
                 />
               </div>
               <div style={dateFilterDiv}>
@@ -92,18 +94,18 @@ class ProjectUserAccountFiltersComponent extends React.Component {
                   {formatMessage({ id: 'projectUser.list.table.lastConnection.label' })}
                 </div>
                 <DatePickerField
-                  id={`filter.${ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE}`}
-                  dateHintText={formatMessage({ id: `projectUser.list.table.lastConnection.${ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE}.label` })}
-                  onChange={(value) => updateFilter(value.toISOString(), ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE)}
-                  locale={locale}
-                  value={filters[ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE]}
-                />
-                <DatePickerField
                   id={`filter.${ACCOUNT_FILTERS.LAST_CONNECTION_AFTER}`}
                   dateHintText={formatMessage({ id: `projectUser.list.table.lastConnection.${ACCOUNT_FILTERS.LAST_CONNECTION_AFTER}.label` })}
                   onChange={(value) => updateFilter(value.toISOString(), ACCOUNT_FILTERS.LAST_CONNECTION_AFTER)}
                   locale={locale}
-                  value={filters[ACCOUNT_FILTERS.LAST_CONNECTION_AFTER]}
+                  value={this.getDateValue(filters[ACCOUNT_FILTERS.LAST_CONNECTION_AFTER])}
+                />
+                <DatePickerField
+                  id={`filter.${ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE}`}
+                  dateHintText={formatMessage({ id: `projectUser.list.table.lastConnection.${ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE}.label` })}
+                  onChange={(value) => updateFilter(value.toISOString(), ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE)}
+                  locale={locale}
+                  value={this.getDateValue(filters[ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE])}
                 />
               </div>
             </TableHeaderOptionGroup>
