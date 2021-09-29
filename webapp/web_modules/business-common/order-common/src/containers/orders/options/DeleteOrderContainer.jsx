@@ -100,8 +100,8 @@ export class DeleteOrderContainer extends React.Component {
    * On delete superficially callback. Fetches delete superficially and shows error if any
    */
   onDeleteRequest = () => {
-    const { onShowDeleteConfirmation } = this.props
-    onShowDeleteConfirmation(this.canDeleteCompletely(), this.onDeleteConfirmed)
+    const { onShowDeleteConfirmation, entity } = this.props
+    onShowDeleteConfirmation(entity.content.label, this.canDeleteCompletely(), this.onDeleteConfirmed)
   }
 
   /**
