@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/admin-user-management",
-  "version": "1.7.0-SNAPSHOT",
+  "version": "1.7.0",
   "private": true,
   "sideEffects": false,
   "description": "",
