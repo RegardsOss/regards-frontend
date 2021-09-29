@@ -26,10 +26,20 @@ const webpack = require('webpack')
 
 // You are running a production build on PERF
 // You need to:
-//    - run npm run build:production-dll
+//    - Build DLL
+//      npm run build:production-dll
+
 //    - mkdir -p dist/prod/conf && cp webpack-config-front/src/conf/staticConfiguration.js dist/prod/conf/
-//    - add inside file dist/prod/conf/staticConfiguration.js
-//      API_URL = 'api/v1';GATEWAY_HOSTNAME = 'http://172.26.47.52'
+
+//    - Fix the content of the file dist/prod/conf/staticConfiguration.js
+//      echo "API_URL = 'api/v1'" >> dist/prod/conf/staticConfiguration.js
+//      sed -i s@\$\{regards\.config\.cloud\.gateway\.url}@http://172.26.47.52@g dist/prod/conf/staticConfiguration.js
+
+//    - Fix Cesium
+//      sed -i "s+\".\": {+\"./\": \"./Source/\",\".\": {+g" node_modules/cesium/package.json
+
+//    - Then run the command
+//      npm run start:prodvmperf
 
 const conf = webpackConfigurator
   .generateConfig({

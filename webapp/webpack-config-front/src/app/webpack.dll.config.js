@@ -42,7 +42,7 @@ module.exports = function (projectContextPath, mode) {
           },
         },
         {
-          test: /ace-builds\/src-noconflict/,
+          test: /ace-builds\/src-noconflict\/(worker|theme|mode)/,
           loader: 'file-loader',
           options: {
             name: '[name].[ext]',
