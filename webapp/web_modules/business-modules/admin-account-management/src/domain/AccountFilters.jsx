@@ -23,7 +23,7 @@ const ACCOUNT_FILTERS = {
   LASTNAME: 'lastName',
   STATUS: 'status',
   ORIGIN: 'origin',
-  PROJECT: 'project', // liste
+  PROJECTS: 'projects',
 }
 
 export default ACCOUNT_FILTERS
