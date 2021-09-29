@@ -121,10 +121,6 @@ export class AccessGroupListComponent extends React.Component {
 
   getNumberOfUsers = (group) => {
     const { groupsCount } = this.props
-    const { intl: { formatMessage } } = this.context
-    if (group.content.isPublic) {
-      return formatMessage({ id: 'group.list.table.all.users' })
-    }
     return find(groupsCount, (groupCount, key) => group.content.name === key) || 0
   }
 
@@ -172,7 +168,9 @@ export class AccessGroupListComponent extends React.Component {
                   <TableRowColumn>{accessGroup.content.name}</TableRowColumn>
                   <TableRowColumn>
                     { // Show number of users or ALL for public groups
-                      this.getNumberOfUsers(accessGroup)
+                      accessGroup.content.isPublic
+                        ? formatMessage({ id: 'group.list.table.all.users' })
+                        : this.getNumberOfUsers(accessGroup)
                     }
                   </TableRowColumn>
                   <TableRowColumn>
@@ -210,6 +208,8 @@ export class AccessGroupListComponent extends React.Component {
                         title={formatMessage({ id: 'group.list.table.actions.delete' })}
                         entityLinks={accessGroup.links}
                         hateoasKey={HateoasKeys.DELETE}
+                        disableInsteadOfHide
+                        disabled={this.getNumberOfUsers(accessGroup) !== 0}
                         onClick={() => this.openDeleteDialog(accessGroup)}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
