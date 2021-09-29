@@ -143,7 +143,7 @@ export class ProjectUserFormComponent extends React.Component {
     } else {
       // A.2 - only when editing: initialize groups already associated with user, and restore other user values
       const currentUserGroups = this.getCurrentUserGroups(currentUser.content)
-      initialFormValues.accessGroups = currentUserGroups
+      initialFormValues.accessGroups = map(currentUserGroups, (group) => group.name)
       this.setState({
         tempGroups: currentUserGroups,
       })
