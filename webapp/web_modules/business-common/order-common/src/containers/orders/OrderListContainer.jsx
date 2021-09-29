@@ -171,7 +171,7 @@ export class OrderListContainer extends React.Component {
   onHideAsynchronousRequestInformation = () => this.setState({ asynchRequestInformation: false })
 
   /** On delete user request: shows confirmation dialog */
-  onShowDeleteConfirmation = (completeDelete, onDelete) => this.setState({ deleteConfirmation: { completeDelete, onDelete } })
+  onShowDeleteConfirmation = (label, completeDelete, onDelete) => this.setState({ deleteConfirmation: { label, completeDelete, onDelete } })
 
   /** User callback: hide aynchronous information */
   onHideDeleteConfirmation = () => this.setState({ deleteConfirmation: null })
@@ -214,6 +214,7 @@ export class OrderListContainer extends React.Component {
           isCompleteDelete={get(deleteConfirmation, 'completeDelete', false)}
           onClose={this.onHideDeleteConfirmation}
           onDelete={get(deleteConfirmation, 'onDelete', noop)}
+          orderLabel={get(deleteConfirmation, 'label', '')}
         />
         <RetryOrderSelectionModeComponent
           project={project}

@@ -126,7 +126,7 @@ describe('[Order Common] Testing OrderListContainer', () => {
     }
     const enzymeWrapper = shallow(<OrderListContainer {...props} />, { context })
     // 1 - Show dialog
-    enzymeWrapper.instance().onShowDeleteConfirmation(true, () => { })
+    enzymeWrapper.instance().onShowDeleteConfirmation('testLabel', true, () => { })
     enzymeWrapper.update()
     let dialog = enzymeWrapper.find(DeleteOrderConfirmationComponent)
     assert.isTrue(dialog.props().visible, 'The dialog should be visible')
