@@ -160,7 +160,7 @@ class ProjectUserAccountFiltersComponent extends React.Component {
               >
                 <MenuItem key="any.option" value={undefined} primaryText={formatMessage({ id: 'projectUser.list.table.role.label.any' })} />
                 {map(AdminDomain.DEFAULT_ROLES_ENUM, (role) => (
-                  <MenuItem key={role} value={role} primaryText={role} />
+                  <MenuItem key={role} value={role} primaryText={formatMessage({ id: `projectUser.list.table.role.label.${role}` })} />
                 ))}
               </SelectField>
             </TableHeaderOptionGroup>

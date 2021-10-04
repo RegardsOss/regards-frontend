@@ -46,7 +46,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing RoleRenderer', () => {
       'EXPLOIT',
       'ADMIN',
       'PROJECT_ADMIN',
-    ].map((r) => ({ label: `the common role ${r}`, role: r, expectedMessage: messages[UIDomain.LOCALES_ENUM.en][`role.name.${r}`] })), {
+    ].map((r) => ({ label: `the common role ${r}`, role: r, expectedMessage: messages[UIDomain.LOCALES_ENUM.en][`projectUser.list.table.role.label.${r}`] })), {
       // Custom role, should be displayed unchanged
       label: 'a custom role',
       role: 'My_CUSTOM.ROLE',
