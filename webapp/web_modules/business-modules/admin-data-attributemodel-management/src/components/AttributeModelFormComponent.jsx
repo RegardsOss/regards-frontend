@@ -243,6 +243,7 @@ export class AttributeModelFormComponent extends React.Component {
         description: currentAttrModel.content.description,
         alterable: currentAttrModel.content.alterable,
         optional: currentAttrModel.content.optional,
+        esMapping: currentAttrModel.content.esMapping,
         restriction: {},
         precision: currentAttrModel.content.precision,
         arraysize: currentAttrModel.content.arraysize,
