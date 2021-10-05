@@ -74,7 +74,7 @@ describe('[Order Common] Testing OrderListContainer', () => {
     // 2 - delete confirmation dialog
     const deleteConfirmDialog = enzymeWrapper.find(DeleteOrderConfirmationComponent)
     assert.lengthOf(deleteConfirmDialog, 1, 'There should be the instantitated dialog "delete confirm"')
-    assert.isFalse(deleteConfirmDialog.props().visible, '"Delete confirm" dialog should not be shown')
+    assert.isFalse(!!deleteConfirmDialog.props().deleteConfirmation, '"Delete confirm" dialog should not be shown')
     assert.equal(deleteConfirmDialog.props().onClose, instance.onHideDeleteConfirmation, '"Delete confirm" dialog close callback should be correctly set up')
     // 3 - Request failed dialog
     const requestFailedDialog = enzymeWrapper.find(RequestFailedInformationComponent)
@@ -129,12 +129,12 @@ describe('[Order Common] Testing OrderListContainer', () => {
     enzymeWrapper.instance().onShowDeleteConfirmation('testLabel', true, () => { })
     enzymeWrapper.update()
     let dialog = enzymeWrapper.find(DeleteOrderConfirmationComponent)
-    assert.isTrue(dialog.props().visible, 'The dialog should be visible')
+    assert.isTrue(!!dialog.props().deleteConfirmation, 'The dialog should be visible')
     // 2 - Hide dialog
     enzymeWrapper.instance().onHideDeleteConfirmation()
     enzymeWrapper.update()
     dialog = enzymeWrapper.find(DeleteOrderConfirmationComponent)
-    assert.isFalse(dialog.props().visible, 'The dialog should be hidden')
+    assert.isFalse(!!dialog.props().deleteConfirmation, 'The dialog should be hidden')
   })
 
   it('should correctly show and hide "request failed" dialog', () => {

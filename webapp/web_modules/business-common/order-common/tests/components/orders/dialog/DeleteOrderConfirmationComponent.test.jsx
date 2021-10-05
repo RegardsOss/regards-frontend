@@ -38,11 +38,8 @@ describe('[Order Common] Testing DeleteOrderConfirmationComponent', () => {
   })
   it('should render correctly closed', () => {
     const props = {
-      orderLabel: 'test',
-      isCompleteDelete: false,
-      visible: false,
       onClose: () => { },
-      onDelete: () => { },
+      deleteConfirmation: null,
     }
     const enzymeWrapper = shallow(<DeleteOrderConfirmationComponent {...props} />, { context })
     const dialog = enzymeWrapper.find(ConfirmDialogComponent)
@@ -51,11 +48,12 @@ describe('[Order Common] Testing DeleteOrderConfirmationComponent', () => {
   })
   it('should render correctly a superficial delete', () => {
     const props = {
-      orderLabel: 'test',
-      isCompleteDelete: false,
-      visible: true,
       onClose: () => { },
-      onDelete: () => { },
+      deleteConfirmation: {
+        isCompleteDelete: false,
+        onDelete: () => { },
+        orderLabel: 'test',
+      },
     }
     const enzymeWrapper = shallow(<DeleteOrderConfirmationComponent {...props} />, { context })
     const dialog = enzymeWrapper.find(ConfirmDialogComponent)
@@ -66,11 +64,12 @@ describe('[Order Common] Testing DeleteOrderConfirmationComponent', () => {
   })
   it('should render correctly a complete delete', () => {
     const props = {
-      orderLabel: 'test',
-      isCompleteDelete: true,
-      visible: true,
       onClose: () => { },
-      onDelete: () => { },
+      deleteConfirmation: {
+        isCompleteDelete: true,
+        onDelete: () => { },
+        orderLabel: 'test',
+      },
     }
     const enzymeWrapper = shallow(<DeleteOrderConfirmationComponent {...props} />, { context })
     const dialog = enzymeWrapper.find(ConfirmDialogComponent)
@@ -83,11 +82,12 @@ describe('[Order Common] Testing DeleteOrderConfirmationComponent', () => {
     let closeCount = 0
     let deleteCount = 0
     const props = {
-      orderLabel: 'test',
-      isCompleteDelete: true,
-      visible: true,
       onClose: () => { closeCount += 1 },
-      onDelete: () => { deleteCount += 1 },
+      deleteConfirmation: {
+        isCompleteDelete: true,
+        onDelete: () => { deleteCount += 1 },
+        orderLabel: 'test',
+      },
     }
     const enzymeWrapper = shallow(<DeleteOrderConfirmationComponent {...props} />, { context })
     const dialog = enzymeWrapper.find(ConfirmDialogComponent)

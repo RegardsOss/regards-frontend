@@ -85,7 +85,7 @@ export class OrderListContainer extends React.Component {
     currentFailureResponse: null,
     // async request notification information
     asynchRequestInformation: false,
-    // current delete operation like {completeDelete: boolean, onDelete: function}, null when none
+    // current delete operation like {completeDelete: boolean, onDelete: function, label: string}, null when none
     deleteConfirmation: null,
     // current retry operation
     retryMode: null,
@@ -210,15 +210,13 @@ export class OrderListContainer extends React.Component {
         />
         { /* delete confirmation component, on demand */ }
         <DeleteOrderConfirmationComponent
-          visible={!!deleteConfirmation}
-          isCompleteDelete={get(deleteConfirmation, 'completeDelete', false)}
           onClose={this.onHideDeleteConfirmation}
-          onDelete={get(deleteConfirmation, 'onDelete', noop)}
-          orderLabel={get(deleteConfirmation, 'label', '')}
+          deleteConfirmation={deleteConfirmation}
         />
         <RetryOrderSelectionModeComponent
           project={project}
           visible={!!retryMode}
+          retryMode={retryMode}
           orderLabel={get(retryMode, 'label', '')}
           canRetry={get(retryMode, 'canRetry', false)}
           canRestart={get(retryMode, 'canRestart', false)}

@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import React from 'react'
+import get from 'lodash/get'
+import noop from 'lodash/noop'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 
@@ -26,15 +28,14 @@ import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss
 */
 class DeleteOrderConfirmationComponent extends React.Component {
   static propTypes = {
-    orderLabel: PropTypes.string.isRequired,
-    // is complete delete operation?
-    isCompleteDelete: PropTypes.bool.isRequired,
-    // is curretnly visible?
-    visible: PropTypes.bool.isRequired,
     // on close callback like () => ()
     onClose: PropTypes.func.isRequired,
-    // on delete callback like () => ()
-    onDelete: PropTypes.func.isRequired,
+    // current delete operation, null when none
+    deleteConfirmation: PropTypes.shape({
+      isCompleteDelete: PropTypes.bool,
+      onDelete: PropTypes.func,
+      label: PropTypes.string,
+    }),
   }
 
   static contextTypes = {
@@ -45,29 +46,30 @@ class DeleteOrderConfirmationComponent extends React.Component {
    * User callback: on delete confirmed
    */
   onDeleteConfirmed = () => {
-    const { onDelete, onClose } = this.props
+    const { deleteConfirmation, onClose } = this.props
     // 1 - close dialog
     onClose()
     // 2 - run delete callback
+    const onDelete = get(deleteConfirmation, 'onDelete', noop)
     onDelete()
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
     const {
-      isCompleteDelete, visible, onClose, orderLabel,
+      deleteConfirmation, onClose,
     } = this.props
 
-    const displayModeKey = isCompleteDelete ? 'completely' : 'superficially'
+    const displayModeKey = get(deleteConfirmation, 'isCompleteDelete', false) ? 'completely' : 'superficially'
     return (
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.DELETE}
-        title={formatMessage({ id: `order.list.option.cell.delete.${displayModeKey}.confirmation.title` }, { name: orderLabel })}
+        title={formatMessage({ id: `order.list.option.cell.delete.${displayModeKey}.confirmation.title` }, { name: get(deleteConfirmation, 'label', '') })}
         message={formatMessage({ id: `order.list.option.cell.delete.${displayModeKey}.confirmation.message` })}
         onConfirm={this.onDeleteConfirmed}
         confirmMessageKey={`order.list.option.cell.delete.${displayModeKey}.confirmation.button`}
         onClose={onClose}
-        open={visible}
+        open={!!deleteConfirmation}
       />)
   }
 }
