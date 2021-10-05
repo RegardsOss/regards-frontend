@@ -22,7 +22,7 @@ import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 const messages = {
   'projectUser.list.card.title': 'Users',
   'projectUser.list.card.subtitle': 'Created project users list',
-  'projectUser.list.card.selectField.account': 'Visualisation mode : Account',
+  'projectUser.list.card.selectField.account': 'Visualisation mode : User',
   'projectUser.list.card.selectField.quota': 'Visualisation mode : Quota',
   'projectUser.list.card.selectField.accessRight': 'Visualisation mode : Access right',
 
