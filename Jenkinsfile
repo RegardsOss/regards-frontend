@@ -29,224 +29,232 @@
  * @see https://jenkins.io/doc/book/pipeline/jenkinsfile/
  */
 pipeline {
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '2'))
+        parallelsAlwaysFailFast()
+    }
     agent { label 'unix-integration' }
 
     stages {
-        stage('Create build image') {
+        stage('Preparation') {
             steps {
+                echo "Jenkins node name = ${env.NODE_NAME}"
+                echo "Current workspace = ${env.WORKSPACE}"
                 sh 'cd jenkins/node && docker build -t rs_node . && chmod -R 0777 ${WORKSPACE}/webapp'
             }
         }
         stage('Install') {
-            steps {
-                parallel(
-                    webapp: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/npm_cacache:/root/.npm/ \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install.sh'
-                    },
-                    plugin_criterion_data_with_picture_only: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh criterion data-with-picture-only'
-                    },
-                    plugin_criterion_last_version: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh criterion last-version-only'
-                    },
-                    plugin_criterion_enumerated: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh criterion enumerated'
-                    },
-                    plugin_criterion_full_text: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh criterion full-text'
+            parallel {
+                stage('-1-') {
+                    stages {
+                        stage('Install webapp') {
+                            steps {
+                                runFrontDockerImg("install", "")
+                            }
+                        }
+                        stage('Install temporal') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "criterion/temporal")
+                            }
+                        }
                     }
-                )
-            }
-        }
-        stage('Install - 2') {
-            steps {
-                parallel(
-                    plugin_criterion_numerical: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh criterion numerical'
-                    },
-		            plugin_criterion_numerical_range: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh criterion/numerical-range-criteria'
-                    },
-                    plugin_criterion_string: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh criterion string'
-                    },
-                    plugin_criterion_temporal: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh criterion temporal'
-                    },
-                    plugin_criterion_two_numerical: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh criterion two-numerical'
-                    },
-                    plugin_criterion_two_temporal: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh criterion two-temporal'
+                }
+                stage('-2-') {
+                    stages {
+                        stage('Install data-with-picture-only') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "criterion/data-with-picture-only")
+                            }
+                        }
+                        stage('Install last-version-only') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "criterion/last-version-only")
+                            }
+                        }
+                        stage('Install enumerated') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "criterion/enumerated")
+                            }
+                        }
+                        stage('Install numerical') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "criterion/numerical")
+                            }
+                        }
+                        stage('Install numerical-range-criteria') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "criterion/numerical-range-criteria")
+                            }
+                        }
+                        stage('Install string') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "criterion/string")
+                            }
+                        }
+                        stage('Install fem-notify') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "service/fem-notify")
+                            }
+                        }
                     }
-                )
-            }
-        }
-        stage('Install - 3') {
-            steps {
-                parallel(
-                    plugin_criterion_toponym: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh criterion toponym'
-                    },
-                    plugin_service_example: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh service example'
-                    },
-                    plugin_service_fem_delete: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh service fem-delete'
-                    },
-                    plugin_service_fem_notify: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh service fem-notify'
-                    },
-                    plugin_service_fem_edit: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./install-plugin.sh service fem-edit'
+                }
+                stage('-3-') {
+                    stages {
+                        stage('Install full-text') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "criterion/full-text")
+                            }
+                        }
+                        stage('Install example') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "service/example")
+                            }
+                        }
+                        stage('Install two-numerical') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "criterion/two-numerical")
+                            }
+                        }
+                        stage('Install two-temporal') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "criterion/two-temporal")
+                            }
+                        }
+                        stage('Install toponym') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "criterion/toponym")
+                            }
+                        }
+                        stage('Install fem-delete') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "service/fem-delete")
+                            }
+                        }
+                        stage('Install fem-edit') {
+                            steps {
+                                runFrontDockerImg("install-plugin", "service/fem-edit")
+                            }
+                        }
                     }
-                )
+                }
             }
         }
-        stage('Build-1') {
-            steps {
-                parallel(
-                    webapp: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_webapp.sh'
-                    },
-                    plugin_criterion_data_with_picture_only: {
-                        sh 'docker run --rm -i \
-                        -v ${WORKSPACE}/webapp:/app_to_build \
-                        rs_node ./build_plugin.sh criterion/data-with-picture-only'
-                    },
-                    plugin_criterion_last_version: {
-                        sh 'docker run --rm -i \
-                        -v ${WORKSPACE}/webapp:/app_to_build \
-                        rs_node ./build_plugin.sh criterion/last-version-only'
-                    },
-                    plugin_criterion_enumerated: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh criterion/enumerated'
+        stage('Parallel build') {
+            parallel {
+                stage('-1-') {
+                    stages {
+                        stage('Build webapp') {
+                            steps {
+                                runFrontDockerImg("build_webapp", "")
+                            }
+                        }
                     }
-		        )
-            }
-        }
-	    stage('Build-2') {
-            steps {
-                parallel(
-                    plugin_criterion_full_text: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh criterion/full-text'
-                    },
-                    plugin_criterion_numerical: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh criterion/numerical'
-                    },
-                    plugin_criterion_numerical_range: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh criterion/numerical-range-criteria'
-                    },
-                    plugin_criterion_string: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh criterion/string'
-                    },
-                    plugin_criterion_temporal: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh criterion/temporal'
+                }
+                stage('-2-') {
+                    stages {
+                        stage('Build data-with-picture-only') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/data-with-picture-only")
+                            }
+                        }
+                        stage('Build last-version-only') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/last-version-only")
+                            }
+                        }
+                        stage('Build enumerated') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/enumerated")
+                            }
+                        }
+                        stage('Build fem-notify') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "service/fem-notify")
+                            }
+                        }
+                        stage('Build temporal') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/temporal")
+                            }
+                        }
                     }
-                )
-            }
-        }
-	    stage('Build-3') {
-            steps {
-                parallel(
-                    plugin_criterion_two_numerical: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh criterion/two-numerical'
-                    },
-                    plugin_criterion_two_temporal: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh criterion/two-temporal'
-                    },
-                    plugin_criterion_toponym: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh criterion/toponym'
-                    },
-                    plugin_service_example: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh service/example'
-                    },
-                    plugin_service_fem_delete: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh service/fem-delete'
-                    },
-                    plugin_service_fem_notify: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh service/fem-notify'
-                    },
-                    plugin_service_fem_edit: {
-                        sh 'docker run --rm -i \
-                            -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh service/fem-edit'
+                }
+                stage('-3-') {
+                    stages {
+                        stage('Build full-text') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/full-text")
+                            }
+                        }
+                        stage('Build numerical') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/numerical")
+                            }
+                        }
+                        stage('Build numerical-range-criteria') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/numerical-range-criteria")
+                            }
+                        }
+                        stage('Build string') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/string")
+                            }
+                        }
+                        stage('Build fem-edit') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "service/fem-edit")
+                            }
+                        }
                     }
-                )
+                }
+                stage('-4-') {
+                    stages {
+                        stage('Build two-numerical') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/two-numerical")
+                            }
+                        }
+                        stage('Build two-temporal') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/two-temporal")
+                            }
+                        }
+                        stage('Build toponym') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/toponym")
+                            }
+                        }
+                        stage('Build example') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "service/example")
+                            }
+                        }
+                        stage('Build fem-delete') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "service/fem-delete")
+                            }
+                        }
+                    }
+                }
             }
         }
-        stage('Deploy Docker image') {
-            steps {
-                // Copy the bundle inside the folder where apache container will be bundled
-                sh 'cp -R ./webapp/dist/prod jenkins/nginx/dist'
-                // build image from nginx, tag with version/branch, then push
-                sh 'cd jenkins/nginx && ./buildTagAndPush.sh'
-            }
-        }
-        stage('Lint webapp') {
-            steps {
-                sh 'docker run --rm -i \
-                    -v ${WORKSPACE}/webapp:/app_to_build \
-                    rs_node ./lint_webapp.sh'
+
+        stage('Final') {
+            parallel {
+                stage('Deploy Docker image') {
+                    steps {
+                        // Copy the bundle inside the folder where apache container will be bundled
+                        sh 'cp -R ./webapp/dist/prod jenkins/nginx/dist'
+                        // build image from nginx, tag with version/branch, then push
+                        sh 'cd jenkins/nginx && ./buildTagAndPush.sh'
+                    }
+                }
+                stage('Lint webapp') {
+                    steps {
+                        runFrontDockerImg("lint_webapp", "")
+                    }
+                }
             }
         }
     }
@@ -257,6 +265,12 @@ pipeline {
         }
         success {
             tuleapNotifyCommitStatus status: 'success', repositoryId: '872', credentialId: 'tuleap-front-ci-token'
+        }
+        cleanup {
+            echo 'POST-CLEANUP-TASK -- Rewrire owner and access rights, to avoid future build having files issues'
+            sh 'chown -R jenkins:jenkins .'
+            sh 'chmod -R u+rwx .'
+            sh 'chmod -R g+rwx .'
         }
     }
 }
@@ -281,3 +295,15 @@ def getChangeString() {
     }
     return changeString
 }
+
+
+// Run a docker image
+// @params script script to execute
+// @params pluginFolder the path to the plugin folder
+@NonCPS
+runFrontDockerImg(script, pluginFolder) {
+    sh 'docker run --rm -i \
+        -v ${WORKSPACE}/webapp:/app_to_build \
+        rs_node ./' + script + '.sh ' + pluginFolder
+}
+
