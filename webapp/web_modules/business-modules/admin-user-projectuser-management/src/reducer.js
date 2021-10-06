@@ -24,7 +24,6 @@ import { roleReducer } from './clients/RoleClient'
 import { projectUserSignalReducer } from './clients/ProjectUserSignalClient'
 import { projectUserSettingsReducer } from './clients/ProjectUserSettingsClient'
 import { uiSettingsReducer } from './clients/UISettingsClient'
-import { setQuotaReducer } from './clients/SetQuotaClient'
 import { projectUserEmailConfirmationSignalReducer } from './clients/ProjectUserEmailConfirmationClient'
 import { originReducer } from './clients/OriginsClient'
 
@@ -36,7 +35,6 @@ const projectUserManagementReducer = combineReducers({
   projectUserSignals: projectUserSignalReducer,
   settings: projectUserSettingsReducer,
   uiSettings: uiSettingsReducer,
-  setQuota: setQuotaReducer,
   emailConfirmationSignal: projectUserEmailConfirmationSignalReducer,
   origins: originReducer,
 })

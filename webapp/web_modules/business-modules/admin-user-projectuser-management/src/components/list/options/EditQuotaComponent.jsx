@@ -21,7 +21,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ResourceIconAction } from '@regardsoss/components'
-import { setQuotaActions } from '../../../clients/SetQuotaClient'
+import { projectUserActions } from '../../../clients/ProjectUserClient'
 
 /**
  * Option to show quota edition dialog
@@ -38,7 +38,7 @@ class EditQuotaComponent extends React.Component {
   }
 
   /** Action dependencies */
-  static DEPENDENCIES = [setQuotaActions.getDependency(RequestVerbEnum.PUT)]
+  static DEPENDENCIES = [projectUserActions.getDependency(RequestVerbEnum.PUT)]
 
   /** Click callback: show dialog */
   onClick = () => {
