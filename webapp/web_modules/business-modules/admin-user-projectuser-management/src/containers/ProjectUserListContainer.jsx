@@ -128,7 +128,7 @@ export class ProjectUserListContainer extends React.Component {
     const { params: { project, visualisationMode } } = this.props
     const { csvLink } = this.state
     return (
-      <I18nProvider messages={messages}>
+      <I18nProvider messages={messages} stackCallingContext>
         <ModuleStyleProvider module={styles}>
           <ProjectUserListComponent
             project={project}

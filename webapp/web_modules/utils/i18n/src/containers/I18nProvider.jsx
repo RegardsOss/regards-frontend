@@ -39,6 +39,9 @@ import I18nSelectors from '../model/I18nSelectors'
  * stackCallingContext true property. Indeed, when provided, if there is a calling messages context, it will get merged with new
  * context but IT WILL KEEP HIGER PRIORITY. IE: the calling context can override the component context and thus redefine its
  * messages
+ *
+ * This component also creates a context property named messagesByLocale to compute the list of messages for a specific
+ * language. This context variable is only use by I18nProviders
  */
 export class I18nProvider extends React.Component {
   static propTypes = {
@@ -64,6 +67,8 @@ export class I18nProvider extends React.Component {
   static contextTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     intl: PropTypes.any,
+    // eslint-disable-next-line react/forbid-prop-types
+    messagesByLocale: PropTypes.any,
   }
 
   /**
@@ -73,10 +78,15 @@ export class I18nProvider extends React.Component {
   static childContextTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     intl: PropTypes.any,
+    // eslint-disable-next-line react/forbid-prop-types
+    messagesByLocale: PropTypes.any,
   }
 
   state = {
+    // The react-intl object
     intl: null,
+    // An object used to save messages by locale. Required by the stackCallingContext functionnality
+    messagesByLocale: null,
   }
 
   /**
@@ -84,9 +94,10 @@ export class I18nProvider extends React.Component {
    * @returns {{intl: *}}
    */
   getChildContext() {
-    const { intl } = this.state
+    const { intl, messagesByLocale } = this.state
     return {
       intl,
+      messagesByLocale,
     }
   }
 
@@ -115,28 +126,42 @@ export class I18nProvider extends React.Component {
       if (!messages) {
         throw new Error('You must provide messages when using I18N provider ')
       }
-      const callingContextMessages = get(this.context, 'intl.messages', null)
-      if (stackCallingContext && !callingContextMessages) {
-        throw new Error('You must provide calling messages (through context) when using I18N provider with stackCallingContext=true')
+
+      // Build all languages messages to save them on the context
+      const messagesByLocale = {
+        fr: this.buildMessagesByLocale(messages, 'fr', stackCallingContext),
+        en: this.buildMessagesByLocale(messages, 'en', stackCallingContext),
       }
 
-      // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
-      const subContextMessages = { // eslint wont fix: context is provided only during runtime, no workaround
-        ...(messages[locale] || messages[keys(messages)[0]]),
-        ...(stackCallingContext ? callingContextMessages : {}),
-      }
       const cache = createIntlCache()
-
+      // Create the intl context for current locale.
+      // Use messagesByLocale dictionnary to retrieve messages using current locale
       const intl = createIntl(
         {
           locale,
-          messages: subContextMessages,
+          messages: messagesByLocale[locale],
         },
         cache,
       )
+
       this.setState({
         intl,
+        messagesByLocale,
       })
+    }
+  }
+
+  /**
+   * Build the list of i18n messages for a specific locale
+   */
+  buildMessagesByLocale = (messages, locale, stackCallingContext) => {
+    const callingContextMessages = get(this.context, `messagesByLocale.${locale}`, null)
+    if (stackCallingContext && !callingContextMessages) {
+      throw new Error('You must provide calling messages (through context) when using I18N provider with stackCallingContext=true')
+    }
+    return {
+      ...(messages[locale] || messages[keys(messages)[0]]),
+      ...(stackCallingContext ? callingContextMessages : {}),
     }
   }
 
@@ -144,7 +169,6 @@ export class I18nProvider extends React.Component {
     const { intl } = this.state
     return (
       <RawIntlProvider value={intl}>{this.props.children}</RawIntlProvider>
-
     )
   }
 }
