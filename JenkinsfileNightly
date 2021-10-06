@@ -249,14 +249,14 @@ pipeline {
                         sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./webapp) && \
                             docker run --rm \
                             -w /data \
-                            -v ${WORKSPACE}/webapp:/data \
+                            -v ${WORKSPACE}:/data \
                             skilldlabs/sonar-scanner:3.3 \
                             sonar-scanner \
                             -Dsonar.projectVersion=${TAG} \
                             -Dsonar.branch.name=develop \
-                            -Dsonar.projectBaseDir=/data \
+                            -Dsonar.projectBaseDir=/data/webapp \
                             -Dsonar.host.url=http://172.26.47.129:9000/'
-		                sh 'docker run --rm -w /data -v ${WORKSPACE}/webapp:/data  skilldlabs/sonar-scanner:3.3 chmod -R 0777 /data/.scannerwork'
+		                sh 'docker run --rm -w /data -v ${WORKSPACE}:/data  skilldlabs/sonar-scanner:3.3 chmod -R 0777 /data/webapp/.scannerwork'
                         sh 'rm -rf webapp/.scannerwork || true'
                     }
                 )
