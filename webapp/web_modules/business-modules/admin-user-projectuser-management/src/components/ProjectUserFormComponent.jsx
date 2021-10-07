@@ -125,7 +125,7 @@ export class ProjectUserFormComponent extends React.Component {
     let roleName = name
     const defaultRoleFound = find(AdminDomain.DEFAULT_ROLES_ENUM, (defaultRole) => defaultRole === name)
     if (defaultRoleFound) {
-      roleName = formatMessage({ id: `role.name.${name}` })
+      roleName = formatMessage({ id: `projectUser.list.table.role.label.${name}` })
     }
     return roleName
   }
