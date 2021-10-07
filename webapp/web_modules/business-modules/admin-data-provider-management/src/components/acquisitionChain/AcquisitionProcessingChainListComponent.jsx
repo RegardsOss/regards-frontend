@@ -39,9 +39,7 @@ import { AcquisitionProcessingChainModeRenderer } from './AcquisitionProcessingC
 import { AcquisitionProcessingChainEnabledRenderer } from './AcquisitionProcessingChainEnabledRenderer'
 import AcquisitionProcessingChainListFiltersComponent from './AcquisitionProcessingChainListFiltersComponent'
 import AcquisitionProcessingChainTableDuplicateAction from './AcquisitionProcessingChainTableDuplicateAction'
-import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors }
-  from '../../clients/AcquisitionProcessingChainClient'
-//import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
+import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../clients/AcquisitionProcessingChainClient'
 import AcquisitionProcessingChainTableEditAction from './AcquisitionProcessingChainTableEditAction'
 import { tableActions, tableSelectors } from '../../clients/TableClient'
 import messages from '../../i18n'
