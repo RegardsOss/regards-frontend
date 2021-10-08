@@ -69,7 +69,7 @@ export class ProjectUserQuotaContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       onDeleteAccount: (userId) => dispatch(projectUserActions.deleteEntity(userId)),
-      onSetMaxQuota: (user, maxQuota) => dispatch(projectUserActions.updateEntity(user.content.id, { ...user.content, maxQuota })),
+      onSetMaxQuota: (userId, updatedAccount) => dispatch(projectUserActions.updateEntity(userId, updatedAccount)),
       fetchUISettings: () => dispatch(uiSettingsActions.getSettings()),
     }
   }
@@ -107,7 +107,11 @@ export class ProjectUserQuotaContainer extends React.Component {
 
   onSetMaxQuota = (account, maxQuota, onRefresh) => {
     const { onSetMaxQuota } = this.props
-    this.performAll([onSetMaxQuota(account, maxQuota)], onRefresh)
+    const updatedAccount = {
+      ...account.content,
+      maxQuota,
+    }
+    this.performAll([onSetMaxQuota(account.content.id, updatedAccount)], onRefresh)
   }
 
   /**
