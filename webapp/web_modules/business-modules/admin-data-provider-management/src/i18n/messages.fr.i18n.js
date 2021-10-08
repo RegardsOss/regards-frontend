@@ -116,7 +116,7 @@ const messages = {
   'acquisition-chain.list.activity.deletion.pending': 'Suppression en cours',
   'acquisition-chain.list.activity.dialog.title': 'Erreurs d\'exécution',
   'acquisition-chain.list.activity.dialog.close': 'Fermer',
-  'acquisition-chain.list.activity.button.title': 'Voir les erreurs d\'exécution',
+  'acquisition-chain.list.activity.button.title': 'Voir les bloqueurs d\'exécution',
   'acquisition-chain.list.total-nb-products': 'Produits',
   'acquisition-chain.list.total-products.tooltip': 'Total des produits',
   'acquisition-chain.list.error-nb-products.tooltip': 'Produits en erreur',
