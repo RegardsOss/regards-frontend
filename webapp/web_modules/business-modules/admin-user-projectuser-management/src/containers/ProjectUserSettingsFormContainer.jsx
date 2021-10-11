@@ -48,10 +48,8 @@ export class ProjectUserSettingsFormContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       roleList: roleSelectors.getList(state),
-      isFetchingRoleList: roleSelectors.isFetching(state),
       hasErrorRoleList: roleSelectors.hasError(state),
       groupList: accessGroupSelectors.getList(state),
-      isFetchingGroupList: accessGroupSelectors.isFetching(state),
       hasErrorGroupList: accessGroupSelectors.hasError(state),
       settings: projectUserSettingsSelectors.getList(state),
       hasErrorSettings: projectUserSettingsSelectors.hasError(state),
@@ -81,10 +79,8 @@ export class ProjectUserSettingsFormContainer extends React.Component {
     }),
     // from mapStateToProps
     roleList: AdminShapes.RoleList,
-    isFetchingRoleList: PropTypes.bool.isRequired,
     hasErrorRoleList: PropTypes.bool.isRequired,
     groupList: DataManagementShapes.AccessGroupList,
-    isFetchingGroupList: PropTypes.bool.isRequired,
     hasErrorGroupList: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     settings: CommonShapes.SettingsList,
@@ -99,7 +95,7 @@ export class ProjectUserSettingsFormContainer extends React.Component {
 
   state = {
     settings: null,
-    isFetchingSettings: true,
+    isFetching: true,
   }
 
   /**
@@ -114,7 +110,7 @@ export class ProjectUserSettingsFormContainer extends React.Component {
       .then((actionResults) => {
         if (every(actionResults, (actionResult) => !actionResult.error)) {
           this.setState({
-            isFetchingSettings: false,
+            isFetching: false,
           })
         }
       })
@@ -172,16 +168,16 @@ export class ProjectUserSettingsFormContainer extends React.Component {
   render() {
     const {
       hasErrorSettings, roleList, groupList,
-      isFetchingRoleList, hasErrorRoleList, isFetchingGroupList, hasErrorGroupList,
+      hasErrorRoleList, hasErrorGroupList,
     } = this.props
     const {
-      settings, isFetchingSettings,
+      settings, isFetching,
     } = this.state
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={styles}>
           <LoadableContentDisplayDecorator
-            isLoading={isFetchingSettings || isFetchingRoleList || isFetchingGroupList}
+            isLoading={isFetching}
             isContentError={hasErrorSettings || hasErrorRoleList || hasErrorGroupList}
           >
             <ProjectUserSettingsFormComponent
