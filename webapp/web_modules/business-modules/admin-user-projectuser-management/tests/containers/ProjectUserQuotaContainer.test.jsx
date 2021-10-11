@@ -51,7 +51,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user quota container', () => {
       availableDependencies: [],
       // from mapDispatchToProps
       onDeleteAccount: () => { },
-      onSetMaxQuota: () => { },
+      onUpdateAccount: () => { },
       fetchUISettings: () => { },
     }
 
