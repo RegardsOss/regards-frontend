@@ -20,10 +20,8 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PageableInfiniteTableContainer } from '@regardsoss/components'
-import { AcquisitionProcessingChainListComponent }
-  from '../../../src/components/acquisitionChain/AcquisitionProcessingChainListComponent'
-import AcquisitionProcessingChainListFiltersComponent
-  from '../../../src/components/acquisitionChain/AcquisitionProcessingChainListFiltersComponent'
+import { AcquisitionProcessingChainListComponent } from '../../../src/components/acquisitionChain/AcquisitionProcessingChainListComponent'
+import AcquisitionProcessingChainListFiltersComponent from '../../../src/components/acquisitionChain/AcquisitionProcessingChainListFiltersComponent'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)

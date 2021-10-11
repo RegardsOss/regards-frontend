@@ -18,7 +18,7 @@
 # along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 set -e
 
-cd /app_to_build/plugins/$1/$2
+cd /app_to_build/plugins/$1
 
 if [ -d "node_modules/@regardsoss" ]; then
   echo "> Clear previous dependencies to regards"

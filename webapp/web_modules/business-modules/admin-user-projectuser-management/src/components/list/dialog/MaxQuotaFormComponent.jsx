@@ -92,7 +92,7 @@ export class MaxQuotaFormComponent extends React.Component {
 
   onSubmit = (values) => {
     const { onSubmit } = this.props
-    onSubmit(values.maxQuota)
+    onSubmit(parseInt(values.maxQuota, 10))
   }
 
   render() {

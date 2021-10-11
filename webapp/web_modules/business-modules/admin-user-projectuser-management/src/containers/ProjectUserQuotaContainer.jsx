@@ -20,12 +20,8 @@ import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { CommonEndpointClient } from '@regardsoss/endpoints-common'
-import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import { projectUserSignalSelectors } from '../clients/ProjectUserSignalClient'
-import { setQuotaActions } from '../clients/SetQuotaClient'
 import { uiSettingsActions, uiSettingsSelectors } from '../clients/UISettingsClient'
 import ProjectUserQuotaComponent from '../components/list/ProjectUserQuotaComponent'
 
@@ -42,17 +38,11 @@ export class ProjectUserQuotaContainer extends React.Component {
     isFetchingViewData: PropTypes.bool.isRequired,
     isFetchingActions: PropTypes.bool.isRequired,
     uiSettings: UIShapes.UISettings.isRequired,
-    availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     // from mapDispatchToProps
     onDeleteAccount: PropTypes.func.isRequired,
-    onSetMaxQuota: PropTypes.func.isRequired,
+    onUpdateAccount: PropTypes.func.isRequired,
     fetchUISettings: PropTypes.func.isRequired,
   }
-
-  /* local dependencies on quota */
-  static QUOTA_DEPENDENCIES = [
-    setQuotaActions.getDependency(RequestVerbEnum.GET),
-  ]
 
   /**
    * Redux: map state to props function
@@ -67,7 +57,6 @@ export class ProjectUserQuotaContainer extends React.Component {
       isFetchingActions: projectUserSignalSelectors.isFetching(state)
         || uiSettingsSelectors.isFetching(state),
       uiSettings: uiSettingsSelectors.getSettings(state),
-      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     }
   }
 
@@ -80,7 +69,7 @@ export class ProjectUserQuotaContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       onDeleteAccount: (userId) => dispatch(projectUserActions.deleteEntity(userId)),
-      onSetMaxQuota: (user, maxQuota) => dispatch(setQuotaActions.setUserQuota(user.content.email, maxQuota, user.content.rateLimit)),
+      onUpdateAccount: (userId, updatedAccount) => dispatch(projectUserActions.updateEntity(userId, updatedAccount)),
       fetchUISettings: () => dispatch(uiSettingsActions.getSettings()),
     }
   }
@@ -117,8 +106,12 @@ export class ProjectUserQuotaContainer extends React.Component {
   }
 
   onSetMaxQuota = (account, maxQuota, onRefresh) => {
-    const { onSetMaxQuota } = this.props
-    this.performAll([onSetMaxQuota(account, maxQuota)], onRefresh)
+    const { onUpdateAccount } = this.props
+    const updatedAccount = {
+      ...account.content,
+      maxQuota,
+    }
+    this.performAll([onUpdateAccount(account.content.id, updatedAccount)], onRefresh)
   }
 
   /**
@@ -143,7 +136,6 @@ export class ProjectUserQuotaContainer extends React.Component {
     const {
       csvLink, onRefresh, allAccounts,
       isFetchingViewData, isFetchingActions, uiSettings,
-      availableDependencies,
     } = this.props
     const { isFetching } = this.state
     return (
@@ -155,7 +147,6 @@ export class ProjectUserQuotaContainer extends React.Component {
         isLoading={isFetchingViewData || isFetchingActions || isFetching}
         onEdit={this.onEdit}
         uiSettings={uiSettings}
-        showQuota={allMatchHateoasDisplayLogic(ProjectUserQuotaContainer.QUOTA_DEPENDENCIES, availableDependencies)}
       />
     )
   }

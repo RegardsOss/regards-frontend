@@ -53,7 +53,6 @@ export class ProjectUserQuotaComponent extends React.Component {
     onDeleteAccount: PropTypes.func.isRequired,
     uiSettings: UIShapes.UISettings.isRequired,
     onSetMaxQuota: PropTypes.func.isRequired,
-    showQuota: PropTypes.bool.isRequired,
 
     // table sorting, column visiblity & filters management
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
@@ -197,7 +196,7 @@ export class ProjectUserQuotaComponent extends React.Component {
       onEdit, pageSize, allAccounts, onRefresh, isLoading,
       getColumnSortingData, filters, requestParameters, columnsVisibility,
       onSort, updateFilter, onChangeColumnsVisibility,
-      uiSettings, showQuota, clearFilters,
+      uiSettings, clearFilters,
     } = this.props
     const { csvLink } = this.state
     const { quotaDialogOpened, entityToProcess } = this.state
@@ -229,21 +228,19 @@ export class ProjectUserQuotaComponent extends React.Component {
         .sortableHeaderCell(...getColumnSortingData(ProjectUserQuotaComponent.COLUMN_KEYS.FIRSTNAME), onSort)
         .build(),
       // 3 - quota
-      showQuota
-        ? new TableColumnBuilder(ProjectUserQuotaComponent.COLUMN_KEYS.QUOTA)
-          .titleHeaderCell()
-          .propertyRenderCell(`content.${ProjectUserQuotaComponent.COLUMN_KEYS.QUOTA}`)
-          .label(formatMessage({ id: 'projectUser.list.table.quota' }))
-          .visible(get(columnsVisibility, ProjectUserQuotaComponent.COLUMN_KEYS.QUOTA, true))
-          .sortableHeaderCell(...getColumnSortingData(ProjectUserQuotaComponent.COLUMN_KEYS.QUOTA), onSort)
-          .rowCellDefinition({
-            Constructor: QuotaRenderer,
-            props: {
-              uiSettings,
-            },
-          })
-          .build()
-        : null,
+      new TableColumnBuilder(ProjectUserQuotaComponent.COLUMN_KEYS.QUOTA)
+        .titleHeaderCell()
+        .propertyRenderCell(`content.${ProjectUserQuotaComponent.COLUMN_KEYS.QUOTA}`)
+        .label(formatMessage({ id: 'projectUser.list.table.quota' }))
+        .visible(get(columnsVisibility, ProjectUserQuotaComponent.COLUMN_KEYS.QUOTA, true))
+        .sortableHeaderCell(...getColumnSortingData(ProjectUserQuotaComponent.COLUMN_KEYS.QUOTA), onSort)
+        .rowCellDefinition({
+          Constructor: QuotaRenderer,
+          props: {
+            uiSettings,
+          },
+        })
+        .build(),
       // 4 - last connexion
       new TableColumnBuilder(ProjectUserQuotaComponent.COLUMN_KEYS.LAST_CONNEXION)
         .titleHeaderCell()
