@@ -99,7 +99,7 @@ export class ProjectUserAccountComponent extends React.Component {
     STATUS: 'status',
     ORIGIN: 'origin',
     CREATION_DATE: 'created',
-    LAST_CONNEXION: 'lastConnexion',
+    LAST_CONNEXION: 'lastUpdate',
     ACTIONS: 'column.table.options',
   }
 

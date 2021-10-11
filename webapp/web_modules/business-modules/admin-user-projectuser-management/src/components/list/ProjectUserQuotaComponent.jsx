@@ -86,7 +86,7 @@ export class ProjectUserQuotaComponent extends React.Component {
     LASTNAME: 'lastName',
     FIRSTNAME: 'firstName',
     QUOTA: 'currentQuota',
-    LAST_CONNEXION: 'lastConnexion',
+    LAST_CONNEXION: 'lastUpdate',
     ACTIONS: 'column.table.options',
   }
 

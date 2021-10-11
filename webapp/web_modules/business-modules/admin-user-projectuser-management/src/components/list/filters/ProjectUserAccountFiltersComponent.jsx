@@ -87,6 +87,7 @@ class ProjectUserAccountFiltersComponent extends React.Component {
                   onChange={(value) => updateFilter(value.toISOString(), ACCOUNT_FILTERS.CREATED_BEFORE)}
                   locale={locale}
                   value={this.getDateValue(filters[ACCOUNT_FILTERS.CREATED_BEFORE])}
+                  defaultTime="23:59:59"
                 />
               </div>
               <div style={dateFilterDiv}>
@@ -106,6 +107,7 @@ class ProjectUserAccountFiltersComponent extends React.Component {
                   onChange={(value) => updateFilter(value.toISOString(), ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE)}
                   locale={locale}
                   value={this.getDateValue(filters[ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE])}
+                  defaultTime="23:59:59"
                 />
               </div>
             </TableHeaderOptionGroup>
