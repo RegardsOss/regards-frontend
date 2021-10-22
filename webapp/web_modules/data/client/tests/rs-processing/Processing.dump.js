@@ -84,6 +84,18 @@ export default [{
           value: '15',
           dynamic: true,
         },
+        {
+          name: 'forbidSplitInSuborders',
+          type: 'BOOLEAN',
+          dynamic: false,
+          value: true,
+        },
+        {
+          name: 'maxFilesInInput',
+          type: 'LONG',
+          dynamic: false,
+          value: 3,
+        },
       ],
     },
     rights: {

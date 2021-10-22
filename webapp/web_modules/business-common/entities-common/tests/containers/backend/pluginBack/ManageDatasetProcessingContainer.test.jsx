@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import sinon from 'sinon'
+import find from 'lodash/find'
 import { assert } from 'chai'
 import get from 'lodash/get'
 import { ProcessingClient, CommonClient } from '@regardsoss/client'
@@ -98,6 +99,7 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
 
     promiseFetchProcessingDatasetList.then(() => {
       const componentWrapper = enzymeWrapper.find(ManageDatasetProcessingComponent)
+      console.log(enzymeWrapper.debug())
       const wrapperInstance = enzymeWrapper.instance()
       assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
 
@@ -105,8 +107,10 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
         testProcess1: {
           businessId: 'testProcess1',
           label: 'testProcess1',
+          pluginMetadata: find(DumpProvider.get('CommonClient', 'PluginMetaData'), (metadata) => metadata.content.pluginId === 'UselessProcessPlugin'),
           resolvedParameters: [],
           parameters: {},
+          maxFilesInput: null,
         },
       }
 
@@ -120,12 +124,10 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
         processBusinessId: props.process.processBusinessId,
         disabled: props.disabled,
       }, 'Component should define the expected properties')
-      done()
-    })
+    }).then(done, done)
   })
   it('should render correctly with parameters & role', (done) => {
     const promiseFetchProcessingDatasetList = Promise.resolve({ payload: processingDatasetLinks, error: false })
-    //const fetchLinkStubFunction = sinon.expectation.create
 
     const props = {
       datasetIpid: 'datasetTest',
@@ -154,6 +156,8 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
           label: 'testProcess1',
           resolvedParameters: [],
           parameters: {},
+          pluginMetadata: find(DumpProvider.get('CommonClient', 'PluginMetaData'), (metadata) => metadata.content.pluginId === 'UselessProcessPlugin'),
+          maxFilesInput: null,
         },
         testProcess3: {
           businessId: 'testProcess3',
@@ -162,10 +166,12 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
             new Parameter('TEXTFIELD', 'sizeForecast', '15', null, null, true, 'Size forecast', 'In order to decide before launching a batch execution whether it will overflow the size quota, we need to have an even imprecise forecast of how much space the execution will occupy. This is a string whose pattern is an optional \'*\', a number, a letter. The letter is the unit: \'b\' for byte, \'k\' for kilobytes, \'m\' for megabytes, \'g\' for gigabytes. If the value starts with \'*\', it will be a multiplier per megabyte of input data. For instance: \'1g\' means the result expected size is 1 gigabyte, no matter the input size. Whereas \'*2.5k\' means that for every megabyte in input, there wille be 2.5 kilobytes of data in the output.'),
             new Parameter('TEXTFIELD', 'durationForecast', '15', null, null, true, 'Duration forecast', 'In order to detect executions which have silently stopped working, we need an even imprecise estimation of the duration the execution will take. The processing module will take this duration, and multiply by a constant configurable value in order to define a timeout. Examples: \'10s\' for 10 seconds, \'5min\' for 5 minutes, \'4h\' for 4 hours, \'2d\' for 2 days ; \'10s/m\' for 10 seconds per megabyte of input data ; \'4h/g\' for 4 hours per gigabyte of input data.'),
           ],
+          pluginMetadata: find(DumpProvider.get('CommonClient', 'PluginMetaData'), (metadata) => metadata.content.pluginId === 'SimpleShellProcessPlugin'),
           parameters: {
             durationForecast: '50',
             sizeForecast: '50',
           },
+          maxFilesInput: 3,
         },
       }
 
@@ -179,7 +185,6 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
         processBusinessId: props.process.processBusinessId,
         disabled: props.disabled,
       }, 'Component should define the expected properties')
-      done()
-    })
+    }).then(done, done)
   })
 })

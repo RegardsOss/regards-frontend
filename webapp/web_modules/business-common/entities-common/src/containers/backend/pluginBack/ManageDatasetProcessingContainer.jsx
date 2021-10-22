@@ -19,6 +19,7 @@
 import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import forEach from 'lodash/forEach'
+import find from 'lodash/find'
 import filter from 'lodash/filter'
 import some from 'lodash/some'
 import reduce from 'lodash/reduce'
@@ -40,6 +41,9 @@ import styles from '../../../styles'
 
 // get an instance of default actions / selectors (the basket state is shared over all modules)
 const orderBasketActions = new OrderClient.OrderBasketActions()
+
+const FORBID_SPLIT_PARAMETER = 'forbidSplitInSubOrders'
+const MAX_FILE_INPUT_PARAMETER = 'maxFilesInInput'
 
 /**
 * Container to display dataset processing in basket
@@ -136,6 +140,22 @@ export class ManageDatasetProcessingContainer extends React.Component {
     this.createProcessingConfParametersList(processingConfigurationListFiltered, linkProcessingDatasetList)
   }
 
+  getParameter = (pluginConfiguration, parameterName) => find(pluginConfiguration.content.parameters, (parameter) => parameter.name === parameterName)
+
+  /**
+   * Retrieve max files constraint depending on FORBID_SPLIT_PARAMETER. Both MAX_FILE_INPUT_PARAMETER & FORBID_SPLIT_PARAMETER must be set & not dynamic
+   * @param {*} pluginConfiguration
+   * @returns
+   */
+  getMaxFilesInput = (pluginConfiguration) => {
+    const forbidSplitParameter = this.getParameter(pluginConfiguration, FORBID_SPLIT_PARAMETER)
+    if (forbidSplitParameter && !forbidSplitParameter.dynamic && forbidSplitParameter.value) {
+      const maxFileInputParameter = this.getParameter(pluginConfiguration, MAX_FILE_INPUT_PARAMETER)
+      return maxFileInputParameter && !maxFileInputParameter.dynamic && maxFileInputParameter.value > 0 ? maxFileInputParameter.value : null
+    }
+    return null
+  }
+
   /**
    * Manipulation of metadata, processingConf & links to create an easily exploitable object
    * @param {*} payload fetch result
@@ -169,8 +189,10 @@ export class ManageDatasetProcessingContainer extends React.Component {
           acc[businessId] = {
             businessId,
             label: ProcessingDomain.getProcessingName(processingConfiguration),
+            pluginMetadata: metadata,
             resolvedParameters,
             parameters: parametersValue,
+            maxFilesInput: this.getMaxFilesInput(newPluginConfiguration),
           }
         }
       })
