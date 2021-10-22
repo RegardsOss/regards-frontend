@@ -86,7 +86,7 @@ export class ProjectUserQuotaComponent extends React.Component {
     LASTNAME: 'lastName',
     FIRSTNAME: 'firstName',
     QUOTA: 'currentQuota',
-    LAST_CONNEXION: 'lastConnexion',
+    LAST_CONNECTION: 'lastUpdate',
     ACTIONS: 'column.table.options',
   }
 
@@ -241,13 +241,13 @@ export class ProjectUserQuotaComponent extends React.Component {
           },
         })
         .build(),
-      // 4 - last connexion
-      new TableColumnBuilder(ProjectUserQuotaComponent.COLUMN_KEYS.LAST_CONNEXION)
+      // 4 - last connection
+      new TableColumnBuilder(ProjectUserQuotaComponent.COLUMN_KEYS.LAST_CONNECTION)
         .titleHeaderCell()
-        .propertyRenderCell(`content.${ProjectUserQuotaComponent.COLUMN_KEYS.LAST_CONNEXION}`)
+        .propertyRenderCell(`content.${ProjectUserQuotaComponent.COLUMN_KEYS.LAST_CONNECTION}`)
         .label(formatMessage({ id: 'projectUser.list.table.lastConnection' }))
-        .visible(get(columnsVisibility, ProjectUserQuotaComponent.COLUMN_KEYS.LAST_CONNEXION, true))
-        .sortableHeaderCell(...getColumnSortingData(ProjectUserQuotaComponent.COLUMN_KEYS.LAST_CONNEXION), onSort)
+        .visible(get(columnsVisibility, ProjectUserQuotaComponent.COLUMN_KEYS.LAST_CONNECTION, true))
+        .sortableHeaderCell(...getColumnSortingData(ProjectUserQuotaComponent.COLUMN_KEYS.LAST_CONNECTION), onSort)
         .build(),
       // 5 - actions
       new TableColumnBuilder(ProjectUserQuotaComponent.COLUMN_KEYS.ACTIONS)

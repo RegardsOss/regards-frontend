@@ -99,7 +99,7 @@ export class ProjectUserAccountComponent extends React.Component {
     STATUS: 'status',
     ORIGIN: 'origin',
     CREATION_DATE: 'created',
-    LAST_CONNEXION: 'lastConnexion',
+    LAST_CONNECTION: 'lastConnection',
     ACTIONS: 'column.table.options',
   }
 
@@ -234,13 +234,13 @@ export class ProjectUserAccountComponent extends React.Component {
         .visible(get(columnsVisibility, ProjectUserAccountComponent.COLUMN_KEYS.CREATION_DATE, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserAccountComponent.COLUMN_KEYS.CREATION_DATE), onSort)
         .build(),
-      // 6 - last connexion
-      new TableColumnBuilder(ProjectUserAccountComponent.COLUMN_KEYS.LAST_CONNEXION)
+      // 6 - last connection
+      new TableColumnBuilder(ProjectUserAccountComponent.COLUMN_KEYS.LAST_CONNECTION)
         .titleHeaderCell()
-        .propertyRenderCell(`content.${ProjectUserAccountComponent.COLUMN_KEYS.LAST_CONNEXION}`)
+        .propertyRenderCell(`content.${ProjectUserAccountComponent.COLUMN_KEYS.LAST_CONNECTION}`)
         .label(formatMessage({ id: 'projectUser.list.table.lastConnection' }))
-        .visible(get(columnsVisibility, ProjectUserAccountComponent.COLUMN_KEYS.LAST_CONNEXION, true))
-        .sortableHeaderCell(...getColumnSortingData(ProjectUserAccountComponent.COLUMN_KEYS.LAST_CONNEXION), onSort)
+        .visible(get(columnsVisibility, ProjectUserAccountComponent.COLUMN_KEYS.LAST_CONNECTION, true))
+        .sortableHeaderCell(...getColumnSortingData(ProjectUserAccountComponent.COLUMN_KEYS.LAST_CONNECTION), onSort)
         .build(),
       // 7 - actions
       new TableColumnBuilder(ProjectUserAccountComponent.COLUMN_KEYS.ACTIONS)
