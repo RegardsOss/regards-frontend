@@ -42,6 +42,7 @@ const messages = {
   // backend / pluginBack
   'entities.common.backend.pluginback.processing.dialog.title': 'Sélectionner un traitement',
   'entities.common.backend.pluginback.processing.dialog.select.label': 'Traitement',
+  'entities.common.backend.pluginback.processing.dialog.select.maxFileInInput': '{value} produits autorisée(s).',
   'entities.common.backend.pluginback.processing.dialog.remove': 'Supprimer',
   'entities.common.backend.pluginback.processing.dialog.cancel': 'Annuler',
   'entities.common.backend.pluginback.processing.dialog.confirm': 'Valider',

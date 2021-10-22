@@ -19,8 +19,11 @@
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender, PositionedDialog, withConfirmDialog } from '@regardsoss/components'
+import { PluginDescriptionDialog } from '@regardsoss/microservice-plugin-configurator'
 import { reduxForm } from '@regardsoss/form-utils'
 import RemoveIcon from 'mdi-material-ui/Delete'
+import IconButton from 'material-ui/IconButton'
+import DetailIcon from 'mdi-material-ui/HelpCircle'
 import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
@@ -63,6 +66,8 @@ export class ManageDatasetProcessingComponent extends React.Component {
 
   state = {
     isManageProcessingDialogOpened: false,
+    isDescriptionDialogOpened: false,
+    selectedPluginMetadata: null,
   }
 
   openOrCloseManageProcessingDialog = () => {
@@ -84,15 +89,32 @@ export class ManageDatasetProcessingComponent extends React.Component {
     onRemoveProcessing()
   }
 
+  toggleDescriptionDialog = (pluginMetadata) => {
+    const { isDescriptionDialogOpened } = this.state
+    this.setState({
+      isDescriptionDialogOpened: !isDescriptionDialogOpened,
+      selectedPluginMetadata: pluginMetadata,
+    })
+  }
+
+  renderDescription = () => {
+    const { isDescriptionDialogOpened, selectedPluginMetadata } = this.state
+    return (
+      selectedPluginMetadata
+        ? <PluginDescriptionDialog
+            opened={isDescriptionDialogOpened}
+            onClose={() => this.toggleDescriptionDialog(selectedPluginMetadata)}
+            pluginMetaData={selectedPluginMetadata.content}
+        /> : null)
+  }
+
   renderManageDatasetProcessingDialog = () => {
     const {
       processingConfParametersObjects, processingConfParametersSelected, processBusinessId,
       onSelectedProcessingConfChanged, isProcessingConfSelectedConfigurable, initialize, handleSubmit, invalid,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { pluginServiceDialog } } = this.context
-
     const processingLabel = get(processingConfParametersSelected, 'label', 'unknown')
-
     return (
       <ShowableAtRender show={this.state.isManageProcessingDialogOpened}>
         <PositionedDialog
@@ -133,28 +155,42 @@ export class ManageDatasetProcessingComponent extends React.Component {
             />
           </>}
         >
-          <SelectField
-            floatingLabelText={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.select.label' })}
-            value={processingConfParametersSelected.businessId}
-            fullWidth
-            onChange={onSelectedProcessingConfChanged}
-          >
-            {
-              map(processingConfParametersObjects, (processingConfParametersObject) => (
-                <MenuItem
-                  key={processingConfParametersObject.businessId}
-                  value={processingConfParametersObject.businessId}
-                  primaryText={processingConfParametersObject.label}
-                />
-              ))
-            }
-          </SelectField>
+          <div style={pluginServiceDialog.selectPluginField}>
+            <SelectField
+              floatingLabelText={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.select.label' })}
+              value={processingConfParametersSelected.businessId}
+              fullWidth
+              onChange={onSelectedProcessingConfChanged}
+            >
+              {
+                map(processingConfParametersObjects, (processingConfParametersObject) => (
+                  <MenuItem
+                    key={processingConfParametersObject.businessId}
+                    value={processingConfParametersObject.businessId}
+                    primaryText={processingConfParametersObject.label}
+                  />
+                ))
+              }
+            </SelectField>
+            <IconButton
+              style={pluginServiceDialog.selectHelpPluginField}
+              onClick={() => this.toggleDescriptionDialog(processingConfParametersSelected.pluginMetadata)}
+            >
+              <DetailIcon />
+            </IconButton>
+          </div>
           {
             isProcessingConfSelectedConfigurable && !isEmpty(processingConfParametersSelected) ? <ParametersConfigurationComponent
               parameters={processingConfParametersSelected.resolvedParameters}
               parametersValues={processingConfParametersSelected.parameters}
               initialize={initialize}
             /> : null
+          }
+          {
+            processingConfParametersSelected.maxFilesInput
+              ? <div style={pluginServiceDialog.maxFilesInputStyle}>
+                {formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.select.maxFileInInput' }, { value: processingConfParametersSelected.maxFilesInput })}
+              </div> : null
           }
         </PositionedDialog>
       </ShowableAtRender>
@@ -185,6 +221,7 @@ export class ManageDatasetProcessingComponent extends React.Component {
           onClick={this.openOrCloseManageProcessingDialog}
         />
         {!isEmpty(processingConfParametersObjects) ? this.renderManageDatasetProcessingDialog() : null}
+        {this.renderDescription()}
       </div>
 
     )

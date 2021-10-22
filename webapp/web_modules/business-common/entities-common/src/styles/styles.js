@@ -59,6 +59,19 @@ export default (theme) => ({
       display: 'flex',
       flexDirection: 'row',
     },
+    selectPluginField: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    selectHelpPluginField: {
+      marginTop: '12px',
+    },
+    maxFilesInputStyle: {
+      display: 'flex',
+      justifyContent: 'end',
+      marginTop: '10px',
+      color: theme.palette.accent1Color,
+    },
     parameterDescriptionIcon: {
       marginTop: '12px',
     },
