@@ -42,7 +42,7 @@ import styles from '../../../styles'
 // get an instance of default actions / selectors (the basket state is shared over all modules)
 const orderBasketActions = new OrderClient.OrderBasketActions()
 
-const FORBID_SPLIT_PARAMETER = 'forbidSplitInSubOrders'
+const FORBID_SPLIT_PARAMETER = 'forbidSplitInSuborders'
 const MAX_FILE_INPUT_PARAMETER = 'maxFilesInInput'
 
 /**
