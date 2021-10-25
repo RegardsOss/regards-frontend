@@ -70,7 +70,7 @@ export default (theme) => ({
       display: 'flex',
       justifyContent: 'end',
       marginTop: '10px',
-      color: theme.palette.accent1Color,
+      color: theme.palette.primary1Color,
     },
     parameterDescriptionIcon: {
       marginTop: '12px',

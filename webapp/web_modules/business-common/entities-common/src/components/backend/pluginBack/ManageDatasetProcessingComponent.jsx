@@ -192,12 +192,6 @@ export class ManageDatasetProcessingComponent extends React.Component {
                 initialize={initialize}
             /> : null
           }
-          {
-            processingConfParametersSelected.maxFilesInput
-              ? <div style={pluginServiceDialog.maxFilesInputStyle}>
-                {formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.select.maxFileInInput' }, { value: processingConfParametersSelected.maxFilesInput })}
-              </div> : null
-          }
         </PositionedDialog>
       </ShowableAtRender>
     )
