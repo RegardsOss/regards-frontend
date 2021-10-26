@@ -76,6 +76,22 @@ export class ManageDatasetProcessingContainer extends React.Component {
     }
   }
 
+  static getParameter = (pluginConfiguration, parameterName) => find(pluginConfiguration.content.parameters, (parameter) => parameter.name === parameterName)
+
+  /**
+   * Retrieve max files constraint depending on FORBID_SPLIT_PARAMETER. Both MAX_FILE_INPUT_PARAMETER & FORBID_SPLIT_PARAMETER must be set & not dynamic
+   * @param {*} pluginConfiguration
+   * @returns
+   */
+  static getMaxFilesInput = (pluginConfiguration) => {
+    const forbidSplitParameter = ManageDatasetProcessingContainer.getParameter(pluginConfiguration, FORBID_SPLIT_PARAMETER)
+    if (forbidSplitParameter && !forbidSplitParameter.dynamic && forbidSplitParameter.value) {
+      const maxFileInputParameter = ManageDatasetProcessingContainer.getParameter(pluginConfiguration, MAX_FILE_INPUT_PARAMETER)
+      return maxFileInputParameter && !maxFileInputParameter.dynamic && maxFileInputParameter.value > 0 ? maxFileInputParameter.value : null
+    }
+    return null
+  }
+
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     datasetIpid: PropTypes.string.isRequired,
@@ -140,22 +156,6 @@ export class ManageDatasetProcessingContainer extends React.Component {
     this.createProcessingConfParametersList(processingConfigurationListFiltered, linkProcessingDatasetList)
   }
 
-  getParameter = (pluginConfiguration, parameterName) => find(pluginConfiguration.content.parameters, (parameter) => parameter.name === parameterName)
-
-  /**
-   * Retrieve max files constraint depending on FORBID_SPLIT_PARAMETER. Both MAX_FILE_INPUT_PARAMETER & FORBID_SPLIT_PARAMETER must be set & not dynamic
-   * @param {*} pluginConfiguration
-   * @returns
-   */
-  getMaxFilesInput = (pluginConfiguration) => {
-    const forbidSplitParameter = this.getParameter(pluginConfiguration, FORBID_SPLIT_PARAMETER)
-    if (forbidSplitParameter && !forbidSplitParameter.dynamic && forbidSplitParameter.value) {
-      const maxFileInputParameter = this.getParameter(pluginConfiguration, MAX_FILE_INPUT_PARAMETER)
-      return maxFileInputParameter && !maxFileInputParameter.dynamic && maxFileInputParameter.value > 0 ? maxFileInputParameter.value : null
-    }
-    return null
-  }
-
   /**
    * Manipulation of metadata, processingConf & links to create an easily exploitable object
    * @param {*} payload fetch result
@@ -192,7 +192,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
             pluginMetadata: metadata,
             resolvedParameters,
             parameters: parametersValue,
-            maxFilesInput: this.getMaxFilesInput(newPluginConfiguration),
+            maxFilesInput: ManageDatasetProcessingContainer.getMaxFilesInput(newPluginConfiguration),
           }
         }
       })
