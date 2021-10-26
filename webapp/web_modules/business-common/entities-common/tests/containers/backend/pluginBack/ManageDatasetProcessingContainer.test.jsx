@@ -99,7 +99,6 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
 
     promiseFetchProcessingDatasetList.then(() => {
       const componentWrapper = enzymeWrapper.find(ManageDatasetProcessingComponent)
-      console.log(enzymeWrapper.debug())
       const wrapperInstance = enzymeWrapper.instance()
       assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
 
