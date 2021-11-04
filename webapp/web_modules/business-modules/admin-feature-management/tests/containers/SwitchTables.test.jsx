@@ -57,10 +57,6 @@ describe('[ Module name] Testing SwitchTables', () => {
         totalElements: 0,
       },
       isReferencesFetching: false,
-      extractionMeta: {
-        totalElements: 0,
-      },
-      isExtractionFetching: false,
       creationMeta: {
         totalElements: 0,
       },
@@ -96,12 +92,11 @@ describe('[ Module name] Testing SwitchTables', () => {
       fetchReferences: () => { },
       fetchCreationRequests: () => { },
       fetchDeleteRequests: () => { },
-      fetchExtractionRequests: () => { },
       fetchNotificationRequests: () => { },
       fetchUpdateRequests: () => { },
     }
     const enzymeWrapper = shallow(<SwitchTables {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(SwitchComponent)
-    assert.lengthOf(componentWrapper, 6, 'There should be 6 SwitchComponent')
+    assert.lengthOf(componentWrapper, 5, 'There should be 5 SwitchComponent')
   })
 })

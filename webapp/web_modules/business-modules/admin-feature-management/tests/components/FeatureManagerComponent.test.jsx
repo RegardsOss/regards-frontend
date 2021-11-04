@@ -60,7 +60,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       clearReferencesSelection: () => { },
       clearCreationSelection: () => { },
       clearDeleteSelection: () => { },
-      clearExtractionSelection: () => { },
       clearNotificationSelection: () => { },
       clearUpdateSelection: () => { },
     }

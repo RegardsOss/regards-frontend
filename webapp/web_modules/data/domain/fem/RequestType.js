@@ -26,7 +26,6 @@ import values from 'lodash/values'
 /** Possible request types */
 export const REQUEST_TYPES_ENUM = {
   REFERENCES: 'REFERENCES',
-  EXTRACTION: 'EXTRACTION',
   CREATION: 'CREATION',
   UPDATE: 'UPDATE',
   DELETE: 'DELETION',

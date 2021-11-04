@@ -45,7 +45,6 @@ class FeatureManagerComponent extends React.Component {
     clearReferencesSelection: PropTypes.func.isRequired,
     clearCreationSelection: PropTypes.func.isRequired,
     clearDeleteSelection: PropTypes.func.isRequired,
-    clearExtractionSelection: PropTypes.func.isRequired,
     clearNotificationSelection: PropTypes.func.isRequired,
     clearUpdateSelection: PropTypes.func.isRequired,
   }
@@ -84,14 +83,12 @@ class FeatureManagerComponent extends React.Component {
       clearReferencesSelection,
       clearCreationSelection,
       clearDeleteSelection,
-      clearExtractionSelection,
       clearNotificationSelection,
       clearUpdateSelection,
     } = this.props
     clearReferencesSelection()
     clearCreationSelection()
     clearDeleteSelection()
-    clearExtractionSelection()
     clearNotificationSelection()
     clearUpdateSelection()
   }

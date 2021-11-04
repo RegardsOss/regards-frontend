@@ -22,26 +22,14 @@ import { creationRequestActions, creationRequestSelectors } from '../clients/Cre
 import { creationRequestsTableActions, creationRequestsTableSelectors } from '../clients/CreationRequestsTableClient'
 import { deleteRequestActions, deleteRequestSelectors } from '../clients/DeleteRequestsClient'
 import { deleteRequestsTableActions, deleteRequestsTableSelectors } from '../clients/DeleteRequestsTableClient'
-import { extractionRequestActions, extractionRequestSelectors } from '../clients/ExtractionRequestsClient'
-import { extractionRequestsTableActions, extractionRequestsTableSelectors } from '../clients/ExtractionRequestsTableClient'
 import { notificationRequestActions, notificationRequestSelectors } from '../clients/NotificationRequestsClient'
 import { notificationRequestsTableActions, notificationRequestsTableSelectors } from '../clients/NotificationRequestsTableClient'
 import { updateRequestActions, updateRequestSelectors } from '../clients/UpdateRequestsClient'
 import { updateRequestsTableActions, updateRequestsTableSelectors } from '../clients/UpdateRequestsTableClient'
-import { extractionRequestRetryActions } from '../clients/ExtractionRequestRetryClient'
-import { extractionRequestDeleteActions } from '../clients/ExtractionDeleteRequestClient'
 import { requestRetryActions } from '../clients/RequestRetryClient'
 import { requestDeleteActions } from '../clients/RequestDeleteClient'
 
 export default {
-  [FemDomain.REQUEST_TYPES_ENUM.EXTRACTION]: {
-    actions: extractionRequestActions,
-    selectors: extractionRequestSelectors,
-    tableActions: extractionRequestsTableActions,
-    tableSelectors: extractionRequestsTableSelectors,
-    retryActions: extractionRequestRetryActions,
-    deleteActions: extractionRequestDeleteActions,
-  },
   [FemDomain.REQUEST_TYPES_ENUM.CREATION]: {
     actions: creationRequestActions,
     selectors: creationRequestSelectors,

@@ -45,14 +45,6 @@ export { default as RequestActions } from './request/RequestActions'
 export { default as getRequestReducer } from './request/RequestReducer'
 export { default as getRequestSelectors } from './request/RequestSelectors'
 
-export { default as ExtractionRequestActions } from './request/ExtractionRequestActions'
-export { default as getExtractionRequestReducer } from './request/ExtractionRequestReducer'
-export { default as getExtractionRequestSelectors } from './request/ExtractionRequestSelectors'
-
-export { default as ExtractionRequestDeleteActions } from './request/ExtractionRequestDeleteActions'
-export { default as getExtractionRequestDeleteReducer } from './request/ExtractionRequestDeleteReducer'
-export { default as getExtractionRequestDeleteSelectors } from './request/ExtractionRequestDeleteSelectors'
-
 export { default as ExtractionRequestRetryActions } from './request/ExtractionRequestRetryActions'
 export { default as getExtractionRequestRetryReducer } from './request/ExtractionRequestRetryReducer'
 export { default as getExtractionRequestRetrySelectors } from './request/ExtractionRequestRetrySelectors'

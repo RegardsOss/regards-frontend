@@ -25,8 +25,6 @@ import { referenceDeleteReducer } from './clients/ReferencesDeleteClient'
 import { requestDeleteReducer } from './clients/RequestDeleteClient'
 import { requestRetryReducer } from './clients/RequestRetryClient'
 import { referenceNotifyReducer } from './clients/ReferencesNotifyClient'
-import { extractionRequestReducer } from './clients/ExtractionRequestsClient'
-import { extractionRequestsTableReducer } from './clients/ExtractionRequestsTableClient'
 import { creationRequestReducer } from './clients/CreationRequestsClient'
 import { creationRequestsTableReducer } from './clients/CreationRequestsTableClient'
 import { updateRequestReducer } from './clients/UpdateRequestsClient'
@@ -36,8 +34,6 @@ import { deleteRequestsTableReducer } from './clients/DeleteRequestsTableClient'
 import { notificationRequestReducer } from './clients/NotificationRequestsClient'
 import { notificationRequestsTableReducer } from './clients/NotificationRequestsTableClient'
 import { settingsReducer } from './clients/SettingsClient'
-import { extractionRequestDeleteReducer } from './clients/ExtractionDeleteRequestClient'
-import { extractionRequestRetryReducer } from './clients/ExtractionRequestRetryClient'
 
 /**
  * @author Théo Lasserre
@@ -51,8 +47,6 @@ const featureManagementReducer = combineReducers({
   referenceNotify: referenceNotifyReducer,
   requestDelete: requestDeleteReducer,
   requestRetry: requestRetryReducer,
-  extractionRequests: extractionRequestReducer,
-  'extraction-requests-table': extractionRequestsTableReducer,
   creationRequests: creationRequestReducer,
   'creation-requests-table': creationRequestsTableReducer,
   updateRequests: updateRequestReducer,
@@ -62,8 +56,6 @@ const featureManagementReducer = combineReducers({
   notificationRequests: notificationRequestReducer,
   'notification-requests-table': notificationRequestsTableReducer,
   settings: settingsReducer,
-  extractionDeleteRequest: extractionRequestDeleteReducer,
-  extractionRetryRequest: extractionRequestRetryReducer,
 })
 
 export default featureManagementReducer

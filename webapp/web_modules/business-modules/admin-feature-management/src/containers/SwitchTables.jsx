@@ -26,7 +26,6 @@ import SwitchComponent from '../components/SwitchComponent'
 import { referencesActions, referencesSelectors } from '../clients/ReferencesClient'
 import { creationRequestActions, creationRequestSelectors } from '../clients/CreationRequestsClient'
 import { deleteRequestActions, deleteRequestSelectors } from '../clients/DeleteRequestsClient'
-import { extractionRequestActions, extractionRequestSelectors } from '../clients/ExtractionRequestsClient'
 import { notificationRequestActions, notificationRequestSelectors } from '../clients/NotificationRequestsClient'
 import { updateRequestActions, updateRequestSelectors } from '../clients/UpdateRequestsClient'
 
@@ -47,7 +46,6 @@ export class SwitchTables extends React.Component {
     fetchReferences: (pageIndex, pageSize, pathParams, queryParams) => dispatch(referencesActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
     fetchCreationRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(creationRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
     fetchDeleteRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(deleteRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
-    fetchExtractionRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(extractionRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
     fetchNotificationRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(notificationRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
     fetchUpdateRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(updateRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
   })
@@ -62,9 +60,6 @@ export class SwitchTables extends React.Component {
     return {
       referencesMeta: referencesSelectors.getMetaData(state),
       isReferencesFetching: referencesSelectors.isFetching(state),
-      extractionMeta: extractionRequestSelectors.getMetaData(state),
-      isExtractionFetching: extractionRequestSelectors.isFetching(state),
-      extractionInfo: extractionRequestSelectors.getInfo(state),
       creationMeta: creationRequestSelectors.getMetaData(state),
       isCreationFetching: creationRequestSelectors.isFetching(state),
       creationInfo: creationRequestSelectors.getInfo(state),
@@ -92,8 +87,6 @@ export class SwitchTables extends React.Component {
     // from mapStateToProps
     referencesMeta: CommonShapes.PageMetadata,
     isReferencesFetching: PropTypes.bool.isRequired,
-    extractionMeta: CommonShapes.PageMetadata,
-    isExtractionFetching: PropTypes.bool.isRequired,
     creationMeta: CommonShapes.PageMetadata,
     isCreationFetching: PropTypes.bool.isRequired,
     updateMeta: CommonShapes.PageMetadata,
@@ -102,7 +95,6 @@ export class SwitchTables extends React.Component {
     isDeleteFetching: PropTypes.bool.isRequired,
     notificationMeta: CommonShapes.PageMetadata,
     isNotificationFetching: PropTypes.bool.isRequired,
-    extractionInfo: CommonShapes.PageInfo,
     creationInfo: CommonShapes.PageInfo,
     updateInfo: CommonShapes.PageInfo,
     deleteInfo: CommonShapes.PageInfo,
@@ -111,7 +103,6 @@ export class SwitchTables extends React.Component {
     fetchReferences: PropTypes.func.isRequired,
     fetchCreationRequests: PropTypes.func.isRequired,
     fetchDeleteRequests: PropTypes.func.isRequired,
-    fetchExtractionRequests: PropTypes.func.isRequired,
     fetchNotificationRequests: PropTypes.func.isRequired,
     fetchUpdateRequests: PropTypes.func.isRequired,
   }
@@ -139,7 +130,7 @@ export class SwitchTables extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      fetchReferences, fetchCreationRequests, fetchDeleteRequests, fetchExtractionRequests, fetchNotificationRequests, fetchUpdateRequests,
+      fetchReferences, fetchCreationRequests, fetchDeleteRequests, fetchNotificationRequests, fetchUpdateRequests,
       featureManagerFilters,
     } = this.props
 
@@ -147,7 +138,6 @@ export class SwitchTables extends React.Component {
       fetchReferences(0, SwitchTables.PAGE_SIZE, {}, featureManagerFilters)
       fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, featureManagerFilters)
       fetchDeleteRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, featureManagerFilters)
-      fetchExtractionRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.EXTRACTION }, featureManagerFilters)
       fetchNotificationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION }, featureManagerFilters)
       fetchUpdateRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.UPDATE }, featureManagerFilters)
     }
@@ -160,15 +150,12 @@ export class SwitchTables extends React.Component {
 
   isFetching = (pane) => {
     const {
-      isReferencesFetching, isCreationFetching, isDeleteFetching, isUpdateFetching, isNotificationFetching, isExtractionFetching,
+      isReferencesFetching, isCreationFetching, isDeleteFetching, isUpdateFetching, isNotificationFetching,
     } = this.props
     let isFetching = true
     switch (pane) {
       case FemDomain.REQUEST_TYPES_ENUM.REFERENCES:
         isFetching = isReferencesFetching
-        break
-      case FemDomain.REQUEST_TYPES_ENUM.EXTRACTION:
-        isFetching = isExtractionFetching
         break
       case FemDomain.REQUEST_TYPES_ENUM.CREATION:
         isFetching = isCreationFetching
@@ -189,18 +176,14 @@ export class SwitchTables extends React.Component {
 
   getNbElementsInfos = (pane) => {
     const {
-      referencesMeta, extractionMeta, creationMeta, updateMeta, deleteMeta, notificationMeta,
-      extractionInfo, creationInfo, updateInfo, deleteInfo, notificationInfo,
+      referencesMeta, creationMeta, updateMeta, deleteMeta, notificationMeta,
+      creationInfo, updateInfo, deleteInfo, notificationInfo,
     } = this.props
     let meta = null
     let info = null
     switch (pane) {
       case FemDomain.REQUEST_TYPES_ENUM.REFERENCES:
         meta = referencesMeta
-        break
-      case FemDomain.REQUEST_TYPES_ENUM.EXTRACTION:
-        meta = extractionMeta
-        info = extractionInfo
         break
       case FemDomain.REQUEST_TYPES_ENUM.CREATION:
         meta = creationMeta

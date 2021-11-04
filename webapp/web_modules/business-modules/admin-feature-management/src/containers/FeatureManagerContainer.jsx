@@ -24,7 +24,6 @@ import FeatureManagerComponent from '../components/FeatureManagerComponent'
 import { referencesTableActions } from '../clients/ReferencesTableClient'
 import { creationRequestsTableActions } from '../clients/CreationRequestsTableClient'
 import { deleteRequestsTableActions } from '../clients/DeleteRequestsTableClient'
-import { extractionRequestsTableActions } from '../clients/ExtractionRequestsTableClient'
 import { notificationRequestsTableActions } from '../clients/NotificationRequestsTableClient'
 import { updateRequestsTableActions } from '../clients/UpdateRequestsTableClient'
 import messages from '../i18n'
@@ -45,7 +44,6 @@ export class FeatureManagerContainer extends React.Component {
     clearReferencesSelection: () => dispatch(referencesTableActions.unselectAll()),
     clearCreationSelection: () => dispatch(creationRequestsTableActions.unselectAll()),
     clearDeleteSelection: () => dispatch(deleteRequestsTableActions.unselectAll()),
-    clearExtractionSelection: () => dispatch(extractionRequestsTableActions.unselectAll()),
     clearNotificationSelection: () => dispatch(notificationRequestsTableActions.unselectAll()),
     clearUpdateSelection: () => dispatch(updateRequestsTableActions.unselectAll()),
   })
@@ -59,7 +57,6 @@ export class FeatureManagerContainer extends React.Component {
     clearReferencesSelection: PropTypes.func.isRequired,
     clearCreationSelection: PropTypes.func.isRequired,
     clearDeleteSelection: PropTypes.func.isRequired,
-    clearExtractionSelection: PropTypes.func.isRequired,
     clearNotificationSelection: PropTypes.func.isRequired,
     clearUpdateSelection: PropTypes.func.isRequired,
   }
@@ -67,7 +64,7 @@ export class FeatureManagerContainer extends React.Component {
   render() {
     const {
       params, clearReferencesSelection, clearCreationSelection, clearDeleteSelection,
-      clearExtractionSelection, clearNotificationSelection, clearUpdateSelection,
+      clearNotificationSelection, clearUpdateSelection,
     } = this.props
     return (
       <FeatureManagerComponent
@@ -75,7 +72,6 @@ export class FeatureManagerContainer extends React.Component {
         clearReferencesSelection={clearReferencesSelection}
         clearCreationSelection={clearCreationSelection}
         clearDeleteSelection={clearDeleteSelection}
-        clearExtractionSelection={clearExtractionSelection}
         clearNotificationSelection={clearNotificationSelection}
         clearUpdateSelection={clearUpdateSelection}
       />

@@ -45,7 +45,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerContainer', () => {
       clearReferencesSelection: () => { },
       clearCreationSelection: () => { },
       clearDeleteSelection: () => { },
-      clearExtractionSelection: () => { },
       clearNotificationSelection: () => { },
       clearUpdateSelection: () => { },
     }
@@ -57,7 +56,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerContainer', () => {
       clearReferencesSelection: props.clearReferencesSelection,
       clearCreationSelection: props.clearCreationSelection,
       clearDeleteSelection: props.clearDeleteSelection,
-      clearExtractionSelection: props.clearExtractionSelection,
       clearNotificationSelection: props.clearNotificationSelection,
       clearUpdateSelection: props.clearUpdateSelection,
     }, 'Component should define the expected properties')

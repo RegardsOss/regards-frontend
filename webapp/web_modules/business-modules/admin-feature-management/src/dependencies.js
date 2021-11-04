@@ -20,7 +20,6 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { referencesActions } from './clients/ReferencesClient'
 import { creationRequestActions } from './clients/CreationRequestsClient'
 import { deleteRequestActions } from './clients/DeleteRequestsClient'
-import { extractionRequestActions } from './clients/ExtractionRequestsClient'
 import { notificationRequestActions } from './clients/NotificationRequestsClient'
 import { updateRequestActions } from './clients/UpdateRequestsClient'
 import { settingsActions } from './clients/SettingsClient'
@@ -38,7 +37,6 @@ const listDependencies = [
   referencesActions.getDependency(RequestVerbEnum.GET),
   creationRequestActions.getDependency(RequestVerbEnum.GET),
   deleteRequestActions.getDependency(RequestVerbEnum.GET),
-  extractionRequestActions.getDependency(RequestVerbEnum.GET),
   notificationRequestActions.getDependency(RequestVerbEnum.GET),
   updateRequestActions.getDependency(RequestVerbEnum.GET),
 ]
