@@ -46,6 +46,7 @@ STATIC_CONF = {
     FEM: 'rs-fem',
     NOTIFIER: 'rs-notifier',
     PROCESSING: 'rs-processing',
+    WORKER_MANAGER: 'rs-worker-manager',
   },
   // Public proxixied microservice to access secured microservices from user interface.
   // Only some endpoints of associated microservices are availables. Reffer to gateway mircoservice configuration.
