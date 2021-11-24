@@ -67,7 +67,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerFiltersComponent', ()
     assert.lengthOf(textFieldWrapper, 1, 'There should be a TableHeaderTextField')
 
     const selectWrapper = enzymeWrapper.find(SelectField)
-    assert.lengthOf(selectWrapper, 1, 'There should be SelectField')
+    assert.lengthOf(selectWrapper, 2, 'There should be 2 SelectField')
 
     const dateWrapper = enzymeWrapper.find(DatePickerField)
     assert.lengthOf(dateWrapper, 2, 'There should be 2 DatePickerField')

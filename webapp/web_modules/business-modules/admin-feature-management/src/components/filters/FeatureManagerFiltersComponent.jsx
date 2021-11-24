@@ -30,6 +30,7 @@ import {
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
 import { FILTER_PARAMS } from '../../domain/FilterParams'
+import { DISSEMINATION_PENDING } from '../../domain/DisseminationStatus'
 
 /**
   * Feature manager filters component.
@@ -57,7 +58,8 @@ export class FeatureManagerFiltersComponent extends React.Component {
     [FILTER_PARAMS.PROVIDER_ID]: '',
     [FILTER_PARAMS.FROM]: '',
     [FILTER_PARAMS.TO]: '',
-    [FILTER_PARAMS.STATE]: '',
+    [FILTER_PARAMS.STATE]: null,
+    [FILTER_PARAMS.DISSEMINATION_PENDING]: null,
   }
 
   /**
@@ -84,7 +86,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
     const urlFilters = FeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE
     if (values(query).length > 0) {
       const {
-        source, session, providerId, from, to, state,
+        source, session, providerId, from, to, state, disseminationPending,
       } = query
       if (source) {
         urlFilters.source = source
@@ -96,13 +98,16 @@ export class FeatureManagerFiltersComponent extends React.Component {
         urlFilters.providerId = providerId
       }
       if (from) {
-        urlFilters.lastUpdate.from = from.fromISOString()
+        urlFilters.from = from.fromISOString()
       }
       if (to) {
-        urlFilters.lastUpdate.to = to.fromISOString()
+        urlFilters.to = to.fromISOString()
       }
       if (state) {
         urlFilters.state = state
+      }
+      if (disseminationPending) {
+        urlFilters.disseminationPending = disseminationPending
       }
     }
     return urlFilters
@@ -214,17 +219,30 @@ export class FeatureManagerFiltersComponent extends React.Component {
                   key="dateto"
                 />
               </TableHeaderOptionGroup>
-              <TableHeaderOptionGroup key="first">
+              <TableHeaderOptionGroup key="state">
                 <SelectField
                   autoWidth
                   style={filter.fieldStyle}
-                  hintText={formatMessage({ id: 'feature.requests.list.filters.state' })}
+                  floatingLabelText={formatMessage({ id: 'feature.requests.list.filters.state' })}
                   value={filters.state || ''}
                   onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.STATE)}
                   disabled={openedPane === FemDomain.REQUEST_TYPES_ENUM.REFERENCES}
                 >
                   <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.status.any' })} />
                   {FemDomain.REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `feature.requests.status.${status}` })} />)}
+                </SelectField>
+              </TableHeaderOptionGroup>
+              <TableHeaderOptionGroup key="dissemination">
+                <SelectField
+                  autoWidth
+                  style={filter.fieldStyle}
+                  floatingLabelText={formatMessage({ id: 'feature.requests.list.filters.dissemination.status' })}
+                  value={filters.disseminationPending || ''}
+                  onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.DISSEMINATION_PENDING)}
+                  disabled={openedPane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES}
+                >
+                  <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.dissemination.status.any' })} />
+                  {DISSEMINATION_PENDING.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `feature.requests.dissemination.status.${status}` })} />)}
                 </SelectField>
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>

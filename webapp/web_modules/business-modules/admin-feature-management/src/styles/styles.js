@@ -89,6 +89,12 @@ const featureManagementStyles = (theme) => ({
         },
       },
     },
+    disseminationCellStyle: {
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: 'row-reverse',
+      overflow: 'hidden',
+    },
   },
   switchTable: {
     divStyle: {

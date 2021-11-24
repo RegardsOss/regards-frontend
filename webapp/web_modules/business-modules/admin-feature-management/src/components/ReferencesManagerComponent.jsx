@@ -43,6 +43,7 @@ import { referencesActions, referencesSelectors } from '../clients/ReferencesCli
 import messages from '../i18n'
 import styles from '../styles'
 import { referencesTableSelectors, referencesTableActions } from '../clients/ReferencesTableClient'
+import DisseminationTableCustomCellRender from './render/DisseminationTableCustomCellRender'
 import ReferenceDetailOption from './options/ReferenceDetailOption'
 import ReferenceDeleteOption from './options/ReferenceDeleteOption'
 import DeleteDialog from './options/DeleteDialog'
@@ -102,6 +103,7 @@ export class ReferencesManagerComponent extends React.Component {
     PROVIDER_ID: 'providerId',
     LASTUPDATE: 'lastUpdate',
     VERSION: 'version',
+    DISSEMINATION: 'dissemination',
     ACTIONS: 'actions',
   }
 
@@ -112,7 +114,7 @@ export class ReferencesManagerComponent extends React.Component {
 
   static buildContextRequestBody(appliedFilters) {
     const {
-      source, session, providerId, from, to,
+      source, session, providerId, from, to, disseminationPending,
     } = appliedFilters
     const contextRequestParameters = {}
     if (source) {
@@ -129,6 +131,9 @@ export class ReferencesManagerComponent extends React.Component {
     }
     if (to) {
       contextRequestParameters.to = to
+    }
+    if (disseminationPending) {
+      contextRequestParameters.disseminationPending = disseminationPending
     }
     return contextRequestParameters
   }
@@ -358,6 +363,13 @@ export class ReferencesManagerComponent extends React.Component {
         .label(formatMessage({ id: 'feature.references.list.table.headers.version' }))
         .sortableHeaderCell(...this.getColumnSortingData(ReferencesManagerComponent.COLUMN_KEYS.VERSION), this.onSort)
         .fixedSizing(100)
+        .build(),
+      new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.DISSEMINATION).titleHeaderCell()
+        .label(formatMessage({ id: 'feature.references.list.table.headers.dissemination' }))
+        .rowCellDefinition({
+          Constructor: DisseminationTableCustomCellRender,
+        })
+        // .fixedSizing(300)
         .build(),
       new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.ACTIONS).titleHeaderCell()
         .label(formatMessage({ id: 'feature.references.list.filters.actions' }))

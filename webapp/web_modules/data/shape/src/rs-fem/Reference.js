@@ -22,14 +22,21 @@ import { HateOASLink } from '../rs-common'
  * Describes a reference shape
  * @author Théo Lasserre
  */
-export const RefrenceContent = PropTypes.shape({
+
+const DisseminationInfo = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+})
+
+export const ReferenceContent = PropTypes.shape({
   id: PropTypes.number,
   lastUpdate: PropTypes.string,
   providerId: PropTypes.string,
+  disseminationPending: PropTypes.bool,
+  disseminationsInfo: PropTypes.arrayOf(DisseminationInfo),
   version: PropTypes.number,
 })
 
 export const Reference = PropTypes.shape({
-  content: RefrenceContent,
+  content: ReferenceContent,
   links: PropTypes.arrayOf(HateOASLink),
 })

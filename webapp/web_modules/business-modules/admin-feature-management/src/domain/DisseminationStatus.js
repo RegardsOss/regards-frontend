@@ -16,19 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
 /**
- * Filter params
+ * dissemination possible status
  * @author Théo Lasserre
  */
-
-/** Possible filter params */
-export const FILTER_PARAMS = {
-  SOURCE: 'source',
-  SESSION: 'session',
-  PROVIDER_ID: 'providerId',
-  FROM: 'from',
-  TO: 'to',
-  STATE: 'state',
-  DISSEMINATION_PENDING: 'disseminationPending',
+export const DISSEMINATION_PENDING_ENUM = {
+  PENDING: 'PENDING',
+  DONE: 'DONE',
 }
+
+export const DISSEMINATION_PENDING = values(DISSEMINATION_PENDING_ENUM)
