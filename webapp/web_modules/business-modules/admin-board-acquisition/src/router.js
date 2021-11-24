@@ -106,6 +106,16 @@ export const featureManagementRouter = {
   },
 }
 
+export const dataPreparationManagementRouter = {
+  path: 'datapreparation',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const dataPreparationManagement = require('@regardsoss/admin-datapreparation-management')
+      cb(null, [dataPreparationManagement.dataPreparationManagementRouter])
+    })
+  },
+}
+
 const acquisitionRouter = {
   childRoutes: [
     boardRoute,
@@ -117,6 +127,7 @@ const acquisitionRouter = {
     oaisManagementRouter,
     dashboardManagementRouter,
     featureManagementRouter,
+    dataPreparationManagementRouter,
   ],
 }
 

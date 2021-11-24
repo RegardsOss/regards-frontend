@@ -55,6 +55,10 @@ const messages = {
   'data.board.action.storages.settings.tooltip': 'Settings',
 
   'data.board.action.featuremanager.settings.tooltip': 'Settings',
+
+  'data.board.datapreparation.title': 'Data Preparation',
+  'data.board.datapreparation.description': 'Allows to view, monitor and manage list of recorded requests on WorkerManager microservice.',
+  'data.board.action.datapreparation.tooltip': 'Show requests',
 }
 
 export default messages

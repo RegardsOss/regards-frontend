@@ -32,6 +32,7 @@ import { dataProviderDependencies } from '@regardsoss/admin-data-provider-manage
 import { storageManagementDependencies } from '@regardsoss/admin-storage-management'
 import { featureManagementDependencies } from '@regardsoss/admin-feature-management'
 import { dashboardManagementDependencies } from '@regardsoss/admin-dashboard-management'
+import { dataPreparationManagementDependencies } from '@regardsoss/admin-datapreparation-management'
 import { indexActions, RESET_INDEX_ACTION } from '../clients/IndexClient'
 import { oaisDependencies } from '../../../admin-oais-management'
 
@@ -175,6 +176,21 @@ const items = (projectName, intl, onResetIndex) => [
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.settings.tooltip' }),
         hateoasDependencies: [
           ...storageManagementDependencies.settingsDependencies,
+        ],
+      },
+    ],
+  },
+  {
+    title: intl.formatMessage({ id: 'data.board.datapreparation.title' }),
+    description: intl.formatMessage({ id: 'data.board.datapreparation.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/datapreparation/requests`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.datapreparation.tooltip' }),
+        hateoasDependencies: [
+          ...dataPreparationManagementDependencies.listDependencies,
         ],
       },
     ],

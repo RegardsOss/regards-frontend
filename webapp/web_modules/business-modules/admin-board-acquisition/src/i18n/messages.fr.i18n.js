@@ -56,6 +56,9 @@ const messages = {
 
   'data.board.action.featuremanager.settings.tooltip': 'Paramètres',
 
+  'data.board.datapreparation.title': 'Préparation des données',
+  'data.board.datapreparation.description': 'Permet de visualiser le listing des requêtes enregistrées sur le WorkerManager et de suivre l\'état des requêtes en cours de traitement ou en erreur ainsi que relancer ou de supprimer les traitements en erreurs',
+  'data.board.action.datapreparation.tooltip': 'Consulter les requêtes',
 }
 
 export default messages

@@ -23,6 +23,7 @@ import { processingChainDependencies } from '@regardsoss/admin-ingest-processing
 import { storageManagementDependencies } from '@regardsoss/admin-storage-management'
 import { dashboardManagementDependencies } from '@regardsoss/admin-dashboard-management'
 import { featureManagementDependencies } from '@regardsoss/admin-feature-management'
+import { dataPreparationManagementDependencies } from '@regardsoss/admin-datapreparation-management'
 
 /**
  * Mandatory Dependencies to display module in project menu
@@ -41,4 +42,5 @@ export default [
   storageManagementDependencies.addDependencies,
   dashboardManagementDependencies.listDependencies,
   featureManagementDependencies.listDependencies,
+  dataPreparationManagementDependencies.listDependencies,
 ]

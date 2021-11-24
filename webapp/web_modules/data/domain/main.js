@@ -31,6 +31,7 @@ import * as StorageDom from './storage'
 import * as UIDom from './ui'
 import * as AuthenticationDom from './authentication'
 import * as ProcessingDom from './processing'
+import * as WorkerDom from './worker'
 
 export const DamDomain = DamDom
 export const AccessDomain = AccessDom
@@ -47,3 +48,4 @@ export const StorageDomain = StorageDom
 export const UIDomain = UIDom
 export const AuthenticationDomain = AuthenticationDom
 export const ProcessingDomain = ProcessingDom
+export const WorkerDomain = WorkerDom

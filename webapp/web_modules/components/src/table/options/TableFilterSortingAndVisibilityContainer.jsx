@@ -16,14 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEqual from 'lodash/isEqual'
+import { browserHistory } from 'react-router'
 import reduce from 'lodash/reduce'
+import get from 'lodash/get'
+import map from 'lodash/map'
+import isEqual from 'lodash/isEqual'
+import has from 'lodash/has'
+import split from 'lodash/split'
+import values from 'lodash/values'
+import clone from 'lodash/clone'
+import isEmpty from 'lodash/isEmpty'
+import omit from 'lodash/omit'
 import { connect } from '@regardsoss/redux'
 import { CommonDomain } from '@regardsoss/domain'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import map from 'lodash/map'
-import clone from 'lodash/clone'
-import omit from 'lodash/omit'
+import TableSelectionModes from '../model/TableSelectionModes'
 
 /**
  * Container that provides table sorting, column visiblity & filters management
@@ -48,6 +55,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     }),
     // from mapDispatchToProps
     fetchPagedEntityList: PropTypes.func.isRequired,
+    fetchPagedEntityListByPost: PropTypes.func.isRequired,
 
     // Others properties must be functions
     // This component will proxyfy them to inject the local onRefresh function as the last param
@@ -75,6 +83,16 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
   // eslint-disable-next-line react/forbid-prop-types
   static FILTERS_PROP_TYPE = PropTypes.object.isRequired
 
+  static DEFAULT_DATES_RESTRICTION_STATE = {
+    [CommonDomain.REQUEST_PARAMETERS.AFTER]: null,
+    [CommonDomain.REQUEST_PARAMETERS.BEFORE]: null,
+  }
+
+  static DEFAULT_VALUES_RESTRICTION_STATE = {
+    [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.includeSelected,
+    [CommonDomain.REQUEST_PARAMETERS.VALUES]: [],
+  }
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -96,13 +114,77 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
   static mapDispatchToProps(dispatch, { pageActions }) {
     return {
       fetchPagedEntityList: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(pageActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+      fetchPagedEntityListByPost: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(pageActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
     }
   }
 
+  static extractFiltersFromURL = (defaultFiltersState) => {
+    const { query } = browserHistory.getCurrentLocation()
+    let urlFilters = { ...defaultFiltersState }
+    if (values(query).length > 0) {
+      urlFilters = reduce(query, (acc, queryValue, queryKey) => {
+        if (has(defaultFiltersState, queryKey)) {
+          if (has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.VALUES)) {
+            // Values Restrictiction filters type
+            acc[queryKey] = {
+              [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(query[queryKey], ','),
+            }
+          } else if (has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.BEFORE)
+              && has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.AFTER)) {
+            // Date Restriction filters type
+            const splitDates = split(query[queryKey], ',')
+            acc[queryKey] = {
+              [CommonDomain.REQUEST_PARAMETERS.AFTER]: splitDates[0],
+              [CommonDomain.REQUEST_PARAMETERS.BEFORE]: splitDates[1],
+            }
+          } else {
+            // Other filters type
+            acc[queryKey] = query[queryKey]
+          }
+        }
+        return acc
+      }, defaultFiltersState)
+    }
+    return urlFilters
+  }
+
+  static buildRequestParameters = (defaultFiltersState) => {
+    const filtersFromURL = TableFilterSortingAndVisibilityContainer.extractFiltersFromURL(defaultFiltersState)
+    const requestParameters = reduce(filtersFromURL, (acc, filterValue, filterKey) => {
+      if (has(filterValue, CommonDomain.REQUEST_PARAMETERS.VALUES)) {
+        if (!isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.VALUES])) {
+          // Values Restriction filters type
+          acc[filterKey] = {
+            [CommonDomain.REQUEST_PARAMETERS.VALUES]: filterValue[CommonDomain.REQUEST_PARAMETERS.VALUES],
+            [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.includeSelected,
+          }
+        }
+      } else if (has(filterValue, CommonDomain.REQUEST_PARAMETERS.BEFORE)
+          || has(filterValue, CommonDomain.REQUEST_PARAMETERS.AFTER)) {
+        if (!(isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.AFTER])
+            && isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.BEFORE]))) {
+          // Dates Restriction filters type
+          acc[filterKey] = {
+            [CommonDomain.REQUEST_PARAMETERS.AFTER]: TableFilterSortingAndVisibilityContainer.getDateValue(filtersFromURL, filterKey, CommonDomain.REQUEST_PARAMETERS.AFTER),
+            [CommonDomain.REQUEST_PARAMETERS.BEFORE]: TableFilterSortingAndVisibilityContainer.getDateValue(filtersFromURL, filterKey, CommonDomain.REQUEST_PARAMETERS.BEFORE),
+          }
+        }
+      } else if (!isEmpty(filterValue)) {
+        // Other filters type
+        acc[filterKey] = filterValue
+      }
+      return acc
+    }, {})
+    return requestParameters
+  }
+
+  static getDateValue = (filters, filterKey, dateParameter) => get(filters, [filterKey][dateParameter], null)
+    ? new Date(filters[filterKey][dateParameter]) : null
+
   state = {
-    requestParameters: {},
+    requestParameters: TableFilterSortingAndVisibilityContainer.buildRequestParameters(this.props.defaultFiltersState),
     columnsSorting: [],
-    filters: this.props.defaultFiltersState,
+    filters: TableFilterSortingAndVisibilityContainer.extractFiltersFromURL(this.props.defaultFiltersState),
     /** columns visibility map (no assertion on child columns keys) */
     columnsVisibility: {}, // note: empty by default, when column isn't found it should be considered visible
   }
@@ -114,14 +196,18 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     }, {})
   )
 
-  onRefresh = () => {
+  onRefresh = (fetchUsingPost = false) => {
     const { requestParameters } = this.state
     const {
-      pageMeta, fetchPagedEntityList,
+      pageMeta, fetchPagedEntityList, fetchPagedEntityListByPost,
     } = this.props
     const lastPage = (pageMeta && pageMeta.number) || 0
     const fetchPageSize = TableFilterSortingAndVisibilityContainer.PAGE_SIZE * (lastPage + 1)
-    fetchPagedEntityList(0, fetchPageSize, {}, { ...requestParameters })
+    if (fetchUsingPost) {
+      fetchPagedEntityListByPost(0, fetchPageSize, {}, {}, { ...requestParameters })
+    } else {
+      fetchPagedEntityList(0, fetchPageSize, {}, { ...requestParameters })
+    }
   }
 
   /**
@@ -143,6 +229,35 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
       },
     }
     this.setState(newState)
+  }
+
+  /**
+   * Update a Values Restriction filter type
+   * @param {*} value
+   * @param {*} filterElement
+   * @param {*} mode
+   */
+  updateValuesFilter = (value, filterElement, mode = TableSelectionModes.includeSelected) => {
+    const newFilterValue = {
+      [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(value, ','),
+      [CommonDomain.REQUEST_PARAMETERS.MODE]: mode,
+    }
+    this.updateFilter(newFilterValue, filterElement)
+  }
+
+  /**
+   * Update a Dates Restriction filter type
+   * @param {*} value
+   * @param {*} filterElement
+   * @param {*} dateParameter : either AFTER or BEFORE
+   */
+  updateDatesFilter = (value, filterElement, dateParameter) => {
+    const { filters } = this.state
+    const newFilterValue = {
+      ...filters[filterElement],
+      [dateParameter]: value,
+    }
+    this.updateFilter(newFilterValue, filterElement)
   }
 
   /**
@@ -226,6 +341,8 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
       pageSize: TableFilterSortingAndVisibilityContainer.PAGE_SIZE,
       requestParameters,
       columnsVisibility,
+      updateValuesFilter: this.updateValuesFilter,
+      updateDatesFilter: this.updateDatesFilter,
       filters,
     })
   }

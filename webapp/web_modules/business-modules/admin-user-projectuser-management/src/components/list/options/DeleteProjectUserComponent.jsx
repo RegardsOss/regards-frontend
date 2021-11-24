@@ -50,7 +50,6 @@ class DeleteProjectUserComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <HateoasIconAction
-        className="selenium-deleteButton"
         disabled={isLoading}
         title={formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}
         onClick={this.onDelete}

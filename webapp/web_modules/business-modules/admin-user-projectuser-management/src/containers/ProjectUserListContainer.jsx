@@ -52,6 +52,8 @@ export class ProjectUserListContainer extends React.Component {
     fetchUsers: PropTypes.func.isRequired,
   }
 
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20;
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state

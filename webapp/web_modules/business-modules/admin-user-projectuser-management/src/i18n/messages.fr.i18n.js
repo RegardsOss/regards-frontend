@@ -102,7 +102,7 @@ const messages = {
   'projectUser.list.edit.quota.dialog.cancel': 'Annuler',
   'projectUser.list.edit.quota.dialog.confirm': 'Confirmer',
   'projectUser.list.table.filters.clear': 'Effacer filtres',
-  'projectUser.list.info.nb.accounts': '{value} Résultats',
+  'projectUser.list.info.nb.accounts': '{value} résultats',
   'projectUser.list.refresh': 'Rafraîchir',
   'projectUser.list.exportCSV.label': 'Résumé',
   'projectUser.list.exportCSV.tooltip': 'Télécharger le résumé en CSV',

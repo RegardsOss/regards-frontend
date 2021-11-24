@@ -29,6 +29,7 @@ import * as IngestSh from './rs-ingest/index'
 import * as OrderSh from './rs-order/index'
 import * as UISh from './ui'
 import * as ProcessingSh from './rs-processing/index'
+import * as WorkerSh from './rs-worker/index'
 
 export const AccessShapes = AccessSh
 export const AdminShapes = AdminSh
@@ -43,3 +44,4 @@ export const IngestShapes = IngestSh
 export const OrderShapes = OrderSh
 export const UIShapes = UISh
 export const ProcessingShapes = ProcessingSh
+export const WorkerShapes = WorkerSh

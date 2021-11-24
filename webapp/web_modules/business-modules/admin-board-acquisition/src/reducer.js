@@ -25,6 +25,7 @@ import { dataProviderManagementReducer } from '@regardsoss/admin-data-provider-m
 import { oaisManagementReducer } from '@regardsoss/admin-oais-management'
 import { dashboardManagementReducer } from '@regardsoss/admin-dashboard-management'
 import { featureManagementReducer } from '@regardsoss/admin-feature-management'
+import { dataPreparationManagementReducer } from '@regardsoss/admin-datapreparation-management'
 
 const acquisitionReducers = combineReducers({
   connection: connectionDataManagementReducer,
@@ -35,6 +36,7 @@ const acquisitionReducers = combineReducers({
   oais: oaisManagementReducer,
   dashboard: dashboardManagementReducer,
   feature: featureManagementReducer,
+  dataPreparation: dataPreparationManagementReducer,
 })
 
 export default acquisitionReducers

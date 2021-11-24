@@ -52,7 +52,6 @@ class EditProjectUserComponent extends React.Component {
 
     return (
       <HateoasIconAction
-        className="selenium-editButton"
         disabled={isLoading}
         title={formatMessage({ id: 'projectUser.list.table.action.edit.tooltip' })}
         onClick={this.onEdit}

@@ -21,6 +21,7 @@
  * Enum for all available Hateoas keys.
  *
  * @author Sébastien Binda
+ * @author Théo Lasserre
  */
 export default {
   SELF: 'self',
@@ -34,4 +35,5 @@ export default {
   ACTIVE: 'active',
   INACTIVE: 'inactive',
   SEND_VERIFICATION_EMAIL: 'sendVerificationEmail',
+  RETRY: 'retry',
 }

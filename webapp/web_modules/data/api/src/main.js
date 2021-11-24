@@ -100,3 +100,5 @@ export { REFERENCE, REFERENCE_ARRAY, ReferenceConfiguration } from './fem/Refere
 export {
   REQUEST_FEM, REQUEST_FEM_ARRAY, RequestFemConfiguration, REQUEST_EXTRACTION_FEM, REQUEST_EXTRACTION_FEM_ARRAY, RequestFemExtractionConfiguration,
 } from './fem/Request'
+// Worker
+export { REQUEST_WORKER, REQUEST_WORKER_ARRAY, RequestWorkerConfiguration } from './worker/Request'
