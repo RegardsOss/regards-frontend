@@ -94,6 +94,7 @@ const messages = {
   'projectUser.list.accept.all': 'Accept all',
   'projectUser.list.accept.all.tooltip': 'Grant access to all new users displayed in table',
   'projectUser.list.delete.message': 'Remove user {name}?',
+  'projectUser.list.email.confirmation.message': 'Send confirmation email to {email} ?',
   'projectUser.list.edit.quota.dialog.title': 'Edit {name} max quota',
   'projectUser.list.edit.quota.dialog.max.quota.field': 'Max quota (-1: unlimited / positive or null integer: files count)',
   'projectUser.list.edit.quota.dialog.current.quota.field': 'Consumed quota',

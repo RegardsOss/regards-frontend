@@ -30,6 +30,8 @@ import {
   TableHeaderContentBox, TableHeaderLoadingComponent,
   TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
+import isString from 'lodash/isString'
+import isEmpty from 'lodash/isEmpty'
 import { projectUserActions, projectUserSelectors } from '../../clients/ProjectUserClient'
 import NoUserComponent from './NoUserComponent'
 import ProjectUserStatusRenderCell from './render/ProjectUserStatusRenderCell'
@@ -42,6 +44,11 @@ import ProjectUserAccountFiltersComponent from './filters/ProjectUserAccountFilt
 import ACCOUNT_FILTERS from '../../domain/AccountFilters'
 import HeaderActionsBar from './HeaderActionsBar'
 import { getQueryString } from '../../domain/QueryUtils'
+
+const DIALOG_TYPES = {
+  DELETE_DIALOG: 'deleteDialog',
+  EMAIL_CONFIRMATION_DIALOG: 'emailConfirmationDialog',
+}
 
 export class ProjectUserAccountComponent extends React.Component {
   static propTypes = {
@@ -110,8 +117,14 @@ export class ProjectUserAccountComponent extends React.Component {
     />)
 
   state = {
-    deleteDialogOpened: false,
-    entityToProcess: null,
+    [DIALOG_TYPES.DELETE_DIALOG]: {
+      open: false,
+      entityToProcess: null,
+    },
+    [DIALOG_TYPES.EMAIL_CONFIRMATION_DIALOG]: {
+      open: false,
+      userEmail: '',
+    },
     csvLink: '',
   }
 
@@ -145,10 +158,21 @@ export class ProjectUserAccountComponent extends React.Component {
     }
   }
 
-  onToggleDeleteDialog = (entity = null) => {
+  onToggleDeleteDialog = (entityToProcess = null) => {
     this.setState({
-      deleteDialogOpened: !this.state.deleteDialogOpened,
-      entityToProcess: entity,
+      [DIALOG_TYPES.DELETE_DIALOG]: {
+        open: !this.state[DIALOG_TYPES.DELETE_DIALOG].open,
+        entityToProcess,
+      },
+    })
+  }
+
+  onToggleEmailConfirmationDialog = (userEmail = '') => {
+    this.setState({
+      [DIALOG_TYPES.EMAIL_CONFIRMATION_DIALOG]: {
+        open: !this.state[DIALOG_TYPES.EMAIL_CONFIRMATION_DIALOG].open,
+        userEmail,
+      },
     })
   }
 
@@ -157,13 +181,13 @@ export class ProjectUserAccountComponent extends React.Component {
    */
   renderDeleteConfirmDialog = () => {
     const { onDeleteAccount } = this.props
-    const { entityToProcess } = this.state
+    const { open, entityToProcess } = this.state[DIALOG_TYPES.DELETE_DIALOG]
     const { intl: { formatMessage } } = this.context
     const name = get(entityToProcess, 'content.email', '')
     const title = formatMessage({ id: 'projectUser.list.delete.message' }, { name })
     return (
       <ShowableAtRender
-        show={this.state.deleteDialogOpened}
+        show={open}
       >
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
@@ -175,10 +199,35 @@ export class ProjectUserAccountComponent extends React.Component {
     )
   }
 
+  /**
+  * Renders send email confirmation confirmation dialog
+  */
+  renderEmailConfirmDialog = () => {
+    const { onSendEmailConfirmation } = this.props
+    const { intl: { formatMessage } } = this.context
+    const { userEmail, open } = this.state[DIALOG_TYPES.EMAIL_CONFIRMATION_DIALOG]
+    if (isString(userEmail) && !isEmpty(userEmail)) {
+      const title = formatMessage({ id: 'projectUser.list.email.confirmation.message' }, { email: userEmail })
+      return (
+        <ShowableAtRender
+          show={open}
+        >
+          <ConfirmDialogComponent
+            dialogType={ConfirmDialogComponentTypes.CONFIRM}
+            onConfirm={() => onSendEmailConfirmation(userEmail)}
+            onClose={this.onToggleEmailConfirmationDialog}
+            title={title}
+          />
+        </ShowableAtRender>
+      )
+    }
+    return null
+  }
+
   render() {
     const {
       onEdit, onDisable, pageSize, origins, allAccounts, onRefresh,
-      onValidate, onDeny, onSendEmailConfirmation, isLoading, onEnable,
+      onValidate, onDeny, isLoading, onEnable,
       getColumnSortingData, filters, requestParameters, columnsVisibility,
       onSort, updateFilter, clearFilters, onChangeColumnsVisibility,
     } = this.props
@@ -264,7 +313,7 @@ export class ProjectUserAccountComponent extends React.Component {
           optionProps: { isLoading, onDeny, onDisable },
         }, {
           OptionConstructor: SendEmailComponent,
-          optionProps: { isLoading, onSendEmailConfirmation },
+          optionProps: { isLoading, onSendEmailConfirmation: this.onToggleEmailConfirmationDialog },
         }])
         .build(),
     ]
@@ -311,6 +360,7 @@ export class ProjectUserAccountComponent extends React.Component {
             : ProjectUserAccountComponent.LOADING_COMPONENT}
         />
         {this.renderDeleteConfirmDialog()}
+        {this.renderEmailConfirmDialog()}
       </TableLayout>
     )
   }
