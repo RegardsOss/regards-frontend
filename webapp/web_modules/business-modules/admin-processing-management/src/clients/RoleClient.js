@@ -16,17 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { processingReducer } from './clients/ProcessingClient'
-import { processingMonitoringReducer } from './clients/ProcessingMonitoringClient'
-import { roleReducer } from './clients/RoleClient'
-import { tableReducer } from './clients/TableClient'
+import { AdminClient } from '@regardsoss/client'
 
-const processingManagementReducer = combineReducers({
-  processing: processingReducer,
-  'processing-monitor': processingMonitoringReducer,
-  'processing-monitoring-table': tableReducer,
-  role: roleReducer,
-})
-
-export default processingManagementReducer
+const namespace = 'admin-processing-management/role'
+export const roleActions = new AdminClient.RoleActions(namespace)
+export const roleReducer = AdminClient.getRoleReducer(namespace)
+export const roleSelectors = AdminClient.getRoleSelectors(['admin', 'processing', 'role'])

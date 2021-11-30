@@ -44,6 +44,7 @@ describe('[ADMIN PROCESSING MANAGEMENT] Testing Processing form component', () =
     const props = {
       project: 'testProject',
       mode: 'create',
+      roleList: {},
       onSubmit: () => { },
       backUrl: '#',
       pristine: false,

@@ -19,9 +19,10 @@
 import { browserHistory } from 'react-router'
 import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { connect } from '@regardsoss/redux'
-import { ProcessingShapes } from '@regardsoss/shape'
+import { ProcessingShapes, AdminShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import get from 'lodash/get'
+import { roleActions, roleSelectors } from '../clients/RoleClient'
 import { processingActions, processingSelectors } from '../clients/ProcessingClient'
 import ProcessingFormComponent, { FORM_MODE } from '../components/ProcessingFormComponent'
 
@@ -39,6 +40,7 @@ export class ProcessingFormContainer extends React.Component {
   static mapStateToProps(state, ownProps) {
     return {
       processing: get(ownProps, 'params.businessId') ? processingSelectors.getById(state, ownProps.params.businessId) : null,
+      roleList: roleSelectors.getList(state),
     }
   }
 
@@ -53,6 +55,7 @@ export class ProcessingFormContainer extends React.Component {
       fetch: (businessId) => dispatch(processingActions.fetchEntity(businessId)),
       create: (processing) => dispatch(processingActions.createEntity(processing)),
       update: (entityId, processing) => dispatch(processingActions.updateEntity(entityId, processing)),
+      fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
     }
   }
 
@@ -65,28 +68,33 @@ export class ProcessingFormContainer extends React.Component {
     }),
     // from mapStateToProps
     processing: ProcessingShapes.Processing,
+    roleList: AdminShapes.RoleList.isRequired,
     // from mapDispatchToProps
     fetch: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
     create: PropTypes.func.isRequired,
+    fetchRoleList: PropTypes.func.isRequired,
   }
 
   state = {
-    isLoading: !!get(this.props, 'params.businessId', false),
+    isLoading: true,
   }
 
   UNSAFE_componentWillMount() {
-    const { params: { businessId } } = this.props
+    const { params: { businessId }, fetch, fetchRoleList } = this.props
+    const tasks = []
+    tasks.push(fetchRoleList())
     // Fetch processing if exist
     if (businessId) {
-      this.props.fetch(businessId).then((actionResult) => {
-        if (!actionResult.error) {
-          this.setState({
-            isLoading: false,
-          })
-        }
-      })
+      tasks.push(fetch(businessId))
     }
+    Promise.resolve(tasks).then((actionResult) => {
+      if (!actionResult.error) {
+        this.setState({
+          isLoading: false,
+        })
+      }
+    })
   }
 
   /**
@@ -139,7 +147,7 @@ export class ProcessingFormContainer extends React.Component {
 
   render() {
     const {
-      params: { mode }, processing,
+      params: { mode }, processing, roleList,
     } = this.props
 
     return (
@@ -151,6 +159,7 @@ export class ProcessingFormContainer extends React.Component {
           processing={processing}
           onSubmit={this.onSubmit}
           backUrl={this.getBackUrl()}
+          roleList={roleList}
         />
       </LoadableContentDisplayDecorator>
     )
