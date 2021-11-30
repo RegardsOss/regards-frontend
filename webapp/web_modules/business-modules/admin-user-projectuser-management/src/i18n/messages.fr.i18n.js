@@ -94,6 +94,7 @@ const messages = {
   'projectUser.list.accept.all': 'Tout accepter',
   'projectUser.list.accept.all.tooltip': 'Accorder l\'accès à tous les nouveaux utilisateurs affichés dans le tableau',
   'projectUser.list.delete.message': 'Supprimer l\'utilisateur {name} ?',
+  'projectUser.list.email.confirmation.message': 'Voulez-vous envoyer un email de confirmation à {email} ?',
   'projectUser.list.edit.quota.dialog.title': 'Editer le quota maximal de {name}',
   'projectUser.list.edit.quota.dialog.max.quota.field': 'Quota maximal (-1: illimité / entier positif ou nul: nombre de fichiers)',
   'projectUser.list.edit.quota.dialog.current.quota.field': 'Quota consommé',
