@@ -380,6 +380,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
                 alreadyExistText={formatMessage({ id: 'projectUser.create.input.emails_confirmation.add.exist' })}
                 floatingLabelText={formatMessage({ id: 'projectUser.create.input.emails_confirmation.add.floating.text' })}
                 validateFunction={ProjectUserSettingsFormComponent.validateEmail}
+                disabled={editedMode === AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO}
               />
             </div>
           </CardText>
