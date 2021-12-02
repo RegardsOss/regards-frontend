@@ -75,14 +75,14 @@ class RequestFiltersComponent extends React.Component {
                   dateHintText={formatMessage({ id: 'datapreparation.filters.creationDate.after.label' })}
                   onChange={(value) => updateDatesFilter(value.toISOString(), REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
                   locale={locale}
-                  value={TableFilterSortingAndVisibilityContainer.getDateValue(filters, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
+                  value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(filters, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
                 />
                 <DatePickerField
                   id={`filter.${REQUEST_FILTERS.CREATION_DATE.BEFORE}`}
                   dateHintText={formatMessage({ id: 'datapreparation.filters.creationDate.before.label' })}
                   onChange={(value) => updateDatesFilter(value.toISOString(), REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
                   locale={locale}
-                  value={TableFilterSortingAndVisibilityContainer.getDateValue(filters, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
+                  value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(filters, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
                   defaultTime="23:59:59"
                 />
               </div>
