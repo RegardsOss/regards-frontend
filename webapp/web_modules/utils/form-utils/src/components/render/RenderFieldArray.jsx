@@ -40,6 +40,7 @@ class RenderFieldArray extends React.Component {
     alreadyExistText: PropTypes.string,
     floatingLabelText: PropTypes.string,
     validateFunction: PropTypes.func,
+    disabled: PropTypes.bool,
   }
 
   state = {
@@ -96,7 +97,6 @@ class RenderFieldArray extends React.Component {
       <Chip
         onRequestDelete={() => this.onRemoveField(index)}
         key={`groupname${member}`}
-        className="field-chip"
         onClick={this.onRemoveField}
         style={chip}
       >
@@ -106,8 +106,10 @@ class RenderFieldArray extends React.Component {
   }
 
   isAddIconDisabled = () => {
-    const { fieldText, fieldInError, fieldAlreadyExist } = this.state
-    return !!(isEmpty(fieldText) || fieldInError || fieldAlreadyExist)
+    const {
+      fieldText, fieldInError, fieldAlreadyExist, disabled,
+    } = this.state
+    return !!(isEmpty(fieldText) || fieldInError || fieldAlreadyExist || disabled)
   }
 
   getTextFieldProps = () => {
@@ -140,7 +142,9 @@ class RenderFieldArray extends React.Component {
   }
 
   render() {
-    const { fields, title, floatingLabelText } = this.props
+    const {
+      fields, title, floatingLabelText, disabled,
+    } = this.props
     const { fieldText } = this.state
     const {
       moduleTheme: {
@@ -163,6 +167,7 @@ class RenderFieldArray extends React.Component {
             errorText={textFieldProps.messageText}
             errorStyle={textFieldProps.messageStyle}
             floatingLabelFocusStyle={textFieldProps.messageStyle}
+            disabled={disabled}
           />
           <IconButton onClick={this.onAddField} disabled={this.isAddIconDisabled()}>
             <AddIcon />
