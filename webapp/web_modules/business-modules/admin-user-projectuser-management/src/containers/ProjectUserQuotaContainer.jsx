@@ -18,7 +18,8 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
-import { AccessShapes, UIShapes } from '@regardsoss/shape'
+import get from 'lodash/get'
+import { UIShapes } from '@regardsoss/shape'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import { projectUserSignalSelectors } from '../clients/ProjectUserSignalClient'
@@ -34,7 +35,11 @@ export class ProjectUserQuotaContainer extends React.Component {
     csvLink: PropTypes.string.isRequired,
     onRefresh: PropTypes.func.isRequired,
     // from mapStateToProps
-    allAccounts: AccessShapes.ProjectUserList.isRequired,
+    pageMeta: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
     isFetchingViewData: PropTypes.bool.isRequired,
     isFetchingActions: PropTypes.bool.isRequired,
     uiSettings: UIShapes.UISettings.isRequired,
@@ -52,7 +57,7 @@ export class ProjectUserQuotaContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      allAccounts: projectUserSelectors.getList(state) || {},
+      pageMeta: projectUserSelectors.getMetaData(state),
       isFetchingViewData: projectUserSelectors.isFetching(state),
       isFetchingActions: projectUserSignalSelectors.isFetching(state)
         || uiSettingsSelectors.isFetching(state),
@@ -134,7 +139,7 @@ export class ProjectUserQuotaContainer extends React.Component {
 
   renderListComp = (filterSortingAndVisibilityProps) => {
     const {
-      csvLink, onRefresh, allAccounts,
+      csvLink, onRefresh, pageMeta,
       isFetchingViewData, isFetchingActions, uiSettings,
     } = this.props
     const { isFetching } = this.state
@@ -143,7 +148,7 @@ export class ProjectUserQuotaContainer extends React.Component {
         {...filterSortingAndVisibilityProps}
         csvLink={csvLink}
         onRefresh={onRefresh}
-        allAccounts={allAccounts}
+        totalElements={get(pageMeta, 'totalElements', 0)}
         isLoading={isFetchingViewData || isFetchingActions || isFetching}
         onEdit={this.onEdit}
         uiSettings={uiSettings}

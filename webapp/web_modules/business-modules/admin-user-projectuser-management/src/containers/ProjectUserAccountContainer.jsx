@@ -18,13 +18,15 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
-import { AccessShapes, CommonShapes } from '@regardsoss/shape'
+import get from 'lodash/get'
+import { AdminShapes, CommonShapes } from '@regardsoss/shape'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import { projectUserSignalActions, projectUserSignalSelectors } from '../clients/ProjectUserSignalClient'
 import { projectUserEmailConfirmationSignalActions } from '../clients/ProjectUserEmailConfirmationClient'
 import { originActions, originSelectors } from '../clients/OriginsClient'
+import { roleActions, roleSelectors } from '../clients/RoleClient'
 import ProjectUserAccountComponent from '../components/list/ProjectUserAccountComponent'
 
 /**
@@ -36,10 +38,15 @@ export class ProjectUserAccountContainer extends React.Component {
     csvLink: PropTypes.string.isRequired,
     onRefresh: PropTypes.func.isRequired,
     // from mapStateToProps
-    allAccounts: AccessShapes.ProjectUserList.isRequired,
+    pageMeta: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
     origins: CommonShapes.ServiceProviderList.isRequired,
     isFetchingViewData: PropTypes.bool.isRequired,
     isFetchingActions: PropTypes.bool.isRequired,
+    roleList: AdminShapes.RoleList.isRequired,
     // from mapDispatchToProps
     onDeleteAccount: PropTypes.func.isRequired,
     onValidateProjectUser: PropTypes.func.isRequired,
@@ -49,6 +56,7 @@ export class ProjectUserAccountContainer extends React.Component {
     onEnableProjectUser: PropTypes.func.isRequired,
     fetchOrigins: PropTypes.func.isRequired,
     throwError: PropTypes.func.isRequired,
+    fetchRoleList: PropTypes.func.isRequired,
   }
 
   /**
@@ -59,10 +67,11 @@ export class ProjectUserAccountContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      allAccounts: projectUserSelectors.getList(state) || {},
+      pageMeta: projectUserSelectors.getMetaData(state),
       origins: originSelectors.getList(state),
       isFetchingViewData: projectUserSelectors.isFetching(state),
       isFetchingActions: projectUserSignalSelectors.isFetching(state),
+      roleList: roleSelectors.getList(state),
     }
   }
 
@@ -82,16 +91,22 @@ export class ProjectUserAccountContainer extends React.Component {
       onEnableProjectUser: (userId) => dispatch(projectUserSignalActions.sendActive(userId)),
       fetchOrigins: () => dispatch(originActions.fetchPagedEntityList()),
       throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
+      fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
     }
   }
 
   state = { isFetching: false }
 
   UNSAFE_componentWillMount() {
-    const { throwError, fetchOrigins } = this.props
+    const { throwError, fetchOrigins, fetchRoleList } = this.props
     Promise.resolve(fetchOrigins()).then((actionResult) => {
       if (actionResult.error) {
         throwError('Unable to retrieve account\'s origins list')
+      }
+    })
+    Promise.resolve(fetchRoleList()).then((actionResult) => {
+      if (actionResult.error) {
+        throwError('Unable to retrieve role list')
       }
     })
   }
@@ -162,8 +177,9 @@ export class ProjectUserAccountContainer extends React.Component {
 
   renderListComp = (filterSortingAndVisibilityProps) => {
     const {
-      csvLink, onRefresh, allAccounts, origins,
+      csvLink, onRefresh, pageMeta, origins,
       isFetchingViewData, isFetchingActions,
+      roleList,
     } = this.props
     const { isFetching } = this.state
     return (
@@ -171,10 +187,11 @@ export class ProjectUserAccountContainer extends React.Component {
         {...filterSortingAndVisibilityProps}
         csvLink={csvLink}
         onRefresh={onRefresh}
-        allAccounts={allAccounts}
+        totalElements={get(pageMeta, 'totalElements', 0)}
         origins={origins}
         isLoading={isFetchingViewData || isFetchingActions || isFetching}
         onEdit={this.onEdit}
+        roleList={roleList}
       />
     )
   }

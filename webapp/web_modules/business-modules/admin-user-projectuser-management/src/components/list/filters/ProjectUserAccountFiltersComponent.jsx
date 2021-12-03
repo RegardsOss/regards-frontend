@@ -17,13 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import find from 'lodash/find'
 import ClearFilter from 'mdi-material-ui/Backspace'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import IconButton from 'material-ui/IconButton'
 import { MenuItem } from 'material-ui/IconMenu'
 import { AdminDomain } from '@regardsoss/domain'
-import { CommonShapes } from '@regardsoss/shape'
+import { CommonShapes, AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -37,6 +38,7 @@ import ACCOUNT_FILTERS from '../../../domain/AccountFilters'
 class ProjectUserAccountFiltersComponent extends React.Component {
   static propTypes = {
     origins: CommonShapes.ServiceProviderList.isRequired,
+    roleList: AdminShapes.RoleList.isRequired,
 
     // table sorting, column visiblity & filters management
     filters: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
@@ -51,9 +53,20 @@ class ProjectUserAccountFiltersComponent extends React.Component {
 
   getDateValue = (filterValue) => filterValue ? new Date(filterValue) : null
 
+  getRolePrimaryText = (role) => {
+    const { intl: { formatMessage } } = this.context
+    let roleName = role.content.name
+    const defaultRoleFound = find(AdminDomain.DEFAULT_ROLES_ENUM, (defaultRole) => defaultRole === roleName)
+    if (defaultRoleFound) {
+      roleName = formatMessage({ id: `projectUser.list.table.role.label.${roleName}` })
+    }
+    return roleName
+  }
+
   render() {
     const {
       origins, updateFilter, clearFilters, filters,
+      roleList,
     } = this.props
     const {
       intl: { formatMessage, locale }, moduleTheme: {
@@ -163,8 +176,8 @@ class ProjectUserAccountFiltersComponent extends React.Component {
                 onChange={(event, index, value) => updateFilter(value, ACCOUNT_FILTERS.ROLE)}
               >
                 <MenuItem key="any.option" value={undefined} primaryText={formatMessage({ id: 'projectUser.list.table.role.label.any' })} />
-                {map(AdminDomain.DEFAULT_ROLES_ENUM, (role) => (
-                  <MenuItem key={role} value={role} primaryText={formatMessage({ id: `projectUser.list.table.role.label.${role}` })} />
+                {map(roleList, (role) => (
+                  <MenuItem key={role.content.name} value={role.content.name} primaryText={this.getRolePrimaryText(role)} />
                 ))}
               </SelectField>
             </TableHeaderOptionGroup>

@@ -40,10 +40,11 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user project account list compo
   it('should render correctly', () => {
     const props = {
       csvLink: '',
-      allAccounts: {},
       origins: {},
       pageSize: 20,
       isLoading: false,
+      totalElements: 20,
+      roleList: {},
       onEdit: () => { },
       onDeleteAccount: () => { },
       onValidate: () => { },
