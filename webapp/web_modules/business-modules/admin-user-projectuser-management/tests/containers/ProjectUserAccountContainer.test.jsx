@@ -38,10 +38,10 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user account container', () => 
       csvLink: '',
       onRefresh: () => { },
       // from mapStateToProps
-      allAccounts: {},
       origins: {},
       isFetchingViewData: false,
       isFetchingActions: false,
+      roleList: {},
       // from mapDispatchToProps
       onDeleteAccount: () => { },
       onValidateProjectUser: () => { },
@@ -51,6 +51,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user account container', () => 
       onEnableProjectUser: () => { },
       fetchOrigins: () => { },
       throwError: () => { },
+      fetchRoleList: () => { },
     }
 
     const enzymeWrapper = shallow(<ProjectUserAccountContainer {...props} />)

@@ -16,12 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import find from 'lodash/find'
+import { AdminDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Display fragment name for an attribute model
  * @author Sébastien Binda
+ * @author Théo Lasserre
  */
 class RoleRenderer extends React.Component {
   static propTypes = {
@@ -34,11 +37,13 @@ class RoleRenderer extends React.Component {
 
   render = () => {
     const { entity } = this.props
-    const formatted = this.context.intl.formatMessage({ id: `projectUser.list.table.role.label.${entity.content.role.name}` })
-    if (formatted !== `projectUser.list.table.role.label.${entity.content.role.name}`) {
-      return formatted
+    const { intl: { formatMessage } } = this.context
+    let roleName = entity.content.role.name
+    const defaultRoleFound = find(AdminDomain.DEFAULT_ROLES_ENUM, (defaultRole) => defaultRole === roleName)
+    if (defaultRoleFound) {
+      roleName = formatMessage({ id: `projectUser.list.table.role.label.${roleName}` })
     }
-    return entity.content.role.name
+    return roleName
   }
 }
 export default RoleRenderer

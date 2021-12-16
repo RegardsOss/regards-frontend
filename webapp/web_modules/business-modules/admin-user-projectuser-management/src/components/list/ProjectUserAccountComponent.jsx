@@ -17,10 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import size from 'lodash/size'
 import isEqual from 'lodash/isEqual'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
-import { AccessShapes, CommonShapes } from '@regardsoss/shape'
+import { AdminShapes, CommonShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -54,7 +53,7 @@ export class ProjectUserAccountComponent extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     csvLink: PropTypes.string.isRequired,
-    allAccounts: AccessShapes.ProjectUserList.isRequired,
+    totalElements: PropTypes.number.isRequired,
     origins: CommonShapes.ServiceProviderList.isRequired,
     pageSize: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -65,6 +64,7 @@ export class ProjectUserAccountComponent extends React.Component {
     onDisable: PropTypes.func.isRequired,
     onEnable: PropTypes.func.isRequired,
     onSendEmailConfirmation: PropTypes.func.isRequired,
+    roleList: AdminShapes.RoleList.isRequired,
 
     // table sorting, column visiblity & filters management
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
@@ -226,10 +226,11 @@ export class ProjectUserAccountComponent extends React.Component {
 
   render() {
     const {
-      onEdit, onDisable, pageSize, origins, allAccounts, onRefresh,
+      onEdit, onDisable, pageSize, origins, totalElements, onRefresh,
       onValidate, onDeny, isLoading, onEnable,
       getColumnSortingData, filters, requestParameters, columnsVisibility,
       onSort, updateFilter, clearFilters, onChangeColumnsVisibility,
+      roleList,
     } = this.props
     const { csvLink } = this.state
     const { intl: { formatMessage }, muiTheme } = this.context
@@ -326,12 +327,13 @@ export class ProjectUserAccountComponent extends React.Component {
             filters={filters}
             updateFilter={updateFilter}
             clearFilters={clearFilters}
+            roleList={roleList}
           />
         </TableHeaderLine>
         <TableHeaderLine>
           {/* 1 - accounts count */}
           <TableHeaderContentBox>
-            {formatMessage({ id: 'projectUser.list.info.nb.accounts' }, { value: size(allAccounts) || 0 })}
+            {formatMessage({ id: 'projectUser.list.info.nb.accounts' }, { value: totalElements })}
           </TableHeaderContentBox>
           {/* 2 - loading */}
           <TableHeaderLoadingComponent loading={isLoading} />

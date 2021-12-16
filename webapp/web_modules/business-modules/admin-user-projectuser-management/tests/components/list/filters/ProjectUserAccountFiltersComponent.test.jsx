@@ -39,6 +39,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user account filters component'
   it('should render correctly', () => {
     const props = {
       origins: {},
+      roleList: {},
 
       // table sorting, column visiblity & filters management
       filters: {},

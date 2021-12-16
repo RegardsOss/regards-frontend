@@ -38,7 +38,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user quota container', () => {
       csvLink: '',
       onRefresh: () => { },
       // from mapStateToProps
-      allAccounts: {},
       isFetchingViewData: false,
       isFetchingActions: false,
       uiSettings: {

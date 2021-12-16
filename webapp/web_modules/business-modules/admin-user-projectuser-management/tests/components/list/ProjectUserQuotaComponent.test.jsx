@@ -40,7 +40,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user quota list compone
   it('should render correctly', () => {
     const props = {
       csvLink: '',
-      allAccounts: {},
+      totalElements: 50,
       pageSize: 20,
       isLoading: false,
       onEdit: () => { },

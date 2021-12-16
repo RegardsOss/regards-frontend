@@ -17,10 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import size from 'lodash/size'
 import isEqual from 'lodash/isEqual'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
-import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -44,7 +43,7 @@ export class ProjectUserAccessRightComponent extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     csvLink: PropTypes.string.isRequired,
-    allAccounts: AccessShapes.ProjectUserList.isRequired,
+    totalElements: PropTypes.number.isRequired,
     pageSize: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
     onEdit: PropTypes.func.isRequired,
@@ -161,7 +160,7 @@ export class ProjectUserAccessRightComponent extends React.Component {
 
   render() {
     const {
-      onEdit, pageSize, allAccounts, onRefresh, isLoading, groups,
+      onEdit, pageSize, totalElements, onRefresh, isLoading, groups,
       getColumnSortingData, filters, requestParameters, columnsVisibility,
       onSort, updateFilter, clearFilters, onChangeColumnsVisibility,
     } = this.props
@@ -242,7 +241,7 @@ export class ProjectUserAccessRightComponent extends React.Component {
         <TableHeaderLine>
           {/* 1 - accounts count */}
           <TableHeaderContentBox>
-            {formatMessage({ id: 'projectUser.list.info.nb.accounts' }, { value: size(allAccounts) || 0 })}
+            {formatMessage({ id: 'projectUser.list.info.nb.accounts' }, { value: totalElements })}
           </TableHeaderContentBox>
           {/* 2 - loading */}
           <TableHeaderLoadingComponent loading={isLoading} />

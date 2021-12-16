@@ -40,7 +40,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user access right compo
   it('should render correctly', () => {
     const props = {
       csvLink: '',
-      allAccounts: {},
+      totalElements: 100,
       pageSize: 20,
       isLoading: false,
       onEdit: () => { },
