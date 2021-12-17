@@ -163,7 +163,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     // description tab
     const descriptionTab = tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
     assert.deepEqual(descriptionTab, {
-      unresolvedTreeEntry: null,
+      unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS },
       unresolvedRootEntityId: null,
       descriptionPath: [],
       selectedIndex: 0,
@@ -456,9 +456,13 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       authentication: {},
       fetchEntity: (id) => new Promise((resolve) => resolve({ payload: allEntities.find((e) => e.content.id === id) })),
       updateResultsContext: (moduleId, resultsContext) => {
-        assert.equal(moduleId, props.moduleId, 'Update should be performed on right module ID')
-        doExpect(spiedRestore.initialContext, spiedRestore.restoredContext, resultsContext)
-        done()
+        try {
+          assert.equal(moduleId, props.moduleId, 'Update should be performed on right module ID')
+          doExpect(spiedRestore.initialContext, spiedRestore.restoredContext, resultsContext)
+          done()
+        } catch (error) {
+          done(error)
+        }
       },
     }
 

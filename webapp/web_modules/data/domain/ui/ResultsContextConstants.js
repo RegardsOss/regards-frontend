@@ -22,6 +22,7 @@ import { MAP_VIEW_MODES_ENUM } from './MapViewModesEnum'
 import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
 import { RESULTS_TABS_ENUM } from './ResultsTabs'
 import { MAP_ENGINE_ENUM } from './MapEngineEnum'
+import { DESCRIPTION_BROWSING_SECTIONS_ENUM } from './DescriptionBrowsingSections'
 
 /**
  * Holds constants and accessors related to results context
@@ -114,7 +115,9 @@ const DEFAULT_RESULTS_CONTEXT = {
       },
     },
     [RESULTS_TABS_ENUM.DESCRIPTION]: {
-      unresolvedTreeEntry: null,
+      unresolvedTreeEntry: {
+        section: DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
+      },
       unresolvedRootEntityId: null,
       descriptionPath: [],
       selectedIndex: 0,
