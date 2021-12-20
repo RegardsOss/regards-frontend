@@ -209,8 +209,12 @@ export class RequestManagerComponent extends React.Component {
   }
 
   onFiltersUpdated = (featureManagerFilters) => {
+    const { contextRequestParameters } = this.state
     this.setState({
-      contextRequestParameters: RequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters }),
+      contextRequestParameters: {
+        ...contextRequestParameters,
+        ...RequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters }),
+      },
     })
   }
 

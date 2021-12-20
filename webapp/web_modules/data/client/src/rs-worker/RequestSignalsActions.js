@@ -32,11 +32,11 @@ export default class RequestSignalsActions extends BasicSignalsActions {
   constructor(namespace) {
     super({
       [RequestSignalsActions.DELETE]: {
-        entityEndpoint: `${RequestSignalsActions.ROOT_ENDPOINT}/delete`,
+        entityEndpoint: `${RequestSignalsActions.ROOT_ENDPOINT}/requests/delete`,
         namespace: `${namespace}/${RequestSignalsActions.DELETE}`,
       },
       [RequestSignalsActions.RETRY]: {
-        entityEndpoint: `${RequestSignalsActions.ROOT_ENDPOINT}/retry`,
+        entityEndpoint: `${RequestSignalsActions.ROOT_ENDPOINT}/requests/retry`,
         namespace: `${namespace}/${RequestSignalsActions.RETRY}`,
       },
     })

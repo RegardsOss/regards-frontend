@@ -16,25 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import keys from 'lodash/keys'
-import find from 'lodash/find'
+import every from 'lodash/every'
 import map from 'lodash/map'
-import isEqual from 'lodash/isEqual'
+import keys from 'lodash/keys'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { CommonShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { settingsActions, settingsSelectors } from '../clients/SettingsClient'
 import SettingsComponent from '../components/SettingsComponent'
-import {
-  settingsActions, settingsSelectors,
-} from '../clients/SettingsClient'
 import messages from '../i18n'
 import styles from '../styles'
 
 /**
- * SettingsContainer
  * @author Théo Lasserre
  */
 export class SettingsContainer extends React.Component {
@@ -42,19 +38,18 @@ export class SettingsContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
-    }),
+    }).isRequired,
     // from mapStateToProps
-    // eslint-disable-next-line react/no-unused-prop-types
     settings: CommonShapes.SettingsList,
     hasErrorSettings: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchSettings: PropTypes.func.isRequired,
-    updateSettings: PropTypes.func.isRequired,
+    updateSetting: PropTypes.func.isRequired,
     flushSettings: PropTypes.func.isRequired,
   }
 
   /**
-   * Redux: forEach state to props function
+   * Redux: map state to props function
    * @param {*} state: current redux state
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
@@ -67,7 +62,7 @@ export class SettingsContainer extends React.Component {
   }
 
   /**
-   * Redux: forEach dispatch to props function
+   * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
@@ -75,53 +70,34 @@ export class SettingsContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetchSettings: () => dispatch(settingsActions.fetchEntityList()),
-      updateSettings: (settingName, settingValue) => dispatch(settingsActions.updateEntity(settingName, settingValue)),
+      updateSetting: (settingName, settingValue) => dispatch(settingsActions.updateEntity(settingName, settingValue)),
       flushSettings: () => dispatch(settingsActions.flush()),
     }
   }
 
   state = {
-    settings: null,
-    isFetchingSettings: true,
+    isFetching: true,
   }
 
   /**
    * Lifecycle method component did mount, used here to start loading server data
    */
   componentDidMount() {
-    this.props.fetchSettings().then((actionResult) => {
-      if (!actionResult.error) {
-        this.setState({
-          isFetchingSettings: false,
-        })
-      }
-    })
+    const tasks = []
+    tasks.push(this.props.fetchSettings())
+    Promise.all(tasks)
+      .then((actionResults) => {
+        if (every(actionResults, (actionResult) => !actionResult.error)) {
+          this.setState({
+            isFetching: false,
+          })
+        }
+      })
   }
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   componentWillUnmount = () => {
     const { flushSettings } = this.props
     flushSettings()
-  }
-
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const {
-      settings,
-    } = newProps
-
-    const oldState = this.state || {}
-    const newState = { ...oldState }
-    if (!isEqual(oldProps.settings, settings)) {
-      newState.settings = settings
-    }
-    if (!isEqual(oldState, newState)) {
-      this.setState(newState)
-    }
   }
 
   /**
@@ -137,28 +113,25 @@ export class SettingsContainer extends React.Component {
    * @param {*} values edited settrings values
    */
   onSubmit = (values) => {
-    const { updateSettings } = this.props
-    const tasks = map(keys(values), (key) => updateSettings(key, values[key]))
+    const { updateSetting } = this.props
+    const tasks = map(keys(values), (key) => updateSetting(key, values[key]))
     Promise.all(tasks)
       .then((actionResults) => {
-        if (!find(actionResults, (actionResult) => actionResult.error)) {
+        if (every(actionResults, (actionResult) => !actionResult.error)) {
           this.onBack()
         }
       })
   }
 
   render() {
-    const { hasErrorSettings } = this.props
-    const {
-      settings, isFetchingSettings,
-    } = this.state
+    const { settings, hasErrorSettings } = this.props
+    const { isFetching } = this.state
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={styles}>
           <LoadableContentDisplayDecorator
-            isLoading={isFetchingSettings}
+            isLoading={isFetching}
             isContentError={hasErrorSettings}
-            isEmpty={!settings}
           >
             <SettingsComponent
               settings={settings}

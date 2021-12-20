@@ -80,11 +80,6 @@ export class ReferencesManagerContainer extends React.Component {
     notifyReferences: (referenceIds) => dispatch(referenceNotifyActions.sendSignal('POST', referenceIds)),
   })
 
-  // Ce traitement est acyncrhone, il sera effectif après un certain délai. Une fois effectué ce traitement cré des requetes suppression que vous suivre dans l'onglet Suppression.
-  // BNotify : Voulez vous .. vers tous les destinataires configurés. Ces destinataires sont configuré sur le service rs notifier dont vous pouvez récupérer la configuration depuis la fonction Microservice de cet IHM.
-  // extraite le PAGE SIZE dans le static onfiguration
-  // tempo sur reecheche de filtre. attendre que l'utilisateur ai finit de taper
-
   onRefresh = (columnsSorting, contextRequestParameters) => {
     const {
       meta, clearSelection, fetchReferences, featureManagerFilters,
@@ -93,7 +88,7 @@ export class ReferencesManagerContainer extends React.Component {
     const lastPage = (meta && meta.number) || 0
     const fetchPageSize = (ReferencesManagerContainer.PAGE_SIZE) * (lastPage + 1)
     clearSelection()
-    fetchReferences(0, fetchPageSize, {}, { columnsSorting, ...featureManagerFilters }, { ...contextRequestParameters })
+    fetchReferences(0, fetchPageSize, {}, { ...contextRequestParameters, ...featureManagerFilters })
   }
 
   render() {

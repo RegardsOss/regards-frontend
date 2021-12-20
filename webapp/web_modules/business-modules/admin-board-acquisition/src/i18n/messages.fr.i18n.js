@@ -59,6 +59,7 @@ const messages = {
   'data.board.datapreparation.title': 'Préparation des données',
   'data.board.datapreparation.description': 'Permet de visualiser le listing des requêtes enregistrées sur le WorkerManager et de suivre l\'état des requêtes en cours de traitement ou en erreur ainsi que relancer ou de supprimer les traitements en erreurs',
   'data.board.action.datapreparation.tooltip': 'Consulter les requêtes',
+  'data.board.action.datapreparation.settings.tooltip': 'Paramètres',
 }
 
 export default messages

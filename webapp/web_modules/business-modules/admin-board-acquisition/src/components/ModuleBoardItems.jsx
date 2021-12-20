@@ -193,6 +193,14 @@ const items = (projectName, intl, onResetIndex) => [
           ...dataPreparationManagementDependencies.listDependencies,
         ],
       },
+      {
+        path: `/admin/${projectName}/data/acquisition/datapreparation/settings`,
+        icon: <SettingsIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.datapreparation.settings.tooltip' }),
+        hateoasDependencies: [
+          ...dataPreparationManagementDependencies.settingsDependencies,
+        ],
+      },
     ],
   },
 ]

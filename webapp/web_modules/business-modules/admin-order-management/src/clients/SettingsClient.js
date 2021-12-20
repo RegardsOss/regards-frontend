@@ -29,5 +29,3 @@ const REDUX_ACTION_NAMESPACE = 'admin-order-management/settings'
 export const settingsActions = new OrderClient.SettingsActions(REDUX_ACTION_NAMESPACE)
 export const settingsReducer = OrderClient.getSettingsReducer(REDUX_ACTION_NAMESPACE)
 export const settingsSelectors = OrderClient.getSettingsSelectors(ENTITIES_STORE_PATH)
-
-export const updateSettingActions = new OrderClient.UpdateSettingActions('admin-order-management/settings-update')

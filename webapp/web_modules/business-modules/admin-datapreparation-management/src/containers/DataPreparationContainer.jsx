@@ -21,6 +21,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { WorkerShapes } from '@regardsoss/shape'
+import get from 'lodash/get'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { requestActions, requestSelectors } from '../clients/WorkerRequestClient'
 import { requestSignalsActions } from '../clients/WorkerRequestSignalsClient'
@@ -38,7 +39,6 @@ export class DataPreparationContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
-    numberOfRequests: PropTypes.number.isRequired,
     pageMeta: PropTypes.shape({
       number: PropTypes.number,
       size: PropTypes.number,
@@ -63,7 +63,6 @@ export class DataPreparationContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      numberOfRequests: requestSelectors.getSize(state),
       pageMeta: requestSelectors.getMetaData(state),
       tableSelection: tableSelectors.getToggledElementsAsList(state),
       selectionMode: tableSelectors.getSelectionMode(state),
@@ -123,13 +122,13 @@ export class DataPreparationContainer extends React.Component {
     this.setFetching(true)
     const onDone = () => { this.setFetching(false) }
     Promise.resolve(promise).then(() => Promise.resolve(
-      onRefresh(),
+      onRefresh(true),
     ).then(onDone).catch(onDone)).catch(onDone)
   }
 
   renderComponent = (filterSortingAndVisibilityProps) => {
     const {
-      numberOfRequests, tableSelection, selectionMode, areAllSelected,
+      pageMeta, tableSelection, selectionMode, areAllSelected,
     } = this.props
     const { isFetching } = this.state
     return (
@@ -138,7 +137,7 @@ export class DataPreparationContainer extends React.Component {
         onBack={this.onBack}
         isLoading={isFetching}
         pageSize={DataPreparationContainer.PAGE_SIZE}
-        numberOfRequests={numberOfRequests}
+        numberOfRequests={get(pageMeta, 'totalElements', 0)}
         tableSelection={tableSelection}
         selectionMode={selectionMode}
         areAllSelected={areAllSelected}

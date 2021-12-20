@@ -28,6 +28,7 @@ class SettingsActions extends BasicListActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/settings`,
+      entityPathVariable: 'name',
       schemaTypes: {
         ENTITY: SETTINGS,
         ENTITY_ARRAY: SETTINGS_ARRAY,

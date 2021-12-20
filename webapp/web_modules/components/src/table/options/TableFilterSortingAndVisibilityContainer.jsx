@@ -91,7 +91,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
   }
 
   static DEFAULT_VALUES_RESTRICTION_STATE = {
-    [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.includeSelected,
+    [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
     [CommonDomain.REQUEST_PARAMETERS.VALUES]: [],
   }
 
@@ -190,7 +190,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
           // Values Restriction filters type
           acc[filterKey] = {
             [CommonDomain.REQUEST_PARAMETERS.VALUES]: filterValue[CommonDomain.REQUEST_PARAMETERS.VALUES],
-            [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.includeSelected,
+            [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
           }
         }
       } else if (has(filterValue, CommonDomain.REQUEST_PARAMETERS.BEFORE)
@@ -269,7 +269,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
    * @param {*} filterElement
    * @param {*} mode
    */
-  updateValuesFilter = (value, filterElement, mode = TableSelectionModes.includeSelected) => {
+  updateValuesFilter = (value, filterElement, mode = TableSelectionModes.INCLUDE) => {
     const newFilterValue = {
       [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(value, ','),
       [CommonDomain.REQUEST_PARAMETERS.MODE]: mode,

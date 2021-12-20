@@ -32,7 +32,6 @@ import { ICON_TYPE_ENUM } from '../../domain/iconType'
 class WorkerActionsComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    selectedSession: AdminShapes.Session,
     sessionStep: AdminShapes.SessionStep,
     retryWorkerRequests: PropTypes.func.isRequired,
   }
@@ -47,20 +46,20 @@ class WorkerActionsComponent extends React.Component {
   }
 
   onSeeErrors = () => {
-    const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/datapreparation/requests?source=${encodeURIComponent(selectedSession.content.source)}&session=${encodeURIComponent(selectedSession.content.name)}&${WorkerDomain.REQUEST_FILTERS.STATUSES}=${WorkerDomain.REQUEST_STATUS_ENUM.ERROR}`)
+    const { project } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/datapreparation/requests?${WorkerDomain.REQUEST_FILTERS.STATUSES}=${WorkerDomain.REQUEST_STATUS_ENUM.ERROR}`)
   }
 
   onSeeWaiting = () => {
-    const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/datapreparation/requests?source=${encodeURIComponent(selectedSession.content.source)}&session=${encodeURIComponent(selectedSession.content.name)}&${WorkerDomain.REQUEST_FILTERS.STATUSES}=${WorkerDomain.REQUEST_STATUS_ENUM.NO_WORKER_AVAILABLE}`)
+    const { project } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/datapreparation/requests?${WorkerDomain.REQUEST_FILTERS.STATUSES}=${WorkerDomain.REQUEST_STATUS_ENUM.TO_DISPATCH}`)
   }
 
   onRetryErrors = () => {
     const { retryWorkerRequests } = this.props
     return retryWorkerRequests({
       [WorkerDomain.REQUEST_FILTERS.STATUSES]: {
-        [CommonDomain.REQUEST_PARAMETERS.VALUES]: [WorkerDomain.REQUEST_STATUS_ENUM.ERROR],
+        [CommonDomain.REQUEST_PARAMETERS.VALUES]: WorkerDomain.REQUEST_STATUS_ENUM.ERROR,
         [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
       },
     })

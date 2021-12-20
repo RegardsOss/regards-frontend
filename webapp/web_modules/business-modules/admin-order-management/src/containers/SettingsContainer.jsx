@@ -28,7 +28,7 @@ import { ModuleStyleProvider } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import SettingsComponent from '../components/SettingsComponent'
 import {
-  settingsActions, settingsSelectors, updateSettingActions,
+  settingsActions, settingsSelectors,
 } from '../clients/SettingsClient'
 import messages from '../i18n'
 import styles from '../styles'
@@ -75,7 +75,7 @@ export class SettingsContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetchSettings: () => dispatch(settingsActions.fetchEntityList()),
-      updateSettings: (settingName, settingValue) => dispatch(updateSettingActions.updateSetting(settingName, settingValue)),
+      updateSettings: (settingName, settingValue) => dispatch(settingsActions.updateEntity(settingName, settingValue)),
       flushSettings: () => dispatch(settingsActions.flush()),
     }
   }

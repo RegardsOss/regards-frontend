@@ -16,22 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
 /**
- * Update a setting
- */
-export default class UpdateSettingActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/settings/{name}`,
-      namespace,
-    })
-  }
+  * Worker settings state selectors
+  *
+  * @author Théo Lasserre
+  */
 
-  updateSetting = (settingName, settingValue) => this.sendSignal('PUT', {
-    ...settingValue,
-  }, {
-    name: settingName,
-  })
+/**
+  * Selectors instance builders
+  * @param {[string]} storePath path to access state in redux store
+  * @return selectors instance
+  */
+export default function getSettingsSelectors(storePath) {
+  return new BasicListSelectors(storePath)
 }

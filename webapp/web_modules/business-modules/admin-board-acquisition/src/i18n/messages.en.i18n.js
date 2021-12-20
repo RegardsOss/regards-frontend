@@ -59,6 +59,7 @@ const messages = {
   'data.board.datapreparation.title': 'Data Preparation',
   'data.board.datapreparation.description': 'Allows to view, monitor and manage list of recorded requests on WorkerManager microservice.',
   'data.board.action.datapreparation.tooltip': 'Show requests',
+  'data.board.action.datapreparation.settings.tooltip': 'Settings',
 }
 
 export default messages

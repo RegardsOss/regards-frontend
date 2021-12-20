@@ -21,9 +21,6 @@
  * @author Théo Lasserre
  */
 const featureManagementStyles = (theme) => ({
-  displayBlock: {
-    display: 'block',
-  },
   displayNone: {
     display: 'none',
   },

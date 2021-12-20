@@ -24,7 +24,7 @@ import { WorkerClient } from '@regardsoss/client'
  * @author Théo Lasserre
  */
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataPreparation', 'requests']
-const REDUX_ACTION_NAMESPACE = 'admin-feature-management/creation-requests'
+const REDUX_ACTION_NAMESPACE = 'admin-datapreparation-management/requests'
 
 export const requestActions = new WorkerClient.RequestActions(REDUX_ACTION_NAMESPACE)
 export const requestReducer = WorkerClient.getRequestReducers(REDUX_ACTION_NAMESPACE)

@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { WorkerDomain } from '@regardsoss/domain'
+import { SETTINGS } from '../../src/components/SettingsComponent'
 
 /**
   * @author Théo Lasserre
@@ -42,3 +43,14 @@ export const tableSelectionData = [{
     },
   ],
 }]
+
+export const settingsData = {
+  0: {
+    content: {
+      name: SETTINGS.SKIP_CONTENT_TYPES,
+      description: '',
+      value: ['contentType1', 'contentType2'],
+      defaultValue: [],
+    },
+  },
+}

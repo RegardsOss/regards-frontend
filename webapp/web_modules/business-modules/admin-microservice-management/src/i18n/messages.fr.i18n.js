@@ -34,6 +34,7 @@ const messages = {
   'microservice-management.rs-fem.description': 'Catalogue d\'entités GeoJSON avec gestion optionelle du stockage des fichiers',
   'microservice-management.rs-notifier.description': ' Service de notifiation destiné à la production',
   'microservice-management.rs-processing.description': 'Configuration du service de gestion des traitements',
+  'microservice-management.rs-worker-manager.description': 'Configuration du service de gestion des workers',
 
   'microservice-management.configuration.tooltip': 'Configurer',
   'microservice-management.plugins.tooltip': 'Plugins',

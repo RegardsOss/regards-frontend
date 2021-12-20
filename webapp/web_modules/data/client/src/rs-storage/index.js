@@ -36,4 +36,3 @@ export { default as StorageRequestStopActions } from './requests/StorageRequestS
 export { default as SettingsActions } from './settings/SettingsActions'
 export { default as getSettingsReducer } from './settings/SettingsReducer'
 export { default as getSettingsSelectors } from './settings/SettingsSelectors'
-export { default as UpdateSettingActions } from './settings/UpdateSettingActions'

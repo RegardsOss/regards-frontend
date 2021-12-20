@@ -28,6 +28,8 @@ const listDependencies = [
 ]
 
 const settingsDependencies = [
+  new WorkerClient.SettingsActions().getDependency(RequestVerbEnum.GET_LIST),
+  new WorkerClient.SettingsActions().getDependency(RequestVerbEnum.PUT),
 ]
 
 export default {

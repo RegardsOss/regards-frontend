@@ -23,4 +23,6 @@
 export default {
   includeSelected: 'include.selected',
   excludeSelected: 'exclude.selected',
+  INCLUDE: 'INCLUDE', // for backend communication
+  EXCLUDE: 'EXCLUDE', // for backend communication
 }

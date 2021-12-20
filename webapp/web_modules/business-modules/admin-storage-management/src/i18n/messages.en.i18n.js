@@ -117,6 +117,7 @@ const messages = {
   'storage.type.OFFLINE': 'Offline',
   'storage.type.NEARLINE': 'Nearline',
   'storage.type.CACHE': 'Cache',
+  'storage.type.NONE': 'None',
 
   'storage.settings.title': 'Storage settings',
   'storage.settings.subtitle': 'Configure settings',

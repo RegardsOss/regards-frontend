@@ -71,6 +71,16 @@ const messages = {
   'datapreparation.dialogs.errors.title': 'Erreurs',
   'datapreparation.dialogs.close': 'Fermer',
 
+  // Settings
+  'datapreparation.settings.card.title': 'Paramètres du worker manager',
+  'datapreparation.settings.card.subtitle': 'Gérer les paramètres de configuration du worker manager',
+  'datapreparation.settings.contentTypes.title': 'Liste des types de contenu à ignorer par le worker manager',
+  'datapreparation.settings.contentTypes.warn': 'Confirmer l\'ajout du type de contenu',
+  'datapreparation.settings.contentTypes.exist': 'Ce type de contenu existe déjà',
+  'datapreparation.settings.contentTypes.text': 'Entrez un type de contenu',
+  'datapreparation.settings.action.confirm': 'Confirmer',
+  'datapreparation.settings.action.cancel': 'Annuler',
+
   ...Locales.fr,
 }
 

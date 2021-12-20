@@ -22,3 +22,7 @@ export { default as getRequestReducers } from './RequestReducers'
 export { default as getRequestSelectors } from './RequestSelectors'
 
 export { default as RequestSignalsActions } from './RequestSignalsActions'
+
+export { default as SettingsActions } from './settings/SettingsActions'
+export { default as getSettingsReducer } from './settings/SettingsReducer'
+export { default as getSettingsSelectors } from './settings/SettingsSelectors'

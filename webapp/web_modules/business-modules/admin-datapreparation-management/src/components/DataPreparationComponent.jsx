@@ -166,7 +166,7 @@ class DataPreparationComponent extends React.Component {
     const payload = {
       [WorkerDomain.REQUEST_FILTERS.IDS]: {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: multiple ? map(entities, (e) => e.content.id) : [get(entities, 'content.id', '')],
-        [CommonDomain.REQUEST_PARAMETERS.MODE]: mode,
+        [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
       },
     }
     this.onCloseActionDialog(dialogRequestType)

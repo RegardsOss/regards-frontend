@@ -30,13 +30,9 @@ export const settingsActions = new DataManagementClient.SettingsActions(REDUX_AC
 export const settingsReducer = DataManagementClient.getSettingsReducer(REDUX_ACTION_NAMESPACE)
 export const settingsSelectors = DataManagementClient.getSettingsSelectors(ENTITIES_STORE_PATH)
 
-export const updateSettingActions = new DataManagementClient.UpdateSettingActions('admin-storage/settings-update')
-
 const STORAGE_ENTITIES_STORE_PATH = ['admin', 'acquisition', 'storage', 'settings-storage']
 const STORAGE_REDUX_ACTION_NAMESPACE = 'admin-storage/settings-storage'
 
 export const storageSettingsActions = new StorageClient.SettingsActions(STORAGE_REDUX_ACTION_NAMESPACE)
 export const storageSettingsReducer = StorageClient.getSettingsReducer(STORAGE_REDUX_ACTION_NAMESPACE)
 export const storageSettingsSelectors = StorageClient.getSettingsSelectors(STORAGE_ENTITIES_STORE_PATH)
-
-export const updateStorageSettingActions = new StorageClient.UpdateSettingActions('admin-storage/settings-storage-update')

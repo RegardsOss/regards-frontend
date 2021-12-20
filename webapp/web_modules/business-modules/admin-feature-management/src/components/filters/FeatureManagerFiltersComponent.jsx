@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import keys from 'lodash/keys'
+import map from 'lodash/map'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import isEqual from 'lodash/isEqual'
@@ -30,7 +32,7 @@ import {
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
 import { FILTER_PARAMS } from '../../domain/FilterParams'
-import { DISSEMINATION_PENDING } from '../../domain/DisseminationStatus'
+import { DISSEMINATION_PENDING_ENUM } from '../../domain/DisseminationStatus'
 
 /**
   * Feature manager filters component.
@@ -107,7 +109,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
         urlFilters.state = state
       }
       if (disseminationPending) {
-        urlFilters.disseminationPending = disseminationPending
+        urlFilters.disseminationPending = DISSEMINATION_PENDING_ENUM[disseminationPending]
       }
     }
     return urlFilters
@@ -242,7 +244,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
                   disabled={openedPane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES}
                 >
                   <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.dissemination.status.any' })} />
-                  {DISSEMINATION_PENDING.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `feature.requests.dissemination.status.${status}` })} />)}
+                  {map(keys(DISSEMINATION_PENDING_ENUM), (disseminationKey) => <MenuItem key={disseminationKey} value={DISSEMINATION_PENDING_ENUM[disseminationKey]} primaryText={formatMessage({ id: `feature.requests.dissemination.status.${disseminationKey}` })} />)}
                 </SelectField>
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>

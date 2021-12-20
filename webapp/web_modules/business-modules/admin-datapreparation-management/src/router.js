@@ -32,9 +32,22 @@ export const requestListRoute = {
   },
 }
 
+export const settingsRoute = {
+  path: 'settings',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/SettingsContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 const dataPreparationManagementRouter = {
   childRoutes: [
     requestListRoute,
+    settingsRoute,
   ],
 }
 

@@ -29,5 +29,3 @@ const REDUX_ACTION_NAMESPACE = 'admin-feature-management/settings'
 export const settingsActions = new FeatureManagementClient.SettingsActions(REDUX_ACTION_NAMESPACE)
 export const settingsReducer = FeatureManagementClient.getSettingsReducer(REDUX_ACTION_NAMESPACE)
 export const settingsSelectors = FeatureManagementClient.getSettingsSelectors(ENTITIES_STORE_PATH)
-
-export const updateSettingActions = new FeatureManagementClient.UpdateSettingActions('admin-feature-management/settings-update')

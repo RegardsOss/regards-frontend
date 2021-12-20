@@ -16,22 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { BasicListActions } from '@regardsoss/store-utils'
+import { SETTINGS, SETTINGS_ARRAY } from '@regardsoss/api'
 
 /**
- * Update a setting
+ * Worker settings actions.
+ *
+ * @author Théo Lasserre
  */
-export default class UpdateSettingActions extends BasicSignalActions {
+export default class SettingsActions extends BasicListActions {
+  /**
+   * Constructor
+   * @param {string} namespace  actions namespace
+   */
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/settings/{name}`,
       namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.WORKER_MANAGER}/settings`,
+      entityPathVariable: 'name',
+      schemaTypes: {
+        ENTITY: SETTINGS,
+        ENTITY_ARRAY: SETTINGS_ARRAY,
+      },
     })
   }
-
-  updateSetting = (settingName, settingValue) => this.sendSignal('PUT', {
-    ...settingValue,
-  }, {
-    name: settingName,
-  })
 }

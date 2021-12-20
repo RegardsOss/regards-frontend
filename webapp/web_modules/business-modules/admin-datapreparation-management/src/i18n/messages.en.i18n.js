@@ -71,6 +71,16 @@ const messages = {
   'datapreparation.dialogs.errors.title': 'Errors',
   'datapreparation.dialogs.close': 'Close',
 
+  // Settings
+  'datapreparation.settings.card.title': 'Worker manager settings',
+  'datapreparation.settings.card.subtitle': 'Manage configuration parameters of the worker manager',
+  'datapreparation.settings.contentTypes.title': 'Content types to ignore by the worker manager',
+  'datapreparation.settings.contentTypes.warn': 'Confirm to add content type',
+  'datapreparation.settings.contentTypes.exist': 'Already exists',
+  'datapreparation.settings.contentTypes.text': 'Insert a content type',
+  'datapreparation.settings.action.confirm': 'Confirm',
+  'datapreparation.settings.action.cancel': 'Cancel',
+
   ...Locales.en,
 }
 

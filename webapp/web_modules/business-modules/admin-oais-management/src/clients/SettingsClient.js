@@ -29,5 +29,3 @@ const REDUX_ACTION_NAMESPACE = 'admin-oais-management/settings'
 export const settingsActions = new IngestClient.SettingsActions(REDUX_ACTION_NAMESPACE)
 export const settingsReducer = IngestClient.getSettingsReducer(REDUX_ACTION_NAMESPACE)
 export const settingsSelectors = IngestClient.getSettingsSelectors(ENTITIES_STORE_PATH)
-
-export const updateSettingActions = new IngestClient.UpdateSettingActions('admin-oais-management/settings-update')

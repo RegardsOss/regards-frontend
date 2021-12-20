@@ -16,22 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { SettingsConfiguration } from '@regardsoss/api'
+import SettingsActions from './SettingsActions'
 
 /**
- * Update a setting
- */
-export default class UpdateSettingActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/settings/{name}`,
-      namespace,
-    })
-  }
+  * Worker settings reducer
+  *
+  * @author Théo Lasserre
+  */
 
-  updateSetting = (settingName, settingValue) => this.sendSignal('PUT', {
-    ...settingValue,
-  }, {
-    name: settingName,
-  })
+/**
+  * Builds reduce closure on actions namespace
+  * @param {*} namespace namespace
+  * @return {function} reduce function (state, action) => state
+  */
+export default function getSettingsReducer(namespace) {
+  const instance = new BasicListReducers(SettingsConfiguration, new SettingsActions(namespace))
+  return (state, action) => instance.reduce(state, action)
 }

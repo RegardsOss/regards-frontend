@@ -29,7 +29,7 @@ import { ModuleStyleProvider } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StorageSettingsComponent from '../components/StorageSettingsComponent'
 import {
-  settingsActions, settingsSelectors, updateSettingActions, storageSettingsActions, updateStorageSettingActions,
+  settingsActions, settingsSelectors, storageSettingsActions,
   storageSettingsSelectors,
 } from '../clients/StorageSettingsClient'
 import { storagesListActions, storagesListSelectors } from '../clients/StoragesListClient'
@@ -92,11 +92,11 @@ export class StorageSettingsContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetchSettings: () => dispatch(settingsActions.fetchEntityList()),
-      updateSettings: (settingName, settingValue) => dispatch(updateSettingActions.updateSetting(settingName, settingValue)),
+      updateSettings: (settingName, settingValue) => dispatch(settingsActions.updateEntity(settingName, settingValue)),
       getStorages: (microserviceName, pluginType) => dispatch(storagesListActions.getPluginConfigurationsByType(microserviceName, pluginType)),
       flushSettings: () => dispatch(settingsActions.flush()),
       fetchStorageSettings: () => dispatch(storageSettingsActions.fetchEntityList()),
-      updateStorageSettings: (settingName, settingValue) => dispatch(updateStorageSettingActions.updateSetting(settingName, settingValue)),
+      updateStorageSettings: (settingName, settingValue) => dispatch(storageSettingsActions.updateEntity(settingName, settingValue)),
       flushStorageSettings: () => dispatch(storageSettingsActions.flush()),
     }
   }

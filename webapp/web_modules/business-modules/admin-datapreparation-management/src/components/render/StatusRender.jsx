@@ -47,11 +47,11 @@ class StatusRender extends React.Component {
     return <div style={statusStyle}>
       <StringValueRender value={status} />
       {
-        status !== WorkerDomain.REQUEST_STATUS_ENUM.ERROR || isEmpty(error)
-          ? null
-          : <IconButton onClick={() => onViewRequestErrors(this.props.entity)}>
+        (status === WorkerDomain.REQUEST_STATUS_ENUM.ERROR || status === WorkerDomain.REQUEST_STATUS_ENUM.INVALID_CONTENT) && !isEmpty(error)
+          ? <IconButton onClick={() => onViewRequestErrors(this.props.entity)}>
             <AlertError />
           </IconButton>
+          : null
       }
     </div>
   }

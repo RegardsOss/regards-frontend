@@ -100,10 +100,15 @@ export class SwitchTables extends React.Component {
     deleteInfo: CommonShapes.PageInfo,
     notificationInfo: CommonShapes.PageInfo,
     //from mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
     fetchReferences: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     fetchCreationRequests: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     fetchDeleteRequests: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     fetchNotificationRequests: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     fetchUpdateRequests: PropTypes.func.isRequired,
   }
 
@@ -131,10 +136,10 @@ export class SwitchTables extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
       fetchReferences, fetchCreationRequests, fetchDeleteRequests, fetchNotificationRequests, fetchUpdateRequests,
-      featureManagerFilters,
-    } = this.props
+      featureManagerFilters, openedPane,
+    } = newProps
 
-    if (oldProps.featureManagerFilters !== newProps.featureManagerFilters) {
+    if (oldProps.featureManagerFilters !== featureManagerFilters && openedPane !== oldProps.openedPane) {
       fetchReferences(0, SwitchTables.PAGE_SIZE, {}, featureManagerFilters)
       fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, featureManagerFilters)
       fetchDeleteRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, featureManagerFilters)

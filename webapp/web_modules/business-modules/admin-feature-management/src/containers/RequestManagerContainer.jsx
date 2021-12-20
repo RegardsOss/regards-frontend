@@ -85,7 +85,7 @@ export class RequestManagerContainer extends React.Component {
     const lastPage = (meta && meta.number) || 0
     const fetchPageSize = (RequestManagerContainer.PAGE_SIZE) * (lastPage + 1)
     clearSelection()
-    fetchRequests(0, fetchPageSize, { type: paneType }, { columnsSorting, ...featureManagerFilters }, { ...contextRequestParameters })
+    fetchRequests(0, fetchPageSize, { type: paneType }, { ...contextRequestParameters, ...featureManagerFilters })
   }
 
   render() {

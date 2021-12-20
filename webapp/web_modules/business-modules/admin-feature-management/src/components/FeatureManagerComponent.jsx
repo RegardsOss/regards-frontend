@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import includes from 'lodash/includes'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
@@ -118,7 +117,7 @@ class FeatureManagerComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage }, moduleTheme: { displayBlock, displayNone } } = this.context
+    const { intl: { formatMessage } } = this.context
     const { params } = this.props
     const {
       openedPane, featureManagerFilters,
@@ -141,29 +140,21 @@ class FeatureManagerComponent extends React.Component {
             openedPane={openedPane}
           />
           <div>
-            <div style={openedPane === FemDomain.REQUEST_TYPES_ENUM.REFERENCES ? displayBlock : displayNone}>
-              <ReferencesManagerContainer
-                key={`feature-manager-${openedPane}`}
-                featureManagerFilters={featureManagerFilters}
-                params={params}
-                paneType={openedPane}
-              />
-            </div>
             {
-              map(FemDomain.REQUEST_TYPES, (pane) => {
-                if (pane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES && pane === openedPane) {
-                  return (
-                    <div key={pane}>
-                      <RequestManagerContainer
-                        featureManagerFilters={featureManagerFilters}
-                        paneType={pane}
-                        clients={clientByPane[pane]}
-                      />
-                    </div>
-                  )
-                }
-                return null
-              })
+              openedPane === FemDomain.REQUEST_TYPES_ENUM.REFERENCES
+                ? (<ReferencesManagerContainer
+                    key={`feature-manager-${openedPane}`}
+                    featureManagerFilters={featureManagerFilters}
+                    params={params}
+                    paneType={openedPane}
+                />)
+                : (
+                  <RequestManagerContainer
+                    featureManagerFilters={featureManagerFilters}
+                    paneType={openedPane}
+                    clients={clientByPane[openedPane]}
+                  />
+                )
             }
           </div>
           <CardActions>

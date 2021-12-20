@@ -19,6 +19,7 @@
 import { combineReducers } from 'redux'
 import { requestReducer } from './clients/WorkerRequestClient'
 import { tableReducer } from './clients/TableClient'
+import { settingsReducer } from './clients/SettingsClient'
 
 /**
  * @author Théo Lasserre
@@ -26,6 +27,7 @@ import { tableReducer } from './clients/TableClient'
 const reducer = combineReducers({
   requests: requestReducer,
   requestsTable: tableReducer,
+  settings: settingsReducer,
 })
 
 export default reducer

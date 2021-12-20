@@ -54,6 +54,11 @@ const dataPreparationManagementStyles = (theme) => ({
       width: '100%',
     },
   },
+  settings: {
+    settingDiv: {
+      display: 'flex',
+    },
+  },
 })
 
 export default dataPreparationManagementStyles

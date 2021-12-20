@@ -187,8 +187,12 @@ export class ReferencesManagerComponent extends React.Component {
   }
 
   onFiltersUpdated = (featureManagerFilters) => {
+    const { contextRequestParameters } = this.state
     this.setState({
-      contextRequestParameters: ReferencesManagerComponent.buildContextRequestBody({ ...featureManagerFilters }),
+      contextRequestParameters: {
+        ...contextRequestParameters,
+        ...ReferencesManagerComponent.buildContextRequestBody({ ...featureManagerFilters }),
+      },
     })
   }
 

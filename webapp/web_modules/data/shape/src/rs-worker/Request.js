@@ -29,7 +29,7 @@ const RequestContent = PropTypes.shape({
   source: PropTypes.string.isRequired,
   session: PropTypes.string.isRequired,
   status: PropTypes.oneOf(WorkerDomain.REQUEST_STATUS),
-  dispatchedWorkerType: PropTypes.string.isRequired,
+  dispatchedWorkerType: PropTypes.string,
   error: PropTypes.string,
 })
 
