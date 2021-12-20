@@ -21,3 +21,4 @@
  * @author Théo Lasserre
  */
 export { REQUEST_STATUS_ENUM, REQUEST_STATUS } from './RequestStatus'
+export { REQUEST_FILTERS } from './RequestFilters'

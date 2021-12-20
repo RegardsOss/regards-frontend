@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,34 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
-import { browserHistory } from 'react-router'
+import size from 'lodash/size'
+import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
+import Running from 'mdi-material-ui/PlayCircleOutline'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { AdminShapes } from '@regardsoss/shape'
+import { ScrollArea } from '@regardsoss/adapters'
 import { CommonDomain } from '@regardsoss/domain'
-import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
-import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { STORAGE_FILES_PROPERTIES, STORAGE_REQUESTS_PROPERTIES } from '../domain/storageProperties'
-import DisplayIconsComponent from './DisplayIconsComponent'
 import DisplayPropertiesComponent from './DisplayPropertiesComponent'
-import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
-import { ICON_TYPE_ENUM } from '../domain/iconType'
+import StorageActionsComponent from './actions/StorageActionsComponent'
+import { STORAGE_FILES_PROPERTIES, STORAGE_REQUESTS_PROPERTIES } from '../domain/storageProperties'
 import { STEP_SUB_TYPES_ENUM } from '../domain/stepSubTypes'
+import { getNbInputs, getNbOutputs, isRunning } from '../domain/stepDisplayFunctions'
 
 const {
   displayNumber,
 } = CommonDomain.DisplayBigNumbers
 
 /**
- * ArchivalComponent
  * @author Théo Lasserre
  */
 class ArchivalComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    sessionStep: AdminShapes.SessionStep,
+    sessionSteps: PropTypes.arrayOf(AdminShapes.SessionStep),
     relaunchStorages: PropTypes.func.isRequired,
   }
 
@@ -52,130 +52,106 @@ class ArchivalComponent extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    isRetryErrorsDialogOpen: false,
-  }
-
-  onClick = () => {
-    const { project } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages`)
-  }
-
-  // Case Storage
-  displayStorage = () => {
+  buildStep = (sessionStep) => {
+    const {
+      project, relaunchStorages,
+    } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSessionStyle: {
-          raisedListStyle, cardContentStyle, cardButtonStyle, listItemDivStyle,
-          propertiesTitleStyle, propertiesDivStyle, propertiesTitleStyleAlt, propertiesDivStyleAlt,
+        stepStyle: {
+          cardContentStyle,
         },
       },
     } = this.context
-    const { sessionStep } = this.props
-    const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
-    return <div style={cardContentStyle}>
-      <div style={listItemDivStyle}>
-        <div style={propertiesTitleStyle}>
-          <div style={propertiesDivStyleAlt}>
-            {formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.properties.requests.title' })}
+    return (
+      <div style={cardContentStyle}>
+        <ScrollArea
+          vertical
+          horizontal={false}
+        >
+          <div>
+            <DisplayPropertiesComponent
+              title={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${STEP_SUB_TYPES_ENUM.STORAGE}.properties.input.title` })}
+              properties={STORAGE_FILES_PROPERTIES}
+              sessionStep={sessionStep}
+              stepSubType={STEP_SUB_TYPES_ENUM.STORAGE}
+            />
+            <DisplayPropertiesComponent
+              title={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${STEP_SUB_TYPES_ENUM.STORAGE}.properties.output.title` })}
+              properties={STORAGE_REQUESTS_PROPERTIES}
+              sessionStep={sessionStep}
+              stepSubType={STEP_SUB_TYPES_ENUM.STORAGE}
+            />
           </div>
-          <DisplayPropertiesComponent
-            properties={STORAGE_REQUESTS_PROPERTIES}
-            sessionStep={sessionStep}
-            stepSubType={STEP_SUB_TYPES_ENUM.STORAGE}
-          />
-        </div>
-        <div style={propertiesTitleStyleAlt}>
-          <div style={propertiesDivStyle}>
-            {formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.properties.files.title' })}
-          </div>
-          <DisplayPropertiesComponent
-            properties={STORAGE_FILES_PROPERTIES}
-            sessionStep={sessionStep}
-            stepSubType={STEP_SUB_TYPES_ENUM.STORAGE}
-          />
-        </div>
-      </div>
-      <div style={cardButtonStyle}>
-        <RaisedButton
-          onClick={this.onClick}
-          label={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.button.see-stockage' })}
-          primary
-          style={raisedListStyle}
+        </ScrollArea>
+        <StorageActionsComponent
+          project={project}
+          sessionStep={sessionStep}
+          relaunchStorages={relaunchStorages}
         />
       </div>
-      {
-        nbErrors !== 0
-          ? <RaisedButton
-              onClick={this.toggleRetryErrorsDialog}
-              label={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.button.retry-errors' })}
-              primary
-              style={raisedListStyle}
-          /> : null
-      }
-    </div>
-  }
-
-  toggleRetryErrorsDialog = () => {
-    const { isRetryErrorsDialogOpen } = this.state
-    this.setState({
-      isRetryErrorsDialogOpen: !isRetryErrorsDialogOpen,
-    })
-  }
-
-  renderRetryErrorsDialog = (type) => {
-    const { intl: { formatMessage } } = this.context
-    const { isRetryErrorsDialogOpen } = this.state
-    return (
-      <ConfirmDialogComponent
-        dialogType={ConfirmDialogComponentTypes.CONFIRM}
-        title={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.dialog.retry.title' })}
-        message={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.dialog.retry.message' })}
-        onConfirm={this.onRetryErrors}
-        onClose={this.toggleRetryErrorsDialog}
-        open={isRetryErrorsDialogOpen}
-      />
     )
   }
 
-  onRetryErrors = () => {
-    const { relaunchStorages, sessionStep } = this.props
-    return relaunchStorages(sessionStep.source, sessionStep.session)
+  buildStepTabs = () => {
+    const {
+      sessionSteps,
+    } = this.props
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        stepStyle: { tabStyle },
+      },
+    } = this.context
+    return (
+      <Tabs>
+        {map(sessionSteps, (sessionStep) => (
+          <Tab
+            key={sessionStep}
+            label={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${sessionStep.stepId}.title` })}
+            style={tabStyle}
+          >
+            {this.buildStep(sessionStep)}
+          </Tab>
+        ))}
+      </Tabs>
+    )
   }
 
   render() {
-    const { sessionStep } = this.props
+    const {
+      sessionSteps,
+    } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSessionStyle: {
-          cardStyle, cardTitleDivStyle, cardTitleTextStyle, cardTitleStyle, cardSubTitleTextStyle,
+        stepStyle: {
+          cardStyle, stepTitleTextStyle, cardTitleStyle,
+          runningIconStyle, cardTitleDivStyle, cardSubTitleTextStyle,
         },
       },
     } = this.context
-    const inputRelated = get(sessionStep, 'inputRelated', 0)
-    const outputRelated = get(sessionStep, 'outputRelated', 0)
-    const runnings = get(sessionStep, `state.${ICON_TYPE_ENUM.RUNNING}`, 0)
     return (
-      sessionStep
+      !isEmpty(sessionSteps)
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.title' })}
-              subtitle={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
-              titleStyle={cardTitleTextStyle}
-              subtitleStyle={cardSubTitleTextStyle}
+              title={formatMessage({ id: 'dashboard.selectedsession.STORAGE.title' })}
+              titleStyle={stepTitleTextStyle}
               style={cardTitleStyle}
+              subtitle={formatMessage({ id: 'dashboard.selectedsession.STORAGE.subtitle' }, { nbIn: displayNumber(getNbInputs(sessionSteps), 3), nbOut: displayNumber(getNbOutputs(sessionSteps), 3) })}
+              subtitleStyle={cardSubTitleTextStyle}
             />
-            { runnings !== 0
-              ? <DisplayIconsComponent
-                  entity={sessionStep}
-                  displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
-              />
-              : null }
+            {isRunning(sessionSteps)
+              ? <div>
+                <Running style={runningIconStyle} />
+              </div>
+              : null}
           </div>
           <CardText>
-            {this.displayStorage()}
-            {this.renderRetryErrorsDialog()}
+            {
+              size(sessionSteps) <= 1
+                ? this.buildStep(sessionSteps[0])
+                : this.buildStepTabs()
+            }
           </CardText>
         </Card> : null
     )

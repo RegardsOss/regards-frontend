@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,35 +16,39 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
+import size from 'lodash/size'
+import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
+import Running from 'mdi-material-ui/PlayCircleOutline'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { ScrollArea } from '@regardsoss/adapters'
 import { CommonDomain } from '@regardsoss/domain'
-import DisplayIconsComponent from './DisplayIconsComponent'
-import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
-import FeatureManagerStep from './steps/FeatureManagerStep'
-import IngestStep from './steps/IngestStep'
-import { ICON_TYPE_ENUM } from '../domain/iconType'
+import DisplayPropertiesComponent from './DisplayPropertiesComponent'
+import FEMActionsComponent from './actions/FEMActionsComponent'
+import IngestActionsComponent from './actions/IngestActionsComponent'
+import { REFERENCING_TYPE } from '../domain/referencingTypes'
+import { STEP_SUB_TYPES_ENUM } from '../domain/stepSubTypes'
+import {
+  INGEST_REQUESTS_PROPERTIES, INGEST_PRODUCTS_PROPERTIES,
+} from '../domain/ingestProperties'
+import { FEM_REQUESTS_PROPERTIES, FEM_PRODUCTS_PROPERTIES } from '../domain/femProperties'
+import { getNbInputs, getNbOutputs, isRunning } from '../domain/stepDisplayFunctions'
 
 const {
   displayNumber,
 } = CommonDomain.DisplayBigNumbers
 
-const REFERENCING_TYPE = {
-  FEATURE: 'feature',
-  OAIS: 'oais',
-}
-
 /**
- * ReferencingComponent
  * @author Théo Lasserre
  */
 class ReferencingComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    sessionStep: AdminShapes.SessionStep,
+    sessionSteps: PropTypes.arrayOf(AdminShapes.SessionStep),
     selectedSession: AdminShapes.Session,
     relaunchAIP: PropTypes.func.isRequired,
     retryFEMRequests: PropTypes.func.isRequired,
@@ -55,52 +59,118 @@ class ReferencingComponent extends React.Component {
     ...i18nContextType,
   }
 
-  render() {
+  getProperties = (stepId, femProperties, ingestProperties) => stepId === REFERENCING_TYPE.FEATURE ? femProperties : ingestProperties
+
+  getStepSubType = (stepId) => stepId === REFERENCING_TYPE.FEATURE ? STEP_SUB_TYPES_ENUM.FEATURE_MANAGER : STEP_SUB_TYPES_ENUM.INGEST
+
+  buildStep = (sessionStep) => {
     const {
-      sessionStep, project, selectedSession, retryFEMRequests, relaunchAIP,
+      project, selectedSession, retryFEMRequests, relaunchAIP,
     } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSessionStyle: {
-          cardStyle, cardTitleDivStyle, cardTitleTextStyle, cardTitleStyle, cardSubTitleTextStyle,
+        stepStyle: { cardContentStyle },
+      },
+    } = this.context
+    return (
+      <div style={cardContentStyle}>
+        <ScrollArea
+          vertical
+          horizontal={false}
+        >
+          <div>
+            <DisplayPropertiesComponent
+              title={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${this.getStepSubType(sessionStep.stepId)}.properties.input.title` })}
+              properties={this.getProperties(sessionStep.stepId, FEM_REQUESTS_PROPERTIES, INGEST_REQUESTS_PROPERTIES)}
+              sessionStep={sessionStep}
+              stepSubType={this.getStepSubType(sessionStep.stepId)}
+            />
+            <DisplayPropertiesComponent
+              title={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${this.getStepSubType(sessionStep.stepId)}.properties.output.title` })}
+              properties={this.getProperties(sessionStep.stepId, FEM_PRODUCTS_PROPERTIES, INGEST_PRODUCTS_PROPERTIES)}
+              sessionStep={sessionStep}
+              stepSubType={this.getStepSubType(sessionStep.stepId)}
+            />
+          </div>
+        </ScrollArea>
+        {
+          sessionStep.stepId === REFERENCING_TYPE.FEATURE
+            ? <FEMActionsComponent
+                project={project}
+                selectedSession={selectedSession}
+                sessionStep={sessionStep}
+                retryFEMRequests={retryFEMRequests}
+            />
+            : <IngestActionsComponent
+                project={project}
+                selectedSession={selectedSession}
+                sessionStep={sessionStep}
+                relaunchAIP={relaunchAIP}
+            />
+        }
+      </div>
+    )
+  }
+
+  buildStepTabs = () => {
+    const {
+      sessionSteps,
+    } = this.props
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        stepStyle: { tabStyle },
+      },
+    } = this.context
+    return (
+      <Tabs>
+        {map(sessionSteps, (sessionStep) => (
+          <Tab
+            key={sessionStep}
+            label={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${sessionStep.stepId}.title` })}
+            style={tabStyle}
+          >
+            {this.buildStep(sessionStep)}
+          </Tab>
+        ))}
+      </Tabs>
+    )
+  }
+
+  render() {
+    const {
+      sessionSteps,
+    } = this.props
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        stepStyle: {
+          cardStyle, stepTitleTextStyle, cardTitleStyle,
+          runningIconStyle, cardTitleDivStyle, cardSubTitleTextStyle,
         },
       },
     } = this.context
-    const inputRelated = get(sessionStep, 'inputRelated', 0)
-    const outputRelated = get(sessionStep, 'outputRelated', 0)
-    const runnings = get(sessionStep, `state.${ICON_TYPE_ENUM.RUNNING}`, 0)
     return (
-      sessionStep
+      !isEmpty(sessionSteps)
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
               title={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.title' })}
-              subtitle={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
-              titleStyle={cardTitleTextStyle}
-              subtitleStyle={cardSubTitleTextStyle}
+              titleStyle={stepTitleTextStyle}
               style={cardTitleStyle}
+              subtitle={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.subtitle' }, { nbIn: displayNumber(getNbInputs(sessionSteps), 3), nbOut: displayNumber(getNbOutputs(sessionSteps), 3) })}
+              subtitleStyle={cardSubTitleTextStyle}
             />
-            { runnings !== 0
-              ? <DisplayIconsComponent
-                  entity={sessionStep}
-                  displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
-              />
+            {isRunning(sessionSteps)
+              ? <div>
+                <Running style={runningIconStyle} />
+              </div>
               : null}
           </div>
           <CardText>
-            {sessionStep.stepId === REFERENCING_TYPE.FEATURE
-              ? <FeatureManagerStep
-                  project={project}
-                  sessionStep={sessionStep}
-                  selectedSession={selectedSession}
-                  retryRequests={retryFEMRequests}
-              />
-              : <IngestStep
-                  project={project}
-                  sessionStep={sessionStep}
-                  selectedSession={selectedSession}
-                  relaunchAIP={relaunchAIP}
-              />}
+            {
+              size(sessionSteps) <= 1
+                ? this.buildStep(sessionSteps[0])
+                : this.buildStepTabs()
+            }
           </CardText>
         </Card> : null
     )

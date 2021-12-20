@@ -35,8 +35,7 @@ import {
   TableFilterSortingAndVisibilityContainer,
   CardActionsComponent, TableSelectionModes,
 } from '@regardsoss/components'
-import { CommonDomain } from '@regardsoss/domain'
-import REQUEST_FILTERS from '../domain/requestFilters'
+import { CommonDomain, WorkerDomain } from '@regardsoss/domain'
 import DIALOG_TYPES from '../domain/dialogTypes'
 import DeleteRequestComponent from './options/DeleteRequestComponent'
 import RetryRequestComponent from './options/RetryRequestComponent'
@@ -82,12 +81,12 @@ class DataPreparationComponent extends React.Component {
   }
 
   static DEFAULT_FILTERS_STATE = {
-    [REQUEST_FILTERS.SOURCE]: '',
-    [REQUEST_FILTERS.SESSION]: '',
-    [REQUEST_FILTERS.WORKER_TYPE]: '',
-    [REQUEST_FILTERS.CONTENT_TYPES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [REQUEST_FILTERS.STATUSES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [REQUEST_FILTERS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
+    [WorkerDomain.REQUEST_FILTERS.SOURCE]: '',
+    [WorkerDomain.REQUEST_FILTERS.SESSION]: '',
+    [WorkerDomain.REQUEST_FILTERS.WORKER_TYPE]: '',
+    [WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [WorkerDomain.REQUEST_FILTERS.STATUSES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [WorkerDomain.REQUEST_FILTERS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
   }
 
   static COLUMN_KEYS = {
@@ -165,7 +164,7 @@ class DataPreparationComponent extends React.Component {
   onConfirmActionDialog = (dialogRequestType) => {
     const { entities, mode, multiple } = this.state[dialogRequestType]
     const payload = {
-      [REQUEST_FILTERS.IDS]: {
+      [WorkerDomain.REQUEST_FILTERS.IDS]: {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: multiple ? map(entities, (e) => e.content.id) : [get(entities, 'content.id', '')],
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode,
       },

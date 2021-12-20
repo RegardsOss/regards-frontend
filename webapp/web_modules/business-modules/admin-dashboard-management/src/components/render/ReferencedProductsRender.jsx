@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
+import sum from 'lodash/sum'
+import map from 'lodash/map'
+import filter from 'lodash/filter'
 import { StringValueRender } from '@regardsoss/components'
 import { AdminDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
@@ -35,6 +37,8 @@ class ReferencedProductsRender extends React.Component {
     entityType: PropTypes.oneOf(ENTITY),
   }
 
+  static getSum = (steps, property) => sum(map(steps, (step) => step[property]))
+
   /**
    * Builds render label for attribute modelas parameter (shared for different render systems)
    * @param {*} attributeModel attribute model (inside or without content field)
@@ -43,9 +47,9 @@ class ReferencedProductsRender extends React.Component {
    */
   static getReferencedProducts(attributeModel, entityType) {
     const { steps } = attributeModel.content
-    const referencingStep = find(steps, (step) => step.type === AdminDomain.STEP_TYPE_ENUM.REFERENCING)
-    if (referencingStep) {
-      return entityType === ENTITY_ENUM.SOURCE ? referencingStep.totalOut : referencingStep.outputRelated
+    const referencingSteps = filter(steps, (step) => step.type === AdminDomain.STEP_TYPE_ENUM.REFERENCING)
+    if (referencingSteps) {
+      return entityType === ENTITY_ENUM.SOURCE ? ReferencedProductsRender.getSum(referencingSteps, 'totalOut') : ReferencedProductsRender.getSum(referencingSteps, 'outputRelated')
     }
     return 0
   }

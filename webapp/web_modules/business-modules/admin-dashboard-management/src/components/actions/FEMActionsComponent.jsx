@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,30 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import reduce from 'lodash/reduce'
 import get from 'lodash/get'
-import forEach from 'lodash/forEach'
 import { browserHistory } from 'react-router'
-import { FemDomain } from '@regardsoss/domain'
+import RaisedButton from 'material-ui/RaisedButton'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
-import RaisedButton from 'material-ui/RaisedButton'
+import { FemDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FEM_REQUESTS_PROPERTIES, FEM_PRODUCTS_PROPERTIES } from '../../domain/femProperties'
-import DisplayPropertiesComponent from '../DisplayPropertiesComponent'
 import { ICON_TYPE_ENUM } from '../../domain/iconType'
-import { STEP_SUB_TYPES_ENUM } from '../../domain/stepSubTypes'
 
 /**
-  * FeatureManagerStep
   * @author Théo Lasserre
   */
-class FeatureManagerStep extends React.Component {
+class FEMActionsComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    sessionStep: AdminShapes.SessionStep,
     selectedSession: AdminShapes.Session,
-    retryRequests: PropTypes.func.isRequired,
+    sessionStep: AdminShapes.SessionStep,
+    retryFEMRequests: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -62,12 +58,11 @@ class FeatureManagerStep extends React.Component {
   }
 
   onRetryErrors = () => {
-    const { sessionStep, retryRequests } = this.props
-    const tasks = []
-    forEach(FemDomain.REQUEST_TYPES, (reqType) => {
+    const { sessionStep, retryFEMRequests } = this.props
+    const tasks = reduce(FemDomain.REQUEST_TYPES, (acc, value, reqType) => {
       if (reqType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES
         && reqType !== FemDomain.REQUEST_TYPES_ENUM.EXTRACTION) {
-        tasks.push(retryRequests({
+        acc.push(retryFEMRequests({
           filters: {
             session: sessionStep.session,
             source: sessionStep.source,
@@ -76,8 +71,8 @@ class FeatureManagerStep extends React.Component {
           requestIds: [],
         }, reqType))
       }
-      return null
-    })
+      return acc
+    }, [])
     return Promise.resolve(tasks)
   }
 
@@ -107,36 +102,13 @@ class FeatureManagerStep extends React.Component {
     const { sessionStep } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSessionStyle: {
-          raisedListStyle, cardContentStyle, cardButtonStyle, listItemDivStyle,
-          propertiesTitleStyle, propertiesDivStyle, propertiesTitleStyleAlt, propertiesDivStyleAlt,
+        stepStyle: {
+          raisedListStyle, cardButtonStyle,
         },
       },
     } = this.context
     const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
-    return <div style={cardContentStyle}>
-      <div style={listItemDivStyle}>
-        <div style={propertiesTitleStyle}>
-          <div style={propertiesDivStyleAlt}>
-            {formatMessage({ id: 'dashboard.selectedsession.REFERENCING.fem.properties.requests.title' })}
-          </div>
-          <DisplayPropertiesComponent
-            properties={FEM_REQUESTS_PROPERTIES}
-            sessionStep={sessionStep}
-            stepSubType={STEP_SUB_TYPES_ENUM.FEATURE_MANAGER}
-          />
-        </div>
-        <div style={propertiesTitleStyleAlt}>
-          <div style={propertiesDivStyle}>
-            {formatMessage({ id: 'dashboard.selectedsession.REFERENCING.fem.properties.products.title' })}
-          </div>
-          <DisplayPropertiesComponent
-            properties={FEM_PRODUCTS_PROPERTIES}
-            sessionStep={sessionStep}
-            stepSubType={STEP_SUB_TYPES_ENUM.FEATURE_MANAGER}
-          />
-        </div>
-      </div>
+    return (
       <div style={cardButtonStyle}>
         <RaisedButton
           onClick={this.onSeeReferenced}
@@ -162,9 +134,9 @@ class FeatureManagerStep extends React.Component {
             </div>
             : null
         }
+        {this.renderRetryErrorsDialog()}
       </div>
-      {this.renderRetryErrorsDialog()}
-    </div>
+    )
   }
 }
-export default FeatureManagerStep
+export default FEMActionsComponent

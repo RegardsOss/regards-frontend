@@ -29,7 +29,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableFilterSortingAndVisibilityContainer, DatePickerField,
 } from '@regardsoss/components'
-import REQUEST_FILTERS from '../domain/requestFilters'
 
 /**
  * @author Théo Lasserre
@@ -73,16 +72,16 @@ class RequestFiltersComponent extends React.Component {
                 <DatePickerField
                   id={`filter.${CommonDomain.REQUEST_PARAMETERS.AFTER}`}
                   dateHintText={formatMessage({ id: 'datapreparation.filters.creationDate.after.label' })}
-                  onChange={(value) => updateDatesFilter(value.toISOString(), REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
+                  onChange={(value) => updateDatesFilter(value.toISOString(), WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
                   locale={locale}
-                  value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(filters, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
+                  value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(filters, WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
                 />
                 <DatePickerField
-                  id={`filter.${REQUEST_FILTERS.CREATION_DATE.BEFORE}`}
+                  id={`filter.${WorkerDomain.REQUEST_FILTERS.CREATION_DATE.BEFORE}`}
                   dateHintText={formatMessage({ id: 'datapreparation.filters.creationDate.before.label' })}
-                  onChange={(value) => updateDatesFilter(value.toISOString(), REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
+                  onChange={(value) => updateDatesFilter(value.toISOString(), WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
                   locale={locale}
-                  value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(filters, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
+                  value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(filters, WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
                   defaultTime="23:59:59"
                 />
               </div>
@@ -90,14 +89,14 @@ class RequestFiltersComponent extends React.Component {
             <TableHeaderOptionGroup>
               <TextField
                 floatingLabelText={formatMessage({ id: 'datapreparation.filters.contentTypes.label' })}
-                value={join(filters[REQUEST_FILTERS.CONTENT_TYPES][CommonDomain.REQUEST_PARAMETERS.VALUES], ',')}
-                onChange={(event, value) => updateValuesFilter(value, REQUEST_FILTERS.CONTENT_TYPES)}
+                value={join(filters[WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES][CommonDomain.REQUEST_PARAMETERS.VALUES], ',')}
+                onChange={(event, value) => updateValuesFilter(value, WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES)}
                 style={fieldMargin}
               />
               <TextField
                 floatingLabelText={formatMessage({ id: 'datapreparation.filters.workerType.label' })}
-                value={filters[REQUEST_FILTERS.WORKER_TYPE]}
-                onChange={(event, value) => updateFilter(value, REQUEST_FILTERS.WORKER_TYPE)}
+                value={filters[WorkerDomain.REQUEST_FILTERS.WORKER_TYPE]}
+                onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.WORKER_TYPE)}
                 style={fieldMargin}
               />
             </TableHeaderOptionGroup>
@@ -106,20 +105,20 @@ class RequestFiltersComponent extends React.Component {
             <TableHeaderOptionGroup>
               <TextField
                 floatingLabelText={formatMessage({ id: 'datapreparation.filters.source.label' })}
-                value={filters[REQUEST_FILTERS.SOURCE]}
-                onChange={(event, value) => updateFilter(value, REQUEST_FILTERS.SOURCE)}
+                value={filters[WorkerDomain.REQUEST_FILTERS.SOURCE]}
+                onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.SOURCE)}
                 style={fieldMargin}
               />
               <TextField
                 floatingLabelText={formatMessage({ id: 'datapreparation.filters.session.label' })}
-                value={filters[REQUEST_FILTERS.SESSION]}
-                onChange={(event, value) => updateFilter(value, REQUEST_FILTERS.SESSION)}
+                value={filters[WorkerDomain.REQUEST_FILTERS.SESSION]}
+                onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.SESSION)}
                 style={fieldMargin}
               />
               <SelectField
                 id="datapreparation.filters.status"
-                value={filters[REQUEST_FILTERS.STATUSES][CommonDomain.REQUEST_PARAMETERS.VALUES]}
-                onChange={(event, index, value) => updateValuesFilter(value, REQUEST_FILTERS.STATUSES)}
+                value={filters[WorkerDomain.REQUEST_FILTERS.STATUSES][CommonDomain.REQUEST_PARAMETERS.VALUES]}
+                onChange={(event, index, value) => updateValuesFilter(value, WorkerDomain.REQUEST_FILTERS.STATUSES)}
                 floatingLabelText={formatMessage({ id: 'datapreparation.filters.status.label.title' })}
                 style={fieldMarginAlt}
                 multiple

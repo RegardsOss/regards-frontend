@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -40,7 +40,7 @@ class DashboardComponent extends React.Component {
     relaunchProducts: PropTypes.func.isRequired,
     relaunchAIP: PropTypes.func.isRequired,
     relaunchStorages: PropTypes.func.isRequired,
-    retryRequests: PropTypes.func.isRequired,
+    retryWorkerRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
     getBackURL: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
@@ -196,7 +196,7 @@ class DashboardComponent extends React.Component {
 
   render() {
     const {
-      project, getBackURL, relaunchProducts, relaunchAIP, retryRequests,
+      project, getBackURL, relaunchProducts, relaunchAIP, retryWorkerRequests,
       onRefresh, relaunchStorages,
       retryFEMRequests, deleteSession, fetchSelectedSession,
     } = this.props
@@ -255,7 +255,7 @@ class DashboardComponent extends React.Component {
               onSelected={this.onSelected}
               relaunchProducts={relaunchProducts}
               relaunchAIP={relaunchAIP}
-              retryRequests={retryRequests}
+              retryWorkerRequests={retryWorkerRequests}
               relaunchStorages={relaunchStorages}
               deleteSession={deleteSession}
               retryFEMRequests={retryFEMRequests}

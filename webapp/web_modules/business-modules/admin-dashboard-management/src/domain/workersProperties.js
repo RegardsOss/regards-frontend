@@ -17,17 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-/**
- * @author Théo Lasserre
- */
-const REQUEST_FILTERS = {
-  SOURCE: 'sessionOwner',
-  SESSION: 'session',
-  WORKER_TYPE: 'dispatchedWorkerType',
-  CONTENT_TYPES: 'contentTypes',
-  STATUSES: 'statuses',
-  CREATION_DATE: 'creationDate',
-  IDS: 'ids',
+import values from 'lodash/values'
+
+export const WORKERS_REQUESTS_PROPERTIES_ENUM = {
+  TOTAL_REQUESTS: 'requests',
+  NO_WORKER_AVAILABLE: 'no_worker_available',
 }
 
-export default REQUEST_FILTERS
+export const WORKERS_REQUESTS_PROPERTIES = values(WORKERS_REQUESTS_PROPERTIES_ENUM)
+
+export const WORKERS_PRODUCTS_PROPERTIES_ENUM = {
+  RUNNING: 'running',
+  ERROR: 'error',
+  DONE: 'done',
+}
+
+export const WORKERS_PRODUCTS_PROPERTIES = values(WORKERS_PRODUCTS_PROPERTIES_ENUM)

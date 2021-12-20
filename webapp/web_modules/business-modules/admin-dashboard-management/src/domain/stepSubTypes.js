@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,11 +21,12 @@ import values from 'lodash/values'
 
 export const STEP_SUB_TYPES_ENUM = {
   DATA_PROVIDER: 'dp',
-  FEATURE_PROVIDER: 'fp',
+  WORKERS: 'workers',
   FEATURE_MANAGER: 'fem',
   INGEST: 'ingest',
   STORAGE: 'archival',
   DISSEMINATION: 'diffusion',
+  EXTERNAL_DIFFUSION: 'fem_dissemination',
 }
 
 export const STEP_SUB_TYPES = values(STEP_SUB_TYPES_ENUM)

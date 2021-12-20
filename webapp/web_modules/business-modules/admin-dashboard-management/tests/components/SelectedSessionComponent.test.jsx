@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -130,7 +130,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
       relaunchProducts: () => { },
       relaunchAIP: () => { },
       relaunchStorages: () => { },
-      retryRequests: () => { },
+      retryWorkerRequests: () => { },
       deleteSession: () => { },
       retryFEMRequests: () => { },
     }
@@ -146,10 +146,10 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     assert.lengthOf(acquisitionWrapper, 1, 'There should be a AcquisitionComponent')
     testSuiteHelpers.assertWrapperProperties(acquisitionWrapper, {
       project: props.project,
-      sessionStep: enzymeWrapper.instance().getSessionStep(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION),
+      sessionSteps: enzymeWrapper.instance().getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION),
       relaunchProducts: props.relaunchProducts,
       selectedSession: props.selectedSession,
-      retryRequests: props.retryRequests,
+      retryWorkerRequests: props.retryWorkerRequests,
     }, 'Component should define the expected properties')
 
     const referencingWrapper = enzymeWrapper.find(ReferencingComponent)
@@ -157,7 +157,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     testSuiteHelpers.assertWrapperProperties(referencingWrapper, {
       project: props.project,
       selectedSession: props.selectedSession,
-      sessionStep: enzymeWrapper.instance().getSessionStep(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING),
+      sessionSteps: enzymeWrapper.instance().getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING),
       relaunchAIP: props.relaunchAIP,
       retryFEMRequests: props.retryFEMRequests,
     }, 'Component should define the expected properties')
@@ -166,7 +166,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     assert.lengthOf(storageWrapper, 1, 'There should be a ArchivalComponent')
     testSuiteHelpers.assertWrapperProperties(storageWrapper, {
       project: props.project,
-      sessionStep: enzymeWrapper.instance().getSessionStep(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE),
+      sessionSteps: enzymeWrapper.instance().getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE),
       relaunchStorages: props.relaunchStorages,
     }, 'Component should define the expected properties')
 
@@ -174,7 +174,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     assert.lengthOf(diffusionWrapper, 1, 'There should be a DiffusionComponent')
     testSuiteHelpers.assertWrapperProperties(diffusionWrapper, {
       project: props.project,
-      sessionStep: enzymeWrapper.instance().getSessionStep(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.DISSEMINATION),
+      sessionSteps: enzymeWrapper.instance().getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.DISSEMINATION),
     }, 'Component should define the expected properties')
   })
 })

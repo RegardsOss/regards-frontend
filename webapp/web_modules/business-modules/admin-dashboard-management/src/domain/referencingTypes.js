@@ -17,11 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import values from 'lodash/values'
-
-export const DISPLAY_ICON_TYPE_ENUM = {
-  COUNT: 'COUNT', // for session or source table display
-  NO_COUNT: 'NO_COUNT', // for session step title display
+export const REFERENCING_TYPE = {
+  FEATURE: 'feature',
+  OAIS: 'oais',
 }
-
-export const DISPLAY_ICON_TYPE = values(DISPLAY_ICON_TYPE_ENUM)

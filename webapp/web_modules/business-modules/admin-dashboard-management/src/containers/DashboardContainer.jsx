@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -24,11 +24,12 @@ import { AdminShapes } from '@regardsoss/shape'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import {
   sessionsActions, sessionsRelaunchProductActions, sessionsRelaunchAIPActions,
-  sessionDeleteActions, storagesRelaunchActions, fProviderRetryErrorsActions, requestRetryActions,
+  sessionDeleteActions, storagesRelaunchActions, requestRetryActions,
   sessionsSelectors,
 } from '../clients/SessionsClient'
 import { selectedSessionActions } from '../clients/SelectedSessionClient'
 import { sourcesActions } from '../clients/SourcesClient'
+import { requestSignalsActions } from '../clients/WorkerRequestSignalsClient'
 import DashboardComponent from '../components/DashboardComponent'
 import { SOURCE_FILTER_PARAMS } from '../domain/filters'
 import messages from '../i18n'
@@ -53,11 +54,11 @@ export class DashboardContainer extends React.Component {
     relaunchProducts: PropTypes.func.isRequired,
     relaunchStorages: PropTypes.func.isRequired,
     relaunchAIP: PropTypes.func.isRequired,
-    retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired, // Delete products of a session
     retryFEMRequests: PropTypes.func.isRequired,
     fetchSelectedSession: PropTypes.func.isRequired,
     flushSelectedSession: PropTypes.func.isRequired,
+    retryWorkerRequests: PropTypes.func.isRequired,
   }
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
@@ -88,9 +89,9 @@ export class DashboardContainer extends React.Component {
     relaunchProducts: (source, session) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, session)),
     relaunchAIP: (source, session) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, session)),
     relaunchStorages: (source, session) => dispatch(storagesRelaunchActions.relaunchStorages(source, session)),
-    retryRequests: (payload, type) => dispatch(fProviderRetryErrorsActions.sendSignal('POST', payload, { type })),
     deleteSession: (sessionId) => dispatch(sessionDeleteActions.deleteSession(sessionId)),
     retryFEMRequests: (payload, type) => dispatch(requestRetryActions.sendSignal('POST', payload, { type })),
+    retryWorkerRequests: (payload) => dispatch(requestSignalsActions.retry(payload)),
   })
 
   static contextTypes = {
@@ -128,7 +129,7 @@ export class DashboardContainer extends React.Component {
 
   render() {
     const {
-      params: { project }, relaunchProducts, relaunchAIP, retryRequests,
+      params: { project }, relaunchProducts, relaunchAIP, retryWorkerRequests,
       relaunchStorages, retryFEMRequests, fetchSelectedSession, flushSelectedSession,
     } = this.props
     return (
@@ -136,7 +137,6 @@ export class DashboardContainer extends React.Component {
         project={project}
         relaunchProducts={relaunchProducts}
         relaunchAIP={relaunchAIP}
-        retryRequests={retryRequests}
         deleteSession={this.onDeleteSession}
         relaunchStorages={relaunchStorages}
         getBackURL={this.getBackURL}
@@ -144,6 +144,7 @@ export class DashboardContainer extends React.Component {
         retryFEMRequests={retryFEMRequests}
         fetchSelectedSession={fetchSelectedSession}
         flushSelectedSession={flushSelectedSession}
+        retryWorkerRequests={retryWorkerRequests}
       />
     )
   }

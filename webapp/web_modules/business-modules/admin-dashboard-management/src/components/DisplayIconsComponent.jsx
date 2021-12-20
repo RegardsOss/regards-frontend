@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -29,7 +29,6 @@ import Chip from 'material-ui/Chip'
 import Running from 'mdi-material-ui/PlayCircleOutline'
 import Alert from 'mdi-material-ui/AlertOutline'
 import Error from 'mdi-material-ui/AlertCircleOutline'
-import { DISPLAY_ICON_TYPE, DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 import { ICON_TYPE_ENUM } from '../domain/iconType'
 
 const {
@@ -37,7 +36,7 @@ const {
 } = CommonDomain.DisplayBigNumbers
 
 /**
- * Display Icons Component either for source & session table or session step title
+ * Display Icons Component for source & session table
  * @author Théo Lasserre
  */
 class DisplayIconsComponent extends React.Component {
@@ -47,7 +46,6 @@ class DisplayIconsComponent extends React.Component {
       AdminShapes.Session,
       AdminShapes.SessionStep,
     ]).isRequired,
-    displayIconType: PropTypes.oneOf(DISPLAY_ICON_TYPE).isRequired,
   }
 
   static contextTypes = {
@@ -55,38 +53,7 @@ class DisplayIconsComponent extends React.Component {
     ...themeContextType,
   }
 
-  getValue = (entity, iconType, displayIconType) => (displayIconType === DISPLAY_ICON_TYPE_ENUM.COUNT ? get(entity, `content.managerState.${iconType}`, false) : get(entity, `state.${iconType}`, 0))
-
-  displayIcons = (runnings) => {
-    const { moduleTheme: { displayIconsComponentStyle: { displayIconsDivStyle } } } = this.context
-    return (<div style={displayIconsDivStyle}>
-      {runnings > 0 ? this.displayIcon(ICON_TYPE_ENUM.RUNNING) : null}
-    </div>)
-  }
-
-  // Display icon in session step title
-  displayIcon = (iconType) => {
-    const {
-      intl: { formatMessage },
-      moduleTheme: { dashboardStyle: { tableStyle: { overlayStyle } }, displayIconsComponentStyle: { displayIconDivStyle } },
-    } = this.context
-    let iconComponent
-    switch (iconType) {
-      case ICON_TYPE_ENUM.RUNNING:
-        iconComponent = <Running style={overlayStyle.icon.runningStyle} />
-        break
-      case ICON_TYPE_ENUM.WAITING:
-        iconComponent = <Alert style={overlayStyle.icon.waitingStyle} />
-        break
-      case ICON_TYPE_ENUM.ERRORS:
-        iconComponent = <Error style={overlayStyle.icon.errorStyle} />
-        break
-      default:
-    }
-    return <div style={displayIconDivStyle} title={formatMessage({ id: `dashboard.table.icon.tooltip.${iconType}` })}>
-      {iconComponent}
-    </div>
-  }
+  getValue = (entity, iconType) => get(entity, `content.managerState.${iconType}`, false)
 
   getElementCount = (iconType) => {
     const { entity } = this.props
@@ -143,17 +110,15 @@ class DisplayIconsComponent extends React.Component {
   }
 
   render() {
-    const { entity, displayIconType } = this.props
-    const { moduleTheme: { displayIconsComponentStyle: { mainDivStyle, mainDivStyleAlt } } } = this.context
-    const errors = this.getValue(entity, ICON_TYPE_ENUM.ERRORS, displayIconType)
-    const waitings = this.getValue(entity, ICON_TYPE_ENUM.WAITING, displayIconType)
-    const runnings = this.getValue(entity, ICON_TYPE_ENUM.RUNNING, displayIconType)
+    const { entity } = this.props
+    const { moduleTheme: { displayIconsComponentStyle: { mainDivStyle } } } = this.context
+    const errors = this.getValue(entity, ICON_TYPE_ENUM.ERRORS)
+    const waitings = this.getValue(entity, ICON_TYPE_ENUM.WAITING)
+    const runnings = this.getValue(entity, ICON_TYPE_ENUM.RUNNING)
     return (
-      displayIconType === DISPLAY_ICON_TYPE_ENUM.COUNT
-        ? <div style={mainDivStyle}>
-          {this.displayIconsWithCount(errors, waitings, runnings)}
-        </div>
-        : <div style={mainDivStyleAlt}>{this.displayIcons(runnings)}</div>
+      <div style={mainDivStyle}>
+        {this.displayIconsWithCount(errors, waitings, runnings)}
+      </div>
     )
   }
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,6 +20,8 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
+import DisplayPropertiesComponent from '../../src/components/DisplayPropertiesComponent'
+import StorageActionsComponent from '../../src/components/actions/StorageActionsComponent'
 import ArchivalComponent from '../../src/components/ArchivalComponent'
 import styles from '../../src/styles'
 
@@ -36,10 +38,10 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ArchivalComponent', () => {
   it('should exists', () => {
     assert.isDefined(ArchivalComponent)
   })
-  it('should render correctly a Storage session', () => {
+  it('should render correctly a Storage step', () => {
     const props = {
       project: 'any',
-      sessionStep: {
+      sessionSteps: [{
         id: 0,
         stepId: 'storage',
         source: 'Test_Source1',
@@ -54,12 +56,18 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ArchivalComponent', () => {
         },
         properties: {},
         lastUpdateDate: '01/01/21',
-      },
+      }],
       relaunchStorages: () => { },
     }
     const enzymeWrapper = shallow(<ArchivalComponent {...props} />, { context })
 
     const cardWrapper = enzymeWrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be a Card')
+
+    const propertiesComponentWrapper = enzymeWrapper.find(DisplayPropertiesComponent)
+    assert.lengthOf(propertiesComponentWrapper, 2, 'There should be 2 DisplayPropertiesComponent')
+
+    const actionsComponentWrapper = enzymeWrapper.find(StorageActionsComponent)
+    assert.lengthOf(actionsComponentWrapper, 1, 'There should be a StorageActionsComponent')
   })
 })

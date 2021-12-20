@@ -17,18 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import values from 'lodash/values'
-
-export const FEATURE_PROVIDER_REQUESTS_PROPERTIES_ENUM = {
-  TOTAL_REQUESTS: 'totalRequests',
-  REQUESTS_ERRORS: 'requestsErrors',
-  REQUESTS_REFUSED: 'requestsRefused',
+/**
+ * @author Théo Lasserre
+ */
+export const REQUEST_FILTERS = {
+  SOURCE: 'source',
+  SESSION: 'session',
+  WORKER_TYPE: 'dispatchedWorkerType',
+  CONTENT_TYPES: 'contentTypes',
+  STATUSES: 'statuses',
+  CREATION_DATE: 'creationDate',
+  IDS: 'ids',
 }
-
-export const FEATURE_PROVIDER_REQUESTS_PROPERTIES = values(FEATURE_PROVIDER_REQUESTS_PROPERTIES_ENUM)
-
-export const FEATURE_PROVIDER_PRODUCTS_PROPERTIES_ENUM = {
-  GENERATED_PRODUCTS: 'generatedProducts',
-}
-
-export const FEATURE_PROVIDER_PRODUCTS_PROPERTIES = values(FEATURE_PROVIDER_PRODUCTS_PROPERTIES_ENUM)

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -35,7 +35,7 @@ export class SelectedSessionContainer extends React.Component {
     relaunchProducts: PropTypes.func.isRequired,
     relaunchAIP: PropTypes.func.isRequired,
     relaunchStorages: PropTypes.func.isRequired,
-    retryRequests: PropTypes.func.isRequired,
+    retryWorkerRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
     retryFEMRequests: PropTypes.func.isRequired,
     // from mapStateToProps
@@ -63,7 +63,7 @@ export class SelectedSessionContainer extends React.Component {
   render() {
     const {
       project, onSelected, relaunchProducts,
-      relaunchAIP, retryRequests, relaunchStorages, deleteSession, retryFEMRequests, selectedSession,
+      relaunchAIP, retryWorkerRequests, relaunchStorages, deleteSession, retryFEMRequests, selectedSession,
     } = this.props
     return (
       !isEmpty(selectedSession)
@@ -73,7 +73,7 @@ export class SelectedSessionContainer extends React.Component {
             onSelected={onSelected}
             relaunchProducts={relaunchProducts}
             relaunchAIP={relaunchAIP}
-            retryRequests={retryRequests}
+            retryWorkerRequests={retryWorkerRequests}
             relaunchStorages={relaunchStorages}
             deleteSession={deleteSession}
             retryFEMRequests={retryFEMRequests}

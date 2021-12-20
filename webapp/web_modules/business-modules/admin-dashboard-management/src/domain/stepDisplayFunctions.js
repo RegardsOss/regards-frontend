@@ -16,15 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import map from 'lodash/map'
+import sum from 'lodash/sum'
+import find from 'lodash/find'
+import { ICON_TYPE_ENUM } from './iconType'
 
-import values from 'lodash/values'
+export const getNbInputs = (sessionSteps) => sum(map(sessionSteps, (sessionStep) => get(sessionStep, 'inputRelated', 0)))
 
-export const STATUS_TYPES_ENUM = {
-  ALL: 'all',
-  OK: 'ok',
-  ERROR: 'errors',
-  RUNNING: 'running',
-  WAITING: 'waiting',
-}
+export const getNbOutputs = (sessionSteps) => sum(map(sessionSteps, (sessionStep) => get(sessionStep, 'outputRelated', 0)))
 
-export const STATUS_TYPES = values(STATUS_TYPES_ENUM)
+export const isRunning = (sessionSteps) => find(sessionSteps, (sessionStep) => get(sessionStep, `state.${ICON_TYPE_ENUM.RUNNING}`, 0) > 0)

@@ -19,12 +19,9 @@
 
 import values from 'lodash/values'
 
-export const STATUS_TYPES_ENUM = {
-  ALL: 'all',
-  OK: 'ok',
-  ERROR: 'errors',
-  RUNNING: 'running',
-  WAITING: 'waiting',
+export const CATALOG_PRODUCTS_PROPERTIES_ENUM = {
+  INDEXED: 'indexed',
+  INDEXED_ERROR: 'indexedError',
 }
 
-export const STATUS_TYPES = values(STATUS_TYPES_ENUM)
+export const CATALOG_PRODUCTS_PROPERTIES = values(CATALOG_PRODUCTS_PROPERTIES_ENUM)

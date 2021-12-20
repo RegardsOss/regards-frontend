@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,33 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
-import { browserHistory } from 'react-router'
+import size from 'lodash/size'
+import isEmpty from 'lodash/isEmpty'
+import map from 'lodash/map'
+import Running from 'mdi-material-ui/PlayCircleOutline'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { AdminShapes } from '@regardsoss/shape'
 import { CommonDomain } from '@regardsoss/domain'
-import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
+import { ScrollArea } from '@regardsoss/adapters'
 import { i18nContextType } from '@regardsoss/i18n'
-import DisplayIconsComponent from './DisplayIconsComponent'
-import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
-import { DIFFUSION_PRODUCTS_PROPERTIES } from '../domain/diffusionProperties'
 import DisplayPropertiesComponent from './DisplayPropertiesComponent'
-import { ICON_TYPE_ENUM } from '../domain/iconType'
+import DiffusionActionsComponent from './actions/DiffusionActionsComponent'
+import ExternalDiffusionActionsComponent from './actions/ExternalDiffusionActionsComponent'
+import DisplayExternalDiffusionComponent from './DisplayExternalDiffusionComponent'
+import { CATALOG_PRODUCTS_PROPERTIES } from '../domain/catalogProperties'
+import { DISSEMINATION_TYPE } from '../domain/disseminationTypes'
 import { STEP_SUB_TYPES_ENUM } from '../domain/stepSubTypes'
+import { getNbInputs, getNbOutputs, isRunning } from '../domain/stepDisplayFunctions'
+import { computeSessionStep } from '../domain/computeFunctions'
 
 const {
   displayNumber,
 } = CommonDomain.DisplayBigNumbers
 
 /**
- * DiffusionComponent
  * @author Théo Lasserre
  */
 class DiffusionComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    sessionStep: AdminShapes.SessionStep,
+    sessionSteps: PropTypes.arrayOf(AdminShapes.SessionStep),
   }
 
   static contextTypes = {
@@ -50,64 +55,114 @@ class DiffusionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  onClick = () => {
-    const { project } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/datasource/monitor`)
-  }
+  getStyle = (stepId, externalStyle, catalogStyle) => stepId === DISSEMINATION_TYPE.EXTERNAL_DIFFUSION ? externalStyle : catalogStyle
 
-  render() {
-    const { sessionStep } = this.props
+  buildStep = (sessionStep) => {
+    const { project } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSessionStyle: {
-          cardStyle, cardTitleDivStyle, cardContentStyle, cardButtonStyle, cardTitleTextStyle,
-          raisedListStyle, listItemDivStyle, cardTitleStyle, propertiesTitleStyle, propertiesDivStyle,
-          cardSubTitleTextStyle,
+        stepStyle: {
+          cardContentStyle,
+          extDiffusionCardContentStyle,
         },
       },
     } = this.context
-    const inputRelated = get(sessionStep, 'inputRelated', 0)
-    const outputRelated = get(sessionStep, 'outputRelated', 0)
-    const runnings = get(sessionStep, `state.${ICON_TYPE_ENUM.RUNNING}`, 0)
+    let currentSessionStep = sessionStep
+    if (sessionStep.stepId === DISSEMINATION_TYPE.EXTERNAL_DIFFUSION) {
+      currentSessionStep = computeSessionStep(sessionStep, STEP_SUB_TYPES_ENUM.DISSEMINATION)
+    }
     return (
-      sessionStep
+      <div style={this.getStyle(currentSessionStep.stepId, extDiffusionCardContentStyle, cardContentStyle)}>
+        <ScrollArea
+          vertical
+          horizontal={false}
+        >
+          <div>
+            {
+              currentSessionStep.stepId === DISSEMINATION_TYPE.EXTERNAL_DIFFUSION
+                ? <DisplayExternalDiffusionComponent
+                    title={formatMessage({ id: `dashboard.selectedsession.${currentSessionStep.type}.${STEP_SUB_TYPES_ENUM.EXTERNAL_DIFFUSION}.properties.input.title` })}
+                    sessionStep={currentSessionStep}
+                />
+                : <DisplayPropertiesComponent
+                    title={formatMessage({ id: `dashboard.selectedsession.${currentSessionStep.type}.${STEP_SUB_TYPES_ENUM.DISSEMINATION}.properties.output.title` })}
+                    properties={CATALOG_PRODUCTS_PROPERTIES}
+                    sessionStep={currentSessionStep}
+                    stepSubType={STEP_SUB_TYPES_ENUM.DISSEMINATION}
+                />
+            }
+          </div>
+        </ScrollArea>
+        <div>
+          {
+            currentSessionStep.stepId === DISSEMINATION_TYPE.EXTERNAL_DIFFUSION
+              ? <ExternalDiffusionActionsComponent
+                  project={project}
+              />
+              : <DiffusionActionsComponent
+                  project={project}
+              />
+          }
+        </div>
+      </div>
+    )
+  }
+
+  buildStepTabs = () => {
+    const { sessionSteps } = this.props
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        stepStyle: { tabStyle },
+      },
+    } = this.context
+    return (
+      <Tabs>
+        {map(sessionSteps, (sessionStep) => (
+          <Tab
+            key={sessionStep}
+            label={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${sessionStep.stepId}.title` })}
+            style={tabStyle}
+          >
+            {this.buildStep(sessionStep)}
+          </Tab>
+        ))}
+      </Tabs>
+    )
+  }
+
+  render() {
+    const { sessionSteps } = this.props
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        stepStyle: {
+          cardStyle, stepTitleTextStyle, cardTitleStyle,
+          runningIconStyle, cardTitleDivStyle, cardSubTitleTextStyle,
+        },
+      },
+    } = this.context
+    return (
+      !isEmpty(sessionSteps)
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.diffusion.title' })}
-              subtitle={formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.diffusion.subtitle' }, { nbIn: displayNumber(inputRelated, 3), nbOut: displayNumber(outputRelated, 3) })}
-              titleStyle={cardTitleTextStyle}
-              subtitleStyle={cardSubTitleTextStyle}
+              title={formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.title' })}
+              titleStyle={stepTitleTextStyle}
               style={cardTitleStyle}
+              subtitle={formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.subtitle' }, { nbIn: displayNumber(getNbInputs(sessionSteps), 3), nbOut: displayNumber(getNbOutputs(sessionSteps), 3) })}
+              subtitleStyle={cardSubTitleTextStyle}
             />
-            {runnings !== 0
-              ? <DisplayIconsComponent
-                  entity={sessionStep}
-                  displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
-              />
+            {isRunning(sessionSteps)
+              ? <div>
+                <Running style={runningIconStyle} />
+              </div>
               : null}
           </div>
-          <CardText style={cardContentStyle}>
-            <div style={listItemDivStyle}>
-              <div style={propertiesTitleStyle}>
-                <div style={propertiesDivStyle}>
-                  {formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.diffusion.properties.products.title' })}
-                </div>
-                <DisplayPropertiesComponent
-                  properties={DIFFUSION_PRODUCTS_PROPERTIES}
-                  sessionStep={sessionStep}
-                  stepSubType={STEP_SUB_TYPES_ENUM.DISSEMINATION}
-                />
-              </div>
-            </div>
-            <div style={cardButtonStyle}>
-              <RaisedButton
-                onClick={this.onClick}
-                label={formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.diffusion.button.see-detail' })}
-                primary
-                style={raisedListStyle}
-              />
-            </div>
+          <CardText>
+            {
+              size(sessionSteps) <= 1
+                ? this.buildStep(sessionSteps[0])
+                : this.buildStepTabs()
+            }
           </CardText>
         </Card> : null
     )

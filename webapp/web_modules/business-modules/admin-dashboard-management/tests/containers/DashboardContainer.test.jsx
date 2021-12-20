@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -54,9 +54,9 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardContainer', () => {
       relaunchProducts: () => { },
       relaunchStorages: () => { },
       relaunchAIP: () => { },
-      retryRequests: () => { },
-      deleteSession: () => { },
       retryFEMRequests: () => { },
+      retryWorkerRequests: () => { },
+      deleteSession: () => { },
       fetchSelectedSession: () => { },
       flushSelectedSession: () => { },
     }
@@ -68,13 +68,13 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardContainer', () => {
       project: props.params.project,
       relaunchProducts: props.relaunchProducts,
       relaunchAIP: props.relaunchAIP,
-      retryRequests: props.retryRequests,
+      retryWorkerRequests: props.retryWorkerRequests,
       deleteSession: enzymeWrapper.instance().onDeleteSession,
       relaunchStorages: props.relaunchStorages,
       getBackURL: enzymeWrapper.instance().getBackURL,
       onRefresh: enzymeWrapper.instance().onRefresh,
-      retryFEMRequests: props.retryFEMRequests,
       fetchSelectedSession: props.fetchSelectedSession,
+      retryFEMRequests: props.retryFEMRequests,
       flushSelectedSession: props.flushSelectedSession,
     }, 'Component should define the expected properties')
   })

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -48,7 +48,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       relaunchProducts: () => { },
       relaunchAIP: () => { },
       relaunchStorages: () => { },
-      retryRequests: () => { },
+      retryWorkerRequests: () => { },
       deleteSession: () => { },
       fetchSelectedSession: () => { },
       getBackURL: () => { },
@@ -92,7 +92,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       onSelected: enzymeWrapper.instance().onSelected,
       relaunchProducts: props.relaunchProducts,
       relaunchAIP: props.relaunchAIP,
-      retryRequests: props.retryRequests,
+      retryWorkerRequests: props.retryWorkerRequests,
       relaunchStorages: props.relaunchStorages,
       deleteSession: props.deleteSession,
       retryFEMRequests: props.retryFEMRequests,

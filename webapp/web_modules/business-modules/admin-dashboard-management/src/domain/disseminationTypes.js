@@ -17,11 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import values from 'lodash/values'
-
-export const DIFFUSION_PRODUCTS_PROPERTIES_ENUM = {
-  INDEXED: 'indexed',
-  INDEXED_ERROR: 'indexedError',
+export const DISSEMINATION_TYPE = {
+  CATALOG: 'catalog',
+  EXTERNAL_DIFFUSION: 'fem_dissemination',
 }
-
-export const DIFFUSION_PRODUCTS_PROPERTIES = values(DIFFUSION_PRODUCTS_PROPERTIES_ENUM)

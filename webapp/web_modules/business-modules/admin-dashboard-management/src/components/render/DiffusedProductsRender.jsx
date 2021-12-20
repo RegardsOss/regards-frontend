@@ -16,11 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
+import sum from 'lodash/sum'
+import map from 'lodash/map'
+import filter from 'lodash/filter'
 import { StringValueRender } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { AdminDomain } from '@regardsoss/domain'
 import { ENTITY, ENTITY_ENUM } from '../../domain/entityTypes'
+import { DISSEMINATION_TYPE } from '../../domain/disseminationTypes'
 
 /**
    * Table cell render for attribute
@@ -35,6 +38,8 @@ class DiffusedProductsRender extends React.Component {
     entityType: PropTypes.oneOf(ENTITY),
   }
 
+  static getSum = (steps, property) => sum(map(steps, (step) => step[property]))
+
   /**
    * Builds render label for attribute modelas parameter (shared for different render systems)
    * @param {*} attributeModel attribute model (inside or without content field)
@@ -43,9 +48,15 @@ class DiffusedProductsRender extends React.Component {
    */
   static getDiffusedProducts(attributeModel, entityType) {
     const { steps } = attributeModel.content
-    const diffusionStep = find(steps, (step) => step.type === AdminDomain.STEP_TYPE_ENUM.DISSEMINATION)
-    if (diffusionStep) {
-      return entityType === ENTITY_ENUM.SOURCE ? diffusionStep.totalOut : diffusionStep.outputRelated
+    const diffusionSteps = filter(steps, (step) => step.type === AdminDomain.STEP_TYPE_ENUM.DISSEMINATION)
+    if (diffusionSteps) {
+      if (entityType === ENTITY_ENUM.SOURCE) {
+        return DiffusedProductsRender.getSum(diffusionSteps, 'totalOut')
+      }
+      const catalogSteps = filter(diffusionSteps, (step) => step.stepId === DISSEMINATION_TYPE.CATALOG)
+      if (catalogSteps) {
+        return DiffusedProductsRender.getSum(diffusionSteps, 'outputRelated')
+      }
     }
     return 0
   }

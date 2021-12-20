@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -162,14 +162,14 @@ class SourcesComponent extends React.Component {
         }).titleHeaderCell()
         .optionsSizing(2.75)
         .build(),
-      // 2 - diffused product
+      // 2 - catalogued product
       new TableColumnBuilder(SourcesComponent.COLUMN_KEYS.DIFFUSED_PRODUCTS)
         .label(formatMessage({ id: 'dashboard.sources.table.column.diffusedProducts' }))
         .rowCellDefinition({
           Constructor: DiffusedProductsRender,
           props: { entityType: ENTITY_ENUM.SOURCE },
         }).titleHeaderCell()
-        .optionsSizing(2.5)
+        .optionsSizing(2.75)
         .build(),
     ]
 

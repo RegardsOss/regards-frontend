@@ -22,6 +22,7 @@ import values from 'lodash/values'
 export const FEM_REQUESTS_PROPERTIES_ENUM = {
   REFERENCING_REQUESTS: 'referencingRequests',
   DELETE_REQUESTS: 'deleteRequests',
+  DENIED_REFERENCING_REQUESTS: 'deniedReferencingRequests',
   UPDATE_REQUESTS: 'updateRequests',
   NOTIFY_REQUESTS: 'notifyRequests',
   REQUESTS_ERRORS: 'requestsErrors',

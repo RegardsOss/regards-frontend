@@ -17,14 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import values from 'lodash/values'
-
-export const STATUS_TYPES_ENUM = {
-  ALL: 'all',
-  OK: 'ok',
-  ERROR: 'errors',
-  RUNNING: 'running',
-  WAITING: 'waiting',
+export const ACQUISITION_TYPE = {
+  WORKERS: 'workers',
+  SCAN: 'scan',
 }
-
-export const STATUS_TYPES = values(STATUS_TYPES_ENUM)

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,16 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { WorkerClient } from '@regardsoss/client'
 
-import values from 'lodash/values'
+/**
+ * Request signals.
+ *
+ * @author Théo Lasserre
+ */
+const REDUX_ACTION_NAMESPACE = 'admin-datapreparation-management/requests-signals'
 
-export const STATUS_TYPES_ENUM = {
-  ALL: 'all',
-  OK: 'ok',
-  ERROR: 'errors',
-  RUNNING: 'running',
-  WAITING: 'waiting',
-}
-
-export const STATUS_TYPES = values(STATUS_TYPES_ENUM)
+export const requestSignalsActions = new WorkerClient.RequestSignalsActions(REDUX_ACTION_NAMESPACE)

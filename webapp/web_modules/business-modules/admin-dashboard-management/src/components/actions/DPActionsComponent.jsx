@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,30 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import { browserHistory } from 'react-router'
-import { IngestDomain } from '@regardsoss/domain'
-import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
-import { AdminShapes } from '@regardsoss/shape'
-import Dialog from 'material-ui/Dialog'
+import get from 'lodash/get'
 import RaisedButton from 'material-ui/RaisedButton'
+import Dialog from 'material-ui/Dialog'
+import { IngestDomain } from '@regardsoss/domain'
+import { AdminShapes } from '@regardsoss/shape'
+import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DATA_PROVIDER_PRODUCTS_PROPERTIES, DATA_PROVIDER_FILES_PROPERTIES } from '../../domain/dataProviderProperties'
 import DisplayProductsComponent from '../DisplayProductsComponent'
-import DisplayPropertiesComponent from '../DisplayPropertiesComponent'
 import { ICON_TYPE_ENUM } from '../../domain/iconType'
-import { STEP_SUB_TYPES_ENUM } from '../../domain/stepSubTypes'
 
 /**
-  * DataProviderStep
   * @author Théo Lasserre
   */
-class DataProviderStep extends React.Component {
+class DPActionsComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    sessionStep: AdminShapes.SessionStep,
     selectedSession: AdminShapes.Session,
+    sessionStep: AdminShapes.SessionStep,
     relaunchProducts: PropTypes.func.isRequired,
   }
 
@@ -51,15 +47,6 @@ class DataProviderStep extends React.Component {
   state = {
     isRetryErrorsDialogOpen: false,
     isProductDialogOpen: false,
-  }
-
-  onSeeErrors = () => {
-    this.toggleProductDialog()
-  }
-
-  onSeeReferenced = () => {
-    const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=packages&session=${encodeURIComponent(selectedSession.content.name)}`)
   }
 
   onRetryErrors = () => {
@@ -86,7 +73,7 @@ class DataProviderStep extends React.Component {
     })
   }
 
-  renderRetryErrorsDialog = () => {
+  renderRetryDPErrorsDialog = () => {
     const { intl: { formatMessage } } = this.context
     const { isRetryErrorsDialogOpen } = this.state
     return (
@@ -101,10 +88,10 @@ class DataProviderStep extends React.Component {
     )
   }
 
-  renderProductDialog = () => {
+  renderProductDPDialog = () => {
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSessionStyle: {
+        stepStyle: {
           dialogProductErrorStyle, dialogProductErrorMainStyle,
         },
       },
@@ -135,45 +122,22 @@ class DataProviderStep extends React.Component {
 
   render() {
     const { sessionStep } = this.props
+    const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
+    const nbWaiting = get(sessionStep, `state.${ICON_TYPE_ENUM.WAITING}`, 0)
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSessionStyle: {
-          raisedListStyle, cardContentStyle, cardButtonStyle, listItemDivStyle,
-          propertiesTitleStyle, propertiesTitleStyleAlt, propertiesDivStyle,
+        stepStyle: {
+          raisedListStyle, cardButtonStyle,
         },
       },
     } = this.context
-    const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
-    const nbWaiting = get(sessionStep, `state.${ICON_TYPE_ENUM.WAITING}`, 0)
-    return <div style={cardContentStyle}>
-      <div style={listItemDivStyle}>
-        <div style={propertiesTitleStyle}>
-          <div style={propertiesDivStyle}>
-            {formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.properties.files.title' })}
-          </div>
-          <DisplayPropertiesComponent
-            properties={DATA_PROVIDER_FILES_PROPERTIES}
-            sessionStep={sessionStep}
-            stepSubType={STEP_SUB_TYPES_ENUM.DATA_PROVIDER}
-          />
-        </div>
-        <div style={propertiesTitleStyleAlt}>
-          <div style={propertiesDivStyle}>
-            {formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.properties.products.title' })}
-          </div>
-          <DisplayPropertiesComponent
-            properties={DATA_PROVIDER_PRODUCTS_PROPERTIES}
-            sessionStep={sessionStep}
-            stepSubType={STEP_SUB_TYPES_ENUM.DATA_PROVIDER}
-          />
-        </div>
-      </div>
+    return (
       <div style={cardButtonStyle}>
         {
           nbWaiting !== 0
             ? <RaisedButton
                 onClick={this.onSeeWaiting}
-                label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.see-waiting' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.button.see-waiting' })}
                 primary
                 style={raisedListStyle}
             /> : null
@@ -182,24 +146,24 @@ class DataProviderStep extends React.Component {
           nbErrors !== 0
             ? <div style={cardButtonStyle}>
               <RaisedButton
-                onClick={this.onSeeErrors}
-                label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.see-errors' })}
+                onClick={this.toggleProductDialog}
+                label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.button.see-errors' })}
                 primary
                 style={raisedListStyle}
               />
               <RaisedButton
                 onClick={this.toggleRetryErrorsDialog}
-                label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.retry-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
               />
             </div>
             : null
         }
+        {this.renderRetryDPErrorsDialog()}
+        {this.renderProductDPDialog()}
       </div>
-      {this.renderProductDialog()}
-      {this.renderRetryErrorsDialog()}
-    </div>
+    )
   }
 }
-export default DataProviderStep
+export default DPActionsComponent

@@ -77,12 +77,16 @@ const dashboardManagementStyles = (theme) => ({
             height: '15px',
           },
         },
+        iconTitleDivStyle: {
+          marginLeft: '-10px',
+        },
         icon: {
           runningStyle: {
             position: 'absolute',
             height: '33px',
             width: '24px',
             fill: 'green',
+            marginLeft: '30px',
           },
           runningAltStyle: {
             position: 'absolute',
@@ -171,26 +175,33 @@ const dashboardManagementStyles = (theme) => ({
       },
     },
   },
-  selectedSessionStyle: {
+  stepStyle: {
     cardStyle: {
       width: '25%',
+    },
+    stepTitleTextStyle: {
+      fontSize: '18px',
+    },
+    cardTitleStyle: {
+      textAlign: 'center',
+      marginBottom: '-25px',
+    },
+    tabStyle: {
+      width: '100%',
+      whiteSpace: 'break-spaces',
+      backgroundColor: theme.palette.canvasColor,
+    },
+    runningIconStyle: {
+      position: 'absolute',
+      height: '33px',
+      width: '24px',
+      fill: 'green',
     },
     cardTitleDivStyle: {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      height: '40px',
-    },
-    cardTitleStyle: {
-      textAlign: 'center',
-    },
-    cardTextStyle: {
-      display: 'flex',
-      width: '100%',
-      padding: '5px',
-    },
-    cardTitleTextStyle: {
-      fontSize: '18px',
+      height: '50px',
     },
     cardSubTitleTextStyle: {
       fontSize: '17px',
@@ -199,10 +210,58 @@ const dashboardManagementStyles = (theme) => ({
     cardContentStyle: {
       display: 'flex',
       flexDirection: 'column',
+      height: '430px',
+    },
+    extDiffusionCardContentStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+      maxHeight: '430px',
+    },
+    raisedListStyle: {
+      width: '100%',
+      height: '100%',
+      padding: '3px',
     },
     cardButtonStyle: {
       display: 'flex',
       flexDirection: 'column',
+    },
+    dialogProductErrorStyle: {
+      maxWidth: null,
+    },
+    dialogProductErrorMainStyle: {
+      position: 'absolute',
+      top: '-150px',
+    },
+    externalDiffusionStyle: {
+      tableHeaderColumnStyle: {
+        padding: null,
+        textAlign: 'center',
+      },
+      tableHeaderStyle: {
+        marginTop: '-10px',
+      },
+      rowNoValueStyle: {
+        padding: null,
+        textAlign: 'center',
+        color: 'grey',
+      },
+      rowWaitingStyle: {
+        padding: null,
+        textAlign: 'center',
+        color: '#d5d53b',
+      },
+      rowDefaultStyle: {
+        padding: null,
+        textAlign: 'center',
+      },
+    },
+  },
+  selectedSessionStyle: {
+    cardTextStyle: {
+      display: 'flex',
+      width: '100%',
+      padding: '5px',
     },
     listItemStyle: {
       padding: '5px',
@@ -219,14 +278,6 @@ const dashboardManagementStyles = (theme) => ({
       padding: '5px',
       color: '#d5d53b',
     },
-    listItemDivStyle: {
-      height: '300px',
-    },
-    raisedListStyle: {
-      width: '100%',
-      height: '100%',
-      padding: '3px',
-    },
     deleteButtonStyle: {
       marginRight: '10px',
       color: 'red',
@@ -236,42 +287,25 @@ const dashboardManagementStyles = (theme) => ({
       lineHeight: '20px',
       fontSize: '15px',
       backgroundColor: theme.palette.canvasColor,
-      width: '72px',
-      paddingLeft: '5px',
-    },
-    propertiesDivStyleAlt: {
-      marginTop: '-22px',
-      lineHeight: '20px',
-      fontSize: '15px',
-      backgroundColor: theme.palette.canvasColor,
       width: '82px',
       paddingLeft: '5px',
     },
     propertiesTitleStyle: {
-      border: `1px solid ${theme.palette.accent1Color}`,
+      border: `1px solid ${theme.palette.primary1Color}`,
       padding: '10px',
-      color: theme.palette.accent1Color,
+      color: theme.palette.primary1Color,
+      marginTop: '15px',
     },
     propertiesTitleStyleAlt: {
-      border: `1px solid ${theme.palette.accent1Color}`,
+      border: `1px solid ${theme.palette.primary1Color}`,
       padding: '10px',
       marginTop: '20px',
-      color: theme.palette.accent1Color,
-    },
-    dialogProductErrorStyle: {
-      maxWidth: null,
-    },
-    dialogProductErrorMainStyle: {
-      position: 'absolute',
-      top: '-150px',
+      color: theme.palette.primary1Color,
     },
   },
   displayIconsComponentStyle: {
     mainDivStyle: {
       width: '25%',
-    },
-    mainDivStyleAlt: {
-      width: '10%',
     },
     displayIconsDivStyle: {
       width: '100%',

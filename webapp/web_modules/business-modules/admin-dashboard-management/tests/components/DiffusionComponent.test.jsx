@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,6 +20,10 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
+import DisplayExternalDiffusionComponent from '../../src/components/DisplayExternalDiffusionComponent'
+import DisplayPropertiesComponent from '../../src/components/DisplayPropertiesComponent'
+import DiffusionActionsComponent from '../../src/components/actions/DiffusionActionsComponent'
+import ExternalDiffusionActionsComponent from '../../src/components/actions/ExternalDiffusionActionsComponent'
 import DiffusionComponent from '../../src/components/DiffusionComponent'
 import styles from '../../src/styles'
 
@@ -36,10 +40,10 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DiffusionComponent', () => {
   it('should exists', () => {
     assert.isDefined(DiffusionComponent)
   })
-  it('should render correctly', () => {
+  it('should render correctly a CATALOG STEP', () => {
     const props = {
       project: 'any',
-      sessionStep: {
+      sessionSteps: [{
         id: 0,
         stepId: 'metacatalog',
         source: 'Test_Source1',
@@ -54,11 +58,53 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DiffusionComponent', () => {
         },
         properties: {},
         lastUpdateDate: '01/01/21',
-      },
+      }],
     }
     const enzymeWrapper = shallow(<DiffusionComponent {...props} />, { context })
 
     const cardWrapper = enzymeWrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be a Card')
+
+    const propertiesComponentWrapper = enzymeWrapper.find(DisplayPropertiesComponent)
+    assert.lengthOf(propertiesComponentWrapper, 1, 'There should be a DisplayPropertiesComponent')
+
+    const actionscomponentWrapper = enzymeWrapper.find(DiffusionActionsComponent)
+    assert.lengthOf(actionscomponentWrapper, 1, 'There should be a DiffusionActionsComponent')
+  })
+  it('should render correctly an EXTERNAL DIFFUSION step', () => {
+    const props = {
+      project: 'any',
+      sessionSteps: [{
+        stepId: 'fem_dissemination',
+        source: 'PEPS',
+        session: 'Init validation data',
+        type: 'DISSEMINATION',
+        inputRelated: 9990,
+        outputRelated: 9990,
+        state: { errors: 1, waiting: 1, running: 1 },
+        properties: {
+          sds: {
+            pending: '10',
+            done: '5',
+          },
+          chronos: {
+            pending: '10',
+            done: '5',
+          },
+        },
+        lastUpdateDate: '2021-10-13T14:42:30.983Z',
+        registrationDate: '2021-10-13T14:42:34.948Z',
+      }],
+    }
+    const enzymeWrapper = shallow(<DiffusionComponent {...props} />, { context })
+
+    const cardWrapper = enzymeWrapper.find(Card)
+    assert.lengthOf(cardWrapper, 1, 'There should be a Card')
+
+    const externalDiffusionComponentWrapper = enzymeWrapper.find(DisplayExternalDiffusionComponent)
+    assert.lengthOf(externalDiffusionComponentWrapper, 1, 'There should be a DisplayExternalDiffusionComponent')
+
+    const actionsComponentWrapper = enzymeWrapper.find(ExternalDiffusionActionsComponent)
+    assert.lengthOf(actionsComponentWrapper, 1, 'There should be a ExternalDiffusionActionsComponent')
   })
 })

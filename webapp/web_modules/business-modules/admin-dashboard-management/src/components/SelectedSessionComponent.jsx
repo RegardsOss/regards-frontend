@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
+import filter from 'lodash/filter'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
@@ -44,7 +44,7 @@ class SelectedSessionComponent extends React.Component {
     relaunchProducts: PropTypes.func.isRequired,
     relaunchAIP: PropTypes.func.isRequired,
     relaunchStorages: PropTypes.func.isRequired,
-    retryRequests: PropTypes.func.isRequired,
+    retryWorkerRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
     retryFEMRequests: PropTypes.func.isRequired,
   }
@@ -58,7 +58,7 @@ class SelectedSessionComponent extends React.Component {
     isDeleteDialogOpen: false,
   }
 
-  getSessionStep = (selectedSession, stepType) => (find(selectedSession.content.steps, (step) => (step.type === stepType)))
+  getSessionSteps = (selectedSession, stepType) => (filter(selectedSession.content.steps, (step) => (step.type === stepType)))
 
   toggleDeleteDialog = () => {
     const { isDeleteDialogOpen } = this.state
@@ -97,7 +97,7 @@ class SelectedSessionComponent extends React.Component {
 
   render() {
     const {
-      selectedSession, project, relaunchProducts, relaunchAIP, retryRequests, relaunchStorages, retryFEMRequests,
+      selectedSession, project, relaunchProducts, relaunchAIP, retryWorkerRequests, relaunchStorages, retryFEMRequests,
     } = this.props
     const {
       intl: { formatMessage },
@@ -132,26 +132,26 @@ class SelectedSessionComponent extends React.Component {
         <CardText style={cardTextStyle}>
           <AcquisitionComponent
             project={project}
-            sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION)}
+            sessionSteps={this.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION)}
             relaunchProducts={relaunchProducts}
             selectedSession={selectedSession}
-            retryRequests={retryRequests}
+            retryWorkerRequests={retryWorkerRequests}
           />
           <ReferencingComponent
             project={project}
             selectedSession={selectedSession}
-            sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING)}
+            sessionSteps={this.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING)}
             relaunchAIP={relaunchAIP}
             retryFEMRequests={retryFEMRequests}
           />
           <ArchivalComponent
             project={project}
-            sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE)}
+            sessionSteps={this.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE)}
             relaunchStorages={relaunchStorages}
           />
           <DiffusionComponent
             project={project}
-            sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.DISSEMINATION)}
+            sessionSteps={this.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.DISSEMINATION)}
           />
         </CardText>
         {this.renderDeleteDialog()}

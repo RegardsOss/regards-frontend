@@ -23,7 +23,6 @@ import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { ENTITY } from '../../domain/entityTypes'
 import DisplayIconsComponent from '../DisplayIconsComponent'
-import { DISPLAY_ICON_TYPE_ENUM } from '../../domain/displayIconTypes'
 
 /**
   * Table cell render for attribute
@@ -75,7 +74,6 @@ class NameRender extends React.Component {
       </FlatButton>
       <DisplayIconsComponent
         entity={entity}
-        displayIconType={DISPLAY_ICON_TYPE_ENUM.COUNT}
       />
     </div>
   }
