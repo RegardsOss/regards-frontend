@@ -42,6 +42,7 @@ describe('[ADMIN PROCESSING MANAGEMENT Test Processing form container', () => {
 
   it('should render properly', (done) => {
     const promise = Promise.resolve({ error: false })
+    const rolePromise = Promise.resolve({ error: false })
     const props = {
       params: {
         project: 'testProject',
@@ -50,10 +51,12 @@ describe('[ADMIN PROCESSING MANAGEMENT Test Processing form container', () => {
       },
       // from mapStateToProps
       processing: DumpProvider.getFirstEntity('ProcessingClient', 'Processing'),
+      roleList: {},
       // from mapDispatchToProps
       fetch: sinon.stub().callsFake(() => promise),
       create: () => { },
       update: () => { },
+      fetchRoleList: sinon.stub().callsFake(() => rolePromise),
     }
 
     const wrapper = shallow(
@@ -63,8 +66,13 @@ describe('[ADMIN PROCESSING MANAGEMENT Test Processing form container', () => {
       { context },
     )
 
+    const tasks = [
+      promise,
+      rolePromise,
+    ]
+
     // Wait the component calls the promise in its React lifecycle to run the test the content of the rendered Component afterward
-    promise.then(() => {
+    Promise.all(tasks).then(() => {
       // Check loading component
       const loading = wrapper.find(LoadableContentDisplayDecorator)
       assert.equal(loading.length, 1, 'There should have a loading component rendered')

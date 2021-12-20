@@ -16,9 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import keys from 'lodash/keys'
 import { ProcessingDomain, AdminDomain } from '@regardsoss/domain'
 import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
-import { ProcessingShapes } from '@regardsoss/shape'
+import { ProcessingShapes, AdminShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
@@ -55,6 +56,7 @@ export class ProcessingFormComponent extends React.Component {
     processing: ProcessingShapes.Processing,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
+    roleList: AdminShapes.RoleList.isRequired,
     // from redux form
     pristine: PropTypes.bool.isRequired,
     invalid: PropTypes.bool.isRequired,
@@ -96,7 +98,7 @@ export class ProcessingFormComponent extends React.Component {
   }
 
   renderContent = () => {
-    const { mode, processing } = this.props
+    const { mode, processing, roleList } = this.props
     const {
       intl: { formatMessage },
       moduleTheme: { processingForm: { selectUserRoleDiv, selectUserRoleFieldDiv, helpUserRoleIcon }, iconStyle, buttonStyle },
@@ -128,11 +130,11 @@ export class ProcessingFormComponent extends React.Component {
               type="text"
               label={formatMessage({ id: 'processing.form.select.role' })}
             >
-              {map(AdminDomain.DEFAULT_ROLES_ENUM, (value, key) => (
+              {map(keys(roleList), (role) => (
                 <MenuItem
-                  key={key}
-                  value={value}
-                  primaryText={value}
+                  key={role}
+                  value={role}
+                  primaryText={role}
                 />
               ))}
             </Field>
