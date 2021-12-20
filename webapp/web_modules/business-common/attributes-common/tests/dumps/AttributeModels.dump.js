@@ -89,5 +89,11 @@ export const attributeModelsDictionary = {
  */
 export const attributeModelsArray = [
   ...values(attributeModelsDictionary),
-  ...DamDomain.AttributeModelController.getSortableStandardAttributes(),
+  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.geometry),
+  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.id),
+  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
+  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.model),
+  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId),
+  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.tags),
+  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.thumbnail),
 ].sort((attr1, attr2) => StringComparison.compare(attr1.content.jsonPath, attr2.content.jsonPath))
