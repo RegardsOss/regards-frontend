@@ -53,12 +53,12 @@ class FeatureManagerStep extends React.Component {
 
   onSeeErrors = () => {
     const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.CREATION}?session=${selectedSession.content.name}&source=${selectedSession.content.source}&state=${FemDomain.REQUEST_STATUS_ENUM.ERROR}`)
+    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.CREATION}?source=${encodeURIComponent(selectedSession.content.source)}&session=${encodeURIComponent(selectedSession.content.name)}&state=${FemDomain.REQUEST_STATUS_ENUM.ERROR}`)
   }
 
   onSeeReferenced = () => {
     const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor?session=${selectedSession.content.name}&source=${selectedSession.content.source}`)
+    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor?source=${encodeURIComponent(selectedSession.content.source)}&session=${encodeURIComponent(selectedSession.content.name)}`)
   }
 
   onRetryErrors = () => {
