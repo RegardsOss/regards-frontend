@@ -90,6 +90,7 @@ describe('[Attributes Common] Testing SingleAttributeFieldRender', () => {
       attributeModelsDictionary[2],
       attributeModelsDictionary[1],
       attributeModelsDictionary[4],
+      DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.tags),
     ].map(convertToHint), '1 - Available attributes should be filtered')
 
     // 2 - Simulate more user typing in progress

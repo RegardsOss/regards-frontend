@@ -27,6 +27,7 @@ import values from 'lodash/values'
 import { RESULTS_TABS } from './ResultsTabs'
 import ResultsContextConstants from './ResultsContextConstants'
 import { CatalogSearchQueryHelper } from '../catalog'
+import AttributeModelController from '../dam/AttributeModelController'
 
 /**
  * Helper for results context (holds merge deep common method)
@@ -158,7 +159,7 @@ export class ResultsContextHelper {
   static getSortableAttributes(resultsContext, tabType) {
     const { tab, selectedType } = ResultsContextHelper.getViewData(resultsContext, tabType)
     const { initialSorting, modes } = tab.types[selectedType]
-    return {
+    const allAttributes = {
       // 1- Compute the attributes list from initial sorting
       ...reduce(initialSorting, (acc, sort) => {
         const { attribute } = sort
@@ -182,5 +183,11 @@ export class ResultsContextHelper {
         return acc
       }, {}),
     }
+    return reduce(allAttributes, (acc, sortAttr, attrKey) => {
+      if (AttributeModelController.isSearchableAttribute(sortAttr.attribute)) {
+        acc[attrKey] = sortAttr
+      }
+      return acc
+    }, {})
   }
 }

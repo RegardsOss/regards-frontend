@@ -20,7 +20,6 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
-import filter from 'lodash/filter'
 import isString from 'lodash/isString'
 
 import { MODEL_ATTR_TYPES, PSEUDO_ATTR_TYPES } from './ModelAttrTypes'
@@ -42,10 +41,6 @@ const standardAttributesKeys = {
   version: 'version',
   last: 'last',
 }
-
-const NO_SORTABLE_STANDARD_ATTRIBUTES = [standardAttributesKeys.id,
-  standardAttributesKeys.model, standardAttributesKeys.tags, standardAttributesKeys.thumbnail,
-  standardAttributesKeys.geometry, standardAttributesKeys.last]
 
 /**
  * Defines standard attributes OR standard concepts (Thumbnail and alike).
@@ -147,9 +142,12 @@ function getStandardAttributeModel(standardAttributeKey) {
   return standardAttributesAsModel.find(({ content: { name } }) => name === standardAttributeKey)
 }
 
-/** Pseudo attributes, marks elements that should not be used with the server */
+/** Pseudo attributes, marks elements that should not be used with the server
+ * for sorting, facets and basic search
+ */
 const pseudoAttributesKeys = [
   standardAttributesKeys.thumbnail,
+  standardAttributesKeys.geometry,
 ]
 
 /**
@@ -217,17 +215,13 @@ function getAttributeModelFullName(attribute) {
   return fullAttributeName
 }
 
-function getSortableStandardAttributes() {
-  return filter(standardAttributesAsModel, (attribute) => !NO_SORTABLE_STANDARD_ATTRIBUTES.includes(attribute.content.name))
-}
-
 export default {
   getEntityAttributeValue,
   getStandardAttributeModel,
   findModelFromAttributeFullyQualifiedName,
   getAttributeModelFullName,
+  pseudoAttributesKeys,
   isSearchableAttribute,
   standardAttributesKeys,
   standardAttributesAsModel,
-  getSortableStandardAttributes,
 }
