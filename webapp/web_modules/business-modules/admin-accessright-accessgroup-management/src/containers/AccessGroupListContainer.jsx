@@ -66,7 +66,7 @@ export class AccessGroupListContainer extends React.Component {
    */
   handleShowGroupUsers = (accessgroupName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/user/project-user/list?group=${accessgroupName}&onlyWaiting=false`
+    const url = `/admin/${project}/user/project-user/list/accessRight?accessGroup=${accessgroupName}`
     browserHistory.push(url)
   }
 

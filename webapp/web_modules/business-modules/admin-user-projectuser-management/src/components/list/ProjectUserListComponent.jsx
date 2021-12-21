@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -24,8 +24,6 @@
 import { browserHistory } from 'react-router'
 import endsWith from 'lodash/endsWith'
 import map from 'lodash/map'
-import reduce from 'lodash/reduce'
-import keys from 'lodash/keys'
 import isEmpty from 'lodash/isEmpty'
 import {
   Card, CardText, CardTitle, CardActions,
@@ -37,11 +35,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { CardActionsComponent } from '@regardsoss/components'
 import dependencies from '../../dependencies'
 import ProjectUserAccountContainer from '../../containers/ProjectUserAccountContainer'
-import ProjectUserAccountComponent from './ProjectUserAccountComponent'
 import ProjectUserQuotaContainer from '../../containers/ProjectUserQuotaContainer'
-import ProjectUserQuotaComponent from './ProjectUserQuotaComponent'
 import ProjectUserAccessRightContainer from '../../containers/ProjectUserAccessRightContainer'
-import ProjectUserAccessRightComponent from './ProjectUserAccessRightComponent'
 import { VISUALISATION_MODES, VISUALISATION_MODES_ENUM } from '../../domain/VisualisationModes'
 
 class ProjectUserListComponent extends React.Component {
@@ -58,19 +53,6 @@ class ProjectUserListComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  static getDefaultFilters = (visualisationMode) => {
-    switch (visualisationMode) {
-      case VISUALISATION_MODES.ACCOUNT:
-        return ProjectUserAccountComponent.DEFAULT_FILTERS_STATE
-      case VISUALISATION_MODES.QUOTA:
-        return ProjectUserQuotaComponent.DEFAULT_FILTERS_STATE
-      case VISUALISATION_MODES.ACCESS_RIGHT:
-        return ProjectUserAccessRightComponent.DEFAULT_FILTERS_STATE
-      default:
-        return null
-    }
   }
 
   state = {
@@ -107,35 +89,14 @@ class ProjectUserListComponent extends React.Component {
   onUpdateLocation = (visualisationMode) => {
     const { pathname, query } = browserHistory.getCurrentLocation()
     let newPathName
-    let newQuery = query
     if (endsWith(pathname, 'list')) {
       newPathName = `${pathname}/${visualisationMode}`
     } else {
       newPathName = pathname.substring(0, pathname.lastIndexOf('/') + 1) + visualisationMode
     }
-
-    // Remove incoherent parameters from url
-    const defaultFiltersState = {
-      ...ProjectUserListComponent.getDefaultFilters(visualisationMode),
-    }
-    if (defaultFiltersState) {
-      newQuery = reduce(keys(query), (acc, value, key) => {
-        let newAcc = {
-          ...acc,
-        }
-        if (keys(defaultFiltersState).includes(value)) {
-          newAcc = {
-            ...newAcc,
-            [value]: query[value],
-          }
-        }
-        return newAcc
-      }, {})
-    }
     browserHistory.replace({
       pathname: newPathName,
-      search: new URLSearchParams(newQuery).toString(),
-      query: newQuery,
+      query,
     })
   }
 

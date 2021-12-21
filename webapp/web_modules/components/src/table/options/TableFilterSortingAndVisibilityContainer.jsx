@@ -17,22 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { browserHistory } from 'react-router'
-import get from 'lodash/get'
-import map from 'lodash/map'
-import isPlainObject from 'lodash/isPlainObject'
-import keys from 'lodash/keys'
-import isEqual from 'lodash/isEqual'
-import reduce from 'lodash/reduce'
 import has from 'lodash/has'
-import split from 'lodash/split'
-import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import values from 'lodash/values'
+import reduce from 'lodash/reduce'
 import { connect } from '@regardsoss/redux'
 import { CommonDomain } from '@regardsoss/domain'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
+import map from 'lodash/map'
 import clone from 'lodash/clone'
 import omit from 'lodash/omit'
-import { TableSelectionModes } from '@regardsoss/components'
 
 /**
  * Container that provides table sorting, column visiblity & filters management
@@ -114,23 +109,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     if (values(query).length > 0) {
       urlFilters = reduce(query, (acc, queryValue, queryKey) => {
         if (has(defaultFiltersState, queryKey)) {
-          if (has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.VALUES)) {
-            // Values Restrictiction filters type
-            acc[queryKey] = {
-              [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(query[queryKey], ','),
-            }
-          } else if (has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.BEFORE)
-            && has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.AFTER)) {
-            // Date Restriction filters type
-            const splitDates = split(query[queryKey], ',')
-            acc[queryKey] = {
-              [CommonDomain.REQUEST_PARAMETERS.AFTER]: TableFilterSortingAndVisibilityContainer.getParameterDateValue(splitDates[0]),
-              [CommonDomain.REQUEST_PARAMETERS.BEFORE]: TableFilterSortingAndVisibilityContainer.getParameterDateValue(splitDates[1]),
-            }
-          } else {
-            // Other filters type
-            acc[queryKey] = query[queryKey]
-          }
+          acc[queryKey] = query[queryKey]
         }
         return acc
       }, { ...defaultFiltersState })
@@ -138,75 +117,18 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     return urlFilters
   }
 
-  static updateURL = (filters) => {
-    const { pathname } = browserHistory.getCurrentLocation()
-    const newQuery = reduce(keys(filters), (acc, value) => {
-      if (filters[value] !== null && filters[value] !== undefined && !isEmpty(filters[value])) {
-        // Values Restriction & Dates Restriction
-        if (isPlainObject(filters[value])) {
-          if (CommonDomain.REQUEST_PARAMETERS.VALUES in filters[value] && !isEmpty(filters[value][CommonDomain.REQUEST_PARAMETERS.VALUES])) {
-            acc[value] = filters[value][CommonDomain.REQUEST_PARAMETERS.VALUES].toString()
-          } else if (CommonDomain.REQUEST_PARAMETERS.AFTER in filters[value] && CommonDomain.REQUEST_PARAMETERS.BEFORE in filters[value]) {
-            let paramValue = ''
-            if (filters[value][CommonDomain.REQUEST_PARAMETERS.AFTER] !== null) {
-              paramValue = filters[value][CommonDomain.REQUEST_PARAMETERS.AFTER]
-            }
-            if (filters[value][CommonDomain.REQUEST_PARAMETERS.BEFORE] !== null) {
-              paramValue += `,${filters[value][CommonDomain.REQUEST_PARAMETERS.BEFORE]}`
-            }
-            if (!isEmpty(paramValue)) {
-              acc[value] = paramValue
-            }
-          }
-        } else {
-          acc[value] = filters[value]
-        }
-      }
-      return acc
-    }, {})
-    browserHistory.replace({
-      pathname,
-      search: encodeURIComponent(new URLSearchParams(newQuery).toString()),
-      query: newQuery,
-    })
-  }
-
   static buildRequestParameters = (parametersObject) => (
     reduce(parametersObject, (acc, filterValue, filterKey) => {
-      if (has(filterValue, CommonDomain.REQUEST_PARAMETERS.VALUES)) {
-        if (!isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.VALUES])) {
-          // Values Restriction filters type
-          acc[filterKey] = {
-            [CommonDomain.REQUEST_PARAMETERS.VALUES]: filterValue[CommonDomain.REQUEST_PARAMETERS.VALUES],
-            [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.includeSelected,
-          }
-        }
-      } else if (has(filterValue, CommonDomain.REQUEST_PARAMETERS.BEFORE)
-        || has(filterValue, CommonDomain.REQUEST_PARAMETERS.AFTER)) {
-        if (!(isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.AFTER])
-          && isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.BEFORE]))) {
-          // Dates Restriction filters type
-          acc[filterKey] = {
-            [CommonDomain.REQUEST_PARAMETERS.AFTER]: TableFilterSortingAndVisibilityContainer.getFilterDateValue(parametersObject, filterKey, CommonDomain.REQUEST_PARAMETERS.AFTER),
-            [CommonDomain.REQUEST_PARAMETERS.BEFORE]: TableFilterSortingAndVisibilityContainer.getFilterDateValue(parametersObject, filterKey, CommonDomain.REQUEST_PARAMETERS.BEFORE),
-          }
-        }
-      } else if (!isEmpty(filterValue)) {
-        // Other filters type
+      if (!isEmpty(filterValue)) {
         acc[filterKey] = filterValue
       }
       return acc
     }, {}))
 
-  static getFilterDateValue = (filters, filterKey, dateParameter) => get(filters, `${filterKey}.${dateParameter}`, null)
-    ? new Date(filters[filterKey][dateParameter]) : null
-
-  static getParameterDateValue = (dateValue) => !isEmpty(dateValue) ? dateValue : null
-
   state = {
     requestParameters: TableFilterSortingAndVisibilityContainer.buildRequestParameters(TableFilterSortingAndVisibilityContainer.extractFiltersFromURL(this.props.defaultFiltersState)),
     columnsSorting: [],
-    filters: this.props.defaultFiltersState,
+    filters: TableFilterSortingAndVisibilityContainer.extractFiltersFromURL(this.props.defaultFiltersState),
     /** columns visibility map (no assertion on child columns keys) */
     columnsVisibility: {}, // note: empty by default, when column isn't found it should be considered visible
   }
@@ -241,32 +163,29 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     }
     const newState = {
       filters: newFilters,
-      requestParameters: TableFilterSortingAndVisibilityContainer.buildRequestParameters({ ...requestParameters, ...newFilters }),
+      requestParameters: {
+        ...requestParameters,
+        ...newFilters,
+      },
     }
     this.setState(newState)
-    TableFilterSortingAndVisibilityContainer.updateURL(newFilters)
   }
 
   /**
    * Clear filters
    */
   clearFilters = () => {
-    const { pathname } = browserHistory.getCurrentLocation()
     const { defaultFiltersState } = this.props
     const { requestParameters, filters } = this.state
     if (!isEqual(filters, defaultFiltersState)) {
       this.setState({
         filters: defaultFiltersState,
-        requestParameters: TableFilterSortingAndVisibilityContainer.buildRequestParameters({ ...requestParameters, ...defaultFiltersState }),
+        requestParameters: {
+          ...requestParameters, // for sorting
+          ...defaultFiltersState,
+        },
       })
     }
-    // Clear url parameters
-    const newQuery = {}
-    browserHistory.replace({
-      pathname,
-      search: new URLSearchParams(newQuery).toString(),
-      query: newQuery,
-    })
   }
 
   /**
