@@ -18,6 +18,7 @@
  **/
 import { browserHistory } from 'react-router'
 import reduce from 'lodash/reduce'
+import throttle from 'lodash/throttle'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import isPlainObject from 'lodash/isPlainObject'
@@ -223,6 +224,10 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     columnsVisibility: {}, // note: empty by default, when column isn't found it should be considered visible
   }
 
+  applyRequestParameters = throttle((requestParameters) => {
+    this.setState({ requestParameters })
+  }, 1000, { leading: true })
+
   getProxyfiedFunc = (newPropsToProxy) => (
     reduce(newPropsToProxy, (acc, newProp, key) => {
       acc[key] = (...params) => newProp(...params, this.onRefresh)
@@ -257,8 +262,8 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     }
     const newState = {
       filters: newFilters,
-      requestParameters: TableFilterSortingAndVisibilityContainer.buildRequestParameters({ ...requestParameters, ...newFilters }),
     }
+    this.applyRequestParameters(TableFilterSortingAndVisibilityContainer.buildRequestParameters({ ...requestParameters, ...newFilters }))
     this.setState(newState)
     TableFilterSortingAndVisibilityContainer.updateURL(newFilters)
   }
