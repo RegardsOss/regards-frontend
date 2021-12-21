@@ -270,9 +270,14 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
    * @param {*} mode
    */
   updateValuesFilter = (value, filterElement, mode = TableSelectionModes.INCLUDE) => {
-    const newFilterValue = {
-      [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(value, ','),
-      [CommonDomain.REQUEST_PARAMETERS.MODE]: mode,
+    let newFilterValue = {}
+    if (isEmpty(value)) {
+      newFilterValue = TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE
+    } else {
+      newFilterValue = {
+        [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(value, ','),
+        [CommonDomain.REQUEST_PARAMETERS.MODE]: mode,
+      }
     }
     this.updateFilter(newFilterValue, filterElement)
   }
