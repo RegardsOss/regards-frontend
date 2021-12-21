@@ -59,7 +59,7 @@ class DataProviderStep extends React.Component {
 
   onSeeReferenced = () => {
     const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=packages&session=${selectedSession.content.name}`)
+    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=packages&session=${encodeURIComponent(selectedSession.content.name)}`)
   }
 
   onRetryErrors = () => {
@@ -68,8 +68,8 @@ class DataProviderStep extends React.Component {
   }
 
   onSeeWaiting = () => {
-    const { project } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=requests&state=${IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE}`)
+    const { selectedSession, project } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=requests&sessionOwner=${encodeURIComponent(selectedSession.content.source)}&session=${encodeURIComponent(selectedSession.content.name)}&state=${IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE}`)
   }
 
   toggleRetryErrorsDialog = () => {

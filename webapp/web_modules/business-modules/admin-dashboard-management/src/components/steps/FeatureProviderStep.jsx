@@ -52,12 +52,12 @@ class FeatureProviderStep extends React.Component {
 
   onSeeReferenced = () => {
     const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.EXTRACTION}?session=${selectedSession.content.name}&source=${selectedSession.content.source}`)
+    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.EXTRACTION}?session=${encodeURIComponent(selectedSession.content.name)}&source=${encodeURIComponent(selectedSession.content.source)}`)
   }
 
   onSeeErrors = () => {
     const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.EXTRACTION}?session=${selectedSession.content.name}&source=${selectedSession.content.source}&state=${FemDomain.REQUEST_STATUS_ENUM.ERROR}`)
+    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.EXTRACTION}?session=${encodeURIComponent(selectedSession.content.name)}&source=${encodeURIComponent(selectedSession.content.source)}&state=${FemDomain.REQUEST_STATUS_ENUM.ERROR}`)
   }
 
   toggleRetryErrorsDialog = () => {
