@@ -130,19 +130,19 @@ class ProjectUserAccountFiltersComponent extends React.Component {
               <TextField
                 hintText={formatMessage({ id: 'projectUser.list.table.email' })}
                 value={filters[ACCOUNT_FILTERS.EMAIL]}
-                onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.EMAIL)}
+                onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.EMAIL, true)}
                 style={fieldMargin}
               />
               <TextField
                 hintText={formatMessage({ id: 'projectUser.list.table.lastname' })}
                 value={filters[ACCOUNT_FILTERS.LASTNAME]}
-                onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.LASTNAME)}
+                onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.LASTNAME, true)}
                 style={fieldMargin}
               />
               <TextField
                 hintText={formatMessage({ id: 'projectUser.list.table.firstname' })}
                 value={filters[ACCOUNT_FILTERS.FIRSTNAME]}
-                onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.FIRSTNAME)}
+                onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.FIRSTNAME, true)}
               />
             </TableHeaderOptionGroup>
           </TableHeaderOptionsArea>

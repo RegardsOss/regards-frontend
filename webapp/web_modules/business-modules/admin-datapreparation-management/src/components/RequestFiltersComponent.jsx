@@ -90,13 +90,13 @@ class RequestFiltersComponent extends React.Component {
               <TextField
                 floatingLabelText={formatMessage({ id: 'datapreparation.filters.contentTypes.label' })}
                 value={join(filters[WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES][CommonDomain.REQUEST_PARAMETERS.VALUES], ',')}
-                onChange={(event, value) => updateValuesFilter(value, WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES)}
+                onChange={(event, value) => updateValuesFilter(value, WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES, true)}
                 style={fieldMargin}
               />
               <TextField
                 floatingLabelText={formatMessage({ id: 'datapreparation.filters.workerType.label' })}
                 value={filters[WorkerDomain.REQUEST_FILTERS.WORKER_TYPE]}
-                onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.WORKER_TYPE)}
+                onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.WORKER_TYPE, true)}
                 style={fieldMargin}
               />
             </TableHeaderOptionGroup>
@@ -106,13 +106,13 @@ class RequestFiltersComponent extends React.Component {
               <TextField
                 floatingLabelText={formatMessage({ id: 'datapreparation.filters.source.label' })}
                 value={filters[WorkerDomain.REQUEST_FILTERS.SOURCE]}
-                onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.SOURCE)}
+                onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.SOURCE, true)}
                 style={fieldMargin}
               />
               <TextField
                 floatingLabelText={formatMessage({ id: 'datapreparation.filters.session.label' })}
                 value={filters[WorkerDomain.REQUEST_FILTERS.SESSION]}
-                onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.SESSION)}
+                onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.SESSION, true)}
                 style={fieldMargin}
               />
               <SelectField

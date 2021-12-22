@@ -84,19 +84,19 @@ class ProjectUserQuotaFiltersComponent extends React.Component {
               <TextField
                 hintText={formatMessage({ id: 'projectUser.list.table.email' })}
                 value={filters[QUOTA_FILTERS.EMAIL]}
-                onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.EMAIL)}
+                onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.EMAIL, true)}
                 style={fieldMargin}
               />
               <TextField
                 hintText={formatMessage({ id: 'projectUser.list.table.lastname' })}
                 value={filters[QUOTA_FILTERS.LASTNAME]}
-                onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.LASTNAME)}
+                onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.LASTNAME, true)}
                 style={fieldMargin}
               />
               <TextField
                 hintText={formatMessage({ id: 'projectUser.list.table.firstname' })}
                 value={filters[QUOTA_FILTERS.FIRSTNAME]}
-                onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.FIRSTNAME)}
+                onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.FIRSTNAME, true)}
                 style={fieldMargin}
               />
             </TableHeaderOptionGroup>

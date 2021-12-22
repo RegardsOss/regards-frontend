@@ -253,17 +253,25 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     * Update a filter
     * @param {*} newFilterValue
     * @param {*} filterElement
+    * @param {*} useThrottle
     */
-  updateFilter = (newFilterValue, filterElement) => {
+  updateFilter = (newFilterValue, filterElement, useThrottle = false) => {
     const { filters, requestParameters } = this.state
     const newFilters = {
       ...filters,
       [filterElement]: newFilterValue || undefined,
     }
-    const newState = {
+    let newState = {
       filters: newFilters,
     }
-    this.applyRequestParameters(TableFilterSortingAndVisibilityContainer.buildRequestParameters({ ...requestParameters, ...newFilters }))
+    if (useThrottle) {
+      this.applyRequestParameters(TableFilterSortingAndVisibilityContainer.buildRequestParameters({ ...requestParameters, ...newFilters }))
+    } else {
+      newState = {
+        ...newState,
+        requestParameters: TableFilterSortingAndVisibilityContainer.buildRequestParameters({ ...requestParameters, ...newFilters }),
+      }
+    }
     this.setState(newState)
     TableFilterSortingAndVisibilityContainer.updateURL(newFilters)
   }
@@ -274,17 +282,17 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
    * @param {*} filterElement
    * @param {*} mode
    */
-  updateValuesFilter = (value, filterElement, mode = TableSelectionModes.INCLUDE) => {
+  updateValuesFilter = (value, filterElement, mode = TableSelectionModes.INCLUDE, debounce = false) => {
     let newFilterValue = {}
     if (isEmpty(value)) {
       newFilterValue = TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE
     } else {
       newFilterValue = {
-        [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(value, ','),
-        [CommonDomain.REQUEST_PARAMETERS.MODE]: mode,
+      [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(value, ','),
+      [CommonDomain.REQUEST_PARAMETERS.MODE]: mode,
       }
     }
-    this.updateFilter(newFilterValue, filterElement)
+    this.updateFilter(newFilterValue, filterElement, debounce)
   }
 
   /**
@@ -293,13 +301,13 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
    * @param {*} filterElement
    * @param {*} dateParameter : either AFTER or BEFORE
    */
-  updateDatesFilter = (value, filterElement, dateParameter) => {
+  updateDatesFilter = (value, filterElement, dateParameter, debounce = false) => {
     const { filters } = this.state
     const newFilterValue = {
       ...filters[filterElement],
       [dateParameter]: value,
     }
-    this.updateFilter(newFilterValue, filterElement)
+    this.updateFilter(newFilterValue, filterElement, debounce)
   }
 
   /**

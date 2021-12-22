@@ -69,19 +69,19 @@ class ProjectUserAccessRightFiltersComponent extends React.Component {
               <TextField
                 hintText={formatMessage({ id: 'projectUser.list.table.email' })}
                 value={filters[ACCESS_RIGHT_FILTERS.EMAIL]}
-                onChange={(event, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.EMAIL)}
+                onChange={(event, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.EMAIL, true)}
                 style={fieldMargin}
               />
               <TextField
                 hintText={formatMessage({ id: 'projectUser.list.table.lastname' })}
                 value={filters[ACCESS_RIGHT_FILTERS.LASTNAME]}
-                onChange={(event, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.LASTNAME)}
+                onChange={(event, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.LASTNAME, true)}
                 style={fieldMargin}
               />
               <TextField
                 hintText={formatMessage({ id: 'projectUser.list.table.firstname' })}
                 value={filters[ACCESS_RIGHT_FILTERS.FIRSTNAME]}
-                onChange={(event, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.FIRSTNAME)}
+                onChange={(event, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.FIRSTNAME, true)}
                 style={fieldMargin}
               />
             </TableHeaderOptionGroup>
