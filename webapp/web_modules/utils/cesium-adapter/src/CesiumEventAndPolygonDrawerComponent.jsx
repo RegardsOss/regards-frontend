@@ -23,13 +23,14 @@ import map from 'lodash/map'
 import has from 'lodash/has'
 import find from 'lodash/find'
 import {
-  ScreenSpaceEventType, Cartographic, Rectangle, Ellipsoid, Math, CallbackProperty, Color,
+  ScreenSpaceEventType, Rectangle, Ellipsoid, CallbackProperty, Color,
 } from 'cesium'
 import {
   ScreenSpaceEventHandler, ScreenSpaceCameraController, ScreenSpaceEvent, Entity, RectangleGraphics,
 } from 'resium'
 import compact from 'lodash/compact'
 import { CatalogDomain, UIDomain } from '@regardsoss/domain'
+import { buildRectangleFromGeometry, getLatLongFromCartesian3, buildRectangleFromPoints } from './CesiumHelper'
 
 const INTERACTION_DRAW = {
   UNSTARTED: 'UNSTARTED',
@@ -60,15 +61,6 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
     onProductSelected: PropTypes.func.isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
   }
-
-  static buildRectangleFromGeometry = (geometry) => Rectangle.fromCartographicArray([
-    Cartographic.fromDegrees(
-      geometry.coordinates[0][0][0],
-      geometry.coordinates[0][0][1]),
-    Cartographic.fromDegrees(
-      geometry.coordinates[0][2][0],
-      geometry.coordinates[0][2][1],
-    )])
 
   /**
    * The current Cesium object storing rectangle position
@@ -113,23 +105,15 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
       this.currentInteractionState = INTERACTION_DRAW.UNSTARTED
       this.rectangle = new Rectangle()
     }
-    // Draw the rectangle if provided by parent, clear it if
+    // Draw the rectangle if provided by parent, clear otherwise
     if (!isEqual(oldProps.drawnAreas, newProps.drawnAreas)) {
       if (!isEmpty(newProps.drawnAreas)) {
-        this.rectangle = CesiumEventAndPolygonDrawerComponent.buildRectangleFromGeometry(newProps.drawnAreas[0].geometry)
+        this.rectangle = buildRectangleFromGeometry(newProps.drawnAreas[0].geometry)
       } else {
         // When user clear the criteria
         this.rectangle = new Rectangle()
       }
     }
-  }
-
-  getLatLongFromCartesian3 = (cartesian3Point) => {
-    const carto = Ellipsoid.WGS84.cartesianToCartographic(cartesian3Point)
-    return [
-      Math.toDegrees(carto.longitude),
-      Math.toDegrees(carto.latitude),
-    ]
   }
 
   getLatLongFromPosition = (position) => {
@@ -139,7 +123,7 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
     const cartesian = cesiumContext.current.cesiumElement.scene.camera.pickEllipsoid(position, Ellipsoid.WGS84)
     let result
     if (cartesian) {
-      result = this.getLatLongFromCartesian3(cartesian)
+      result = getLatLongFromCartesian3(cartesian)
     }
     return result
   }
@@ -218,14 +202,7 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
       // the user is moving the mouse so rectangle too
       const currentPoint = this.getLatLongFromPosition(movement.endPosition)
       if (currentPoint) {
-        this.rectangle = Rectangle.fromCartographicArray([
-          Cartographic.fromDegrees(
-            this.currentDrawingInitPoint[0],
-            this.currentDrawingInitPoint[1]),
-          Cartographic.fromDegrees(
-            currentPoint[0],
-            currentPoint[1],
-          )])
+        this.rectangle = buildRectangleFromPoints(this.currentDrawingInitPoint, currentPoint)
       }
     }
   }
@@ -262,7 +239,7 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
           fill={false}
           outline
           outlineColor={cesiumDrawColor}
-          outlineWidth={2}
+          outlineWidth={5}
         />
       </Entity>
       <ScreenSpaceEventHandler>
