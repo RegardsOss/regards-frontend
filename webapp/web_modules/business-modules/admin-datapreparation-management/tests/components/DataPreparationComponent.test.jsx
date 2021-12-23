@@ -22,13 +22,11 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CommonDomain } from '@regardsoss/domain'
 import {
   PageableInfiniteTableContainer,
-  TableSelectionModes,
 } from '@regardsoss/components'
 import { requestActions, requestSelectors } from '../../src/clients/WorkerRequestClient'
 import DataPreparationComponent from '../../src/components/DataPreparationComponent'
 import RequestFiltersComponent from '../../src/components/RequestFiltersComponent'
-import HeaderActionsBar from '../../src/components/HeaderActionsBar'
-import { tableSelectionData } from '../data/testData'
+import HeaderActionsBarContainer from '../../src/containers/HeaderActionsBarContainer'
 
 import styles from '../../src/styles'
 
@@ -53,9 +51,6 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationComponent', 
       onRetryRequest: () => {},
       numberOfRequests: 1,
       pageSize: 5,
-      tableSelection: tableSelectionData,
-      selectionMode: TableSelectionModes.includeSelected,
-      areAllSelected: false,
 
       // table sorting, column visiblity & filters management
       requestParameters: {},
@@ -81,13 +76,11 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationComponent', 
       clearFilters: props.clearFilters,
     }, 'Component should define the expected properties')
 
-    const headerActionsBarWrapper = enzymeWrapper.find(HeaderActionsBar)
+    const headerActionsBarWrapper = enzymeWrapper.find(HeaderActionsBarContainer)
     assert.lengthOf(headerActionsBarWrapper, 1, 'There should be a HeaderActionsBar')
     testSuiteHelpers.assertWrapperProperties(headerActionsBarWrapper, {
       onRefresh: props.onRefresh,
       onChangeColumnsVisibility: props.onChangeColumnsVisibility,
-      areAllSelected: props.areAllSelected,
-      tableSelection: props.tableSelection,
       onDelete: enzymeWrapper.instance().onDelete,
       onRetry: enzymeWrapper.instance().onRetry,
     }, 'Component should define the expected properties')

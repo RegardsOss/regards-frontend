@@ -37,7 +37,7 @@ const ResourceFlatButton = withResourceDisplayControl(FlatButton)
 /**
   * @author Théo Lasserre
   */
-class HeaderActionsBar extends React.Component {
+class HeaderActionsBarComponent extends React.Component {
   static propTypes = {
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
     tableSelection: PropTypes.arrayOf(WorkerShapes.Request),
@@ -126,4 +126,4 @@ class HeaderActionsBar extends React.Component {
     )
   }
 }
-export default HeaderActionsBar
+export default HeaderActionsBarComponent

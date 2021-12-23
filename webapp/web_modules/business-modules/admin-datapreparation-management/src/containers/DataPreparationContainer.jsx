@@ -20,12 +20,10 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
-import { WorkerShapes } from '@regardsoss/shape'
 import get from 'lodash/get'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { requestActions, requestSelectors } from '../clients/WorkerRequestClient'
 import { requestSignalsActions } from '../clients/WorkerRequestSignalsClient'
-import { tableSelectors } from '../clients/TableClient'
 import DataPreparationComponent from '../components/DataPreparationComponent'
 import messages from '../i18n'
 import styles from '../styles'
@@ -44,9 +42,6 @@ export class DataPreparationContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
-    tableSelection: PropTypes.arrayOf(WorkerShapes.Request),
-    selectionMode: PropTypes.string.isRequired,
-    areAllSelected: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchRequests: PropTypes.func.isRequired,
     onDeleteRequest: PropTypes.func.isRequired,
@@ -64,9 +59,6 @@ export class DataPreparationContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       pageMeta: requestSelectors.getMetaData(state),
-      tableSelection: tableSelectors.getToggledElementsAsList(state),
-      selectionMode: tableSelectors.getSelectionMode(state),
-      areAllSelected: tableSelectors.areAllSelected(state, requestSelectors),
     }
   }
 
@@ -128,7 +120,7 @@ export class DataPreparationContainer extends React.Component {
 
   renderComponent = (filterSortingAndVisibilityProps) => {
     const {
-      pageMeta, tableSelection, selectionMode, areAllSelected,
+      pageMeta,
     } = this.props
     const { isFetching } = this.state
     return (
@@ -138,9 +130,6 @@ export class DataPreparationContainer extends React.Component {
         isLoading={isFetching}
         pageSize={DataPreparationContainer.PAGE_SIZE}
         numberOfRequests={get(pageMeta, 'totalElements', 0)}
-        tableSelection={tableSelection}
-        selectionMode={selectionMode}
-        areAllSelected={areAllSelected}
       />
     )
   }

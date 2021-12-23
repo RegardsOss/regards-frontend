@@ -18,12 +18,11 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { TableSelectionModes, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { requestActions, requestSelectors } from '../../src/clients/WorkerRequestClient'
 import DataPreparationComponent from '../../src/components/DataPreparationComponent'
 import { DataPreparationContainer } from '../../src/containers/DataPreparationContainer'
-import { tableSelectionData } from '../data/testData'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -43,9 +42,6 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationContainer', 
     const props = {
       // from mapStateToProps
       numberOfRequests: 40,
-      tableSelection: tableSelectionData,
-      selectionMode: TableSelectionModes.includeSelected,
-      areAllSelected: false,
       // from mapDispatchToProps
       fetchRequests: () => {},
       onDeleteRequest: () => {},

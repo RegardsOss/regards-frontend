@@ -23,22 +23,22 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
   TableColumnsVisibilityOption, TableSelectionModes,
 } from '@regardsoss/components'
-import HeaderActionsBar from '../../src/components/HeaderActionsBar'
+import HeaderActionsBarComponent from '../../src/components/HeaderActionsBarComponent'
 import { tableSelectionData } from '../data/testData'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test HeaderActionsBar
+ * Test HeaderActionsBarComponent
  * @author Théo Lasserre
  */
-describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing HeaderActionsBar', () => {
+describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing HeaderActionsBarComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(HeaderActionsBar)
+    assert.isDefined(HeaderActionsBarComponent)
   })
   it('should render correctly', () => {
     const props = {
@@ -54,7 +54,7 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing HeaderActionsBar', () => {
       onRefresh: () => {},
       onChangeColumnsVisibility: () => {},
     }
-    const enzymeWrapper = shallow(<HeaderActionsBar {...props} />, { context })
+    const enzymeWrapper = shallow(<HeaderActionsBarComponent {...props} />, { context })
     const tableColumnsWrapper = enzymeWrapper.find(TableColumnsVisibilityOption)
     assert.lengthOf(tableColumnsWrapper, 1, 'There should be a TableColumnsVisibilityOption')
 

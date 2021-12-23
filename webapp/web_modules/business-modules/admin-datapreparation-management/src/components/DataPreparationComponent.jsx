@@ -26,7 +26,6 @@ import {
 } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { WorkerShapes } from '@regardsoss/shape'
 import {
   NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
   PageableInfiniteTableContainer,
@@ -39,8 +38,8 @@ import { CommonDomain, WorkerDomain } from '@regardsoss/domain'
 import DIALOG_TYPES from '../domain/dialogTypes'
 import DeleteRequestComponent from './options/DeleteRequestComponent'
 import RetryRequestComponent from './options/RetryRequestComponent'
-import HeaderActionsBar from './HeaderActionsBar'
 import RequestFiltersComponent from './RequestFiltersComponent'
+import HeaderActionsBarContainer from '../containers/HeaderActionsBarContainer'
 import StatusRender from './render/StatusRender'
 import ErrorDetailsDialog from './dialogs/ErrorDetailsDialog'
 import { requestActions, requestSelectors } from '../clients/WorkerRequestClient'
@@ -57,9 +56,6 @@ class DataPreparationComponent extends React.Component {
     onRetryRequest: PropTypes.func.isRequired,
     numberOfRequests: PropTypes.number.isRequired,
     pageSize: PropTypes.number.isRequired,
-    tableSelection: PropTypes.arrayOf(WorkerShapes.Request),
-    selectionMode: PropTypes.string.isRequired,
-    areAllSelected: PropTypes.bool.isRequired,
 
     // table sorting, column visiblity & filters management
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
@@ -225,7 +221,7 @@ class DataPreparationComponent extends React.Component {
       pageSize, onRefresh, isLoading,
       getColumnSortingData, columnsVisibility,
       onSort, updateFilter, clearFilters, onChangeColumnsVisibility,
-      numberOfRequests, onBack, tableSelection, selectionMode, areAllSelected,
+      numberOfRequests, onBack,
       filters, requestParameters, updateValuesFilter, updateDatesFilter,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
@@ -309,13 +305,10 @@ class DataPreparationComponent extends React.Component {
               </TableHeaderContentBox>
               <TableHeaderLoadingComponent loading={isLoading} />
               <TableHeaderOptionsArea>
-                <HeaderActionsBar
+                <HeaderActionsBarContainer
                   columns={columns}
                   onRefresh={onRefresh}
                   onChangeColumnsVisibility={onChangeColumnsVisibility}
-                  areAllSelected={areAllSelected}
-                  selectionMode={selectionMode}
-                  tableSelection={tableSelection}
                   onDelete={this.onDelete}
                   onRetry={this.onRetry}
                 />
