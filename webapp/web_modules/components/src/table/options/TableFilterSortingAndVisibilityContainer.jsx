@@ -18,7 +18,7 @@
  **/
 import { browserHistory } from 'react-router'
 import reduce from 'lodash/reduce'
-import throttle from 'lodash/throttle'
+import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import isPlainObject from 'lodash/isPlainObject'
@@ -224,9 +224,9 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     columnsVisibility: {}, // note: empty by default, when column isn't found it should be considered visible
   }
 
-  applyRequestParameters = throttle((requestParameters) => {
+  applyRequestParameters = debounce((requestParameters) => {
     this.setState({ requestParameters })
-  }, 1000, { leading: true })
+  }, 500)
 
   getProxyfiedFunc = (newPropsToProxy) => (
     reduce(newPropsToProxy, (acc, newProp, key) => {
@@ -253,9 +253,9 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     * Update a filter
     * @param {*} newFilterValue
     * @param {*} filterElement
-    * @param {*} useThrottle
+    * @param {*} useDebounce
     */
-  updateFilter = (newFilterValue, filterElement, useThrottle = false) => {
+  updateFilter = (newFilterValue, filterElement, useDebounce = false) => {
     const { filters, requestParameters } = this.state
     const newFilters = {
       ...filters,
@@ -264,7 +264,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     let newState = {
       filters: newFilters,
     }
-    if (useThrottle) {
+    if (useDebounce) {
       this.applyRequestParameters(TableFilterSortingAndVisibilityContainer.buildRequestParameters({ ...requestParameters, ...newFilters }))
     } else {
       newState = {
@@ -292,7 +292,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
       [CommonDomain.REQUEST_PARAMETERS.MODE]: mode,
       }
     }
-    this.updateFilter(newFilterValue, filterElement, debounce)
+    this.updateFilter(newFilterValue, filterElement, useDebounce)
   }
 
   /**
@@ -301,13 +301,13 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
    * @param {*} filterElement
    * @param {*} dateParameter : either AFTER or BEFORE
    */
-  updateDatesFilter = (value, filterElement, dateParameter, debounce = false) => {
+  updateDatesFilter = (value, filterElement, dateParameter, useDebounce = false) => {
     const { filters } = this.state
     const newFilterValue = {
       ...filters[filterElement],
       [dateParameter]: value,
     }
-    this.updateFilter(newFilterValue, filterElement, debounce)
+    this.updateFilter(newFilterValue, filterElement, useDebounce)
   }
 
   /**
