@@ -5,7 +5,7 @@ This is the REGARDS Frontend webapp.
 ## Requirements
 ------------
 
--	node v8.10
+-	node: v12.13+
 -	npm v5.7.1 (npm i -g npm to upgrade)
 
 > **Important**  
