@@ -143,9 +143,7 @@ export class RequestManagerComponent extends React.Component {
     if (to) {
       contextRequestParameters.to = to
     }
-    if (state) {
-      contextRequestParameters.state = state
-    }
+    contextRequestParameters.state = state
     return contextRequestParameters
   }
 

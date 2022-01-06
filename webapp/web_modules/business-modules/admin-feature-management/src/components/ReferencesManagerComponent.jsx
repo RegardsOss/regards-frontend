@@ -132,9 +132,7 @@ export class ReferencesManagerComponent extends React.Component {
     if (to) {
       contextRequestParameters.to = to
     }
-    if (disseminationPending) {
-      contextRequestParameters.disseminationPending = disseminationPending
-    }
+    contextRequestParameters.disseminationPending = disseminationPending
     return contextRequestParameters
   }
 
