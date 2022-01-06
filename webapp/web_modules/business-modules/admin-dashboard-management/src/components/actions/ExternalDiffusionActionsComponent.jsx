@@ -16,47 +16,57 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
+import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { ICON_TYPE_ENUM } from '../../domain/iconType'
 
 /**
   * @author Théo Lasserre
   */
 class ExternalDiffusionActionsComponent extends React.Component {
-   static propTypes = {
-     project: PropTypes.string.isRequired,
-   }
+  static propTypes = {
+    project: PropTypes.string.isRequired,
+    sessionStep: AdminShapes.SessionStep,
+  }
 
-   static contextTypes = {
-     ...themeContextType,
-     ...i18nContextType,
-   }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
-   onClick = () => {
-     const { project } = this.props
-     browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor?disseminationPending=PENDING`)
-   }
+  onClick = () => {
+    const { project } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor?disseminationPending=PENDING`)
+  }
 
-   render() {
-     const {
-       intl: { formatMessage }, moduleTheme: {
-         stepStyle: {
-           raisedListStyle, cardButtonStyle,
-         },
-       },
-     } = this.context
-     return (
-       <div style={cardButtonStyle}>
-         <RaisedButton
-           onClick={this.onClick}
-           label={formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.diffusion.button.see-detail' })}
-           primary
-           style={raisedListStyle}
-         />
-       </div>
-     )
-   }
+  render() {
+    const { sessionStep } = this.props
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        stepStyle: {
+          raisedListStyle, cardButtonStyle,
+        },
+      },
+    } = this.context
+    const nbWaiting = get(sessionStep, `state.${ICON_TYPE_ENUM.WAITING}`, 0)
+    return (
+      <div style={cardButtonStyle}>
+        {
+          nbWaiting !== 0
+            ? <RaisedButton
+                onClick={this.onClick}
+                label={formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.fem_dissemination.button.see-detail' })}
+                primary
+                style={raisedListStyle}
+            />
+            : null
+        }
+      </div>
+    )
+  }
 }
 export default ExternalDiffusionActionsComponent

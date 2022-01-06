@@ -98,6 +98,7 @@ class DiffusionComponent extends React.Component {
             currentSessionStep.stepId === DISSEMINATION_TYPE.EXTERNAL_DIFFUSION
               ? <ExternalDiffusionActionsComponent
                   project={project}
+                  sessionStep={sessionStep}
               />
               : <DiffusionActionsComponent
                   project={project}

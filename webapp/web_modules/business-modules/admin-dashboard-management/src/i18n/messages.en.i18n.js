@@ -198,6 +198,7 @@ const messages = {
   'dashboard.selectedsession.DISSEMINATION.fem_dissemination.properties.input.title': 'Requests',
   'dashboard.selectedsession.DISSEMINATION.diffusion.properties.output.title': 'Products',
   'dashboard.selectedsession.DISSEMINATION.diffusion.button.see-detail': 'See detail',
+  'dashboard.selectedsession.DISSEMINATION.fem_dissemination.button.see-detail': 'See diffusions',
   'dashboard.selectedsession.DISSEMINATION.fem_dissemination.title': 'External',
   'dashboard.selectedsession.DISSEMINATION.fem_dissemination.table.column.name': 'Recipient',
   'dashboard.selectedsession.DISSEMINATION.fem_dissemination.table.column.pending': 'Pending',
