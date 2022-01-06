@@ -5,8 +5,8 @@ This is the REGARDS Frontend webapp.
 ## Requirements
 ------------
 
--	node: v12.13+
--	npm v5.7.1 (npm i -g npm to upgrade)
+-	node: v16+
+-	npm v8+ (npm i -g npm to upgrade)
 
 > **Important**  
 > As REGARDS frontend is developed around two main libraries, [React](https://facebook.github.io/react/) and [Redux](http://redux.js.org), we highly recommand new developers to start by watching the here under [Egghead](https://egghead.io) videos to learn the basics of these two libraries.
