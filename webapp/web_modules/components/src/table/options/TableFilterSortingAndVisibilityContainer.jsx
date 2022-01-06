@@ -133,7 +133,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
               [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(query[queryKey], ','),
             }
           } else if (has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.BEFORE)
-              && has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.AFTER)) {
+            && has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.AFTER)) {
             // Date Restriction filters type
             const splitDates = split(query[queryKey], ',')
             acc[queryKey] = {
@@ -195,9 +195,9 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
           }
         }
       } else if (has(filterValue, CommonDomain.REQUEST_PARAMETERS.BEFORE)
-          || has(filterValue, CommonDomain.REQUEST_PARAMETERS.AFTER)) {
+        || has(filterValue, CommonDomain.REQUEST_PARAMETERS.AFTER)) {
         if (!(isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.AFTER])
-            && isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.BEFORE]))) {
+          && isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.BEFORE]))) {
           // Dates Restriction filters type
           acc[filterKey] = {
             [CommonDomain.REQUEST_PARAMETERS.AFTER]: TableFilterSortingAndVisibilityContainer.getFilterDateValue(parametersObject, filterKey, CommonDomain.REQUEST_PARAMETERS.AFTER),
@@ -282,14 +282,14 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
    * @param {*} filterElement
    * @param {*} mode
    */
-  updateValuesFilter = (value, filterElement, mode = TableSelectionModes.INCLUDE, debounce = false) => {
+  updateValuesFilter = (value, filterElement, mode = TableSelectionModes.INCLUDE, useDebounce = false) => {
     let newFilterValue = {}
     if (isEmpty(value)) {
       newFilterValue = TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE
     } else {
       newFilterValue = {
-      [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(value, ','),
-      [CommonDomain.REQUEST_PARAMETERS.MODE]: mode,
+        [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(value, ','),
+        [CommonDomain.REQUEST_PARAMETERS.MODE]: mode,
       }
     }
     this.updateFilter(newFilterValue, filterElement, useDebounce)
