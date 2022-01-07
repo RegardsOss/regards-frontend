@@ -27,7 +27,7 @@ import { WorkerDomain, CommonDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
-  TableHeaderOptionsArea, TableHeaderOptionGroup, TableFilterSortingAndVisibilityContainer, DatePickerField,
+  TableHeaderOptionsArea, TableHeaderOptionGroup, TableSelectionModes, TableFilterSortingAndVisibilityContainer, DatePickerField,
 } from '@regardsoss/components'
 
 /**
@@ -90,7 +90,7 @@ class RequestFiltersComponent extends React.Component {
               <TextField
                 floatingLabelText={formatMessage({ id: 'datapreparation.filters.contentTypes.label' })}
                 value={join(filters[WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES][CommonDomain.REQUEST_PARAMETERS.VALUES], ',')}
-                onChange={(event, value) => updateValuesFilter(value, WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES, true)}
+                onChange={(event, value) => updateValuesFilter(value, WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES, TableSelectionModes.INCLUDE, true)}
                 style={fieldMargin}
               />
               <TextField
