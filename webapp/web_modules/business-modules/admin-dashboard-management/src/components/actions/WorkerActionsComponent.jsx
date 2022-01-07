@@ -52,7 +52,7 @@ class WorkerActionsComponent extends React.Component {
 
   onSeeWaiting = () => {
     const { project } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/datapreparation/requests?${WorkerDomain.REQUEST_FILTERS.STATUSES}=${WorkerDomain.REQUEST_STATUS_ENUM.TO_DISPATCH}`)
+    browserHistory.push(`/admin/${project}/data/acquisition/datapreparation/requests?${WorkerDomain.REQUEST_FILTERS.STATUSES}=${WorkerDomain.REQUEST_STATUS_ENUM.NO_WORKER_AVAILABLE}`)
   }
 
   onRetryErrors = () => {
