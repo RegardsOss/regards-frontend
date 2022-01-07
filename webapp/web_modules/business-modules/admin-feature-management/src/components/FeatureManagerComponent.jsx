@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import includes from 'lodash/includes'
+import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import { Breadcrumb, CardActionsComponent } from '@regardsoss/components'
@@ -142,19 +143,29 @@ class FeatureManagerComponent extends React.Component {
           <div>
             {
               openedPane === FemDomain.REQUEST_TYPES_ENUM.REFERENCES
-                ? (<ReferencesManagerContainer
+                ? <ReferencesManagerContainer
                     key={`feature-manager-${openedPane}`}
                     featureManagerFilters={featureManagerFilters}
                     params={params}
                     paneType={openedPane}
-                />)
-                : (
-                  <RequestManagerContainer
-                    featureManagerFilters={featureManagerFilters}
-                    paneType={openedPane}
-                    clients={clientByPane[openedPane]}
-                  />
-                )
+                />
+                : null
+            }
+            {
+              map(FemDomain.REQUEST_TYPES, (pane) => {
+                if (pane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES && pane === openedPane) {
+                  return (
+                    <div key={pane}>
+                      <RequestManagerContainer
+                        featureManagerFilters={featureManagerFilters}
+                        paneType={pane}
+                        clients={clientByPane[pane]}
+                      />
+                    </div>
+                  )
+                }
+                return null
+              })
             }
           </div>
           <CardActions>
