@@ -59,7 +59,7 @@ class WorkerActionsComponent extends React.Component {
     const { retryWorkerRequests } = this.props
     return retryWorkerRequests({
       [WorkerDomain.REQUEST_FILTERS.STATUSES]: {
-        [CommonDomain.REQUEST_PARAMETERS.VALUES]: WorkerDomain.REQUEST_STATUS_ENUM.ERROR,
+        [CommonDomain.REQUEST_PARAMETERS.VALUES]: [WorkerDomain.REQUEST_STATUS_ENUM.ERROR],
         [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
       },
     })
