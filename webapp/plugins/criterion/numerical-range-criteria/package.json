@@ -68,7 +68,7 @@
     "nodemon": "^2.0.7",
     "nyc": "15.1.0",
     "parse-body": "^1.0.3",
-    "prop-types": "15.7.2",
+    "prop-types": "^15.8.1",
     "react-test-renderer": "^16.13.0",
     "redux-mock-store": "~1.5.4",
     "sinon": "^10.0.0",
