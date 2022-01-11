@@ -20,13 +20,13 @@
 const contextType = {
   intl: PropTypes.shape({
     locale: PropTypes.string,
-    formatMessage: PropTypes.function,
-    formatDate: PropTypes.function,
-    formatTime: PropTypes.function,
-    formatRelativeTime: PropTypes.function,
-    formatNumber: PropTypes.function,
-    formatPlural: PropTypes.function,
-    now: PropTypes.function,
+    formatMessage: PropTypes.func,
+    formatDate: PropTypes.func,
+    formatTime: PropTypes.func,
+    formatRelativeTime: PropTypes.func,
+    formatNumber: PropTypes.func,
+    formatPlural: PropTypes.func,
+    now: PropTypes.func,
   }).isRequired,
 
 }

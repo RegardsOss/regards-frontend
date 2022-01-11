@@ -111,7 +111,6 @@ describe('[Entities Common] Testing PluginDisplayerContainer', () => {
     const renderedComponent = enzymeWrapper.find(FakePluginComponent)
     assert.lengthOf(renderedComponent, 1, 'There should be the plugin rendering component')
     assert.deepEqual(renderedComponent.props().configuration, props.pluginConf.configuration, 'configuration should be reported correctly')
-    assert.deepEqual(renderedComponent.props().runtimeTarget, props.pluginConf.runtimeTarget, 'target should be reported correctly')
 
     // check plugin props onClose
     if (addOnCloseProps) {

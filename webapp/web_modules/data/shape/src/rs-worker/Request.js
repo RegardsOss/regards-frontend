@@ -24,7 +24,7 @@ import { WorkerDomain } from '@regardsoss/domain'
 const RequestContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   requestId: PropTypes.string.isRequired,
-  creationDate: PropTypes.string.isRquired,
+  creationDate: PropTypes.string.isRequired,
   contentType: PropTypes.string.isRequired,
   source: PropTypes.string.isRequired,
   session: PropTypes.string.isRequired,

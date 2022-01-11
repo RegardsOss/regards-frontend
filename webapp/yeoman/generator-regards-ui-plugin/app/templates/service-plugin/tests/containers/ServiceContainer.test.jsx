@@ -39,7 +39,6 @@ describe('[<%= name %>] Testing ServiceContainer', () => {
     const props = {
       pluginInstanceId: 'stub.id',
       // stub runtime configuration
-      runtimeTarget: uiPluginServiceTestHelpers.buildOneElementTarget('test-data-entity-ip-id'),
       configuration: uiPluginServiceTestHelpers.buildConfiguration(),
       // user is optional, let's not provide it here
       // We also need to mock the methods provided by map dispatch to props, as we import component disconnected from redux

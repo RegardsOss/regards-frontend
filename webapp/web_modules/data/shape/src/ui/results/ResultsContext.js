@@ -199,12 +199,12 @@ const ListViewModeState = PropTypes.shape({
 /**
  * View mode state for table
  */
-const TableViewModeState = {
+const TableViewModeState = PropTypes.shape({
   ...commonViewStateFields,
   // initial presentation models with their state (table columns reset functionality)
-  initialPresentationModels: PropTypes.arrayOf(PropTypes.oneOfType([AttributePresentationModel, FunctionalPresentationModel])).isRequired,
+  initialPresentationModels: PropTypes.arrayOf(PropTypes.oneOfType([AttributePresentationModel, FunctionalPresentationModel])),
   presentationModels: PropTypes.arrayOf(PropTypes.oneOfType([AttributePresentationModel, FunctionalPresentationModel])).isRequired,
-}
+})
 
 /**
  * View mode state for quicklooks

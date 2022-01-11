@@ -42,12 +42,11 @@ export class PluginDisplayerContainer extends React.Component {
     pluginInstance: AccessShapes.UIPluginInstanceContent,
     // eslint-disable-next-line react/no-unused-prop-types
     pluginConf: PropTypes.shape({
-      runtimeTarget: AccessShapes.RuntimeTarget,
       configuration: AccessShapes.RuntimeConfiguration,
     }).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     pluginProps: PropTypes.shape({
-      onClose: PropTypes.function,
+      onClose: PropTypes.func,
     }),
   }
 

@@ -38,7 +38,7 @@ export class DataWithPictureOnlyContainer extends React.Component {
     label: UIShapes.IntlMessage.isRequired,
     // state shared and consumed by this criterion
     state: PropTypes.shape({
-      checked: PropTypes.boolean,
+      checked: PropTypes.bool,
     }),
     // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
