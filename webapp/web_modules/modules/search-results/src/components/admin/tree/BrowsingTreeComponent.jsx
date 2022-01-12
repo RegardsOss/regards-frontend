@@ -77,7 +77,9 @@ class BrowsingTreeComponent extends React.Component {
         </>}
         modal={false}
         open={isErrorDialogOpen}
-      />
+      >
+        {formatMessage({ id: 'search.results.form.dialog.configuration.invalid.message' })}
+      </Dialog>
     )
   }
 

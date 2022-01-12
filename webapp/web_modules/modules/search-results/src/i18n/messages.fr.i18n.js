@@ -34,6 +34,7 @@ const messages = {
 
   // Administration messages
   'search.results.form.dialog.configuration.invalid': 'Configuration invalide',
+  'search.results.form.dialog.configuration.invalid.message': 'Vous ne pouvez pas changer de formulaire tant qu\'une erreur subsiste.',
   'search.results.form.dialog.configuration.confirm': 'Confirmer',
   'search.results.form.configuration.tree.section.label.MAIN': 'Général',
   'search.results.form.configuration.tree.section.label.SEARCH': 'Volet de recherche',
