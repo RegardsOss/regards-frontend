@@ -134,12 +134,10 @@ class SelectedSessionComponent extends React.Component {
             project={project}
             sessionSteps={this.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION)}
             relaunchProducts={relaunchProducts}
-            selectedSession={selectedSession}
             retryWorkerRequests={retryWorkerRequests}
           />
           <ReferencingComponent
             project={project}
-            selectedSession={selectedSession}
             sessionSteps={this.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING)}
             relaunchAIP={relaunchAIP}
             retryFEMRequests={retryFEMRequests}

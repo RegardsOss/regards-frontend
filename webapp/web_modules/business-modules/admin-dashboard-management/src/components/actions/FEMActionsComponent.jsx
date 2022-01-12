@@ -33,7 +33,6 @@ import { ICON_TYPE_ENUM } from '../../domain/iconType'
 class FEMActionsComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    selectedSession: AdminShapes.Session,
     sessionStep: AdminShapes.SessionStep,
     retryFEMRequests: PropTypes.func.isRequired,
   }
@@ -48,13 +47,13 @@ class FEMActionsComponent extends React.Component {
   }
 
   onSeeErrors = () => {
-    const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.CREATION}?source=${encodeURIComponent(selectedSession.content.source)}&session=${encodeURIComponent(selectedSession.content.name)}&state=${FemDomain.REQUEST_STATUS_ENUM.ERROR}`)
+    const { project, sessionStep } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.CREATION}?source=${encodeURIComponent(sessionStep.source)}&session=${encodeURIComponent(sessionStep.session)}&state=${FemDomain.REQUEST_STATUS_ENUM.ERROR}`)
   }
 
   onSeeReferenced = () => {
-    const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor?source=${encodeURIComponent(selectedSession.content.source)}&session=${encodeURIComponent(selectedSession.content.name)}`)
+    const { project, sessionStep } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor?source=${encodeURIComponent(sessionStep.source)}&session=${encodeURIComponent(sessionStep.session)}`)
   }
 
   onRetryErrors = () => {

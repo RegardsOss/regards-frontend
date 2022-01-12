@@ -49,7 +49,6 @@ const {
 class AcquisitionComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    selectedSession: AdminShapes.Session,
     sessionSteps: PropTypes.arrayOf(AdminShapes.SessionStep),
     relaunchProducts: PropTypes.func.isRequired,
     retryWorkerRequests: PropTypes.func.isRequired,
@@ -66,7 +65,7 @@ class AcquisitionComponent extends React.Component {
 
   buildStep = (sessionStep) => {
     const {
-      project, selectedSession, retryWorkerRequests, relaunchProducts,
+      project, retryWorkerRequests, relaunchProducts,
     } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
@@ -132,13 +131,11 @@ class AcquisitionComponent extends React.Component {
           currentSessionStep.stepId === ACQUISITION_TYPE.WORKERS
             ? <WorkerActionsComponent
                 project={project}
-                selectedSession={selectedSession}
                 sessionStep={currentSessionStep}
                 retryWorkerRequests={retryWorkerRequests}
             />
             : <DPActionsComponent
                 project={project}
-                selectedSession={selectedSession}
                 sessionStep={currentSessionStep}
                 relaunchProducts={relaunchProducts}
             />

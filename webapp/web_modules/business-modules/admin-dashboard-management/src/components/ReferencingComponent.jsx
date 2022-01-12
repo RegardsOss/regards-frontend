@@ -49,7 +49,6 @@ class ReferencingComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     sessionSteps: PropTypes.arrayOf(AdminShapes.SessionStep),
-    selectedSession: AdminShapes.Session,
     relaunchAIP: PropTypes.func.isRequired,
     retryFEMRequests: PropTypes.func.isRequired,
   }
@@ -65,7 +64,7 @@ class ReferencingComponent extends React.Component {
 
   buildStep = (sessionStep) => {
     const {
-      project, selectedSession, retryFEMRequests, relaunchAIP,
+      project, retryFEMRequests, relaunchAIP,
     } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
@@ -97,13 +96,11 @@ class ReferencingComponent extends React.Component {
           sessionStep.stepId === REFERENCING_TYPE.FEATURE
             ? <FEMActionsComponent
                 project={project}
-                selectedSession={selectedSession}
                 sessionStep={sessionStep}
                 retryFEMRequests={retryFEMRequests}
             />
             : <IngestActionsComponent
                 project={project}
-                selectedSession={selectedSession}
                 sessionStep={sessionStep}
                 relaunchAIP={relaunchAIP}
             />

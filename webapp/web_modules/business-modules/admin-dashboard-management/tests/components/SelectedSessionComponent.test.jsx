@@ -148,7 +148,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
       project: props.project,
       sessionSteps: enzymeWrapper.instance().getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION),
       relaunchProducts: props.relaunchProducts,
-      selectedSession: props.selectedSession,
       retryWorkerRequests: props.retryWorkerRequests,
     }, 'Component should define the expected properties')
 
@@ -156,7 +155,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     assert.lengthOf(referencingWrapper, 1, 'There should be a ReferencingComponent')
     testSuiteHelpers.assertWrapperProperties(referencingWrapper, {
       project: props.project,
-      selectedSession: props.selectedSession,
       sessionSteps: enzymeWrapper.instance().getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING),
       relaunchAIP: props.relaunchAIP,
       retryFEMRequests: props.retryFEMRequests,

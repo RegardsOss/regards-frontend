@@ -34,7 +34,6 @@ import { ICON_TYPE_ENUM } from '../../domain/iconType'
 class DPActionsComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    selectedSession: AdminShapes.Session,
     sessionStep: AdminShapes.SessionStep,
     relaunchProducts: PropTypes.func.isRequired,
   }
@@ -55,8 +54,8 @@ class DPActionsComponent extends React.Component {
   }
 
   onSeeWaiting = () => {
-    const { selectedSession, project } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=requests&sessionOwner=${encodeURIComponent(selectedSession.content.source)}&session=${encodeURIComponent(selectedSession.content.name)}&state=${IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE}`)
+    const { sessionStep, project } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=requests&sessionOwner=${encodeURIComponent(sessionStep.source)}&session=${encodeURIComponent(sessionStep.session)}&state=${IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE}`)
   }
 
   toggleRetryErrorsDialog = () => {

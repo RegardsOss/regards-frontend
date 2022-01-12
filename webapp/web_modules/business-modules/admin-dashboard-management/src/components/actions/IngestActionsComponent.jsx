@@ -32,7 +32,6 @@ import { ICON_TYPE_ENUM } from '../../domain/iconType'
 class IngestActionsComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    selectedSession: AdminShapes.Session,
     sessionStep: AdminShapes.SessionStep,
     relaunchAIP: PropTypes.func.isRequired,
   }
@@ -46,24 +45,17 @@ class IngestActionsComponent extends React.Component {
     isRetryErrorsDialogOpen: false,
   }
 
-  onSeeErrors = () => {
-    const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=requests&sessionOwner=${encodeURIComponent(selectedSession.content.source)}&session=${encodeURIComponent(selectedSession.content.name)}&state=${IngestDomain.AIP_REQUEST_STATUS_ENUM.ERROR}`)
-  }
+  getIngestURL = (status = null) => `/admin/${this.props.project}/data/acquisition/oais/featureManager?display=requests&sessionOwner=${encodeURIComponent(this.props.sessionStep.source)}&session=${encodeURIComponent(this.props.sessionStep.session)}${status ? `&state=${status}` : ''}`
 
-  onSeeReferenced = () => {
-    const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=packages&sessionOwner=${encodeURIComponent(selectedSession.content.source)}&session=${encodeURIComponent(selectedSession.content.name)}`)
-  }
+  onSeeErrors = () => browserHistory.push(this.getIngestURL(IngestDomain.AIP_REQUEST_STATUS_ENUM.ERROR))
+
+  onSeeReferenced = () => browserHistory.push(this.getIngestURL())
+
+  onSeeWaiting = () => browserHistory.push(this.getIngestURL(IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE))
 
   onRetryErrors = () => {
     const { relaunchAIP, sessionStep } = this.props
     relaunchAIP(sessionStep.source, sessionStep.session)
-  }
-
-  onSeeWaiting = () => {
-    const { project } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=requests&state=${IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE}`)
   }
 
   toggleRetryErrorsDialog = () => {

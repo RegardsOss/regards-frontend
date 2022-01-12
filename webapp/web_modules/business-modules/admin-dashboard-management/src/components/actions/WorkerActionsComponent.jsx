@@ -45,15 +45,11 @@ class WorkerActionsComponent extends React.Component {
     isRetryErrorsDialogOpen: false,
   }
 
-  onSeeErrors = () => {
-    const { project } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/datapreparation/requests?${WorkerDomain.REQUEST_FILTERS.STATUSES}=${WorkerDomain.REQUEST_STATUS_ENUM.ERROR}`)
-  }
+  getWorkerURL = (status) => `/admin/${this.props.project}/data/acquisition/datapreparation/requests?${WorkerDomain.REQUEST_FILTERS.SOURCE}=${encodeURIComponent(this.props.sessionStep.source)}&${WorkerDomain.REQUEST_FILTERS.SESSION}=${encodeURIComponent(this.props.sessionStep.session)}&${WorkerDomain.REQUEST_FILTERS.STATUSES}=${status}`
 
-  onSeeWaiting = () => {
-    const { project } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/datapreparation/requests?${WorkerDomain.REQUEST_FILTERS.STATUSES}=${WorkerDomain.REQUEST_STATUS_ENUM.NO_WORKER_AVAILABLE}`)
-  }
+  onSeeErrors = () => browserHistory.push(this.getWorkerURL(WorkerDomain.REQUEST_STATUS_ENUM.ERROR))
+
+  onSeeWaiting = () => browserHistory.push(this.getWorkerURL(WorkerDomain.REQUEST_STATUS_ENUM.NO_WORKER_AVAILABLE))
 
   onRetryErrors = () => {
     const { retryWorkerRequests } = this.props
