@@ -34,7 +34,7 @@ const messages = {
 
   // Administration messages
   'search.results.form.dialog.configuration.invalid': 'Invalid configuration',
-  'search.results.form.dialog.configuration.invalid.message': 'You cannot change the form as long as an error remains.',
+  'search.results.form.dialog.configuration.invalid.message': 'You cannot perform this action as long as an error remains.',
   'search.results.form.dialog.configuration.confirm': 'Confirm',
   'search.results.form.configuration.tree.section.label.MAIN': 'Main',
   'search.results.form.configuration.tree.section.label.SEARCH': 'Search tab',
