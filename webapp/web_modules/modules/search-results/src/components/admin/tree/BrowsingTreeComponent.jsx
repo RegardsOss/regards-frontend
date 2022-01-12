@@ -17,8 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { TableHeaderColumn, TableRowColumn } from 'material-ui/Table'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 import { themeContextType } from '@regardsoss/theme'
-import { TreeTableComponent, TreeTableRow } from '@regardsoss/components'
+import { i18nContextType } from '@regardsoss/i18n'
+import {
+  TreeTableComponent, TreeTableRow,
+} from '@regardsoss/components'
 import { FormSection } from '../../../shapes/form/FormSections'
 import { FORM_SECTIONS_ENUM } from '../../../domain/form/FormSectionsEnum'
 import BrowsingTreeCellComponent from './BrowsingTreeCellComponent'
@@ -33,14 +38,48 @@ class BrowsingTreeComponent extends React.Component {
     navigationSections: PropTypes.arrayOf(FormSection).isRequired,
     // browse to page callback (section, page) => ()
     onBrowseToPage: PropTypes.func.isRequired,
+    // Redux form state to enable or disable tree element selection
+    invalidFormConfig: PropTypes.bool,
   }
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   /** Static reference to tree columns, as they are unused by this component */
   static COLUMNS_FILLER = [<TableHeaderColumn key="singleColumnFiller" />]
+
+  state = {
+    isErrorDialogOpen: false,
+  }
+
+  toggleErrorDialog = () => {
+    this.setState({
+      isErrorDialogOpen: !this.state.isErrorDialogOpen,
+    })
+  }
+
+  renderErrorDialog = () => {
+    const { intl: { formatMessage } } = this.context
+    const { isErrorDialogOpen } = this.state
+    return (
+      <Dialog
+        title={formatMessage({ id: 'search.results.form.dialog.configuration.invalid' })}
+        actions={<>
+          <FlatButton
+            id="dialog.confirm"
+            primary
+            keyboardFocused
+            label={formatMessage({ id: 'search.results.form.dialog.configuration.confirm' })}
+            onClick={this.toggleErrorDialog}
+          />
+        </>}
+        modal={false}
+        open={isErrorDialogOpen}
+      />
+    )
+  }
 
   /**
    * Builds tree table rows
@@ -96,10 +135,15 @@ class BrowsingTreeComponent extends React.Component {
    */
   onCellClicked = (row, { section, page }) => {
     // notify parent that user clicked a navigable section, if it is navigable
-    const { onBrowseToPage } = this.props
-    // avoid selecting section or reselecting pages already selected
-    if (page && !page.selected) {
-      onBrowseToPage(section, page)
+    const { onBrowseToPage, invalidFormConfig } = this.props
+    // avoid changing page when current form is invalid
+    if (!invalidFormConfig) {
+      // avoid selecting section or reselecting pages already selected
+      if (page && !page.selected) {
+        onBrowseToPage(section, page)
+      }
+    } else {
+      this.toggleErrorDialog()
     }
   }
 
@@ -107,17 +151,20 @@ class BrowsingTreeComponent extends React.Component {
     const { navigationSections } = this.props
     const { moduleTheme: { configuration: { tree: { table } } } } = this.context
     return (
-      <TreeTableComponent
-        model={navigationSections}
-        buildTreeTableRows={this.buildTreeTableRows}
-        buildCellComponent={this.buildCellComponent}
-        columns={BrowsingTreeComponent.COLUMNS_FILLER}
-        onCellClick={this.onCellClicked}
-        stripeLevelColors={false}
-        displayTableRowBorder={false}
-        style={table}
-        hideHeader
-      />
+      <>
+        <TreeTableComponent
+          model={navigationSections}
+          buildTreeTableRows={this.buildTreeTableRows}
+          buildCellComponent={this.buildCellComponent}
+          columns={BrowsingTreeComponent.COLUMNS_FILLER}
+          onCellClick={this.onCellClicked}
+          stripeLevelColors={false}
+          displayTableRowBorder={false}
+          style={table}
+          hideHeader
+        />
+        {this.renderErrorDialog()}
+      </>
     )
   }
 }

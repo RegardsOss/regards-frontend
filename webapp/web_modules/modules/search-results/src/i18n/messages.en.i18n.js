@@ -33,6 +33,8 @@ const messages = {
   ...attributesCommonMsg.en,
 
   // Administration messages
+  'search.results.form.dialog.configuration.invalid': 'Invalid configuration',
+  'search.results.form.dialog.configuration.confirm': 'Confirm',
   'search.results.form.configuration.tree.section.label.MAIN': 'Main',
   'search.results.form.configuration.tree.section.label.SEARCH': 'Search tab',
   'search.results.form.configuration.tree.section.label.FILTERS': 'Filters',

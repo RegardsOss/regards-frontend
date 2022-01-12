@@ -271,12 +271,13 @@ class ModuleFormComponent extends React.Component {
   /** Renders dynamic module configuration part */
   renderDynamicModuleConfiguration = () => {
     const { dynamicContainerSelected } = this.state
-    const { adminForm } = this.props
+    const { adminForm, invalid } = this.props
     if (!get(adminForm, 'form')) {
       return null
     }
     const childAdminForm = {
       ...adminForm,
+      invalidFormConfig: invalid,
       isPage: !!dynamicContainerSelected,
     }
     return (

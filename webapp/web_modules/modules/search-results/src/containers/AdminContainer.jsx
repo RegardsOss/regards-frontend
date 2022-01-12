@@ -278,7 +278,7 @@ export class AdminContainer extends React.Component {
       datasets, datasetModels,
       dataAttributeModels, datasetAttributeModels,
       adminForm: {
-        form, currentNamespace, changeField,
+        form, currentNamespace, changeField, invalidFormConfig,
       },
     } = this.props
     if (form && navigationSections.length && selectedSectionType && selectedPageType) {
@@ -299,6 +299,7 @@ export class AdminContainer extends React.Component {
               dataAttributeModels={dataAttributeModels}
               datasetAttributeModels={datasetAttributeModels}
               changeField={changeField}
+              invalidFormConfig={invalidFormConfig}
               onBrowseToPage={this.onBrowseToPage}
             />
           </PluginsMetadataProvider>

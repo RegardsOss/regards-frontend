@@ -58,6 +58,8 @@ class MainFormComponent extends React.Component {
     // Plugins information
     fetchingMetadata: PropTypes.bool, // not required as provided by HOC
     pluginsMetadata: PropTypes.arrayOf(PluginMeta), // not required as provided by HOC
+    // Redux form state
+    invalidFormConfig: PropTypes.bool,
     // Callbacks
     // redux change field callback
     changeField: PropTypes.func.isRequired,
@@ -178,13 +180,19 @@ class MainFormComponent extends React.Component {
   }
 
   render() {
-    const { navigationSections, onBrowseToPage } = this.props
+    const {
+      navigationSections, onBrowseToPage, invalidFormConfig,
+    } = this.props
     const { moduleTheme: { configuration } } = this.context
 
     return (
       <div style={configuration.rootStyle}>
         <div style={configuration.tree.container}>
-          <BrowsingTreeComponent navigationSections={navigationSections} onBrowseToPage={onBrowseToPage} />
+          <BrowsingTreeComponent
+            navigationSections={navigationSections}
+            onBrowseToPage={onBrowseToPage}
+            invalidFormConfig={invalidFormConfig}
+          />
         </div>
         <div style={configuration.content.container}>{this.renderCurrentPage()}</div>
       </div>)

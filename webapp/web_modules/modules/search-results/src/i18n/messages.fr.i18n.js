@@ -33,6 +33,8 @@ const messages = {
   ...attributesCommonMsg.fr,
 
   // Administration messages
+  'search.results.form.dialog.configuration.invalid': 'Configuration invalide',
+  'search.results.form.dialog.configuration.confirm': 'Confirmer',
   'search.results.form.configuration.tree.section.label.MAIN': 'Général',
   'search.results.form.configuration.tree.section.label.SEARCH': 'Volet de recherche',
   'search.results.form.configuration.tree.section.label.FILTERS': 'Filtres',
