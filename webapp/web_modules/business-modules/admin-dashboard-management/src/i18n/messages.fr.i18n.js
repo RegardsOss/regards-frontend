@@ -62,6 +62,7 @@ const messages = {
   'dashboard.selectedsession.refresh': 'Rafraichir',
   'dashboard.selectedsession.dialog.delete.title': 'Supprimer les produits de la session {sessionName} ?',
   'dashboard.selectedsession.dialog.delete.message': 'Vous êtes sur le point de demander la suppression de tous les produits pris en compte dans la session sélectionnée. Cette demande sera prise en compte par chaque composant de la session. La prise en compte de la demande de suppression peut prendre un certains temps. Vous pouvez rafraîchir l\'état de la session régulièrement pour visualiser sa prise en compte.',
+  'dashboard.selectedsession.dialog.confirm.action.message': 'Votre demande a bien été prise en compte.',
   'dashboard.selectedsession.ACQUISITION.title': 'Acquisition',
   'dashboard.selectedsession.ACQUISITION.scan.title': 'Data Provider',
   'dashboard.selectedsession.ACQUISITION.workers.title': 'Worker Manager',

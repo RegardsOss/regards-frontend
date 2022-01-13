@@ -20,12 +20,11 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import compose from 'lodash/fp/compose'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
-import { AdminShapes } from '@regardsoss/shape'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import {
   sessionsActions, sessionsRelaunchProductActions, sessionsRelaunchAIPActions,
   sessionDeleteActions, storagesRelaunchActions, requestRetryActions,
-  sessionsSelectors,
 } from '../clients/SessionsClient'
 import { selectedSessionActions } from '../clients/SelectedSessionClient'
 import { sourcesActions } from '../clients/SourcesClient'
@@ -45,9 +44,6 @@ export class DashboardContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
-    // from mapStateToProps
-    // eslint-disable-next-line react/no-unused-prop-types
-    sessions: AdminShapes.SessionList,
     // from mapDispatchToProps
     fetchSessions: PropTypes.func.isRequired,
     fetchSources: PropTypes.func.isRequired,
@@ -59,21 +55,10 @@ export class DashboardContainer extends React.Component {
     fetchSelectedSession: PropTypes.func.isRequired,
     flushSelectedSession: PropTypes.func.isRequired,
     retryWorkerRequests: PropTypes.func.isRequired,
+    displayMessage: PropTypes.func.isRequired,
   }
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
-
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {
-      sessions: sessionsSelectors.getList(state),
-    }
-  }
 
   /**
    * Redux: map dispatch to props function
@@ -92,6 +77,7 @@ export class DashboardContainer extends React.Component {
     deleteSession: (sessionId) => dispatch(sessionDeleteActions.deleteSession(sessionId)),
     retryFEMRequests: (payload, type) => dispatch(requestRetryActions.sendSignal('POST', payload, { type })),
     retryWorkerRequests: (payload) => dispatch(requestSignalsActions.retry(payload)),
+    displayMessage: (message) => dispatch(ApplicationErrorAction.throwError(message)),
   })
 
   static contextTypes = {
@@ -122,29 +108,63 @@ export class DashboardContainer extends React.Component {
     fetchSources(0, DashboardContainer.PAGE_SIZE, {}, { ...sourceFilters })
   }
 
+  dispatchAction = (dispatchFunc, payload) => {
+    const { displayMessage } = this.props
+    const { intl: { formatMessage } } = this.context
+    dispatchFunc(payload).then((actionResult) => {
+      if (!actionResult.error) {
+        displayMessage(formatMessage({ id: 'dashboard.selectedsession.dialog.confirm.action.message' }))
+      }
+    })
+  }
+
   onDeleteSession = (sessionId) => {
     const { deleteSession } = this.props
-    deleteSession(sessionId)
+    this.dispatchAction(deleteSession, sessionId)
+  }
+
+  onRelaunchProducts = (payload) => {
+    const { relaunchProducts } = this.props
+    this.dispatchAction(relaunchProducts, payload)
+  }
+
+  onRelaunchAIP = (payload) => {
+    const { relaunchAIP } = this.props
+    this.dispatchAction(relaunchAIP, payload)
+  }
+
+  onRelaunchStorages = (payload) => {
+    const { relaunchStorages } = this.props
+    this.dispatchAction(relaunchStorages, payload)
+  }
+
+  onRetryFEMRequests = (payload) => {
+    const { retryFEMRequests } = this.props
+    this.dispatchAction(retryFEMRequests, payload)
+  }
+
+  onRetryWorkerRequests = (payload) => {
+    const { retryWorkerRequests } = this.props
+    this.dispatchAction(retryWorkerRequests, payload)
   }
 
   render() {
     const {
-      params: { project }, relaunchProducts, relaunchAIP, retryWorkerRequests,
-      relaunchStorages, retryFEMRequests, fetchSelectedSession, flushSelectedSession,
+      params: { project }, fetchSelectedSession, flushSelectedSession,
     } = this.props
     return (
       <DashboardComponent
         project={project}
-        relaunchProducts={relaunchProducts}
-        relaunchAIP={relaunchAIP}
+        relaunchProducts={this.onRelaunchProducts}
+        relaunchAIP={this.onRelaunchAIP}
         deleteSession={this.onDeleteSession}
-        relaunchStorages={relaunchStorages}
+        relaunchStorages={this.onRelaunchStorages}
         getBackURL={this.getBackURL}
         onRefresh={this.onRefresh}
-        retryFEMRequests={retryFEMRequests}
+        retryFEMRequests={this.onRetryFEMRequests}
         fetchSelectedSession={fetchSelectedSession}
         flushSelectedSession={flushSelectedSession}
-        retryWorkerRequests={retryWorkerRequests}
+        retryWorkerRequests={this.onRetryWorkerRequests}
       />
     )
   }

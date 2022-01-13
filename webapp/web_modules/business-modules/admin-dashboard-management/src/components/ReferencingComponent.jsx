@@ -64,7 +64,7 @@ class ReferencingComponent extends React.Component {
 
   buildStep = (sessionStep) => {
     const {
-      project, retryFEMRequests, relaunchAIP,
+      project, relaunchAIP, retryFEMRequests,
     } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {

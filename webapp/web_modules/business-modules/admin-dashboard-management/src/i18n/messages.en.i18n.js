@@ -62,6 +62,7 @@ const messages = {
   'dashboard.selectedsession.refresh': 'Refresh',
   'dashboard.selectedsession.dialog.delete.title': 'Delete session {sessionName} products ?',
   'dashboard.selectedsession.dialog.delete.message': 'You are about to request the deletion of all products in the selected session. This request will be taken into account by each component of the session. It may take a while for the deletion request to be done. You can refresh the state of the session regularly to see how it has been taken into account.',
+  'dashboard.selectedsession.dialog.confirm.action.message': 'Your request has been taken into account.',
   'dashboard.selectedsession.ACQUISITION.title': 'Acquisition',
   'dashboard.selectedsession.ACQUISITION.scan.title': 'Data Provider',
   'dashboard.selectedsession.ACQUISITION.workers.title': 'Worker Manager',

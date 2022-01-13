@@ -41,14 +41,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardContainer', () => {
       params: {
         project: 'any',
       },
-      sessionsMeta: {
-        number: 20,
-      },
-      sourcesMeta: {
-        number: 20,
-      },
-      sources: {},
-      sessions: {},
       fetchSessions: () => { },
       fetchSources: () => { },
       relaunchProducts: () => { },
@@ -59,6 +51,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardContainer', () => {
       deleteSession: () => { },
       fetchSelectedSession: () => { },
       flushSelectedSession: () => { },
+      displayMessage: () => { },
     }
     const enzymeWrapper = shallow(<DashboardContainer {...props} />, { context })
 
@@ -66,15 +59,15 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardContainer', () => {
     assert.lengthOf(dashboardComponentWrapper, 1, 'There should be a DashboardComponent')
     testSuiteHelpers.assertWrapperProperties(dashboardComponentWrapper, {
       project: props.params.project,
-      relaunchProducts: props.relaunchProducts,
-      relaunchAIP: props.relaunchAIP,
-      retryWorkerRequests: props.retryWorkerRequests,
+      relaunchProducts: enzymeWrapper.instance().onRelaunchProducts,
+      relaunchAIP: enzymeWrapper.instance().onRelaunchAIP,
+      retryWorkerRequests: enzymeWrapper.instance().onRetryWorkerRequests,
       deleteSession: enzymeWrapper.instance().onDeleteSession,
-      relaunchStorages: props.relaunchStorages,
+      relaunchStorages: enzymeWrapper.instance().onRelaunchStorages,
       getBackURL: enzymeWrapper.instance().getBackURL,
       onRefresh: enzymeWrapper.instance().onRefresh,
       fetchSelectedSession: props.fetchSelectedSession,
-      retryFEMRequests: props.retryFEMRequests,
+      retryFEMRequests: enzymeWrapper.instance().onRetryFEMRequests,
       flushSelectedSession: props.flushSelectedSession,
     }, 'Component should define the expected properties')
   })
