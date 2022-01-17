@@ -76,26 +76,6 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
     [PROCESS_FILTER_PARAMS.STATUS]: ProcessingDomain.PROCESS_STATUS_TYPES,
   }
 
-  /**
-   * Converts columns order and filters state into request parameters
-   * @param {*} filters filters state from component state
-   * @returns {*} requestParameters as an object compound of string and string arrays
-   */
-  static buildRequestParameters(filters) {
-    const requestParameters = filters
-
-    if (filters[PROCESS_FILTER_PARAMS.FROM]) {
-      const dateFrom = new Date(filters[PROCESS_FILTER_PARAMS.FROM])
-      requestParameters.from = [dateFrom.toISOString()]
-    }
-    if (filters[PROCESS_FILTER_PARAMS.TO]) {
-      const dateFrom = new Date(filters[PROCESS_FILTER_PARAMS.TO])
-      requestParameters.from = [dateFrom.toISOString()]
-    }
-
-    return requestParameters
-  }
-
   state = {
     filters: ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE,
   }
@@ -152,10 +132,15 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
    */
   updateState(newStateValue, filterElement) {
     const { filters } = this.state
+    let newFilterValue = newStateValue
+    if (filterElement === PROCESS_FILTER_PARAMS.FROM
+      || filterElement === PROCESS_FILTER_PARAMS.TO) {
+      newFilterValue = newStateValue.toISOString()
+    }
     const newState = {
       filters: {
         ...filters,
-        [filterElement]: newStateValue,
+        [filterElement]: newFilterValue,
       },
     }
     this.setState(newState)
@@ -164,6 +149,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
   render() {
     const {
       intl: { formatMessage, locale },
+      moduleTheme: { processingMonitoring: { filters: { selectFieldStyle } } },
     } = this.context
     const { filters } = this.state
     const { processingList } = this.props
@@ -177,6 +163,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
               value={filters[PROCESS_FILTER_PARAMS.PROCESS_BID]}
               floatingLabelText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.PROCESS_BID}-hint` })}
               onChange={(event, index, value) => this.updateState(value, PROCESS_FILTER_PARAMS.PROCESS_BID)}
+              style={selectFieldStyle}
             >
               {map(processingList, (process) => (
                 <MenuItem key={get(process, 'content.pluginConfiguration.label')} value={get(process, 'content.pluginConfiguration.businessId')} primaryText={get(process, 'content.pluginConfiguration.label')} />
@@ -206,6 +193,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
               onChange={(inputValue) => this.updateState(inputValue, PROCESS_FILTER_PARAMS.TO)}
               locale={locale}
               value={filters[PROCESS_FILTER_PARAMS.TO]}
+              defaultTime="23:59:59"
             />
           </TableHeaderOptionGroup>
           <TableHeaderOptionsArea>

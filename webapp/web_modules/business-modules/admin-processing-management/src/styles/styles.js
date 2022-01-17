@@ -18,14 +18,9 @@
  */
 export default (theme) => ({
   processingMonitoring: {
-    cardTextStyle: {
-      paddingTop: 0,
-      paddingBottom: 0,
-    },
     filters: {
-      autocomplete: {
+      selectFieldStyle: {
         marginRight: '10px',
-        marginLeft: '10px',
       },
     },
   },
