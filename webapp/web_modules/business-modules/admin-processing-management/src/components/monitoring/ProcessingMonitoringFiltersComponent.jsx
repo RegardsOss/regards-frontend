@@ -125,6 +125,8 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
     })
   }
 
+  getDateFieldValue = (fieldValue) => fieldValue ? new Date(fieldValue) : null
+
   /**
    * Update filters
    * @param {*} newStateValue
@@ -185,14 +187,14 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
               dateHintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.FROM}.label` })}
               onChange={(inputValue) => this.updateState(inputValue, PROCESS_FILTER_PARAMS.FROM)}
               locale={locale}
-              value={filters[PROCESS_FILTER_PARAMS.FROM]}
+              value={this.getDateFieldValue(filters[PROCESS_FILTER_PARAMS.FROM])}
             />
             <DatePickerField
               id={`filter.${PROCESS_FILTER_PARAMS.TO}`}
               dateHintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.TO}.label` })}
               onChange={(inputValue) => this.updateState(inputValue, PROCESS_FILTER_PARAMS.TO)}
               locale={locale}
-              value={filters[PROCESS_FILTER_PARAMS.TO]}
+              value={this.getDateFieldValue(filters[PROCESS_FILTER_PARAMS.TO])}
               defaultTime="23:59:59"
             />
           </TableHeaderOptionGroup>
