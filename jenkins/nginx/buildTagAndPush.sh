@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
 # If we are on branch master or a branch starting with release, tag the image with the version from package.json
-if [[ "${BRANCH_NAME}" == release* || "${BRANCH_NAME}" == "master" ]]
+if [[ "${BRANCH_NAME}" == release* || "${BRANCH_NAME}" == "master"  || "${BRANCH_NAME}" == "develop" ]]
 then
   TAG=$(./getPackageVersion.sh ../../webapp)
 # Else use the branch name
