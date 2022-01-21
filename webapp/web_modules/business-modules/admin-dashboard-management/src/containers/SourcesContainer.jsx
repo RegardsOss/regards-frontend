@@ -70,10 +70,10 @@ export class SourcesContainer extends React.Component {
     urlFilters[SOURCE_FILTER_PARAMS.STATUS] = SourcesComponent.DEFAULT_FILTERS_STATE[SOURCE_FILTER_PARAMS.STATUS]
     if (values(query).length > 0) {
       const {
-        sourceName, sourceState,
+        source, sourceState,
       } = query
-      if (sourceName) {
-        urlFilters[SOURCE_FILTER_PARAMS.NAME] = sourceName
+      if (source) {
+        urlFilters[SOURCE_FILTER_PARAMS.NAME] = source
       }
       if (sourceState) {
         urlFilters[SOURCE_FILTER_PARAMS.STATUS] = sourceState

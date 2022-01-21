@@ -81,10 +81,10 @@ export class SessionsContainer extends React.Component {
     urlFilters[SESSION_FILTER_PARAMS.STATUS] = SessionsComponent.DEFAULT_FILTERS_STATE[SESSION_FILTER_PARAMS.STATUS]
     if (values(query).length > 0) {
       const {
-        sessionName, sessionState,
+        session, sessionState,
       } = query
-      if (sessionName) {
-        urlFilters[SESSION_FILTER_PARAMS.NAME] = sessionName
+      if (session) {
+        urlFilters[SESSION_FILTER_PARAMS.NAME] = session
       }
       if (sessionState) {
         urlFilters[SESSION_FILTER_PARAMS.STATUS] = sessionState
