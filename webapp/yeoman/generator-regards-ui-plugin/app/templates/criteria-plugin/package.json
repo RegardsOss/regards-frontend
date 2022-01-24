@@ -1,6 +1,6 @@
 {
   "name": "<%= name %>",
-  "version": "1.8.0-SNAPSHOT",
+  "version": "1.8.0",
   "private": true,
   "description": "<%= description %>",
   "license": "<%= licence %>",
