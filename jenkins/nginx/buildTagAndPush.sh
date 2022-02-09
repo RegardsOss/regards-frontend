@@ -9,7 +9,7 @@ else
   TAG=$(echo ${BRANCH_NAME} | tr -cd '[[:alnum:]]._-')
 fi
 
-docker build -t 172.26.46.158/rs-front:${TAG} .
+docker build -t 172.26.46.158/rs-front:${TAG} --pull .
 
 docker push 172.26.46.158/rs-front:${TAG}
  
