@@ -20,6 +20,7 @@ import IconButton from 'material-ui/IconButton'
 import PauseIcon from 'mdi-material-ui/Pause'
 import ResumeIcon from 'mdi-material-ui/Play'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Pause / resume order table option
@@ -35,13 +36,14 @@ class PauseResumeOrderComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   render() {
     const {
       canUpdate, isPaused, onPause, onResume,
     } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, muiTheme } = this.context
     return (
       <IconButton
         disabled={!canUpdate}
@@ -53,7 +55,7 @@ class PauseResumeOrderComponent extends React.Component {
         }
       >
         {
-          isPaused ? <ResumeIcon /> : <PauseIcon />
+          isPaused ? <ResumeIcon color={muiTheme.palette.accent1Color} /> : <PauseIcon />
         }
       </IconButton>
     )

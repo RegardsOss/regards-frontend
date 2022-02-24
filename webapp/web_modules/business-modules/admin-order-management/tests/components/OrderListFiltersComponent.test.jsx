@@ -20,9 +20,10 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import IconButton from 'material-ui/IconButton'
-import { TableHeaderAutoCompleteFilter } from '@regardsoss/components'
-import { AdminDomain } from '@regardsoss/domain'
+import { TableHeaderAutoCompleteFilter, TableSelectionModes } from '@regardsoss/components'
+import { AdminDomain, OrderDomain } from '@regardsoss/domain'
 import OrderListFiltersComponent from '../../src/components/OrderListFiltersComponent'
+import { REQUEST_FILTERS } from '../../src/domain/requestFilters'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -40,12 +41,11 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
   })
   it('should render correctly and update dynamically the current users list provided as hints', () => {
     const props = {
-      usersFilterText: 'someRandomText#@24_',
       isInError: false,
       isFetching: false,
       onUpdateUsersFilter: () => { },
       onUserFilterSelected: () => { },
-      onUserFilterCleared: () => { },
+      onUpdateWaitingForUserFilter: () => { },
       matchingUsers: {
         0: {
           content: {
@@ -60,9 +60,23 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
           },
         },
       },
+      updateValuesFilter: () => { },
+      updateDatesFilter: () => { },
+      clearFilters: () => { },
+      filters: {
+        creationDate: {
+          after: Date.now(),
+          before: new Date().setMinutes(new Date().getMinutes() + 18),
+        },
+        owner: 'user1@test.fr',
+        statuses: {
+          mode: TableSelectionModes.INCLUDE,
+          values: [OrderDomain.ORDER_STATUS_ENUM.DONE],
+        },
+      },
     }
     const enzymeWrapper = shallow(<OrderListFiltersComponent {...props} />, { context })
-    let autocompleteWrapper = enzymeWrapper.find(TableHeaderAutoCompleteFilter)
+    const autocompleteWrapper = enzymeWrapper.find(TableHeaderAutoCompleteFilter)
     assert.lengthOf(autocompleteWrapper, 1, 'There should be a table header autocomplete filter')
     testSuiteHelpers.assertWrapperProperties(autocompleteWrapper, {
       hintText: 'order.list.filter.by.email.hint',
@@ -70,34 +84,36 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
       isFetching: false,
       onUpdateInput: props.onUpdateUsersFilter,
       onFilterSelected: props.onUserFilterSelected,
+      text: props.filters[REQUEST_FILTERS.OWNER],
     }, 'Table header autocomplete filter should be correctly configured')
     const clearButtonWrapper = enzymeWrapper.find(IconButton)
     assert.lengthOf(clearButtonWrapper, 1, 'There should be a clear button')
     testSuiteHelpers.assertWrapperProperties(clearButtonWrapper, {
-      onClick: props.onUserFilterCleared,
+      onClick: props.clearFilters,
     })
-
-    // change list to empty
-    enzymeWrapper.setProps({
-      ...props,
-      usersFilterText: 'anotherFilterText',
-      matchingUsers: {},
-    })
-    autocompleteWrapper = enzymeWrapper.find(TableHeaderAutoCompleteFilter)
-    assert.lengthOf(autocompleteWrapper, 1, 'There should be a table header autocomplete filter')
-    testSuiteHelpers.assertWrapperProperties(autocompleteWrapper, {
-      currentHints: {},
-    }, 'Table header autocomplete filter configuration should be correctly updated')
   })
   it('should render correctly when fetching', () => {
     const props = {
-      usersFilterText: '',
       isInError: false,
       isFetching: true,
       onUpdateUsersFilter: () => { },
       onUserFilterSelected: () => { },
-      onUserFilterCleared: () => { },
       matchingUsers: {},
+      updateValuesFilter: () => { },
+      updateDatesFilter: () => { },
+      clearFilters: () => { },
+      onUpdateWaitingForUserFilter: () => { },
+      filters: {
+        creationDate: {
+          after: Date.now(),
+          before: new Date().setMinutes(new Date().getMinutes() + 18),
+        },
+        owner: 'user1@test.fr',
+        statuses: {
+          mode: TableSelectionModes.INCLUDE,
+          values: [OrderDomain.ORDER_STATUS_ENUM.DONE],
+        },
+      },
     }
     const enzymeWrapper = shallow(<OrderListFiltersComponent {...props} />, { context })
     const autocompleteWrapper = enzymeWrapper.find(TableHeaderAutoCompleteFilter)
@@ -108,13 +124,26 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
   })
   it('should render correctly in error', () => {
     const props = {
-      usersFilterText: '',
       isInError: true,
       isFetching: false,
       onUpdateUsersFilter: () => { },
+      onUpdateWaitingForUserFilter: () => { },
       onUserFilterSelected: () => { },
-      onUserFilterCleared: () => { },
       matchingUsers: {},
+      updateValuesFilter: () => { },
+      updateDatesFilter: () => { },
+      clearFilters: () => { },
+      filters: {
+        creationDate: {
+          after: Date.now(),
+          before: new Date().setMinutes(new Date().getMinutes() + 18),
+        },
+        owner: 'user1@test.fr',
+        statuses: {
+          mode: TableSelectionModes.INCLUDE,
+          values: [OrderDomain.ORDER_STATUS_ENUM.DONE],
+        },
+      },
     }
     const enzymeWrapper = shallow(<OrderListFiltersComponent {...props} />, { context })
     const autocompleteWrapper = enzymeWrapper.find(TableHeaderAutoCompleteFilter)

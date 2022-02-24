@@ -18,6 +18,8 @@
  **/
 import get from 'lodash/get'
 import values from 'lodash/values'
+import RefreshCircle from 'mdi-material-ui/RefreshCircle'
+import FlatButton from 'material-ui/FlatButton'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { OrderClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -27,6 +29,7 @@ import {
   PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableColumnBuilder, TableLayout, TableHeaderLine,
   TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup, TableHeaderLoadingComponent,
   TableColumnsVisibilityOption, DateValueRender, StorageCapacityRender, NoContentComponent, StringValueRender,
+  TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
 import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
@@ -39,7 +42,8 @@ import PauseResumeOrderContainer from '../../containers/orders/options/PauseResu
 import ShowOrderDatasetsContainer from '../../containers/orders/options/ShowOrderDatasetsContainer'
 import RetryOrderContainer from '../../containers/orders/options/RetryOrderContainer'
 import ErrorsCountRender from './cells/ErrorsCountRender'
-import StatusRender from './cells/StatusRender'
+import StatusProgressRender from './cells/StatusProgressRender'
+import ObjectAndFileCountRender from './cells/ObjectAndFileCountRender'
 
 // Column keys
 const OWNER_KEY = 'owner'
@@ -49,8 +53,7 @@ const EXPIRATION_DATE_KEY = 'expiration.date'
 const OBJECTS_COUNT_KEY = 'objects.count'
 const FILES_SIZE_KEY = 'files.size'
 const ERRORS_COUNT_KEY = 'errors.count'
-const PROGRESS_KEY = 'progress'
-const STATUS_KEY = 'status'
+const STATUS_PROGRESS_KEY = 'statusProgress'
 
 /**
  * Order list component - displays user order list
@@ -77,7 +80,7 @@ class OrderListComponent extends React.Component {
     // columns configuration callback
     onChangeColumnsVisibility: PropTypes.func.isRequired,
     // actions and selectors for table
-    ordersRequestParameters: PropTypes.objectOf(PropTypes.string),
+    ordersRequestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     orderStateActions: PropTypes.instanceOf(OrderClient.OrderStateActions).isRequired,
@@ -113,8 +116,7 @@ class OrderListComponent extends React.Component {
     [OBJECTS_COUNT_KEY]: true,
     [FILES_SIZE_KEY]: true,
     [ERRORS_COUNT_KEY]: false,
-    [PROGRESS_KEY]: true,
-    [STATUS_KEY]: true,
+    [STATUS_PROGRESS_KEY]: true,
     [TableColumnBuilder.optionsColumnKey]: true,
   }
 
@@ -127,8 +129,7 @@ class OrderListComponent extends React.Component {
     [OBJECTS_COUNT_KEY]: false,
     [FILES_SIZE_KEY]: true,
     [ERRORS_COUNT_KEY]: true,
-    [PROGRESS_KEY]: true,
-    [STATUS_KEY]: true,
+    [STATUS_PROGRESS_KEY]: true,
     [TableColumnBuilder.optionsColumnKey]: true,
   }
 
@@ -158,6 +159,15 @@ class OrderListComponent extends React.Component {
   }
 
   /**
+   * Counts an order files (in dataset tasks)
+   * @param {*} order order
+   * @returns files count for order, from dataset tasks
+   */
+  static getFilesCount(order) {
+    return OrderListComponent.sumOnDatasets(order, 'filesCount')
+  }
+
+  /**
    * Counts an order files size (in dataset tasks)
    * @param {*} order order
    * @return files size, from dataset tasks
@@ -166,13 +176,14 @@ class OrderListComponent extends React.Component {
     return OrderListComponent.sumOnDatasets(order, 'filesSize')
   }
 
-  /**
-   * Returns an order progress
-   * @param {*} order order
-   * @return {number} progress percent, in [0, 100]
-   */
-  static getProgress(order) {
-    return get(order, 'content.percentCompleted', 0)
+  state = {
+    isAutoRefreshEnabled: true,
+  }
+
+  toggleAutoRefresh = () => {
+    this.setState({
+      isAutoRefreshEnabled: !this.state.isAutoRefreshEnabled,
+    })
   }
 
   /**
@@ -198,9 +209,9 @@ class OrderListComponent extends React.Component {
           onShowAsynchronousRequestInformation,
         },
       } : null,
-      // 2 - user only option: download zip
+      // 2 - user only option: metalink files
       displayMode === ORDER_DISPLAY_MODES.USER ? { OptionConstructor: DownloadOrderMetaLinkFileContainer } : null,
-      // 3 - user only option: metalink files
+      // 3 - user only option: download zip
       displayMode === ORDER_DISPLAY_MODES.USER ? { OptionConstructor: DownloadOrderFilesAsZipContainer } : null,
       // 4 - retry option (only for error orders)
       { OptionConstructor: RetryOrderContainer, optionProps: { orderStateActions, onShowRetryMode } },
@@ -247,16 +258,10 @@ class OrderListComponent extends React.Component {
         .label(formatMessage({ id: 'order.list.column.label' }))
         .build(),
 
-      // Progress column
-      new TableColumnBuilder(PROGRESS_KEY).titleHeaderCell().progressPercentRenderCell(OrderListComponent.getProgress)
-        .visible(get(columnsVisibility, PROGRESS_KEY, true))
-        .label(formatMessage({ id: 'order.list.column.progress' }))
-        .build(),
-
-      // Status column
-      new TableColumnBuilder(STATUS_KEY).titleHeaderCell()
-        .valuesRenderCell([{ getValue: StatusRender.getStatus, RenderConstructor: StatusRender }])
-        .visible(get(columnsVisibility, STATUS_KEY, true))
+      // statusProgress
+      new TableColumnBuilder(STATUS_PROGRESS_KEY).titleHeaderCell()
+        .rowCellDefinition({ Constructor: StatusProgressRender })
+        .visible(get(columnsVisibility, STATUS_PROGRESS_KEY, true))
         .label(formatMessage({ id: 'order.list.column.status' }))
         .build(),
 
@@ -272,10 +277,14 @@ class OrderListComponent extends React.Component {
         .label(formatMessage({ id: 'order.list.column.expiration.date' }))
         .build(),
 
-      // objects count (as extracted, using getObjectCount)
-      new TableColumnBuilder(OBJECTS_COUNT_KEY).titleHeaderCell().valuesRenderCell([{ getValue: OrderListComponent.getObjectsCount }])
+      // objects count and files count (as extracted, using getObjectsCount and getFilesCount)
+      new TableColumnBuilder(OBJECTS_COUNT_KEY).titleHeaderCell()
         .visible(get(columnsVisibility, OBJECTS_COUNT_KEY, true))
         .label(formatMessage({ id: 'order.list.column.object.count' }))
+        .rowCellDefinition({
+          Constructor: ObjectAndFileCountRender,
+          props: { getObjectCount: OrderListComponent.getObjectsCount, getFilesCount: OrderListComponent.getFilesCount },
+        })
         .build(),
 
       // total files size  (as extracted, using getFilesSize)
@@ -307,16 +316,20 @@ class OrderListComponent extends React.Component {
     } = this.props
     const columns = this.buildColumns()
     const { admin: { minRowCount, maxRowCount } } = this.context.muiTheme.components.infiniteTable
-
+    const { orderHistory: { rowHeight } } = this.context.muiTheme.module
+    const { intl: { formatMessage } } = this.context
+    const { isAutoRefreshEnabled } = this.state
     // render headers and table
     return (
       <TableLayout>
         {/* 0 - Table auto refresh HOC (no graphic) */}
         <AutoRefreshPageableTableHOC
           pageSize={pageSize}
-          requestParams={ordersRequestParameters}
+          bodyParams={ordersRequestParameters}
           pageableTableActions={ordersActions}
           pageableTableSelectors={ordersSelectors}
+          enableAutoRefresh={isAutoRefreshEnabled}
+          fetchUsingPostMethod={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR}
         />
         <TableHeaderLine>
           {/* 1 - commands count */}
@@ -328,6 +341,12 @@ class OrderListComponent extends React.Component {
           {/* 3 - table options  */}
           <TableHeaderOptionsArea>
             <TableHeaderOptionGroup>
+              <FlatButton
+                icon={<RefreshCircle />}
+                label={formatMessage({ id: 'order.list.refresh.auto.label' })}
+                secondary={!isAutoRefreshEnabled}
+                onClick={this.toggleAutoRefresh}
+              />
               {/* downlaod summary (when admin) */
                 displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? (
                   <DownloadOrdersCSVSummaryContainer />
@@ -346,11 +365,14 @@ class OrderListComponent extends React.Component {
         {/* the table itself */}
         <PageableInfiniteTableContainer
           // infinite table configuration
-          requestParams={ordersRequestParameters}
+          bodyParams={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? ordersRequestParameters : {}}
+          requestParams={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? {} : ordersRequestParameters}
           pageActions={ordersActions}
           pageSelectors={ordersSelectors}
           queryPageSize={pageSize}
+          lineHeight={rowHeight}
           columns={columns}
+          fetchUsingPostMethod={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR}
           emptyComponent={OrderListComponent.EMPTY_COMPONENT}
           minRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? minRowCount : null}
           maxRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? maxRowCount : null}

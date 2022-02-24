@@ -23,9 +23,10 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { OrderClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { ORDER_DISPLAY_MODES, OrderDisplayContainer } from '@regardsoss/order-common'
 import OrderListFiltersContainer from '../containers/OrderListFiltersContainer'
+import { REQUEST_FILTERS } from '../domain/requestFilters'
 
 /**
 * Component to display order list in project
@@ -34,16 +35,19 @@ import OrderListFiltersContainer from '../containers/OrderListFiltersContainer'
 class OrderListComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    // current order request parameters
-    ordersRequestParameters: PropTypes.objectOf(PropTypes.string).isRequired,
-
     backUrl: PropTypes.string.isRequired,
     // order request actions
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     // order request selectors
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
-    // callback: a new user (email) filter was selected
-    onUserFilterSelected: PropTypes.func.isRequired,
+
+    // table sorting, column visiblity & filters management
+    requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
+    filters: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
+    updateFilter: PropTypes.func.isRequired,
+    updateValuesFilter: PropTypes.func.isRequired,
+    updateDatesFilter: PropTypes.func.isRequired,
+    clearFilters: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -51,9 +55,17 @@ class OrderListComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static DEFAULT_FILTERS_STATE = {
+    [REQUEST_FILTERS.OWNER]: '',
+    [REQUEST_FILTERS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
+    [REQUEST_FILTERS.STATUSES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [REQUEST_FILTERS.WAITING_FOR_USER]: null,
+  }
+
   render() {
     const {
-      ordersRequestParameters, backUrl, ordersActions, ordersSelectors, onUserFilterSelected, project,
+      requestParameters, backUrl, ordersActions, ordersSelectors, project,
+      filters, updateFilter, updateValuesFilter, updateDatesFilter, clearFilters,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { orderList: { cardTextStyle } } } = this.context
     return (
@@ -66,12 +78,18 @@ class OrderListComponent extends React.Component {
         <CardText style={cardTextStyle}>
           <OrderDisplayContainer
             project={project}
-            ordersRequestParameters={ordersRequestParameters}
+            ordersRequestParameters={requestParameters}
             ordersActions={ordersActions}
             ordersSelectors={ordersSelectors}
             displayMode={ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR}
           >
-            <OrderListFiltersContainer onUserFilterSelected={onUserFilterSelected} />
+            <OrderListFiltersContainer
+              filters={filters}
+              updateFilter={updateFilter}
+              updateValuesFilter={updateValuesFilter}
+              updateDatesFilter={updateDatesFilter}
+              clearFilters={clearFilters}
+            />
           </OrderDisplayContainer>
         </CardText>
         <CardActions>

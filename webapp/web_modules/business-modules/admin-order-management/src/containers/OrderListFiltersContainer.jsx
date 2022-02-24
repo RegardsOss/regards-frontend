@@ -20,9 +20,11 @@ import throttle from 'lodash/throttle'
 import { connect } from '@regardsoss/redux'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { AccessShapes } from '@regardsoss/shape'
+import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import OrderListFiltersComponent from '../components/OrderListFiltersComponent'
+import { REQUEST_FILTERS } from '../domain/requestFilters'
 
 // compute filter dependencies, show this panel only when all are available
 const allFiltersDependencies = [
@@ -70,8 +72,13 @@ export class OrderListFiltersContainer extends React.Component {
   }
 
   static propTypes = {
-    // callback: user selected an email as orders filter
-    onUserFilterSelected: PropTypes.func.isRequired,
+    // table sorting, column visiblity & filters management
+    filters: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
+    updateFilter: PropTypes.func.isRequired,
+    updateValuesFilter: PropTypes.func.isRequired,
+    updateDatesFilter: PropTypes.func.isRequired,
+    clearFilters: PropTypes.func.isRequired,
+
     // from mapStateToProps
     isFetching: PropTypes.bool.isRequired,
     users: AccessShapes.ProjectUserList,
@@ -81,7 +88,6 @@ export class OrderListFiltersContainer extends React.Component {
 
   /** Component default state (controls the auto complete filter state) */
   state = {
-    usersFilterText: '',
     isInError: false,
   }
 
@@ -89,10 +95,11 @@ export class OrderListFiltersContainer extends React.Component {
    * Called by auto complete filter box
    */
   onUpdateUsersFilter = (newText = '') => {
+    const { dispatchGetUsers, updateFilter } = this.props
     // A - update filter text
-    this.setState({ usersFilterText: newText })
+    updateFilter(newText, REQUEST_FILTERS.OWNER, true)
     // B - dipatch get users list for text (it will provide the new matching users list)
-    this.props.dispatchGetUsers(newText)
+    dispatchGetUsers(newText)
   }
 
   /**
@@ -102,9 +109,9 @@ export class OrderListFiltersContainer extends React.Component {
    */
   onUserFilterSelected = (userEmail, isInUsersList) => {
     // A - Update text and error state
-    this.setState({ usersFilterText: userEmail, isInError: !isInUsersList })
+    this.setState({ isInError: !isInUsersList })
     // B - call parent handler (let the no data happen when no correct user is selected)
-    this.props.onUserFilterSelected(userEmail)
+    this.props.updateFilter(userEmail, REQUEST_FILTERS.OWNER)
   }
 
   /**
@@ -112,19 +119,31 @@ export class OrderListFiltersContainer extends React.Component {
    */
   onUserFilterCleared = () => this.onUserFilterSelected('', true) // empty user is considered part of the list
 
+  onUpdateWaitingForUserFilter = (newValue = '') => {
+    const { updateFilter } = this.props
+    updateFilter(newValue, REQUEST_FILTERS.WAITING_FOR_USER)
+  }
+
   render() {
-    const { isFetching, users } = this.props
-    const { usersFilterText, isInError } = this.state
+    const {
+      isFetching, users, filters, updateValuesFilter,
+      updateDatesFilter, clearFilters,
+    } = this.props
+    const { isInError } = this.state
     return (
       <OrderListFiltersComponentWithRights
         resourceDependencies={allFiltersDependencies}
-        usersFilterText={usersFilterText}
         matchingUsers={users}
         isInError={isInError}
         isFetching={isFetching}
         onUpdateUsersFilter={this.onUpdateUsersFilter}
         onUserFilterSelected={this.onUserFilterSelected}
         onUserFilterCleared={this.onUserFilterCleared}
+        filters={filters}
+        updateValuesFilter={updateValuesFilter}
+        updateDatesFilter={updateDatesFilter}
+        clearFilters={clearFilters}
+        onUpdateWaitingForUserFilter={this.onUpdateWaitingForUserFilter}
       />
     )
   }

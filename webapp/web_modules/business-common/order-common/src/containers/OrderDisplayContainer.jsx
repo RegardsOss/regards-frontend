@@ -25,6 +25,7 @@ import { BasicPageableSelectors, BasicListSelectors } from '@regardsoss/store-ut
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { HOCUtils } from '@regardsoss/display-control'
+import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { ORDER_DISPLAY_MODES } from '../model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../model/OrdersNavigationActions'
 import { OrdersNavigationSelectors } from '../model/OrdersNavigationSelectors'
@@ -58,7 +59,7 @@ export class OrderDisplayContainer extends React.Component {
     project: PropTypes.string.isRequired,
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
     // parameters appying on the orders list request
-    ordersRequestParameters: PropTypes.objectOf(PropTypes.string),
+    ordersRequestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // files actions and selector: if not provided, navigation is disabled
@@ -80,6 +81,10 @@ export class OrderDisplayContainer extends React.Component {
       OrderShapes.OrderWithContent, // context level 1
       OrderShapes.DatasetTask, // context level 2
     ])).isRequired,
+  }
+
+  static defaultProps = {
+    ordersRequestParameters: {},
   }
 
   render() {

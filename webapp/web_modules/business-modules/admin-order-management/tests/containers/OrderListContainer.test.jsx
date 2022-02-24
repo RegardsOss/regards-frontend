@@ -18,8 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import OrderListComponent from '../../src/components/OrderListComponent'
 import { OrderListContainer } from '../../src/containers/OrderListContainer'
 import styles from '../../src/styles/styles'
 
@@ -43,38 +43,7 @@ describe('[Admin Order Management] Testing OrderListContainer', () => {
       },
     }
     const enzymeWrapper = shallow(<OrderListContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(OrderListComponent)
-    assert.equal(enzymeWrapper.instance().getBackURL(), '/admin/test1/commands/board', 'The back URL should be correctly defined')
+    const componentWrapper = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      backUrl: enzymeWrapper.instance().getBackURL(),
-      onUserFilterSelected: enzymeWrapper.instance().onUserFilterSelected,
-    }, 'Component should define the expected properties')
-  })
-  it('should render handle correctly selected filters updates', () => {
-    const props = {
-      params: {
-        project: 'test2',
-      },
-    }
-    const enzymeWrapper = shallow(<OrderListContainer {...props} />, { context })
-    assert.isUndefined(enzymeWrapper.state().ordersRequestParameters.user, 'There should be no initial filter')
-    let componentWrapper = enzymeWrapper.find(OrderListComponent)
-    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
-    assert.deepEqual(componentWrapper.props().ordersRequestParameters, {}, 'Request parameters should be empty initially')
-
-    // set up a filter
-    enzymeWrapper.instance().onUserFilterSelected('hello@goodbye.com')
-    enzymeWrapper.update()
-    assert.deepEqual(enzymeWrapper.state().ordersRequestParameters, { user: 'hello@goodbye.com' }, 'User filter should be reported in state')
-    componentWrapper = enzymeWrapper.find(OrderListComponent)
-    assert.deepEqual(componentWrapper.props().ordersRequestParameters, { user: 'hello@goodbye.com' }, 'User filter should be reported to request parameters')
-
-    // clear filter
-    enzymeWrapper.instance().onUserFilterSelected('')
-    enzymeWrapper.update()
-    assert.isUndefined(enzymeWrapper.state().ordersRequestParameters.user, 'There should be no more filter after clear')
-    componentWrapper = enzymeWrapper.find(OrderListComponent)
-    assert.deepEqual(componentWrapper.props().ordersRequestParameters, {}, 'Request parameters should be empty after clear')
   })
 })

@@ -19,7 +19,9 @@
 import values from 'lodash/values'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { TableSelectionModes } from '@regardsoss/components'
 import { OrderClient } from '@regardsoss/client'
+import { OrderDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ORDER_DISPLAY_MODES } from '../../../src/model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../../../src/model/OrdersNavigationActions'
@@ -51,6 +53,17 @@ describe('[Order Common] Testing OrderListContainer', () => {
     ordersActions: new OrderClient.OrderListActions('any'),
     ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
     navigationActions: new OrdersNavigationActions('any'),
+    ordersRequestParameters: {
+      creationDate: {
+        after: Date.now(),
+        before: new Date().setMinutes(new Date().getMinutes() + 18),
+      },
+      owner: 'user1@test.fr',
+      statuses: {
+        mode: TableSelectionModes.INCLUDE,
+        values: [OrderDomain.ORDER_STATUS_ENUM.DONE],
+      },
+    },
     totalOrderCount: 25,
     availableEndpoints: [
       orderStateActions.getDeleteSuperficiallyDependency(), orderStateActions.getPauseDependency(),
@@ -92,6 +105,7 @@ describe('[Order Common] Testing OrderListContainer', () => {
     assert.equal(compProps.columnsVisibility, state.columnsVisibility, 'Columns visibility should be correctly set up')
     assert.equal(compProps.hasDeleteCompletely, state.hasDeleteCompletely, 'hasDeleteCompletely should be correctly set up')
     assert.equal(compProps.hasDeleteSuperficially, state.hasDeleteSuperficially, 'hasDeleteSuperficially should be correctly set up')
+    assert.equal(compProps.ordersRequestParameters, props.ordersRequestParameters, 'Order request parameters should be correctly set up')
     assert.equal(compProps.hasPauseResume, state.hasPauseResume, 'hasPauseResume should be correctly set up')
     assert.equal(compProps.ordersActions, props.ordersActions, 'ordersActions should be correctly set up')
     assert.equal(compProps.ordersSelectors, props.ordersSelectors, 'ordersSelectors should be correctly set up')

@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
+import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import messages from '../i18n'
@@ -36,41 +37,33 @@ export class OrderListContainer extends React.Component {
     }).isRequired,
   }
 
-  state = {
-    ordersRequestParameters: {},
-  }
-
-  /**
-   * Callback: a user has been selected, update table results
-   * @param userText user email of some random text entered by the user
-   */
-  onUserFilterSelected = (userText) => {
-    const ordersRequestParameters = {}
-    // add the parameter when there is some text
-    if (userText) {
-      // set up user query parameter to filter orders
-      ordersRequestParameters.user = userText
-    }
-    this.setState({ ordersRequestParameters })
-  }
-
   getBackURL = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/commands/board`
   }
 
-  render() {
-    const { ordersRequestParameters } = this.state
+  renderComponent = (filterSortingAndVisibilityProps) => {
     const { params: { project } } = this.props
     return (
       <OrderListComponent
+        {...filterSortingAndVisibilityProps}
         project={project}
-        onUserFilterSelected={this.onUserFilterSelected}
-        ordersRequestParameters={ordersRequestParameters}
         backUrl={this.getBackURL()}
         ordersActions={orderListActions}
         ordersSelectors={orderListSelectors}
       />
+    )
+  }
+
+  render() {
+    return (
+      <TableFilterSortingAndVisibilityContainer
+        pageActions={orderListActions}
+        pageSelectors={orderListSelectors}
+        defaultFiltersState={OrderListComponent.DEFAULT_FILTERS_STATE}
+      >
+        {this.renderComponent}
+      </TableFilterSortingAndVisibilityContainer>
     )
   }
 }

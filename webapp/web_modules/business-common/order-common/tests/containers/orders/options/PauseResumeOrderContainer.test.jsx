@@ -48,7 +48,6 @@ describe('[Order Common] Testing PauseResumeOrderContainer', () => {
     { status: OrderDomain.ORDER_STATUS_ENUM.DONE_WITH_WARNING, canUpdate: false, isPaused: false },
     { status: OrderDomain.ORDER_STATUS_ENUM.DONE, canUpdate: false, isPaused: false },
     { status: OrderDomain.ORDER_STATUS_ENUM.DELETED, canUpdate: false, isPaused: false },
-    { status: OrderDomain.ORDER_STATUS_ENUM.REMOVED, canUpdate: false, isPaused: false },
     { status: OrderDomain.ORDER_STATUS_ENUM.RUNNING, canUpdate: true, isPaused: false },
     { status: OrderDomain.ORDER_STATUS_ENUM.PAUSED, canUpdate: true, isPaused: true },
   ]

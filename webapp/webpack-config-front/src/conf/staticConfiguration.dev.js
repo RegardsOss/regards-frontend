@@ -61,6 +61,8 @@ STATIC_CONF = {
   POLLING_TIMER_NOTIFICATIONS: 30000,
   // Intervales in ms between two polls for a user quota information update
   POLLING_TIMER_QUOTA_UPDATES: 1000,
+  // Specify the duration in ms used by the order screen to display the icon to symbolize that a command will soon expire.
+  ORDER_EXPIRE_ICON_DISPLAY: 3600000,
   // Static configuration for entity description dialog
   ENTITY_DESCRIPTION: {
     TAGS: {

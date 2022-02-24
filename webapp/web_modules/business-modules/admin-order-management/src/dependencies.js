@@ -17,8 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { orderListActions } from './clients/OrderListClient'
-import { settingsActions } from './clients/SettingsClient'
+import { OrderClient } from '@regardsoss/client'
 
 /**
  * Module hateoas depencies
@@ -27,10 +26,12 @@ import { settingsActions } from './clients/SettingsClient'
  * @author Théo Lasserre
  */
 
-const listDependencies = [orderListActions.getDependency(RequestVerbEnum.GET_LIST)]
+const listDependencies = [
+  new OrderClient.OrderListActions().getDependency(RequestVerbEnum.POST),
+]
 
 const settingDependencies = [
-  settingsActions.getDependency(RequestVerbEnum.GET_LIST),
+  new OrderClient.SettingsActions().getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 export default {

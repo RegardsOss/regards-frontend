@@ -115,7 +115,7 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
           </ShowableAtRender>
           <DownloadIcon
             style={downloadWithCount.icon.style}
-            color={canDownload ? muiTheme.flatButton.textColor : muiTheme.flatButton.disabledTextColor}
+            color={canDownload ? muiTheme.palette.accent1Color : muiTheme.flatButton.disabledTextColor}
           />
         </div>
       </DownloadButton>

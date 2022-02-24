@@ -26,7 +26,7 @@ import { ORDER, ORDER_ARRAY } from '@regardsoss/api'
  */
 class OrderListActions extends BasicPageableActions {
   /** Endpoint for all users orders */
-  static ALL_USERS_ORDERS_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders`
+  static ALL_USERS_ORDERS_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders/search`
 
   /** Endpoint for current user orders */
   static MY_USER_ORDERS_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/user/orders`

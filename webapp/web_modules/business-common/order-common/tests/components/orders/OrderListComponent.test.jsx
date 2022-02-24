@@ -20,8 +20,10 @@ import values from 'lodash/values'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { OrderClient } from '@regardsoss/client'
+import { OrderDomain } from '@regardsoss/domain'
 import {
   PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableLayout, TableColumnsVisibilityOption,
+  TableSelectionModes,
 } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ORDER_DISPLAY_MODES } from '../../../src/model/OrderDisplayModes'
@@ -56,6 +58,17 @@ describe('[Order Common] Testing OrderListComponent', () => {
       hasPauseResume: true,
       columnsVisibility: OrderListComponent.DEFAULT_ADMIN_COLUMNS_VISIBILITY,
       onChangeColumnsVisibility: () => { },
+      ordersRequestParameters: {
+        creationDate: {
+          after: Date.now(),
+          before: new Date().setMinutes(new Date().getMinutes() + 18),
+        },
+        owner: 'user1@test.fr',
+        statuses: {
+          mode: TableSelectionModes.INCLUDE,
+          values: [OrderDomain.ORDER_STATUS_ENUM.DONE],
+        },
+      },
       ordersActions: new OrderClient.OrderListActions('any', true),
       ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
       orderStateActions: new OrderClient.OrderStateActions('any'),
@@ -76,6 +89,8 @@ describe('[Order Common] Testing OrderListComponent', () => {
     assert.lengthOf(tableWrapper, 1, 'There should be an infinite table')
     assert.deepEqual(tableWrapper.props().pageActions, props.ordersActions, 'actions should be correctly reported')
     assert.deepEqual(tableWrapper.props().pageSelectors, props.ordersSelectors, 'selectors should be correctly reported')
+    assert.deepEqual(tableWrapper.props().bodyParams, props.ordersRequestParameters, 'table body parameters should be correctly reported')
+    assert.isEmpty(tableWrapper.props().requestParams, 'table request parameters should be empty')
 
     const tableColumns = tableWrapper.props().columns
     assert.lengthOf(tableColumns, values(OrderListComponent.DEFAULT_ADMIN_COLUMNS_VISIBILITY).length, 'All columns should be defined in default columns visibility for mode')
@@ -91,6 +106,7 @@ describe('[Order Common] Testing OrderListComponent', () => {
       hasPauseResume: false,
       columnsVisibility: OrderListComponent.DEFAULT_USER_COLUMNS_VISIBILITY,
       onChangeColumnsVisibility: () => { },
+      ordersRequestParameters: {},
       ordersActions: new OrderClient.OrderListActions('any', false),
       ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
       orderStateActions: new OrderClient.OrderStateActions('any'),
@@ -111,6 +127,8 @@ describe('[Order Common] Testing OrderListComponent', () => {
     assert.lengthOf(tableWrapper, 1, 'There should be an infinite table')
     assert.deepEqual(tableWrapper.props().pageActions, props.ordersActions, 'actions should be correctly reported')
     assert.deepEqual(tableWrapper.props().pageSelectors, props.ordersSelectors, 'selectors should be correctly reported')
+    assert.isEmpty(tableWrapper.props().bodyParams, 'table body parameters should be empty')
+    assert.deepEqual(tableWrapper.props().requestParams, props.ordersRequestParameters, 'table request parameters should be correctly reported')
 
     const tableColumns = tableWrapper.props().columns
     assert.lengthOf(tableColumns, values(OrderListComponent.DEFAULT_USER_COLUMNS_VISIBILITY).length, 'All columns should be defined in default columns visibility for mode')
@@ -119,7 +137,7 @@ describe('[Order Common] Testing OrderListComponent', () => {
     values(SOME_ORDERS.content).forEach((order) => {
       assert.isDefined(OrderListComponent.getFilesSize(order), `File size should be retrieved in ${order.content.id}`)
       assert.isDefined(OrderListComponent.getObjectsCount(order), `Objects count should be retrieved in ${order.content.id}`)
-      assert.isDefined(OrderListComponent.getProgress(order), `Progress should be retrieved in ${order.content.id}`)
+      assert.isDefined(OrderListComponent.getFilesCount(order), `Files count should be retrieved in ${order.content.id}`)
     })
   })
 })

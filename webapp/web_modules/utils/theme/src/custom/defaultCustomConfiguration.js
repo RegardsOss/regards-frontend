@@ -343,18 +343,6 @@ export default (baseTheme) => ({
       statusIconMargin: '0 7px 0 15px',
       clearEmailFilterPadding: '7px 16px 7px 8px',
       'waiting.user.download.animation': 'shake 3s infinite',
-      // orders
-      'color.PENDING': '#00BCD4',
-      'color.RUNNING': baseTheme.palette.textColor,
-      'color.WAITING_USER_DOWNLOAD': '#00BCD4',
-      'color.PAUSED': '#00BCD4',
-      'color.EXPIRED': baseTheme.textField.disabledTextColor,
-      'color.FAILED': baseTheme.textField.errorColor,
-      'color.DONE_WITH_WARNING': '#FF9800',
-      'color.DONE': baseTheme.textField.disabledTextColor,
-      'color.DELETED': baseTheme.textField.disabledTextColor,
-      'color.REMOVED': baseTheme.textField.disabledTextColor,
-      'color.UNKNOWN': baseTheme.textField.disabledTextColor,
       // files
       'color.file.PENDING': '#00BCD4',
       'color.file.AVAILABLE': baseTheme.palette.textColor,
@@ -364,6 +352,41 @@ export default (baseTheme) => ({
       'color.file.PROCESSING_ERROR': baseTheme.textField.errorColor,
       'color.file.ERROR': baseTheme.textField.errorColor,
       'color.file.UNKNOWN': baseTheme.textField.disabledTextColor,
+      rowHeight: 120,
+      progressBar: {
+        barHeight: 20,
+        padding: '0px 0px 0px 0px',
+        outlineColors: {
+          defaultColor: 'rgba(255, 255, 255, 0.39)',
+          errorColor: '#b71c1c',
+          warningColor: '#ff3d00',
+          waitingUserColor: '#1565c0',
+          pausedColor: '#1565c0',
+        },
+        backgroundColors: {
+          runningColor: '#43a047',
+          errorColor: '#b71c1c',
+          warningColor: '#ff3d00',
+          waitingUserColor: '#1565c0',
+          pausedColor: '#1565c0',
+          doneColor: '#43a047',
+        },
+      },
+      statut: {
+        fontSize: '12px',
+        padding: '0px 0px 0px 0px',
+        fontColors: {
+          defaultColor: '#ffffff',
+          errorColor: 'rgba(213, 0, 0, 0.64)',
+          warningColor: 'rgba(255, 61, 0, 0.64)',
+          waitingUserColor: '#ffffff',
+          pausedColor: '#ffffff',
+        },
+      },
+      secondaryStatut: {
+        expirationIconColor: '#d500f9',
+        expiredIconColor: '#f44336',
+      },
     },
     // search results module
     searchResults: {

@@ -37,14 +37,14 @@ export class RefreshPageableTableOption extends React.Component {
    * @param {*} requestParams request parameters if any
    * @return {Promise} dispatched promise
    */
-  static refreshTable(fetchEntities, pageSize, shouldRefetchAll, pageMetadata, pathParams = null, requestParams = null) {
+  static refreshTable(fetchEntities, pageSize, shouldRefetchAll, pageMetadata, pathParams = null, requestParams = null, bodyParams = null) {
     let fetchPageSize = pageSize
     if (shouldRefetchAll) {
       // compute page size to refresh all current entities in the table
       const lastPage = (pageMetadata && pageMetadata.number) || 0
       fetchPageSize = pageSize * (lastPage + 1)
     }
-    return fetchEntities(0, fetchPageSize, pathParams, requestParams)
+    return fetchEntities(0, fetchPageSize, pathParams, requestParams, bodyParams)
   }
 
   /**

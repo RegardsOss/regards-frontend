@@ -51,7 +51,6 @@ describe('[Order Common] Testing DownloadOrderMetaLinkFileContainer', () => {
     [OrderDomain.ORDER_STATUS_ENUM.EXPIRED]: false,
     [OrderDomain.ORDER_STATUS_ENUM.FAILED]: false,
     [OrderDomain.ORDER_STATUS_ENUM.DELETED]: false,
-    [OrderDomain.ORDER_STATUS_ENUM.REMOVED]: false,
   }
   forEach(statusTestCases, (canDownload, status) => it(`should render correctly in state ${status}, ${canDownload ? 'enabling' : 'disabling'} download option`, () => {
     const mockedOrder = {

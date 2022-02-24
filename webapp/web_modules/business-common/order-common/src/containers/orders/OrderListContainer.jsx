@@ -23,6 +23,7 @@ import noop from 'lodash/noop'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { OrderClient } from '@regardsoss/client'
+import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic, HOCUtils } from '@regardsoss/display-control'
@@ -53,7 +54,7 @@ export class OrderListContainer extends React.Component {
     // from router
     project: PropTypes.string.isRequired,
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
-    ordersRequestParameters: PropTypes.objectOf(PropTypes.string),
+    ordersRequestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // not provided when navigation is disabled

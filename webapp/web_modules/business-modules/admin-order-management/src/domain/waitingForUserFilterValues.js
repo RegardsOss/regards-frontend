@@ -15,34 +15,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import values from 'lodash/values'
+
+/**
+ * @author Théo Lasserre
  */
-export default (theme) => ({
-  orderList: {
-    cardTextStyle: {
-      paddingTop: 0,
-      paddingBottom: 0,
-    },
-    clearFilterButton: {
-      style: {
-        width: undefined,
-        height: undefined,
-        padding: theme.module.orderHistory.clearEmailFilterPadding,
-      },
-    },
-    autoCompleteFilterStyle: {
-      marginTop: '25px',
-    },
-    selectFieldStyle: {
-      marginTop: '-10px',
-    },
-  },
-  settings: {
-    settingDiv: {
-      display: 'flex',
-    },
-    settingDivAlt: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-  },
-})
+export const WAITING_FOR_USER_ENUM = {
+  WITH_WAITING_FOR_USER: 'true',
+  WITHOUT_WAITING_FOR_USER: 'false',
+}
+
+export const WAITING_FOR_USER_VALUES = values(WAITING_FOR_USER_ENUM)
