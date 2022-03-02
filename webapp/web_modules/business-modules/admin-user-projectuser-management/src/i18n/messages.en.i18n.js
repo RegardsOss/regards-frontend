@@ -127,10 +127,10 @@ const messages = {
   'projectUser.create.input.password.confirm': 'Confirm password (*)',
   'projectUser.create.input.status': 'Status',
   'projectUser.create.input.groups': 'Groups',
-  'projectUser.create.input.max.quota': 'Max quota',
+  'projectUser.create.input.max.quota': 'Max quota (*)',
   'projectUser.create.input.max.quota.help.message': `User max quota is the count of raw data files internally stored by REGARDS that he is allowed to download. 
   Possible values are -1, for unlimited, 0, for none, or any positive integer for a precise count`,
-  'projectUser.create.input.rate.limit': 'Rate limit',
+  'projectUser.create.input.rate.limit': 'Rate limit (*)',
   'projectUser.create.input.rate.limit.help.message': `User rate limit is the number of raw data files internally stored by REGARDS that he is allowed to download simultaneously. 
   Possible values are -1, for unlimited / 0, for none, or any positive integer for a precise count`,
   'projectUser.create.action.add': 'Add',
