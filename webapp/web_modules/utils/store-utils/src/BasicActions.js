@@ -161,12 +161,10 @@ class BasicActions {
    * @returns {{type: string }} RSAA action to dispatch
    */
   buildMultiPartsRSAAction(initialEndpoint, pathParams, queryParams, formData, types, method = 'POST') {
-    let finalEndpoint = BasicActions.buildURL(initialEndpoint, pathParams, queryParams)
-    finalEndpoint = BasicActions.useZuulSlugForMultiPartRoutes(finalEndpoint)
     return {
       [RSAA]: {
         types,
-        endpoint: finalEndpoint,
+        endpoint: BasicActions.buildURL(initialEndpoint, pathParams, queryParams),
         method,
         body: formData,
         headers: this.headers,
@@ -264,15 +262,6 @@ class BasicActions {
     // Handle files
     BasicActions.addFilesListToFormData(formData, filesList, fileKey)
     return formData
-  }
-
-  /**
-   * Redirects endpoint to zuul
-   * @param {string} endpoint -
-   * @return {string} zuul endpoint
-   */
-  static useZuulSlugForMultiPartRoutes(endpoint) {
-    return endpoint.replace(`/${API_URL}/`, `/zuul/${API_URL}/`)
   }
 
   /**

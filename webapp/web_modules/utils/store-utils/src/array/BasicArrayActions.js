@@ -76,7 +76,6 @@ class BasicArrayActions extends BasicActions {
   createEntitiesUsingMultiPart(objectValues, files, pathParams, queryParams) {
     let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
     endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-    endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
     const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
     return {
       [RSAA]: {
