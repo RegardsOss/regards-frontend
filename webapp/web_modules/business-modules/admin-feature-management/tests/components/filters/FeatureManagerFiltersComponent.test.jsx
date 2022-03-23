@@ -21,6 +21,7 @@ import { assert } from 'chai'
 import {
   TableLayout, TableHeaderAutoCompleteFilterContainer, DatePickerField, TableHeaderTextField,
 } from '@regardsoss/components'
+import IconButton from 'material-ui/IconButton'
 import SelectField from 'material-ui/SelectField'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import FeatureManagerFiltersComponent from '../../../src/components/filters/FeatureManagerFiltersComponent'
@@ -55,6 +56,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerFiltersComponent', ()
     const props = {
       onApplyFilters: () => { },
       featureManagerFilters: {},
+      onClearFilters: () => { },
     }
     const enzymeWrapper = shallow(<FeatureManagerFiltersComponent {...props} />, { context })
     const tableWrapper = enzymeWrapper.find(TableLayout)
@@ -71,5 +73,8 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerFiltersComponent', ()
 
     const dateWrapper = enzymeWrapper.find(DatePickerField)
     assert.lengthOf(dateWrapper, 2, 'There should be 2 DatePickerField')
+
+    const clearButton = enzymeWrapper.find(IconButton)
+    assert.lengthOf(clearButton, 1, 'There should be an IconButton')
   })
 })

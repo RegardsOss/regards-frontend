@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import includes from 'lodash/includes'
+import some from 'lodash/some'
+import endsWith from 'lodash/endsWith'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import { Breadcrumb, CardActionsComponent } from '@regardsoss/components'
@@ -61,9 +63,7 @@ class FeatureManagerComponent extends React.Component {
   UNSAFE_componentWillMount = () => {
     const { params: { type } } = this.props
     if (includes(FemDomain.REQUEST_TYPES, type)) {
-      this.setState({
-        openedPane: type,
-      })
+      this.onSwitchToPane(type)
     }
   }
 
@@ -74,7 +74,7 @@ class FeatureManagerComponent extends React.Component {
   }
 
   onApplyFilters = throttle((featureManagerFilters) => {
-    this.setState({ featureManagerFilters: FeatureManagerFiltersComponent.buildRequestParameters(featureManagerFilters) })
+    this.setState({ featureManagerFilters: FeatureManagerFiltersComponent.buildRequestParameters(featureManagerFilters, this.state.featureManagerFilters) })
   }, 1000, { leading: true, trailing: true })
 
   clearAllSelections = () => {
@@ -92,14 +92,40 @@ class FeatureManagerComponent extends React.Component {
     clearUpdateSelection()
   }
 
+  updatePaneURL = (pane) => {
+    const { pathname, query, search } = browserHistory.getCurrentLocation()
+    let newPathName
+    if (some(FemDomain.REQUEST_TYPES, (reqType) => endsWith(pathname, reqType))) {
+      newPathName = `${pathname.substring(0, pathname.lastIndexOf('/'))}/${pane}`
+    } else {
+      newPathName = `${pathname}/${pane}`
+    }
+    browserHistory.replace({
+      pathname: newPathName,
+      search,
+      query,
+    })
+  }
+
   /**
   * Update state with pane type and clear all selection except choosen pane
   * @param {*} paneType see FeatureManagerComponent.PANES for values
   */
   onSwitchToPane = (paneType) => {
     this.clearAllSelections()
+    this.updatePaneURL(paneType)
     this.setState({
       openedPane: paneType,
+    })
+  }
+
+  /**
+   * Clear filters
+   */
+  onClearFilters = () => {
+    const { featureManagerFilters } = this.state
+    this.setState({
+      featureManagerFilters: FeatureManagerFiltersComponent.buildRequestParameters(FeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE, featureManagerFilters),
     })
   }
 
@@ -132,6 +158,7 @@ class FeatureManagerComponent extends React.Component {
             onApplyFilters={this.onApplyFilters}
             featureManagerFilters={featureManagerFilters}
             openedPane={openedPane}
+            onClearFilters={this.onClearFilters}
           />
           <SwitchTables
             params={params}

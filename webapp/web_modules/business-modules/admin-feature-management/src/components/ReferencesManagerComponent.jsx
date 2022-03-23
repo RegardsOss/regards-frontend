@@ -112,30 +112,6 @@ export class ReferencesManagerComponent extends React.Component {
     [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
   }
 
-  static buildContextRequestBody(appliedFilters) {
-    const {
-      source, session, providerId, from, to, disseminationPending,
-    } = appliedFilters
-    const contextRequestParameters = {}
-    if (source) {
-      contextRequestParameters.source = source
-    }
-    if (session) {
-      contextRequestParameters.session = session
-    }
-    if (providerId) {
-      contextRequestParameters.providerId = providerId
-    }
-    if (from) {
-      contextRequestParameters.from = from
-    }
-    if (to) {
-      contextRequestParameters.to = to
-    }
-    contextRequestParameters.disseminationPending = disseminationPending
-    return contextRequestParameters
-  }
-
   static buildSortURL = (columnsSorting) => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${ReferencesManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
 
   state = {
@@ -179,7 +155,7 @@ export class ReferencesManagerComponent extends React.Component {
     * @param newProps next component properties
     */
   onPropertiesUpdated = (oldProps, newProps) => {
-    if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters)) {
+    if (!isEqual(newProps.featureManagerFilters, oldProps.featureManagerFilters)) {
       this.onFiltersUpdated(newProps.featureManagerFilters)
     }
   }
@@ -189,7 +165,7 @@ export class ReferencesManagerComponent extends React.Component {
     this.setState({
       contextRequestParameters: {
         ...contextRequestParameters,
-        ...ReferencesManagerComponent.buildContextRequestBody({ ...featureManagerFilters }),
+        ...featureManagerFilters,
       },
     })
   }

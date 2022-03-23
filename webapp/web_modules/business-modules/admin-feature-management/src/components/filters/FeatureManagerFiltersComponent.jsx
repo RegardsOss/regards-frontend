@@ -17,12 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import keys from 'lodash/keys'
+import reduce from 'lodash/reduce'
+import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import values from 'lodash/values'
+import IconButton from 'material-ui/IconButton'
 import { browserHistory } from 'react-router'
 import isEqual from 'lodash/isEqual'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
+import ClearFilter from 'mdi-material-ui/Backspace'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FemDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
@@ -41,6 +45,7 @@ import { DISSEMINATION_PENDING_ENUM } from '../../domain/DisseminationStatus'
 export class FeatureManagerFiltersComponent extends React.Component {
   static propTypes = {
     onApplyFilters: PropTypes.func.isRequired,
+    onClearFilters: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     featureManagerFilters: PropTypes.object.isRequired,
     openedPane: PropTypes.string,
@@ -69,7 +74,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
    * @param {*} filters filters state from component state
    * @returns {*} requestParameters as an object compound of string and string arrays
    */
-  static buildRequestParameters(filters) {
+  static buildRequestParameters(filters, oldFilters) {
     const requestParameters = filters
 
     if (filters[FILTER_PARAMS.FROM]) {
@@ -80,12 +85,17 @@ export class FeatureManagerFiltersComponent extends React.Component {
       const dateTo = new Date(filters[FILTER_PARAMS.TO])
       requestParameters.to = dateTo.toISOString()
     }
+
+    if (!isEqual(filters, oldFilters)) {
+      FeatureManagerFiltersComponent.updateURL(requestParameters)
+    }
+
     return requestParameters
   }
 
   static extractFiltersFromURL = () => {
     const { query } = browserHistory.getCurrentLocation()
-    const urlFilters = FeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE
+    const urlFilters = { ...FeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE }
     if (values(query).length > 0) {
       const {
         source, session, providerId, from, to, state, disseminationPending,
@@ -100,19 +110,35 @@ export class FeatureManagerFiltersComponent extends React.Component {
         urlFilters.providerId = providerId
       }
       if (from) {
-        urlFilters.from = from.fromISOString()
+        urlFilters.from = from
       }
       if (to) {
-        urlFilters.to = to.fromISOString()
+        urlFilters.to = to
       }
       if (state) {
         urlFilters.state = state
       }
       if (disseminationPending) {
-        urlFilters.disseminationPending = DISSEMINATION_PENDING_ENUM[disseminationPending]
+        urlFilters.disseminationPending = disseminationPending
       }
     }
     return urlFilters
+  }
+
+  static updateURL = (filters) => {
+    const { pathname } = browserHistory.getCurrentLocation()
+
+    const newQuery = reduce(keys(filters), (acc, value) => {
+      if (filters[value] !== null && filters[value] !== undefined && !isEmpty(filters[value])) {
+        acc[value] = filters[value]
+      }
+      return acc
+    }, {})
+    browserHistory.replace({
+      pathname,
+      search: encodeURIComponent(new URLSearchParams(newQuery).toString()),
+      query: newQuery,
+    })
   }
 
   state = {
@@ -168,89 +194,98 @@ export class FeatureManagerFiltersComponent extends React.Component {
   render() {
     const { intl: { formatMessage, locale }, moduleTheme: { filter } } = this.context
     const { filters } = this.state
-    const { openedPane } = this.props
+    const { openedPane, onClearFilters } = this.props
     return (
-      <>
-        <TableLayout>
-          <TableHeaderLine key="idLine">
-            <TableHeaderOptionsArea key="idLini" reducible alignLeft>
-              <TableHeaderOptionGroup key="idLina">
-                <TableHeaderAutoCompleteFilterContainer
-                  onChangeText={(value) => this.updateState(value, FILTER_PARAMS.SOURCE)}
-                  text={filters.source || ''}
-                  hintText={formatMessage({ id: 'feature.references.list.filters.source' })}
-                  style={filter.autocomplete}
-                  key="sourceAuto"
-                  arrayActions={searchSourcesActions}
-                  arraySelectors={searchSourcesSelectors}
-                />
-                <TableHeaderAutoCompleteFilterContainer
-                  onChangeText={(value) => this.updateState(value, FILTER_PARAMS.SESSION)}
-                  text={filters.session || ''}
-                  hintText={formatMessage({ id: 'feature.references.list.filters.session' })}
-                  style={filter.autocomplete}
-                  key="sessionAuto"
-                  arrayActions={searchSessionsActions}
-                  arraySelectors={searchSessionsSelectors}
-                />
-                <TableHeaderTextField
-                  title={formatMessage({ id: 'feature.references.tooltip.providerId' })}
-                  value={filters.providerId || ''}
-                  hintText={formatMessage({ id: 'feature.references.list.filters.providerId' })}
-                  onChange={(event, value) => this.updateState(value, FILTER_PARAMS.PROVIDER_ID)}
-                />
-              </TableHeaderOptionGroup>
-              <TableHeaderOptionGroup key="dateForm">
-                <DatePickerField
-                  id="filter.from"
-                  value={null}
-                  dateHintText={formatMessage({
-                    id: 'feature.references.list.filters.from.label',
-                  })}
-                  onChange={(value) => this.updateState(value, FILTER_PARAMS.FROM)}
-                  locale={locale}
-                  key="datefrom"
-                />
-                <DatePickerField
-                  id="filter.to"
-                  value={null}
-                  defaultTime="23:59:59"
-                  dateHintText={formatMessage({ id: 'feature.references.list.filters.to.label' })}
-                  onChange={(value) => this.updateState(value, FILTER_PARAMS.TO)}
-                  locale={locale}
-                  key="dateto"
-                />
-              </TableHeaderOptionGroup>
-              <TableHeaderOptionGroup key="state">
-                <SelectField
-                  autoWidth
-                  style={filter.fieldStyle}
-                  floatingLabelText={formatMessage({ id: 'feature.requests.list.filters.state' })}
-                  value={filters.state || ''}
-                  onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.STATE)}
-                  disabled={openedPane === FemDomain.REQUEST_TYPES_ENUM.REFERENCES}
-                >
-                  <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.status.any' })} />
-                  {FemDomain.REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `feature.requests.status.${status}` })} />)}
-                </SelectField>
-              </TableHeaderOptionGroup>
-              <TableHeaderOptionGroup key="dissemination">
-                <SelectField
-                  autoWidth
-                  style={filter.fieldStyle}
-                  floatingLabelText={formatMessage({ id: 'feature.requests.list.filters.dissemination.status' })}
-                  value={filters.disseminationPending || ''}
-                  onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.DISSEMINATION_PENDING)}
-                  disabled={openedPane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES}
-                >
-                  <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.dissemination.status.any' })} />
-                  {map(keys(DISSEMINATION_PENDING_ENUM), (disseminationKey) => <MenuItem key={disseminationKey} value={DISSEMINATION_PENDING_ENUM[disseminationKey]} primaryText={formatMessage({ id: `feature.requests.dissemination.status.${disseminationKey}` })} />)}
-                </SelectField>
-              </TableHeaderOptionGroup>
-            </TableHeaderOptionsArea>
-          </TableHeaderLine>
-        </TableLayout>
-      </>
+      <TableLayout>
+        <TableHeaderLine>
+          <div style={filter.tableHeaderContainerStyle}>
+            <div style={filter.tableHeaderFiltersStyle}>
+              <TableHeaderOptionsArea reducible>
+                <TableHeaderOptionGroup>
+                  <TableHeaderAutoCompleteFilterContainer
+                    onChangeText={(value) => this.updateState(value, FILTER_PARAMS.SOURCE)}
+                    text={filters.source || ''}
+                    hintText={formatMessage({ id: 'feature.references.list.filters.source' })}
+                    style={filter.autocomplete}
+                    key="sourceAuto"
+                    arrayActions={searchSourcesActions}
+                    arraySelectors={searchSourcesSelectors}
+                  />
+                  <TableHeaderAutoCompleteFilterContainer
+                    onChangeText={(value) => this.updateState(value, FILTER_PARAMS.SESSION)}
+                    text={filters.session || ''}
+                    hintText={formatMessage({ id: 'feature.references.list.filters.session' })}
+                    style={filter.autocomplete}
+                    key="sessionAuto"
+                    arrayActions={searchSessionsActions}
+                    arraySelectors={searchSessionsSelectors}
+                  />
+                  <TableHeaderTextField
+                    title={formatMessage({ id: 'feature.references.tooltip.providerId' })}
+                    value={filters.providerId || ''}
+                    hintText={formatMessage({ id: 'feature.references.list.filters.providerId' })}
+                    onChange={(event, value) => this.updateState(value, FILTER_PARAMS.PROVIDER_ID)}
+                  />
+                </TableHeaderOptionGroup>
+              </TableHeaderOptionsArea>
+              <TableHeaderOptionsArea reducible alignLeft>
+                <TableHeaderOptionGroup>
+                  <DatePickerField
+                    id="filter.from"
+                    value={filters.from ? new Date(filters.from) : null}
+                    dateHintText={formatMessage({
+                      id: 'feature.references.list.filters.from.label',
+                    })}
+                    onChange={(value) => this.updateState(value, FILTER_PARAMS.FROM)}
+                    locale={locale}
+                    style={filter.dateFromStyle}
+                    key="datefrom"
+                  />
+                  <DatePickerField
+                    id="filter.to"
+                    value={filters.to ? new Date(filters.to) : null}
+                    defaultTime="23:59:59"
+                    dateHintText={formatMessage({ id: 'feature.references.list.filters.to.label' })}
+                    onChange={(value) => this.updateState(value, FILTER_PARAMS.TO)}
+                    locale={locale}
+                    key="dateto"
+                  />
+                </TableHeaderOptionGroup>
+                <TableHeaderOptionGroup>
+                  <SelectField
+                    autoWidth
+                    style={filter.fieldStyle}
+                    floatingLabelText={formatMessage({ id: 'feature.requests.list.filters.state' })}
+                    value={filters.state || ''}
+                    onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.STATE)}
+                    disabled={openedPane === FemDomain.REQUEST_TYPES_ENUM.REFERENCES}
+                  >
+                    <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.status.any' })} />
+                    {FemDomain.REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `feature.requests.status.${status}` })} />)}
+                  </SelectField>
+                  <SelectField
+                    autoWidth
+                    style={filter.fieldStyle}
+                    floatingLabelText={formatMessage({ id: 'feature.requests.list.filters.dissemination.status' })}
+                    value={filters.disseminationPending || ''}
+                    onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.DISSEMINATION_PENDING)}
+                    disabled={openedPane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES}
+                  >
+                    <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.dissemination.status.any' })} />
+                    {map(keys(DISSEMINATION_PENDING_ENUM), (disseminationKey) => <MenuItem key={disseminationKey} value={DISSEMINATION_PENDING_ENUM[disseminationKey]} primaryText={formatMessage({ id: `feature.requests.dissemination.status.${disseminationKey}` })} />)}
+                  </SelectField>
+                </TableHeaderOptionGroup>
+              </TableHeaderOptionsArea>
+            </div>
+            <IconButton
+              title={formatMessage({ id: 'feature.requests.list.filters.clear' })}
+              onClick={() => onClearFilters()}
+            >
+              <ClearFilter />
+            </IconButton>
+          </div>
+        </TableHeaderLine>
+      </TableLayout>
     )
   }
 }

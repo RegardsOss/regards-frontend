@@ -123,30 +123,6 @@ export class RequestManagerComponent extends React.Component {
     [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
   }
 
-  static buildContextRequestBody(appliedFilters) {
-    const {
-      source, session, providerId, from, to, state,
-    } = appliedFilters
-    const contextRequestParameters = {}
-    if (source) {
-      contextRequestParameters.source = source
-    }
-    if (session) {
-      contextRequestParameters.session = session
-    }
-    if (providerId) {
-      contextRequestParameters.providerId = providerId
-    }
-    if (from) {
-      contextRequestParameters.from = from
-    }
-    if (to) {
-      contextRequestParameters.to = to
-    }
-    contextRequestParameters.state = state
-    return contextRequestParameters
-  }
-
   static buildSortURL = (columnsSorting) => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${RequestManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
 
   state = {
@@ -211,7 +187,7 @@ export class RequestManagerComponent extends React.Component {
     this.setState({
       contextRequestParameters: {
         ...contextRequestParameters,
-        ...RequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters }),
+        ...featureManagerFilters,
       },
     })
   }

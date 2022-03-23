@@ -72,6 +72,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
     testSuiteHelpers.assertWrapperProperties(filterWrapper, {
       onApplyFilters: enzymeWrapper.instance().onApplyFilters,
       featureManagerFilters: enzymeWrapper.instance().state.featureManagerFilters,
+      onClearFilters: enzymeWrapper.instance().onClearFilters,
     }, 'Component should define the expected properties')
 
     const switchWrapper = enzymeWrapper.find(SwitchTables)

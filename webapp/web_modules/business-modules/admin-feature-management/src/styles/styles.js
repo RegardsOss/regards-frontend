@@ -37,6 +37,17 @@ const featureManagementStyles = (theme) => ({
       marginRight: '10px',
       marginLeft: '10px',
     },
+    tableHeaderContainerStyle: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    tableHeaderFiltersStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    dateFromStyle: {
+      marginLeft: '10px',
+    },
   },
   tableStyle: {
     renderStyle: {

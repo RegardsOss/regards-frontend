@@ -90,6 +90,7 @@ const messages = {
   'feature.requests.loading.results': 'Loading requests ...',
   'feature.requests.list.filters.state': 'State',
   'feature.requests.list.filters.dissemination.status': 'Dissemination',
+  'feature.requests.list.filters.clear': 'Clear filters',
   'feature.requests.tooltip.button.dissemination': 'Pending',
   'feature.requests.tooltip.selection.retry': 'Retry request selection',
   'feature.requests.list.filters.buttons.retry': 'Retry selection',
