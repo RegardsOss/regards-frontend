@@ -19,7 +19,7 @@
 import { AccessShapes } from '@regardsoss/shape'
 import { UIDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
-import { LoadableContentDisplayDecorator, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import OrderHistoryComponent from '../../components/user/OrderHistoryComponent'
@@ -42,57 +42,35 @@ export class UserModuleContainer extends React.Component {
     availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
   })
 
-  /**
-   * Redux: map to dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @return {*} list of actions ready to be dispatched in the redux store
-   */
-  static mapDispatchToProps = (dispatch) => ({
-    fetchProcessingList: (pathParams, queryParams) => dispatch(processingActions.fetchEntityList(pathParams, queryParams)),
-  })
-
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
     // from mapStateToProps
     availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-    // from mapDispatchToProps
-    fetchProcessingList: PropTypes.func.isRequired,
   }
 
   state = {
-    isLoading: true,
-    isProcessingDependenciesExist: allMatchHateoasDisplayLogic(processingActions.getDependency(RequestVerbEnum.GET), this.props.availableDependencies),
-  }
-
-  UNSAFE_componentWillMount() {
-    if (this.state.isProcessingDependenciesExist) {
-      this.props.fetchProcessingList()
-    }
-    this.setState({
-      isLoading: false,
-    })
+    isProcessingDependenciesExist: allMatchHateoasDisplayLogic([processingActions.getDependency(RequestVerbEnum.GET)], this.props.availableDependencies),
   }
 
   render() {
-    const { isLoading, isProcessingDependenciesExist } = this.state
+    const { isProcessingDependenciesExist } = this.state
     return (
-      <LoadableContentDisplayDecorator isLoading={isLoading}>
-        <OrderHistoryComponent
-          ordersActions={orderListActions}
-          ordersSelectors={orderListSelectors}
-          orderFilesActions={orderFilesActions}
-          orderFilesSelectors={orderFilesSelectors}
-          navigationActions={ordersNavigationActions}
-          navigationSelectors={ordersNavigationSelectors}
-          processingSelectors={processingSelectors}
-          isProcessingDependenciesExist={isProcessingDependenciesExist}
-          defaultIconURL={UIDomain.getModuleDefaultIconURL(this.props.type)}
-          {...this.props}
-        />
-      </LoadableContentDisplayDecorator>
+      <OrderHistoryComponent
+        ordersActions={orderListActions}
+        ordersSelectors={orderListSelectors}
+        orderFilesActions={orderFilesActions}
+        orderFilesSelectors={orderFilesSelectors}
+        navigationActions={ordersNavigationActions}
+        navigationSelectors={ordersNavigationSelectors}
+        processingSelectors={processingSelectors}
+        processingActions={processingActions}
+        isProcessingDependenciesExist={isProcessingDependenciesExist}
+        defaultIconURL={UIDomain.getModuleDefaultIconURL(this.props.type)}
+        {...this.props}
+      />
     )
   }
 }
 
-export default connect(UserModuleContainer.mapStateToProps, UserModuleContainer.mapDispatchToProps)(UserModuleContainer)
+export default connect(UserModuleContainer.mapStateToProps, null)(UserModuleContainer)

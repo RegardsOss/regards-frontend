@@ -20,8 +20,11 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CardActionsComponent, TableSelectionModes } from '@regardsoss/components'
+import { OrderClient, ProcessingClient, CommonClient } from '@regardsoss/client'
 import { OrderDomain } from '@regardsoss/domain'
-import { ORDER_DISPLAY_MODES, OrderDisplayContainer } from '@regardsoss/order-common'
+import {
+  OrdersNavigationActions, ORDER_DISPLAY_MODES, OrderDisplayContainer, OrdersNavigationSelectors,
+} from '@regardsoss/order-common'
 import { orderListActions, orderListSelectors } from '../../src/clients/OrderListClient'
 import OrderListComponent from '../../src/components/OrderListComponent'
 import OrderListFiltersContainer from '../../src/containers/OrderListFiltersContainer'
@@ -46,6 +49,14 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
       backUrl: 'random-url_value#123',
       ordersActions: orderListActions,
       ordersSelectors: orderListSelectors,
+      isProcessingDependenciesExist: true,
+      processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
+      processingActions: new ProcessingClient.ProcessingActions('idk'),
+      orderFilesActions: new OrderClient.OrderDatasetFilesActions('idk'),
+      orderFilesSelectors: OrderClient.getOrderDatasetFilesSelectors(['idk']),
+      ordersNavigationActions: new OrdersNavigationActions('idk'),
+      ordersNavigationSelectors: new OrdersNavigationSelectors(['osef']),
+      pluginMetaDataSelectors: CommonClient.getPluginMetaDataSelectors(['idk']),
       requestParameters: {
         creationDate: {
           after: Date.now(),
@@ -82,6 +93,14 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
       ordersActions: props.ordersActions,
       ordersSelectors: props.ordersSelectors,
       displayMode: ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR,
+      isProcessingDependenciesExist: props.isProcessingDependenciesExist,
+      processingSelectors: props.processingSelectors,
+      processingActions: props.processingActions,
+      orderFilesActions: props.orderFilesActions,
+      orderFilesSelectors: props.orderFilesSelectors,
+      navigationActions: props.ordersNavigationActions,
+      navigationSelectors: props.ordersNavigationSelectors,
+      pluginMetaDataSelectors: props.pluginMetaDataSelectors,
     }, 'The order display container should be correctly configured')
     // 2 - check order list display container configuration
     const cACWrapper = enzymeWrapper.find(CardActionsComponent)

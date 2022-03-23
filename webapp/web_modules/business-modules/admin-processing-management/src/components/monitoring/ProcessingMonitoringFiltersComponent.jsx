@@ -87,7 +87,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
   getConfigurationProcessNames = (inputValue = '') => {
     const { processingList } = this.props
     const processNameList = map(processingList, (processing) => (
-      ProcessingDomain.getProcessingName(processing)
+      ProcessingDomain.ProcessingUtils.getProcessingName(processing)
     ))
     return !isEmpty(inputValue) ? filter(processNameList, (processName) => processName.startsWith(inputValue)) : processNameList
   }

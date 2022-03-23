@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 import { OrderShapes } from '@regardsoss/shape'
 import { BasicListSelectors } from '@regardsoss/store-utils'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
 import OrderDatasetsComponent from '../../components/datasets/OrderDatasetsComponent'
+import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
 
 /**
  * Order datasets container
@@ -28,6 +30,7 @@ import OrderDatasetsComponent from '../../components/datasets/OrderDatasetsCompo
  */
 export class OrderDatasetsContainer extends React.Component {
   static propTypes = {
+    displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
     // currently selected order
     order: OrderShapes.OrderWithContent,
     // orders navigation actions (for sub containers), provided only when navigation is enabled
@@ -63,9 +66,9 @@ export class OrderDatasetsContainer extends React.Component {
   render() {
     const {
       order, navigationActions, processingSelectors, isProcessingDependenciesExist,
+      displayMode,
     } = this.props
     const { columnsVisibility } = this.state
-
     return (
       <OrderDatasetsComponent
         datasets={order.content.datasetTasks}
@@ -74,6 +77,7 @@ export class OrderDatasetsContainer extends React.Component {
         isProcessingDependenciesExist={isProcessingDependenciesExist}
         columnsVisibility={columnsVisibility}
         onChangeColumnsVisibility={this.onChangeColumnsVisibility}
+        displayMode={displayMode}
       />
     )
   }

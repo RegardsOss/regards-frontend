@@ -66,14 +66,15 @@ export default (theme) => ({
       marginBottom: '10px',
       width: '100%',
     },
-    statusLabelStyle: {
-      marginBottom: '5px',
+    percentAdminLabelStyle: {
+      display: 'block',
+      position: 'relative',
+      marginTop: '-17px',
     },
-    statusLabelContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column',
+    percentUserLabelStyle: {
+      display: 'block',
+      position: 'relative',
+      marginTop: '-18px',
     },
     expirationIconContainer: {
       flex: '0 0 25px',
@@ -97,7 +98,7 @@ export default (theme) => ({
     },
     statusIconStyle: {
       marginLeft: '-30px',
-      marginRight: '10px',
+      marginRight: '7px',
     },
     progressBarOutline: {
       width: '179px',
@@ -131,6 +132,51 @@ export default (theme) => ({
       position: 'relative',
       borderRadius: '5px',
       padding: '0px 0px 0px 0px',
+    },
+  },
+  orderProcessingListStyle: {
+    dialogContentStyle: {
+      display: 'flex',
+      alignItems: 'center',
+      height: '100%',
+    },
+    middleBarStyle: {
+      borderLeft: `1px solid ${theme.palette.accent3Color}`,
+      display: 'inline-block',
+      height: '90%',
+      margin: '0% 1.5%',
+    },
+    rightPaneStyle: {
+      width: '74.25%',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+    },
+    rightPaneTitleStyle: {
+      color: theme.palette.accent3Color,
+      height: '19px',
+    },
+    leftPaneTitleStyle: {
+      height: '19px',
+    },
+    scrollAreaStyle: {
+      maxHeight: '488px',
+      flexGrow: 1,
+      height: '100%',
+    },
+    globalTextStyle: {
+      width: '100%',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
+    leftPaneStyle: {
+      width: '24.25%',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+    },
+    selectedDatasetStyle: {
+      color: theme.palette.accent3Color,
     },
   },
 })

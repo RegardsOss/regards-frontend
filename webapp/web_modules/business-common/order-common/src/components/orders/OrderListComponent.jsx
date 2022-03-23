@@ -20,7 +20,7 @@ import get from 'lodash/get'
 import values from 'lodash/values'
 import RefreshCircle from 'mdi-material-ui/RefreshCircle'
 import FlatButton from 'material-ui/FlatButton'
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors, BasicListSelectors } from '@regardsoss/store-utils'
 import { OrderClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -41,6 +41,7 @@ import DownloadOrderMetaLinkFileContainer from '../../containers/orders/options/
 import PauseResumeOrderContainer from '../../containers/orders/options/PauseResumeOrderContainer'
 import ShowOrderDatasetsContainer from '../../containers/orders/options/ShowOrderDatasetsContainer'
 import RetryOrderContainer from '../../containers/orders/options/RetryOrderContainer'
+import ShowOrderProcessingsContainer from '../../containers/orders/options/ShowOrderProcessingsContainer'
 import ErrorsCountRender from './cells/ErrorsCountRender'
 import StatusProgressRender from './cells/StatusProgressRender'
 import ObjectAndFileCountRender from './cells/ObjectAndFileCountRender'
@@ -50,6 +51,7 @@ const OWNER_KEY = 'owner'
 const LABEL_KEY = 'number'
 const CREATION_DATE_KEY = 'creation.date'
 const EXPIRATION_DATE_KEY = 'expiration.date'
+const ORDER_ID_KEY = 'order.id'
 const OBJECTS_COUNT_KEY = 'objects.count'
 const FILES_SIZE_KEY = 'files.size'
 const ERRORS_COUNT_KEY = 'errors.count'
@@ -86,6 +88,10 @@ class OrderListComponent extends React.Component {
     orderStateActions: PropTypes.instanceOf(OrderClient.OrderStateActions).isRequired,
     // actions for navigation, not provided when navigation is disabled
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions), // used in mapDispatchToProps
+    // selector for processing
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    // not provided in user mode
+    pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors),
     // dialog management callbacks
     // request failed callback: response => ()
     onShowRequestFailedInformation: PropTypes.func.isRequired,
@@ -95,6 +101,8 @@ class OrderListComponent extends React.Component {
     onShowDeleteConfirmation: PropTypes.func.isRequired,
     // shows retry order dialog callback (orderLabel:string, canRetry:bool, canRestart:bool, onRetryModeSelected: () => {}))
     onShowRetryMode: PropTypes.func.isRequired,
+    // show processings of an order in a dialog
+    onShowProcessings: PropTypes.func.isRequired,
     // optional children, can be used to add rows into orders table header
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -109,7 +117,7 @@ class OrderListComponent extends React.Component {
 
   /** Default user columns visibiltiy */
   static DEFAULT_USER_COLUMNS_VISIBILITY = {
-    // owner should not be display in user mode
+    // owner & order id should not be display in user mode
     [LABEL_KEY]: true,
     [CREATION_DATE_KEY]: true,
     [EXPIRATION_DATE_KEY]: true,
@@ -126,9 +134,10 @@ class OrderListComponent extends React.Component {
     [LABEL_KEY]: true,
     [CREATION_DATE_KEY]: true,
     [EXPIRATION_DATE_KEY]: false,
+    [ORDER_ID_KEY]: false,
     [OBJECTS_COUNT_KEY]: false,
     [FILES_SIZE_KEY]: true,
-    [ERRORS_COUNT_KEY]: true,
+    [ERRORS_COUNT_KEY]: false,
     [STATUS_PROGRESS_KEY]: true,
     [TableColumnBuilder.optionsColumnKey]: true,
   }
@@ -195,6 +204,7 @@ class OrderListComponent extends React.Component {
       displayMode, pageSize, hasDeleteCompletely, hasDeleteSuperficially, hasPauseResume,
       ordersActions, ordersSelectors, navigationActions, orderStateActions, onShowRetryMode,
       onShowRequestFailedInformation, onShowAsynchronousRequestInformation, onShowDeleteConfirmation,
+      onShowProcessings, processingSelectors, pluginMetaDataSelectors,
     } = this.props
     return [
       // 1 - Pause / resume order option (must have sufficient rights)
@@ -209,13 +219,13 @@ class OrderListComponent extends React.Component {
           onShowAsynchronousRequestInformation,
         },
       } : null,
-      // 2 - user only option: metalink files
-      displayMode === ORDER_DISPLAY_MODES.USER ? { OptionConstructor: DownloadOrderMetaLinkFileContainer } : null,
+      // 2 - metalink files
+      { OptionConstructor: DownloadOrderMetaLinkFileContainer },
       // 3 - user only option: download zip
       displayMode === ORDER_DISPLAY_MODES.USER ? { OptionConstructor: DownloadOrderFilesAsZipContainer } : null,
       // 4 - retry option (only for error orders)
       { OptionConstructor: RetryOrderContainer, optionProps: { orderStateActions, onShowRetryMode } },
-      // 4 - delete option (superficial and complete)
+      // 5 - delete option (superficial and complete)
       hasDeleteSuperficially || hasDeleteCompletely ? {
         OptionConstructor: DeleteOrderContainer,
         optionProps: {
@@ -229,7 +239,16 @@ class OrderListComponent extends React.Component {
           onShowRequestFailedInformation,
         },
       } : null,
-      // 5 - Detail (provided only when navigation is enabled)
+      // 6 - admin only option: show processing list of an order
+      displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? {
+        OptionConstructor: ShowOrderProcessingsContainer,
+        optionProps: {
+          onShowProcessings,
+          processingSelectors,
+          pluginMetaDataSelectors,
+        },
+      } : null,
+      // 7 - Detail (provided only when navigation is enabled)
       navigationActions ? {
         OptionConstructor: ShowOrderDatasetsContainer,
         optionProps: { navigationActions },
@@ -260,10 +279,20 @@ class OrderListComponent extends React.Component {
 
       // statusProgress
       new TableColumnBuilder(STATUS_PROGRESS_KEY).titleHeaderCell()
-        .rowCellDefinition({ Constructor: StatusProgressRender })
+        .rowCellDefinition({
+          Constructor: StatusProgressRender,
+          props: { displayMode },
+        })
         .visible(get(columnsVisibility, STATUS_PROGRESS_KEY, true))
         .label(formatMessage({ id: 'order.list.column.status' }))
         .build(),
+
+      // orderId when in admin mode
+      displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR
+        ? new TableColumnBuilder(ORDER_ID_KEY).titleHeaderCell().propertyRenderCell('content.id')
+          .visible(get(columnsVisibility, ORDER_ID_KEY, false))
+          .label(formatMessage({ id: 'order.list.column.id' }))
+          .build() : null,
 
       // creation date
       new TableColumnBuilder(CREATION_DATE_KEY).titleHeaderCell().propertyRenderCell('content.creationDate', DateValueRender)

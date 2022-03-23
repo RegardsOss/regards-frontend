@@ -16,6 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { PLUGIN_TYPE } from './PluginType'
-export { PROCESS_STATUS_TYPES } from './ProcessStatusType'
-export { default as ProcessingUtils } from './ProcessingUtils'
+import { ProcessingClient } from '@regardsoss/client'
+
+/**
+ * Processing entities client.
+ * @author Théo Lasserre
+ */
+const ENTITIES_STORE_PATH = ['admin', 'user-management', 'order-management', 'processing']
+const REDUX_ACTION_NAMESPACE = 'admin-order-management/processing-list'
+
+export const processingReducer = ProcessingClient.getProcessingReducer(REDUX_ACTION_NAMESPACE)
+export const processingActions = new ProcessingClient.ProcessingActions(REDUX_ACTION_NAMESPACE)
+export const processingSelectors = ProcessingClient.getProcessingSelectors(ENTITIES_STORE_PATH)

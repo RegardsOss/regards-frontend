@@ -19,12 +19,14 @@
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
-import { OrderClient } from '@regardsoss/client'
+import { BasicPageableSelectors, BasicSelector, BasicListSelectors } from '@regardsoss/store-utils'
+import { OrderClient, ProcessingClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CardActionsComponent, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
-import { ORDER_DISPLAY_MODES, OrderDisplayContainer } from '@regardsoss/order-common'
+import {
+  ORDER_DISPLAY_MODES, OrderDisplayContainer, OrdersNavigationActions, OrdersNavigationContainer,
+} from '@regardsoss/order-common'
 import OrderListFiltersContainer from '../containers/OrderListFiltersContainer'
 import { REQUEST_FILTERS } from '../domain/requestFilters'
 
@@ -40,6 +42,14 @@ class OrderListComponent extends React.Component {
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     // order request selectors
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    ordersNavigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired,
+    ordersNavigationSelectors: PropTypes.instanceOf(BasicSelector).isRequired,
+    orderFilesActions: PropTypes.instanceOf(OrderClient.OrderDatasetFilesActions),
+    orderFilesSelectors: PropTypes.instanceOf(BasicPageableSelectors),
+    isProcessingDependenciesExist: PropTypes.bool.isRequired,
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    processingActions: PropTypes.instanceOf(ProcessingClient.ProcessingActions).isRequired,
+    pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
 
     // table sorting, column visiblity & filters management
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
@@ -66,14 +76,23 @@ class OrderListComponent extends React.Component {
     const {
       requestParameters, backUrl, ordersActions, ordersSelectors, project,
       filters, updateFilter, updateValuesFilter, updateDatesFilter, clearFilters,
+      ordersNavigationActions, ordersNavigationSelectors, orderFilesActions,
+      orderFilesSelectors, isProcessingDependenciesExist, processingActions,
+      processingSelectors, pluginMetaDataSelectors,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { orderList: { cardTextStyle } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { orderList: { cardTextStyle, cardTitleStyle } } } = this.context
     return (
       <Card>
         {/* title */}
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'order.management.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'order.management.list.subtitle' })}
+          title={<OrdersNavigationContainer
+            title={formatMessage({ id: 'order.management.list.title' })}
+            rootIcon={null}
+            navigationActions={ordersNavigationActions}
+            navigationSelectors={ordersNavigationSelectors}
+          />}
+          subtitle={formatMessage({ id: 'order.management.list.subtitle' })}
+          titleStyle={cardTitleStyle}
         />
         <CardText style={cardTextStyle}>
           <OrderDisplayContainer
@@ -82,6 +101,14 @@ class OrderListComponent extends React.Component {
             ordersActions={ordersActions}
             ordersSelectors={ordersSelectors}
             displayMode={ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR}
+            navigationActions={ordersNavigationActions}
+            navigationSelectors={ordersNavigationSelectors}
+            isProcessingDependenciesExist={isProcessingDependenciesExist}
+            orderFilesActions={orderFilesActions}
+            orderFilesSelectors={orderFilesSelectors}
+            processingActions={processingActions}
+            processingSelectors={processingSelectors}
+            pluginMetaDataSelectors={pluginMetaDataSelectors}
           >
             <OrderListFiltersContainer
               filters={filters}

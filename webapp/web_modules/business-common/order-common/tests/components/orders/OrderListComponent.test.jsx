@@ -19,7 +19,7 @@
 import values from 'lodash/values'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { OrderClient } from '@regardsoss/client'
+import { OrderClient, ProcessingClient, CommonClient } from '@regardsoss/client'
 import { OrderDomain } from '@regardsoss/domain'
 import {
   PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableLayout, TableColumnsVisibilityOption,
@@ -73,10 +73,13 @@ describe('[Order Common] Testing OrderListComponent', () => {
       ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
       orderStateActions: new OrderClient.OrderStateActions('any'),
       navigationActions: new OrdersNavigationActions('any'),
+      processingSelectors: ProcessingClient.getProcessingSelectors(['any']),
+      pluginMetaDataSelectors: CommonClient.getPluginMetaDataSelectors(['idk']),
       onShowRequestFailedInformation: () => { },
       onShowAsynchronousRequestInformation: () => { },
       onShowDeleteConfirmation: () => { },
       onShowRetryMode: () => {},
+      onShowProcessings: () => { },
     }
     const enzymeWrapper = shallow(<OrderListComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -111,10 +114,12 @@ describe('[Order Common] Testing OrderListComponent', () => {
       ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
       orderStateActions: new OrderClient.OrderStateActions('any'),
       navigationActions: new OrdersNavigationActions('any'),
+      processingSelectors: ProcessingClient.getProcessingSelectors(['any']),
       onShowRequestFailedInformation: () => { },
       onShowAsynchronousRequestInformation: () => { },
       onShowDeleteConfirmation: () => { },
       onShowRetryMode: () => { },
+      onShowProcessings: () => { },
     }
     const enzymeWrapper = shallow(<OrderListComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')

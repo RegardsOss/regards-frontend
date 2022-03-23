@@ -16,6 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { PLUGIN_TYPE } from './PluginType'
-export { PROCESS_STATUS_TYPES } from './ProcessStatusType'
-export { default as ProcessingUtils } from './ProcessingUtils'
+import { SOME_ORDERS } from './Orders.dumb'
+import { SOME_PROCESSING } from './Processing.dump'
+
+export const SOME_ORDER_PROCESSINGS = {
+  orderLabel: SOME_ORDERS.content[0].content.label,
+  orderProcessingList: [{
+    datasetId: 0,
+    processingBusinessId: SOME_PROCESSING[0].content.pluginConfiguration.businessId,
+    datasetLabel: SOME_ORDERS.content[0].content.datasetTasks[0].datasetLabel,
+    processingLabel: SOME_PROCESSING[0].content.pluginConfiguration.label,
+    processingParameterList: SOME_PROCESSING[0].content.pluginConfiguration.parameters,
+  }],
+}

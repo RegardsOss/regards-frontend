@@ -24,6 +24,7 @@ import { InfiniteTableContainer, TableLayout, TableColumnsVisibilityOption } fro
 import { OrdersNavigationActions } from '../../../src/model/OrdersNavigationActions'
 import OrderDatasetsComponent from '../../../src/components/datasets/OrderDatasetsComponent'
 import OrderDatasetsCountHeaderMessage from '../../../src/components/datasets/OrderDatasetsCountHeaderMessage'
+import { ORDER_DISPLAY_MODES } from '../../../src/model/OrderDisplayModes'
 import { SOME_ORDERS } from '../../dumps/Orders.dumb'
 import styles from '../../../src/styles/styles'
 
@@ -40,8 +41,9 @@ describe('[Order Common] Testing OrderDatasetsComponent', () => {
   it('should exists', () => {
     assert.isDefined(OrderDatasetsComponent)
   })
-  it('should render correctly without data', () => {
+  it('should render correctly without data (USER)', () => {
     const props = {
+      displayMode: ORDER_DISPLAY_MODES.USER,
       datasets: [],
       navigationActions: new OrdersNavigationActions('any'),
       columnsVisibility: {},
@@ -58,8 +60,48 @@ describe('[Order Common] Testing OrderDatasetsComponent', () => {
     assert.lengthOf(tableWrapper, 1, 'There should be an infinite table')
     assert.deepEqual(tableWrapper.props().entities, props.datasets, 'Entities should be correctly reported to table')
   })
-  it('should render correctly with data', () => {
+  it('should render correctly with data (USER)', () => {
     const props = {
+      displayMode: ORDER_DISPLAY_MODES.USER,
+      datasets: SOME_ORDERS.content[0].content.datasetTasks,
+      navigationActions: new OrdersNavigationActions('any'),
+      columnsVisibility: {},
+      onChangeColumnsVisibility: () => { },
+      processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
+      isProcessingDependenciesExist: true,
+    }
+    const enzymeWrapper = shallow(<OrderDatasetsComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
+    assert.lengthOf(enzymeWrapper.find(OrderDatasetsCountHeaderMessage), 1, 'There should be the header message')
+    assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be the column visibiltiy option')
+    assert.lengthOf(enzymeWrapper.find(InfiniteTableContainer), 1, 'There should be an infinite table')
+
+    const tableWrapper = enzymeWrapper.find(InfiniteTableContainer)
+    assert.lengthOf(tableWrapper, 1, 'There should be an infinite table')
+    assert.deepEqual(tableWrapper.props().entities, props.datasets, 'Entities should be correctly reported to table')
+  })
+  it('should render correctly without data (ADMIN)', () => {
+    const props = {
+      displayMode: ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR,
+      datasets: [],
+      navigationActions: new OrdersNavigationActions('any'),
+      columnsVisibility: {},
+      onChangeColumnsVisibility: () => { },
+      processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
+      isProcessingDependenciesExist: true,
+    }
+    const enzymeWrapper = shallow(<OrderDatasetsComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
+    assert.lengthOf(enzymeWrapper.find(OrderDatasetsCountHeaderMessage), 1, 'There should be the header message')
+    assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be the column visibiltiy option')
+
+    const tableWrapper = enzymeWrapper.find(InfiniteTableContainer)
+    assert.lengthOf(tableWrapper, 1, 'There should be an infinite table')
+    assert.deepEqual(tableWrapper.props().entities, props.datasets, 'Entities should be correctly reported to table')
+  })
+  it('should render correctly with data (ADMIN)', () => {
+    const props = {
+      displayMode: ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR,
       datasets: SOME_ORDERS.content[0].content.datasetTasks,
       navigationActions: new OrdersNavigationActions('any'),
       columnsVisibility: {},

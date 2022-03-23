@@ -206,7 +206,7 @@ export class ProcessingFormComponent extends React.Component {
         title = formatMessage({ id: `processing.form.${mode}.title` })
         break
       case FORM_MODE.EDIT:
-        processName = ProcessingDomain.getProcessingName(processing)
+        processName = ProcessingDomain.ProcessingUtils.getProcessingName(processing)
         title = formatMessage({ id: `processing.form.${mode}.title` }, { name: processName })
         break
       default:

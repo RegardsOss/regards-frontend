@@ -43,10 +43,11 @@ describe('[Order Common] Test OrderDatasetsProcessingContainer', () => {
     const props = {
       entity: SOME_ORDERS.content[0].content.datasetTasks[0],
       processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
-      processingList: SOME_PROCESSING[0],
+      processingList: SOME_PROCESSING,
     }
     const enzymeWrapper = shallow(<OrderDatasetsProcessingContainer {...props} />, { context })
     const component = enzymeWrapper.find(StringValueRender)
     assert.lengthOf(component, 1, 'The component should be rendered')
+    assert.equal(component.props().value, 'Label1', 'Processing name should be correcty retrieved')
   })
 })

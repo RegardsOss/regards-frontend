@@ -24,7 +24,7 @@ import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { OrderClient } from '@regardsoss/client'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors, BasicListSelectors } from '@regardsoss/store-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic, HOCUtils } from '@regardsoss/display-control'
 import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
@@ -34,6 +34,7 @@ import AsynchronousRequestInformationComponent from '../../components/orders/dia
 import RequestFailedInformationComponent from '../../components/orders/dialog/RequestFailedInformationComponent'
 import DeleteOrderConfirmationComponent from '../../components/orders/dialog/DeleteOrderConfirmationComponent'
 import RetryOrderSelectionModeComponent from '../../components/orders/dialog/RetryOrderSelectionModeComponent'
+import OrderProcessingListComponent from '../../components/orders/dialog/OrderProcessingListComponent'
 
 // create a local instance of order state actions (we don't use the reducer / selector for
 // those as they are used though promises)
@@ -57,6 +58,9 @@ export class OrderListContainer extends React.Component {
     ordersRequestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    // not provided for user mode
+    pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors),
     // not provided when navigation is disabled
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions), // used in mapDispatchToProps
     // optional children, can be used to add rows into orders table header
@@ -90,6 +94,8 @@ export class OrderListContainer extends React.Component {
     deleteConfirmation: null,
     // current retry operation
     retryMode: null,
+    // current selected order - used to display its processings
+    orderProcessings: null,
   }
 
   /**
@@ -177,11 +183,17 @@ export class OrderListContainer extends React.Component {
   /** User callback: hide aynchronous information */
   onHideDeleteConfirmation = () => this.setState({ deleteConfirmation: null })
 
+  onHideOrderProcessingList = () => this.setState({ orderProcessings: null })
+
   /** On show retry action dialog */
   onShowRetryMode = (label, canRetry, canRestart, onModeSelected) => this.setState({
     retryMode: {
       label, canRetry, canRestart, onModeSelected,
     },
+  })
+
+  onShowProcessings = (entity) => this.setState({
+    orderProcessings: entity,
   })
 
   /** User callback: hide aynchronous information */
@@ -191,10 +203,12 @@ export class OrderListContainer extends React.Component {
     const {
       children, displayMode, isFetching, totalOrderCount, navigationActions,
       ordersRequestParameters, ordersActions, ordersSelectors, project,
+      processingSelectors, pluginMetaDataSelectors,
     } = this.props
     const {
       columnsVisibility, hasDeleteCompletely, hasDeleteSuperficially, hasPauseResume,
       currentFailureResponse, asynchRequestInformation, deleteConfirmation, retryMode,
+      orderProcessings,
     } = this.state
     return (
       <>
@@ -214,6 +228,12 @@ export class OrderListContainer extends React.Component {
           onClose={this.onHideDeleteConfirmation}
           deleteConfirmation={deleteConfirmation}
         />
+        { orderProcessings
+          ? <OrderProcessingListComponent
+              onClose={this.onHideOrderProcessingList}
+              orderProcessings={orderProcessings}
+          />
+          : null}
         <RetryOrderSelectionModeComponent
           project={project}
           visible={!!retryMode}
@@ -240,10 +260,13 @@ export class OrderListContainer extends React.Component {
           ordersSelectors={ordersSelectors}
           orderStateActions={orderStateActions}
           navigationActions={navigationActions}
+          processingSelectors={processingSelectors}
+          pluginMetaDataSelectors={pluginMetaDataSelectors}
           onShowRequestFailedInformation={this.onShowRequestFailedInformation}
           onShowAsynchronousRequestInformation={this.onShowAsynchronousRequestInformation}
           onShowDeleteConfirmation={this.onShowDeleteConfirmation}
           onShowRetryMode={this.onShowRetryMode}
+          onShowProcessings={this.onShowProcessings}
         >
           {HOCUtils.renderChildren(children)}
         </OrderListComponent>

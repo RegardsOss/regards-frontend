@@ -352,7 +352,7 @@ export default (baseTheme) => ({
       'color.file.PROCESSING_ERROR': baseTheme.textField.errorColor,
       'color.file.ERROR': baseTheme.textField.errorColor,
       'color.file.UNKNOWN': baseTheme.textField.disabledTextColor,
-      rowHeight: 120,
+      rowHeight: 90,
       progressBar: {
         barHeight: 20,
         padding: '0px 0px 0px 0px',

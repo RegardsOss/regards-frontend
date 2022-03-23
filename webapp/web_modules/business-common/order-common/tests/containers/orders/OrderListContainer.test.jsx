@@ -20,7 +20,7 @@ import values from 'lodash/values'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { TableSelectionModes } from '@regardsoss/components'
-import { OrderClient } from '@regardsoss/client'
+import { OrderClient, ProcessingClient } from '@regardsoss/client'
 import { OrderDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ORDER_DISPLAY_MODES } from '../../../src/model/OrderDisplayModes'
@@ -52,6 +52,7 @@ describe('[Order Common] Testing OrderListContainer', () => {
     project: 'default',
     ordersActions: new OrderClient.OrderListActions('any'),
     ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
+    processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
     navigationActions: new OrdersNavigationActions('any'),
     ordersRequestParameters: {
       creationDate: {
@@ -110,10 +111,12 @@ describe('[Order Common] Testing OrderListContainer', () => {
     assert.equal(compProps.ordersActions, props.ordersActions, 'ordersActions should be correctly set up')
     assert.equal(compProps.ordersSelectors, props.ordersSelectors, 'ordersSelectors should be correctly set up')
     assert.equal(compProps.navigationActions, props.navigationActions, 'navigationActions should be correctly set up')
+    assert.equal(compProps.processingSelectors, props.processingSelectors, 'processingSelectors should be correctly set up')
     assert.equal(compProps.onChangeColumnsVisibility, instance.onChangeColumnsVisibility, 'onChangeColumnsVisibility callback should be correctly set up')
     assert.equal(compProps.onShowRequestFailedInformation, instance.onShowRequestFailedInformation, 'onShowRequestFailedInformation callback should be correctly set up')
     assert.equal(compProps.onShowAsynchronousRequestInformation, instance.onShowAsynchronousRequestInformation, 'onShowAsynchronousRequestInformation callback should be correctly set up')
     assert.equal(compProps.onShowDeleteConfirmation, instance.onShowDeleteConfirmation, 'onShowDeleteConfirmation callback should be correctly set up')
+    assert.equal(compProps.onShowProcessings, instance.onShowProcessings, 'onShowProcessings callback should be correctly set up')
   }))
 
   it('should correctly show and hide "asynchronous request" dialog', () => {

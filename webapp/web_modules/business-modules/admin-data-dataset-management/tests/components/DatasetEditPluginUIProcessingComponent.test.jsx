@@ -86,7 +86,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditPluginUIProcessingCompon
       const newProcessingConfiguration = {
         content: {
           ...processingConfiguration.content.pluginConfiguration,
-          label: ProcessingDomain.getProcessingName(processingConfiguration),
+          label: ProcessingDomain.ProcessingUtils.getProcessingName(processingConfiguration),
         },
       }
       return newProcessingConfiguration

@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { PLUGIN_TYPE } from './PluginType'
-export { PROCESS_STATUS_TYPES } from './ProcessStatusType'
-export { default as ProcessingUtils } from './ProcessingUtils'
+import { OrderClient } from '@regardsoss/client'
+
+const namespace = 'admin-order-management/order-files'
+export const orderFilesActions = new OrderClient.OrderDatasetFilesActions(namespace)
+export const orderFilesReducer = OrderClient.getOrderDatasetFilesReducer(namespace)
+export const orderFilesSelectors = OrderClient.getOrderDatasetFilesSelectors(['admin', 'user-management', 'order-management', 'orderFiles'])

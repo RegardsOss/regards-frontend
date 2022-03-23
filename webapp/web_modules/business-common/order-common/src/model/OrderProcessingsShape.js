@@ -16,6 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { PLUGIN_TYPE } from './PluginType'
-export { PROCESS_STATUS_TYPES } from './ProcessStatusType'
-export { default as ProcessingUtils } from './ProcessingUtils'
+import { CommonShapes } from '@regardsoss/shape'
+
+/**
+ * @author Théo Lasserre
+ */
+
+export const DatasetProcessing = PropTypes.shape({
+  datasetId: PropTypes.number.isRequired,
+  datasetLabel: PropTypes.string.isRequired,
+  processingBusinessId: PropTypes.string.isRequired,
+  processingLabel: PropTypes.string.isRequired,
+  processingParameterList: PropTypes.arrayOf(CommonShapes.PluginParameterContent),
+})
+
+/** An order processing object - used to display a processing order list */
+export const OrderProcessings = PropTypes.shape({
+  orderLabel: PropTypes.string,
+  orderProcessingList: PropTypes.arrayOf(DatasetProcessing),
+})

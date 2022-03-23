@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
@@ -23,6 +24,7 @@ import { OrderShapes } from '@regardsoss/shape'
 import { OrderClient } from '@regardsoss/client'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import DatasetFilesComponent from '../../components/files/DatasetFilesComponent'
+import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
 
 /**
 * selector order>dataset files container
@@ -30,6 +32,7 @@ import DatasetFilesComponent from '../../components/files/DatasetFilesComponent'
 */
 export class DatasetFilesContainer extends React.Component {
   static propTypes = {
+    displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
     // selected order
     // eslint-disable-next-line react/no-unused-prop-types
     order: OrderShapes.OrderWithContent.isRequired, // used in onPropertiesUpdated
@@ -111,6 +114,7 @@ export class DatasetFilesContainer extends React.Component {
   render() {
     const {
       isFetching, totalFilesCount, orderFilesActions, orderFilesSelectors,
+      displayMode,
     } = this.props
     const { pathParams, columnsVisibility } = this.state
     return (
@@ -122,6 +126,7 @@ export class DatasetFilesContainer extends React.Component {
         orderFilesSelectors={orderFilesSelectors}
         columnsVisibility={columnsVisibility}
         onChangeColumnsVisibility={this.onChangeColumnsVisibility}
+        displayMode={displayMode}
       />
     )
   }

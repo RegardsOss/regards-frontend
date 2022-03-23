@@ -22,6 +22,9 @@ export default (theme) => ({
       paddingTop: 0,
       paddingBottom: 0,
     },
+    cardTitleStyle: {
+      marginLeft: '-8px',
+    },
     clearFilterButton: {
       style: {
         width: undefined,

@@ -19,7 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import { ProcessingClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { OrderListContainer } from '../../src/containers/OrderListContainer'
 import styles from '../../src/styles/styles'
 
@@ -36,11 +38,27 @@ describe('[Admin Order Management] Testing OrderListContainer', () => {
   it('should exists', () => {
     assert.isDefined(OrderListContainer)
   })
-  it('should render correctly and provide the right callback URL', () => {
+  it('should render correctly with processing dependencies', () => {
     const props = {
       params: {
         project: 'test1',
       },
+      availableDependencies: [new ProcessingClient.ProcessingActions('idk').getDependency(RequestVerbEnum.GET)],
+      dispatchResetToLevel: () => { },
+      fetchPluginMetaDataList: () => { },
+    }
+    const enzymeWrapper = shallow(<OrderListContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
+    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
+  })
+  it('should render correctly without processing dependencies', () => {
+    const props = {
+      params: {
+        project: 'test1',
+      },
+      availableDependencies: [],
+      dispatchResetToLevel: () => { },
+      fetchPluginMetaDataList: () => { },
     }
     const enzymeWrapper = shallow(<OrderListContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)

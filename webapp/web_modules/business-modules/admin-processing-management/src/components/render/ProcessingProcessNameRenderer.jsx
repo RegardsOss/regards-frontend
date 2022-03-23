@@ -35,7 +35,7 @@ class ProcessingProcessNameRenderer extends React.Component {
       <div>
         {
           entity
-            ? ProcessingDomain.getProcessingName(entity)
+            ? ProcessingDomain.ProcessingUtils.getProcessingName(entity)
             : 'processNameNotFound'
         }
       </div>

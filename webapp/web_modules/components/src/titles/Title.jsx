@@ -25,6 +25,10 @@ class Title extends React.Component {
   static propTypes = {
     level: PropTypes.number.isRequired,
     label: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    style: PropTypes.objectOf( // eslint wont fix: broken rule, used in onPropertiesUpdated
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    ),
   }
 
   static contextTypes = {
@@ -52,12 +56,13 @@ class Title extends React.Component {
       color,
       fontSize: `${fontSize}em`,
       margin: '15px 0px',
+      ...this.props.style,
     }
   }
 
   render() {
     return (
-      <div style={this.getLevelStyle()}>
+      <div title={this.props.label} style={this.getLevelStyle()}>
         {this.props.label}
       </div>
     )

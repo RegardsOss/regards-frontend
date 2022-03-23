@@ -191,7 +191,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
             const newProcessingConfiguration = {
               content: {
                 ...processingConfiguration.content.pluginConfiguration,
-                label: ProcessingDomain.getProcessingName(processingConfiguration),
+                label: ProcessingDomain.ProcessingUtils.getProcessingName(processingConfiguration),
                 isLinkedToAllDatasets: get(processingConfiguration, 'content.rights.isLinkedToAllDatasets', false),
               },
             }

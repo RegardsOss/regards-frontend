@@ -20,7 +20,7 @@ import compose from 'lodash/fp/compose'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { OrderShapes } from '@regardsoss/shape'
-import { OrderClient } from '@regardsoss/client'
+import { OrderClient, ProcessingClient } from '@regardsoss/client'
 import { BasicPageableSelectors, BasicListSelectors } from '@regardsoss/store-utils'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
@@ -44,12 +44,24 @@ const NO_NAVIGATION_PATH = []
 */
 export class OrderDisplayContainer extends React.Component {
   /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch, { processingActions }) {
+    return {
+      fetchProcessingList: (pathParams, queryParams) => dispatch(processingActions.fetchEntityList(pathParams, queryParams)),
+    }
+  }
+
+  /**
    * Redux: map state to props function
    * @param {*} state: current redux state
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { navigationActions, navigationSelectors }) {
+  static mapStateToProps(state, { navigationSelectors }) {
     return {
       navigationPath: navigationSelectors ? navigationSelectors.getNavigationPath(state) : NO_NAVIGATION_PATH,
     }
@@ -69,13 +81,19 @@ export class OrderDisplayContainer extends React.Component {
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions),
     // eslint-disable-next-line react/no-unused-prop-types
     navigationSelectors: PropTypes.instanceOf(OrdersNavigationSelectors), // used in mapStateToProps
-    processingSelectors: PropTypes.instanceOf(BasicListSelectors),
+    // eslint-disable-next-line react/no-unused-prop-types
+    processingActions: PropTypes.instanceOf(ProcessingClient.ProcessingActions).isRequired,
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
     isProcessingDependenciesExist: PropTypes.bool,
+    // not provided in user mode
+    pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors),
     // optional children, can be used to add rows into orders table header
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
+    // from mapDispatchToProps
+    fetchProcessingList: PropTypes.func.isRequired,
     // from mapStateToProps
     navigationPath: PropTypes.arrayOf(PropTypes.oneOfType([
       OrderShapes.OrderWithContent, // context level 1
@@ -85,6 +103,14 @@ export class OrderDisplayContainer extends React.Component {
 
   static defaultProps = {
     ordersRequestParameters: {},
+    isProcessingDependenciesExist: false,
+  }
+
+  UNSAFE_componentWillMount() {
+    const { isProcessingDependenciesExist, fetchProcessingList } = this.props
+    if (isProcessingDependenciesExist) {
+      fetchProcessingList()
+    }
   }
 
   render() {
@@ -92,6 +118,7 @@ export class OrderDisplayContainer extends React.Component {
       navigationActions, navigationPath, displayMode, children, project,
       ordersRequestParameters, ordersActions, ordersSelectors, orderFilesActions,
       orderFilesSelectors, processingSelectors, isProcessingDependenciesExist,
+      pluginMetaDataSelectors,
     } = this.props
     switch (navigationPath.length) {
       case 0:
@@ -104,6 +131,8 @@ export class OrderDisplayContainer extends React.Component {
             ordersActions={ordersActions}
             ordersSelectors={ordersSelectors}
             navigationActions={navigationActions}
+            processingSelectors={processingSelectors}
+            pluginMetaDataSelectors={pluginMetaDataSelectors}
           >
             {HOCUtils.renderChildren(children)}
           </OrderListContainer>)
@@ -116,6 +145,7 @@ export class OrderDisplayContainer extends React.Component {
             navigationActions={navigationActions}
             processingSelectors={processingSelectors}
             isProcessingDependenciesExist={isProcessingDependenciesExist}
+            displayMode={displayMode}
           />
         )
       case 2:
@@ -126,6 +156,7 @@ export class OrderDisplayContainer extends React.Component {
             dataset={navigationPath[1]}
             orderFilesActions={orderFilesActions}
             orderFilesSelectors={orderFilesSelectors}
+            displayMode={displayMode}
           />)
       default:
         throw new Error(`Unknown navigation level ${navigationPath.length}`)
@@ -133,6 +164,6 @@ export class OrderDisplayContainer extends React.Component {
   }
 }
 export default compose(
-  connect(OrderDisplayContainer.mapStateToProps),
+  connect(OrderDisplayContainer.mapStateToProps, OrderDisplayContainer.mapDispatchToProps),
   withI18n(messages, true), withModuleStyle(styles, true),
 )(OrderDisplayContainer)

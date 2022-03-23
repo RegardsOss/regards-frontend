@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { PLUGIN_TYPE } from './PluginType'
-export { PROCESS_STATUS_TYPES } from './ProcessStatusType'
-export { default as ProcessingUtils } from './ProcessingUtils'
+import { OrdersNavigationActions, getOrdersNavigationReducer, getOrdersNavigationSelectors } from '@regardsoss/order-common'
+
+const namespace = 'admin-order-management/order-history'
+export const ordersNavigationActions = new OrdersNavigationActions(namespace)
+export const ordersNavigationReducer = getOrdersNavigationReducer(namespace)
+export const ordersNavigationSelectors = getOrdersNavigationSelectors(['admin', 'user-management', 'order-management', 'navigation'])

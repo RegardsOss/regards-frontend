@@ -21,6 +21,7 @@ import { assert } from 'chai'
 import { OrderDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import StatusProgressRender from '../../../../src/components/orders/cells/StatusProgressRender'
+import { ORDER_DISPLAY_MODES } from '../../../../src/model/OrderDisplayModes'
 import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -36,7 +37,7 @@ describe('[Order Common] Testing StatusProgressRender', () => {
   it('should exists', () => {
     assert.isDefined(StatusProgressRender)
   })
-  it('should render correctly a paused order', () => {
+  it('should render correctly a paused order (USER)', () => {
     const props = {
       entity: {
         id: 0,
@@ -61,10 +62,11 @@ describe('[Order Common] Testing StatusProgressRender', () => {
           },
         }],
       },
+      displayMode: ORDER_DISPLAY_MODES.USER,
     }
     shallow(<StatusProgressRender {...props} />, { context })
   })
-  it('should render correctly a done order', () => {
+  it('should render correctly a done order (USER)', () => {
     const props = {
       entity: {
         id: 0,
@@ -89,6 +91,65 @@ describe('[Order Common] Testing StatusProgressRender', () => {
           },
         }],
       },
+      displayMode: ORDER_DISPLAY_MODES.USER,
+    }
+    shallow(<StatusProgressRender {...props} />, { context })
+  })
+  it('should render correctly a paused order (ADMIN)', () => {
+    const props = {
+      entity: {
+        id: 0,
+        label: 'orderTest',
+        owner: 'ownerTest',
+        creationDate: Date.now().toString(),
+        expirationDate: new Date().setMinutes(new Date().getMinutes() + 15).toString(),
+        percentCompleted: 75,
+        status: OrderDomain.ORDER_STATUS_ENUM.PAUSED,
+        waitingForUser: false,
+        statusDate: Date.now().toString(),
+        availableFilesCount: 4,
+        datasetTasks: [{
+          id: 1,
+          datasetLabel: 'datasetLabel',
+          objectsCount: 4,
+          filesCount: 2,
+          filesSize: 4560,
+          processing: {
+            uuid: 'testProcessing',
+            parameters: [],
+          },
+        }],
+      },
+      displayMode: ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR,
+    }
+    shallow(<StatusProgressRender {...props} />, { context })
+  })
+  it('should render correctly a done order (ADMIN)', () => {
+    const props = {
+      entity: {
+        id: 0,
+        label: 'orderTest',
+        owner: 'ownerTest',
+        creationDate: Date.now().toString(),
+        expirationDate: new Date().setMinutes(new Date().getMinutes() + 15).toString(),
+        percentCompleted: 100,
+        status: OrderDomain.ORDER_STATUS_ENUM.DONE,
+        waitingForUser: false,
+        statusDate: Date.now().toString(),
+        availableFilesCount: 4,
+        datasetTasks: [{
+          id: 1,
+          datasetLabel: 'datasetLabel',
+          objectsCount: 4,
+          filesCount: 2,
+          filesSize: 4560,
+          processing: {
+            uuid: 'testProcessing',
+            parameters: [],
+          },
+        }],
+      },
+      displayMode: ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR,
     }
     shallow(<StatusProgressRender {...props} />, { context })
   })

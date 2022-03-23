@@ -110,7 +110,7 @@ class ProcessingListComponent extends React.Component {
 
   renderDeleteConfirmDialog = () => {
     const name = this.state.processingToDelete
-      ? ProcessingDomain.getProcessingName(this.state.processingToDelete)
+      ? ProcessingDomain.ProcessingUtils.getProcessingName(this.state.processingToDelete)
       : 'processNameNotFound'
     const title = this.context.intl.formatMessage({ id: 'processing.management.list.delete.title' }, { name })
     return (

@@ -24,6 +24,7 @@ import { SOME_ORDERS } from '../../dumps/Orders.dumb'
 import { OrdersNavigationActions } from '../../../src/model/OrdersNavigationActions'
 import OrderDatasetsComponent from '../../../src/components/datasets/OrderDatasetsComponent'
 import { OrderDatasetsContainer } from '../../../src/containers/datasets/OrderDatasetsContainer'
+import { ORDER_DISPLAY_MODES } from '../../../src/model/OrderDisplayModes'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -39,8 +40,9 @@ describe('[Order Common] Testing OrderDatasetsContainer', () => {
   it('should exists', () => {
     assert.isDefined(OrderDatasetsContainer)
   })
-  it('should render correctly', () => {
+  it('should render correctly in USER mode', () => {
     const props = {
+      displayMode: ORDER_DISPLAY_MODES.USER,
       order: SOME_ORDERS.content[0],
       navigationActions: new OrdersNavigationActions('any'),
       processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
@@ -50,5 +52,20 @@ describe('[Order Common] Testing OrderDatasetsContainer', () => {
     const component = enzymeWrapper.find(OrderDatasetsComponent)
     assert.lengthOf(component, 1, 'There should be the corresponding component')
     assert.equal(component.props().datasets, props.order.content.datasetTasks, 'Dataset list should be correctly provided')
+    assert.equal(component.props().displayMode, props.displayMode, 'Display mode should be correctly provided')
+  })
+  it('should render correctly in ADMIN mode', () => {
+    const props = {
+      displayMode: ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR,
+      order: SOME_ORDERS.content[0],
+      navigationActions: new OrdersNavigationActions('any'),
+      processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
+      isProcessingDependenciesExist: true,
+    }
+    const enzymeWrapper = shallow(<OrderDatasetsContainer {...props} />, { context })
+    const component = enzymeWrapper.find(OrderDatasetsComponent)
+    assert.lengthOf(component, 1, 'There should be the corresponding component')
+    assert.equal(component.props().datasets, props.order.content.datasetTasks, 'Dataset list should be correctly provided')
+    assert.equal(component.props().displayMode, props.displayMode, 'Display mode should be correctly provided')
   })
 })

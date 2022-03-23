@@ -20,11 +20,19 @@ import { combineReducers } from 'redux'
 import { orderListReducer } from './clients/OrderListClient'
 import { projectUserReducer } from './clients/ProjectUserClient'
 import { settingsReducer } from './clients/SettingsClient'
+import { orderFilesReducer } from './clients/OrderFilesClient'
+import { ordersNavigationReducer } from './clients/OrdersNavigationClient'
+import { processingReducer } from './clients/ProcessingClient'
+import { pluginMetaDataReducer } from './clients/PluginMetaDataClient'
 
 const orderManagementReducer = combineReducers({
   orders: orderListReducer,
   users: projectUserReducer,
   settings: settingsReducer,
+  orderFiles: orderFilesReducer,
+  navigation: ordersNavigationReducer,
+  processing: processingReducer,
+  pluginMetaData: pluginMetaDataReducer,
 })
 
 export default orderManagementReducer

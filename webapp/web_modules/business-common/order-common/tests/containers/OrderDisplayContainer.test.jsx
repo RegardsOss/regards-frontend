@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import sinon from 'sinon'
 import { OrderClient, ProcessingClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ORDER_DISPLAY_MODES } from '../../src/model/OrderDisplayModes'
@@ -43,6 +44,7 @@ describe('[Order Common] Testing OrderDisplayContainer', () => {
   it('should exists', () => {
     assert.isDefined(OrderDisplayContainer)
   })
+  const promise = Promise.resolve({ error: false })
   const commonProps = {
     project: 'default',
     displayMode: ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR,
@@ -52,8 +54,11 @@ describe('[Order Common] Testing OrderDisplayContainer', () => {
     orderFilesSelectors: OrderClient.getOrderDatasetFilesSelectors(['idk']),
     navigationActions: new OrdersNavigationActions('idk'),
     navigationSelectors: new OrdersNavigationSelectors(['osef']),
+    processingActions: new ProcessingClient.ProcessingActions('idk'),
     processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
     isProcessingDependenciesExist: true,
+    // from mapDispatchToProps
+    fetchProcessingList: sinon.stub().callsFake(() => promise),
   }
 
   it('should render orders list at root', () => {
@@ -93,5 +98,6 @@ describe('[Order Common] Testing OrderDisplayContainer', () => {
     assert.lengthOf(filesContainer, 1, 'The container should render files list container')
     assert.equal(filesContainer.props().order, exampleOrder, 'The selected order should be provided to files list container')
     assert.equal(filesContainer.props().dataset, exampleDataset, 'The selected dataset should be provided to files list container')
+    assert.equal(filesContainer.props().displayMode, props.displayMode, 'Display mode should be provided to files list container')
   })
 })

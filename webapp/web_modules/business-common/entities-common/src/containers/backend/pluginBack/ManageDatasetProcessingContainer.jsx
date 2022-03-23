@@ -188,7 +188,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
           }
           acc[businessId] = {
             businessId,
-            label: ProcessingDomain.getProcessingName(processingConfiguration),
+            label: ProcessingDomain.ProcessingUtils.getProcessingName(processingConfiguration),
             pluginMetadata: metadata,
             resolvedParameters,
             parameters: parametersValue,

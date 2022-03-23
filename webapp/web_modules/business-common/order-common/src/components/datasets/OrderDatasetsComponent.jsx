@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 import get from 'lodash/get'
 import { OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -30,6 +31,7 @@ import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
 import OrderDatasetsCountHeaderMessage from './OrderDatasetsCountHeaderMessage'
 import ShowDatasetFilesContainer from '../../containers/datasets/ShowDatasetFilesContainer'
 import OrderDatasetsProcessingContainer from '../../containers/datasets/OrderDatasetsProcessingContainer'
+import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
 
 // column keys
 const LABEL_KEY = 'column.label'
@@ -44,6 +46,7 @@ const PROCESSING_KEY = 'column.processing'
  */
 class OrderDatasetsComponent extends React.Component {
   static propTypes = {
+    displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
     // currently selected order
     datasets: PropTypes.arrayOf(OrderShapes.DatasetTask).isRequired,
     // orders navigation actions (for sub containers)
@@ -125,7 +128,9 @@ class OrderDatasetsComponent extends React.Component {
   }
 
   render() {
-    const { datasets, onChangeColumnsVisibility } = this.props
+    const { datasets, onChangeColumnsVisibility, displayMode } = this.props
+    const { muiTheme } = this.context
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = this.buildColumns()
     return (
       <TableLayout>
@@ -149,6 +154,8 @@ class OrderDatasetsComponent extends React.Component {
           columns={columns}
           emptyComponent={OrderDatasetsComponent.EMPTY_COMPONENT}
           entities={datasets}
+          maxRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? maxRowCount : null}
+          minRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? minRowCount : null}
         />
       </TableLayout>
     )

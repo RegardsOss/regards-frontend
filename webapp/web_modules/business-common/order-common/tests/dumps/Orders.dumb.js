@@ -40,6 +40,19 @@ export const SOME_ORDERS = {
             objectsCount: 25,
             filesCount: 33,
             filesSize: 5556123,
+            processDatasetDescription: {
+              processBusinessId: 'testProcess1',
+              parameters: {
+                0: {
+                  name: 'paramTest1',
+                  value: 'paramValue1',
+                },
+                1: {
+                  name: 'paramTest2',
+                  value: 'paramValue2',
+                },
+              },
+            },
           },
           {
             id: 1,
@@ -79,6 +92,10 @@ export const SOME_ORDERS = {
             objectsCount: 25,
             filesCount: 33,
             filesSize: 4550,
+            processDatasetDescription: {
+              processBusinessId: 'testProcess3',
+              parameters: {},
+            },
           },
         ],
       },

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { OrderClient } from '@regardsoss/client'
+import { OrderClient, ProcessingClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
 import { BasicPageableSelectors, BasicListSelectors } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -40,6 +40,7 @@ class OrderHistoryComponent extends React.Component {
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired,
     navigationSelectors: PropTypes.instanceOf(OrdersNavigationSelectors).isRequired,
     processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    processingActions: PropTypes.instanceOf(ProcessingClient.ProcessingActions).isRequired,
     isProcessingDependenciesExist: PropTypes.bool.isRequired,
     defaultIconURL: PropTypes.string.isRequired,
     // default modules properties
@@ -56,6 +57,7 @@ class OrderHistoryComponent extends React.Component {
       ordersActions, ordersSelectors, orderFilesActions,
       orderFilesSelectors, navigationActions, navigationSelectors,
       processingSelectors, isProcessingDependenciesExist, project,
+      processingActions,
     } = this.props
     const { intl: { locale } } = this.context
     return (
@@ -70,7 +72,7 @@ class OrderHistoryComponent extends React.Component {
                 defaultIconURL={defaultIconURL}
                 customIconURL={page && page.customIconURL}
               />
-}
+            }
             navigationActions={navigationActions}
             navigationSelectors={navigationSelectors}
           />
@@ -88,6 +90,7 @@ class OrderHistoryComponent extends React.Component {
           navigationActions={navigationActions}
           navigationSelectors={navigationSelectors}
           processingSelectors={processingSelectors}
+          processingActions={processingActions}
           isProcessingDependenciesExist={isProcessingDependenciesExist}
           displayMode={ORDER_DISPLAY_MODES.USER}
         />

@@ -22,6 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { OrderClient } from '@regardsoss/client'
 import DatasetFilesComponent from '../../../src/components/files/DatasetFilesComponent'
 import { DatasetFilesContainer } from '../../../src/containers/files/DatasetFilesContainer'
+import { ORDER_DISPLAY_MODES } from '../../../src/model/OrderDisplayModes'
 import { SOME_ORDERS } from '../../dumps/Orders.dumb'
 import styles from '../../../src/styles/styles'
 
@@ -38,8 +39,9 @@ describe('[Order Common] Testing DatasetFilesContainer', () => {
   it('should exists', () => {
     assert.isDefined(DatasetFilesContainer)
   })
-  it('should render correctly', () => {
+  it('should render correctly in USER mode', () => {
     const props = {
+      displayMode: ORDER_DISPLAY_MODES.USER,
       order: SOME_ORDERS.content[0],
       dataset: SOME_ORDERS.content[0].content.datasetTasks[0],
       orderFilesActions: new OrderClient.OrderDatasetFilesActions('any'),
@@ -56,5 +58,27 @@ describe('[Order Common] Testing DatasetFilesContainer', () => {
     }, 'Path parameters should be provided from context')
     assert.equal(component.props().orderFilesActions, props.orderFilesActions, 'Actions should be correctly reported')
     assert.equal(component.props().orderFilesSelectors, props.orderFilesSelectors, 'Selectors should be correctly reported')
+    assert.equal(component.props().displayMode, props.displayMode, 'Display mode should be correctly reported')
+  })
+  it('should render correctly in ADMIN mode', () => {
+    const props = {
+      displayMode: ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR,
+      order: SOME_ORDERS.content[0],
+      dataset: SOME_ORDERS.content[0].content.datasetTasks[0],
+      orderFilesActions: new OrderClient.OrderDatasetFilesActions('any'),
+      orderFilesSelectors: OrderClient.getOrderDatasetFilesSelectors(['idk']),
+      isFetching: false,
+      totalFilesCount: 25,
+    }
+    const enzymeWrapper = shallow(<DatasetFilesContainer {...props} />, { context })
+    const component = enzymeWrapper.find(DatasetFilesComponent)
+    assert.lengthOf(component, 1, 'There should be the corresponding component')
+    assert.deepEqual(component.props().pathParams, {
+      order_id: props.order.content.id,
+      dataset_id: props.dataset.id,
+    }, 'Path parameters should be provided from context')
+    assert.equal(component.props().orderFilesActions, props.orderFilesActions, 'Actions should be correctly reported')
+    assert.equal(component.props().orderFilesSelectors, props.orderFilesSelectors, 'Selectors should be correctly reported')
+    assert.equal(component.props().displayMode, props.displayMode, 'Display mode should be correctly reported')
   })
 })

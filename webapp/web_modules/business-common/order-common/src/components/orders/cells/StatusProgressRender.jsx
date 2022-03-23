@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 import get from 'lodash/get'
 import PlayIcon from 'mdi-material-ui/Play'
 import DoneIcon from 'mdi-material-ui/Check'
@@ -28,6 +29,7 @@ import { OrderShapes } from '@regardsoss/shape'
 import { OrderDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { ORDER_DISPLAY_MODES } from '../../../model/OrderDisplayModes'
 
 /**
 * Status progress render
@@ -36,6 +38,7 @@ import { themeContextType } from '@regardsoss/theme'
 class StatusProgressRender extends React.Component {
   static propTypes = {
     entity: OrderShapes.Order,
+    displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
   }
 
   static contextTypes = {
@@ -205,6 +208,12 @@ class StatusProgressRender extends React.Component {
     return null
   }
 
+  getPercentLabelStyle = () => {
+    const { displayMode } = this.props
+    const { moduleTheme: { progressBarModuleStyle } } = this.context
+    return displayMode === ORDER_DISPLAY_MODES.USER ? progressBarModuleStyle.percentUserLabelStyle : progressBarModuleStyle.percentAdminLabelStyle
+  }
+
   render() {
     const { entity } = this.props
     const { intl, moduleTheme: { progressBarModuleStyle } } = this.context
@@ -219,12 +228,7 @@ class StatusProgressRender extends React.Component {
         <div style={progressBarModuleStyle.statusContainer}>
           <div style={orderStyle.progressBarStatut}>
             {this.displayStatusIcon(status)}
-            <div style={progressBarModuleStyle.statusLabelContainer}>
-              <div style={progressBarModuleStyle.statusLabelStyle}>
-                {intl.formatMessage({ id: `order.list.cell.status.${status}` })}
-              </div>
-              <div>{ `${percent}%` }</div>
-            </div>
+            {intl.formatMessage({ id: `order.list.cell.status.${status}` })}
           </div>
           <div
             title={this.getExpirationIconTitle(currentDate, expirationDate)}
@@ -241,6 +245,7 @@ class StatusProgressRender extends React.Component {
                 ...{ width: `${percent}%` },
               }}
             />
+            <div style={this.getPercentLabelStyle()}>{ `${percent}%` }</div>
           </div>
         </div>
       </div>

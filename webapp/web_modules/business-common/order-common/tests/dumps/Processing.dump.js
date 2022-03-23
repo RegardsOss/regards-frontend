@@ -16,91 +16,95 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export const SOME_PROCESSING = [{
-  content: {
-    pluginConfiguration: {
-      id: null,
-      pluginId: 'UselessProcessPlugin',
-      version: '1.0.0-SNAPSHOT',
-      priorityOrder: 0,
-      active: true,
-      pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
-      iconUrl: null,
-      businessId: 'testProcess1',
-      parameters: [
-        {
-          name: 'processName',
-          type: 'STRING',
-          value: 'testProcess1',
-        },
-        {
-          name: 'active',
-          type: 'BOOLEAN',
-          value: false,
-        },
-      ],
-    },
-    rigths: {
-      role: 'PUBLIC',
-    },
-  },
-},
-{
-  content: {
-    pluginConfiguration: {
-      id: null,
-      pluginId: 'UselessProcessPlugin',
-      version: '1.0.0-SNAPSHOT',
-      priorityOrder: 0,
-      active: true,
-      pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
-      iconUrl: null,
-      businessId: 'testProcess2',
-      parameters: [
-        {
-          name: 'processName',
-          type: 'STRING',
-          value: 'testProcess2',
-        },
-        {
-          name: 'active',
-          type: 'BOOLEAN',
-          value: false,
-        },
-      ],
-    },
-    rigths: {
-      role: 'PUBLIC',
+export const SOME_PROCESSING = {
+  0: {
+    content: {
+      pluginConfiguration: {
+        id: null,
+        pluginId: 'UselessProcessPlugin',
+        version: '1.0.0-SNAPSHOT',
+        label: 'Label1',
+        priorityOrder: 0,
+        active: true,
+        pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
+        iconUrl: null,
+        businessId: 'testProcess1',
+        parameters: [
+          {
+            name: 'processName',
+            type: 'STRING',
+            value: 'testProcess1',
+          },
+          {
+            name: 'active',
+            type: 'BOOLEAN',
+            value: false,
+          },
+        ],
+      },
+      rigths: {
+        role: 'PUBLIC',
+      },
     },
   },
-},
-{
-  content: {
-    pluginConfiguration: {
-      id: null,
-      pluginId: 'UselessProcessPlugin',
-      version: '1.0.0-SNAPSHOT',
-      priorityOrder: 0,
-      active: true,
-      pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
-      iconUrl: null,
-      businessId: 'testProcess3',
-      parameters: [
-        {
-          name: 'processName',
-          type: 'STRING',
-          value: 'testProcess3',
-        },
-        {
-          name: 'active',
-          type: 'BOOLEAN',
-          value: false,
-        },
-      ],
-    },
-    rigths: {
-      role: 'PUBLIC',
+  1: {
+    content: {
+      pluginConfiguration: {
+        id: null,
+        pluginId: 'UselessProcessPlugin',
+        label: 'Label2',
+        version: '1.0.0-SNAPSHOT',
+        priorityOrder: 0,
+        active: true,
+        pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
+        iconUrl: null,
+        businessId: 'testProcess2',
+        parameters: [
+          {
+            name: 'processName',
+            type: 'STRING',
+            value: 'testProcess2',
+          },
+          {
+            name: 'active',
+            type: 'BOOLEAN',
+            value: false,
+          },
+        ],
+      },
+      rigths: {
+        role: 'PUBLIC',
+      },
     },
   },
-},
-]
+  2: {
+    content: {
+      pluginConfiguration: {
+        id: null,
+        pluginId: 'UselessProcessPlugin',
+        label: 'Label3',
+        version: '1.0.0-SNAPSHOT',
+        priorityOrder: 0,
+        active: true,
+        pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
+        iconUrl: null,
+        businessId: 'testProcess3',
+        parameters: [
+          {
+            name: 'processName',
+            type: 'STRING',
+            value: 'testProcess3',
+          },
+          {
+            name: 'active',
+            type: 'BOOLEAN',
+            value: false,
+          },
+        ],
+      },
+      rigths: {
+        role: 'PUBLIC',
+      },
+    },
+  },
+}

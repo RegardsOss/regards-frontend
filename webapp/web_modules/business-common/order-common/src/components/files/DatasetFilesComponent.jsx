@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import values from 'lodash/values'
 import NoFileIcon from 'mdi-material-ui/FolderOutline'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { OrderClient } from '@regardsoss/client'
@@ -30,6 +31,7 @@ import {
 import FileDownloadContainer from '../../containers/files/FileDownloadContainer'
 import OrderDatasetsCountHeaderMessage from './OrderDatasetsCountHeaderMessage'
 import OrderFileStatusRender from './OrderFileStatusRender'
+import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
 
 // Column keys
 const NAME_KEY = 'name.column'
@@ -44,6 +46,7 @@ const SOURCE_KEY = 'source.column'
  */
 class DatasetFilesComponent extends React.Component {
   static propTypes = {
+    displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
     // is fetching?
     isFetching: PropTypes.bool,
     // total order count
@@ -101,9 +104,9 @@ class DatasetFilesComponent extends React.Component {
    * @return columns
    */
   buildColumns = () => {
-    const { columnsVisibility } = this.props
+    const { columnsVisibility, displayMode } = this.props
     const { intl: { formatMessage } } = this.context
-    return [
+    const columns = [
       // 1 - Name column
       new TableColumnBuilder(NAME_KEY).titleHeaderCell().visible(get(columnsVisibility, NAME_KEY, true))
         .label(formatMessage({ id: 'files.list.column.name' }))
@@ -129,20 +132,25 @@ class DatasetFilesComponent extends React.Component {
         .label(formatMessage({ id: 'files.list.column.source' }))
         .valuesRenderCell([{ getValue: DatasetFilesComponent.getSource, RenderConstructor: StringValueRender }])
         .build(),
-      // 5 - options column
-      new TableColumnBuilder().visible(get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true))
+    ]
+    if (displayMode === ORDER_DISPLAY_MODES.USER) {
+      columns.push(new TableColumnBuilder().visible(get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true))
         .label(formatMessage({ id: 'files.list.column.options' }))
         .optionsColumn([{
           OptionConstructor: FileDownloadContainer, // show download
         }])
-        .build(),
-    ]
+        .build())
+    }
+    return columns
   }
 
   render() {
     const {
       isFetching, totalFilesCount, onChangeColumnsVisibility, pathParams, orderFilesActions, orderFilesSelectors,
+      displayMode,
     } = this.props
+    const { muiTheme } = this.context
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = this.buildColumns()
 
     // render headers and table
@@ -174,12 +182,14 @@ class DatasetFilesComponent extends React.Component {
         </TableHeaderLine>
         {/* the table itself */}
         <PageableInfiniteTableContainer
-          // infinite table configuration
+        // infinite table configuration
           pageActions={orderFilesActions}
           pageSelectors={orderFilesSelectors}
           pathParams={pathParams}
           columns={columns}
           emptyComponent={DatasetFilesComponent.EMPTY_COMPONENT}
+          maxRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? maxRowCount : null}
+          minRowCount={displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? minRowCount : null}
         />
       </TableLayout>
     )

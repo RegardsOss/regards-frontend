@@ -26,6 +26,7 @@ import {
 } from '@regardsoss/components'
 import DatasetFilesComponent from '../../../src/components/files/DatasetFilesComponent'
 import OrderDatasetsCountHeaderMessage from '../../../src/components/files/OrderDatasetsCountHeaderMessage'
+import { ORDER_DISPLAY_MODES } from '../../../src/model/OrderDisplayModes'
 import styles from '../../../src/styles/styles'
 import { SOME_FILES } from '../../dumps/Files.dump'
 
@@ -42,8 +43,9 @@ describe('[Order Common] Testing DatasetFilesComponent', () => {
   it('should exists', () => {
     assert.isDefined(DatasetFilesComponent)
   })
-  it('should render correctly no data', () => {
+  it('should render correctly no data (USER)', () => {
     const props = {
+      displayMode: ORDER_DISPLAY_MODES.USER,
       isFetching: false,
       totalFilesCount: 0,
       pathParams: { any: 'a simple marker' },
@@ -64,9 +66,55 @@ describe('[Order Common] Testing DatasetFilesComponent', () => {
     assert.deepEqual(tableWrapper.props().pageSelectors, props.orderFilesSelectors, 'selectors should be correctly reported')
     assert.deepEqual(tableWrapper.props().pathParams, props.pathParams, 'path parameters should be correctly reported')
   })
-
-  it('should render correctly with data', () => {
+  it('should render correctly with data (USER)', () => {
     const props = {
+      displayMode: ORDER_DISPLAY_MODES.USER,
+      isFetching: false,
+      totalFilesCount: 45,
+      pathParams: { any: 'a simple marker' },
+      orderFilesActions: new OrderClient.OrderDatasetFilesActions('any'),
+      orderFilesSelectors: OrderClient.getOrderDatasetFilesSelectors(['idk']),
+      columnsVisibility: {},
+      onChangeColumnsVisibility: () => { },
+    }
+    const enzymeWrapper = shallow(<DatasetFilesComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
+    assert.lengthOf(enzymeWrapper.find(OrderDatasetsCountHeaderMessage), 1, 'There should be the header message')
+    assert.lengthOf(enzymeWrapper.find(AutoRefreshPageableTableHOC), 1, 'There should be the auto refresh data HOC')
+    assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be the column visibiltiy option')
+
+    const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(tableWrapper, 1, 'There should be an infinite table')
+    assert.deepEqual(tableWrapper.props().pageActions, props.orderFilesActions, 'actions should be correctly reported')
+    assert.deepEqual(tableWrapper.props().pageSelectors, props.orderFilesSelectors, 'selectors should be correctly reported')
+    assert.deepEqual(tableWrapper.props().pathParams, props.pathParams, 'path parameters should be correctly reported')
+  })
+  it('should render correctly no data (ADMIN)', () => {
+    const props = {
+      displayMode: ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR,
+      isFetching: false,
+      totalFilesCount: 0,
+      pathParams: { any: 'a simple marker' },
+      orderFilesActions: new OrderClient.OrderDatasetFilesActions('any'),
+      orderFilesSelectors: OrderClient.getOrderDatasetFilesSelectors(['idk']),
+      columnsVisibility: {},
+      onChangeColumnsVisibility: () => { },
+    }
+    const enzymeWrapper = shallow(<DatasetFilesComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
+    assert.lengthOf(enzymeWrapper.find(OrderDatasetsCountHeaderMessage), 1, 'There should be the header message')
+    assert.lengthOf(enzymeWrapper.find(AutoRefreshPageableTableHOC), 1, 'There should be the auto refresh data HOC')
+    assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be the column visibiltiy option')
+
+    const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(tableWrapper, 1, 'There should be an infinite table')
+    assert.deepEqual(tableWrapper.props().pageActions, props.orderFilesActions, 'actions should be correctly reported')
+    assert.deepEqual(tableWrapper.props().pageSelectors, props.orderFilesSelectors, 'selectors should be correctly reported')
+    assert.deepEqual(tableWrapper.props().pathParams, props.pathParams, 'path parameters should be correctly reported')
+  })
+  it('should render correctly with data (ADMIN)', () => {
+    const props = {
+      displayMode: ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR,
       isFetching: false,
       totalFilesCount: 45,
       pathParams: { any: 'a simple marker' },

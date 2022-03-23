@@ -22,8 +22,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { ProcessingDomain } from '@regardsoss/domain'
 import { StringValueRender } from '@regardsoss/components'
-import isUndefined from 'lodash/isUndefined'
-import find from 'lodash/find'
 
 /**
  * Order datasets processing container
@@ -57,11 +55,9 @@ export class OrderDatasetsProcessingContainer extends React.Component {
     const { entity, processingList } = this.props
     const { intl: { formatMessage } } = this.context
     let processingLabel = formatMessage({ id: 'datasets.list.column.processing.undefined' })
-    if (!isUndefined(entity.processing)) {
-      const processingFound = find(processingList, (processing) => (
-        processing.content.pluginConfiguration.businessId === entity.processing.uuid
-      ))
-      processingLabel = ProcessingDomain.getProcessingName(processingFound)
+    const processingInfos = ProcessingDomain.ProcessingUtils.getDatasetProcessing(entity, processingList)
+    if (processingInfos) {
+      processingLabel = processingInfos.processingLabel
     }
     return processingLabel
   }
