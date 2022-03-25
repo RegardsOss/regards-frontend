@@ -49,7 +49,7 @@ class IngestActionsComponent extends React.Component {
 
   onSeeErrors = () => browserHistory.push(this.getIngestURL(IngestDomain.AIP_REQUEST_STATUS_ENUM.ERROR))
 
-  onSeeReferenced = () => browserHistory.push(this.getIngestURL())
+  onSeeReferenced = () => browserHistory.push(`/admin/${this.props.project}/data/acquisition/oais/featureManager?display=packages&sessionOwner=${encodeURIComponent(this.props.sessionStep.source)}&session=${encodeURIComponent(this.props.sessionStep.session)}`)
 
   onSeeWaiting = () => browserHistory.push(this.getIngestURL(IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE))
 
