@@ -72,13 +72,13 @@ class ArchivalComponent extends React.Component {
           <div>
             <DisplayPropertiesComponent
               title={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${STEP_SUB_TYPES_ENUM.STORAGE}.properties.input.title` })}
-              properties={STORAGE_FILES_PROPERTIES}
+              properties={STORAGE_REQUESTS_PROPERTIES}
               sessionStep={sessionStep}
               stepSubType={STEP_SUB_TYPES_ENUM.STORAGE}
             />
             <DisplayPropertiesComponent
               title={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${STEP_SUB_TYPES_ENUM.STORAGE}.properties.output.title` })}
-              properties={STORAGE_REQUESTS_PROPERTIES}
+              properties={STORAGE_FILES_PROPERTIES}
               sessionStep={sessionStep}
               stepSubType={STEP_SUB_TYPES_ENUM.STORAGE}
             />
