@@ -126,7 +126,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
       tempGroups: groups,
     })
     initialize({
-      [SETTINGS.MODE]: getValue(settings, SETTINGS.MODE),
+      [SETTINGS.MODE]: getValue(settings, SETTINGS.MODE) || AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
       [SETTINGS.MAX_QUOTA]: (getValue(settings, SETTINGS.MAX_QUOTA) || 0).toString(),
       [SETTINGS.RATE_LIMIT]: (getValue(settings, SETTINGS.RATE_LIMIT) || 0).toString(),
       [SETTINGS.ROLE]: (role || AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC),

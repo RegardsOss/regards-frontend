@@ -134,9 +134,8 @@ export class ProjectUserSettingsFormContainer extends React.Component {
 
     const oldState = this.state || {}
     const newState = { ...oldState }
-    if (!isEqual(oldProps.settings, settings)) {
-      newState.settings = settings
-    }
+    newState.settings = settings
+
     if (!isEqual(oldState, newState)) {
       this.setState(newState)
     }
