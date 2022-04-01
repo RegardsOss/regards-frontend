@@ -80,15 +80,9 @@ class HeaderActionsBarComponent extends React.Component {
     onRetry(tableSelection, selectionMode, true)
   }
 
-  onRefresh = () => {
-    const { onRefresh } = this.props
-    const fetchUsingPost = true
-    onRefresh(fetchUsingPost)
-  }
-
   render() {
     const {
-      columns, onChangeColumnsVisibility,
+      columns, onChangeColumnsVisibility, onRefresh,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
@@ -120,7 +114,7 @@ class HeaderActionsBarComponent extends React.Component {
         <FlatButton
           label={formatMessage({ id: 'datapreparation.actions.refresh' })}
           icon={<Refresh />}
-          onClick={this.onRefresh}
+          onClick={onRefresh}
         />
       </TableHeaderOptionGroup>
     )

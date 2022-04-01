@@ -25,6 +25,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import SwitchSelectAllButton from '../../../../buttons/SwitchSelectAllButton'
 import ColumnVisibilityCheckBox from './ColumnVisibilityCheckBox'
+import TableColumnBuilder from '../TableColumnBuilder'
 
 /**
  * Render a react component to display a panel to change visibility of table columns.
@@ -176,13 +177,14 @@ export class TableColumnsVisibilityOption extends React.Component {
           </>}
           autoScrollBodyContent
         >
-          <div className="row">
-            {map(bufferedColumns, (column, index) => (
-              <ColumnVisibilityCheckBox
-                key={column.key}
-                column={column}
-                onToggleVisibility={this.onColumnVisibilityChanged}
-              />))}
+          <div>
+            {map(bufferedColumns, (column) => (
+              column.key !== TableColumnBuilder.selectionColumnKey
+                ? <ColumnVisibilityCheckBox
+                    key={column.key}
+                    column={column}
+                    onToggleVisibility={this.onColumnVisibilityChanged}
+                /> : null))}
           </div>
         </Dialog>
       </FlatButton>

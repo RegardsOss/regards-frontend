@@ -54,6 +54,7 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationComponent', 
 
       // table sorting, column visiblity & filters management
       requestParameters: {},
+      bodyParameters: {},
       columnsVisibility: {},
       filters: DataPreparationComponent.DEFAULT_FILTERS_STATE,
       onRefresh: () => {},
@@ -91,7 +92,8 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationComponent', 
       pageActions: requestActions,
       pageSelectors: requestSelectors,
       pageSize: props.pageSize,
-      bodyParams: props.requestParameters,
+      requestParams: props.requestParameters,
+      bodyParams: props.bodyParameters,
     }, 'Component should define the expected properties')
   })
 })

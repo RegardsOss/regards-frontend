@@ -18,6 +18,7 @@
  **/
 import { browserHistory } from 'react-router'
 import reduce from 'lodash/reduce'
+import pick from 'lodash/pick'
 import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import map from 'lodash/map'
@@ -50,6 +51,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
     // eslint-disable-next-line react/forbid-prop-types
     defaultFiltersState: PropTypes.object,
+    isPagePostFetching: PropTypes.bool,
     // from mapStateToProps
     pageMeta: PropTypes.shape({
       number: PropTypes.number,
@@ -67,6 +69,10 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     // onSmthing: (param1, onRefresh) => {}
   }
 
+  static defaultProps = {
+    isPagePostFetching: false,
+  }
+
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE
 
   /** List of locally consumed properties, others properties will be proxyfied to inject onRefresh function as the last param */
@@ -79,6 +85,9 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
 
   // eslint-disable-next-line react/forbid-prop-types
   static REQUEST_PARAMETERS_PROP_TYPE = PropTypes.object.isRequired
+
+  // eslint-disable-next-line react/forbid-prop-types
+  static BODY_PARAMETERS_PROP_TYPE = PropTypes.object.isRequired
 
   // eslint-disable-next-line react/forbid-prop-types
   static COLUMN_VISIBILITY_PROP_TYPE = PropTypes.object.isRequired
@@ -235,15 +244,16 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     }, {})
   )
 
-  onRefresh = (fetchUsingPost = false) => {
+  onRefresh = () => {
+    const { isPagePostFetching } = this.props
     const { requestParameters } = this.state
     const {
       pageMeta, fetchPagedEntityList, fetchPagedEntityListByPost,
     } = this.props
     const lastPage = (pageMeta && pageMeta.number) || 0
     const fetchPageSize = TableFilterSortingAndVisibilityContainer.PAGE_SIZE * (lastPage + 1)
-    if (fetchUsingPost) {
-      fetchPagedEntityListByPost(0, fetchPageSize, {}, {}, { ...requestParameters })
+    if (isPagePostFetching) {
+      fetchPagedEntityListByPost(0, fetchPageSize, {}, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') })
     } else {
       fetchPagedEntityList(0, fetchPageSize, {}, { ...requestParameters })
     }
@@ -376,7 +386,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
   }
 
   render() {
-    const { children } = this.props
+    const { children, isPagePostFetching } = this.props
     const {
       requestParameters,
       columnsVisibility,
@@ -394,7 +404,8 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
       getColumnSortingData: this.getColumnSortingData,
       onSort: this.onSort,
       pageSize: TableFilterSortingAndVisibilityContainer.PAGE_SIZE,
-      requestParameters,
+      requestParameters: isPagePostFetching ? pick(requestParameters, 'sort') : requestParameters,
+      bodyParameters: isPagePostFetching ? omit(requestParameters, 'sort') : {},
       columnsVisibility,
       updateValuesFilter: this.updateValuesFilter,
       updateDatesFilter: this.updateDatesFilter,

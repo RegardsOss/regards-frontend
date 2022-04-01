@@ -59,6 +59,7 @@ class DataPreparationComponent extends React.Component {
 
     // table sorting, column visiblity & filters management
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
+    bodyParameters: TableFilterSortingAndVisibilityContainer.BODY_PARAMETERS_PROP_TYPE,
     columnsVisibility: TableFilterSortingAndVisibilityContainer.COLUMN_VISIBILITY_PROP_TYPE,
     filters: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     onRefresh: PropTypes.func.isRequired,
@@ -223,7 +224,7 @@ class DataPreparationComponent extends React.Component {
       pageSize, onRefresh, isLoading,
       getColumnSortingData, columnsVisibility,
       onSort, updateFilter, clearFilters, onChangeColumnsVisibility,
-      numberOfRequests, onBack,
+      numberOfRequests, onBack, bodyParameters,
       filters, requestParameters, updateValuesFilter, updateDatesFilter,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
@@ -324,7 +325,8 @@ class DataPreparationComponent extends React.Component {
               minRowCount={minRowCount}
               maxRowCount={maxRowCount}
               columns={columns}
-              bodyParams={requestParameters}
+              requestParams={requestParameters}
+              bodyParams={bodyParameters}
               fetchUsingPostMethod
               emptyComponent={isLoading ? DataPreparationComponent.LOADING_COMPONENT : DataPreparationComponent.EMPTY_COMPONENT}
             />

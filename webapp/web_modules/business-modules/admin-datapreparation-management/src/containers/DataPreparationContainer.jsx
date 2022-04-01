@@ -144,6 +144,7 @@ export class DataPreparationContainer extends React.Component {
             defaultFiltersState={DataPreparationComponent.DEFAULT_FILTERS_STATE}
             onDeleteRequest={this.onDeleteRequest}
             onRetryRequest={this.onRetryRequest}
+            isPagePostFetching
           >
             {this.renderComponent}
           </TableFilterSortingAndVisibilityContainer>
