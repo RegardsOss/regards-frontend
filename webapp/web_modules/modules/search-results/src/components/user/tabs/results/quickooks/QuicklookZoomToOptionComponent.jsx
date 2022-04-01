@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import omit from 'lodash/omit'
+import get from 'lodash/get'
 import IconButton from 'material-ui/IconButton'
 import MapSearchIcon from 'mdi-material-ui/MapSearch'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -48,11 +49,15 @@ class QuicklookZoomToOptionComponent extends React.Component {
     })
   }
 
+  isGeometryExist = (entity) => !!get(entity, 'content.geometry', null)
+
   render() {
+    const { entity } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
         title={formatMessage({ id: 'zoom.to.product.tooltip' })}
+        disabled={!this.isGeometryExist(entity)}
         onClick={this.onZoomToFeature}
         {...omit(this.props, QuicklookZoomToOptionComponent.NON_REPORTED_PROPS)}
       >
