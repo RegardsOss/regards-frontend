@@ -54,6 +54,7 @@ export class ProjectUserQuotaComponent extends React.Component {
     onSetMaxQuota: PropTypes.func.isRequired,
 
     // table sorting, column visiblity & filters management
+    // eslint-disable-next-line react/no-unused-prop-types
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     columnsVisibility: TableFilterSortingAndVisibilityContainer.COLUMN_VISIBILITY_PROP_TYPE,
     filters: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
@@ -77,7 +78,7 @@ export class ProjectUserQuotaComponent extends React.Component {
     [QUOTA_FILTERS.EMAIL]: '',
     [QUOTA_FILTERS.LASTNAME]: '',
     [QUOTA_FILTERS.FIRSTNAME]: '',
-    [QUOTA_FILTERS.QUOTA_LOW]: '',
+    [QUOTA_FILTERS.USE_QUOTA_LIMITATION]: false,
   }
 
   static COLUMN_KEYS = {
@@ -100,6 +101,7 @@ export class ProjectUserQuotaComponent extends React.Component {
     quotaDialogOpened: false,
     entityToProcess: null,
     csvLink: '',
+    requestParameters: {},
   }
 
   /**
@@ -122,13 +124,31 @@ export class ProjectUserQuotaComponent extends React.Component {
     const {
       filters,
       csvLink,
+      requestParameters,
+      uiSettings,
     } = newProps
 
+    const oldState = this.state || {}
+    let newState = { ...oldState }
+
+    if (!isEqual(requestParameters, oldProps.requestParameters)) {
+      newState = {
+        ...newState,
+        requestParameters: {
+          ...requestParameters,
+          [QUOTA_FILTERS.USE_QUOTA_LIMITATION]: filters[QUOTA_FILTERS.USE_QUOTA_LIMITATION] ? uiSettings.quotaWarningCount : null,
+        },
+      }
+    }
     if (!isEqual(filters, oldProps.filters) || csvLink !== oldProps.csvLink) {
       const queryString = getQueryString(filters)
-      this.setState({
+      newState = {
+        ...newState,
         csvLink: `${csvLink}${queryString}`,
-      })
+      }
+    }
+    if (!isEqual(newState, oldState)) {
+      this.setState(newState)
     }
   }
 
@@ -193,11 +213,11 @@ export class ProjectUserQuotaComponent extends React.Component {
   render() {
     const {
       onEdit, pageSize, totalElements, onRefresh, isLoading,
-      getColumnSortingData, filters, requestParameters, columnsVisibility,
+      getColumnSortingData, filters, columnsVisibility,
       onSort, updateFilter, onChangeColumnsVisibility,
       uiSettings, clearFilters,
     } = this.props
-    const { csvLink } = this.state
+    const { csvLink, requestParameters } = this.state
     const { quotaDialogOpened, entityToProcess } = this.state
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -273,7 +293,6 @@ export class ProjectUserQuotaComponent extends React.Component {
       <TableLayout>
         <TableHeaderLine>
           <ProjectUserQuotaFiltersComponent
-            uiSettings={uiSettings}
             filters={filters}
             updateFilter={updateFilter}
             clearFilters={clearFilters}

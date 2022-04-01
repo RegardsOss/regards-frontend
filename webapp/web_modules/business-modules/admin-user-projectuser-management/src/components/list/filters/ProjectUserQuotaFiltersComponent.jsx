@@ -21,7 +21,6 @@ import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import Checkbox from 'material-ui/Checkbox'
 import { themeContextType } from '@regardsoss/theme'
-import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableFilterSortingAndVisibilityContainer,
@@ -33,7 +32,6 @@ import QUOTA_FILTERS from '../../../domain/QuotaFilters'
  */
 class ProjectUserQuotaFiltersComponent extends React.Component {
   static propTypes = {
-    uiSettings: UIShapes.UISettings.isRequired,
     // table sorting, column visiblity & filters management
     filters: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     updateFilter: PropTypes.func.isRequired,
@@ -45,28 +43,10 @@ class ProjectUserQuotaFiltersComponent extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    quotaFilterChecked: false,
-  }
-
-  /**
-  * User callback: toggle only low quota
-  */
-  onToggleOnlyLowQuotaUsers = () => {
-    const { updateFilter, uiSettings } = this.props
-    const { quotaFilterChecked } = this.state
-    const quotaFilterValue = !quotaFilterChecked ? uiSettings.quotaWarningCount : ''
-    updateFilter(quotaFilterValue, QUOTA_FILTERS.QUOTA_LOW)
-    this.setState({
-      quotaFilterChecked: !quotaFilterChecked,
-    })
-  }
-
   render() {
     const {
       updateFilter, clearFilters, filters,
     } = this.props
-    const { quotaFilterChecked } = this.state
     const {
       intl: { formatMessage }, moduleTheme: {
         usersList: {
@@ -102,8 +82,8 @@ class ProjectUserQuotaFiltersComponent extends React.Component {
             </TableHeaderOptionGroup>
             <TableHeaderOptionGroup>
               <Checkbox
-                checked={quotaFilterChecked}
-                onCheck={this.onToggleOnlyLowQuotaUsers}
+                checked={filters[QUOTA_FILTERS.USE_QUOTA_LIMITATION]}
+                onCheck={() => updateFilter(!filters[QUOTA_FILTERS.USE_QUOTA_LIMITATION], QUOTA_FILTERS.USE_QUOTA_LIMITATION)}
                 label={formatMessage({ id: 'projectUser.list.only.low.quota' })}
                 style={quotaDivStyle}
               />

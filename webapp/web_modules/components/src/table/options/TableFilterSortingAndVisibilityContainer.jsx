@@ -22,6 +22,7 @@ import pick from 'lodash/pick'
 import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import map from 'lodash/map'
+import isBoolean from 'lodash/isBoolean'
 import isPlainObject from 'lodash/isPlainObject'
 import keys from 'lodash/keys'
 import isEqual from 'lodash/isEqual'
@@ -163,7 +164,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
   static updateURL = (filters) => {
     const { pathname } = browserHistory.getCurrentLocation()
     const newQuery = reduce(keys(filters), (acc, value) => {
-      if (filters[value] !== null && filters[value] !== undefined && !isEmpty(filters[value])) {
+      if ((filters[value] !== null && filters[value] !== undefined && !isEmpty(filters[value])) || isBoolean(filters[value])) {
         // Values Restriction & Dates Restriction
         if (isPlainObject(filters[value])) {
           if (CommonDomain.REQUEST_PARAMETERS.VALUES in filters[value] && !isEmpty(filters[value][CommonDomain.REQUEST_PARAMETERS.VALUES])) {
@@ -180,6 +181,8 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
               acc[value] = paramValue
             }
           }
+        } else if (isBoolean(filters[value])) {
+          acc[value] = `${filters[value]}`
         } else {
           acc[value] = filters[value]
         }
@@ -213,6 +216,8 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
             [CommonDomain.REQUEST_PARAMETERS.BEFORE]: TableFilterSortingAndVisibilityContainer.getFilterDateValue(parametersObject, filterKey, CommonDomain.REQUEST_PARAMETERS.BEFORE),
           }
         }
+      } else if (isBoolean(filterValue)) {
+        acc[filterKey] = `${filterValue}`
       } else if (!isEmpty(filterValue)) {
         // Other filters type
         acc[filterKey] = filterValue
