@@ -81,7 +81,7 @@ class StorageActionsComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         stepStyle: {
-          raisedListStyle, cardButtonStyle,
+          raisedListStyle, cardButtonStyle, raisedListLabelStyle,
         },
       },
     } = this.context
@@ -93,6 +93,7 @@ class StorageActionsComponent extends React.Component {
           label={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.button.see-stockage' })}
           primary
           style={raisedListStyle}
+          labelStyle={raisedListLabelStyle}
         />
         {
         nbErrors !== 0
@@ -101,6 +102,7 @@ class StorageActionsComponent extends React.Component {
               label={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.button.retry-errors' })}
               primary
               style={raisedListStyle}
+              labelStyle={raisedListLabelStyle}
           /> : null
         }
         {this.renderRetryErrorsDialog()}

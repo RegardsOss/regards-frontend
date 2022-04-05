@@ -18,6 +18,7 @@
  **/
 
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
 } from '@regardsoss/components'
@@ -33,6 +34,7 @@ class DisplayProductsComponent extends React.Component {
   }
 
   static contextTypes = {
+    ...themeContextType,
     ...i18nContextType,
   }
 
@@ -48,28 +50,37 @@ class DisplayProductsComponent extends React.Component {
 
   render() {
     const { sessionName } = this.props
-    const { intl: { formatMessage } } = this.context
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        stepStyle: {
+          displayProductsStyle,
+        },
+      },
+    } = this.context
     const columns = [
       new TableColumnBuilder('column.name').titleHeaderCell().label(formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.dialog.table.column.name' })).propertyRenderCell('content.productName')
         .fixedSizing(300)
         .build(),
       new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.dialog.table.column.error' })).propertyRenderCell('content.error')
+        .dynamicSizing()
         .build(),
     ]
     const requestParameters = { session: sessionName, sipState: DisplayProductsComponent.ERROR_SIP_STATES, state: DisplayProductsComponent.INVALID_INCOMPLETE_PRODUCT_STATES }
     return (
-      <TableLayout>
-        <PageableInfiniteTableContainer
-          name="products-list"
-          pageActions={productActions}
-          pageSelectors={productSelectors}
-          queryPageSize={DisplayProductsComponent.pageSize}
-          minRowCount={DisplayProductsComponent.minRowCount}
-          maxRowCount={DisplayProductsComponent.maxRowCount}
-          columns={columns}
-          requestParams={requestParameters}
-        />
-      </TableLayout>
+      <div style={displayProductsStyle}>
+        <TableLayout>
+          <PageableInfiniteTableContainer
+            name="products-list"
+            pageActions={productActions}
+            pageSelectors={productSelectors}
+            queryPageSize={DisplayProductsComponent.pageSize}
+            minRowCount={DisplayProductsComponent.minRowCount}
+            maxRowCount={DisplayProductsComponent.maxRowCount}
+            columns={columns}
+            requestParams={requestParameters}
+          />
+        </TableLayout>
+      </div>
     )
   }
 }

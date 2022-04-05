@@ -1,7 +1,7 @@
 import { GrowingColumnSize } from './columns/size/GrowingColumnSize'
 import { OptionsColumnSize } from './columns/size/OptionColumnSize'
 import { FixedColumnSize } from './columns/size/FixedColumnSize'
-
+import { DynamicColumnSize } from './columns/size/DynamicColumnSize'
 /**
  * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -48,6 +48,7 @@ export function layout(columns, tableWidth, showVerticalScrollBar, fixedColumnsW
       return { cWL, gc, rFW } // filter that column as it is not visible
     }
     switch (column.sizing.type) {
+      case DynamicColumnSize.TYPE:
       case GrowingColumnSize.TYPE: {
         // report column unchanged but keep its reference for second pass
         const columnRef = { ...column, runtimeWidth: 0 }

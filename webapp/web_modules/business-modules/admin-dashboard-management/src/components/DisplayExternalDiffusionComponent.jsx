@@ -102,7 +102,7 @@ class DisplayExternalDiffusionComponent extends React.Component {
     } = this.context
     return (
       <div style={propertiesTitleStyle}>
-        <div style={{ ...propertiesDivStyle, width: `${(title.length) * 10}px` }}>
+        <div style={propertiesDivStyle}>
           {title}
         </div>
         <Table

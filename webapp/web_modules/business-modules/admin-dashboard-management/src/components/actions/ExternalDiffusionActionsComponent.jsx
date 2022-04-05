@@ -48,7 +48,7 @@ class ExternalDiffusionActionsComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         stepStyle: {
-          raisedListStyle, cardButtonStyle,
+          raisedListStyle, cardButtonStyle, raisedListLabelStyle,
         },
       },
     } = this.context
@@ -62,6 +62,7 @@ class ExternalDiffusionActionsComponent extends React.Component {
                 label={formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.fem_dissemination.button.see-detail' })}
                 primary
                 style={raisedListStyle}
+                labelStyle={raisedListLabelStyle}
             />
             : null
         }

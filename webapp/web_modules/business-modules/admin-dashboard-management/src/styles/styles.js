@@ -222,16 +222,16 @@ const dashboardManagementStyles = (theme) => ({
       height: '100%',
       padding: '3px',
     },
+    raisedListLabelStyle: {
+      padding: '0px',
+    },
     cardButtonStyle: {
       display: 'flex',
       flexDirection: 'column',
     },
-    dialogProductErrorStyle: {
-      maxWidth: null,
-    },
-    dialogProductErrorMainStyle: {
-      position: 'absolute',
-      top: '-150px',
+    displayProductsStyle: {
+      minHeight: '160px',
+      overflow: 'auto',
     },
     externalDiffusionStyle: {
       tableHeaderColumnStyle: {
@@ -287,7 +287,6 @@ const dashboardManagementStyles = (theme) => ({
       lineHeight: '20px',
       fontSize: '15px',
       backgroundColor: theme.palette.canvasColor,
-      width: '82px',
       paddingLeft: '5px',
     },
     propertiesTitleStyle: {

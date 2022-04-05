@@ -200,7 +200,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
         <TableHeaderLine>
           <div style={filter.tableHeaderContainerStyle}>
             <div style={filter.tableHeaderFiltersStyle}>
-              <TableHeaderOptionsArea reducible>
+              <TableHeaderOptionsArea reducible alignLeft>
                 <TableHeaderOptionGroup>
                   <TableHeaderAutoCompleteFilterContainer
                     onChangeText={(value) => this.updateState(value, FILTER_PARAMS.SOURCE)}
@@ -227,53 +227,72 @@ export class FeatureManagerFiltersComponent extends React.Component {
                     onChange={(event, value) => this.updateState(value, FILTER_PARAMS.PROVIDER_ID)}
                   />
                 </TableHeaderOptionGroup>
+                <TableHeaderOptionGroup>
+                  <div style={filter.selectFieldGroupStyle}>
+                    <SelectField
+                      autoWidth
+                      style={filter.fieldStyle}
+                      floatingLabelText={formatMessage({ id: 'feature.requests.list.filters.state' })}
+                      value={filters.state || ''}
+                      onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.STATE)}
+                      disabled={openedPane === FemDomain.REQUEST_TYPES_ENUM.REFERENCES}
+                    >
+                      <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.status.any' })} />
+                      {FemDomain.REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `feature.requests.status.${status}` })} />)}
+                    </SelectField>
+                    <SelectField
+                      autoWidth
+                      style={filter.fieldStyle}
+                      floatingLabelText={formatMessage({ id: 'feature.requests.list.filters.dissemination.status' })}
+                      value={filters.disseminationPending || ''}
+                      onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.DISSEMINATION_PENDING)}
+                      disabled={openedPane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES}
+                    >
+                      <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.dissemination.status.any' })} />
+                      {map(keys(DISSEMINATION_PENDING_ENUM), (disseminationKey) => <MenuItem key={disseminationKey} value={DISSEMINATION_PENDING_ENUM[disseminationKey]} primaryText={formatMessage({ id: `feature.requests.dissemination.status.${disseminationKey}` })} />)}
+                    </SelectField>
+                  </div>
+
+                </TableHeaderOptionGroup>
               </TableHeaderOptionsArea>
               <TableHeaderOptionsArea reducible alignLeft>
                 <TableHeaderOptionGroup>
-                  <DatePickerField
-                    id="filter.from"
-                    value={filters.from ? new Date(filters.from) : null}
-                    dateHintText={formatMessage({
-                      id: 'feature.references.list.filters.from.label',
-                    })}
-                    onChange={(value) => this.updateState(value, FILTER_PARAMS.FROM)}
-                    locale={locale}
-                    style={filter.dateFromStyle}
-                    key="datefrom"
-                  />
-                  <DatePickerField
-                    id="filter.to"
-                    value={filters.to ? new Date(filters.to) : null}
-                    defaultTime="23:59:59"
-                    dateHintText={formatMessage({ id: 'feature.references.list.filters.to.label' })}
-                    onChange={(value) => this.updateState(value, FILTER_PARAMS.TO)}
-                    locale={locale}
-                    key="dateto"
-                  />
+                  <div style={filter.dateFieldGroupStyle}>
+                    <div>
+                      {formatMessage({ id: 'feature.references.list.filters.from.label' })}
+                    </div>
+                    <DatePickerField
+                      id="filter.from"
+                      value={filters.from ? new Date(filters.from) : null}
+                      dateHintText={formatMessage({ id: 'feature.references.list.filters.date.label' })}
+                      timeHintText={formatMessage({ id: 'feature.references.list.filters.time.label' })}
+                      onChange={(value) => this.updateState(value, FILTER_PARAMS.FROM)}
+                      locale={locale}
+                      style={filter.dateFromStyle}
+                      key="datefrom"
+                      displayTime
+                      fullWidth
+                    />
+                  </div>
                 </TableHeaderOptionGroup>
                 <TableHeaderOptionGroup>
-                  <SelectField
-                    autoWidth
-                    style={filter.fieldStyle}
-                    floatingLabelText={formatMessage({ id: 'feature.requests.list.filters.state' })}
-                    value={filters.state || ''}
-                    onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.STATE)}
-                    disabled={openedPane === FemDomain.REQUEST_TYPES_ENUM.REFERENCES}
-                  >
-                    <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.status.any' })} />
-                    {FemDomain.REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `feature.requests.status.${status}` })} />)}
-                  </SelectField>
-                  <SelectField
-                    autoWidth
-                    style={filter.fieldStyle}
-                    floatingLabelText={formatMessage({ id: 'feature.requests.list.filters.dissemination.status' })}
-                    value={filters.disseminationPending || ''}
-                    onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.DISSEMINATION_PENDING)}
-                    disabled={openedPane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES}
-                  >
-                    <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.dissemination.status.any' })} />
-                    {map(keys(DISSEMINATION_PENDING_ENUM), (disseminationKey) => <MenuItem key={disseminationKey} value={DISSEMINATION_PENDING_ENUM[disseminationKey]} primaryText={formatMessage({ id: `feature.requests.dissemination.status.${disseminationKey}` })} />)}
-                  </SelectField>
+                  <div style={filter.dateFieldGroupStyle}>
+                    <div style={filter.dateToLabelStyle}>
+                      {formatMessage({ id: 'feature.references.list.filters.to.label' })}
+                    </div>
+                    <DatePickerField
+                      id="filter.to"
+                      dateHintText={formatMessage({ id: 'feature.references.list.filters.date.label' })}
+                      timeHintText={formatMessage({ id: 'feature.references.list.filters.time.label' })}
+                      value={filters.to ? new Date(filters.to) : null}
+                      defaultTime="23:59:59"
+                      onChange={(value) => this.updateState(value, FILTER_PARAMS.TO)}
+                      locale={locale}
+                      key="dateto"
+                      displayTime
+                      fullWidth
+                    />
+                  </div>
                 </TableHeaderOptionGroup>
               </TableHeaderOptionsArea>
             </div>

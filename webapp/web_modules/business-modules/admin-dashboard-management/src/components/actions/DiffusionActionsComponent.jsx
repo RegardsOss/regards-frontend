@@ -43,7 +43,7 @@ class DiffusionActionsComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         stepStyle: {
-          raisedListStyle, cardButtonStyle,
+          raisedListStyle, cardButtonStyle, raisedListLabelStyle,
         },
       },
     } = this.context
@@ -54,6 +54,7 @@ class DiffusionActionsComponent extends React.Component {
           label={formatMessage({ id: 'dashboard.selectedsession.DISSEMINATION.diffusion.button.see-detail' })}
           primary
           style={raisedListStyle}
+          labelStyle={raisedListLabelStyle}
         />
       </div>
     )

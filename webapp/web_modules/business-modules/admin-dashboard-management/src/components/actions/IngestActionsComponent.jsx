@@ -85,7 +85,7 @@ class IngestActionsComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         stepStyle: {
-          raisedListStyle, cardButtonStyle,
+          raisedListStyle, cardButtonStyle, raisedListLabelStyle,
         },
       },
     } = this.context
@@ -98,6 +98,7 @@ class IngestActionsComponent extends React.Component {
         label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.see-referenced' })}
         primary
         style={raisedListStyle}
+        labelStyle={raisedListLabelStyle}
       />
       {
         nbWaiting !== 0
@@ -106,6 +107,7 @@ class IngestActionsComponent extends React.Component {
               label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.see-waiting' })}
               primary
               style={raisedListStyle}
+              labelStyle={raisedListLabelStyle}
           /> : null
       }
       {
@@ -116,12 +118,14 @@ class IngestActionsComponent extends React.Component {
               label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.see-errors' })}
               primary
               style={raisedListStyle}
+              labelStyle={raisedListLabelStyle}
             />
             <RaisedButton
               onClick={this.toggleRetryErrorsDialog}
               label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.retry-errors' })}
               primary
               style={raisedListStyle}
+              labelStyle={raisedListLabelStyle}
             />
           </div>
           : null

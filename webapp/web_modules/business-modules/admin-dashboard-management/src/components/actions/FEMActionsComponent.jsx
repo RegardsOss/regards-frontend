@@ -102,7 +102,7 @@ class FEMActionsComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         stepStyle: {
-          raisedListStyle, cardButtonStyle,
+          raisedListStyle, cardButtonStyle, raisedListLabelStyle,
         },
       },
     } = this.context
@@ -114,6 +114,7 @@ class FEMActionsComponent extends React.Component {
           label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.fem.button.see-referenced' })}
           primary
           style={raisedListStyle}
+          labelStyle={raisedListLabelStyle}
         />
         {
           nbErrors !== 0
@@ -123,12 +124,14 @@ class FEMActionsComponent extends React.Component {
                 label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.fem.button.see-errors' })}
                 primary
                 style={raisedListStyle}
+                labelStyle={raisedListLabelStyle}
               />
               <RaisedButton
                 onClick={this.toggleRetryErrorsDialog}
                 label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.fem.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
+                labelStyle={raisedListLabelStyle}
               />
             </div>
             : null

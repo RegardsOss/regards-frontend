@@ -29,6 +29,9 @@ const aipManagementStyles = (theme) => ({
     display: 'none',
   },
   filter: {
+    dateFromStyle: {
+      marginLeft: '10px',
+    },
     fieldStyle: {
       width: '190px',
       margin: '0px 10px',

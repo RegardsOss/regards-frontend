@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import { GrowingColumnSize } from './size/GrowingColumnSize'
 import { OptionsColumnSize } from './size/OptionColumnSize'
+import { DynamicColumnSize } from './size/DynamicColumnSize'
 import { FixedColumnSize } from './size/FixedColumnSize'
 import StringValueRender from '../../../values/StringValueRender'
 import SortableColumnHeaderCell from './SortableColumnHeaderCell'
@@ -129,6 +130,15 @@ export default class TableColumnBuilder {
    */
   sizing(sizing) {
     this.sizingImpl = sizing
+    return this
+  }
+
+  /**
+   * Enable to have the same behavior as a GrowingColumnSize column but user cannot resize it
+   * @returns {TableColumnBuilder} builder instance
+   */
+  dynamicSizing() {
+    this.sizingImpl = new DynamicColumnSize()
     return this
   }
 

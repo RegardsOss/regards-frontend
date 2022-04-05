@@ -81,16 +81,18 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
                 />
               </TableHeaderOptionGroup>
               <TableHeaderOptionGroup key="dateForm">
-                <DatePickerField
-                  id="filter.from"
-                  value={null}
-                  dateHintText={formatMessage({
-                    id: 'oais.aips.list.filters.from.label',
-                  })}
-                  onChange={changeFrom}
-                  locale={locale}
-                  key="datefrom"
-                />
+                <div style={filter.dateFromStyle}>
+                  <DatePickerField
+                    id="filter.from"
+                    value={null}
+                    dateHintText={formatMessage({
+                      id: 'oais.aips.list.filters.from.label',
+                    })}
+                    onChange={changeFrom}
+                    locale={locale}
+                    key="datefrom"
+                  />
+                </div>
                 <DatePickerField
                   id="filter.to"
                   value={null}

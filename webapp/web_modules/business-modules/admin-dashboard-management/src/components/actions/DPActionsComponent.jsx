@@ -19,10 +19,9 @@
 import { browserHistory } from 'react-router'
 import get from 'lodash/get'
 import RaisedButton from 'material-ui/RaisedButton'
-import Dialog from 'material-ui/Dialog'
 import { IngestDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
-import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
+import { ConfirmDialogComponent, ConfirmDialogComponentTypes, PositionedDialog } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import DisplayProductsComponent from '../DisplayProductsComponent'
@@ -88,19 +87,15 @@ class DPActionsComponent extends React.Component {
   }
 
   renderProductDPDialog = () => {
-    const {
-      intl: { formatMessage }, moduleTheme: {
-        stepStyle: {
-          dialogProductErrorStyle, dialogProductErrorMainStyle,
-        },
-      },
-    } = this.context
+    const { intl: { formatMessage } } = this.context
     const { isProductDialogOpen } = this.state
     const { sessionStep } = this.props
     return (
-      <Dialog
-        open={isProductDialogOpen}
+      <PositionedDialog
+        dialogWidthPercent={75}
+        dialogHeightPercent={55}
         title={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.dialog.title' })}
+        open={isProductDialogOpen}
         actions={<>
           <RaisedButton
             key="close"
@@ -109,13 +104,11 @@ class DPActionsComponent extends React.Component {
             onClick={this.toggleProductDialog}
           />
         </>}
-        contentStyle={dialogProductErrorStyle}
-        style={dialogProductErrorMainStyle}
       >
         <DisplayProductsComponent
           sessionName={sessionStep.session}
         />
-      </Dialog>
+      </PositionedDialog>
     )
   }
 
@@ -126,7 +119,7 @@ class DPActionsComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         stepStyle: {
-          raisedListStyle, cardButtonStyle,
+          raisedListStyle, cardButtonStyle, raisedListLabelStyle,
         },
       },
     } = this.context
@@ -139,6 +132,7 @@ class DPActionsComponent extends React.Component {
                 label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.button.see-waiting' })}
                 primary
                 style={raisedListStyle}
+                labelStyle={raisedListLabelStyle}
             /> : null
         }
         {
@@ -149,12 +143,14 @@ class DPActionsComponent extends React.Component {
                 label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.button.see-errors' })}
                 primary
                 style={raisedListStyle}
+                labelStyle={raisedListLabelStyle}
               />
               <RaisedButton
                 onClick={this.toggleRetryErrorsDialog}
                 label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
+                labelStyle={raisedListLabelStyle}
               />
             </div>
             : null

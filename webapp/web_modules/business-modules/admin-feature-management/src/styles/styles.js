@@ -25,8 +25,18 @@ const featureManagementStyles = (theme) => ({
     display: 'none',
   },
   filter: {
+    dateToLabelStyle: {
+      marginRight: '10px',
+    },
+    dateFieldGroupStyle: {
+      display: 'flex',
+      alignItems: 'center',
+      marginLeft: '10px',
+    },
+    selectFieldGroupStyle: {
+      marginTop: '-20px',
+    },
     fieldStyle: {
-      width: '190px',
       margin: '0px 10px',
     },
     dateStyle: {

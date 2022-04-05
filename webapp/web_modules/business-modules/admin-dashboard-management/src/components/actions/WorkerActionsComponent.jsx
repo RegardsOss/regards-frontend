@@ -88,7 +88,7 @@ class WorkerActionsComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         stepStyle: {
-          raisedListStyle, cardButtonStyle,
+          raisedListStyle, cardButtonStyle, raisedListLabelStyle,
         },
       },
     } = this.context
@@ -103,6 +103,7 @@ class WorkerActionsComponent extends React.Component {
                 label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.workers.button.see-waiting' })}
                 primary
                 style={raisedListStyle}
+                labelStyle={raisedListLabelStyle}
             />
             : null
         }
@@ -114,12 +115,14 @@ class WorkerActionsComponent extends React.Component {
                 label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.workers.button.see-errors' })}
                 primary
                 style={raisedListStyle}
+                labelStyle={raisedListLabelStyle}
               />
               <RaisedButton
                 onClick={this.toggleRetryErrorsDialog}
                 label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.workers.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
+                labelStyle={raisedListLabelStyle}
               />
             </div>
             : null
