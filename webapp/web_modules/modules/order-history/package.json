@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss-modules/order-history",
-  "version": "1.9.0",
+  "version": "1.10.0-SNAPSHOT",
   "private": true,
   "sideEffects": false,
   "description": "Display a user order history, or all users order histories when used by admin order history module",
