@@ -63,8 +63,8 @@ export class FeatureManagerFiltersComponent extends React.Component {
     [FILTER_PARAMS.SOURCE]: '',
     [FILTER_PARAMS.SESSION]: '',
     [FILTER_PARAMS.PROVIDER_ID]: '',
-    [FILTER_PARAMS.FROM]: '',
-    [FILTER_PARAMS.TO]: '',
+    [FILTER_PARAMS.FROM]: null,
+    [FILTER_PARAMS.TO]: null,
     [FILTER_PARAMS.STATE]: null,
     [FILTER_PARAMS.DISSEMINATION_PENDING]: null,
   }
