@@ -5,10 +5,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const alias = require('../utils/alias')
 const cpus = require('../utils/cpu')
 const getBabelEnvName = require('../utils/getBabelEnvName')
+const getStaticFileHashes = require('../utils/getStaticFileHashes')
 
 const cesiumSource = 'node_modules/cesium/Source'
-
 module.exports = function (projectContextPath, mode = 'dev') {
+  const {
+    coreHash,
+    coreossHash,
+    staticConfigurationHash,
+  } = getStaticFileHashes(projectContextPath, mode)
   return {
     // Hide stats information from children during webpack compilation
     stats: { children: false },
@@ -167,6 +172,12 @@ module.exports = function (projectContextPath, mode = 'dev') {
         hash: true,
         isProduction: mode === 'prod',
         chunksSortMode: 'none',
+        // manually add the checksum of DLL files as parameters
+        templateParameters: {
+          coreHash,
+          coreossHash,
+          staticConfigurationHash,
+        }
       }),
       // Allow to define React as a global variable for JSX.
       new webpack.ProvidePlugin({
