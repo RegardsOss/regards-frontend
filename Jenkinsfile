@@ -40,7 +40,7 @@ pipeline {
             steps {
                 echo "Jenkins node name = ${env.NODE_NAME}"
                 echo "Current workspace = ${env.WORKSPACE}"
-                sh 'cd jenkins/node && docker build -t rs_node . && chmod -R 0777 ${WORKSPACE}/webapp'
+                sh 'docker pull 172.26.46.158/regards-nginx-jenkins && chmod -R 0777 ${WORKSPACE}/webapp'
             }
         }
         stage('Install') {
@@ -304,6 +304,6 @@ def getChangeString() {
 runFrontDockerImg(script, pluginFolder) {
     sh 'docker run --rm -i \
         -v ${WORKSPACE}/webapp:/app_to_build \
-        rs_node ./' + script + '.sh ' + pluginFolder
+        172.26.46.158/regards-nginx-jenkins ./' + script + '.sh ' + pluginFolder
 }
 
