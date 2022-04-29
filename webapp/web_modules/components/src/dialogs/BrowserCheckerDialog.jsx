@@ -52,7 +52,7 @@ export class BrowserCheckerDialog extends React.Component {
    */
   static parseNumberFromVersion = (numberText = '') => {
     const matched = numberText.match(BrowserCheckerDialog.VERSION_NUMBER_PARSER)
-    return (matched && matched.length && matched[1]) || 0
+    return (matched && matched.length && parseInt(matched[1], 10)) || 0
   }
 
   /**
