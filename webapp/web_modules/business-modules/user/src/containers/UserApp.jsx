@@ -31,7 +31,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { BrowserCheckerDialog, ReactErrorBoundaryComponent } from '@regardsoss/components'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import { ProjectHandler } from '@regardsoss/project-handler'
-import { AuthenticationParametersActions, AuthenticationClient } from '@regardsoss/authentication-utils'
+import { AuthenticationParametersActions, AuthenticationClient, AuthenticationRouteParameters } from '@regardsoss/authentication-utils'
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import { layoutActions, layoutSelectors } from '../clients/LayoutClient'
 import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
@@ -178,7 +178,12 @@ export class UserApp extends React.Component {
           return foundModule
         }, null)
         if (homeModule) {
-          browserHistory.replace(UIDomain.getModuleURL(nextProps.params.project, homeModule.content.id))
+          const newQuery = this.getQueryParams()
+          browserHistory.replace({
+            pathname: UIDomain.getModuleURL(nextProps.params.project, homeModule.content.id),
+            search: encodeURIComponent(new URLSearchParams(newQuery).toString()),
+            query: newQuery,
+          })
         }
       }
     }
@@ -195,6 +200,26 @@ export class UserApp extends React.Component {
   componentWillUnmount() {
     const { flushModules } = this.props
     flushModules()
+  }
+
+  // We handle here email verification in case of account token removal from database.
+  // When accessing home module we keep request parameters used to verify an account.
+  getQueryParams = () => {
+    const { query } = browserHistory.getCurrentLocation()
+    let newQuery = {}
+    const externalAuthActionParam = get(query, AuthenticationRouteParameters.mailAuthenticationAction.urlKey)
+    const mailAuthenticationKeys = [AuthenticationRouteParameters.mailAuthenticationAction.urlKey, AuthenticationRouteParameters.originURL.urlKey,
+      AuthenticationRouteParameters.token.urlKey, AuthenticationRouteParameters.accountEmail.urlKey]
+    if (mailAuthenticationKeys.every((mailAuthenticationKey) => mailAuthenticationKey in query)
+      && externalAuthActionParam === AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail) {
+      newQuery = {
+        [AuthenticationRouteParameters.mailAuthenticationAction.urlKey]: externalAuthActionParam,
+        [AuthenticationRouteParameters.originURL.urlKey]: get(query, AuthenticationRouteParameters.originURL.urlKey),
+        [AuthenticationRouteParameters.token.urlKey]: get(query, AuthenticationRouteParameters.token.urlKey),
+        [AuthenticationRouteParameters.accountEmail.urlKey]: get(query, AuthenticationRouteParameters.accountEmail.urlKey),
+      }
+    }
+    return newQuery
   }
 
   clearDeprecatedConfigurationOnLocalStorage() {

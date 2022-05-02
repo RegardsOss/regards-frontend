@@ -289,7 +289,7 @@ export class ProjectUserAccountComponent extends React.Component {
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserAccountComponent.COLUMN_KEYS.LAST_CONNECTION}`)
         .label(formatMessage({ id: 'projectUser.list.table.lastConnection' }))
-        .visible(get(columnsVisibility, ProjectUserAccountComponent.COLUMN_KEYS.LAST_CONNECTION, true))
+        .visible(get(columnsVisibility, ProjectUserAccountComponent.COLUMN_KEYS.LAST_CONNECTION, false))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserAccountComponent.COLUMN_KEYS.LAST_CONNECTION), onSort)
         .build(),
       // 7 - actions

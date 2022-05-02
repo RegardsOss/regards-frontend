@@ -86,7 +86,7 @@ export class ProjectUserAccountContainer extends React.Component {
       onDeleteAccount: (userId) => dispatch(projectUserActions.deleteEntity(userId)),
       onValidateProjectUser: (userId) => dispatch(projectUserSignalActions.sendAccept(userId)),
       onDenyProjectUser: (userId) => dispatch(projectUserSignalActions.sendDeny(userId)),
-      onSendEmailConfirmation: (email) => dispatch(projectUserEmailConfirmationSignalActions.sendEmailConfirmation(email)),
+      onSendEmailConfirmation: (email, project) => dispatch(projectUserEmailConfirmationSignalActions.sendEmailConfirmation(email, project)),
       onDisableProjectUser: (userId) => dispatch(projectUserSignalActions.sendInactive(userId)),
       onEnableProjectUser: (userId) => dispatch(projectUserSignalActions.sendActive(userId)),
       fetchOrigins: () => dispatch(originActions.fetchPagedEntityList()),
@@ -153,8 +153,8 @@ export class ProjectUserAccountContainer extends React.Component {
   }
 
   onSendEmailConfirmation = (accountId, onRefresh) => {
-    const { onSendEmailConfirmation } = this.props
-    this.perform(onSendEmailConfirmation(accountId), onRefresh)
+    const { onSendEmailConfirmation, project } = this.props
+    this.perform(onSendEmailConfirmation(accountId, project), onRefresh)
   }
 
   /**

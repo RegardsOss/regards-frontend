@@ -36,7 +36,6 @@ const STATUS = {
 }
 
 /**
- * Comment Here
  * @author Théo Lasserre
  */
 export class AuthenticateRedirectionApp extends React.Component {
