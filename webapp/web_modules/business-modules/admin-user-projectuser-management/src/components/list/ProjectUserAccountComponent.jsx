@@ -250,7 +250,7 @@ export class ProjectUserAccountComponent extends React.Component {
         .propertyRenderCell(`content.${ProjectUserAccountComponent.COLUMN_KEYS.LASTNAME}`)
         .label(formatMessage({ id: 'projectUser.list.table.lastname' }))
         .visible(get(columnsVisibility, ProjectUserAccountComponent.COLUMN_KEYS.LASTNAME, true))
-        .sortableHeaderCell(...getColumnSortingData(ProjectUserAccountComponent.COLUMN_KEYS.FIRSLASTNAMETNAME), onSort)
+        .sortableHeaderCell(...getColumnSortingData(ProjectUserAccountComponent.COLUMN_KEYS.LASTNAME), onSort)
         .build(),
       // 3 - first name
       new TableColumnBuilder(ProjectUserAccountComponent.COLUMN_KEYS.FIRSTNAME)

@@ -182,7 +182,7 @@ export class ProjectUserAccessRightComponent extends React.Component {
         .propertyRenderCell(`content.${ProjectUserAccessRightComponent.COLUMN_KEYS.LASTNAME}`)
         .label(formatMessage({ id: 'projectUser.list.table.lastname' }))
         .visible(get(columnsVisibility, ProjectUserAccessRightComponent.COLUMN_KEYS.LASTNAME, true))
-        .sortableHeaderCell(...getColumnSortingData(ProjectUserAccessRightComponent.COLUMN_KEYS.FIRSLASTNAMETNAME), onSort)
+        .sortableHeaderCell(...getColumnSortingData(ProjectUserAccessRightComponent.COLUMN_KEYS.LASTNAME), onSort)
         .build(),
       // 3 - first name
       new TableColumnBuilder(ProjectUserAccessRightComponent.COLUMN_KEYS.FIRSTNAME)

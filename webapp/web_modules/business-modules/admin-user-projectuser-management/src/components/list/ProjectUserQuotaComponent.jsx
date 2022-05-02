@@ -236,7 +236,7 @@ export class ProjectUserQuotaComponent extends React.Component {
         .propertyRenderCell(`content.${ProjectUserQuotaComponent.COLUMN_KEYS.LASTNAME}`)
         .label(formatMessage({ id: 'projectUser.list.table.lastname' }))
         .visible(get(columnsVisibility, ProjectUserQuotaComponent.COLUMN_KEYS.LASTNAME, true))
-        .sortableHeaderCell(...getColumnSortingData(ProjectUserQuotaComponent.COLUMN_KEYS.FIRSLASTNAMETNAME), onSort)
+        .sortableHeaderCell(...getColumnSortingData(ProjectUserQuotaComponent.COLUMN_KEYS.LASTNAME), onSort)
         .build(),
       // 3 - first name
       new TableColumnBuilder(ProjectUserQuotaComponent.COLUMN_KEYS.FIRSTNAME)
