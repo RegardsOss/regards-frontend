@@ -33,8 +33,6 @@ const getSelectorPath = (pathName) => [moduleReducerPath, pathName]
  */
 const getOriginURL = () => `${root.location.pathname}${root.location.search}`
 
-const getExpiredTokenOriginURL = (project) => `/user/${project}`
-
 const getOriginUrlWithoutQueryParams = () => `${root.location.protocol}//${root.location.host}${root.location.pathname}`
 
 /**
@@ -44,13 +42,9 @@ const getOriginUrlWithoutQueryParams = () => `${root.location.protocol}//${root.
  */
 const getRequestLinkURL = (mailAuthenticationActionValue) => `${root.location.protocol}//${root.location.host}${root.location.pathname}?${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${mailAuthenticationActionValue}`
 
-const getExpiredTokenRequestLinkURL = (project, mailAuthenticationActionValue) => `${root.location.protocol}//${root.location.host}/user/${project}?${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${mailAuthenticationActionValue}`
-
 export default {
   getSelectorPath,
   getOriginURL,
   getRequestLinkURL,
-  getExpiredTokenRequestLinkURL,
   getOriginUrlWithoutQueryParams,
-  getExpiredTokenOriginURL,
 }

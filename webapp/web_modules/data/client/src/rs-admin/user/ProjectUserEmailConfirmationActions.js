@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
-import { AuthenticationRouteParameters, AuthenticationRouteHelper } from '@regardsoss/authentication-utils'
 
 /**
  * Specific signal to re send user email confirmation
@@ -26,15 +25,13 @@ export default class ProjectUserEmailConfirmationActions extends BasicSignalActi
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/users/email/verification/resend`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/users/email/{email}/verification/resend`,
     })
   }
 
-  sendEmailConfirmation(email, project) {
-    return this.sendSignal('POST', {
+  sendEmailConfirmation(email) {
+    return this.sendSignal('GET', null, {
       email,
-      originUrl: AuthenticationRouteHelper.getExpiredTokenOriginURL(project),
-      requestLink: AuthenticationRouteHelper.getExpiredTokenRequestLinkURL(project, AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail),
     })
   }
 }
