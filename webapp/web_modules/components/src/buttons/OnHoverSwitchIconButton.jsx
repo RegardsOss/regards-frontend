@@ -53,17 +53,22 @@ class OnHoverSwitchIconButton extends React.Component {
     })
   }
 
+  getOnClick = () => {
+    const { onClick } = this.props
+    return onClick[this.state.usedPropIndex]
+  }
+
   render() {
-    const { children, onClick, ...otherProps } = this.props
+    const { children, ...otherProps } = this.props
     return (
-      <span onMouseEnter={this.handleOnMouseEnter} onMouseLeave={this.handleOnMouseLeave}>
-        <IconButton
-          onClick={onClick[this.state.usedPropIndex]}
-          {...otherProps}
-        >
-          {children[this.state.usedPropIndex]}
-        </IconButton>
-      </span>
+      <IconButton
+        {...otherProps}
+        onClick={this.getOnClick()}
+        onMouseEnter={this.handleOnMouseEnter}
+        onMouseLeave={this.handleOnMouseLeave}
+      >
+        {children[this.state.usedPropIndex]}
+      </IconButton>
     )
   }
 }

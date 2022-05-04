@@ -56,9 +56,9 @@ export const listProjectConnectionRoute = {
   path: ':project_name/connections',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ProjectFormContainer = require('./containers/projectConnection/ProjectConnectionListContainer')
+      const ProjectConnectionListContainer = require('./containers/projectConnection/ProjectConnectionListContainer')
       cb(null, {
-        content: ProjectFormContainer.default,
+        content: ProjectConnectionListContainer.default,
       })
     })
   },
@@ -68,9 +68,9 @@ export const listProjectConnectionGuidedRoute = {
   path: ':project_name/connections/guided',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ProjectFormContainer = require('./containers/projectConnection/ProjectConnectionsProvider')
+      const ProjectConnectionsProvider = require('./containers/projectConnection/ProjectConnectionsProvider')
       cb(null, {
-        content: ProjectFormContainer.default,
+        content: ProjectConnectionsProvider.default,
       })
     })
   },
@@ -80,9 +80,9 @@ export const editProjectConnectionRoute = {
   path: ':project_name/connections/:project_connection_id/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ProjectFormContainer = require('./containers/projectConnection/ProjectConnectionsProvider')
+      const ProjectConnectionsProvider = require('./containers/projectConnection/ProjectConnectionsProvider')
       cb(null, {
-        content: ProjectFormContainer.default,
+        content: ProjectConnectionsProvider.default,
       })
     })
   },
@@ -92,9 +92,9 @@ export const createProjectConnectionRoute = {
   path: ':project_name/connections/:microservice_name/create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const ProjectFormContainer = require('./containers/projectConnection/ProjectConnectionsProvider')
+      const ProjectConnectionsProvider = require('./containers/projectConnection/ProjectConnectionsProvider')
       cb(null, {
-        content: ProjectFormContainer.default,
+        content: ProjectConnectionsProvider.default,
       })
     })
   },

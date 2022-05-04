@@ -52,7 +52,10 @@ class DatabaseConnectionTesterIconButton extends React.Component {
     completed: 0,
   }
 
-  switchActions = [this.handleTouchTap, this.handleTouchTap]
+  constructor(props) {
+    super(props)
+    this.switchActions = [this.handleTouchTap, this.handleTouchTap]
+  }
 
   handleTouchTap = () => {
     this.setState({
@@ -76,59 +79,45 @@ class DatabaseConnectionTesterIconButton extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const testButton = (
-      <IconButton
-        title={formatMessage({ id: 'database.connectionTester.default.tooltip' })}
-        label={formatMessage({ id: 'database.connectionTester.start' })}
-        onClick={this.handleTouchTap}
-      >
-        <PlayArrow hoverColor={this.context.muiTheme.palette.primary1Color} />
-      </IconButton>
-    )
-
-    const successButton = (
-      <OnHoverSwitchIconButton onClick={this.switchActions} title={formatMessage({ id: 'database.connectionTester.success.tooltip' })}>
-        <Check color={this.context.muiTheme.palette.primary1Color} />
-        <PlayArrow />
-      </OnHoverSwitchIconButton>)
-
-    const warningButton = (
-      <OnHoverSwitchIconButton onClick={this.switchActions} title={formatMessage({ id: 'database.connectionTester.warn.tooltip' })}>
-        <Warning color={this.context.muiTheme.palette.warningColor} />
-        <PlayArrow />
-      </OnHoverSwitchIconButton>)
-
-    const errorButton = (
-      <OnHoverSwitchIconButton onClick={this.switchActions} title={formatMessage({ id: 'database.connectionTester.error.tooltip' })}>
-        <Error color={this.context.muiTheme.palette.accent1Color} />
-        <PlayArrow />
-      </OnHoverSwitchIconButton>)
-
-    const pendingProgress = <ConnectionTesterProgress value={this.state.completed} />
-
-    let result = testButton
+    let result
     switch (this.state.status) {
       case EnumConnectivity.PENDING:
-        result = pendingProgress
+        result = <ConnectionTesterProgress value={this.state.completed} />
         break
       case EnumConnectivity.SUCCESS:
-        result = successButton
+        result = (
+          <OnHoverSwitchIconButton onClick={this.switchActions} title={formatMessage({ id: 'database.connectionTester.success.tooltip' })}>
+            <Check color={this.context.muiTheme.palette.primary1Color} />
+            <PlayArrow />
+          </OnHoverSwitchIconButton>)
         break
       case EnumConnectivity.WARNING:
-        result = warningButton
+        result = (
+          <OnHoverSwitchIconButton onClick={this.switchActions} title={formatMessage({ id: 'database.connectionTester.warn.tooltip' })}>
+            <Warning color={this.context.muiTheme.palette.warningColor} />
+            <PlayArrow />
+          </OnHoverSwitchIconButton>)
         break
       case EnumConnectivity.ERROR:
-        result = errorButton
+        result = (
+          <OnHoverSwitchIconButton onClick={this.switchActions} title={formatMessage({ id: 'database.connectionTester.error.tooltip' })}>
+            <Error color={this.context.muiTheme.palette.accent1Color} />
+            <PlayArrow />
+          </OnHoverSwitchIconButton>)
         break
       case EnumConnectivity.NOT_TESTED:
       default:
-        result = testButton
+        result = (
+          <IconButton
+            title={formatMessage({ id: 'database.connectionTester.default.tooltip' })}
+            label={formatMessage({ id: 'database.connectionTester.start' })}
+            onClick={this.handleTouchTap}
+          >
+            <PlayArrow hoverColor={this.context.muiTheme.palette.primary1Color} />
+          </IconButton>
+        )
     }
-    return (
-      <span>
-        {result}
-      </span>
-    )
+    return result
   }
 }
 
