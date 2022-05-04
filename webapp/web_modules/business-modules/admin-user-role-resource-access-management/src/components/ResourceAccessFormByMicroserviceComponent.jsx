@@ -136,12 +136,12 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
                         }}
                       />
                     </div>
-                    }
+                  }
                   leftAvatar={
-                    <Chip style={moduleTheme.chipByVerb[resource.content.verb]}>
+                    <Chip style={moduleTheme.chipByVerb[resource.content.verb]} labelColor={moduleTheme.chipLabelByVerb[resource.content.verb]}>
                       {resource.content.verb}
                     </Chip>
-                    }
+                  }
                 >
                   <div style={moduleTheme.resourceTitleStyle}>
                     {resource.content.resource}

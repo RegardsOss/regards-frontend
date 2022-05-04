@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import {
-  lightBlue200, yellow300, green300, purple300,
+  lightBlue200, yellow300, green300, purple300, lightBlack, fullWhite,
 } from 'material-ui/styles/colors'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 
@@ -43,24 +43,30 @@ const styles = (theme) => ({
   chipByVerb: {
     [RequestVerbEnum.GET]: {
       backgroundColor: lightBlue200,
-      top: 12,
+      top: 25,
       left: 0,
     },
     [RequestVerbEnum.POST]: {
       backgroundColor: green300,
-      top: 12,
+      top: 25,
       left: 0,
     },
     [RequestVerbEnum.PUT]: {
       backgroundColor: yellow300,
-      top: 12,
+      top: 25,
       left: 0,
     },
     [RequestVerbEnum.DELETE]: {
       backgroundColor: purple300,
-      top: 12,
+      top: 25,
       left: 0,
     },
+  },
+  chipLabelByVerb: {
+    [RequestVerbEnum.GET]: lightBlack,
+    [RequestVerbEnum.POST]: fullWhite,
+    [RequestVerbEnum.PUT]: lightBlack,
+    [RequestVerbEnum.DELETE]: fullWhite,
   },
   description: {
     style: {
@@ -76,6 +82,9 @@ const styles = (theme) => ({
   },
   resourceIconStyle: {
     marginRight: 10,
+    position: 'absolute',
+    top: '2px',
+    right: '64px',
   },
   resourceTitleStyle: {
     padding: '12px 0 12px 0',
