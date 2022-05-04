@@ -37,13 +37,11 @@ const items = (project, intl) => [
     actions: [{
       path: `/admin/${project}/commands/history/list`,
       icon: <ViewLinesIcon />,
-      className: 'selenium-ordersList',
       tooltipMsg: intl.formatMessage({ id: 'commands.board.tooltip.list' }),
       hateoasDependencies: orderDependencies.listDependencies,
     }, {
       path: `/admin/${project}/commands/history/settings`,
       icon: <SettingsIcon />,
-      className: 'selenium-ordersList',
       tooltipMsg: intl.formatMessage({ id: 'commands.board.tooltip.settings' }),
       hateoasDependencies: orderDependencies.settingDependencies,
     }],
@@ -56,20 +54,17 @@ const items = (project, intl) => [
     actions: [{
       path: `/admin/${project}/commands/processing/monitoring`,
       icon: <PageView />,
-      className: 'selenium-ordersList',
       tooltipMsg: intl.formatMessage({ id: 'commands.board.processing.tooltip.monitoring' }),
       hateoasDependencies: processingDependencies.listMonitoringDependencies,
     }, {
       path: `/admin/${project}/commands/processing/list`,
       icon: <ViewLinesIcon />,
-      className: 'selenium-ordersList',
       tooltipMsg: intl.formatMessage({ id: 'commands.board.processing.tooltip.list' }),
       hateoasDependencies: processingDependencies.listProcessingDependencies,
     },
     {
       path: `/admin/${project}/commands/processing/create`,
       icon: <AddIcon />,
-      className: 'selenium-ordersList',
       tooltipMsg: intl.formatMessage({ id: 'commands.board.processing.tooltip.add' }),
       hateoasDependencies: processingDependencies.addProcessingDependencies,
     }],

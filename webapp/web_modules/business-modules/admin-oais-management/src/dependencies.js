@@ -37,12 +37,11 @@ import { settingsActions } from './clients/SettingsClient'
  * @type {Array}
  */
 const listDependencies = [
-  // sipActions.getDependency(RequestVerbEnum.POST),
   aipActions.getDependency(RequestVerbEnum.POST),
 ]
 
 const settingDependencies = [
-  settingsActions.getDependency(RequestVerbEnum.GET),
+  settingsActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 /**

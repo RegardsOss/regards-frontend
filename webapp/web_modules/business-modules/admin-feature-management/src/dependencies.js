@@ -30,7 +30,7 @@ import { settingsActions } from './clients/SettingsClient'
   */
 
 const settingDependencies = [
-  settingsActions.getDependency(RequestVerbEnum.GET),
+  settingsActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 const listDependencies = [

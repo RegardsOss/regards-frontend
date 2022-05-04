@@ -29,7 +29,9 @@ import { settingsActions } from './clients/SettingsClient'
 
 const listDependencies = [orderListActions.getDependency(RequestVerbEnum.GET_LIST)]
 
-const settingDependencies = [settingsActions.getDependency(RequestVerbEnum.GET)]
+const settingDependencies = [
+  settingsActions.getDependency(RequestVerbEnum.GET_LIST),
+]
 
 export default {
   listDependencies,

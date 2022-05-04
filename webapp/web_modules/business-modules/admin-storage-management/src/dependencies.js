@@ -41,7 +41,8 @@ const stopDependencies = [
 ]
 
 const settingsDependencies = [
-  new DataManagementClient.SettingsActions().getDependency(RequestVerbEnum.GET),
+  new DataManagementClient.SettingsActions().getDependency(RequestVerbEnum.GET_LIST),
+  new StorageClient.SettingsActions().getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 export default {
