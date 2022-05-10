@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEmpty from 'lodash/isEmpty'
-import get from 'lodash/get'
 import { i18nContextType } from '@regardsoss/i18n'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import IconButton from 'material-ui/IconButton'
 import SettingsIcon from 'mdi-material-ui/Cog'
 import { OrderProcessings } from '../../../model/OrderProcessingsShape'
@@ -37,12 +37,8 @@ class ShowOrderProcessingsComponent extends React.Component {
   }
 
   isOrderProcessingListExist = (orderProcessings) => {
-    let ret = false
     const orderProcessingList = get(orderProcessings, 'orderProcessingList', null)
-    if (orderProcessingList !== null && !isEmpty(orderProcessingList)) {
-      ret = true
-    }
-    return ret
+    return orderProcessingList !== null && !isEmpty(orderProcessingList)
   }
 
   render() {

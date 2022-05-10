@@ -103,6 +103,7 @@ class OrderListComponent extends React.Component {
     onShowRetryMode: PropTypes.func.isRequired,
     // show processings of an order in a dialog
     onShowProcessings: PropTypes.func.isRequired,
+    isProcessingDependenciesExist: PropTypes.bool.isRequired,
     // optional children, can be used to add rows into orders table header
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -204,7 +205,7 @@ class OrderListComponent extends React.Component {
       displayMode, pageSize, hasDeleteCompletely, hasDeleteSuperficially, hasPauseResume,
       ordersActions, ordersSelectors, navigationActions, orderStateActions, onShowRetryMode,
       onShowRequestFailedInformation, onShowAsynchronousRequestInformation, onShowDeleteConfirmation,
-      onShowProcessings, processingSelectors, pluginMetaDataSelectors,
+      onShowProcessings, processingSelectors, pluginMetaDataSelectors, isProcessingDependenciesExist,
     } = this.props
     return [
       // 1 - Pause / resume order option (must have sufficient rights)
@@ -240,7 +241,7 @@ class OrderListComponent extends React.Component {
         },
       } : null,
       // 6 - admin only option: show processing list of an order
-      displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? {
+      displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR && isProcessingDependenciesExist ? {
         OptionConstructor: ShowOrderProcessingsContainer,
         optionProps: {
           onShowProcessings,

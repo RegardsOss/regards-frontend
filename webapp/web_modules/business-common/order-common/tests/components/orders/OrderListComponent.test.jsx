@@ -80,6 +80,7 @@ describe('[Order Common] Testing OrderListComponent', () => {
       onShowDeleteConfirmation: () => { },
       onShowRetryMode: () => {},
       onShowProcessings: () => { },
+      isProcessingDependenciesExist: true,
     }
     const enzymeWrapper = shallow(<OrderListComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -120,6 +121,7 @@ describe('[Order Common] Testing OrderListComponent', () => {
       onShowDeleteConfirmation: () => { },
       onShowRetryMode: () => { },
       onShowProcessings: () => { },
+      isProcessingDependenciesExist: true,
     }
     const enzymeWrapper = shallow(<OrderListComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')

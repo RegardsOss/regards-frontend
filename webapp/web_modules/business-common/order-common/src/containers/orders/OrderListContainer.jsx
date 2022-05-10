@@ -68,6 +68,7 @@ export class OrderListContainer extends React.Component {
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
+    isProcessingDependenciesExist: PropTypes.bool.isRequired,
     // from mapStateToProps
     isFetching: PropTypes.bool,
     totalOrderCount: PropTypes.number.isRequired,
@@ -203,7 +204,7 @@ export class OrderListContainer extends React.Component {
     const {
       children, displayMode, isFetching, totalOrderCount, navigationActions,
       ordersRequestParameters, ordersActions, ordersSelectors, project,
-      processingSelectors, pluginMetaDataSelectors,
+      processingSelectors, pluginMetaDataSelectors, isProcessingDependenciesExist,
     } = this.props
     const {
       columnsVisibility, hasDeleteCompletely, hasDeleteSuperficially, hasPauseResume,
@@ -267,6 +268,7 @@ export class OrderListContainer extends React.Component {
           onShowDeleteConfirmation={this.onShowDeleteConfirmation}
           onShowRetryMode={this.onShowRetryMode}
           onShowProcessings={this.onShowProcessings}
+          isProcessingDependenciesExist={isProcessingDependenciesExist}
         >
           {HOCUtils.renderChildren(children)}
         </OrderListComponent>

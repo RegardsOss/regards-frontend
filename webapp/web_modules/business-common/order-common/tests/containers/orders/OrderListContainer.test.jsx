@@ -70,6 +70,7 @@ describe('[Order Common] Testing OrderListContainer', () => {
       orderStateActions.getDeleteSuperficiallyDependency(), orderStateActions.getPauseDependency(),
       orderStateActions.getResumeDependency(), orderStateActions.getDeleteCompletelyDependency(),
     ],
+    isProcessingDependenciesExist: true,
   }
   values(ORDER_DISPLAY_MODES).forEach((displayMode) => it(`should render correcty in display mode "${displayMode}"`, () => {
     const props = {
@@ -117,6 +118,7 @@ describe('[Order Common] Testing OrderListContainer', () => {
     assert.equal(compProps.onShowAsynchronousRequestInformation, instance.onShowAsynchronousRequestInformation, 'onShowAsynchronousRequestInformation callback should be correctly set up')
     assert.equal(compProps.onShowDeleteConfirmation, instance.onShowDeleteConfirmation, 'onShowDeleteConfirmation callback should be correctly set up')
     assert.equal(compProps.onShowProcessings, instance.onShowProcessings, 'onShowProcessings callback should be correctly set up')
+    assert.equal(compProps.isProcessingDependenciesExist, props.isProcessingDependenciesExist, 'isProcessingDependenciesExist should be correctly set up')
   }))
 
   it('should correctly show and hide "asynchronous request" dialog', () => {

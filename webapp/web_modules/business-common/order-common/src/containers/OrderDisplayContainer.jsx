@@ -133,6 +133,7 @@ export class OrderDisplayContainer extends React.Component {
             navigationActions={navigationActions}
             processingSelectors={processingSelectors}
             pluginMetaDataSelectors={pluginMetaDataSelectors}
+            isProcessingDependenciesExist={isProcessingDependenciesExist}
           >
             {HOCUtils.renderChildren(children)}
           </OrderListContainer>)

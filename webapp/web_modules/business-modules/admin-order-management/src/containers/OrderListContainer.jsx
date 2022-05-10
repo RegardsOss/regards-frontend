@@ -71,7 +71,10 @@ export class OrderListContainer extends React.Component {
 
   UNSAFE_componentWillMount() {
     const { fetchPluginMetaDataList } = this.props
-    fetchPluginMetaDataList(STATIC_CONF.MSERVICES.PROCESSING)
+    const { isProcessingDependenciesExist } = this.state
+    if (isProcessingDependenciesExist) {
+      fetchPluginMetaDataList(STATIC_CONF.MSERVICES.PROCESSING)
+    }
   }
 
   componentWillUnmount() {
