@@ -443,7 +443,6 @@ const styles = (theme) => ({
                 overflow: 'auto',
                 cursor: 'zoom-out',
                 display: 'flex',
-                justifyContent: 'center',
                 alignItems: 'center',
               },
               img: {
