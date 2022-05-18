@@ -19,7 +19,6 @@
 import find from 'lodash/find'
 import get from 'lodash/get'
 import map from 'lodash/map'
-import filter from 'lodash/filter'
 import merge from 'lodash/merge'
 import {
   Card, CardActions, CardTitle, CardText,
@@ -27,14 +26,13 @@ import {
 import MenuItem from 'material-ui/MenuItem'
 import RadioButton from 'material-ui/RadioButton'
 import { formValueSelector } from 'redux-form'
-import { AccessDomain, UIDomain, DamDomain } from '@regardsoss/domain'
+import { AccessDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { connect } from '@regardsoss/redux'
 import { CardActionsComponent } from '@regardsoss/components'
 import {
   RenderTextField, RenderSelectField, Field, RenderCheckbox, RenderRadio, ValidationHelpers, reduxForm,
-  ErrorTypes,
 } from '@regardsoss/form-utils'
 import { AccessShapes } from '@regardsoss/shape'
 import DynamicModuleFormComponent from './DynamicModuleFormComponent'
@@ -364,32 +362,6 @@ class ModuleFormComponent extends React.Component {
   }
 }
 
-function validate(fieldValues) {
-  let errors = {}
-  const initialMapViewMode = get(fieldValues, 'conf.viewsGroups.DATA.views.MAP.initialViewMode')
-  const layers = get(fieldValues, 'conf.viewsGroups.DATA.views.MAP.layers')
-  if (initialMapViewMode && layers) {
-    const layersModes = map(filter(layers, (layer) => layer.background), (layer) => layer.layerViewMode)
-    if (!layersModes.includes(initialMapViewMode)) {
-      errors = {
-        conf: {
-          viewsGroups: {
-            [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
-              views: {
-                [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
-                  initialViewMode: ErrorTypes.INVALID_CONFIGURATION,
-                },
-              },
-            },
-          },
-        },
-      }
-    }
-  }
-
-  return errors
-}
-
 const UnconnectedModuleFormComponent = ModuleFormComponent
 export { UnconnectedModuleFormComponent }
 
@@ -397,8 +369,9 @@ export { UnconnectedModuleFormComponent }
 const formName = 'edit-module-form'
 const form = reduxForm({
   form: formName,
-  validate,
 })(ModuleFormComponent)
 // apply selector: page icon type
 const selector = formValueSelector(formName)
-export default connect((state) => ({ currentPageIconType: selector(state, 'page.iconType') }))(form)
+export default connect((state) => ({
+  currentPageIconType: selector(state, 'page.iconType'),
+}))(form)

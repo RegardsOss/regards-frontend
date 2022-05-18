@@ -156,7 +156,6 @@ export default function styles(theme) {
         display: 'flex',
         flexDirection: 'row',
         minHeight: '196px',
-        maxHeight: '484px',
         width: '100%',
       },
       leftColumnStyle: {

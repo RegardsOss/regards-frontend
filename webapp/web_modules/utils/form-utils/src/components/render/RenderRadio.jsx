@@ -43,6 +43,16 @@ class RenderRadio extends React.Component {
     width: '100%',
   }
 
+  static RADIO_GROUP_STYLE = {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  }
+
+  static ERROR_STYLE = {
+    marginBottom: '5px',
+  }
+
   componentDidMount() {
     const { defaultSelected, input } = this.props
     if (isNil(input.value) || input.value === '') {
@@ -60,7 +70,10 @@ class RenderRadio extends React.Component {
     if (onSelect) {
       onSelect(event, value, input)
     }
-    return input.onChange(value)
+    input.onChange(value)
+    // force blur event (lost focus event) to correctly populate redux form with touched property
+    // if we dont we never know if a radio button is touched
+    input.onBlur()
   }
 
   render() {
@@ -70,9 +83,10 @@ class RenderRadio extends React.Component {
     } = this.props
     const { moduleTheme: { field: { error: errorStyle } } } = this.context
     return (
-      <>
+      <div style={RenderRadio.RADIO_GROUP_STYLE}>
+        {touched && error && (<span style={{ ...errorStyle, ...RenderRadio.ERROR_STYLE }}>{intl.formatMessage({ id: error })}</span>)}
         <RadioButtonGroup
-          {...input}
+          name={input.name}
           style={RenderRadio.FULLWIDTH_STYLE}
           defaultSelected={defaultSelected}
           valueSelected={(input.value || input.value === false) ? input.value : undefined}
@@ -80,8 +94,7 @@ class RenderRadio extends React.Component {
         >
           {children}
         </RadioButtonGroup>
-        {touched && error && (<span style={errorStyle}>{intl.formatMessage({ id: error })}</span>)}
-      </>
+      </div>
     )
   }
 }

@@ -18,6 +18,7 @@
  **/
 import reduce from 'lodash/reduce'
 import map from 'lodash/map'
+import get from 'lodash/get'
 import filter from 'lodash/filter'
 import isEmpty from 'lodash/isEmpty'
 import MenuItem from 'material-ui/MenuItem'
@@ -27,7 +28,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
-  FieldsGroup, Field, RenderSelectField,
+  FieldsGroup, Field, RenderSelectField, ErrorTypes,
   StringComparison, ValidationHelpers, RenderRadio, FieldArray, RenderArrayObjectField,
 } from '@regardsoss/form-utils'
 import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
@@ -35,10 +36,6 @@ import RadioButton from 'material-ui/RadioButton'
 import { FORM_PAGES_ENUM } from '../../../domain/form/FormPagesEnum'
 import { DataViewsConfiguration, DatasetViewsConfiguration } from '../../../shapes/ModuleConfiguration'
 import LayerInfoItemComponent from './LayerInfoItemComponent'
-
-const {
-  required,
-} = ValidationHelpers
 
 /**
  * Component to configure each view type (table (and list), quicklooks and map)
@@ -80,9 +77,6 @@ class ViewTypeConfigurationComponent extends React.Component {
     [UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: ViewTypeConfigurationComponent.allButThumbnail,
     [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: ViewTypeConfigurationComponent.allButThumbnail,
   }
-
-  /** Background layer URL validators */
-  static BACKGROUND_LAYER_URL_VALIDATORS = [ValidationHelpers.required, ValidationHelpers.url]
 
   /** Sort available layer types (to not perform it at render time) */
   static SORTED_MIZAR_LAYER_TYPES = UIDomain.MIZAR_LAYER_TYPES.sort(StringComparison.compare)
@@ -176,24 +170,46 @@ class ViewTypeConfigurationComponent extends React.Component {
     return filter([layerName, isBackgroundText, viewMode, isNotEnabledText], (text) => !isEmpty(text)).join(' - ')
   }
 
+  getFieldValues = (formValues) => {
+    const {
+      pageType, currentTypeNamespace, currentTypeFormValues,
+    } = this.props
+    const { viewNamespace } = ViewTypeConfigurationComponent
+      .getViewFormData(currentTypeNamespace, pageType, currentTypeFormValues)
+    const isMapViewEnabled = get(formValues, `${viewNamespace}.enabled`)
+    const initialViewMode = get(formValues, `${viewNamespace}.initialViewMode`)
+    return {
+      isMapViewEnabled,
+      initialViewMode,
+    }
+  }
+
+  validateLayers = (value, formValues) => {
+    let errors
+    const { isMapViewEnabled, initialViewMode } = this.getFieldValues(formValues)
+    const layersModes = map(filter(value, (layer) => layer.background && layer.enabled), (layer) => layer.layerViewMode)
+    if (isMapViewEnabled && !layersModes.includes(initialViewMode)) {
+      errors = ErrorTypes.INVALID_CONFIGURATION
+    }
+    return errors
+  }
+
   /**
    * @param {*} value URL field value
    * @return error text when URL should be provided (view is enabled),
    */
-  validateBackgroundURL = (value) => {
-    const { currentTypeNamespace, currentTypeFormValues, pageType } = this.props
-    const { viewFormValues } = ViewTypeConfigurationComponent
-      .getViewFormData(currentTypeNamespace, pageType, currentTypeFormValues)
-    return viewFormValues.enabled ? ValidationHelpers.required(value) || ValidationHelpers.url(value) : undefined
+  validateBackgroundURL = (value, formValues) => {
+    const { isMapViewEnabled } = this.getFieldValues(formValues)
+    return isMapViewEnabled ? ValidationHelpers.required(value) || ValidationHelpers.url(value) : undefined
   }
 
-  validateBackgroundConf = (value) => {
-    if (value) {
+  validateBackgroundConf = (value, formValues) => {
+    const { isMapViewEnabled } = this.getFieldValues(formValues)
+    if (isMapViewEnabled && value) {
       try {
         JSON.parse(value)
         return undefined
       } catch (error) {
-        console.error('error', error)
         return 'search.results.form.configuration.result.MAP.background.layer.conf.invalid'
       }
     }
@@ -261,6 +277,7 @@ class ViewTypeConfigurationComponent extends React.Component {
                   component={RenderSelectField}
                   label={formatMessage({ id: 'search.results.form.configuration.result.MAP.engine' })}
                   fullWidth
+                  defaultSelected={UIDomain.MAP_ENGINE_ENUM.CESIUM}
                 >
                   {UIDomain.MAP_ENGINE.map((engine) => (
                     <MenuItem
@@ -271,7 +288,11 @@ class ViewTypeConfigurationComponent extends React.Component {
                 </Field>
               </FieldsGroup>
               <FieldsGroup spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.viewMode.title' })}>
-                <Field name={`${viewNamespace}.initialViewMode`} component={RenderRadio} defaultSelected={UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D}>
+                <Field
+                  name={`${viewNamespace}.initialViewMode`}
+                  component={RenderRadio}
+                  defaultSelected={UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D}
+                >
                   {
                     map(UIDomain.MAP_VIEW_MODES_ENUM, (mapViewMode) => (
                       <RadioButton
@@ -292,8 +313,8 @@ class ViewTypeConfigurationComponent extends React.Component {
                   duplicationTransformation={ViewTypeConfigurationComponent.duplicateLayerInfo}
                   canBeEmpty
                   fieldProps={this.getLayerProps(viewFormValues.mapEngine)}
-                  listHeight="600px"
-                  validate={required}
+                  listHeight="530px"
+                  validate={this.validateLayers}
                 />
               </FieldsGroup>
             </>)
@@ -320,4 +341,5 @@ class ViewTypeConfigurationComponent extends React.Component {
     )
   }
 }
+
 export default ViewTypeConfigurationComponent

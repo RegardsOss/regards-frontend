@@ -143,8 +143,6 @@ describe('[SEARCH RESULTS] Testing ViewTypeConfigurationComponent', () => {
     }
     const enzymeWrapper = shallow(<ViewTypeConfigurationComponent {...props} />, { context })
     // 1 - check initial state
-    assert.isNull(spiedChangeField.fieldName, 'Change field should not have been called (field name)')
-    assert.isNull(spiedChangeField.values, 'Change field should not have been called (values)')
     assert.equal(props.currentTypeFormValues.initialMode, UIDomain.RESULTS_VIEW_MODES_ENUM.MAP, 'Map should be initially selected')
     // 2 - disable this view, check callback and values
     const checkBox = enzymeWrapper.find(Checkbox)

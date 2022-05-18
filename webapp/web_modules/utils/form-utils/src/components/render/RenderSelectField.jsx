@@ -50,7 +50,10 @@ class RenderSelectField extends React.Component {
     if (onSelect) {
       return onSelect(event, index, value, input)
     }
-    return input.onChange(value)
+    input.onChange(value)
+    // force blur event (lost focus event) to correctly populate redux form with touched property
+    // if we dont we never know if a select field is touched
+    return input.onBlur()
   }
 
   render() {
@@ -62,9 +65,10 @@ class RenderSelectField extends React.Component {
     const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
     return (
       <SelectField
+        name={input.name}
+        value={input.value}
         floatingLabelText={label}
         errorText={errorMessage}
-        {...input}
         fullWidth={fullWidth}
         onChange={this.onSelect}
         disabled={disabled}

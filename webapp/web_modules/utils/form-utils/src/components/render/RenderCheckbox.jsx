@@ -35,6 +35,7 @@ export class RenderCheckbox extends React.Component {
     intl: PropTypes.shape({
       formatMessage: PropTypes.func,
     }),
+    onChange: PropTypes.func,
     alwaysShowError: PropTypes.bool, // bypass touched to show some automatic errors
     disabled: PropTypes.bool,
     defaultValue: PropTypes.bool,
@@ -61,10 +62,16 @@ export class RenderCheckbox extends React.Component {
     }
   }
 
-  onChange = () => {
-    const { input } = this.props
+  onChange = (event, value) => {
+    const { input, onChange } = this.props
+    if (onChange) {
+      onChange(event, value, input)
+    }
     // switch the value
-    input.onChange(!input.value)
+    input.onChange(value)
+    // force blur event (lost focus event) to correctly populate redux form with touched property
+    // if we dont we never know if a check box is touched
+    input.onBlur()
   }
 
   render() {

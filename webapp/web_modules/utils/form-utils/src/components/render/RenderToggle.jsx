@@ -24,7 +24,6 @@ class renderToggle extends React.Component {
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     defaultToggled: PropTypes.bool,
-    // fullWidth: PropTypes.bool,
     type: PropTypes.string,
     meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     intl: PropTypes.shape({
@@ -36,6 +35,9 @@ class renderToggle extends React.Component {
     const { input } = this.props
     // switch the value
     input.onChange(!input.value)
+    // force blur event (lost focus event) to correctly populate redux form with touched property
+    // if we dont we never know if a radio button is touched
+    input.onBlur()
   }
 
   render() {
