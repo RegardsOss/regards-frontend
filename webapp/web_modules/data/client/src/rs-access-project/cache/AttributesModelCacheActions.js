@@ -16,30 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BoardComponent } from '@regardsoss/components'
-import { i18nContextType } from '@regardsoss/i18n'
-import ModelsBoardItems from './ModelsBoardItems'
+import { BasicSignalsActions } from '@regardsoss/store-utils'
 
 /**
- * Board to display datamangement module foncionalities.
+ * Redux actions to handle attribute model cache clear.
+ *
+ * @author Théo Lasserre
  */
-class ModelsBoardComponent extends React.Component {
-  static propTypes = {
-    project: PropTypes.string.isRequired,
-    onClearCache: PropTypes.func.isRequired,
+export default class AttributesModelCacheActions extends BasicSignalsActions {
+  static ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/attribute/cache`
+
+  static CLEAR_CACHE_ACTION = 'clearCacheAction'
+
+  constructor(namespace) {
+    super({
+      [AttributesModelCacheActions.CLEAR_CACHE_ACTION]: {
+        entityEndpoint: `${AttributesModelCacheActions.ROOT_ENDPOINT}`,
+        namespace: `${namespace}/clearCache`,
+      },
+    })
   }
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
-  render() {
-    const { project, onClearCache } = this.props
-    const items = ModelsBoardItems(project, this.context.intl, onClearCache)
-    return (
-      <BoardComponent items={items} />
-    )
+  clearCache() {
+    return this.getSubAction(AttributesModelCacheActions.CLEAR_CACHE_ACTION).sendSignal('DELETE', null, {})
   }
 }
-
-export default ModelsBoardComponent

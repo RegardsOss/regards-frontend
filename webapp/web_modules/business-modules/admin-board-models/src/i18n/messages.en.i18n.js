@@ -25,6 +25,10 @@ const messages = {
 
   'data.board.attributemodel.description': 'The models\' common attributes',
   'data.board.attributemodel.title': 'Model attributes',
+  'data.board.attributemodel.clear': 'Clear cache',
+  'data.board.attributemodel.cache.delete': 'Reset attributes model cache',
+  'data.board.attributemodel.delete.confirm': 'Warning : This operation will delete attributes model caches from rs-catalog and rs-order. This action may take seconds to be completed',
+  'data.board.attributemodel.delete.error.message': 'An error occured while reseting attributes model caches',
 
   'data.board.fragment.description': 'Fragments are consistent sets of attributes',
   'data.board.fragment.title': 'Fragments',

@@ -25,6 +25,10 @@ const messages = {
 
   'data.board.attributemodel.description': 'Les attributs communs aux divers modèles',
   'data.board.attributemodel.title': 'Attributs de modèles',
+  'data.board.attributemodel.clear': 'Supprimer le cache',
+  'data.board.attributemodel.cache.delete': 'Réinitialiser le cache des attributs de modèles',
+  'data.board.attributemodel.delete.confirm': 'Attention : Cette opération va supprimer les caches des attributs de modèles sur rs-catalog et rs-order. Cette action peut prendre quelques secondes avant d\'être terminée.',
+  'data.board.attributemodel.delete.error.message': 'Une erreur est survenue durant la réinitialisation du cache des attributs de modèle',
 
   'data.board.fragment.description': 'Les fragments sont des ensembles cohérents d\'attributs',
   'data.board.fragment.title': 'Fragments',

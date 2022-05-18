@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { connect } from '@regardsoss/redux'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import { clearCacheActions } from '../clients/CacheClient'
 import ModelsBoardComponent from './ModelsBoardComponent'
 import messages from '../i18n'
 
@@ -24,10 +26,16 @@ import messages from '../i18n'
  * Main container to render for the Datamanagement module
  */
 class ModuleContainer extends React.Component {
+  static mapDispatchToProps = (dispatch) => ({
+    clearCache: () => dispatch(clearCacheActions.clearCache()),
+  })
+
   static propTypes = {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
+    // From mapDispatchToProps
+    clearCache: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -38,10 +46,10 @@ class ModuleContainer extends React.Component {
     const { project } = this.props.params
     return (
       <I18nProvider messages={messages}>
-        <ModelsBoardComponent project={project} />
+        <ModelsBoardComponent project={project} onClearCache={this.props.clearCache} />
       </I18nProvider>
     )
   }
 }
 
-export default ModuleContainer
+export default connect(null, ModuleContainer.mapDispatchToProps)(ModuleContainer)

@@ -18,17 +18,20 @@
  **/
 import ViewLinesIcon from 'mdi-material-ui/ViewHeadline'
 import AddIcon from 'mdi-material-ui/PlusCircle'
+import DeleteIcon from 'mdi-material-ui/Delete'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { modelDependencies } from '@regardsoss/admin-data-model-management'
 import { attributeModelDependencies } from '@regardsoss/admin-data-attributemodel-management'
 import { fragmentDependencies } from '@regardsoss/admin-data-fragment-management'
 import { attributePluginDependencies } from '@regardsoss/admin-data-attribute-plugins-management'
+import { clearCacheActions, CLEAR_CACHE_ACTION } from '../clients/CacheClient'
 
 /**
  * BoardItems configuration for Datamanagement module
  * @param projectName
  * @param intl
  */
-const items = (projectName, intl) => [
+const items = (projectName, intl, onClearCache) => [
   {
     title: intl.formatMessage({ id: 'data.board.model.title' }),
     description: intl.formatMessage({ id: 'data.board.model.description' }),
@@ -64,6 +67,16 @@ const items = (projectName, intl) => [
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.add.tooltip' }),
         hateoasDependencies: attributeModelDependencies.addDependencies,
+      },
+      {
+        icon: <DeleteIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.attributemodel.cache.delete' }),
+        confirmMessage: intl.formatMessage({ id: 'data.board.attributemodel.delete.confirm' }),
+        errorMessage: intl.formatMessage({ id: 'data.board.attributemodel.delete.error.message' }),
+        touchTapAction: onClearCache,
+        hateoasDependencies: [
+          clearCacheActions.getSubAction(CLEAR_CACHE_ACTION).getDependency(RequestVerbEnum.DELETE),
+        ],
       },
     ],
   },

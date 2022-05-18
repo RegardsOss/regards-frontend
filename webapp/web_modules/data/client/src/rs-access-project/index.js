@@ -89,3 +89,4 @@ export { default as getUploadToponymReducer } from './uploadToponym/UploadTopony
 export { default as getUploadToponymSelectors } from './uploadToponym/UploadToponymSelectors'
 
 export { default as UpdateSettingActions } from './user/UpdateSettingActions'
+export { default as AttributesModelCacheActions } from './cache/AttributesModelCacheActions'
