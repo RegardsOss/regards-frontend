@@ -68,7 +68,10 @@ class StorageActionsComponent extends React.Component {
 
   onRetryErrors = () => {
     const { relaunchStorages, sessionStep } = this.props
-    return relaunchStorages(sessionStep.source, sessionStep.session)
+    return relaunchStorages({
+      source: sessionStep.source,
+      session: sessionStep.session,
+    })
   }
 
   onClick = () => {

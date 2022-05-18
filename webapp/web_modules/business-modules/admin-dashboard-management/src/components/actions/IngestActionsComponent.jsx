@@ -55,7 +55,10 @@ class IngestActionsComponent extends React.Component {
 
   onRetryErrors = () => {
     const { relaunchAIP, sessionStep } = this.props
-    relaunchAIP(sessionStep.source, sessionStep.session)
+    relaunchAIP({
+      source: sessionStep.source,
+      session: sessionStep.session,
+    })
   }
 
   toggleRetryErrorsDialog = () => {

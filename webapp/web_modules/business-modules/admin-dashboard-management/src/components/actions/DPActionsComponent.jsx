@@ -49,7 +49,10 @@ class DPActionsComponent extends React.Component {
 
   onRetryErrors = () => {
     const { relaunchProducts, sessionStep } = this.props
-    return relaunchProducts(sessionStep.source, sessionStep.session)
+    return relaunchProducts({
+      source: sessionStep.source,
+      session: sessionStep.session,
+    })
   }
 
   onSeeWaiting = () => {
