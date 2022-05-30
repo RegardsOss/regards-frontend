@@ -68,7 +68,7 @@ class CriterionComponent extends React.Component {
        <tr>
          {/* 1. label */}
          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
-           {`${label[intl.locale]} - [${lowerBound.name}, ${upperBound.name}]`}
+           {`${label[intl.locale]}`}
          </td>
          {/* 2. Comparison selector */}
          <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
