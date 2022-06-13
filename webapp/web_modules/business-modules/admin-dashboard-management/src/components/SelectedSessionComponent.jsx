@@ -20,10 +20,9 @@ import filter from 'lodash/filter'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
 import { AdminDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
-import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
+import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import AcquisitionComponent from './AcquisitionComponent'
@@ -45,7 +44,6 @@ class SelectedSessionComponent extends React.Component {
     relaunchAIP: PropTypes.func.isRequired,
     relaunchStorages: PropTypes.func.isRequired,
     retryWorkerRequests: PropTypes.func.isRequired,
-    deleteSession: PropTypes.func.isRequired,
     retryFEMRequests: PropTypes.func.isRequired,
   }
 
@@ -54,45 +52,11 @@ class SelectedSessionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    isDeleteDialogOpen: false,
-  }
-
   getSessionSteps = (selectedSession, stepType) => (filter(selectedSession.content.steps, (step) => (step.type === stepType)))
-
-  toggleDeleteDialog = () => {
-    const { isDeleteDialogOpen } = this.state
-    this.setState({
-      isDeleteDialogOpen: !isDeleteDialogOpen,
-    })
-  }
-
-  handleDeleteSession = () => {
-    const { selectedSession, deleteSession } = this.props
-    deleteSession(selectedSession.content.id)
-  }
 
   handleCloseSessionSelected = () => {
     const { onSelected } = this.props
     onSelected(null, ENTITY_ENUM.SESSION)
-  }
-
-  renderDeleteDialog = () => {
-    const { intl: { formatMessage } } = this.context
-    const {
-      selectedSession,
-    } = this.props
-    const { isDeleteDialogOpen } = this.state
-    return (
-      <ConfirmDialogComponent
-        dialogType={ConfirmDialogComponentTypes.DELETE}
-        title={formatMessage({ id: 'dashboard.selectedsession.dialog.delete.title' }, { sessionName: selectedSession.content.name })}
-        message={formatMessage({ id: 'dashboard.selectedsession.dialog.delete.message' })}
-        onConfirm={this.handleDeleteSession}
-        open={isDeleteDialogOpen}
-        onClose={this.toggleDeleteDialog}
-      />
-    )
   }
 
   render() {
@@ -106,7 +70,7 @@ class SelectedSessionComponent extends React.Component {
           headerDivStyle, cardActionDivStyle,
         },
         selectedSessionStyle: {
-          deleteButtonStyle, cardTextStyle,
+          cardTextStyle,
         },
       },
     } = this.context
@@ -117,11 +81,6 @@ class SelectedSessionComponent extends React.Component {
             title={formatMessage({ id: 'dashboard.selectedsession.title' }, { source: selectedSession.content.source, session: selectedSession.content.name })}
           />
           <CardActions style={cardActionDivStyle}>
-            <FlatButton
-              label={formatMessage({ id: 'dashboard.selectedsession.delete' })}
-              style={deleteButtonStyle}
-              onClick={this.toggleDeleteDialog}
-            />
             <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.close' })}
               mainButtonType="submit"
@@ -143,16 +102,13 @@ class SelectedSessionComponent extends React.Component {
             retryFEMRequests={retryFEMRequests}
           />
           <ArchivalComponent
-            project={project}
             sessionSteps={this.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE)}
             relaunchStorages={relaunchStorages}
           />
           <DiffusionComponent
-            project={project}
             sessionSteps={this.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.DISSEMINATION)}
           />
         </CardText>
-        {this.renderDeleteDialog()}
       </Card>
     )
   }

@@ -18,7 +18,6 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
 import { CardActionsComponent } from '@regardsoss/components'
 import { AdminDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
@@ -131,16 +130,12 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
       relaunchAIP: () => { },
       relaunchStorages: () => { },
       retryWorkerRequests: () => { },
-      deleteSession: () => { },
       retryFEMRequests: () => { },
     }
     const enzymeWrapper = shallow(<SelectedSessionComponent {...props} />, { context })
 
     const cardActionWrapper = enzymeWrapper.find(CardActionsComponent)
     assert.lengthOf(cardActionWrapper, 1, 'There should be 1 CardActionsComponent')
-
-    const flatButtonWrapper = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(flatButtonWrapper, 1, 'There should be a FlatButton')
 
     const acquisitionWrapper = enzymeWrapper.find(AcquisitionComponent)
     assert.lengthOf(acquisitionWrapper, 1, 'There should be a AcquisitionComponent')
@@ -163,7 +158,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     const storageWrapper = enzymeWrapper.find(ArchivalComponent)
     assert.lengthOf(storageWrapper, 1, 'There should be a ArchivalComponent')
     testSuiteHelpers.assertWrapperProperties(storageWrapper, {
-      project: props.project,
       sessionSteps: enzymeWrapper.instance().getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE),
       relaunchStorages: props.relaunchStorages,
     }, 'Component should define the expected properties')
@@ -171,7 +165,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     const diffusionWrapper = enzymeWrapper.find(DiffusionComponent)
     assert.lengthOf(diffusionWrapper, 1, 'There should be a DiffusionComponent')
     testSuiteHelpers.assertWrapperProperties(diffusionWrapper, {
-      project: props.project,
       sessionSteps: enzymeWrapper.instance().getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.DISSEMINATION),
     }, 'Component should define the expected properties')
   })

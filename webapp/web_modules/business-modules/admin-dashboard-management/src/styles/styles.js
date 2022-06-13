@@ -278,10 +278,6 @@ const dashboardManagementStyles = (theme) => ({
       padding: '5px',
       color: '#d5d53b',
     },
-    deleteButtonStyle: {
-      marginRight: '10px',
-      color: 'red',
-    },
     propertiesDivStyle: {
       marginTop: '-22px',
       lineHeight: '20px',

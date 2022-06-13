@@ -24,7 +24,7 @@ import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import {
   sessionsActions, sessionsRelaunchProductActions, sessionsRelaunchAIPActions,
-  sessionDeleteActions, storagesRelaunchActions, requestRetryActions,
+  storagesRelaunchActions, requestRetryActions,
 } from '../clients/SessionsClient'
 import { selectedSessionActions } from '../clients/SelectedSessionClient'
 import { sourcesActions } from '../clients/SourcesClient'
@@ -50,7 +50,6 @@ export class DashboardContainer extends React.Component {
     relaunchProducts: PropTypes.func.isRequired,
     relaunchStorages: PropTypes.func.isRequired,
     relaunchAIP: PropTypes.func.isRequired,
-    deleteSession: PropTypes.func.isRequired, // Delete products of a session
     retryFEMRequests: PropTypes.func.isRequired,
     fetchSelectedSession: PropTypes.func.isRequired,
     flushSelectedSession: PropTypes.func.isRequired,
@@ -74,7 +73,6 @@ export class DashboardContainer extends React.Component {
     relaunchProducts: (payload) => dispatch(sessionsRelaunchProductActions.relaunchProducts(payload.source, payload.session)),
     relaunchAIP: (payload) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(payload.source, payload.session)),
     relaunchStorages: (payload) => dispatch(storagesRelaunchActions.relaunchStorages(payload.source, payload.session)),
-    deleteSession: (sessionId) => dispatch(sessionDeleteActions.deleteSession(sessionId)),
     retryFEMRequests: (payload, type) => dispatch(requestRetryActions.sendSignal('POST', payload, { type })),
     retryWorkerRequests: (payload) => dispatch(requestSignalsActions.retry(payload)),
     displayMessage: (message) => dispatch(ApplicationErrorAction.throwError(message)),
@@ -118,11 +116,6 @@ export class DashboardContainer extends React.Component {
     })
   }
 
-  onDeleteSession = (sessionId) => {
-    const { deleteSession } = this.props
-    this.dispatchAction(deleteSession, sessionId)
-  }
-
   onRelaunchProducts = (payload) => {
     const { relaunchProducts } = this.props
     this.dispatchAction(relaunchProducts, payload)
@@ -157,7 +150,6 @@ export class DashboardContainer extends React.Component {
         project={project}
         relaunchProducts={this.onRelaunchProducts}
         relaunchAIP={this.onRelaunchAIP}
-        deleteSession={this.onDeleteSession}
         relaunchStorages={this.onRelaunchStorages}
         getBackURL={this.getBackURL}
         onRefresh={this.onRefresh}

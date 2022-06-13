@@ -49,7 +49,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       relaunchAIP: () => { },
       relaunchStorages: () => { },
       retryWorkerRequests: () => { },
-      deleteSession: () => { },
       fetchSelectedSession: () => { },
       getBackURL: () => { },
       onRefresh: () => { },
@@ -94,7 +93,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       relaunchAIP: props.relaunchAIP,
       retryWorkerRequests: props.retryWorkerRequests,
       relaunchStorages: props.relaunchStorages,
-      deleteSession: props.deleteSession,
       retryFEMRequests: props.retryFEMRequests,
     }, 'Component should define the expected properties')
   })

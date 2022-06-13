@@ -36,7 +36,6 @@ export class SelectedSessionContainer extends React.Component {
     relaunchAIP: PropTypes.func.isRequired,
     relaunchStorages: PropTypes.func.isRequired,
     retryWorkerRequests: PropTypes.func.isRequired,
-    deleteSession: PropTypes.func.isRequired,
     retryFEMRequests: PropTypes.func.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
@@ -63,7 +62,7 @@ export class SelectedSessionContainer extends React.Component {
   render() {
     const {
       project, onSelected, relaunchProducts,
-      relaunchAIP, retryWorkerRequests, relaunchStorages, deleteSession, retryFEMRequests, selectedSession,
+      relaunchAIP, retryWorkerRequests, relaunchStorages, retryFEMRequests, selectedSession,
     } = this.props
     return (
       !isEmpty(selectedSession)
@@ -75,7 +74,6 @@ export class SelectedSessionContainer extends React.Component {
             relaunchAIP={relaunchAIP}
             retryWorkerRequests={retryWorkerRequests}
             relaunchStorages={relaunchStorages}
-            deleteSession={deleteSession}
             retryFEMRequests={retryFEMRequests}
         /> : null
     )

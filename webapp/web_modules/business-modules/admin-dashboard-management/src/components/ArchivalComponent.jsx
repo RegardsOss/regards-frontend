@@ -42,7 +42,6 @@ const {
  */
 class ArchivalComponent extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
     sessionSteps: PropTypes.arrayOf(AdminShapes.SessionStep),
     relaunchStorages: PropTypes.func.isRequired,
   }
@@ -54,7 +53,7 @@ class ArchivalComponent extends React.Component {
 
   buildStep = (sessionStep) => {
     const {
-      project, relaunchStorages,
+      relaunchStorages,
     } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
@@ -85,7 +84,6 @@ class ArchivalComponent extends React.Component {
           </div>
         </ScrollArea>
         <StorageActionsComponent
-          project={project}
           sessionStep={sessionStep}
           relaunchStorages={relaunchStorages}
         />

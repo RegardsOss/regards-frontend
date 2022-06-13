@@ -28,8 +28,6 @@ import { themeContextType } from '@regardsoss/theme'
 import { ScrollArea } from '@regardsoss/adapters'
 import { i18nContextType } from '@regardsoss/i18n'
 import DisplayPropertiesComponent from './DisplayPropertiesComponent'
-import DiffusionActionsComponent from './actions/DiffusionActionsComponent'
-import ExternalDiffusionActionsComponent from './actions/ExternalDiffusionActionsComponent'
 import DisplayExternalDiffusionComponent from './DisplayExternalDiffusionComponent'
 import { CATALOG_PRODUCTS_PROPERTIES } from '../domain/catalogProperties'
 import { DISSEMINATION_TYPE } from '../domain/disseminationTypes'
@@ -46,7 +44,6 @@ const {
  */
 class DiffusionComponent extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
     sessionSteps: PropTypes.arrayOf(AdminShapes.SessionStep),
   }
 
@@ -58,7 +55,6 @@ class DiffusionComponent extends React.Component {
   getStyle = (stepId, externalStyle, catalogStyle) => stepId === DISSEMINATION_TYPE.EXTERNAL_DIFFUSION ? externalStyle : catalogStyle
 
   buildStep = (sessionStep) => {
-    const { project } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
         stepStyle: {
@@ -93,18 +89,6 @@ class DiffusionComponent extends React.Component {
             }
           </div>
         </ScrollArea>
-        <div>
-          {
-            currentSessionStep.stepId === DISSEMINATION_TYPE.EXTERNAL_DIFFUSION
-              ? <ExternalDiffusionActionsComponent
-                  project={project}
-                  sessionStep={sessionStep}
-              />
-              : <DiffusionActionsComponent
-                  project={project}
-              />
-          }
-        </div>
       </div>
     )
   }

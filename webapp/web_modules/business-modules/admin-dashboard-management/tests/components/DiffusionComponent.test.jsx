@@ -22,8 +22,6 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
 import DisplayExternalDiffusionComponent from '../../src/components/DisplayExternalDiffusionComponent'
 import DisplayPropertiesComponent from '../../src/components/DisplayPropertiesComponent'
-import DiffusionActionsComponent from '../../src/components/actions/DiffusionActionsComponent'
-import ExternalDiffusionActionsComponent from '../../src/components/actions/ExternalDiffusionActionsComponent'
 import DiffusionComponent from '../../src/components/DiffusionComponent'
 import styles from '../../src/styles'
 
@@ -67,9 +65,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DiffusionComponent', () => {
 
     const propertiesComponentWrapper = enzymeWrapper.find(DisplayPropertiesComponent)
     assert.lengthOf(propertiesComponentWrapper, 1, 'There should be a DisplayPropertiesComponent')
-
-    const actionscomponentWrapper = enzymeWrapper.find(DiffusionActionsComponent)
-    assert.lengthOf(actionscomponentWrapper, 1, 'There should be a DiffusionActionsComponent')
   })
   it('should render correctly an EXTERNAL DIFFUSION step', () => {
     const props = {
@@ -103,8 +98,5 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DiffusionComponent', () => {
 
     const externalDiffusionComponentWrapper = enzymeWrapper.find(DisplayExternalDiffusionComponent)
     assert.lengthOf(externalDiffusionComponentWrapper, 1, 'There should be a DisplayExternalDiffusionComponent')
-
-    const actionsComponentWrapper = enzymeWrapper.find(ExternalDiffusionActionsComponent)
-    assert.lengthOf(actionsComponentWrapper, 1, 'There should be a ExternalDiffusionActionsComponent')
   })
 })

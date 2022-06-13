@@ -51,8 +51,6 @@ class IngestActionsComponent extends React.Component {
 
   onSeeReferenced = () => browserHistory.push(`/admin/${this.props.project}/data/acquisition/oais/featureManager?display=packages&sessionOwner=${encodeURIComponent(this.props.sessionStep.source)}&session=${encodeURIComponent(this.props.sessionStep.session)}`)
 
-  onSeeWaiting = () => browserHistory.push(this.getIngestURL(IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE))
-
   onRetryErrors = () => {
     const { relaunchAIP, sessionStep } = this.props
     relaunchAIP({
@@ -93,7 +91,6 @@ class IngestActionsComponent extends React.Component {
       },
     } = this.context
     const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
-    const nbWaiting = get(sessionStep, `state.${ICON_TYPE_ENUM.WAITING}`, 0)
 
     return (<div style={cardButtonStyle}>
       <RaisedButton
@@ -103,16 +100,6 @@ class IngestActionsComponent extends React.Component {
         style={raisedListStyle}
         labelStyle={raisedListLabelStyle}
       />
-      {
-        nbWaiting !== 0
-          ? <RaisedButton
-              onClick={this.onSeeWaiting}
-              label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.see-waiting' })}
-              primary
-              style={raisedListStyle}
-              labelStyle={raisedListLabelStyle}
-          /> : null
-      }
       {
         nbErrors !== 0
           ? <div style={cardButtonStyle}>

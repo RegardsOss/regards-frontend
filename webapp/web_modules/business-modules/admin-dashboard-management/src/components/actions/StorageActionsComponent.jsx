@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { browserHistory } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -30,7 +29,6 @@ import { ICON_TYPE_ENUM } from '../../domain/iconType'
  */
 class StorageActionsComponent extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
     sessionStep: AdminShapes.SessionStep,
     relaunchStorages: PropTypes.func.isRequired,
   }
@@ -74,11 +72,6 @@ class StorageActionsComponent extends React.Component {
     })
   }
 
-  onClick = () => {
-    const { project } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages`)
-  }
-
   render() {
     const { sessionStep } = this.props
     const {
@@ -91,13 +84,6 @@ class StorageActionsComponent extends React.Component {
     const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
     return (
       <div style={cardButtonStyle}>
-        <RaisedButton
-          onClick={this.onClick}
-          label={formatMessage({ id: 'dashboard.selectedsession.STORAGE.archival.button.see-stockage' })}
-          primary
-          style={raisedListStyle}
-          labelStyle={raisedListLabelStyle}
-        />
         {
         nbErrors !== 0
           ? <RaisedButton

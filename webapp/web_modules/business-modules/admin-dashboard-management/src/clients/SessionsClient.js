@@ -32,6 +32,5 @@ export const sessionsSelectors = AdminClient.getSessionsSelectors(SESSIONS_STORE
 
 export const sessionsRelaunchProductActions = new AdminClient.SessionsRelaunchProductActions(`${SESSIONS_NAMESPACE}/relaunch-products`)
 export const sessionsRelaunchAIPActions = new AdminClient.SessionsRelaunchAIPActions(`${SESSIONS_NAMESPACE}/relaunch-aip`)
-export const sessionDeleteActions = new AdminClient.SessionsDeleteActions(`${SESSIONS_NAMESPACE}/delete-session`)
 export const storagesRelaunchActions = new AdminClient.SessionsRelaunchStoragesActions(`${SESSIONS_NAMESPACE}/relaunch-storages`)
 export const requestRetryActions = new FeatureManagementClient.RequestRetryActions(`${SESSIONS_NAMESPACE}/relaunch-featureManager`)

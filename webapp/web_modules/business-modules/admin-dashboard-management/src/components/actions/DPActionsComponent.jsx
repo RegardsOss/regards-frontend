@@ -16,10 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
 import get from 'lodash/get'
 import RaisedButton from 'material-ui/RaisedButton'
-import { IngestDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes, PositionedDialog } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -32,7 +30,6 @@ import { ICON_TYPE_ENUM } from '../../domain/iconType'
   */
 class DPActionsComponent extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
     sessionStep: AdminShapes.SessionStep,
     relaunchProducts: PropTypes.func.isRequired,
   }
@@ -53,11 +50,6 @@ class DPActionsComponent extends React.Component {
       source: sessionStep.source,
       session: sessionStep.session,
     })
-  }
-
-  onSeeWaiting = () => {
-    const { sessionStep, project } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=requests&sessionOwner=${encodeURIComponent(sessionStep.source)}&session=${encodeURIComponent(sessionStep.session)}&state=${IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE}`)
   }
 
   toggleRetryErrorsDialog = () => {
@@ -118,7 +110,6 @@ class DPActionsComponent extends React.Component {
   render() {
     const { sessionStep } = this.props
     const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
-    const nbWaiting = get(sessionStep, `state.${ICON_TYPE_ENUM.WAITING}`, 0)
     const {
       intl: { formatMessage }, moduleTheme: {
         stepStyle: {
@@ -128,16 +119,6 @@ class DPActionsComponent extends React.Component {
     } = this.context
     return (
       <div style={cardButtonStyle}>
-        {
-          nbWaiting !== 0
-            ? <RaisedButton
-                onClick={this.onSeeWaiting}
-                label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.button.see-waiting' })}
-                primary
-                style={raisedListStyle}
-                labelStyle={raisedListLabelStyle}
-            /> : null
-        }
         {
           nbErrors !== 0
             ? <div style={cardButtonStyle}>

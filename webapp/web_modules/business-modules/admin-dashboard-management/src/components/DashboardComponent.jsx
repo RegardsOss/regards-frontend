@@ -41,7 +41,6 @@ class DashboardComponent extends React.Component {
     relaunchAIP: PropTypes.func.isRequired,
     relaunchStorages: PropTypes.func.isRequired,
     retryWorkerRequests: PropTypes.func.isRequired,
-    deleteSession: PropTypes.func.isRequired,
     getBackURL: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     retryFEMRequests: PropTypes.func.isRequired,
@@ -198,7 +197,7 @@ class DashboardComponent extends React.Component {
     const {
       project, getBackURL, relaunchProducts, relaunchAIP, retryWorkerRequests,
       onRefresh, relaunchStorages,
-      retryFEMRequests, deleteSession, fetchSelectedSession,
+      retryFEMRequests, fetchSelectedSession,
     } = this.props
     const {
       intl: { formatMessage },
@@ -257,7 +256,6 @@ class DashboardComponent extends React.Component {
               relaunchAIP={relaunchAIP}
               retryWorkerRequests={retryWorkerRequests}
               relaunchStorages={relaunchStorages}
-              deleteSession={deleteSession}
               retryFEMRequests={retryFEMRequests}
             />
           </div>

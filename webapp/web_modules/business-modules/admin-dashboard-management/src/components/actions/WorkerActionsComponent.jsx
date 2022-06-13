@@ -49,8 +49,6 @@ class WorkerActionsComponent extends React.Component {
 
   onSeeErrors = () => browserHistory.push(this.getWorkerURL(WorkerDomain.REQUEST_STATUS_ENUM.ERROR))
 
-  onSeeWaiting = () => browserHistory.push(this.getWorkerURL(WorkerDomain.REQUEST_STATUS_ENUM.NO_WORKER_AVAILABLE))
-
   onRetryErrors = () => {
     const { retryWorkerRequests } = this.props
     return retryWorkerRequests({
@@ -93,20 +91,8 @@ class WorkerActionsComponent extends React.Component {
       },
     } = this.context
     const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
-    const nbWaiting = get(sessionStep, `state.${ICON_TYPE_ENUM.WAITING}`, 0)
     return (
       <div style={cardButtonStyle}>
-        {
-          nbWaiting !== 0
-            ? <RaisedButton
-                onClick={this.onSeeWaiting}
-                label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.workers.button.see-waiting' })}
-                primary
-                style={raisedListStyle}
-                labelStyle={raisedListLabelStyle}
-            />
-            : null
-        }
         {
           nbErrors !== 0
             ? <div style={cardButtonStyle}>

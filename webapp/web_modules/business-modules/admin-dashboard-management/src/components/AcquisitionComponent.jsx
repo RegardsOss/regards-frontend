@@ -135,7 +135,6 @@ class AcquisitionComponent extends React.Component {
                 retryWorkerRequests={retryWorkerRequests}
             />
             : <DPActionsComponent
-                project={project}
                 sessionStep={currentSessionStep}
                 relaunchProducts={relaunchProducts}
             />
