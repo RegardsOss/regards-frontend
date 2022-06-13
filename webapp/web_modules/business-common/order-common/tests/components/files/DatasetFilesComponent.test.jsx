@@ -19,6 +19,7 @@
 import values from 'lodash/values'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import FlatButton from 'material-ui/FlatButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { OrderClient } from '@regardsoss/client'
 import {
@@ -58,6 +59,7 @@ describe('[Order Common] Testing DatasetFilesComponent', () => {
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
     assert.lengthOf(enzymeWrapper.find(OrderDatasetsCountHeaderMessage), 1, 'There should be the header message')
     assert.lengthOf(enzymeWrapper.find(AutoRefreshPageableTableHOC), 1, 'There should be the auto refresh data HOC')
+    assert.lengthOf(enzymeWrapper.find(FlatButton), 1, 'There should be the auto refresh button')
     assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be the column visibiltiy option')
 
     const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
@@ -81,6 +83,7 @@ describe('[Order Common] Testing DatasetFilesComponent', () => {
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
     assert.lengthOf(enzymeWrapper.find(OrderDatasetsCountHeaderMessage), 1, 'There should be the header message')
     assert.lengthOf(enzymeWrapper.find(AutoRefreshPageableTableHOC), 1, 'There should be the auto refresh data HOC')
+    assert.lengthOf(enzymeWrapper.find(FlatButton), 1, 'There should be the auto refresh button')
     assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be the column visibiltiy option')
 
     const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
@@ -104,6 +107,7 @@ describe('[Order Common] Testing DatasetFilesComponent', () => {
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
     assert.lengthOf(enzymeWrapper.find(OrderDatasetsCountHeaderMessage), 1, 'There should be the header message')
     assert.lengthOf(enzymeWrapper.find(AutoRefreshPageableTableHOC), 1, 'There should be the auto refresh data HOC')
+    assert.lengthOf(enzymeWrapper.find(FlatButton), 1, 'There should be the auto refresh button')
     assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be the column visibiltiy option')
 
     const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
@@ -127,6 +131,7 @@ describe('[Order Common] Testing DatasetFilesComponent', () => {
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
     assert.lengthOf(enzymeWrapper.find(OrderDatasetsCountHeaderMessage), 1, 'There should be the header message')
     assert.lengthOf(enzymeWrapper.find(AutoRefreshPageableTableHOC), 1, 'There should be the auto refresh data HOC')
+    assert.lengthOf(enzymeWrapper.find(FlatButton), 1, 'There should be the auto refresh button')
     assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be the column visibiltiy option')
 
     const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)

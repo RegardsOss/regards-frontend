@@ -21,6 +21,7 @@ import values from 'lodash/values'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
+import RefreshCircle from 'mdi-material-ui/RefreshCircle'
 import Enable from 'mdi-material-ui/Play'
 import Disable from 'mdi-material-ui/Stop'
 import Filter from 'mdi-material-ui/Filter'
@@ -49,6 +50,8 @@ class AcquisitionProcessingChainListFiltersComponent extends React.Component {
     applyFilters: PropTypes.func.isRequired,
     onMultiToggleSelection: PropTypes.func.isRequired,
     isOneCheckboxToggled: PropTypes.bool.isRequired,
+    onToggleAutoRefresh: PropTypes.func.isRequired,
+    isAutoRefreshEnabled: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {}
@@ -236,7 +239,7 @@ class AcquisitionProcessingChainListFiltersComponent extends React.Component {
   }
 
   renderActionsLine = () => {
-    const { isOneCheckboxToggled } = this.props
+    const { isOneCheckboxToggled, onToggleAutoRefresh, isAutoRefreshEnabled } = this.props
     return (
       <TableHeaderLine key="options">
         <TableHeaderOptionsArea>
@@ -256,6 +259,12 @@ class AcquisitionProcessingChainListFiltersComponent extends React.Component {
         </TableHeaderOptionsArea>
         <TableHeaderOptionsArea>
           <TableHeaderOptionGroup>
+            <FlatButton
+              icon={<RefreshCircle />}
+              label={this.context.intl.formatMessage({ id: 'acquisition-chain.list.refresh.auto.label' })}
+              secondary={!isAutoRefreshEnabled}
+              onClick={onToggleAutoRefresh}
+            />
             <ResourceIconAction
               label={this.context.intl.formatMessage({ id: 'acquisition-chain.list.disable-selected.button' })}
               icon={<Disable />}

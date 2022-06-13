@@ -18,6 +18,8 @@
  **/
 import get from 'lodash/get'
 import values from 'lodash/values'
+import FlatButton from 'material-ui/FlatButton'
+import RefreshCircle from 'mdi-material-ui/RefreshCircle'
 import NoFileIcon from 'mdi-material-ui/FolderOutline'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { OrderClient } from '@regardsoss/client'
@@ -99,6 +101,16 @@ class DatasetFilesComponent extends React.Component {
     return get(file, 'content.source')
   }
 
+  state = {
+    isAutoRefreshEnabled: true,
+  }
+
+  onToggleAutoRefresh = () => {
+    this.setState({
+      isAutoRefreshEnabled: !this.state.isAutoRefreshEnabled,
+    })
+  }
+
   /**
    * Builds table columns
    * @return columns
@@ -149,6 +161,7 @@ class DatasetFilesComponent extends React.Component {
       isFetching, totalFilesCount, onChangeColumnsVisibility, pathParams, orderFilesActions, orderFilesSelectors,
       displayMode,
     } = this.props
+    const { isAutoRefreshEnabled } = this.state
     const { muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = this.buildColumns()
@@ -161,6 +174,7 @@ class DatasetFilesComponent extends React.Component {
           pageableTableActions={orderFilesActions}
           pageableTableSelectors={orderFilesSelectors}
           pathParams={pathParams}
+          enableAutoRefresh={isAutoRefreshEnabled}
         />
         <TableHeaderLine>
           {/* 1 - commands count */}
@@ -172,6 +186,12 @@ class DatasetFilesComponent extends React.Component {
           {/* 3 - table options  */}
           <TableHeaderOptionsArea>
             <TableHeaderOptionGroup>
+              <FlatButton
+                icon={<RefreshCircle />}
+                label={this.context.intl.formatMessage({ id: 'order.list.refresh.auto.label' })}
+                secondary={!isAutoRefreshEnabled}
+                onClick={this.onToggleAutoRefresh}
+              />
               {/* columns visibility configuration  */}
               <TableColumnsVisibilityOption
                 columns={columns}

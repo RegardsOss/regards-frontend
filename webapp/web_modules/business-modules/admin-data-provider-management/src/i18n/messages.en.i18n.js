@@ -157,6 +157,7 @@ const messages = {
   'acquisition-chain.list.refresh.button': 'Refresh',
   'acquisition-chain.list.enable-selected.button': 'Enable selected chains',
   'acquisition-chain.list.disable-selected.button': 'Disable selected chains',
+  'acquisition-chain.list.refresh.auto.label': 'Auto Refresh',
   'acquisition-chain.list.back.button': 'Cancel',
 
   //3. Sessions Monitor

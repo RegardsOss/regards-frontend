@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { PageableInfiniteTableContainer } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, AutoRefreshPageableTableHOC } from '@regardsoss/components'
 import { AcquisitionProcessingChainListComponent } from '../../../src/components/acquisitionChain/AcquisitionProcessingChainListComponent'
 import AcquisitionProcessingChainListFiltersComponent from '../../../src/components/acquisitionChain/AcquisitionProcessingChainListFiltersComponent'
 import styles from '../../../src/styles/styles'
@@ -62,6 +62,12 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainLis
     const enzymeWrapper = shallow(<AcquisitionProcessingChainListComponent {...props} />, { context })
     const filters = enzymeWrapper.find(AcquisitionProcessingChainListFiltersComponent)
     assert.equal(filters.length, 1, 'The filters should be rendered')
+    const autoRefreshComponent = enzymeWrapper.find(AutoRefreshPageableTableHOC)
+    assert.equal(autoRefreshComponent.length, 1, 'The AutoRefreshPageableTableHOC should be rendered')
+    testSuiteHelpers.assertWrapperProperties(autoRefreshComponent, {
+      requestParams: enzymeWrapper.instance().state.requestParams,
+      enableAutoRefresh: enzymeWrapper.instance().state.isAutoRefreshEnabled,
+    }, 'The AutoRefreshPageableTableHOC should be correctly configured')
     const tables = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.equal(tables.length, 1, 'The PageableInfiniteTableContainer should be rendered')
     const table = tables.at(0)

@@ -27,7 +27,7 @@ import TextField from 'material-ui/TextField'
 import {
   PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingSelectAllAndResults,
   NoContentComponent, CardActionsComponent, FormErrorMessage, Breadcrumb, TableDeleteOption, ConfirmDialogComponent,
-  ConfirmDialogComponentTypes, PositionedDialog, HelpMessageComponent,
+  ConfirmDialogComponentTypes, PositionedDialog, HelpMessageComponent, AutoRefreshPageableTableHOC,
 } from '@regardsoss/components'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -124,13 +124,14 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
     runLabel: null,
     runId: null,
     sessionRename: '',
+    isAutoRefreshEnabled: true,
   }
 
   /**
    * At component mount, run acquisition chains auto refresh
    */
   componentDidMount = () => {
-    this.autoRefresh()
+    this.handleRefresh()
   }
 
   /**
@@ -149,15 +150,9 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
     this.setState(nextState)
   }
 
-  /**
-   * Use javascript setTimeout to run auto refresh of acquisition chains
-   */
-  autoRefresh = () => {
-    if (this.timeout) {
-      clearTimeout(this.timeout)
-    }
-    this.handleRefresh().then(() => {
-      this.timeout = setTimeout(this.autoRefresh, AcquisitionProcessingChainListComponent.AUTO_REFRESH_PERIOD)
+  onToggleAutoRefresh = () => {
+    this.setState({
+      isAutoRefreshEnabled: !this.state.isAutoRefreshEnabled,
     })
   }
 
@@ -190,7 +185,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
     this.props.onRunChain(chainId, sessionName).then(
       (ActionResult) => {
         if (!ActionResult.error) {
-          this.autoRefresh()
+          this.handleRefresh()
         } else {
           this.setState({
             errorMessage: this.context.intl.formatMessage({ id: 'acquisition-chain.list.run.error' }, { label, chainId }),
@@ -204,7 +199,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
     this.props.onStopChain(chainId).then(
       (ActionResult) => {
         if (!ActionResult.error) {
-          this.autoRefresh()
+          this.handleRefresh()
         } else {
           this.setState({
             errorMessage: this.context.intl.formatMessage({ id: 'acquisition-chain.list.stop.error' }, { label, chainId }),
@@ -329,7 +324,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
       onMultiToggleSelection, isOneCheckboxToggled, hasAccess, onDuplicate,
     } = this.props
     const {
-      errorMessage, columnsSorting, requestParams, sessionRename,
+      errorMessage, columnsSorting, requestParams, sessionRename, isAutoRefreshEnabled,
     } = this.state
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
@@ -445,6 +440,16 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
               applyFilters={this.applyFilters}
               onMultiToggleSelection={onMultiToggleSelection}
               isOneCheckboxToggled={isOneCheckboxToggled}
+              onToggleAutoRefresh={this.onToggleAutoRefresh}
+              isAutoRefreshEnabled={isAutoRefreshEnabled}
+            />
+            <AutoRefreshPageableTableHOC
+              pageSize={pageSize}
+              requestParams={requestParams}
+              pageableTableActions={AcquisitionProcessingChainActions}
+              pageableTableSelectors={AcquisitionProcessingChainSelectors}
+              enableAutoRefresh={isAutoRefreshEnabled}
+              refreshTimeMS={AcquisitionProcessingChainListComponent.AUTO_REFRESH_PERIOD}
             />
             <TableHeaderLineLoadingSelectAllAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
             <PageableInfiniteTableContainer

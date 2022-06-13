@@ -99,7 +99,7 @@ const messages = {
 
   // 2 Chain list
   // 2.1 Header
-  'acquisition-chain.list.subtitle': 'Configuration et activation des chaînes d\'acquisitio de données',
+  'acquisition-chain.list.subtitle': 'Configuration et activation des chaînes d\'acquisition de données',
   'acquisition-product.help.deletion.message': 'Pour supprimer une chaîne, vous devez la désactiver au préalable.',
   'acquisition-chain.empty.title': 'Aucune chaine configurée',
   'acquisition-chain-breadcrumb.label': 'Chaînes d\'acquisition',
@@ -157,6 +157,7 @@ const messages = {
   'acquisition-chain.list.refresh.button': 'Rafraîchir',
   'acquisition-chain.list.enable-selected.button': 'Activer la selection',
   'acquisition-chain.list.disable-selected.button': 'Désactiver la selection',
+  'acquisition-chain.list.refresh.auto.label': 'Rafraîchissement Auto',
   'acquisition-chain.list.back.button': 'Retour',
 
   //3. Sessions Monitor
