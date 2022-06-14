@@ -43,6 +43,7 @@ const messages = {
   'date.value.render.type.dateWithMilliseconds': '{day}/{month}/{year} {hours}:{minutes}:{seconds}.{milliseconds}',
   'date.value.render.type.time': '{hours}:{minutes}:{seconds}',
   'date.value.render.type.timeWithMilliseconds': '{hours}:{minutes}:{seconds}.{milliseconds}',
+  'date.value.render.type.dateIso': '{year}-{month}-{day}T{hours}:{minutes}:{seconds}Z',
 }
 
 export default messages

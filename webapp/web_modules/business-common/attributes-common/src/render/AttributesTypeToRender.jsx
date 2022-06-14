@@ -59,6 +59,7 @@ const typeToRenderMap = {
     dateWithMilliseconds: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMilliseconds} {...props} />,
     time: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.time} {...props} />,
     timeWithMilliseconds: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.timeWithMilliseconds} {...props} />,
+    dateIso: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateIso} {...props} />,
   },
   [DamDomain.MODEL_ATTR_TYPES.URL]: {
     [DEFAULT_RENDERER_KEY]: URLValueRender,
@@ -82,6 +83,7 @@ const typeToRenderMap = {
     dateWithMilliseconds: (props) => <DateArrayValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMilliseconds} {...props} />,
     time: (props) => <DateArrayValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.time} {...props} />,
     timeWithMilliseconds: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.timeWithMilliseconds} {...props} />,
+    dateIso: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateIso} {...props} />,
   },
   [DamDomain.MODEL_ATTR_TYPES.INTEGER_INTERVAL]: {
     [DEFAULT_RENDERER_KEY]: NumberRangeValueRender,
@@ -96,6 +98,7 @@ const typeToRenderMap = {
     dateWithMilliseconds: (props) => <DateRangeValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMilliseconds} {...props} />,
     time: (props) => <DateRangeValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.time} {...props} />,
     timeWithMilliseconds: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.timeWithMilliseconds} {...props} />,
+    dateIso: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateIso} {...props} />,
   },
   [DamDomain.MODEL_ATTR_TYPES.LONG]: {
     [DEFAULT_RENDERER_KEY]: NumberValueRender,

@@ -194,7 +194,7 @@ describe('[Attributes Common] Testing EditItemForm', () => {
   it('should render a specific renderer selection field when in single attribute with that option, and provide the right selection options to it', () => {
     const renderersCount = [{
       types: [DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, DamDomain.MODEL_ATTR_TYPES.DATE_ARRAY, DamDomain.MODEL_ATTR_TYPES.DATE_INTERVAL],
-      expectedOptionsCount: 6,
+      expectedOptionsCount: 7,
     }, {
       types: [DamDomain.MODEL_ATTR_TYPES.STRING],
       expectedOptionsCount: 2,

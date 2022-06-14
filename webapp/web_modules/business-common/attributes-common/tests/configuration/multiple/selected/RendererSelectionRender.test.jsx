@@ -62,7 +62,7 @@ describe('[Attributes Common] Testing RendererSelectionRender', () => {
     types: [DamDomain.PSEUDO_ATTR_TYPES.STRING],
     expectedRenderers: [DEFAULT_RENDERER_KEY, 'multiline'],
   }, {
-    label: 'date types (6 renderers available)',
+    label: 'date types (7 renderers available)',
     types: [
       DamDomain.PSEUDO_ATTR_TYPES.DATE_ARRAY,
       DamDomain.PSEUDO_ATTR_TYPES.DATE_INTERVAL,
@@ -75,6 +75,7 @@ describe('[Attributes Common] Testing RendererSelectionRender', () => {
       'dateWithMilliseconds',
       'time',
       'timeWithMilliseconds',
+      'dateIso',
     ],
   }]
 

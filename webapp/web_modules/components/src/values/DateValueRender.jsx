@@ -36,6 +36,7 @@ export class DateValueRender extends React.Component {
     dateWithMilliseconds: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.dateWithMilliseconds' }, DateValueRender.getMessageParameters(date)),
     time: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.time' }, DateValueRender.getMessageParameters(date)),
     timeWithMilliseconds: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.timeWithMilliseconds' }, DateValueRender.getMessageParameters(date)),
+    dateIso: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.dateIso' }, DateValueRender.getMessageParameters(date)),
   }
 
   /**
