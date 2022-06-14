@@ -73,7 +73,7 @@ const messages = {
   'render.array-object.delete.button': 'Supprimer',
   'render.array-object.duplicate.button': 'Dupliquer',
   'render.array-object.item.title': 'Élément {index}',
-  'render.array-object.delete.confirm.title': 'Voulez-vous supprimer l\'élément {index} ?',
+  'render.array-object.delete.confirm.title': 'Voulez-vous supprimer l\'élément ?',
   'render.array-object.add.button': 'Ajouter',
   'render.array-object.cancel.button': 'Annuler',
 

@@ -53,7 +53,7 @@ export class AcquisitionFileInfoComponent extends React.Component {
     ...themeContextType,
   }
 
-  renderScanDirInfoLabe = (item) => item.scannedDirectory ? last(split(item.scannedDirectory, '/')) : 'New directory'
+  renderScanDirInfoLabel = (item) => item.scannedDirectory ? last(split(item.scannedDirectory, '/')) : 'New directory'
 
   render() {
     const { name } = this.props
@@ -87,7 +87,9 @@ export class AcquisitionFileInfoComponent extends React.Component {
         label={formatMessage({ id: 'acquisition-chain.form.fileInfo.scanDirInfos' })}
         component={RenderArrayObjectField}
         fieldProps={componentProps}
-        elementLabel={this.renderScanDirInfoLabe}
+        sortFields
+        sortAttribute="scannedDirectory"
+        elementLabel={this.renderScanDirInfoLabel}
         fieldComponent={AcquisitionFileInfoScanDirComponent}
         allowDuplicate={false}
         validate={required}

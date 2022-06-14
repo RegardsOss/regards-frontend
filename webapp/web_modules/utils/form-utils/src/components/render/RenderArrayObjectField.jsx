@@ -17,9 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import omit from 'lodash/omit'
+import sortBy from 'lodash/sortBy'
 import isFunction from 'lodash/isFunction'
 import isString from 'lodash/isString'
 import isNil from 'lodash/isNil'
+import get from 'lodash/get'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
 import AddBoxIcon from 'mdi-material-ui/PlusBox'
@@ -62,6 +64,8 @@ class RenderArrayObjectField extends React.Component {
     canBeEmpty: PropTypes.bool, // If false, the list is not displayed if there is no element in it
     listHeight: PropTypes.string,
     disabled: PropTypes.bool,
+    sortFields: PropTypes.bool,
+    sortAttribute: PropTypes.string,
     // From redux-form
     fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
     meta: PropTypes.shape(fieldArrayMetaPropTypes).isRequired,
@@ -75,6 +79,7 @@ class RenderArrayObjectField extends React.Component {
     fieldProps: {},
     getEmptyObject: () => ({}),
     duplicationTransformation: (object) => object && { ...object },
+    sortFields: false,
   }
 
   static contextTypes = {
@@ -95,8 +100,14 @@ class RenderArrayObjectField extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.fields && this.props.fields.length > 0) {
-      this.displayObject(0)
+    const { fields, sortFields } = this.props
+    if (fields && fields.length > 0) {
+      let indexNumber = 0
+      if (sortFields) {
+        const sorteredList = this.getSorteredList(fields)
+        indexNumber = sorteredList[0].indexNumber
+      }
+      this.displayObject(indexNumber)
     }
   }
 
@@ -160,6 +171,20 @@ class RenderArrayObjectField extends React.Component {
     })
   }
 
+  getSorteredList = (fields) => {
+    const { sortAttribute } = this.props
+    const indexedFields = map(fields.getAll(), (field, index) => ({
+      ...field,
+      indexNumber: index, // we keep the real index number of the field
+    }))
+    return sortBy(indexedFields, (field) => get(field, sortAttribute))
+  }
+
+  renderSorteredList = (fields) => {
+    const sorteredList = this.getSorteredList(fields)
+    return map(sorteredList, (object, idx) => this.renderListItem(object.indexNumber, object))
+  }
+
   /**
    * Render a ListItem for the given objects
    * @param {*} index : Index of the object from the fields props to render
@@ -173,7 +198,6 @@ class RenderArrayObjectField extends React.Component {
     const iconButtonElement = (
       <IconButton
         touch
-        tooltip={formatMessage({ id: 'render.array-object.options.title' })}
         tooltipPosition="bottom-left"
       >
         <MoreVertIcon />
@@ -190,7 +214,7 @@ class RenderArrayObjectField extends React.Component {
           {formatMessage({ id: 'render.array-object.delete.button' })}
         </MenuItem>
 
-        { this.props.allowDuplicate ? <MenuItem
+        {this.props.allowDuplicate ? <MenuItem
           // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
           onClick={() => this.onDuplicateObject(index)} // eslint wont fix: Cannot compose using MenuItems in MUI 0x (breaks menu auto closing system)
         >
@@ -225,7 +249,7 @@ class RenderArrayObjectField extends React.Component {
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          title={this.context.intl.formatMessage({ id: 'render.array-object.delete.confirm.title' }, { index: this.state.fieldIndexToDelete })}
+          title={this.context.intl.formatMessage({ id: 'render.array-object.delete.confirm.title' })}
           onConfirm={this.onConfirmDeleteObject}
           onClose={this.closeDeleteDialog}
         />
@@ -246,6 +270,7 @@ class RenderArrayObjectField extends React.Component {
     } = this.context
     const {
       canBeEmpty, fields, fieldComponent, fieldProps, meta, label, displayLabel,
+      sortFields,
     } = this.props
     const { displayedFieldIdx, listContentStyle } = this.state
     const entity = fields.get(displayedFieldIdx)
@@ -278,7 +303,9 @@ class RenderArrayObjectField extends React.Component {
                   defaultValue={displayedFieldIdx}
                   onSelect={this.displayObject}
                 >
-                  {map(fields, (object, idx) => this.renderListItem(idx, fields.get(idx)))}
+                  {
+                    sortFields ? this.renderSorteredList(fields) : map(fields, (object, idx) => this.renderListItem(idx, fields.get(idx)))
+                  }
                 </SelectableList>
                 {!this.props.disabled
                   ? <RaisedButton

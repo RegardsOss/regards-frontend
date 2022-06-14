@@ -280,7 +280,7 @@ class RenderMapField extends React.Component {
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          title={formatMessage({ id: 'render.array-object.delete.confirm.title' }, { index: keyToDelete })}
+          title={formatMessage({ id: 'render.array-object.delete.confirm.title' })}
           onConfirm={this.onConfirmDeleteObject}
           onClose={this.onCloseDeleteDialog}
         />
