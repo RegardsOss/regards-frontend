@@ -23,7 +23,7 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   // Card
-  'datapreparation.card.title': 'Data preparation',
+  'datapreparation.card.title': 'Workers supervision',
   'datapreparation.card.action.cancel': 'Back',
 
   // Dialogs
