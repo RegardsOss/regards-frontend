@@ -50,6 +50,7 @@ const messages = {
   'attribute.configuration.renderer.INTEGER.defaultRenderer': 'Default',
   'attribute.configuration.renderer.DOUBLE.defaultRenderer': 'Default',
   'attribute.configuration.renderer.URL.defaultRenderer': 'Default',
+  'attribute.configuration.renderer.URL.renderImage': 'Image',
   'attribute.configuration.renderer.BOOLEAN.defaultRenderer': 'Default',
   'attribute.configuration.renderer.STRING_ARRAY.defaultRenderer': 'Default',
   'attribute.configuration.renderer.INTEGER_ARRAY.defaultRenderer': 'Default',

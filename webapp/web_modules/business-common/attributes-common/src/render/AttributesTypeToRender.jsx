@@ -26,6 +26,7 @@ import {
   URLValueRender,
 } from '@regardsoss/components'
 import ThumbnailAttributeRender from './ThumbnailAttributeRender'
+import URLImageAttributeRender from './URLImageAttributeRender'
 
 /**
  * Provides tools to render an attribute directly or in an infinite table (providing a path and an optional type)
@@ -63,6 +64,7 @@ const typeToRenderMap = {
   },
   [DamDomain.MODEL_ATTR_TYPES.URL]: {
     [DEFAULT_RENDERER_KEY]: URLValueRender,
+    renderImage: (props) => <URLImageAttributeRender {...props} />,
   },
   [DamDomain.MODEL_ATTR_TYPES.BOOLEAN]: {
     [DEFAULT_RENDERER_KEY]: BooleanValueRender,

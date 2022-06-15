@@ -54,7 +54,6 @@ describe('[Attributes Common] Testing RendererSelectionRender', () => {
       DamDomain.PSEUDO_ATTR_TYPES.LONG_ARRAY,
       DamDomain.PSEUDO_ATTR_TYPES.LONG_INTERVAL,
       DamDomain.PSEUDO_ATTR_TYPES.THUMBNAIL_PSEUDO_TYPE,
-      DamDomain.PSEUDO_ATTR_TYPES.URL,
     ],
     expectedRenderers: [DEFAULT_RENDERER_KEY],
   }, {
@@ -76,6 +75,15 @@ describe('[Attributes Common] Testing RendererSelectionRender', () => {
       'time',
       'timeWithMilliseconds',
       'dateIso',
+    ],
+  }, {
+    label: 'url type (2 rederers available)',
+    types: [
+      DamDomain.PSEUDO_ATTR_TYPES.URL,
+    ],
+    expectedRenderers: [
+      DEFAULT_RENDERER_KEY,
+      'renderImage',
     ],
   }]
 

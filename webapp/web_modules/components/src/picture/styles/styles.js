@@ -54,6 +54,9 @@ export default ({
     dialog: {
       content: {
         padding: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       },
     },
   },

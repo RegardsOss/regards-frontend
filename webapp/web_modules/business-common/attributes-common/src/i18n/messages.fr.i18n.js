@@ -24,7 +24,7 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   ...Locales.fr, // form messages
-  'attribute.thumbnail.alt': 'Vignette"',
+  'attribute.thumbnail.alt': 'Vignette',
   'attribute.render.label': '{jsonPath} ({label})',
   // Attributes configuration
   'attributes.configuration.add.one.item.label': 'Ajout simple',
@@ -50,6 +50,7 @@ const messages = {
   'attribute.configuration.renderer.INTEGER.defaultRenderer': 'Par défaut',
   'attribute.configuration.renderer.DOUBLE.defaultRenderer': 'Par défaut',
   'attribute.configuration.renderer.URL.defaultRenderer': 'Par défaut',
+  'attribute.configuration.renderer.URL.renderImage': 'Image',
   'attribute.configuration.renderer.BOOLEAN.defaultRenderer': 'Par défaut',
   'attribute.configuration.renderer.STRING_ARRAY.defaultRenderer': 'Par défaut',
   'attribute.configuration.renderer.INTEGER_ARRAY.defaultRenderer': 'Par défaut',

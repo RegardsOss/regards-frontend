@@ -23,6 +23,10 @@ export default (theme) => ({
     height: theme.components.infiniteTable.lineHeight,
     padding: theme.components.infiniteTable.thumbnailPadding,
   },
+  urlImageRenderCellDiv: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
   // attributes configuration
   configuration: {
     tableContainer: {
