@@ -45,6 +45,7 @@ describe('[Description] Testing SectionCellComponent', () => {
       onSelectInnerLink: (section) => {
         spyOnSelectInnerLink.section = section
       },
+      tabTitles: {},
     }
     const enzymeWrapper = shallow(<SectionCellComponent {...props} />, { context })
     const linkWrapper = enzymeWrapper.find(TreeLinkComponent)
@@ -66,6 +67,7 @@ describe('[Description] Testing SectionCellComponent', () => {
       type: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION,
       selected: false,
       onSelectInnerLink: () => {},
+      tabTitles: {},
     }
     const enzymeWrapper = shallow(<SectionCellComponent {...props} />, { context })
     const linkWrapper = enzymeWrapper.find(TreeLinkComponent)
@@ -78,5 +80,65 @@ describe('[Description] Testing SectionCellComponent', () => {
       onClick: enzymeWrapper.instance().onClick,
       section: true,
     }, 'Link properties should be correctly set')
+  })
+  it('should render correctly with specific PARAMETERS tab titles', () => {
+    const spyOnSelectInnerLink = {}
+    const props = {
+      type: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
+      selected: true,
+      onSelectInnerLink: (section) => {
+        spyOnSelectInnerLink.section = section
+      },
+      tabTitles: {
+        [UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS]: {
+          [UIDomain.LOCALES_ENUM.en]: 'TestParametersEn',
+          [UIDomain.LOCALES_ENUM.fr]: 'TestParametersFr',
+        },
+      },
+    }
+    const enzymeWrapper = shallow(<SectionCellComponent {...props} />, { context })
+    const linkWrapper = enzymeWrapper.find(TreeLinkComponent)
+    assert.lengthOf(linkWrapper, 1, 'There should be the link')
+    testSuiteHelpers.assertWrapperProperties(linkWrapper, {
+      text: props.tabTitles[UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS][UIDomain.LOCALES_ENUM.en],
+      tooltip: props.tabTitles[UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS][UIDomain.LOCALES_ENUM.en],
+      selected: true,
+      disabled: false,
+      onClick: enzymeWrapper.instance().onClick,
+      section: true,
+    }, 'Link properties should be correctly set')
+    assert.isNotOk(spyOnSelectInnerLink.section, 'On select callback should not have been invoked yet')
+    linkWrapper.props().onClick()
+    assert.equal(spyOnSelectInnerLink.section, props.type, 'On select callback should have been invoked with right parameters')
+  })
+  it('should render correctly with specific INFORMATION tab titles', () => {
+    const spyOnSelectInnerLink = {}
+    const props = {
+      type: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION,
+      selected: true,
+      onSelectInnerLink: (section) => {
+        spyOnSelectInnerLink.section = section
+      },
+      tabTitles: {
+        [UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION]: {
+          [UIDomain.LOCALES_ENUM.en]: 'TestParametersEn',
+          [UIDomain.LOCALES_ENUM.fr]: 'TestParametersFr',
+        },
+      },
+    }
+    const enzymeWrapper = shallow(<SectionCellComponent {...props} />, { context })
+    const linkWrapper = enzymeWrapper.find(TreeLinkComponent)
+    assert.lengthOf(linkWrapper, 1, 'There should be the link')
+    testSuiteHelpers.assertWrapperProperties(linkWrapper, {
+      text: props.tabTitles[UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION][UIDomain.LOCALES_ENUM.en],
+      tooltip: props.tabTitles[UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION][UIDomain.LOCALES_ENUM.en],
+      selected: true,
+      disabled: false,
+      onClick: enzymeWrapper.instance().onClick,
+      section: true,
+    }, 'Link properties should be correctly set')
+    assert.isNotOk(spyOnSelectInnerLink.section, 'On select callback should not have been invoked yet')
+    linkWrapper.props().onClick()
+    assert.equal(spyOnSelectInnerLink.section, props.type, 'On select callback should have been invoked with right parameters')
   })
 })

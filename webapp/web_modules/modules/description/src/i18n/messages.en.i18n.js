@@ -31,6 +31,11 @@ const messages = {
   'module.description.configuration.type.DOCUMENT': 'Documents',
   'module.description.configuration.type.DATA': 'Data objects',
   'module.description.configuration.allow.searching': 'Show search option in description view',
+  'module.description.configuration.tab.PARAMETERS.title.message': 'Parameters - View title',
+  'module.description.configuration.tab.INFORMATION.title.message': 'Information - View title',
+  'module.description.configuration.tab.label.en': 'English',
+  'module.description.configuration.tab.label.fr': 'French',
+  'module.description.configuration.tab.hint': 'Tab title, leave empty to use default value',
 
   'module.description.configuration.general': 'Main configuration',
   'module.description.configuration.show.description': 'Allow description',

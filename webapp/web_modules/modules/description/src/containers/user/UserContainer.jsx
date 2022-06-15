@@ -294,7 +294,7 @@ export class UserContainer extends React.Component {
 
     const {
       descriptionState: { descriptionPath, browsingTreeVisible }, settings,
-      moduleConf: { allowSearching, runtime: { selectedIndex, onSearchWord, onSearchEntity } },
+      moduleConf: { allowSearching, runtime: { selectedIndex, onSearchWord, onSearchEntity }, tabTitles },
     } = this.props
 
     // Exit when no entity exists (should not happen)
@@ -316,6 +316,7 @@ export class UserContainer extends React.Component {
         onSelectEntityIndex={this.onSelectEntityIndex}
         onSearchWord={onSearchWord}
         onSearchEntity={onSearchEntity}
+        tabTitles={tabTitles}
       />)
   }
 }

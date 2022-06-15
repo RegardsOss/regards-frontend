@@ -23,6 +23,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { TableLayout } from '@regardsoss/components'
 import { Measure } from '@regardsoss/adapters'
 import { DescriptionEntity } from '../../shapes/DescriptionState'
+import { TabTitlesConfiguration } from '../../shapes/ModuleConfiguration'
 import HeaderBarComponent from './header/HeaderBarComponent'
 import ContentDisplayComponent from './content/ContentDisplayComponent'
 import BrowsingTreeComponent from './tree/BrowsingTreeComponent'
@@ -52,6 +53,8 @@ class MainModuleComponent extends React.Component {
     onSearchEntity: PropTypes.func.isRequired,
     // Callback: user selected an entity by its index in path (index: number) => ()
     onSelectEntityIndex: PropTypes.func.isRequired,
+    // optional tab titles
+    tabTitles: TabTitlesConfiguration,
   }
 
   static contextTypes = {
@@ -105,6 +108,7 @@ class MainModuleComponent extends React.Component {
     const {
       settings, descriptionEntity, allowSearching, browsingTreeVisible, isDescriptionAllowed, descriptionPath,
       selectedEntityIndex, onSelectInnerLink, onSelectEntityLink, onSearchWord, onSearchEntity, onSelectEntityIndex,
+      tabTitles,
     } = this.props
     const {
       width, height, isTreeButtonToggled, currentReziserPos,
@@ -154,6 +158,7 @@ class MainModuleComponent extends React.Component {
                   onSearchWord={onSearchWord}
                   onSearchEntity={onSearchEntity}
                   scrollAreaHeight={height}
+                  tabTitles={tabTitles}
                 />
                 {/* Right : Content */}
                 <ContentDisplayComponent

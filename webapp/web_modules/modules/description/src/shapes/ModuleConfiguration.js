@@ -63,11 +63,24 @@ export const DescriptionRuntime = PropTypes.shape({
   onSearchEntity: PropTypes.func.isRequired,
 })
 
+export const TabTitlesConfiguration = PropTypes.shape({
+  [UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS]: PropTypes.shape({
+    [UIDomain.LOCALES_ENUM.en]: PropTypes.string,
+    [UIDomain.LOCALES_ENUM.fr]: PropTypes.string,
+  }),
+  [UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION]: PropTypes.shape({
+    [UIDomain.LOCALES_ENUM.en]: PropTypes.string,
+    [UIDomain.LOCALES_ENUM.fr]: PropTypes.string,
+  }),
+})
+
 /**
  * Module configuration: description pane configuration by entity type
  */
 export const ModuleConfiguration = PropTypes.shape({
   allowSearching: PropTypes.bool,
+  // optional tabs title
+  tabTitles: TabTitlesConfiguration,
   // configuration by entity type
   [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: DescriptionConfiguration,
   [DamDomain.ENTITY_TYPES_ENUM.DATASET]: DescriptionConfiguration,

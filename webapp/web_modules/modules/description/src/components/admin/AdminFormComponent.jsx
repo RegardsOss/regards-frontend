@@ -21,7 +21,9 @@ import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { Field, RenderCheckbox } from '@regardsoss/form-utils'
+import {
+  Field, RenderCheckbox, FieldsGroup, RenderTextField,
+} from '@regardsoss/form-utils'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import DescriptionConfigurationFormComponent from './DescriptionConfigurationFormComponent'
 
@@ -107,6 +109,39 @@ class AdminFormComponent extends React.Component {
           component={RenderCheckbox}
           fullWidth
         />
+        <div style={topSeparator} />
+        <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'module.description.configuration.tab.PARAMETERS.title.message' })}>
+          <Field
+            name={`${currentNamespace}.tabTitles.${UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS}.en`}
+            component={RenderTextField}
+            label={formatMessage({ id: 'module.description.configuration.tab.label.en' })}
+            hintText={formatMessage({ id: 'module.description.configuration.tab.hint' })}
+            fullWidth
+          />
+          <Field
+            name={`${currentNamespace}.tabTitles.${UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS}.fr`}
+            component={RenderTextField}
+            label={formatMessage({ id: 'module.description.configuration.tab.label.fr' })}
+            hintText={formatMessage({ id: 'module.description.configuration.tab.hint' })}
+            fullWidth
+          />
+        </FieldsGroup>
+        <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'module.description.configuration.tab.INFORMATION.title.message' })}>
+          <Field
+            name={`${currentNamespace}.tabTitles.${UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION}.en`}
+            component={RenderTextField}
+            label={formatMessage({ id: 'module.description.configuration.tab.label.en' })}
+            hintText={formatMessage({ id: 'module.description.configuration.tab.hint' })}
+            fullWidth
+          />
+          <Field
+            name={`${currentNamespace}.tabTitles.${UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION}.fr`}
+            component={RenderTextField}
+            label={formatMessage({ id: 'module.description.configuration.tab.label.fr' })}
+            hintText={formatMessage({ id: 'module.description.configuration.tab.hint' })}
+            fullWidth
+          />
+        </FieldsGroup>
         <div style={topSeparator} />
         <Tabs>
           { // map each entity type to a description configuration form

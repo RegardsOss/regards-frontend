@@ -22,6 +22,7 @@ import { TableHeaderColumn, TableRowColumn } from 'material-ui/Table'
 import { themeContextType } from '@regardsoss/theme'
 import { ScrollArea } from '@regardsoss/adapters'
 import { TreeTableComponent, TreeTableRow } from '@regardsoss/components'
+import { TabTitlesConfiguration } from '../../../shapes/ModuleConfiguration'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'
 import SectionCellComponent from './cells/links/SectionCellComponent'
 import FileCellComponent from './cells/links/FileCellComponent'
@@ -53,6 +54,8 @@ class BrowsingTreeComponent extends React.Component {
     onSearchWord: PropTypes.func.isRequired,
     // Callback: user searched for an entity tag (tag:CatalogShapes.Entity) => ()
     onSearchEntity: PropTypes.func.isRequired,
+    // optional tab titles
+    tabTitles: TabTitlesConfiguration,
   }
 
   static contextTypes = {
@@ -247,6 +250,7 @@ class BrowsingTreeComponent extends React.Component {
   buildCellComponent = ({
     type, parentType, childIndex, selected, data,
   }) => {
+    const { tabTitles } = this.props
     const { moduleTheme: { user: { main: { tree: { cell } } } } } = this.context
     return (
       <TableRowColumn
@@ -274,7 +278,7 @@ class BrowsingTreeComponent extends React.Component {
             case BrowsingTreeComponent.CELL_TYPES.LINKED_DOCUMENTS:
             case BrowsingTreeComponent.CELL_TYPES.FILES:
             case BrowsingTreeComponent.CELL_TYPES.OTHER_VERSIONS:
-              return <SectionCellComponent type={type} selected={selected} onSelectInnerLink={onSelectInnerLink} />
+              return <SectionCellComponent type={type} selected={selected} onSelectInnerLink={onSelectInnerLink} tabTitles={tabTitles} />
             case BrowsingTreeComponent.CELL_TYPES.ENTITY:
               return <EntityCellComponent
                 entity={data}

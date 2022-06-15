@@ -31,6 +31,11 @@ const messages = {
   'module.description.configuration.type.DOCUMENT': 'Documents',
   'module.description.configuration.type.DATA': 'Données',
   'module.description.configuration.allow.searching': 'Afficher l\'option de recherche dans la vue de description',
+  'module.description.configuration.tab.PARAMETERS.title.message': 'Paramètres - Titre de la vue',
+  'module.description.configuration.tab.INFORMATION.title.message': 'Information - Titre de la vue',
+  'module.description.configuration.tab.label.en': 'Anglais',
+  'module.description.configuration.tab.label.fr': 'Français',
+  'module.description.configuration.tab.hint': 'Titre de l\'onglet, laisser vide pour utiliser la valeur par défaut',
 
   'module.description.configuration.general': 'Configuration principale',
   'module.description.configuration.show.description': 'Proposer la description',

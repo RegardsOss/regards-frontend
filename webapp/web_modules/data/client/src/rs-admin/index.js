@@ -104,6 +104,7 @@ export { default as getSearchSourcesSelectors } from './sources/SearchSourcesSel
 export { default as SessionsRelaunchProductActions } from './session/SessionsRelaunchProductActions'
 export { default as SessionsRelaunchAIPActions } from './session/SessionsRelaunchAIPActions'
 export { default as SessionsRelaunchStoragesActions } from './session/SessionsRelaunchStoragesActions'
+export { default as SessionsDeleteActions } from './session/SessionDeleteActions'
 
 export { default as SelectedSessionActions } from './session/SelectedSessionActions'
 export { default as getSelectedSessionReducer } from './session/SelectedSessionReducer'

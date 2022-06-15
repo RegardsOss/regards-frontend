@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { UIDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import TreeLinkComponent from './TreeLinkComponent'
+import { TabTitlesConfiguration } from '../../../../../shapes/ModuleConfiguration'
 
 /**
  * Component to show a section cell
@@ -30,6 +32,12 @@ class SectionCellComponent extends React.Component {
     selected: PropTypes.bool.isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
     onSelectInnerLink: PropTypes.func.isRequired,
+    // optional tab titles
+    tabTitles: TabTitlesConfiguration,
+  }
+
+  static defaultProps = {
+    tabTitles: {},
   }
 
   static contextTypes = {
@@ -45,13 +53,13 @@ class SectionCellComponent extends React.Component {
   }
 
   render() {
-    const { type, selected } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { type, selected, tabTitles } = this.props
+    const { intl: { locale, formatMessage } } = this.context
 
     return (
       <TreeLinkComponent
-        text={formatMessage({ id: `module.description.tree.section.${type}.label` })}
-        tooltip={formatMessage({ id: `module.description.tree.section.${type}.tooltip` })}
+        text={get(tabTitles[type], `${locale}`) || formatMessage({ id: `module.description.tree.section.${type}.label` })}
+        tooltip={get(tabTitles[type], `${locale}`) || formatMessage({ id: `module.description.tree.section.${type}.tooltip` })}
         selected={selected}
         disabled={false}
         onClick={this.onClick}
