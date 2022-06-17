@@ -55,7 +55,6 @@ class SectionCellComponent extends React.Component {
   render() {
     const { type, selected, tabTitles } = this.props
     const { intl: { locale, formatMessage } } = this.context
-
     return (
       <TreeLinkComponent
         text={get(tabTitles[type], `${locale}`) || formatMessage({ id: `module.description.tree.section.${type}.label` })}

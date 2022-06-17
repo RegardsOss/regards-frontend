@@ -45,6 +45,8 @@ export class ThemeListAdapter extends React.Component {
     fetchThemeInstanceList: PropTypes.func.isRequired,
     deleteTheme: PropTypes.func.isRequired,
     deleteInstanceTheme: PropTypes.func.isRequired,
+    updateTheme: PropTypes.func.isRequired,
+    updateInstanceTheme: PropTypes.func.isRequired,
   }
 
   getCreateUrl = () => {
@@ -79,6 +81,7 @@ export class ThemeListAdapter extends React.Component {
   render() {
     const deleteTheme = this.props.isInstance ? this.props.deleteInstanceTheme : this.props.deleteTheme
     const fetchThemeList = this.props.isInstance ? this.props.fetchThemeInstanceList : this.props.fetchThemeList
+    const updateTheme = this.props.isInstance ? this.props.updateInstanceTheme : this.props.updateTheme
 
     return (
       <ThemeListContainer
@@ -89,6 +92,7 @@ export class ThemeListAdapter extends React.Component {
         handleDuplicate={this.handleDuplicate}
         deleteTheme={deleteTheme}
         fetchThemeList={fetchThemeList}
+        updateTheme={updateTheme}
       />
     )
   }
@@ -105,6 +109,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchThemeInstanceList: () => dispatch(ThemeInstanceActions.fetchPagedEntityList(0, 100)),
   deleteTheme: (themeId) => dispatch(ThemeActions.deleteEntity(themeId)),
   deleteInstanceTheme: (themeId) => dispatch(ThemeInstanceActions.deleteEntity(themeId)),
+  updateTheme: (theme) => dispatch(ThemeActions.updateEntity(theme.content.id, theme)),
+  updateInstanceTheme: (theme) => dispatch(ThemeInstanceActions.updateEntity(theme.content.id, theme)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThemeListAdapter)

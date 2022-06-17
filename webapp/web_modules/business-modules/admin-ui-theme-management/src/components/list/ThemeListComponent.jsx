@@ -33,8 +33,9 @@ import { AccessShapes } from '@regardsoss/shape'
 import EditOptionComponent from './EditOptionComponent'
 import DuplicateOptionComponent from './DuplicateOptionComponent'
 import DeleteOptionComponent from './DeleteOptionComponent'
+import VisibleOptionComponent from './VisibleOptionComponent'
 
-const actionsBreakpoints = [940, 995, 1065]
+const actionsBreakpoints = [940, 995, 1065, 1120]
 
 /**
  * React component to list themes.
@@ -48,6 +49,7 @@ export class ThemeListComponent extends React.Component {
     handleDuplicate: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
+    handleUpdate: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -104,6 +106,7 @@ export class ThemeListComponent extends React.Component {
   render() {
     const {
       themeList, handleEdit, handleDuplicate, createUrl, backUrl,
+      handleUpdate,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
@@ -142,6 +145,7 @@ export class ThemeListComponent extends React.Component {
                       <EditOptionComponent theme={theme} onEdit={handleEdit} />
                       <DuplicateOptionComponent theme={theme} onDuplicate={handleDuplicate} />
                       <DeleteOptionComponent theme={theme} onDelete={this.openDeleteDialog} />
+                      <VisibleOptionComponent theme={theme} onUpdate={handleUpdate} />
                     </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>

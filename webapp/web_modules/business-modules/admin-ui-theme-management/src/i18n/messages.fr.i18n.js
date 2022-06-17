@@ -32,6 +32,8 @@ const messages = {
   'theme.list.tooltip.edit': 'Éditer',
   'theme.list.tooltip.duplicate': 'Dupliquer',
   'theme.list.tooltip.delete': 'Supprimer',
+  'theme.list.tooltip.visible': 'Visible pour les utilisateurs. Permet de cacher les thèmes en cours de conception',
+  'theme.list.tooltip.invisible': 'Invisible pour les utilisateurs. Permet de cacher les thèmes en cours de conception',
   'theme.list.action.cancel': 'Annuler',
   'theme.list.action.add': 'Ajouter un thème',
 
@@ -44,6 +46,7 @@ const messages = {
   'theme.form.name': 'Nom du thème',
   'theme.form.name.not.unique.error': 'Il existe déjà un thème portant ce nom',
   'theme.form.active': 'Actif par défaut',
+  'theme.form.visible': 'Visible pour les utilisateurs',
   'theme.form.action.submit': 'Sauvegarder',
   'theme.form.action.cancel': 'Annuler',
   ...Locales.fr,

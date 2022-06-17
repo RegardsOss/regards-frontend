@@ -49,6 +49,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormContainer', () => {
       fetchTheme: () => { },
       updateTheme: () => { },
       createTheme: () => { },
+      changeField: () => { },
     }
     const enzymeWrapper = shallow(<ThemeFormContainer {...props} />, { context })
     const loadableDecoratorWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)

@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
 import cloneDeep from 'lodash/cloneDeep'
 import find from 'lodash/find'
 import get from 'lodash/get'
@@ -56,11 +55,14 @@ export class ThemeFormComponent extends React.Component {
     isEditing: PropTypes.bool.isRequired,
     isDuplicating: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    changeField: PropTypes.func.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    formValues: PropTypes.object,
   }
 
   static contextTypes = {
@@ -185,6 +187,7 @@ export class ThemeFormComponent extends React.Component {
       initialize({
         active: currentTheme.content.active,
         name: editionName,
+        visible: get(currentTheme, 'content.visible', true),
       })
       this.setState({
         initialConfiguration: currentConfiguration,
@@ -195,6 +198,7 @@ export class ThemeFormComponent extends React.Component {
     } else { // new theme from scratch
       initialize({
         active: false,
+        visible: true,
       })
     }
   }
@@ -242,6 +246,13 @@ export class ThemeFormComponent extends React.Component {
     this.props.onSubmit(result)
   }
 
+  handleChangeActive = (event, newValue) => {
+    const { changeField } = this.props
+    if (newValue) {
+      changeField('visible', true)
+    }
+  }
+
   /**
    * Validates unique theme names
    * @return {string} error message key for duplicated names errors, undefined otherwise
@@ -260,10 +271,10 @@ export class ThemeFormComponent extends React.Component {
 
   render() {
     const {
-      invalid, submitting, isCreating, isDuplicating,
+      invalid, submitting, isCreating, isDuplicating, formValues,
     } = this.props
     const { configuration } = this.state
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { themeFormStyle } } = this.context
     const title = this.getTitle()
     return (
       <form
@@ -299,11 +310,22 @@ export class ThemeFormComponent extends React.Component {
                 <MenuItem value={ThemeFormComponent.DARK_THEME} primaryText={formatMessage({ id: 'theme.form.mui.dark.theme' })} />
               </SelectField>
             </ShowableAtRender>
-            <Field
-              name="active"
-              component={RenderCheckbox}
-              label={formatMessage({ id: 'theme.form.active' })}
-            />
+            <div style={themeFormStyle.checkBoxBar}>
+              <Field
+                name="active"
+                component={RenderCheckbox}
+                label={formatMessage({ id: 'theme.form.active' })}
+                onChange={this.handleChangeActive}
+              />
+              <div style={themeFormStyle.visibleCheckboxStyle}>
+                <Field
+                  name="visible"
+                  component={RenderCheckbox}
+                  label={formatMessage({ id: 'theme.form.visible' })}
+                  disabled={get(formValues, 'active', false)}
+                />
+              </div>
+            </div>
             <ShowableAtRender show={!isEmpty(this.state.configuration)}>
               <ThemeEditor
                 overwrites={this.state.configuration}
@@ -314,7 +336,6 @@ export class ThemeFormComponent extends React.Component {
                 hackingKey={this.state.lastRefresh}
               />
             </ShowableAtRender>
-
           </CardText>
           <CardActions>
             <CardActionsComponent

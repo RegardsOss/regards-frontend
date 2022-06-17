@@ -52,6 +52,8 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListAdapter', () => {
       fetchThemeInstanceList: () => { },
       deleteTheme: () => { },
       deleteInstanceTheme: () => { },
+      updateTheme: () => { },
+      updateInstanceTheme: () => { },
     }
     const enzymeWrapper = shallow(<ThemeListAdapter {...props} />, { context })
     const listContainerWrapper = enzymeWrapper.find(ThemeListContainer)

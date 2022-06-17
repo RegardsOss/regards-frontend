@@ -22,8 +22,9 @@ import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/te
 import { Field } from '@regardsoss/form-utils'
 import { ThemeEditor } from '@regardsoss/vendors'
 import { ThemeFormComponent } from '../../src/components/ThemeFormComponent'
+import styles from '../../src/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
 
 /**
 * Test ThemeFormComponent
@@ -49,9 +50,10 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormComponent', () => {
       invalid: false,
       handleSubmit: () => { },
       initialize: () => { },
+      changeField: () => { },
     }
     const enzymeWrapper = shallow(<ThemeFormComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(Field), 2, 'should contains fields')
+    assert.lengthOf(enzymeWrapper.find(Field), 3, 'should contains fields')
     assert.lengthOf(enzymeWrapper.find(ThemeEditor), 1, 'should contains the theme editor')
   })
   it('should validate correctly the unique theme name', () => {
@@ -68,6 +70,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormComponent', () => {
       invalid: false,
       handleSubmit: () => { },
       initialize: () => { },
+      changeField: () => { },
     }
     const enzymeWrapper = shallow(<ThemeFormComponent {...props} />, { context })
 

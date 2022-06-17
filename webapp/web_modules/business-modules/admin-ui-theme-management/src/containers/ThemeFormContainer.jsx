@@ -17,11 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { I18nProvider } from '@regardsoss/i18n'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AccessShapes } from '@regardsoss/shape'
 import { browserHistory } from 'react-router'
 import ThemeFormComponent from '../components/ThemeFormComponent'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * Handle theme list network operations
@@ -39,6 +41,9 @@ export class ThemeFormContainer extends React.Component {
     fetchTheme: PropTypes.func.isRequired,
     updateTheme: PropTypes.func.isRequired,
     createTheme: PropTypes.func.isRequired,
+    changeField: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    formValues: PropTypes.object,
   }
 
   state = {
@@ -69,6 +74,8 @@ export class ThemeFormContainer extends React.Component {
       isDuplicating={this.props.isDuplicating}
       backUrl={this.props.backUrl}
       onSubmit={this.handleSubmit}
+      changeField={this.props.changeField}
+      formValues={this.props.formValues}
     />
   )
 
@@ -92,11 +99,13 @@ export class ThemeFormContainer extends React.Component {
     const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={isLoading}
-        >
-          {this.getForm}
-        </LoadableContentDisplayDecorator>
+        <ModuleStyleProvider module={styles}>
+          <LoadableContentDisplayDecorator
+            isLoading={isLoading}
+          >
+            {this.getForm}
+          </LoadableContentDisplayDecorator>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

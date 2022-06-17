@@ -20,7 +20,8 @@ import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import MenuItem from 'material-ui/MenuItem'
 import { IconMenu } from 'material-ui/IconMenu'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { AdminDomain } from '@regardsoss/domain'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { SelectThemeContainer } from '../../src/containers/SelectThemeContainer'
 import styles from '../../src/styles'
 
@@ -80,6 +81,9 @@ function setup() {
         links: [],
       },
     },
+    authentication: {},
+    fetchRoleList: () => { },
+    throwError: () => { },
   }
 
   const enzymeWrapper = shallow(<SelectThemeContainer {...props} />, { context })
@@ -116,6 +120,216 @@ describe('[COMMON THEME] Testing select theme container', () => {
 
   it('should render self and subcomponents', () => {
     const { enzymeWrapper } = setup()
+    const iconMenu = enzymeWrapper.find(IconMenu)
+    expect(iconMenu).to.have.length(1)
+    const selectFieldProps = iconMenu.props()
+    expect(selectFieldProps.value).to.equal(0)
+    const menuItems = iconMenu.find(MenuItem)
+    expect(menuItems).to.have.length(3)
+  })
+  it('should not display invisible themes', () => {
+    const props = {
+      currentTheme: {
+        content: {
+          id: 0,
+          name: 'Light',
+          active: true,
+          visible: true,
+          configuration: {},
+        },
+        links: [],
+      },
+      themeList: {
+        0: {
+          content: {
+            id: 0,
+            name: 'Light',
+            active: true,
+            visible: true,
+            configuration: {},
+          },
+          links: [],
+        },
+        1: {
+          content: {
+            id: 1,
+            name: 'cdpp',
+            active: false,
+            visible: false,
+            configuration: {
+              mainTheme: {
+                palette: {
+                  primary1Color: '#673ab7',
+                  accent1Color: '#ff8f00',
+                  canvasColor: '#eeeeee',
+                },
+              },
+            },
+          },
+          links: [],
+        },
+        2: {
+          content: {
+            id: 2,
+            name: 'somethemename',
+            active: false,
+            visible: false,
+            configuration: {
+              mainTheme: {
+                palette: {
+                  primary1Color: '#8bc34a',
+                },
+              },
+            },
+          },
+          links: [],
+        },
+      },
+      currentRole: AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC,
+      authenticationName: 'tatata@ata.fr',
+      roleList: DumpProvider.get('AdminClient', 'Role'),
+    }
+    const enzymeWrapper = shallow(<SelectThemeContainer {...props} />, { context })
+    const iconMenu = enzymeWrapper.find(IconMenu)
+    expect(iconMenu).to.have.length(1)
+    const selectFieldProps = iconMenu.props()
+    expect(selectFieldProps.value).to.equal(0)
+    const menuItems = iconMenu.find(MenuItem)
+    expect(menuItems).to.have.length(1)
+  })
+  it('should display invisible themes with ADMIN role', () => {
+    const props = {
+      currentTheme: {
+        content: {
+          id: 0,
+          name: 'Light',
+          active: true,
+          visible: true,
+          configuration: {},
+        },
+        links: [],
+      },
+      themeList: {
+        0: {
+          content: {
+            id: 0,
+            name: 'Light',
+            active: true,
+            visible: true,
+            configuration: {},
+          },
+          links: [],
+        },
+        1: {
+          content: {
+            id: 1,
+            name: 'cdpp',
+            active: false,
+            visible: false,
+            configuration: {
+              mainTheme: {
+                palette: {
+                  primary1Color: '#673ab7',
+                  accent1Color: '#ff8f00',
+                  canvasColor: '#eeeeee',
+                },
+              },
+            },
+          },
+          links: [],
+        },
+        2: {
+          content: {
+            id: 2,
+            name: 'somethemename',
+            active: false,
+            visible: false,
+            configuration: {
+              mainTheme: {
+                palette: {
+                  primary1Color: '#8bc34a',
+                },
+              },
+            },
+          },
+          links: [],
+        },
+      },
+      currentRole: AdminDomain.DEFAULT_ROLES_ENUM.ADMIN,
+      authenticationName: 'tatata@ata.fr',
+      roleList: DumpProvider.get('AdminClient', 'Role'),
+    }
+    const enzymeWrapper = shallow(<SelectThemeContainer {...props} />, { context })
+    const iconMenu = enzymeWrapper.find(IconMenu)
+    expect(iconMenu).to.have.length(1)
+    const selectFieldProps = iconMenu.props()
+    expect(selectFieldProps.value).to.equal(0)
+    const menuItems = iconMenu.find(MenuItem)
+    expect(menuItems).to.have.length(3)
+  })
+  it('should display invisible themes with a role which have ADMIN as parent', () => {
+    const props = {
+      currentTheme: {
+        content: {
+          id: 0,
+          name: 'Light',
+          active: true,
+          visible: true,
+          configuration: {},
+        },
+        links: [],
+      },
+      themeList: {
+        0: {
+          content: {
+            id: 0,
+            name: 'Light',
+            active: true,
+            visible: true,
+            configuration: {},
+          },
+          links: [],
+        },
+        1: {
+          content: {
+            id: 1,
+            name: 'cdpp',
+            active: false,
+            visible: false,
+            configuration: {
+              mainTheme: {
+                palette: {
+                  primary1Color: '#673ab7',
+                  accent1Color: '#ff8f00',
+                  canvasColor: '#eeeeee',
+                },
+              },
+            },
+          },
+          links: [],
+        },
+        2: {
+          content: {
+            id: 2,
+            name: 'somethemename',
+            active: false,
+            visible: false,
+            configuration: {
+              mainTheme: {
+                palette: {
+                  primary1Color: '#8bc34a',
+                },
+              },
+            },
+          },
+          links: [],
+        },
+      },
+      currentRole: AdminDomain.DEFAULT_ROLES_ENUM.PROJECT_ADMIN,
+      authenticationName: 'tatata@ata.fr',
+      roleList: DumpProvider.get('AdminClient', 'Role'),
+    }
+    const enzymeWrapper = shallow(<SelectThemeContainer {...props} />, { context })
     const iconMenu = enzymeWrapper.find(IconMenu)
     expect(iconMenu).to.have.length(1)
     const selectFieldProps = iconMenu.props()

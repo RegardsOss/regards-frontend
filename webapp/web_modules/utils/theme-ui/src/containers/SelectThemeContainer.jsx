@@ -16,15 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import get from 'lodash/get'
+import has from 'lodash/has'
 import compose from 'lodash/fp/compose'
 import map from 'lodash/map'
+import isEqual from 'lodash/isEqual'
+import find from 'lodash/find'
 import IconButton from 'material-ui/IconButton'
 import Palette from 'mdi-material-ui/Palette'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 // cannot import our connect method here, cyclic dependencies
 import { connect } from 'react-redux'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
+import { AdminDomain } from '@regardsoss/domain'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import {
   withModuleStyle, themeContextType, getCurrentTheme, setCurrentTheme, ThemeSelectors,
@@ -39,7 +44,12 @@ import styles from '../styles'
  */
 export class SelectThemeContainer extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types
+    roleList: AdminShapes.RoleList,
     currentTheme: AccessShapes.Theme,
+    currentRole: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
+    authenticationName: PropTypes.string,
     themeList: AccessShapes.ThemeList,
     onChange: PropTypes.func,
   }
@@ -55,6 +65,55 @@ export class SelectThemeContainer extends React.Component {
 
   static targetOriginStyle = { horizontal: 'middle', vertical: 'bottom' }
 
+  state = {
+    isUserAdministrator: false,
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { authenticationName, roleList } = newProps
+    // when authentication changes, check user role to filter displayed themes
+    if (!isEqual(oldProps.authenticationName, authenticationName)
+      || !isEqual(oldProps.roleList, roleList)) {
+      this.verifyUserPrivileges(roleList)
+    }
+  }
+
+  verifyUserPrivileges = (roleList) => {
+    const { currentRole } = this.props
+    const relatedCurrentRole = find(roleList, (role) => role.content.name === currentRole)
+    if (relatedCurrentRole && this.isRoleAdminRelated(relatedCurrentRole.content)) {
+      this.setState({
+        isUserAdministrator: true,
+      })
+    }
+  }
+
+  isRoleAdminRelated = (role) => {
+    let ret = false
+    if (role.name === AdminDomain.DEFAULT_ROLES_ENUM.ADMIN) {
+      ret = true
+    } else if (has(role, 'parentRole')) {
+      ret = this.isRoleAdminRelated(role.parentRole)
+    }
+    return ret
+  }
+
   /**
    * Theme selected
    * @param {*} event
@@ -68,10 +127,10 @@ export class SelectThemeContainer extends React.Component {
   render() {
     const { currentTheme, themeList } = this.props
     const { intl: { formatMessage } } = this.context
+    const { isUserAdministrator } = this.state
     const items = map(themeList, (item) => (
-      <MenuItem value={item.content.id} key={item.content.id} primaryText={item.content.name} />
+      isUserAdministrator || get(item, 'content.visible', true) ? <MenuItem value={item.content.id} key={item.content.id} primaryText={item.content.name} /> : null
     ))
-
     return (
       <div title={formatMessage({ id: 'select.theme.tooltip' })}>
         <IconMenu

@@ -55,6 +55,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormAdapter', () => {
       updateInstanceTheme: () => { },
       createTheme: () => { },
       createInstanceTheme: () => { },
+      changeField: () => { },
     }
     const enzymeWrapper = shallow(<ThemeFormAdapter {...props} />, { context })
     const formContainerWrapper = enzymeWrapper.find(ThemeFormContainer)

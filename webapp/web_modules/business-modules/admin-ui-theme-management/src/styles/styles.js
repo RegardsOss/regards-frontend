@@ -28,4 +28,12 @@ export default (theme) => ({
       delete: theme.palette.accent1Color,
     },
   },
+  themeFormStyle: {
+    checkBoxBar: {
+      display: 'flex',
+    },
+    visibleCheckboxStyle: {
+      marginLeft: '30px',
+    },
+  },
 })

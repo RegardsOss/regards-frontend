@@ -45,6 +45,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListComponent', () => {
       handleDuplicate: () => { },
       createUrl: '#',
       backUrl: '#',
+      handleUpdate: () => { },
     }
     const wrapper = shallow(<ThemeListComponent {...props} />, { context })
     const bodyWrapper = wrapper.find(TableBody)

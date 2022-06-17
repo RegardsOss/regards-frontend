@@ -47,6 +47,7 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeListContainer', () => {
       handleDuplicate: testSuiteHelpers.getSuccessDispatchStub(),
       fetchThemeList: testSuiteHelpers.getSuccessDispatchStub(),
       deleteTheme: testSuiteHelpers.getSuccessDispatchStub(),
+      updateTheme: testSuiteHelpers.getSuccessDispatchStub(),
     }
     const enzymeWrapper = shallow(<ThemeListContainer {...props} />, { context })
     const loadableDecoratorWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)

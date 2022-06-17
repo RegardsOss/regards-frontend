@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
+import { change, getFormValues } from 'redux-form'
 import { AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { connect } from '@regardsoss/redux'
 import { ThemeActions, ThemeInstanceActions, ThemeSelectors } from '@regardsoss/theme'
@@ -40,6 +41,8 @@ export class ThemeFormAdapter extends React.Component {
     isInstance: PropTypes.bool,
     currentTheme: AccessShapes.Theme,
     themeList: AccessShapes.ThemeList,
+    // eslint-disable-next-line react/forbid-prop-types
+    formValues: PropTypes.object,
 
     // Set by mapDispatchToProps
     fetchTheme: PropTypes.func.isRequired,
@@ -48,6 +51,7 @@ export class ThemeFormAdapter extends React.Component {
     updateInstanceTheme: PropTypes.func.isRequired,
     createTheme: PropTypes.func.isRequired,
     createInstanceTheme: PropTypes.func.isRequired,
+    changeField: PropTypes.func.isRequired,
   }
 
   UNSAFE_componentWillMount() {
@@ -72,7 +76,8 @@ export class ThemeFormAdapter extends React.Component {
       currentTheme, themeList, isInstance,
       createInstanceTheme, createTheme,
       updateInstanceTheme, updateTheme,
-      fetchThemeInstance, fetchTheme,
+      fetchThemeInstance, fetchTheme, changeField,
+      formValues,
     } = this.props
     const { isCreating, isEditing, isDuplicating } = this.state
 
@@ -87,6 +92,8 @@ export class ThemeFormAdapter extends React.Component {
         createTheme={isInstance ? createInstanceTheme : createTheme}
         updateTheme={isInstance ? updateInstanceTheme : updateTheme}
         fetchTheme={isInstance ? fetchThemeInstance : fetchTheme}
+        changeField={changeField}
+        formValues={formValues}
       />
     )
   }
@@ -97,6 +104,7 @@ const mapStateToProps = (state, ownProps) => ({
   currentTheme: ThemeSelectors.getById(state, ownProps.params.themeId),
   isFetching: ThemeSelectors.isFetching(state),
   isInstance: AuthenticationParametersSelectors.isInstance(state),
+  formValues: getFormValues('model-form')(state),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -106,6 +114,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   updateInstanceTheme: (theme) => dispatch(ThemeInstanceActions.updateEntity(theme.id, theme)),
   createTheme: (theme) => dispatch(ThemeActions.createEntity(theme)),
   createInstanceTheme: (theme) => dispatch(ThemeInstanceActions.createEntity(theme)),
+  changeField: (field, value) => dispatch(change('model-form', field, value)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThemeFormAdapter)

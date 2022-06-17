@@ -37,6 +37,7 @@ export class ThemeListContainer extends React.Component {
     handleDuplicate: PropTypes.func.isRequired,
     fetchThemeList: PropTypes.func.isRequired,
     deleteTheme: PropTypes.func.isRequired,
+    updateTheme: PropTypes.func.isRequired,
   }
 
   state = {
@@ -58,6 +59,10 @@ export class ThemeListContainer extends React.Component {
     this.props.deleteTheme(themeId)
   }
 
+  handleUpdate = (theme) => {
+    this.props.updateTheme(theme)
+  }
+
   render() {
     const {
       themeList, handleEdit, handleDuplicate, backUrl, createUrl,
@@ -76,6 +81,7 @@ export class ThemeListContainer extends React.Component {
               handleDuplicate={handleDuplicate}
               backUrl={backUrl}
               createUrl={createUrl}
+              handleUpdate={this.handleUpdate}
             />
           </LoadableContentDisplayDecorator>
         </ModuleStyleProvider>

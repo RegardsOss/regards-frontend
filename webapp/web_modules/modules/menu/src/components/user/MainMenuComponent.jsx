@@ -142,7 +142,11 @@ class MainMenuComponent extends React.Component {
           />
           {/* UI Options: theme  */}
           <ShowableAtRender show={displayThemeSelector}>
-            <SelectThemeContainer />
+            <SelectThemeContainer
+              roleList={roleList}
+              currentRole={currentRole}
+              authenticationName={authenticationName}
+            />
           </ShowableAtRender>
           {/* UI Options: locale  */}
           <ShowableAtRender show={displayLocaleSelector}>
