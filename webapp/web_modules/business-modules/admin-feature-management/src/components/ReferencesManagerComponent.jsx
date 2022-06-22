@@ -19,6 +19,7 @@
 import { CommonDomain } from '@regardsoss/domain'
 import clone from 'lodash/clone'
 import every from 'lodash/every'
+import pickBy from 'lodash/pickBy'
 import find from 'lodash/find'
 import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
@@ -245,9 +246,7 @@ export class ReferencesManagerComponent extends React.Component {
     const { entities, mode } = this.state[dialogRequestType]
     this.onCloseActionDialog(dialogRequestType)
     return {
-      filters: {
-        ...this.state.contextRequestParameters,
-      },
+      filters: pickBy(this.state.contextRequestParameters, (contextRequestParameter) => !isEmpty(contextRequestParameter) && contextRequestParameter !== null),
       featureIdsSelectionMode: mode === TableSelectionModes.includeSelected
         ? ReferencesManagerComponent.SELECTION_MODE.INCLUDE
         : ReferencesManagerComponent.SELECTION_MODE.EXCLUDE,

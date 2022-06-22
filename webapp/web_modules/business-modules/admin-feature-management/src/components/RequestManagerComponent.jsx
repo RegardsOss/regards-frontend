@@ -21,6 +21,7 @@ import values from 'lodash/values'
 import clone from 'lodash/clone'
 import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
+import pickBy from 'lodash/pickBy'
 import every from 'lodash/every'
 import isEqual from 'lodash/isEqual'
 import Refresh from 'mdi-material-ui/Refresh'
@@ -268,9 +269,7 @@ export class RequestManagerComponent extends React.Component {
     const { mode, entities } = this.state[dialogRequestType]
     this.onCloseActionDialog(dialogRequestType)
     return {
-      filters: {
-        ...this.state.contextRequestParameters,
-      },
+      filters: pickBy(this.state.contextRequestParameters, (contextRequestParameter) => !isEmpty(contextRequestParameter) && contextRequestParameter !== null),
       requestIdSelectionMode: mode === TableSelectionModes.includeSelected
         ? RequestManagerComponent.SELECTION_MODE.INCLUDE
         : RequestManagerComponent.SELECTION_MODE.EXCLUDE,
