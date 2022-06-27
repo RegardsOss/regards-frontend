@@ -68,6 +68,15 @@ const storageManagementStyles = (theme) => ({
     },
   },
   storageTable: {
+    nbFilesStoredStyle: {
+      container: {
+        display: 'flex',
+        alignItems: 'center',
+      },
+      iconStyle: {
+        color: theme.formsExtensions.validation.warningColor,
+      },
+    },
     percentageColumn: {
       percentage: {
         position: 'absolute',

@@ -87,6 +87,10 @@ class StorageLocationListComponent extends React.Component {
               </li>
             </ul>
           </div>
+          <hr />
+          <span style={typeStyle}>{formatMessage({ id: 'storage.location.type.pending.name' })}</span>
+          {formatMessage({ id: 'storage.location.type.pending.description' })}
+          <hr />
           <StorageLocationListContainer
             project={project}
           />

@@ -19,11 +19,13 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import {
   storageLocationActions, storageLocationSelectors, storageLocationPriorityDownActions, storageLocationPriorityUpActions,
   storageLocationDeleteFilesActions, storageLocationCopyFilesActions, storageLocationErrorsRetryActions,
-  storageLocationMonitoringActions,
+  storageLocationMonitoringActions, storageRunPendingActions,
 } from '../clients/StorageLocationClient'
 import { storageRequestActions, storageRequestStopActions } from '../clients/StorageRequestClient'
 import StorageLocationListComponent from '../components/StorageLocationListComponent'
@@ -67,7 +69,13 @@ export class StorageLocationListContainer extends React.Component {
       fetchErrors: (storage, type) => dispatch(storageRequestActions.fetchPagedEntityList(0, 100, { storage, type }, { status: 'ERROR' })),
       relaunchMonitoring: (reset) => dispatch(storageLocationMonitoringActions.relaunchMonitoring(reset)),
       onStop: () => dispatch(storageRequestStopActions.stop()),
+      runPendingActions: () => dispatch(storageRunPendingActions.runPendingActions()),
+      displayMessage: (message) => dispatch(ApplicationErrorAction.throwError(message)),
     }
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   static propTypes = {
@@ -89,6 +97,8 @@ export class StorageLocationListContainer extends React.Component {
     deleteErrors: PropTypes.func.isRequired,
     relaunchMonitoring: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
+    runPendingActions: PropTypes.func.isRequired,
+    displayMessage: PropTypes.func.isRequired,
   }
 
   UNSAFE_componentWillMount() {
@@ -127,6 +137,16 @@ export class StorageLocationListContainer extends React.Component {
         })
   }
 
+  onRunPendingActions = () => {
+    const { runPendingActions, displayMessage } = this.props
+    const { intl: { formatMessage } } = this.context
+    runPendingActions().then((actionResult) => {
+      if (!actionResult.error) {
+        displayMessage(formatMessage({ id: 'storage.location.list.confirm.pending.actions' }))
+      }
+    })
+  }
+
   render() {
     return (
       <StorageLocationListComponent
@@ -147,6 +167,7 @@ export class StorageLocationListContainer extends React.Component {
         onRefresh={this.props.fetch}
         onStop={this.props.onStop}
         onRelaunchMonitoring={this.props.relaunchMonitoring}
+        onRunPendingActions={this.onRunPendingActions}
       />
     )
   }

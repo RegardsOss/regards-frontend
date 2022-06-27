@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import find from 'lodash/find'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -34,6 +35,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { storageLocationActions } from '../clients/StorageLocationClient'
 import StorageLocationSizeRenderer from './StorageLocationSizeRenderer'
 import StorageLocationStorageErrorRenderer from './StorageLocationStorageErrorRenderer'
+import StorageLocationNbFilesStoredRenderer from './StorageLocationNbFilesStoredRenderer'
 import StorageLocationDeletionErrorRenderer from './StorageLocationDeletionErrorRenderer'
 import StorageLocationListActions from './StorageLocationListActions'
 import StorageRequestListComponent from './StorageRequestListComponent'
@@ -68,6 +70,7 @@ export class StorageLocationListComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
     onRelaunchMonitoring: PropTypes.func.isRequired,
+    onRunPendingActions: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -89,6 +92,7 @@ export class StorageLocationListComponent extends React.Component {
     entityTargeted: null,
     entitytoDeleteFiles: null,
     relaunchMonitoringDialog: null,
+    pendingActionsDialogOpened: false,
     entitytoCopyFiles: null,
     deleteFilesForce: false,
     dialogType: null,
@@ -200,6 +204,12 @@ export class StorageLocationListComponent extends React.Component {
   onSwitchConfirmStopDialog = () => {
     this.setState({
       confirmStop: !this.state.confirmStop,
+    })
+  }
+
+  onSwitchConfirmPendingActionsDialog = () => {
+    this.setState({
+      pendingActionsDialogOpened: !this.state.pendingActionsDialogOpened,
     })
   }
 
@@ -402,7 +412,25 @@ export class StorageLocationListComponent extends React.Component {
     )
   }
 
+  renderPendingActionsConfirmDialog = () => {
+    const { onRunPendingActions } = this.props
+    const { pendingActionsDialogOpened } = this.state
+    const { intl: { formatMessage } } = this.context
+    return (
+      <ConfirmDialogComponent
+        open={pendingActionsDialogOpened}
+        dialogType={ConfirmDialogComponentTypes.CONFIRM}
+        onConfirm={() => {
+          onRunPendingActions()
+        }}
+        onClose={this.onSwitchConfirmPendingActionsDialog}
+        title={formatMessage({ id: 'storage.location.list.confirm.pending.actions.dialog.title' })}
+      />)
+  }
+
   formatType = (entity) => this.context.intl.formatMessage({ id: `storage.type.${get(entity, 'content.configuration.storageType', 'NONE')}` })
+
+  isPendingActionsExist = (entities) => find(entities, (entity) => get(entity, 'content.nbFilesStoredWithPendingActionRemaining', 0) > 0)
 
   render() {
     const {
@@ -432,6 +460,7 @@ export class StorageLocationListComponent extends React.Component {
         {this.rendeStopConfirmDialog()}
         {this.renderCopyFilesConfirmDialog()}
         {this.renderRelaunchMonitoringConfirmDialog()}
+        {this.renderPendingActionsConfirmDialog()}
         <TableLayout>
           <TableHeaderLineLoadingSelectAllAndResults isFetching={isLoading} resultsCount={entities.length} />
           <TableHeaderLine key="filtersLine">
@@ -456,6 +485,13 @@ export class StorageLocationListComponent extends React.Component {
                   primary
                   style={StorageLocationListComponent.ICON_STYLE}
                 />
+                <RaisedButton
+                  label={formatMessage({ id: 'storage.data-storage.waiting.actions.button' })}
+                  onClick={this.onSwitchConfirmPendingActionsDialog}
+                  primary
+                  style={StorageLocationListComponent.ICON_STYLE}
+                  disabled={!this.isPendingActionsExist(entities)}
+                />
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>
           </TableHeaderLine>
@@ -471,8 +507,11 @@ export class StorageLocationListComponent extends React.Component {
                 .label(formatMessage({ id: 'storage.location.list.header.type.label' }))
                 .fixedSizing(100)
                 .build(),
-              new TableColumnBuilder('column.nbFilesStored').titleHeaderCell().propertyRenderCell('content.nbFilesStored')
+              new TableColumnBuilder('column.nbFilesStored').titleHeaderCell()
                 .label(formatMessage({ id: 'storage.location.list.header.stored-file.label' }))
+                .rowCellDefinition({
+                  Constructor: StorageLocationNbFilesStoredRenderer,
+                })
                 .fixedSizing(150)
                 .build(),
               new TableColumnBuilder('column.totalSized').titleHeaderCell()

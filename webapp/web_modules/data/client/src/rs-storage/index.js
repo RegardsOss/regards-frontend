@@ -27,6 +27,7 @@ export { default as StorageLocationErrorsRetryActions } from './location/Storage
 export { default as StorageLocationMonitoringActions } from './location/StorageLocationMonitoringActions'
 export { default as StorageLocationPriorityDownActions } from './location/StorageLocationPriorityDownActions'
 export { default as StorageLocationPriorityUpActions } from './location/StorageLocationPriorityUpActions'
+export { default as StorageLocationRunPendingActions } from './location/StorageLocationRunPendingActions'
 
 export { default as StorageRequestActions } from './requests/StorageRequestActions'
 export { default as getStorageRequestReducers } from './requests/StorageRequestReducers'
