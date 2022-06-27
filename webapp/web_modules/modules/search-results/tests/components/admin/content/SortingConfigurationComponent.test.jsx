@@ -55,7 +55,7 @@ describe('[SEARCH RESULTS] Testing SortingConfigurationComponent', () => {
     assert.lengthOf(attributesListField, 1, 'There should be attributes list field')
     testSuiteHelpers.assertWrapperProperties(attributesListField, {
       selectableAttributes: props.availableAttributes,
-      attributesFilter: DamDomain.AttributeModelController.isSearchableAttribute,
+      attributesFilter: DamDomain.AttributeModelController.isSortableAttribute,
       attributesList: props.currentTypeFormValues.sorting,
       attributesListFieldName: `${rootNamespace}.sorting`,
       changeField: props.changeField,

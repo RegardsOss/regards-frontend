@@ -730,7 +730,11 @@ const styles = (theme) => ({
         display: 'flex',
         alignItems: 'center',
       },
-
+    },
+    openSearchButtonDivStyle: {
+      display: 'flex',
+      alignItems: 'flex-end',
+      flexDirection: 'column',
     },
   },
 })

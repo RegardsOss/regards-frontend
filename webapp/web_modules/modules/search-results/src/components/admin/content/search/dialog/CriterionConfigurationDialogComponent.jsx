@@ -40,6 +40,9 @@ export class CriterionConfigurationDialogComponent extends React.Component {
     open: PropTypes.bool.isRequired,
     criterionRow: CriteriaEditableRow, // Always provided when open. Only a criterion row with plugin metadata  and configuration (must be granted by parent!)
     availableAttributes: DataManagementShapes.AttributeModelList.isRequired,
+    // Attributes filter: returns true when an attribute is allowed for current selection, false otherwise
+    // eslint-disable-next-line react/no-unused-prop-types
+    attributesFilter: PropTypes.func, // used only in onPropertiesUpdated
     // parent callbacks
     onConfirm: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
@@ -65,7 +68,7 @@ export class CriterionConfigurationDialogComponent extends React.Component {
   /** Life cycle method component will receive props. Used here to initialize edition state on change */
   UNSAFE_componentWillReceiveProps(nextProps) {
     const {
-      open, criterionRow, availableAttributes, initialize,
+      open, criterionRow, availableAttributes, initialize, attributesFilter,
     } = nextProps
     if (!this.props.open && open) {
       const { pluginMetadata, configuration } = criterionRow
@@ -74,7 +77,7 @@ export class CriterionConfigurationDialogComponent extends React.Component {
       const allAttributes = [
         ...values(availableAttributes),
         ...DamDomain.AttributeModelController.standardAttributesAsModel,
-      ]
+      ].filter(attributesFilter) // filter on allowed elements only
       const { iV: initialAttributesValues, eA: editionAttributes } = pluginMetadata.configuration.attributes
         .reduce(({ iV, eA }, { name, description, attributeType }) => ({
           iV: { ...iV, [name]: configuration.attributes[name] || '' },

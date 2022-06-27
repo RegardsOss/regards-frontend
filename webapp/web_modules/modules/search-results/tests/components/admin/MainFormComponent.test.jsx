@@ -87,6 +87,7 @@ describe('[SEARCH RESULTS] Testing MainFormComponent', () => {
       datasetAttributeModels: attributes,
       changeField: () => {},
       onBrowseToPage: () => {},
+      testOpenSearchQuery: () => {},
     }
     const enzymeWrapper = shallow(<MainFormComponent {...props} />, { context })
     const tree = enzymeWrapper.find(BrowsingTree)

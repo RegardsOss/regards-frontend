@@ -37,6 +37,7 @@ export { default as NumericalComparatorSelector } from './buttons/NumericalCompa
 export { default as OnHoverSwitchFlatButton } from './buttons/OnHoverSwitchFlatButton'
 export { default as OnHoverSwitchIconButton } from './buttons/OnHoverSwitchIconButton'
 export { default as OnHoverSwitchRaisedButton } from './buttons/OnHoverSwitchRaisedButton'
+export { default as OpenSearchTesterIconButton } from './buttons/OpenSearchTesterIconButton'
 export * from './buttons/ResourceIconAction'
 
 export { default as ClearSettingFieldButton } from './buttons/ClearSettingFieldButton'

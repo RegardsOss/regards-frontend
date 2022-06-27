@@ -22,7 +22,7 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { TableLayout, InfiniteTableContainer, TableColumnBuilder } from '@regardsoss/components'
-import { UIDomain } from '@regardsoss/domain'
+import { UIDomain, DamDomain } from '@regardsoss/domain'
 import { CriteriaGroup } from '../../../../shapes/ModuleConfiguration'
 import { PluginMeta } from '../../../../shapes/form/PluginMeta'
 import { CriteriaFormHelper } from './CriteriaFormHelpers'
@@ -247,6 +247,7 @@ class CriteriaGroupsTableComponent extends React.Component {
           open={open}
           criterionRow={criterionRow}
           availableAttributes={availableAttributes}
+          attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
           onConfirm={this.onConfirmConfigurationEdition}
           onCancel={this.onCancelConfigurationEdition}
         />

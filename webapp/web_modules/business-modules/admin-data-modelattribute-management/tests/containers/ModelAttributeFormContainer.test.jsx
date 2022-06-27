@@ -25,7 +25,9 @@ import { ModelAttributeFormContainer } from '../../src/containers/ModelAttribute
 const distributedAttrModels = {
   ATTR_REMAINING: {
     fragments: {},
-    attrs: [DumpProvider.getNthEntity('DataManagementClient', 'AttributeModel', 1)],
+    attrs: [DumpProvider.getNthEntity('DataManagementClient', 'AttributeModel', 1),
+      DumpProvider.getNthEntity('DataManagementClient', 'AttributeModel', 2),
+      DumpProvider.getNthEntity('DataManagementClient', 'AttributeModel', 3)],
   },
   ATTR_ASSOCIATED: {
     fragments: {},

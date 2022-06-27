@@ -25,14 +25,13 @@ import {
 import Subheader from 'material-ui/Subheader'
 import { DataManagementShapes } from '@regardsoss/shape'
 import TextField from 'material-ui/TextField'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, OpenSearchTesterIconButton } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { List, ListItem } from 'material-ui/List'
 import { DEFAULT_FRAGMENT } from '@regardsoss/domain/dam'
 import { SubsettingEditionDataset } from '../shapes/SubsettingsShapes'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
-import DatasetSubsettingTesterIconButton from './DatasetSubsettingTesterIconButton'
 
 /**
  * React component to list datasets.
@@ -127,10 +126,9 @@ export class DatasetFormSubsettingComponent extends React.Component {
                 fullWidth
               />
               <div style={styleButton}>
-                <DatasetSubsettingTesterIconButton
-                  currentDataset={currentDataset}
-                  subsetting={subsetting}
-                  handleTestSubsetting={handleTestSubsetting}
+                <OpenSearchTesterIconButton
+                  openSearchRequest={subsetting}
+                  handleTestOpenSearchRequest={handleTestSubsetting}
                 />
               </div>
             </div>

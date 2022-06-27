@@ -29,6 +29,7 @@ import { FORM_SECTIONS_ENUM } from '../domain/form/FormSectionsEnum'
 import { FORM_PAGES_ENUM } from '../domain/form/FormPagesEnum'
 import { PAGES_BY_TYPE } from '../domain/form/FormPagesByType'
 import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
+import { openSearchQueryTestActions } from '../clients/OpenSearchQueryClient'
 import { datasetModelActions, datasetModelSelectors } from '../clients/DatasetModelClient'
 import { dataObjectAttributesActions, dataObjectAttributesSelectors } from '../clients/DataObjectAttributesClient'
 import { dataSetAttributesActions, dataSetAttributesSelectors } from '../clients/DataSetAttributesClient'
@@ -54,6 +55,7 @@ export class AdminContainer extends React.Component {
     fetchDatasetModels: PropTypes.func.isRequired,
     fetchDataObjectAttributes: PropTypes.func.isRequired,
     fetchDataSetAttributes: PropTypes.func.isRequired,
+    testOpenSearchQuery: PropTypes.func.isRequired,
   }
 
   /**
@@ -86,6 +88,7 @@ export class AdminContainer extends React.Component {
       /** Fetch attributes based on current dataset IDs / model names restrictions */
       fetchDataObjectAttributes: (modelNames, datasetIds) => dispatch(dataObjectAttributesActions.fetchPagedEntityListByPost(0, 10000, null, null, { modelNames, datasetIds })),
       fetchDataSetAttributes: (modelNames, datasetIds) => dispatch(dataSetAttributesActions.fetchPagedEntityListByPost(0, 10000, null, null, { modelNames, datasetIds })),
+      testOpenSearchQuery: (openSearchQuery) => dispatch(openSearchQueryTestActions.sendSignal('POST', { query: openSearchQuery })),
     }
   }
 
@@ -275,7 +278,7 @@ export class AdminContainer extends React.Component {
       hasLoadedDatasetsAndModels, hasLoadedInitialAttributes, navigationSections, selectedSectionType, selectedPageType,
     } = this.state
     const {
-      datasets, datasetModels,
+      datasets, datasetModels, testOpenSearchQuery,
       dataAttributeModels, datasetAttributeModels,
       adminForm: {
         form, currentNamespace, changeField, invalidFormConfig,
@@ -301,6 +304,7 @@ export class AdminContainer extends React.Component {
               changeField={changeField}
               invalidFormConfig={invalidFormConfig}
               onBrowseToPage={this.onBrowseToPage}
+              testOpenSearchQuery={testOpenSearchQuery}
             />
           </PluginsMetadataProvider>
         </LoadableContentDisplayDecorator>

@@ -16,15 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
 import Check from 'mdi-material-ui/Check'
 import Error from 'mdi-material-ui/AlertCircle'
 import Snackbar from 'material-ui/Snackbar'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import RaisedButton from 'material-ui/RaisedButton'
-import DatasetSubsettingTesterProgress from './DatasetSubsettingTesterProgress'
-import { SubsettingEditionDataset } from '../shapes/SubsettingsShapes'
+import CircularProgress from 'material-ui/CircularProgress'
+import messages from './i18n'
+import styles from './styles'
 
 const states = {
   NOT_TESTED: 'not_tested',
@@ -39,12 +41,12 @@ e passed {@link Connection}.<br>
  *
  * @author Xavier-Alexandre Brochard
  * @author Léo Mieulet
+ * @author Théo Lasserre
  */
-class DatasetSubsettingTesterIconButton extends React.Component {
+class OpenSearchTesterIconButton extends React.Component {
   static propTypes = {
-    currentDataset: SubsettingEditionDataset.isRequired,
-    subsetting: PropTypes.string,
-    handleTestSubsetting: PropTypes.func.isRequired,
+    openSearchRequest: PropTypes.string,
+    handleTestOpenSearchRequest: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -60,11 +62,11 @@ class DatasetSubsettingTesterIconButton extends React.Component {
   getSnackBarMessageId = (status) => {
     switch (status) {
       case states.SUCCESS:
-        return 'dataset.subsetting.snackbar.success'
+        return 'opensearch.tester.button.snackbar.success'
       case states.ERROR:
-        return 'dataset.subsetting.snackbar.error'
+        return 'opensearch.tester.button.snackbar.error'
       default:
-        return 'dataset.subsetting.snackbar.success'
+        return 'opensearch.tester.button.snackbar.success'
     }
   }
 
@@ -73,8 +75,8 @@ class DatasetSubsettingTesterIconButton extends React.Component {
       status: states.PENDING,
       snackBarOpen: false,
     })
-    const { handleTestSubsetting, subsetting } = this.props
-    Promise.resolve(handleTestSubsetting(subsetting))
+    const { handleTestOpenSearchRequest, openSearchRequest } = this.props
+    Promise.resolve(handleTestOpenSearchRequest(openSearchRequest))
       .then((resultingAction) => {
         if (resultingAction.error || !get(resultingAction, 'payload.validity', false)) {
           this.setState({
@@ -103,33 +105,33 @@ class DatasetSubsettingTesterIconButton extends React.Component {
   }
 
   render() {
-    const { currentDataset } = this.props
+    const { moduleTheme: { openSearchTesterStyle: { progressIconStyle } } } = this.context
     const testButton = (
       <RaisedButton
-        label={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.testSubsetQuery' })}
+        label={this.context.intl.formatMessage({ id: 'opensearch.tester.button.label' })}
         secondary
         onClick={this.handleTouchTap}
       />)
 
     const successButton = (<RaisedButton
-      label={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.testSubsetQuery' })}
+      label={this.context.intl.formatMessage({ id: 'opensearch.tester.button.label' })}
       icon={<Check color={this.context.muiTheme.palette.primary3Color} />}
       secondary
       onClick={this.handleTouchTap}
     />)
 
     const errorButton = (<RaisedButton
-      label={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.testSubsetQuery' })}
+      label={this.context.intl.formatMessage({ id: 'opensearch.tester.button.label' })}
       icon={<Error color={this.context.muiTheme.palette.accent1Color} />}
       secondary
       onClick={this.handleTouchTap}
     />)
 
-    const pendingProgress = <DatasetSubsettingTesterProgress />
+    const pendingProgress = <CircularProgress size={24} style={progressIconStyle} thickness={2.5} />
 
     const snackbar = (<Snackbar
       open={this.state.snackBarOpen}
-      message={this.context.intl.formatMessage({ id: this.getSnackBarMessageId(this.state.status) }, { label: currentDataset.content.label })}
+      message={this.context.intl.formatMessage({ id: this.getSnackBarMessageId(this.state.status) })}
       autoHideDuration={4000}
       onRequestClose={this.handleSnackbarRequestClose}
       onActionClick={this.handleSnackbarActionClick}
@@ -160,4 +162,4 @@ class DatasetSubsettingTesterIconButton extends React.Component {
   }
 }
 
-export default DatasetSubsettingTesterIconButton
+export default compose(withI18n(messages), withModuleStyle(styles))(OpenSearchTesterIconButton)

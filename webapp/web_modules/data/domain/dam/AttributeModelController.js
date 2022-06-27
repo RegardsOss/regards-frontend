@@ -151,11 +151,18 @@ const pseudoAttributesKeys = [
 ]
 
 /**
+ * Filters attributes that can be sorted
+ * @param {*} attribute attribute as returned by the server (within content field)
+ * @return {bool} true when that attribute can be used to sort
+ */
+const isSortableAttribute = (attribute) => !pseudoAttributesKeys.includes(get(attribute, 'content.name'))
+
+/**
  * Filters attributes that can be searched
  * @param {*} attribute attribute as returned by the server (within content field)
- * @return {bool} true when that attribute can be used to search, filter, sort...
+ * @return {bool} true when that attribute can be used to search, filter
  */
-const isSearchableAttribute = (attribute) => !pseudoAttributesKeys.includes(get(attribute, 'content.name'))
+const isSearchableAttribute = (attribute) => isSortableAttribute(attribute) && get(attribute, 'content.indexed') !== false
 
 const DEFAULT_FRAGMENT = 'default'
 
@@ -222,6 +229,7 @@ export default {
   getAttributeModelFullName,
   pseudoAttributesKeys,
   isSearchableAttribute,
+  isSortableAttribute,
   standardAttributesKeys,
   standardAttributesAsModel,
 }

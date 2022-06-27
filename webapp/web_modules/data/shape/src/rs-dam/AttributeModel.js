@@ -37,6 +37,7 @@ export const attributeModelFields = {
   facetable: PropTypes.bool,
   alterable: PropTypes.bool,
   optional: PropTypes.bool,
+  indexed: PropTypes.bool,
   esMapping: PropTypes.string,
   group: PropTypes.string,
 }

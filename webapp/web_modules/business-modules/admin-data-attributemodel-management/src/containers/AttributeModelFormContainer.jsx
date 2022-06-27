@@ -28,6 +28,7 @@ import { attributeModelTypeActions, attributeModelTypeSelectors } from '../clien
 import { attributeModelRestrictionActions, attributeModelRestrictionSelectors } from '../clients/AttributeModelRestrictionClient'
 import { fragmentActions, fragmentSelectors } from '../clients/FragmentClient'
 import AttributeModelFormComponent from '../components/AttributeModelFormComponent'
+import { ELASTIC_CONFIGURATION_TYPES_ENUM } from '../domain/ElasticConfigurationTypes'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 import messages from '../i18n'
 
@@ -171,6 +172,12 @@ export class AttributeModelFormContainer extends React.Component {
           type: 'JSON_SCHEMA',
           jsonSchema: values.restriction.JSON_SCHEMA.jsonSchema,
         }
+        if (values.restriction.JSON_SCHEMA.restrict && values.elasticConfType === ELASTIC_CONFIGURATION_TYPES_ENUM.SIMPLE) {
+          restriction = {
+            ...restriction,
+            indexableFields: values.restriction.JSON_SCHEMA.indexableFields || [],
+          }
+        }
       }
     }
     return restriction
@@ -198,7 +205,8 @@ export class AttributeModelFormContainer extends React.Component {
       type: values.type,
       precision: values.precision ? parseInt(values.precision, 10) : null,
       alterable: values.alterable,
-      esMapping: values.esMapping,
+      indexed: values.elasticConfType === ELASTIC_CONFIGURATION_TYPES_ENUM.SIMPLE ? values.indexed : undefined,
+      esMapping: values.elasticConfType === ELASTIC_CONFIGURATION_TYPES_ENUM.ADVANCED ? values.esMapping : undefined,
       optional: values.optional,
       unit: values.unit,
       restriction,
@@ -230,7 +238,8 @@ export class AttributeModelFormContainer extends React.Component {
       unit: values.unit,
       alterable: values.alterable,
       optional: values.optional,
-      esMapping: values.esMapping,
+      indexed: values.elasticConfType === ELASTIC_CONFIGURATION_TYPES_ENUM.SIMPLE ? values.indexed : undefined,
+      esMapping: values.elasticConfType === ELASTIC_CONFIGURATION_TYPES_ENUM.ADVANCED ? values.esMapping : undefined,
     }
     // Check if restriction is defined
     if (restriction.type) {

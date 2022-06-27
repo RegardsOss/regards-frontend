@@ -28,6 +28,7 @@ import { uiPluginDefinitionReducer } from './clients/UIPluginDefinitionClient'
 import { uiPluginMetaPartitionReducer } from './clients/UIPluginMetaPartitionClient'
 import { searchToponymReducer } from './clients/SearchToponymClient'
 import { toponymReducer } from './clients/ToponymClient'
+import { openSearchQueryTestReducer } from './clients/OpenSearchQueryClient'
 
 /**
  * Reducers for search-results module
@@ -53,6 +54,8 @@ const searchResultsReducers = {
   // toponyms
   searchToponym: searchToponymReducer,
   toponyms: toponymReducer,
+  // open search query
+  openSearchQuery: openSearchQueryTestReducer,
 }
 
 export default searchResultsReducers

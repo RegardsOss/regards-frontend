@@ -132,4 +132,126 @@ export default [{
       baseUri: 'http://localhost:8000/api/v1/rs-dam/models/attributes',
     },
   }],
+}, {
+  content: {
+    id: 8,
+    name: 'MyJSONAttribute',
+    description: 'Here is a description',
+    label: 'Here is a label',
+    jsonPath: 'properties.MyJSONAttribute',
+    type: 'JSON',
+    fragment: {
+      id: 1,
+      name: 'default',
+      description: 'This is a fragment containing a lot of attributes',
+    },
+    alterable: true,
+    optional: true,
+    indexed: true,
+    esMapping: undefined,
+    restriction: {
+      id: 126,
+      jsonSchema: '{\n    "test":"test"\n}',
+      type: 'JSON_SCHEMA',
+    },
+    properties: [],
+  },
+  links: [{
+    rel: 'self',
+    href: 'http://localhost:8000/api/v1/rs-dam/models/attributes/1',
+    template: {
+      variables: {
+        variables: [],
+      },
+      baseUri: 'http://localhost:8000/api/v1/rs-dam/models/attributes/1',
+    },
+  }, {
+    rel: 'update',
+    href: 'http://localhost:8000/api/v1/rs-dam/models/attributes/1',
+    template: {
+      variables: {
+        variables: [],
+      },
+      baseUri: 'http://localhost:8000/api/v1/rs-dam/models/attributes/1',
+    },
+  }, {
+    rel: 'delete',
+    href: 'http://localhost:8000/api/v1/rs-dam/models/attributes/1',
+    template: {
+      variables: {
+        variables: [],
+      },
+      baseUri: 'http://localhost:8000/api/v1/rs-dam/models/attributes/1',
+    },
+  }, {
+    rel: 'list',
+    href: 'http://localhost:8000/api/v1/rs-dam/models/attributes',
+    template: {
+      variables: {
+        variables: [],
+      },
+      baseUri: 'http://localhost:8000/api/v1/rs-dam/models/attributes',
+    },
+  }],
+}, {
+  content: {
+    id: 59,
+    name: 'MyJSONAttribute',
+    description: 'Here is a description',
+    label: 'Here is a label',
+    jsonPath: 'properties.MyJSONAttribute',
+    type: 'JSON',
+    fragment: {
+      id: 1,
+      name: 'default',
+      description: 'This is a fragment containing a lot of attributes',
+    },
+    alterable: true,
+    optional: true,
+    indexed: undefined,
+    esMapping: '',
+    restriction: {
+      id: 126,
+      jsonSchema: '{\n    "test":"test"\n}',
+      type: 'JSON_SCHEMA',
+    },
+    properties: [],
+  },
+  links: [{
+    rel: 'self',
+    href: 'http://localhost:8000/api/v1/rs-dam/models/attributes/1',
+    template: {
+      variables: {
+        variables: [],
+      },
+      baseUri: 'http://localhost:8000/api/v1/rs-dam/models/attributes/1',
+    },
+  }, {
+    rel: 'update',
+    href: 'http://localhost:8000/api/v1/rs-dam/models/attributes/1',
+    template: {
+      variables: {
+        variables: [],
+      },
+      baseUri: 'http://localhost:8000/api/v1/rs-dam/models/attributes/1',
+    },
+  }, {
+    rel: 'delete',
+    href: 'http://localhost:8000/api/v1/rs-dam/models/attributes/1',
+    template: {
+      variables: {
+        variables: [],
+      },
+      baseUri: 'http://localhost:8000/api/v1/rs-dam/models/attributes/1',
+    },
+  }, {
+    rel: 'list',
+    href: 'http://localhost:8000/api/v1/rs-dam/models/attributes',
+    template: {
+      variables: {
+        variables: [],
+      },
+      baseUri: 'http://localhost:8000/api/v1/rs-dam/models/attributes',
+    },
+  }],
 }]

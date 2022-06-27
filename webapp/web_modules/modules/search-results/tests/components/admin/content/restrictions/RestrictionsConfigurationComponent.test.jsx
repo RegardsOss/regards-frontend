@@ -69,6 +69,7 @@ describe('[SEARCH RESULTS] Testing RestrictionsConfigurationComponent', () => {
         spyChangeField.namespace = namespace
         spyChangeField.restrictions = restrictions
       },
+      testOpenSearchQuery: () => { },
     }
     const enzymeWrapper = shallow(<RestrictionsConfigurationComponent {...props} />, { context })
     // 0 - Check common fields

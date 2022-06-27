@@ -85,7 +85,6 @@ const messages = {
   'dataset.form.subsetting.subtitle': 'Setup subsetting',
   'dataset.form.subsetting.attributes': 'Attribute from object model',
   'dataset.form.subsetting.opensearch': 'Filter request in OpenSearch',
-  'dataset.form.subsetting.testSubsetQuery': 'Test the request',
   'dataset.form.subsetting.action.next': 'Save',
   'dataset.form.subsetting.action.cancel': 'Previous',
 
@@ -109,9 +108,6 @@ const messages = {
   'dataset.table.refresh.button': 'Refresh',
   'dataset.no.dataset.title': 'No datasets',
   'dataset.no.dataset.subtitle': 'Create your first dataset',
-
-  'dataset.subsetting.snackbar.success': 'The subsetting is OK',
-  'dataset.subsetting.snackbar.error': 'The subsetting is not OK',
 
   'dataset.edit.title': 'Edit dataset {name}',
   'dataset.create.title': 'Create a dataset',

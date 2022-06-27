@@ -47,4 +47,9 @@ export default (theme) => ({
       marginTop: '16px',
     },
   },
+  openSearchTesterStyle: {
+    progressIconStyle: {
+      marginLeft: 12,
+    },
+  },
 })

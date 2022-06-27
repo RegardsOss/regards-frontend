@@ -65,6 +65,8 @@ class MainFormComponent extends React.Component {
     changeField: PropTypes.func.isRequired,
     // browse to page callback (section, page) => ()
     onBrowseToPage: PropTypes.func.isRequired,
+    // test open search query
+    testOpenSearchQuery: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -101,7 +103,7 @@ class MainFormComponent extends React.Component {
       selectedSectionType, selectedPageType, changeField,
       datasets, datasetModels, dataAttributeModels,
       fetchingMetadata, pluginsMetadata,
-      currentFormValues, currentNamespace,
+      currentFormValues, currentNamespace, testOpenSearchQuery,
     } = this.props
     switch (selectedSectionType) {
       case FORM_SECTIONS_ENUM.MAIN:
@@ -136,6 +138,7 @@ class MainFormComponent extends React.Component {
             datasets={datasets}
             datasetModels={datasetModels}
             changeField={changeField}
+            testOpenSearchQuery={testOpenSearchQuery}
           />)
       case DamDomain.ENTITY_TYPES_ENUM.DATA:
       case DamDomain.ENTITY_TYPES_ENUM.DATASET: {

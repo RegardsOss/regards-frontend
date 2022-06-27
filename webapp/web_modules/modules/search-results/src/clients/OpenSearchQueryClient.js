@@ -16,17 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import React from 'react'
-import CircularProgress from 'material-ui/CircularProgress'
-
-const style = { marginLeft: 12 }
+import { DataManagementClient } from '@regardsoss/client'
 
 /**
- * Wraps a Material-Ui's {@link CircularProgress} with styles adapted for usage in {@link ConnectionTesterIconButton}
+ * OpenSearch query client.
  *
- * @author Léo Mieulet
- * @author Xavier-Alexandre Brochard
+ * @author Théo Lasserre
  */
-const ConnectionTesterProgress = () => <CircularProgress size={24} style={style} thickness={2.5} />
+const REDUX_ACTION_NAMESPACE = 'search-results/openSearchQuery'
 
-export default ConnectionTesterProgress
+export const openSearchQueryTestReducer = DataManagementClient.getDatasetValidSubsettingTestReducer(REDUX_ACTION_NAMESPACE)
+export const openSearchQueryTestActions = new DataManagementClient.DatasetValidSubsettingTestActions(REDUX_ACTION_NAMESPACE)

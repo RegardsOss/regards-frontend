@@ -86,6 +86,7 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       fetchDatasetModels: () => new Promise((resolve) => resolve()),
       fetchDataObjectAttributes: () => new Promise((resolve) => resolve()),
       fetchDataSetAttributes: () => new Promise((resolve) => resolve()),
+      testOpenSearchQuery: () => {},
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     // 1 - check state
@@ -164,6 +165,7 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       fetchDatasetModels: () => new Promise((resolve) => resolve()),
       fetchDataObjectAttributes: () => new Promise((resolve) => resolve()),
       fetchDataSetAttributes: () => new Promise((resolve) => resolve()),
+      testOpenSearchQuery: () => {},
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     // 1 - check there are currently the main, data and dataset sections
@@ -221,6 +223,7 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       fetchDatasetModels: () => new Promise((resolve) => resolve()),
       fetchDataObjectAttributes: () => new Promise((resolve) => resolve()),
       fetchDataSetAttributes: () => new Promise((resolve) => resolve()),
+      testOpenSearchQuery: () => { },
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     // 1 - check there are currently the main, data and dataset sections

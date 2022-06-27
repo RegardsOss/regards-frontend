@@ -21,8 +21,7 @@ import { UIDomain, CommonDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { HelpDialogComponent } from '@regardsoss/components'
-
+import { HelpDialogComponent, OpenSearchTesterIconButton } from '@regardsoss/components'
 import {
   FieldsGroup, Field, FieldArray, RenderCheckbox, RenderTextField,
 } from '@regardsoss/form-utils'
@@ -42,11 +41,17 @@ class RestrictionsConfigurationComponent extends React.Component {
     datasetModels: DataManagementShapes.ModelList.isRequired,
     // redux change field method
     changeField: PropTypes.func.isRequired,
+    // test open search query
+    testOpenSearchQuery: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  state = {
+    openSearchQuery: '',
   }
 
   /**
@@ -62,12 +67,19 @@ class RestrictionsConfigurationComponent extends React.Component {
     })
   }
 
+  handleOnBlur = (event, value, props, fieldName, a, b) => {
+    this.setState({
+      openSearchQuery: encodeURIComponent(value),
+    })
+  }
+
   render() {
     const {
       currentNamespace, currentRestrictionsValues,
-      datasets, datasetModels,
+      datasets, datasetModels, testOpenSearchQuery,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { user: { restrictionStyle: { openSearchContent } } } } = this.context
+    const { openSearchQuery } = this.state
+    const { intl: { formatMessage }, moduleTheme: { user: { restrictionStyle: { openSearchContent }, openSearchButtonDivStyle } } } = this.context
     return (
       <>
         {/* Restrictions using data */ }
@@ -87,6 +99,7 @@ class RestrictionsConfigurationComponent extends React.Component {
               label={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.request' })}
               hintText={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.hint' })}
               fullWidth
+              onBlur={this.handleOnBlur}
             />
             <HelpDialogComponent
               iconTitle={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.info.button' })}
@@ -95,6 +108,12 @@ class RestrictionsConfigurationComponent extends React.Component {
               buttonLabel={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.close' })}
               link={CommonDomain.LINK_DOC_SEARCH_API}
               linkLabel={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.link' })}
+            />
+          </div>
+          <div style={openSearchButtonDivStyle}>
+            <OpenSearchTesterIconButton
+              openSearchRequest={openSearchQuery}
+              handleTestOpenSearchRequest={testOpenSearchQuery}
             />
           </div>
         </FieldsGroup>

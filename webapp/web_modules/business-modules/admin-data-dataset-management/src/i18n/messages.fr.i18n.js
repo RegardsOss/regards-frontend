@@ -85,7 +85,6 @@ const messages = {
   'dataset.form.subsetting.subtitle': 'Mise en place du subsetting',
   'dataset.form.subsetting.attributes': 'Attributs du modèle d\'objet',
   'dataset.form.subsetting.opensearch': 'Requête de filtre en OpenSearch',
-  'dataset.form.subsetting.testSubsetQuery': 'Tester la requête',
   'dataset.form.subsetting.action.next': 'Sauvegarder',
   'dataset.form.subsetting.action.cancel': 'Retour',
 
@@ -109,9 +108,6 @@ const messages = {
   'dataset.table.refresh.button': 'Rafraîchir',
   'dataset.no.dataset.title': 'Pas de jeux de données',
   'dataset.no.dataset.subtitle': 'Créez votre premier jeu de données',
-
-  'dataset.subsetting.snackbar.success': 'Le filtre est OK',
-  'dataset.subsetting.snackbar.error': 'Le filtre ne fonctionne pas',
 
   'dataset.edit.title': 'Édition du jeu de données {name}',
   'dataset.create.title': 'Création d\'un nouveau jeu de données',

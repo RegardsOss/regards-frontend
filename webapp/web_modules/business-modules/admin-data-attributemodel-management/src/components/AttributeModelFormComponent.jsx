@@ -17,10 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import get from 'lodash/get'
+import { formValueSelector } from 'redux-form'
 import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'
-
+import { RadioButton } from 'material-ui/RadioButton'
 import {
   RenderTextField,
   RenderCheckbox,
@@ -29,10 +31,15 @@ import {
   Field,
   ValidationHelpers,
   reduxForm,
+  RenderRadio,
 } from '@regardsoss/form-utils'
-import { CardActionsComponent, ShowableAtRender, HelpMessageComponent } from '@regardsoss/components'
+import {
+  CardActionsComponent, ShowableAtRender, HelpMessageComponent, Title,
+  HelpDialogComponent,
+} from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import MenuItem from 'material-ui/MenuItem'
 import { DamDomain } from '@regardsoss/domain'
@@ -42,6 +49,7 @@ import JsonSchemaComponent, { initializeJsonSchemaForm } from './JsonSchemaCompo
 import PatternComponent, { initializePatternForm } from './PatternComponent'
 import moduleStyles from '../styles/styles'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
+import { ELASTIC_CONFIGURATION_TYPES, ELASTIC_CONFIGURATION_TYPES_ENUM } from '../domain/ElasticConfigurationTypes'
 import AttributeModelUnitFieldComponent from './AttributeModelUnitFieldComponent'
 
 const ATT_MODEL_NAME_MIN_SIZE = 1
@@ -79,6 +87,8 @@ export class AttributeModelFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
+    isRestrictedCheckboxToggled: PropTypes.bool.isRequired,
+    selectedElasticConfig: PropTypes.oneOf(ELASTIC_CONFIGURATION_TYPES).isRequired,
   }
 
   static contextTypes = {
@@ -139,6 +149,7 @@ export class AttributeModelFormComponent extends React.Component {
    * @returns {XML}
    */
   getRestrictionForm = (restrictionName) => {
+    const { isRestrictedCheckboxToggled, selectedElasticConfig } = this.props
     switch (restrictionName) {
       case 'INTEGER_RANGE':
         return (
@@ -172,6 +183,8 @@ export class AttributeModelFormComponent extends React.Component {
         return (
           <JsonSchemaComponent
             change={this.props.change}
+            selectedElasticConfig={selectedElasticConfig}
+            isRestrictedCheckboxToggled={isRestrictedCheckboxToggled}
           />
         )
       case 'PATTERN':
@@ -243,10 +256,12 @@ export class AttributeModelFormComponent extends React.Component {
         description: currentAttrModel.content.description,
         alterable: currentAttrModel.content.alterable,
         optional: currentAttrModel.content.optional,
+        indexed: currentAttrModel.content.indexed,
         esMapping: currentAttrModel.content.esMapping,
         restriction: {},
         precision: currentAttrModel.content.precision,
         arraysize: currentAttrModel.content.arraysize,
+        elasticConfType: get(currentAttrModel, 'content.esMapping', false) ? ELASTIC_CONFIGURATION_TYPES_ENUM.ADVANCED : ELASTIC_CONFIGURATION_TYPES_ENUM.SIMPLE,
       }
       if (currentAttrModel.content.restriction) {
         // Fill restriction object
@@ -281,23 +296,25 @@ export class AttributeModelFormComponent extends React.Component {
         optional: false,
         fragment: this.props.defaultFragmentName || DEFAULT_FRAGMENT_NAME,
         unit: 'unitless',
+        elasticConfType: ELASTIC_CONFIGURATION_TYPES_ENUM.SIMPLE,
       })
     }
   }
 
   /**
-   * return react component
-   * @returns {XML}
-   */
+  * return react component
+  * @returns {XML}
+  */
   render() {
     const {
       attrModelTypeList, attrModelRestrictionList, fragmentList, pristine, submitting, invalid,
+      handleSubmit, onSubmit, selectedElasticConfig,
     } = this.props
     const styles = moduleStyles(this.context.muiTheme)
     const title = this.state.isCreating ? this.context.intl.formatMessage({ id: 'attrmodel.create.title' })
       : this.context.intl.formatMessage({ id: 'attrmodel.edit.title' }, { name: this.props.currentAttrModel.content.name })
     return (
-      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Card>
           <CardTitle
             title={title}
@@ -390,14 +407,49 @@ export class AttributeModelFormComponent extends React.Component {
               component={RenderCheckbox}
               label={this.context.intl.formatMessage({ id: 'attrmodel.form.optional' })}
             />
-            <Field
-              name="esMapping"
-              fullWidth
-              component={RenderJsonCodeEditorField}
-              asString
-              type="number"
-              label={this.context.intl.formatMessage({ id: 'attrmodel.form.esmapping' })}
+            <Title
+              label={this.context.intl.formatMessage({ id: 'attrmodel.form.config.elastic' })}
+              level={3}
             />
+            <Field
+              name="elasticConfType"
+              component={RenderRadio}
+              fullWidth
+            >
+              {
+                ELASTIC_CONFIGURATION_TYPES.map((type) => (
+                  <RadioButton
+                    key={type}
+                    value={type}
+                    label={this.context.intl.formatMessage({ id: `attrmodel.form.config.elastic.type.${type}` })}
+                  />))
+              }
+            </Field>
+            {
+              selectedElasticConfig === ELASTIC_CONFIGURATION_TYPES_ENUM.SIMPLE
+                ? <div style={styles.indexableDivStyle}>
+                  <Field
+                    name="indexed"
+                    label={this.context.intl.formatMessage({ id: 'attrmodel.form.config.elastic.type.SIMPLE.searchable' })}
+                    component={RenderCheckbox}
+                    onChange={this.handleIndexedFieldChange}
+                  />
+                  <HelpDialogComponent
+                    iconTitle={this.context.intl.formatMessage({ id: 'attrmodel.form.config.elastic.type.SIMPLE.searchable.info.button' })}
+                    title={this.context.intl.formatMessage({ id: 'attrmodel.form.config.elastic.type.SIMPLE.searchable.dialog.title' })}
+                    message={this.context.intl.formatMessage({ id: 'attrmodel.form.config.elastic.type.SIMPLE.searchable.dialog.message' })}
+                    buttonLabel={this.context.intl.formatMessage({ id: 'attrmodel.form.config.elastic.type.SIMPLE.searchable.dialog.close' })}
+                  />
+                </div>
+                : <Field
+                    name="esMapping"
+                    fullWidth
+                    component={RenderJsonCodeEditorField}
+                    asString
+                    type="number"
+                    label={this.context.intl.formatMessage({ id: 'attrmodel.form.config.elastic.type.ADVANCED.esmapping' })}
+                />
+            }
           </CardText>
         </Card>
         {map(attrModelRestrictionList, (restriction, id) => (
@@ -450,7 +502,16 @@ function validate(values) {
   return errors
 }
 
-export default reduxForm({
-  form: 'attribute-model-form',
+// prepare redux form
+const formId = 'attribute-model-form'
+const connectedReduxForm = reduxForm({
+  form: formId,
   validate,
 })(AttributeModelFormComponent)
+
+// export connected with selector to select the last mail value
+const selector = formValueSelector(formId)
+export default connect((state) => ({
+  isRestrictedCheckboxToggled: selector(state, 'restriction.JSON_SCHEMA.restrict') || false,
+  selectedElasticConfig: selector(state, 'elasticConfType') || ELASTIC_CONFIGURATION_TYPES_ENUM.SIMPLE,
+}))(connectedReduxForm)

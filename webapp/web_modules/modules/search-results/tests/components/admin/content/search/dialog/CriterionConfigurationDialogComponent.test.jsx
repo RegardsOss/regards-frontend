@@ -55,6 +55,7 @@ describe('[SEARCH RESULTS] Testing CriterionConfigurationDialogComponent', () =>
         spyInitialize.count += 1
         spyInitialize.values = values
       },
+      attributesFilter: () => {},
     }
     const enzymeWrapper = shallow(<CriterionConfigurationDialogComponent {...props} />, { context })
     const dialogWrapper = enzymeWrapper.find(Dialog)
@@ -76,6 +77,7 @@ describe('[SEARCH RESULTS] Testing CriterionConfigurationDialogComponent', () =>
         spyInitialize.count += 1
         spyInitialize.values = values
       },
+      attributesFilter: DamDomain.AttributeModelController.isSearchableAttribute,
     }
     // 0 - Init (closed, the component does not support immediate opening as it is useless in real edition)
     const enzymeWrapper = shallow(<CriterionConfigurationDialogComponent {...props} />, { context })
@@ -142,7 +144,6 @@ describe('[SEARCH RESULTS] Testing CriterionConfigurationDialogComponent', () =>
       DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId),
       DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
       DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.model),
-      DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.geometry),
     ], [ // field 2: string array attributes
       DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.tags),
     ], [ // field 3: long / double / Integer attributes
@@ -209,6 +210,7 @@ describe('[SEARCH RESULTS] Testing CriterionConfigurationDialogComponent', () =>
       invalid: false,
       editedConfiguration: { a: 8, b: 'écureil!' },
       initialize: () => {},
+      attributesFilter: DamDomain.AttributeModelController.isSearchableAttribute,
     }
     const enzymeWrapper = shallow(<CriterionConfigurationDialogComponent {...props} />, { context })
     enzymeWrapper.instance().onConfirm()
@@ -262,6 +264,7 @@ describe('[SEARCH RESULTS] Testing CriterionConfigurationDialogComponent', () =>
       invalid: false,
       editedConfiguration: { a: 8, b: 'écureil!' },
       initialize: () => {},
+      attributesFilter: DamDomain.AttributeModelController.isSearchableAttribute,
     }
     const enzymeWrapper = shallow(<CriterionConfigurationDialogComponent {...props} />, { context })
     // 1 - undefined / null / empty

@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
+import find from 'lodash/find'
 import { fieldArrayFieldsPropTypes } from 'redux-form'
 import Chip from 'material-ui/Chip'
 import isEmpty from 'lodash/isEmpty'
@@ -81,7 +82,7 @@ class RenderFieldArray extends React.Component {
     this.setState({
       fieldText: value,
       fieldInError: !!(validateFunction && validateFunction(value)),
-      fieldAlreadyExist: fields.getAll().find((field) => field === value),
+      fieldAlreadyExist: find(fields.getAll(), (field) => field === value),
     })
   }
 

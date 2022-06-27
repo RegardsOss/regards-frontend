@@ -56,7 +56,7 @@ class SortingConfigurationComponent extends React.Component {
         <div style={content.tableFieldSpacer}>
           <AttributesListConfigurationComponent
             selectableAttributes={availableAttributes}
-            attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
+            attributesFilter={DamDomain.AttributeModelController.isSortableAttribute}
             attributesList={currentTypeFormValues.sorting}
             attributesListFieldName={`${currentTypeNamespace}.sorting`}
             hintMessageKey="search.results.form.configuration.result.no.sorting"

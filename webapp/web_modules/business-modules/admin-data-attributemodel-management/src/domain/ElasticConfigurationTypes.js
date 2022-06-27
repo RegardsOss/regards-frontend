@@ -15,16 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
+import values from 'lodash/values'
 
-const styles = (theme) => ({
-  cardEspaced: {
-    marginTop: '20px',
-  },
-  indexableDivStyle: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-})
+/**
+  * @author Théo Lasserre
+  */
 
-export default styles
+export const ELASTIC_CONFIGURATION_TYPES_ENUM = {
+  SIMPLE: 'SIMPLE',
+  ADVANCED: 'ADVANCED',
+}
+
+export const ELASTIC_CONFIGURATION_TYPES = values(ELASTIC_CONFIGURATION_TYPES_ENUM)

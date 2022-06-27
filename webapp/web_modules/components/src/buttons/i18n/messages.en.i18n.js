@@ -32,6 +32,11 @@ const messages = {
   'numerical.comparator.selector.SL.tooltip': 'Results are lesser than value',
   'numerical.comparator.selector.SG.label': 'greater than',
   'numerical.comparator.selector.SG.tooltip': 'Results are greater than value',
+
+  // opensearch tester button
+  'opensearch.tester.button.label': 'Test the request',
+  'opensearch.tester.button.snackbar.success': 'The filter is OK',
+  'opensearch.tester.button.snackbar.error': 'The filter is not OK',
 }
 
 export default messages
