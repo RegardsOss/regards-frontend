@@ -49,8 +49,8 @@ class StorageLocationNbFilesStoredRenderer extends React.Component {
         {
           nbFilesStoredWithPendingActionRemaining > 0
             && <IconButton
-                title={formatMessage({ id: 'storage.location.list.column.nbFiles.pending' }, { value: nbFilesStoredWithPendingActionRemaining })}
-                iconStyle={iconStyle}
+              title={formatMessage({ id: 'storage.location.list.column.nbFiles.pending' }, { value: nbFilesStoredWithPendingActionRemaining })}
+              iconStyle={iconStyle}
             >
               <WarningIcon />
             </IconButton>
