@@ -49,13 +49,11 @@ class VisibleOptionComponent extends React.Component {
    */
   onUpdate = () => {
     const { theme, onUpdate } = this.props
-    const isVisible = this.isThemeVisible()
+    const isVisible = this.isThemeVisible(theme)
     const newThemeValue = {
-      ...theme,
-      content: {
-        ...theme.content,
-        visible: !isVisible,
-      },
+      ...theme.content,
+      configuration: JSON.stringify(theme.content.configuration),
+      visible: !isVisible,
     }
     onUpdate(newThemeValue)
   }
@@ -63,7 +61,7 @@ class VisibleOptionComponent extends React.Component {
   render() {
     const { theme } = this.props
     const { intl: { formatMessage }, moduleTheme: { themeList } } = this.context
-    const isVisible = this.isThemeVisible()
+    const isVisible = this.isThemeVisible(theme)
     return (
       <HateoasIconAction
         entityLinks={theme.links}

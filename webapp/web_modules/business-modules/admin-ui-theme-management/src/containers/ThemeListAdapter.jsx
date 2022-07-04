@@ -78,6 +78,8 @@ export class ThemeListAdapter extends React.Component {
    */
   handleDuplicate = (themeId) => browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/duplicate`)
 
+  onRefresh = () => { this.props.fetchThemeList() }
+
   render() {
     const deleteTheme = this.props.isInstance ? this.props.deleteInstanceTheme : this.props.deleteTheme
     const fetchThemeList = this.props.isInstance ? this.props.fetchThemeInstanceList : this.props.fetchThemeList
@@ -90,6 +92,7 @@ export class ThemeListAdapter extends React.Component {
         createUrl={this.getCreateUrl()}
         handleEdit={this.handleEdit}
         handleDuplicate={this.handleDuplicate}
+        onRefresh={this.onRefresh}
         deleteTheme={deleteTheme}
         fetchThemeList={fetchThemeList}
         updateTheme={updateTheme}
@@ -109,8 +112,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchThemeInstanceList: () => dispatch(ThemeInstanceActions.fetchPagedEntityList(0, 100)),
   deleteTheme: (themeId) => dispatch(ThemeActions.deleteEntity(themeId)),
   deleteInstanceTheme: (themeId) => dispatch(ThemeInstanceActions.deleteEntity(themeId)),
-  updateTheme: (theme) => dispatch(ThemeActions.updateEntity(theme.content.id, theme)),
-  updateInstanceTheme: (theme) => dispatch(ThemeInstanceActions.updateEntity(theme.content.id, theme)),
+  updateTheme: (theme) => dispatch(ThemeActions.updateEntity(theme.id, theme)),
+  updateInstanceTheme: (theme) => dispatch(ThemeInstanceActions.updateEntity(theme.id, theme)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThemeListAdapter)

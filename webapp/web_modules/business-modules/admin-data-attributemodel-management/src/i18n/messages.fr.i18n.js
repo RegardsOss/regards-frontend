@@ -39,7 +39,7 @@ const messages = {
 
   'attrmodel.edit.title': 'Éditer l\'attribut de modèle {name}',
   'attrmodel.create.title': 'Ajouter un attribut de modèle',
-  'attrmodel.form.name': 'Nom du l\'attribut',
+  'attrmodel.form.name': 'Nom de l\'attribut',
   'attrmodel.form.label': 'Label de l\'attribut',
   'attrmodel.form.unit': 'Unité',
   'attrmodel.form.fragment': 'Fragment',

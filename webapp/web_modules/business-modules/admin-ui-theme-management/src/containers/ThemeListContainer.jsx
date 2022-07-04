@@ -38,6 +38,7 @@ export class ThemeListContainer extends React.Component {
     fetchThemeList: PropTypes.func.isRequired,
     deleteTheme: PropTypes.func.isRequired,
     updateTheme: PropTypes.func.isRequired,
+    onRefresh: PropTypes.func.isRequired,
   }
 
   state = {
@@ -56,11 +57,21 @@ export class ThemeListContainer extends React.Component {
   }
 
   handleDelete = (themeId) => {
-    this.props.deleteTheme(themeId)
+    Promise.resolve(this.props.deleteTheme(themeId))
+      .then((actionResult) => {
+        if (!actionResult.error) {
+          this.props.onRefresh()
+        }
+      })
   }
 
   handleUpdate = (theme) => {
-    this.props.updateTheme(theme)
+    Promise.resolve(this.props.updateTheme(theme))
+      .then((actionResult) => {
+        if (!actionResult.error) {
+          this.props.onRefresh()
+        }
+      })
   }
 
   render() {
