@@ -110,13 +110,13 @@ export class ProjectUserQuotaContainer extends React.Component {
     this.performAll([onDeleteAccount(accountId)], onRefresh)
   }
 
-  onSetMaxQuota = (account, maxQuota, onRefresh) => {
+  onSetMaxQuota = (account, maxQuota) => {
     const { onUpdateAccount } = this.props
     const updatedAccount = {
       ...account.content,
       maxQuota,
     }
-    this.performAll([onUpdateAccount(account.content.id, updatedAccount)], onRefresh)
+    onUpdateAccount(account.content.id, updatedAccount)
   }
 
   /**

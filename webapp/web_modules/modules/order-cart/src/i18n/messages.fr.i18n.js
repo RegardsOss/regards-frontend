@@ -73,7 +73,7 @@ const messages = {
     =0 {} 
     one {}
     other {s}
-  } ({afterOrderQuota} restant).{warningMessage}`,
+  } ({afterOrderQuota} restants).{warningMessage}`,
   'order-cart.module.basket.table.cell.total.quota.warning.message': ' Votre nombre de téléchargement restant après commande sera faible.',
   'order-cart.module.basket.table.cell.total.quota.consumed.message': ' Vous ne pourrez probablement pas télécharger intégralement la commande.',
   'order-cart.module.basket.table.delete.dataset.tooltip': 'Supprimer les sélections d\'objets de ce jeu de données',
