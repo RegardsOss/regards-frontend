@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import values from 'lodash/values'
 import { DamDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AttributesListConfigurationComponent } from '../../src/configuration/AttributesListConfigurationComponent'
@@ -79,7 +80,7 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
     testSuiteHelpers.assertWrapperProperties(tableWrapper, {
       hintMessageKey: props.hintMessageKey,
       attributesList: props.attributesList,
-      attributeModels: wrapperState.attributeModels, // attribute models should be reported from the state
+      attributeModels: values(props.selectableAttributes), // attribute models should be reported from the props
       allowAttributesGroups: props.allowAttributesGroups,
       allowLabel: props.allowLabel,
       onAdd: wrapperInstance.onShowAddDialog,

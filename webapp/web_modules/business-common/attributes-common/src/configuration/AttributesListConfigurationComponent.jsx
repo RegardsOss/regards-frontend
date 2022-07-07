@@ -288,7 +288,7 @@ export class AttributesListConfigurationComponent extends React.Component {
   render() {
     const {
       hintMessageKey, attributesList, allowAttributesGroups,
-      allowLabel, allowRendererSelection,
+      allowLabel, allowRendererSelection, selectableAttributes,
     } = this.props
     const { attributeModels, editionData, multipleSelectionData } = this.state
     return (
@@ -313,7 +313,7 @@ export class AttributesListConfigurationComponent extends React.Component {
         <AttributeListTableComponent
           hintMessageKey={hintMessageKey}
           attributesList={attributesList}
-          attributeModels={attributeModels}
+          attributeModels={values(selectableAttributes)}
           allowAttributesGroups={allowAttributesGroups}
           allowLabel={allowLabel}
           // callbacks to show dialogs

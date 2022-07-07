@@ -75,6 +75,7 @@
     "@regardsoss/admin-board-commands": "file:web_modules/business-modules/admin-board-commands",
     "@regardsoss/admin-board-dataaccess": "file:web_modules/business-modules/admin-board-dataaccess",
     "@regardsoss/admin-board-models": "file:web_modules/business-modules/admin-board-models",
+    "@regardsoss/admin-configuration-modules-management": "file:web_modules/business-common/admin-configuration-modules-management",
     "@regardsoss/admin-dashboard-management": "file:web_modules/business-modules/admin-dashboard-management",
     "@regardsoss/admin-data-attribute-plugins-management": "file:web_modules/business-modules/admin-data-attribute-plugins-management",
     "@regardsoss/admin-data-attributemodel-management": "file:web_modules/business-modules/admin-data-attributemodel-management",

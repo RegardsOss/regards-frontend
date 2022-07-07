@@ -23,6 +23,7 @@ import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateResultShape } from '@regardsoss/authentication-utils'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
+import { ModulesConfigurationErrorContainer } from '@regardsoss/admin-configuration-modules-management'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import { AnchorComponent } from '@regardsoss/components'
@@ -49,6 +50,9 @@ export class AdminLayout extends React.Component {
       project: PropTypes.string,
     }),
     location: CommonShapes.LocationShape.isRequired,
+    currentRole: PropTypes.string.isRequired,
+    isAuthenticated: PropTypes.bool,
+    isInstance: PropTypes.bool,
     // from mapStateToProps
     auth: AuthenticateResultShape.isRequired,
   }
@@ -119,7 +123,10 @@ export class AdminLayout extends React.Component {
   }
 
   render() {
-    const { content, params: { project } } = this.props
+    const {
+      content, params: { project }, currentRole, isAuthenticated,
+      isInstance,
+    } = this.props
     const { moduleTheme: { adminApp } } = this.context
     const { menuModuleConf } = this.state
     const isOnInstanceDashboard = !project
@@ -135,6 +142,11 @@ export class AdminLayout extends React.Component {
                 module={menuModuleConf}
               />
             </div>
+            <ModulesConfigurationErrorContainer
+              currentRole={currentRole}
+              isAuthenticated={isAuthenticated}
+              isInstance={isInstance}
+            />
             <div>
               <I18nProvider messages={messages}>
                 {this.getSidebar(isOnInstanceDashboard)}
