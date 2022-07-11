@@ -55,6 +55,7 @@ class DownloadResultButton extends React.Component {
         tooltip={formatMessage({ id: 'entities.common.services.download.service.result' })}
         downloadURL={localAccessURL}
         downloadName={fileName}
+        isBlank
       />)
   }
 }
