@@ -18,7 +18,6 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { AdminDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ModulesConfigurationErrorContainer } from '../../src/containers/ModulesConfigurationErrorContainer'
 import { moduleDumps1, attrDumps1 } from '../dumps/dumps'
@@ -37,9 +36,8 @@ describe('[ADMIN CONFIGURATION MODULE MANAGEMENT] Testing ModulesConfigurationEr
   it('should exists', () => {
     assert.isDefined(ModulesConfigurationErrorContainer)
   })
-  it('should render correctly no error message without project admin role', () => {
+  it('should render correctly an error message', () => {
     const props = {
-      currentRole: AdminDomain.DEFAULT_ROLES_ENUM.REGISTERED_USER,
       isAuthenticated: true,
       isInstance: false,
       isFetchingAttributes: false,
@@ -50,31 +48,16 @@ describe('[ADMIN CONFIGURATION MODULE MANAGEMENT] Testing ModulesConfigurationEr
       fetchAttrModelList: () => { },
     }
     const enzymeWrapper = shallow(<ModulesConfigurationErrorContainer {...props} />, { context })
-    assert.isEmpty(enzymeWrapper.instance().state.errorConfDialogContent)
-  })
-  it('should render correctly no error message without configuration errors', () => {
-    const props = {
-      currentRole: AdminDomain.DEFAULT_ROLES_ENUM.PROJECT_ADMIN,
-      isAuthenticated: true,
-      isInstance: false,
-      isFetchingAttributes: false,
-      isFetchingModules: false,
-      attributes: attrDumps1,
-      modules: moduleDumps1,
-      fetchModules: () => { },
-      fetchAttrModelList: () => { },
-    }
-    const enzymeWrapper = shallow(<ModulesConfigurationErrorContainer {...props} />, { context })
-    assert.isNotEmpty(enzymeWrapper.instance().state.errorConfDialogContent)
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfDialogContent, 2)
+    assert.isNotEmpty(enzymeWrapper.instance().state.errorConfContent)
+    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent, 2)
 
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfDialogContent[0].filters, 3)
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfDialogContent[0].criteriasGroup, 1)
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfDialogContent[0].criteriasGroup[0].criteriaAttribute, 2)
+    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[0].filters, 3)
+    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[0].criteriasGroup, 1)
+    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[0].criteriasGroup[0].criteriaAttribute, 2)
 
-    assert.notExists(enzymeWrapper.instance().state.errorConfDialogContent[1].filters)
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfDialogContent[1].criteriasGroup, 1)
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfDialogContent[1].criteriasGroup[0].criteriaAttribute, 1)
-    assert.notExists(enzymeWrapper.instance().state.errorConfDialogContent[1].criteriasGroup[1])
+    assert.notExists(enzymeWrapper.instance().state.errorConfContent[1].filters)
+    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[1].criteriasGroup, 1)
+    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[1].criteriasGroup[0].criteriaAttribute, 1)
+    assert.notExists(enzymeWrapper.instance().state.errorConfContent[1].criteriasGroup[1])
   })
 })

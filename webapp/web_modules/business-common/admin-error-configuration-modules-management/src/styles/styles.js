@@ -18,7 +18,7 @@
  **/
 
 export default (theme) => ({
-  errorDialogStyle: {
+  errorDivStyle: {
     mainDiv: {
       backgroundColor: '#B00020',
       padding: '5px 5px 5px 0px',
@@ -38,18 +38,26 @@ export default (theme) => ({
       padding: '5px 5px 5px 0px',
     },
     titleAndSubStyle: {
-      display: 'flex', flexDirection: 'column', marginLeft: '15px',
+      display: 'flex',
+      flexDirection: 'column',
+      marginLeft: '15px',
     },
     titleStyle: {
-      textAlign: 'center', fontSize: '24px', fontWeight: 'bold', marginBottom: '15px',
+      textAlign: 'center',
+      fontSize: '24px',
+      fontWeight: 'bold',
+      marginBottom: '15px',
     },
   },
   errorMessageStyle: {
     mainErrorMessageStyle: {
-      display: 'flex', flexDirection: 'column',
+      display: 'flex',
+      flexDirection: 'column',
     },
-    errorDialogContentStyle: {
-      display: 'flex', flexDirection: 'column', marginLeft: '15px',
+    errorDivContentStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+      marginLeft: '15px',
     },
     ulStyle: {
       marginLeft: '20px',

@@ -28,7 +28,7 @@ import { dataAccessReducers } from '@regardsoss/admin-board-dataaccess'
 import { modelsReducers } from '@regardsoss/admin-board-models'
 import { commandsReducers } from '@regardsoss/admin-board-commands'
 import { processingReducer } from '@regardsoss/admin-processing-management'
-import { configurationModulesReducer } from '@regardsoss/admin-configuration-modules-management'
+import { errorConfModuleReducers } from '@regardsoss/admin-error-configuration-modules-management'
 
 import { waitingAccessUsersEntitiesReducer } from './clients/WaitingAccessUsersEntitiesClient'
 
@@ -51,7 +51,7 @@ const adminReducer = combineReducers({
   dataaccess: dataAccessReducers,
   commands: commandsReducers,
   processing: processingReducer,
-  'configuration-modules-management': configurationModulesReducer,
+  'configuration-modules-management': errorConfModuleReducers,
 })
 
 export default adminReducer

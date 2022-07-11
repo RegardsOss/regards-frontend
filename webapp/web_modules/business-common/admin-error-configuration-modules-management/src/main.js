@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { moduleReducer } from './clients/ModuleClient'
-import { attributeModelReducer } from './clients/AttributeModelClient'
-
-const configurationModulesReducer = combineReducers({
-  modules: moduleReducer,
-  attributes: attributeModelReducer,
-})
-
-export default configurationModulesReducer
+export { default as ModulesConfigurationErrorContainer } from './containers/ModulesConfigurationErrorContainer'
+export { default as errorConfModuleReducers } from './reducer'
+export { default as errorConfModuleDependencies } from './dependencies'

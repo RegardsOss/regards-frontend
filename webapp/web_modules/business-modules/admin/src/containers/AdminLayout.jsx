@@ -17,13 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
+import flatten from 'lodash/flatten'
 import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateResultShape } from '@regardsoss/authentication-utils'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
-import { ModulesConfigurationErrorContainer } from '@regardsoss/admin-configuration-modules-management'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { ModulesConfigurationErrorContainer, errorConfModuleDependencies } from '@regardsoss/admin-error-configuration-modules-management'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import { AnchorComponent } from '@regardsoss/components'
@@ -32,6 +34,8 @@ import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
 import NotificationsManagerContainer from './NotificationsManagerContainer'
 import messages from '../i18n'
 import styles from '../styles'
+
+const ModulesConfigurationErrorContainerDisplayControl = withResourceDisplayControl(ModulesConfigurationErrorContainer)
 
 /**
  * React components to manage Administration application.
@@ -50,7 +54,6 @@ export class AdminLayout extends React.Component {
       project: PropTypes.string,
     }),
     location: CommonShapes.LocationShape.isRequired,
-    currentRole: PropTypes.string.isRequired,
     isAuthenticated: PropTypes.bool,
     isInstance: PropTypes.bool,
     // from mapStateToProps
@@ -124,7 +127,7 @@ export class AdminLayout extends React.Component {
 
   render() {
     const {
-      content, params: { project }, currentRole, isAuthenticated,
+      content, params: { project }, isAuthenticated,
       isInstance,
     } = this.props
     const { moduleTheme: { adminApp } } = this.context
@@ -142,8 +145,8 @@ export class AdminLayout extends React.Component {
                 module={menuModuleConf}
               />
             </div>
-            <ModulesConfigurationErrorContainer
-              currentRole={currentRole}
+            <ModulesConfigurationErrorContainerDisplayControl
+              resourceDependencies={flatten(errorConfModuleDependencies)}
               isAuthenticated={isAuthenticated}
               isInstance={isInstance}
             />

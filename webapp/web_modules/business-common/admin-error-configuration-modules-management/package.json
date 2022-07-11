@@ -1,9 +1,9 @@
 {
-  "name": "@regardsoss/admin-configuration-modules-management",
+  "name": "@regardsoss/admin-error-configuration-modules-management",
   "version": "1.10.0-SNAPSHOT",
   "private": true,
   "sideEffects": false,
-  "description": "Enable to check attributes modules configuration",
+  "description": "Validate modules configuration uses searchable attributes",
   "main": "src/main.js",
   "author": "CNES (https://cnes.fr)",
   "contributors": [

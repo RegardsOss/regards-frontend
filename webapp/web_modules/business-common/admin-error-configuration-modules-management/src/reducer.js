@@ -16,5 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { default as ModulesConfigurationErrorContainer } from './containers/ModulesConfigurationErrorContainer'
-export { default as configurationModulesReducer } from './reducer'
+import { combineReducers } from 'redux'
+import { moduleReducer } from './clients/ModuleClient'
+import { attributeModelReducer } from './clients/AttributeModelClient'
+
+const errorConfModuleReducers = combineReducers({
+  modules: moduleReducer,
+  attributes: attributeModelReducer,
+})
+
+export default errorConfModuleReducers

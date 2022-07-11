@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
-import join from 'lodash/join'
 import flatten from 'lodash/flatten'
 import uniq from 'lodash/uniq'
 import filter from 'lodash/filter'
@@ -28,14 +27,12 @@ import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
-import { UIDomain, AdminDomain } from '@regardsoss/domain'
+import { UIDomain } from '@regardsoss/domain'
 import { modulesManager } from '@regardsoss/modules'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
-import CloseIcon from 'mdi-material-ui/Close'
-import IconButton from 'material-ui/IconButton'
-import RefreshIcon from 'mdi-material-ui/Refresh'
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
+import ModulesConfigurationErrorComponent from '../components/ModulesConfigurationErrorComponent'
 import styles from '../styles'
 import messages from '../i18n'
 
@@ -44,8 +41,6 @@ import messages from '../i18n'
  */
 export class ModulesConfigurationErrorContainer extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
-    currentRole: PropTypes.string.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     isAuthenticated: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -96,8 +91,7 @@ export class ModulesConfigurationErrorContainer extends React.Component {
   }
 
   state = {
-    isErrorConfDialogOpen: false,
-    errorConfDialogContent: [],
+    errorConfContent: [],
     hasError: false,
   }
 
@@ -126,11 +120,9 @@ export class ModulesConfigurationErrorContainer extends React.Component {
   */
   onPropertiesUpdated = (oldProps, nextProps) => {
     if (!this.state.hasError && (oldProps.modules !== nextProps.modules || oldProps.attributes !== nextProps.attributes)) {
-      if (nextProps.currentRole === AdminDomain.DEFAULT_ROLES_ENUM.PROJECT_ADMIN && nextProps.isAuthenticated && !nextProps.isInstance) {
-        const errorConfDialogContent = this.checkModulesConfiguration(nextProps.modules, nextProps.attributes)
+      if (nextProps.isAuthenticated && !nextProps.isInstance) {
         this.setState({
-          isErrorConfDialogOpen: !isEmpty(errorConfDialogContent),
-          errorConfDialogContent,
+          errorConfContent: this.checkModulesConfiguration(nextProps.modules, nextProps.attributes),
         })
       }
     }
@@ -215,109 +207,15 @@ export class ModulesConfigurationErrorContainer extends React.Component {
     return get(foundAttribute, 'content', null)
   }
 
-  toogleErrorConfDialog = () => {
-    this.setState({
-      isErrorConfDialogOpen: !this.state.isErrorConfDialogOpen,
-    })
-  }
-
-  buildErrorDialog = (errorConfDialogContent) => {
-    const {
-      isFetchingAttributes, isFetchingModules,
-    } = this.props
-    const {
-      intl: { formatMessage }, moduleTheme: {
-        errorDialogStyle: {
-          mainDiv, infosDivStyle, titleAndSubStyle, titleStyle,
-        },
-      },
-    } = this.context
-    return (
-      <div style={mainDiv}>
-        <div style={infosDivStyle}>
-          <div style={titleAndSubStyle}>
-            <div style={titleStyle}>
-              {formatMessage({ id: 'error.message.module.title' })}
-            </div>
-            {formatMessage({ id: 'error.message.module.subtitle' })}
-            {formatMessage({ id: 'error.message.module.subtitle.one' })}
-            {formatMessage({ id: 'error.message.module.subtitle.two' })}
-            {formatMessage({ id: 'error.message.module.subtitle.three' })}
-            <br />
-          </div>
-          {this.buildErrorMessage(errorConfDialogContent)}
-        </div>
-        <div>
-          <IconButton
-            onClick={this.fetchModulesAndAttributes}
-            title={formatMessage({ id: 'error.message.module.button.refresh' })}
-            disabled={isFetchingAttributes || isFetchingModules}
-          >
-            <RefreshIcon />
-          </IconButton>
-          <IconButton
-            onClick={this.toogleErrorConfDialog}
-            title={formatMessage({ id: 'error.message.module.button.close' })}
-          >
-            <CloseIcon />
-          </IconButton>
-        </div>
-      </div>
-    )
-  }
-
-  buildErrorMessage = (errorConfDialogContent) => {
-    const {
-      intl: { locale, formatMessage }, moduleTheme: {
-        errorMessageStyle: {
-          mainErrorMessageStyle, errorDialogContentStyle, ulStyle, criteriaStyle,
-        },
-      },
-    } = this.context
-    return (
-      <div style={mainErrorMessageStyle}>
-        {map(errorConfDialogContent, (modul, i) => {
-          const moduleFilters = get(modul, 'filters')
-          const moduleCriteriaGroups = get(modul, 'criteriasGroup')
-          return (
-            <div
-              key={i}
-              style={errorDialogContentStyle}
-            >
-              {formatMessage({ id: 'error.message.module.name' }, { value: modul.title[locale] })}
-              <ul style={ulStyle}>
-                {
-                  moduleFilters
-                    ? <li key="filters">{formatMessage({ id: 'error.message.module.filters' }, { values: join(map(modul.filters, (filt) => (`${filt.name}`)), ', ') })}</li>
-                    : null
-                }
-                {
-                  moduleCriteriaGroups
-                    ? <li>
-                      <div>
-                        {formatMessage({ id: 'error.message.module.criteriaGroup.title' })}
-                        {
-                          map(moduleCriteriaGroups, (moduleCriteriaGroup, index) => <div key={`criteria${index}`} style={criteriaStyle}>
-                            <br />
-                            {formatMessage({ id: 'error.message.module.criteriaGroup' }, { value: moduleCriteriaGroup.title[locale], values: join(map(moduleCriteriaGroup.criteriaAttribute, (critAttr) => (`${critAttr.name}`)), ', ') })}
-                          </div>)
-                        }
-                      </div>
-                    </li>
-                    : null
-                }
-              </ul>
-              <br />
-            </div>
-          )
-        })}
-      </div>)
-  }
-
   render() {
-    const { isErrorConfDialogOpen, errorConfDialogContent } = this.state
+    const { isFetchingAttributes, isFetchingModules } = this.props
+    const { errorConfContent } = this.state
     return (
-      isErrorConfDialogOpen && this.buildErrorDialog(errorConfDialogContent)
+      <ModulesConfigurationErrorComponent
+        isFetching={isFetchingAttributes || isFetchingModules}
+        errorConfContent={errorConfContent}
+        fetchModulesAndAttributes={this.fetchModulesAndAttributes}
+      />
     )
   }
 }
