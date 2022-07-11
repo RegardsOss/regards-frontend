@@ -23,6 +23,16 @@ import { AdminClient } from '@regardsoss/client'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
+import {
+  AdminShapes, CommonShapes, UIShapes, DataManagementShapes,
+} from '@regardsoss/shape'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
+import { projectUserSignalActions, projectUserSignalSelectors } from '../clients/ProjectUserSignalClient'
+import { projectUserEmailConfirmationSignalActions } from '../clients/ProjectUserEmailConfirmationClient'
+import { uiSettingsActions, uiSettingsSelectors } from '../clients/UISettingsClient'
+import { originActions, originSelectors } from '../clients/OriginsClient'
+import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
+import { roleActions, roleSelectors } from '../clients/RoleClient'
 import ProjectUserListComponent from '../components/list/ProjectUserListComponent'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import messages from '../i18n'
@@ -46,10 +56,28 @@ export class ProjectUserListContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+    groups: DataManagementShapes.AccessGroupList.isRequired,
+    origins: CommonShapes.ServiceProviderList.isRequired,
+    isFetchingViewData: PropTypes.bool.isRequired,
+    isFetchingActions: PropTypes.bool.isRequired,
+    roleList: AdminShapes.RoleList.isRequired,
+    uiSettings: UIShapes.UISettings.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     authentication: AuthenticateShape.isRequired, // used only in onPropertiesUpdated
     // from mapDispatchToProps
     fetchUsers: PropTypes.func.isRequired,
+    onDeleteAccount: PropTypes.func.isRequired,
+    onValidateProjectUser: PropTypes.func.isRequired,
+    onDenyProjectUser: PropTypes.func.isRequired,
+    onSendEmailConfirmation: PropTypes.func.isRequired,
+    onDisableProjectUser: PropTypes.func.isRequired,
+    onEnableProjectUser: PropTypes.func.isRequired,
+    fetchOrigins: PropTypes.func.isRequired,
+    throwError: PropTypes.func.isRequired,
+    fetchRoleList: PropTypes.func.isRequired,
+    onUpdateAccount: PropTypes.func.isRequired,
+    fetchUISettings: PropTypes.func.isRequired,
+    fetchGroups: PropTypes.func.isRequired,
   }
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20;
@@ -64,6 +92,12 @@ export class ProjectUserListContainer extends React.Component {
     return {
       pageMeta: projectUserSelectors.getMetaData(state),
       authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
+      origins: originSelectors.getList(state),
+      isFetchingViewData: projectUserSelectors.isFetching(state),
+      isFetchingActions: projectUserSignalSelectors.isFetching(state),
+      roleList: roleSelectors.getList(state),
+      uiSettings: uiSettingsSelectors.getSettings(state),
+      groups: accessGroupSelectors.getList(state),
     }
   }
 
@@ -76,13 +110,62 @@ export class ProjectUserListContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetchUsers: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(projectUserActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+      onDeleteAccount: (userId) => dispatch(projectUserActions.deleteEntity(userId)),
+      onValidateProjectUser: (userId) => dispatch(projectUserSignalActions.sendAccept(userId)),
+      onDenyProjectUser: (userId) => dispatch(projectUserSignalActions.sendDeny(userId)),
+      onSendEmailConfirmation: (email, project) => dispatch(projectUserEmailConfirmationSignalActions.sendEmailConfirmation(email, project)),
+      onDisableProjectUser: (userId) => dispatch(projectUserSignalActions.sendInactive(userId)),
+      onEnableProjectUser: (userId) => dispatch(projectUserSignalActions.sendActive(userId)),
+      fetchOrigins: () => dispatch(originActions.fetchPagedEntityList()),
+      throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
+      fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
+      onUpdateAccount: (userId, updatedAccount) => dispatch(projectUserActions.updateEntity(userId, updatedAccount)),
+      fetchUISettings: () => dispatch(uiSettingsActions.getSettings()),
+      fetchGroups: () => dispatch(accessGroupActions.fetchPagedEntityList()),
     }
+  }
+
+  state = {
+    isFetching: false,
+    csvLink: '',
   }
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => {
+    const {
+      throwError, fetchOrigins, fetchRoleList, fetchUISettings,
+      fetchGroups,
+    } = this.props
+    Promise.resolve(fetchOrigins()).then((actionResult) => {
+      if (actionResult.error) {
+        throwError('Unable to retrieve account\'s origins list')
+      }
+    })
+    Promise.resolve(fetchRoleList()).then((actionResult) => {
+      if (actionResult.error) {
+        throwError('Unable to retrieve role list')
+      }
+    })
+    Promise.resolve(fetchUISettings()).then((actionResult) => {
+      if (actionResult.error) {
+        throwError('Unable to retrieve ui settings')
+      }
+    })
+    Promise.resolve(fetchGroups()).then((actionResult) => {
+      if (actionResult.error) {
+        throwError('Unable to retrieve groups')
+      }
+    })
+  }
+
+  /**
+   * Lifecycle method: component did mount. Used here to fetch user lists
+   */
+  componentDidMount = () => {
+    this.setState({ isFetching: false })
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
@@ -124,9 +207,79 @@ export class ProjectUserListContainer extends React.Component {
     browserHistory.push(`/admin/${project}/user/project-user/create`)
   }
 
+  /**
+   * User callback: edit project user
+   * @param userId user id
+   */
+  onEdit = (userId) => {
+    const { params: { project } } = this.props
+    browserHistory.push(`/admin/${project}/user/project-user/${userId}/edit`)
+  }
+
+  onDeleteAccount = (accountId, onRefresh) => {
+    const { onDeleteAccount } = this.props
+    this.perform(onDeleteAccount(accountId), onRefresh)
+  }
+
+  onEnableProjectUser = (accountId, onRefresh) => {
+    const { onEnableProjectUser } = this.props
+    this.perform(onEnableProjectUser(accountId), onRefresh)
+  }
+
+  onValidateProjectUser = (accountId, onRefresh) => {
+    const { onValidateProjectUser } = this.props
+    this.perform(onValidateProjectUser(accountId), onRefresh)
+  }
+
+  onDenyProjectUser = (accountId, onRefresh) => {
+    const { onDenyProjectUser } = this.props
+    this.perform(onDenyProjectUser(accountId), onRefresh)
+  }
+
+  onDisableProjectUser = (accountId, onRefresh) => {
+    const { onDisableProjectUser } = this.props
+    this.perform(onDisableProjectUser(accountId), onRefresh)
+  }
+
+  onSendEmailConfirmation = (accountId, onRefresh) => {
+    const { onSendEmailConfirmation, params: { project } } = this.props
+    this.perform(onSendEmailConfirmation(accountId, project), onRefresh)
+  }
+
+  onSetMaxQuota = (account, maxQuota, onRefresh) => {
+    const { onUpdateAccount } = this.props
+    const updatedAccount = {
+      ...account.content,
+      maxQuota,
+    }
+    this.perform([onUpdateAccount(account.content.id, updatedAccount)], onRefresh)
+  }
+
+  /**
+   * Marks fetching true, performs promise as parameter, update waiting users state then marks fetching false
+   * @param promise
+   */
+  perform = (promises, onRefresh) => {
+    this.setFetching(true)
+    const onDone = () => { this.setFetching(false) }
+    Promise.resolve(promises).then(() => Promise.resolve(
+      onRefresh(),
+    ).then(onDone).catch(onDone)).catch(onDone)
+  }
+
+  /**
+   * Set actions fetching state
+   * @param {bool} isFetchingActions is fetching actions?
+   */
+  setFetching = (isFetching) => this.setState({ isFetching })
+
   render() {
-    const { params: { project, visualisationMode } } = this.props
-    const { csvLink } = this.state
+    const {
+      params: { project, visualisationMode }, pageMeta, origins,
+      isFetchingViewData, isFetchingActions, uiSettings,
+      roleList, groups,
+    } = this.props
+    const { isFetching, csvLink } = this.state
     return (
       <I18nProvider messages={messages} stackCallingContext>
         <ModuleStyleProvider module={styles}>
@@ -137,6 +290,20 @@ export class ProjectUserListContainer extends React.Component {
             onCreate={this.onCreate}
             onBack={this.onBack}
             visualisationMode={visualisationMode}
+            onDeleteAccount={this.onDeleteAccount}
+            onEnable={this.onEnableProjectUser}
+            onValidate={this.onValidateProjectUser}
+            onDeny={this.onDenyProjectUser}
+            onDisable={this.onDisableProjectUser}
+            onSendEmailConfirmation={this.onSendEmailConfirmation}
+            onSetMaxQuota={this.onSetMaxQuota}
+            uiSettings={uiSettings}
+            totalElements={get(pageMeta, 'totalElements', 0)}
+            origins={origins}
+            isLoading={isFetchingViewData || isFetchingActions || isFetching}
+            onEdit={this.onEdit}
+            roleList={roleList}
+            groups={groups}
           />
         </ModuleStyleProvider>
       </I18nProvider>

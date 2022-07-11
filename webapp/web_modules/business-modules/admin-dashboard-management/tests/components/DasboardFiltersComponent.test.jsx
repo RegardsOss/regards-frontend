@@ -18,30 +18,28 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { FiltersPaneComponent } from '@regardsoss/components'
-import ProjectUserAccountFiltersComponent from '../../../../src/components/list/filters/ProjectUserAccountFiltersComponent'
-import styles from '../../../../src/styles/styles'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import DasboardFiltersComponent from '../../src/components/DashboardFiltersComponent'
+import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 // Test a component rendering
-describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user account filters component', () => {
+describe('[ADMIN DASHBOARD MANAGEMENT] Dashboard Filters', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ProjectUserAccountFiltersComponent)
+    assert.isDefined(DasboardFiltersComponent)
   })
   it('should render correctly', () => {
     const props = {
-      origins: {},
-      roleList: {},
       onUpdateFiltersParameters: () => { },
       isFiltersPaneOpen: false,
       onCloseFiltersPane: () => { },
     }
-    const enzymeWrapper = shallow(<ProjectUserAccountFiltersComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<DasboardFiltersComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(FiltersPaneComponent), 1, 'There should be a FiltersPaneComponent')
   })
 })

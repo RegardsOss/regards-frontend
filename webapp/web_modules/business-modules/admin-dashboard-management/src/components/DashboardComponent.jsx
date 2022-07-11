@@ -18,7 +18,9 @@
  **/
 import { browserHistory } from 'react-router'
 import get from 'lodash/get'
+import omitBy from 'lodash/omitBy'
 import isEmpty from 'lodash/isEmpty'
+import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -28,7 +30,10 @@ import {
 import SourcesContainer from '../containers/SourcesContainer'
 import SessionsContainer from '../containers/SessionsContainer'
 import SelectedSessionContainer from '../containers/SelectedSessionContainer'
+import DashboardFiltersComponent from './DashboardFiltersComponent'
 import { ENTITY_ENUM } from '../domain/entityTypes'
+import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS } from '../domain/filters'
+import { STATUS_TYPES_ENUM } from '../domain/statusTypes'
 
 /**
  * DashboardComponent
@@ -54,10 +59,11 @@ class DashboardComponent extends React.Component {
   }
 
   state = {
-    sourceFilters: SourcesContainer.extractFiltersFromURL(),
-    sessionFilters: SessionsContainer.extractFiltersFromURL(),
+    sourceFilters: {},
+    sessionFilters: {},
     [ENTITY_ENUM.SOURCE]: '', // id of the currently selected source
     [ENTITY_ENUM.SESSION]: '', // id of the currently selected session
+    isPaneOpened: false,
   }
 
   /**
@@ -82,37 +88,6 @@ class DashboardComponent extends React.Component {
       }
     }
     this.setState(newState)
-  }
-
-  /**
-   * Apply new filters. Either source filters or session filters
-   * @param {*} filters
-   * @param {*} type
-   */
-  onApplyFilters = (filters, type) => {
-    let nextState = {
-      ...this.state,
-      [ENTITY_ENUM.SESSION]: '',
-    }
-    this.onSelected(null, ENTITY_ENUM.SESSION) // clear selected session
-    switch (type) {
-      case ENTITY_ENUM.SESSION:
-        nextState = {
-          ...nextState,
-          sessionFilters: filters,
-        }
-        break
-      case ENTITY_ENUM.SOURCE:
-        nextState = {
-          ...nextState,
-          sourceFilters: filters,
-          [ENTITY_ENUM.SOURCE]: '',
-        }
-        this.onSelected(null, ENTITY_ENUM.SOURCE) // clear selected source
-        break
-      default:
-    }
-    this.setState(nextState)
   }
 
   /**
@@ -159,6 +134,7 @@ class DashboardComponent extends React.Component {
           }
         } else if (isEmpty(selectedElementId) && !isEmpty(this.state[ENTITY_ENUM.SOURCE])) { // a session is unselected and a source exist
           newQuery = {
+            ...omitBy(currentQuery, (value, key) => key === ENTITY_ENUM.SESSION),
             [ENTITY_ENUM.SOURCE]: this.state[ENTITY_ENUM.SOURCE],
           }
           flushSelectedSession()
@@ -172,7 +148,12 @@ class DashboardComponent extends React.Component {
       case ENTITY_ENUM.SOURCE:
         if (!isEmpty(selectedElementId)) { // a source is selected
           newQuery = {
+            ...omitBy(currentQuery, (value, key) => key === ENTITY_ENUM.SESSION),
             [ENTITY_ENUM.SOURCE]: selectedElementId,
+          }
+        } else {
+          newQuery = {
+            ...omitBy(currentQuery, (value, key) => key === ENTITY_ENUM.SESSION || key === ENTITY_ENUM.SOURCE),
           }
         }
         newState = {
@@ -188,9 +169,29 @@ class DashboardComponent extends React.Component {
     // Update url & state
     browserHistory.replace({
       pathname,
+      search: new URLSearchParams(newQuery).toString(),
       query: newQuery,
     })
     this.setState(newState)
+  }
+
+  handleFiltersPane = () => {
+    this.setState({
+      isPaneOpened: !this.state.isPaneOpened,
+    })
+  }
+
+  updateRequestParameters = (requestParameters) => {
+    this.setState({
+      sourceFilters: {
+        [SOURCE_FILTER_PARAMS.NAME]: get(requestParameters, `${SOURCE_FILTER_PARAMS.NAME}`, ''),
+        [SOURCE_FILTER_PARAMS.STATUS]: get(requestParameters, `${SOURCE_FILTER_PARAMS.STATUS}`, STATUS_TYPES_ENUM.ALL),
+      },
+      sessionFilters: {
+        [SESSION_FILTER_PARAMS.NAME]: get(requestParameters, `${SESSION_FILTER_PARAMS.NAME}`, ''),
+        [SESSION_FILTER_PARAMS.STATUS]: get(requestParameters, `${SESSION_FILTER_PARAMS.STATUS}`, STATUS_TYPES_ENUM.ALL),
+      },
+    })
   }
 
   render() {
@@ -202,12 +203,14 @@ class DashboardComponent extends React.Component {
     const {
       intl: { formatMessage },
       moduleTheme: {
-        headerStyle: { headerDivStyle, cardTitleStyle, cardActionDivStyle },
+        headerStyle: {
+          headerDivStyle, cardTitleStyle, cardActionDivStyle, filterButtonStyle,
+        },
         dashboardStyle: { dashboardDivStyle, dashboardComponentsStyle, cardTextField },
       },
     } = this.context
     const {
-      sourceFilters, sessionFilters,
+      sourceFilters, sessionFilters, isPaneOpened,
     } = this.state
     const selectedSourceId = this.state[ENTITY_ENUM.SOURCE]
     const selectedSessionId = this.state[ENTITY_ENUM.SESSION]
@@ -226,15 +229,25 @@ class DashboardComponent extends React.Component {
               secondaryButtonLabel={formatMessage({ id: 'dashboard.back' })}
               secondaryButtonClick={getBackURL}
             />
+            <RaisedButton
+              onClick={this.handleFiltersPane}
+              label={formatMessage({ id: 'dashboard.filter' })}
+              secondary
+              style={filterButtonStyle}
+            />
           </CardActions>
         </div>
+        <DashboardFiltersComponent
+          isPaneOpened={isPaneOpened}
+          onCloseFiltersPane={this.handleFiltersPane}
+          updateRequestParameters={this.updateRequestParameters}
+        />
         <CardText style={cardTextField}>
           <div style={dashboardDivStyle}>
             <div style={dashboardComponentsStyle}>
               <SourcesContainer
                 project={project}
                 onSelected={this.onSelected}
-                onApplyFilters={this.onApplyFilters}
                 filters={sourceFilters}
                 selectedSessionId={selectedSessionId}
                 selectedSourceId={selectedSourceId}
@@ -242,7 +255,6 @@ class DashboardComponent extends React.Component {
               <SessionsContainer
                 project={project}
                 onSelected={this.onSelected}
-                onApplyFilters={this.onApplyFilters}
                 filters={sessionFilters}
                 selectedSessionId={selectedSessionId}
                 selectedSourceId={selectedSourceId}

@@ -26,6 +26,7 @@ import {
 import SourcesContainer from '../../src/containers/SourcesContainer'
 import SessionsContainer from '../../src/containers/SessionsContainer'
 import DashboardComponent from '../../src/components/DashboardComponent'
+import DashboardFiltersComponent from '../../src/components/DashboardFiltersComponent'
 import styles from '../../src/styles'
 import SelectedSessionContainer from '../../src/containers/SelectedSessionContainer'
 
@@ -61,6 +62,9 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
 
     const cardActionWrapper = enzymeWrapper.find(CardActionsComponent)
     assert.lengthOf(cardActionWrapper, 1, 'There should be a CardActionsComponent')
+
+    const filterWrapper = enzymeWrapper.find(DashboardFiltersComponent)
+    assert.lengthOf(filterWrapper, 1, 'There should be a DashboardFiltersComponent')
 
     const sourceComponentWrapper = enzymeWrapper.find(SourcesContainer)
     assert.lengthOf(sourceComponentWrapper, 1, 'There should be a SourcesContainer')

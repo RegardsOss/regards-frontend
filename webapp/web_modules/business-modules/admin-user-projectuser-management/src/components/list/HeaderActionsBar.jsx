@@ -17,14 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import Refresh from 'mdi-material-ui/Refresh'
 import FlatButton from 'material-ui/FlatButton'
 import DownloadCSVIcon from 'mdi-material-ui/BriefcaseDownload'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableHeaderOptionGroup, TableColumnsVisibilityOption,
-  TableFilterSortingAndVisibilityContainer, DownloadButton,
+  DownloadButton,
 } from '@regardsoss/components'
 
 /**
@@ -36,19 +35,12 @@ class HeaderActionsBar extends React.Component {
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
 
     // table sorting, column visiblity & filters management
-    requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
-    onRefresh: PropTypes.func.isRequired,
     onChangeColumnsVisibility: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  onRefresh = () => {
-    const { onRefresh, requestParameters } = this.props
-    onRefresh(requestParameters)
   }
 
   render() {
@@ -69,11 +61,6 @@ class HeaderActionsBar extends React.Component {
         <TableColumnsVisibilityOption
           columns={columns}
           onChangeColumnsVisibility={onChangeColumnsVisibility}
-        />
-        <FlatButton
-          label={formatMessage({ id: 'projectUser.list.refresh' })}
-          icon={<Refresh />}
-          onClick={this.onRefresh}
         />
       </TableHeaderOptionGroup>
     )

@@ -22,7 +22,6 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Card from 'material-ui/Card'
 import {
   PageableInfiniteTableContainer,
-  TableHeaderAutoCompleteFilterContainer,
 } from '@regardsoss/components'
 import SelectField from 'material-ui/SelectField'
 import SessionsComponent from '../../src/components/SessionsComponent'
@@ -52,9 +51,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SessionsComponent', () => {
     const enzymeWrapper = shallow(<SessionsComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const tableHeaderFilterWrapper = enzymeWrapper.find(TableHeaderAutoCompleteFilterContainer)
-    assert.lengthOf(tableHeaderFilterWrapper, 1, 'There should be a TableHeaderAutoCompleteFilterContainer')
 
     const selectWrapper = enzymeWrapper.find(SelectField)
     assert.lengthOf(selectWrapper, 1, 'There should be a SelectField')

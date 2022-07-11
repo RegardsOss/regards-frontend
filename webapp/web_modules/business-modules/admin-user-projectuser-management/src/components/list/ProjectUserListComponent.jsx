@@ -32,17 +32,23 @@ import {
 } from 'material-ui/Card'
 import SelectField from 'material-ui/SelectField'
 import { MenuItem } from 'material-ui/IconMenu'
+import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { CardActionsComponent } from '@regardsoss/components'
+import {
+  AdminShapes, CommonShapes, UIShapes, DataManagementShapes,
+} from '@regardsoss/shape'
+import { CardActionsComponent, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import dependencies from '../../dependencies'
-import ProjectUserAccountContainer from '../../containers/ProjectUserAccountContainer'
+import { projectUserActions, projectUserSelectors } from '../../clients/ProjectUserClient'
+import ProjectUserAccountFiltersComponent, { ProjectUserAccountFiltersComponent as ProjectUserAccountFiltersComponentClass } from './filters/ProjectUserAccountFiltersComponent'
+import ProjectUserQuotaFiltersComponent, { ProjectUserQuotaFiltersComponent as ProjectUserQuotaFiltersComponentClass } from './filters/ProjectUserQuotaFiltersComponent'
+import ProjectUserAccessRightFiltersComponent, { ProjectUserAccessRightFiltersComponent as ProjectUserAccessRightFiltersComponentClass } from './filters/ProjectUserAccessRightFiltersComponent'
 import ProjectUserAccountComponent from './ProjectUserAccountComponent'
-import ProjectUserQuotaContainer from '../../containers/ProjectUserQuotaContainer'
 import ProjectUserQuotaComponent from './ProjectUserQuotaComponent'
-import ProjectUserAccessRightContainer from '../../containers/ProjectUserAccessRightContainer'
 import ProjectUserAccessRightComponent from './ProjectUserAccessRightComponent'
 import { VISUALISATION_MODES, VISUALISATION_MODES_ENUM } from '../../domain/VisualisationModes'
+import QUOTA_FILTERS from '../../domain/QuotaFilters'
 
 class ProjectUserListComponent extends React.Component {
   static propTypes = {
@@ -53,6 +59,20 @@ class ProjectUserListComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
+    totalElements: PropTypes.number.isRequired,
+    origins: CommonShapes.ServiceProviderList.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onDeleteAccount: PropTypes.func.isRequired,
+    onValidate: PropTypes.func.isRequired,
+    onDeny: PropTypes.func.isRequired,
+    onDisable: PropTypes.func.isRequired,
+    onEnable: PropTypes.func.isRequired,
+    onSendEmailConfirmation: PropTypes.func.isRequired,
+    roleList: AdminShapes.RoleList.isRequired,
+    onSetMaxQuota: PropTypes.func.isRequired,
+    uiSettings: UIShapes.UISettings.isRequired,
+    groups: DataManagementShapes.AccessGroupList.isRequired,
   }
 
   static contextTypes = {
@@ -63,11 +83,11 @@ class ProjectUserListComponent extends React.Component {
   static getDefaultFilters = (visualisationMode) => {
     switch (visualisationMode) {
       case VISUALISATION_MODES.ACCOUNT:
-        return ProjectUserAccountComponent.DEFAULT_FILTERS_STATE
+        return ProjectUserAccountFiltersComponentClass.DEFAULT_FILTERS_STATE
       case VISUALISATION_MODES.QUOTA:
-        return ProjectUserQuotaComponent.DEFAULT_FILTERS_STATE
+        return ProjectUserQuotaFiltersComponentClass.DEFAULT_FILTERS_STATE
       case VISUALISATION_MODES.ACCESS_RIGHT:
-        return ProjectUserAccessRightComponent.DEFAULT_FILTERS_STATE
+        return ProjectUserAccessRightFiltersComponentClass.DEFAULT_FILTERS_STATE
       default:
         return null
     }
@@ -75,6 +95,8 @@ class ProjectUserListComponent extends React.Component {
 
   state = {
     visualisationMode: VISUALISATION_MODES.ACCOUNT, // default visualisation mode
+    isPaneOpened: false,
+    currentRequestParameters: {},
   }
 
   /**
@@ -142,63 +164,152 @@ class ProjectUserListComponent extends React.Component {
   onChangeVisualisationMode = (value) => {
     this.setState({
       visualisationMode: value,
+      isPaneOpened: false,
     })
     this.onUpdateLocation(value)
   }
 
-  getProjectUserContainer = (visualisationMode) => {
+  onApplyRefreshRequestParameters = (requestParameters) => {
+    this.setState({
+      currentRequestParameters: requestParameters,
+    })
+  }
+
+  onRefresh = () => {
+    const { onRefresh, uiSettings } = this.props
+    const { currentRequestParameters } = this.state
+    const refreshParameters = {
+      ...currentRequestParameters,
+      [QUOTA_FILTERS.USE_QUOTA_LIMITATION]: currentRequestParameters[QUOTA_FILTERS.USE_QUOTA_LIMITATION] ? uiSettings.quotaWarningCount : null,
+    }
+    onRefresh(refreshParameters)
+  }
+
+  getDisplayComponents = (visualisationMode) => {
     const {
-      project, onRefresh, csvLink,
+      project, csvLink, origins, roleList, totalElements,
+      isLoading, onEdit, uiSettings, groups,
     } = this.props
+    const { isPaneOpened } = this.state
     if (visualisationMode === VISUALISATION_MODES.ACCOUNT) {
-      return <ProjectUserAccountContainer
-        project={project}
-        csvLink={csvLink}
-        onRefresh={onRefresh}
-      />
+      return [<ProjectUserAccountFiltersComponent
+        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+        origins={origins}
+        roleList={roleList}
+        isPaneOpened={isPaneOpened}
+        onCloseFiltersPane={this.handleFiltersPane}
+      />,
+        <ProjectUserAccountComponent
+          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+          project={project}
+          csvLink={csvLink}
+          totalElements={totalElements}
+          isLoading={isLoading}
+          onEdit={onEdit}
+        />]
     }
     if (visualisationMode === VISUALISATION_MODES.QUOTA) {
-      return <ProjectUserQuotaContainer
-        project={project}
-        csvLink={csvLink}
-        onRefresh={onRefresh}
-      />
+      return [<ProjectUserQuotaFiltersComponent
+        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+        isPaneOpened={isPaneOpened}
+        onCloseFiltersPane={this.handleFiltersPane}
+      />,
+        <ProjectUserQuotaComponent
+          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+          project={project}
+          csvLink={csvLink}
+          totalElements={totalElements}
+          onEdit={onEdit}
+          isLoading={isLoading}
+          uiSettings={uiSettings}
+        />]
     }
     if (visualisationMode === VISUALISATION_MODES.ACCESS_RIGHT) {
-      return <ProjectUserAccessRightContainer
-        project={project}
-        csvLink={csvLink}
-        onRefresh={onRefresh}
-      />
+      return [<ProjectUserAccessRightFiltersComponent
+        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+        isPaneOpened={isPaneOpened}
+        onCloseFiltersPane={this.handleFiltersPane}
+        groups={groups}
+      />,
+        <ProjectUserAccessRightComponent
+          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+          csvLink={csvLink}
+          totalElements={totalElements}
+          onEdit={onEdit}
+          isLoading={isLoading}
+        />]
     }
     return null
   }
 
+  handleFiltersPane = () => {
+    const { isPaneOpened } = this.state
+    this.setState({
+      isPaneOpened: !isPaneOpened,
+    })
+  }
+
   render() {
-    const { onCreate, onBack } = this.props
+    const {
+      onCreate, onBack, onDeleteAccount, onEnable, onValidate,
+      onDeny, onDisable, onSendEmailConfirmation, onSetMaxQuota,
+    } = this.props
     const { visualisationMode } = this.state
     const {
       intl: { formatMessage }, moduleTheme: {
         usersList: {
-          selectVisualisationModeStyle,
+          selectVisualisationModeStyle, headerDivStyle,
+          cardActionDivStyle, filterButtonStyle,
         },
       },
     } = this.context
+
     return (
       <Card>
-        <CardTitle title={formatMessage({ id: 'projectUser.list.card.title' })} subtitle={formatMessage({ id: 'projectUser.list.card.subtitle' })} />
-        <SelectField
-          id="account.list.table.filters.status"
-          value={visualisationMode}
-          onChange={(event, index, value) => this.onChangeVisualisationMode(value)}
-          style={selectVisualisationModeStyle}
-        >
-          {map(VISUALISATION_MODES, (mode) => (
-            <MenuItem key={mode} value={mode} primaryText={formatMessage({ id: `projectUser.list.card.selectField.${mode}` })} />
-          ))}
-        </SelectField>
+        <div style={headerDivStyle}>
+          <CardTitle
+            title={formatMessage({ id: 'projectUser.list.card.title' })}
+            subtitle={formatMessage({ id: 'projectUser.list.card.subtitle' })}
+          />
+          <CardActions style={cardActionDivStyle}>
+            <SelectField
+              id="account.list.table.filters.status"
+              value={visualisationMode}
+              onChange={(event, index, value) => this.onChangeVisualisationMode(value)}
+              style={selectVisualisationModeStyle}
+            >
+              {map(VISUALISATION_MODES, (mode) => (
+                <MenuItem key={mode} value={mode} primaryText={formatMessage({ id: `projectUser.list.card.selectField.${mode}` })} />
+              ))}
+            </SelectField>
+            <CardActionsComponent
+              mainButtonLabel={formatMessage({ id: 'projectUser.list.refresh' })}
+              mainButtonType="submit"
+              mainButtonClick={this.onRefresh}
+            />
+            <RaisedButton
+              onClick={this.handleFiltersPane}
+              label={formatMessage({ id: 'projectUser.list.filter' })}
+              secondary
+              style={filterButtonStyle}
+            />
+          </CardActions>
+        </div>
         <CardText>
-          {this.getProjectUserContainer(visualisationMode)}
+          <TableFilterSortingAndVisibilityContainer
+            pageActions={projectUserActions}
+            pageSelectors={projectUserSelectors}
+            onDeleteAccount={onDeleteAccount}
+            onEnable={onEnable}
+            onValidate={onValidate}
+            onDeny={onDeny}
+            onDisable={onDisable}
+            onSendEmailConfirmation={onSendEmailConfirmation}
+            onSetMaxQuota={onSetMaxQuota}
+            onApplyRefreshRequestParameters={this.onApplyRefreshRequestParameters}
+          >
+            {this.getDisplayComponents(visualisationMode)}
+          </TableFilterSortingAndVisibilityContainer>
         </CardText>
         <CardActions>
           <CardActionsComponent

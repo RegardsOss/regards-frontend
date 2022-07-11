@@ -34,51 +34,37 @@ import NoUserComponent from './NoUserComponent'
 import EditProjectUserComponent from './options/EditProjectUserComponent'
 import DeleteProjectUserComponent from './options/DeleteProjectUserComponent'
 import EditQuotaComponent from './options/EditQuotaComponent'
-import ProjectUserQuotaFiltersComponent from './filters/ProjectUserQuotaFiltersComponent'
+import { ProjectUserQuotaFiltersComponent } from './filters/ProjectUserQuotaFiltersComponent'
 import MaxQuotaDialogComponent from './dialog/MaxQuotaDialogComponent'
 import QuotaRenderer from './render/QuotaRenderer'
 import QUOTA_FILTERS from '../../domain/QuotaFilters'
 import HeaderActionsBar from './HeaderActionsBar'
-import { getQueryString } from '../../domain/QueryUtils'
+import { getQueryString, getUserRequestParameters } from '../../domain/QueryUtils'
 
 export class ProjectUserQuotaComponent extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    csvLink: PropTypes.string.isRequired,
+    csvLink: PropTypes.string,
     totalElements: PropTypes.number.isRequired,
-    pageSize: PropTypes.number.isRequired,
+    pageSize: PropTypes.number,
     isLoading: PropTypes.bool.isRequired,
-    onEdit: PropTypes.func.isRequired,
-    onDeleteAccount: PropTypes.func.isRequired,
+    onEdit: PropTypes.func,
+    onDeleteAccount: PropTypes.func,
     uiSettings: UIShapes.UISettings.isRequired,
-    onSetMaxQuota: PropTypes.func.isRequired,
+    onSetMaxQuota: PropTypes.func,
 
     // table sorting, column visiblity & filters management
     // eslint-disable-next-line react/no-unused-prop-types
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     columnsVisibility: TableFilterSortingAndVisibilityContainer.COLUMN_VISIBILITY_PROP_TYPE,
-    filters: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
-    onRefresh: PropTypes.func.isRequired,
-    updateFilter: PropTypes.func.isRequired,
-    clearFilters: PropTypes.func.isRequired,
-    onChangeColumnsVisibility: PropTypes.func.isRequired,
-    getColumnSortingData: PropTypes.func.isRequired,
-    onSort: PropTypes.func.isRequired,
+    onChangeColumnsVisibility: PropTypes.func,
+    getColumnSortingData: PropTypes.func,
+    onSort: PropTypes.func,
   }
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  /**
-   * Default state for filters edition
-   */
-  static DEFAULT_FILTERS_STATE = {
-    [QUOTA_FILTERS.EMAIL]: '',
-    [QUOTA_FILTERS.LASTNAME]: '',
-    [QUOTA_FILTERS.FIRSTNAME]: '',
-    [QUOTA_FILTERS.USE_QUOTA_LIMITATION]: false,
   }
 
   static COLUMN_KEYS = {
@@ -122,7 +108,6 @@ export class ProjectUserQuotaComponent extends React.Component {
   */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      filters,
       csvLink,
       requestParameters,
       uiSettings,
@@ -130,18 +115,17 @@ export class ProjectUserQuotaComponent extends React.Component {
 
     const oldState = this.state || {}
     let newState = { ...oldState }
-
-    if (!isEqual(requestParameters, oldProps.requestParameters)) {
+    const newRequestParameters = getUserRequestParameters(requestParameters, ProjectUserQuotaFiltersComponent.DEFAULT_FILTERS_STATE)
+    if (!isEqual(newRequestParameters, oldProps.requestParameters) || !isEqual(uiSettings, oldProps.uiSettings)) {
       newState = {
-        ...newState,
         requestParameters: {
-          ...requestParameters,
-          [QUOTA_FILTERS.USE_QUOTA_LIMITATION]: filters[QUOTA_FILTERS.USE_QUOTA_LIMITATION] ? uiSettings.quotaWarningCount : null,
+          ...newRequestParameters,
+          [QUOTA_FILTERS.USE_QUOTA_LIMITATION]: newRequestParameters[QUOTA_FILTERS.USE_QUOTA_LIMITATION] ? uiSettings.quotaWarningCount : null,
         },
       }
     }
-    if (!isEqual(filters, oldProps.filters) || csvLink !== oldProps.csvLink) {
-      const queryString = getQueryString(filters)
+    if (!isEqual(newRequestParameters, oldProps.requestParameters) || csvLink !== oldProps.csvLink) {
+      const queryString = getQueryString(newRequestParameters)
       newState = {
         ...newState,
         csvLink: `${csvLink}${queryString}`,
@@ -212,10 +196,10 @@ export class ProjectUserQuotaComponent extends React.Component {
 
   render() {
     const {
-      onEdit, pageSize, totalElements, onRefresh, isLoading,
-      getColumnSortingData, filters, columnsVisibility,
-      onSort, updateFilter, onChangeColumnsVisibility,
-      uiSettings, clearFilters,
+      onEdit, pageSize, totalElements, isLoading,
+      getColumnSortingData, columnsVisibility,
+      onSort, onChangeColumnsVisibility,
+      uiSettings,
     } = this.props
     const { csvLink, requestParameters } = this.state
     const { quotaDialogOpened, entityToProcess } = this.state
@@ -292,13 +276,6 @@ export class ProjectUserQuotaComponent extends React.Component {
     return (
       <TableLayout>
         <TableHeaderLine>
-          <ProjectUserQuotaFiltersComponent
-            filters={filters}
-            updateFilter={updateFilter}
-            clearFilters={clearFilters}
-          />
-        </TableHeaderLine>
-        <TableHeaderLine>
           {/* 1 - accounts count */}
           <TableHeaderContentBox>
             {formatMessage({ id: 'projectUser.list.info.nb.accounts' }, { value: totalElements })}
@@ -310,8 +287,6 @@ export class ProjectUserQuotaComponent extends React.Component {
             <HeaderActionsBar
               csvLink={csvLink}
               columns={columns}
-              requestParameters={requestParameters}
-              onRefresh={onRefresh}
               onChangeColumnsVisibility={onChangeColumnsVisibility}
             />
           </TableHeaderOptionsArea>
@@ -326,7 +301,7 @@ export class ProjectUserQuotaComponent extends React.Component {
           columns={columns}
           requestParams={requestParameters}
           emptyComponent={!isLoading
-            ? <NoUserComponent key="no.content" hasFilter={filters !== ProjectUserQuotaComponent.DEFAULT_FILTERS_STATE} />
+            ? <NoUserComponent key="no.content" hasFilter={requestParameters !== ProjectUserQuotaFiltersComponent.DEFAULT_FILTERS_STATE} />
             : ProjectUserQuotaComponent.LOADING_COMPONENT}
         />
         <MaxQuotaDialogComponent

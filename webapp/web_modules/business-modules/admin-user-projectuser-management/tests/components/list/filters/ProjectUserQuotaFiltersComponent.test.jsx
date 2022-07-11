@@ -18,9 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import TextField from 'material-ui/TextField'
-import IconButton from 'material-ui/IconButton'
-import Checkbox from 'material-ui/Checkbox'
+import { FiltersPaneComponent } from '@regardsoss/components'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ProjectUserQuotaFiltersComponent from '../../../../src/components/list/filters/ProjectUserQuotaFiltersComponent'
 import styles from '../../../../src/styles/styles'
@@ -37,22 +35,11 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user access right filters compo
   })
   it('should render correctly', () => {
     const props = {
-      uiSettings: {
-        showVersion: true,
-        documentModels: [],
-        primaryQuicklookGroup: '',
-        quotaWarningCount: 50,
-        rateWarningCount: 50,
-      },
-
-      // table sorting, column visiblity & filters management
-      filters: {},
-      updateFilter: () => { },
-      clearFilters: () => { },
+      onUpdateFiltersParameters: () => { },
+      isFiltersPaneOpen: false,
+      onCloseFiltersPane: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserQuotaFiltersComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(TextField), 3, 'There should be 3 TextField')
-    assert.lengthOf(enzymeWrapper.find(Checkbox), 1, 'There should be 1 Checkbox')
-    assert.lengthOf(enzymeWrapper.find(IconButton), 1, 'There should be 1 IconButton')
+    assert.lengthOf(enzymeWrapper.find(FiltersPaneComponent), 1, 'There should be a FiltersPaneComponent')
   })
 })

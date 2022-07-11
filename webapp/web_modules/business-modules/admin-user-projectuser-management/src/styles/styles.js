@@ -145,39 +145,28 @@ export default function buildStyles(theme) {
         },
       },
       selectVisualisationModeStyle: {
-        marginLeft: '20px',
-        width: '350px',
+        width: '340px',
+        textAlign: 'center',
+      },
+      cardActionDivStyle: {
+        padding: '5px',
+        width: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+      },
+      headerDivStyle: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
       },
       actionsStyles: {
         display: 'flex',
         justifyContent: 'space-between',
       },
-      filters: {
-        mainDivStyle: {
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-        },
-        dateFilterDiv: {
-          display: 'flex',
-          alignItems: 'center',
-        },
-        dateFilterDivAlt: {
-          display: 'flex',
-          alignItems: 'center',
-          marginRight: '20px',
-        },
-        dateFilterLabel: {
-          marginTop: '10px',
-          marginRight: '10px',
-        },
-        fieldMargin: {
-          marginRight: '20px',
-        },
-        quotaDivStyle: {
-          width: '180px',
-          marginBottom: '10px',
-        },
+      filterButtonStyle: {
+        marginLeft: '2px',
       },
     },
     settings: {

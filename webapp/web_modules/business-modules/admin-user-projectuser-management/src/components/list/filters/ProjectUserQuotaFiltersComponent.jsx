@@ -16,26 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ClearFilter from 'mdi-material-ui/Backspace'
 import TextField from 'material-ui/TextField'
-import IconButton from 'material-ui/IconButton'
 import Checkbox from 'material-ui/Checkbox'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import {
-  TableHeaderOptionsArea, TableHeaderOptionGroup, TableFilterSortingAndVisibilityContainer,
-} from '@regardsoss/components'
+import { withFiltersPane, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import QUOTA_FILTERS from '../../../domain/QuotaFilters'
 
 /**
  * @author Théo Lasserre
  */
-class ProjectUserQuotaFiltersComponent extends React.Component {
+export class ProjectUserQuotaFiltersComponent extends React.Component {
   static propTypes = {
-    // table sorting, column visiblity & filters management
-    filters: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     updateFilter: PropTypes.func.isRequired,
-    clearFilters: PropTypes.func.isRequired,
+    inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
+
+    // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
   static contextTypes = {
@@ -43,61 +39,67 @@ class ProjectUserQuotaFiltersComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Default state for inputValues edition
+   */
+  static DEFAULT_FILTERS_STATE = {
+    [QUOTA_FILTERS.EMAIL]: '',
+    [QUOTA_FILTERS.LASTNAME]: '',
+    [QUOTA_FILTERS.FIRSTNAME]: '',
+    [QUOTA_FILTERS.USE_QUOTA_LIMITATION]: false,
+  }
+
   render() {
     const {
-      updateFilter, clearFilters, filters,
+      updateFilter, inputValues,
     } = this.props
     const {
-      intl: { formatMessage }, moduleTheme: {
-        usersList: {
-          filters: {
-            fieldMargin, mainDivStyle, quotaDivStyle,
-          },
-        },
-      },
+      intl: { formatMessage }, moduleTheme: { searchPane: { childrenStyles: { mainDivStyle, lineDivStyle, filterLabelStyle } } },
     } = this.context
     return (
       <div style={mainDivStyle}>
-        <div>
-          <TableHeaderOptionsArea reducible alignLeft>
-            <TableHeaderOptionGroup>
-              <TextField
-                hintText={formatMessage({ id: 'projectUser.list.table.email' })}
-                value={filters[QUOTA_FILTERS.EMAIL]}
-                onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.EMAIL, true)}
-                style={fieldMargin}
-              />
-              <TextField
-                hintText={formatMessage({ id: 'projectUser.list.table.lastname' })}
-                value={filters[QUOTA_FILTERS.LASTNAME]}
-                onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.LASTNAME, true)}
-                style={fieldMargin}
-              />
-              <TextField
-                hintText={formatMessage({ id: 'projectUser.list.table.firstname' })}
-                value={filters[QUOTA_FILTERS.FIRSTNAME]}
-                onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.FIRSTNAME, true)}
-                style={fieldMargin}
-              />
-            </TableHeaderOptionGroup>
-            <TableHeaderOptionGroup>
-              <Checkbox
-                checked={filters[QUOTA_FILTERS.USE_QUOTA_LIMITATION]}
-                onCheck={() => updateFilter(!filters[QUOTA_FILTERS.USE_QUOTA_LIMITATION], QUOTA_FILTERS.USE_QUOTA_LIMITATION)}
-                label={formatMessage({ id: 'projectUser.list.only.low.quota' })}
-                style={quotaDivStyle}
-              />
-            </TableHeaderOptionGroup>
-          </TableHeaderOptionsArea>
+        <div style={lineDivStyle}>
+          <div style={filterLabelStyle}>
+            {formatMessage({ id: 'projectUser.list.table.email.label' })}
+          </div>
+          <TextField
+            hintText={formatMessage({ id: 'projectUser.list.table.email' })}
+            value={inputValues[QUOTA_FILTERS.EMAIL]}
+            onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.EMAIL, true)}
+            fullWidth
+          />
         </div>
-        <IconButton
-          title={formatMessage({ id: 'projectUser.list.table.filters.clear' })}
-          onClick={clearFilters}
-        >
-          <ClearFilter />
-        </IconButton>
+        <div style={lineDivStyle}>
+          <div style={filterLabelStyle}>
+            {formatMessage({ id: 'projectUser.list.table.lastname.label' })}
+          </div>
+          <TextField
+            hintText={formatMessage({ id: 'projectUser.list.table.lastname' })}
+            value={inputValues[QUOTA_FILTERS.LASTNAME]}
+            onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.LASTNAME, true)}
+            fullWidth
+          />
+        </div>
+        <div style={lineDivStyle}>
+          <div style={filterLabelStyle}>
+            {formatMessage({ id: 'projectUser.list.table.firstname.label' })}
+          </div>
+          <TextField
+            hintText={formatMessage({ id: 'projectUser.list.table.firstname' })}
+            value={inputValues[QUOTA_FILTERS.FIRSTNAME]}
+            onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.FIRSTNAME, true)}
+            fullWidth
+          />
+        </div>
+        <div style={lineDivStyle}>
+          <Checkbox
+            checked={!!inputValues[QUOTA_FILTERS.USE_QUOTA_LIMITATION]}
+            onCheck={() => updateFilter(!inputValues[QUOTA_FILTERS.USE_QUOTA_LIMITATION], QUOTA_FILTERS.USE_QUOTA_LIMITATION)}
+            label={formatMessage({ id: 'projectUser.list.only.low.quota' })}
+          />
+        </div>
       </div>
     )
   }
 }
-export default ProjectUserQuotaFiltersComponent
+export default withFiltersPane(ProjectUserQuotaFiltersComponent.DEFAULT_FILTERS_STATE)(ProjectUserQuotaFiltersComponent)

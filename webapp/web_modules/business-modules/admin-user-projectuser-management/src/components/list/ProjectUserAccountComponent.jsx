@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
+import omit from 'lodash/omit'
 import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
-import { AdminShapes, CommonShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -39,10 +39,9 @@ import DeleteProjectUserComponent from './options/DeleteProjectUserComponent'
 import DenyAccessComponent from './options/DenyAccessComponent'
 import AllowAccessComponent from './options/AllowAccessComponent'
 import SendEmailComponent from './options/SendEmailComponent'
-import ProjectUserAccountFiltersComponent from './filters/ProjectUserAccountFiltersComponent'
-import ACCOUNT_FILTERS from '../../domain/AccountFilters'
+import { ProjectUserAccountFiltersComponent } from './filters/ProjectUserAccountFiltersComponent'
 import HeaderActionsBar from './HeaderActionsBar'
-import { getQueryString } from '../../domain/QueryUtils'
+import { getQueryString, getUserRequestParameters } from '../../domain/QueryUtils'
 
 const DIALOG_TYPES = {
   DELETE_DIALOG: 'deleteDialog',
@@ -52,51 +51,30 @@ const DIALOG_TYPES = {
 export class ProjectUserAccountComponent extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    csvLink: PropTypes.string.isRequired,
+    csvLink: PropTypes.string,
     totalElements: PropTypes.number.isRequired,
-    origins: CommonShapes.ServiceProviderList.isRequired,
-    pageSize: PropTypes.number.isRequired,
+    pageSize: PropTypes.number,
     isLoading: PropTypes.bool.isRequired,
-    onEdit: PropTypes.func.isRequired,
-    onDeleteAccount: PropTypes.func.isRequired,
-    onValidate: PropTypes.func.isRequired,
-    onDeny: PropTypes.func.isRequired,
-    onDisable: PropTypes.func.isRequired,
-    onEnable: PropTypes.func.isRequired,
-    onSendEmailConfirmation: PropTypes.func.isRequired,
-    roleList: AdminShapes.RoleList.isRequired,
+    onEdit: PropTypes.func,
+    onDeleteAccount: PropTypes.func,
+    onValidate: PropTypes.func,
+    onDeny: PropTypes.func,
+    onDisable: PropTypes.func,
+    onEnable: PropTypes.func,
+    onSendEmailConfirmation: PropTypes.func,
 
     // table sorting, column visiblity & filters management
+    // eslint-disable-next-line react/no-unused-prop-types
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     columnsVisibility: TableFilterSortingAndVisibilityContainer.COLUMN_VISIBILITY_PROP_TYPE,
-    filters: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
-    onRefresh: PropTypes.func.isRequired,
-    updateFilter: PropTypes.func.isRequired,
-    clearFilters: PropTypes.func.isRequired,
-    onChangeColumnsVisibility: PropTypes.func.isRequired,
-    getColumnSortingData: PropTypes.func.isRequired,
-    onSort: PropTypes.func.isRequired,
+    onChangeColumnsVisibility: PropTypes.func,
+    getColumnSortingData: PropTypes.func,
+    onSort: PropTypes.func,
   }
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  /**
-   * Default state for filters edition
-   */
-  static DEFAULT_FILTERS_STATE = {
-    [ACCOUNT_FILTERS.CREATED_BEFORE]: null,
-    [ACCOUNT_FILTERS.CREATED_AFTER]: null,
-    [ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE]: null,
-    [ACCOUNT_FILTERS.LAST_CONNECTION_AFTER]: null,
-    [ACCOUNT_FILTERS.EMAIL]: '',
-    [ACCOUNT_FILTERS.LASTNAME]: '',
-    [ACCOUNT_FILTERS.FIRSTNAME]: '',
-    [ACCOUNT_FILTERS.STATUS]: undefined,
-    [ACCOUNT_FILTERS.ORIGIN]: undefined,
-    [ACCOUNT_FILTERS.ROLE]: undefined,
   }
 
   static COLUMN_KEYS = {
@@ -126,6 +104,7 @@ export class ProjectUserAccountComponent extends React.Component {
       userEmail: '',
     },
     csvLink: '',
+    requestParameters: {},
   }
 
   /**
@@ -146,15 +125,26 @@ export class ProjectUserAccountComponent extends React.Component {
   */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      filters,
+      requestParameters,
       csvLink,
     } = newProps
-
-    if (!isEqual(filters, oldProps.filters) || csvLink !== oldProps.csvLink) {
-      const queryString = getQueryString(filters)
-      this.setState({
+    const oldState = this.state || {}
+    let newState = { ...oldState }
+    const newRequestParameters = getUserRequestParameters(requestParameters, ProjectUserAccountFiltersComponent.DEFAULT_FILTERS_STATE)
+    if (!isEqual(newRequestParameters, oldProps.requestParameters)) {
+      newState = {
+        requestParameters: newRequestParameters,
+      }
+    }
+    if (!isEqual(newRequestParameters, oldProps.requestParameters) || csvLink !== oldProps.csvLink) {
+      const queryString = getQueryString(newRequestParameters)
+      newState = {
+        ...newState,
         csvLink: `${csvLink}${queryString}`,
-      })
+      }
+    }
+    if (!isEqual(newState, oldState)) {
+      this.setState(newState)
     }
   }
 
@@ -226,13 +216,15 @@ export class ProjectUserAccountComponent extends React.Component {
 
   render() {
     const {
-      onEdit, onDisable, pageSize, origins, totalElements, onRefresh,
+      onEdit, onDisable, pageSize, totalElements,
       onValidate, onDeny, isLoading, onEnable,
-      getColumnSortingData, filters, requestParameters, columnsVisibility,
-      onSort, updateFilter, clearFilters, onChangeColumnsVisibility,
-      roleList,
+      getColumnSortingData, columnsVisibility,
+      onSort, onChangeColumnsVisibility,
     } = this.props
-    const { csvLink } = this.state
+    const {
+      csvLink, requestParameters,
+    } = this.state
+    const filters = omit(requestParameters, 'sort')
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = [ // eslint wont fix: Major API rework required
@@ -322,15 +314,6 @@ export class ProjectUserAccountComponent extends React.Component {
     return (
       <TableLayout>
         <TableHeaderLine>
-          <ProjectUserAccountFiltersComponent
-            origins={origins}
-            filters={filters}
-            updateFilter={updateFilter}
-            clearFilters={clearFilters}
-            roleList={roleList}
-          />
-        </TableHeaderLine>
-        <TableHeaderLine>
           {/* 1 - accounts count */}
           <TableHeaderContentBox>
             {formatMessage({ id: 'projectUser.list.info.nb.accounts' }, { value: totalElements })}
@@ -342,8 +325,6 @@ export class ProjectUserAccountComponent extends React.Component {
             <HeaderActionsBar
               csvLink={csvLink}
               columns={columns}
-              requestParameters={requestParameters}
-              onRefresh={onRefresh}
               onChangeColumnsVisibility={onChangeColumnsVisibility}
             />
           </TableHeaderOptionsArea>
@@ -358,7 +339,7 @@ export class ProjectUserAccountComponent extends React.Component {
           columns={columns}
           requestParams={requestParameters}
           emptyComponent={!isLoading
-            ? <NoUserComponent key="no.content" hasFilter={filters !== ProjectUserAccountComponent.DEFAULT_FILTERS_STATE} />
+            ? <NoUserComponent key="no.content" hasFilter={filters !== ProjectUserAccountFiltersComponent.DEFAULT_FILTERS_STATE} />
             : ProjectUserAccountComponent.LOADING_COMPONENT}
         />
         {this.renderDeleteConfirmDialog()}

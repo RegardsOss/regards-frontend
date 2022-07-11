@@ -16,15 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
-import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { sourcesSelectors } from '../clients/SourcesClient'
 import SourcesComponent from '../components/SourcesComponent'
-import { SOURCE_FILTER_PARAMS } from '../domain/filters'
 
 /**
  * Sources Container
@@ -36,7 +33,6 @@ export class SourcesContainer extends React.Component {
     selectedSource: AdminShapes.Source,
     onSelected: PropTypes.func.isRequired,
     selectedSession: AdminShapes.Session,
-    onApplyFilters: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     filters: PropTypes.object.isRequired,
     selectedSessionId: PropTypes.string,
@@ -63,28 +59,9 @@ export class SourcesContainer extends React.Component {
     ...themeContextType,
   }
 
-  static extractFiltersFromURL = () => {
-    const { query } = browserHistory.getCurrentLocation()
-    const urlFilters = {}
-    urlFilters[SOURCE_FILTER_PARAMS.NAME] = SourcesComponent.DEFAULT_FILTERS_STATE[SOURCE_FILTER_PARAMS.NAME]
-    urlFilters[SOURCE_FILTER_PARAMS.STATUS] = SourcesComponent.DEFAULT_FILTERS_STATE[SOURCE_FILTER_PARAMS.STATUS]
-    if (values(query).length > 0) {
-      const {
-        source, sourceState,
-      } = query
-      if (source) {
-        urlFilters[SOURCE_FILTER_PARAMS.NAME] = source
-      }
-      if (sourceState) {
-        urlFilters[SOURCE_FILTER_PARAMS.STATUS] = sourceState
-      }
-    }
-    return urlFilters
-  }
-
   render() {
     const {
-      project, onSelected, selectedSource, selectedSession, onApplyFilters,
+      project, onSelected, selectedSource, selectedSession,
       filters, sources, selectedSessionId, selectedSourceId,
     } = this.props
     return (
@@ -93,7 +70,6 @@ export class SourcesContainer extends React.Component {
         onSelected={onSelected}
         selectedSource={selectedSource}
         selectedSession={selectedSession}
-        onApplyFilters={onApplyFilters}
         sources={sources}
         filters={filters}
         selectedSessionId={selectedSessionId}

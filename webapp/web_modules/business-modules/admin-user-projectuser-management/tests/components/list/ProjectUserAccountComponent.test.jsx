@@ -24,7 +24,6 @@ import {
 import { CommonDomain } from '@regardsoss/domain'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ProjectUserAccountComponent from '../../../src/components/list/ProjectUserAccountComponent'
-import ProjectUserAccountFiltersComponent from '../../../src/components/list/filters/ProjectUserAccountFiltersComponent'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -40,11 +39,9 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user project account list compo
   it('should render correctly', () => {
     const props = {
       csvLink: '',
-      origins: {},
       pageSize: 20,
       isLoading: false,
       totalElements: 20,
-      roleList: {},
       onEdit: () => { },
       onDeleteAccount: () => { },
       onValidate: () => { },
@@ -56,24 +53,12 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user project account list compo
       // table sorting, column visiblity & filters management
       requestParameters: {},
       columnsVisibility: {},
-      filters: {},
-      onRefresh: () => { },
-      updateFilter: () => { },
-      clearFilters: () => { },
       onChangeColumnsVisibility: () => { },
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
       onSort: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserAccountComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
-    const filterComponent = enzymeWrapper.find(ProjectUserAccountFiltersComponent)
-    testSuiteHelpers.assertWrapperProperties(filterComponent, {
-      origins: props.origins,
-      filters: props.filters,
-      updateFilter: props.updateFilter,
-      clearFilters: props.clearFilters,
-    }, 'Component should define the expected properties and callbacks')
-    assert.lengthOf(enzymeWrapper.find(ProjectUserAccountFiltersComponent), 1, 'ProjectUserAccountFiltersComponent should be set')
     assert.lengthOf(enzymeWrapper.find(PageableInfiniteTableContainer), 1, 'There should be 1 PageableInfiniteTableContainer')
   })
 })

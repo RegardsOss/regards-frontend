@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import throttle from 'lodash/throttle'
 import isEmpty from 'lodash/isEmpty'
-import isEqual from 'lodash/isEqual'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -30,23 +28,16 @@ import {
   TableHeaderOptionsArea,
   TableHeaderLine,
   TableHeaderOptionGroup,
-  TableHeaderAutoCompleteFilterContainer,
 } from '@regardsoss/components'
-import map from 'lodash/map'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import Card from 'material-ui/Card'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
 import CardTitle from 'material-ui/Card/CardTitle'
 import CardText from 'material-ui/Card/CardText'
-import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
 import { sourcesActions, sourcesSelectors } from '../clients/SourcesClient'
 import ReferencedProductsRender from './render/ReferencedProductsRender'
 import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
 import { ENTITY_ENUM } from '../domain/entityTypes'
-import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
-import { SOURCE_FILTER_PARAMS } from '../domain/filters'
 /**
  * SourcesComponent
  * @author Théo Lasserre
@@ -55,7 +46,6 @@ class SourcesComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     onSelected: PropTypes.func.isRequired,
-    onApplyFilters: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     sources: AdminShapes.SourceList,
     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
@@ -67,14 +57,6 @@ class SourcesComponent extends React.Component {
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
-  }
-
-  /**
-   * Default state for filters edition
-   */
-  static DEFAULT_FILTERS_STATE = {
-    [SOURCE_FILTER_PARAMS.NAME]: '',
-    [SOURCE_FILTER_PARAMS.STATUS]: STATUS_TYPES_ENUM.ALL,
   }
 
   static COLUMN_KEYS = {
@@ -91,50 +73,15 @@ class SourcesComponent extends React.Component {
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
 
-  applySourceFilters = throttle((filters) => {
-    this.setState({ sourceFilters: filters })
-  }, 1000, { leading: true })
-
-  // we use two filters variables.
-  // filters (in props) is used to update directly field values
-  // sourceFilters is used to update table values with a delay. Prevent multiple network call
-  state = {
-    sourceFilters: SourcesComponent.DEFAULT_FILTERS_STATE,
-  }
-
-  /**
-   * Update filters
-   * @param {*} newStateValue
-   * @param {*} filterElement
-   */
-  updateFilter = (newStateValue, filterElement) => {
-    const {
-      onApplyFilters, filters,
-    } = this.props
-    const newState = {
-      filters: {
-        ...filters,
-        [filterElement]: newStateValue,
-      },
-    }
-    if (!isEqual(newState.filters, filters)) {
-      onApplyFilters(newState.filters, ENTITY_ENUM.SOURCE)
-      this.applySourceFilters(newState.filters)
-      this.setState(newState)
-    }
-  }
-
   render() {
     const {
       project, onSelected, filters, selectedSessionId, selectedSourceId,
     } = this.props
-    const { sourceFilters } = this.state
     const {
       intl: { formatMessage }, muiTheme, moduleTheme: {
         dashboardStyle: {
           componentDiv: {
-            cardStyle, cardTextStyle, headerOptionDivStyle,
-            cardTitleStyle, autoCompleteStyle, selectFieldStyle,
+            cardStyle, cardTextStyle, cardTitleStyle,
           },
         },
       },
@@ -180,34 +127,10 @@ class SourcesComponent extends React.Component {
             <TableHeaderLine key="filters">
               <TableHeaderOptionsArea reducible alignLeft>
                 <TableHeaderOptionGroup>
-                  <div style={headerOptionDivStyle}>
-                    <CardTitle
-                      title={formatMessage({ id: 'dashboard.sources.title' })}
-                      style={cardTitleStyle}
-                    />
-                    <TableHeaderAutoCompleteFilterContainer
-                      onChangeText={(value) => this.updateFilter(value, SOURCE_FILTER_PARAMS.NAME)}
-                      text={filters[SOURCE_FILTER_PARAMS.NAME]}
-                      hintText={formatMessage({ id: 'dashboard.sources.filter.name' })}
-                      key="sourceAuto"
-                      arrayActions={searchSourcesActions}
-                      arraySelectors={searchSourcesSelectors}
-                      style={autoCompleteStyle}
-                    />
-                    <div>
-                      <SelectField
-                        id="dashboard.sources.filter.status"
-                        value={filters[SOURCE_FILTER_PARAMS.STATUS]}
-                        hintText={formatMessage({ id: 'dashboard.sources.filter.status' })}
-                        onChange={(event, index, value) => this.updateFilter(value, SOURCE_FILTER_PARAMS.STATUS)}
-                        style={selectFieldStyle}
-                      >
-                        {map(STATUS_TYPES, (status) => (
-                          <MenuItem key={status} value={status} primaryText={formatMessage({ id: `dashboard.sources.filter.status.${status}` })} />
-                        ))}
-                      </SelectField>
-                    </div>
-                  </div>
+                  <CardTitle
+                    title={formatMessage({ id: 'dashboard.sources.title' })}
+                    style={cardTitleStyle}
+                  />
                 </TableHeaderOptionGroup>
               </TableHeaderOptionsArea>
             </TableHeaderLine>
@@ -218,7 +141,7 @@ class SourcesComponent extends React.Component {
               maxRowCount={!isEmpty(selectedSessionId) ? minRowCount : maxRowCount}
               pageActions={sourcesActions}
               pageSelectors={sourcesSelectors}
-              requestParams={{ ...sourceFilters, tenant: project }}
+              requestParams={{ ...filters, tenant: project }}
               pageSize={SourcesComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={SourcesComponent.EMPTY_COMPONENT}

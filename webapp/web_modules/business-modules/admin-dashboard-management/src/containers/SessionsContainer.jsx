@@ -18,16 +18,13 @@
  **/
 import find from 'lodash/find'
 import filter from 'lodash/filter'
-import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
-import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { sessionsSelectors } from '../clients/SessionsClient'
 import SessionsComponent from '../components/SessionsComponent'
-import { SESSION_FILTER_PARAMS } from '../domain/filters'
 
 /**
  * Sessions Container
@@ -37,7 +34,6 @@ export class SessionsContainer extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     onSelected: PropTypes.func.isRequired,
-    onApplyFilters: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     filters: PropTypes.object.isRequired,
     selectedSessionId: PropTypes.string,
@@ -74,25 +70,6 @@ export class SessionsContainer extends React.Component {
     }
   }
 
-  static extractFiltersFromURL = () => {
-    const { query } = browserHistory.getCurrentLocation()
-    const urlFilters = {}
-    urlFilters[SESSION_FILTER_PARAMS.NAME] = SessionsComponent.DEFAULT_FILTERS_STATE[SESSION_FILTER_PARAMS.NAME]
-    urlFilters[SESSION_FILTER_PARAMS.STATUS] = SessionsComponent.DEFAULT_FILTERS_STATE[SESSION_FILTER_PARAMS.STATUS]
-    if (values(query).length > 0) {
-      const {
-        session, sessionState,
-      } = query
-      if (session) {
-        urlFilters[SESSION_FILTER_PARAMS.NAME] = session
-      }
-      if (sessionState) {
-        urlFilters[SESSION_FILTER_PARAMS.STATUS] = sessionState
-      }
-    }
-    return urlFilters
-  }
-
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
@@ -114,7 +91,7 @@ export class SessionsContainer extends React.Component {
       selectedSessionId, fetchSelectedSession, throwError, sessions, selectedSourceId,
     } = newProps
     const { intl: { formatMessage } } = this.context
-    if (!isEmpty(selectedSessionId)) {
+    if (!isEmpty(selectedSessionId) && selectedSessionId !== oldProps.selectedSessionId) {
       const filteredSessions = filter(sessions, (session) => session.content.source === selectedSourceId)
       const selectedSession = find(filteredSessions, (session) => session.content.name === selectedSessionId)
       if (selectedSession) {
@@ -129,14 +106,13 @@ export class SessionsContainer extends React.Component {
 
   render() {
     const {
-      project, onSelected, onApplyFilters, filters, sessions,
+      project, onSelected, filters, sessions,
       selectedSourceId, selectedSessionId,
     } = this.props
     return (
       <SessionsComponent
         project={project}
         onSelected={onSelected}
-        onApplyFilters={onApplyFilters}
         sessions={sessions}
         filters={filters}
         selectedSourceId={selectedSourceId}

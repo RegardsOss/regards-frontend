@@ -41,21 +41,58 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserListContainer', () =
         size: 20,
         totalElements: 20,
       },
-      authentication: {},
-
+      groups: {},
+      origins: {},
+      isFetchingViewData: false,
+      isFetchingActions: false,
+      roleList: {},
+      uiSettings: {
+        showVersion: false,
+        documentModels: [],
+        primaryQuicklookGroup: 'pipou',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
+      },
+      authentication: {}, // used only in onPropertiesUpdated
       // from mapDispatchToProps
       fetchUsers: () => { },
+      onDeleteAccount: () => { },
+      onValidateProjectUser: () => { },
+      onDenyProjectUser: () => { },
+      onSendEmailConfirmation: () => { },
+      onDisableProjectUser: () => { },
+      onEnableProjectUser: () => { },
+      fetchOrigins: () => { },
+      throwError: () => { },
+      fetchRoleList: () => { },
+      onUpdateAccount: () => { },
+      fetchUISettings: () => { },
+      fetchGroups: () => { },
     }
 
     const enzymeWrapper = shallow(<ProjectUserListContainer {...props} />)
     const instance = enzymeWrapper.instance()
     testSuiteHelpers.assertCompWithProps(enzymeWrapper, ProjectUserListComponent, {
       project: props.params.project,
-      csvLink: 'http://localhost:8000/api/v1/rs-admin/users/export',
+      csvLink: '',
       onRefresh: instance.onRefresh,
       onCreate: instance.onCreate,
       onBack: instance.onBack,
       visualisationMode: props.params.visualisationMode,
+      onDeleteAccount: instance.onDeleteAccount,
+      onEnable: instance.onEnableProjectUser,
+      onValidate: instance.onValidateProjectUser,
+      onDeny: instance.onDenyProjectUser,
+      onDisable: instance.onDisableProjectUser,
+      onSendEmailConfirmation: instance.onSendEmailConfirmation,
+      onSetMaxQuota: instance.onSetMaxQuota,
+      uiSettings: props.uiSettings,
+      totalElements: props.pageMeta.totalElements,
+      origins: props.origins,
+      isLoading: false,
+      onEdit: instance.onEdit,
+      roleList: props.roleList,
+      groups: props.groups,
     })
   })
 })

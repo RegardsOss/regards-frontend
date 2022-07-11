@@ -39,6 +39,9 @@ const dashboardManagementStyles = (theme) => ({
       alignItems: 'center',
       justifyContent: 'flex-end',
     },
+    filterButtonStyle: {
+      marginLeft: '2px',
+    },
   },
   dashboardStyle: {
     cardTextField: {
@@ -158,20 +161,9 @@ const dashboardManagementStyles = (theme) => ({
       cardTextStyle: {
         padding: '5px',
       },
-      headerOptionDivStyle: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-      },
       cardTitleStyle: {
         padding: '5px',
         marginRight: '10px',
-      },
-      autoCompleteStyle: {
-        marginRight: '10px',
-      },
-      selectFieldStyle: {
-        width: '105px',
       },
     },
   },

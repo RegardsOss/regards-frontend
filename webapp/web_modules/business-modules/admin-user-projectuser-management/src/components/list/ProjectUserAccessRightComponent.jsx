@@ -18,8 +18,8 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import omit from 'lodash/omit'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
-import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -34,47 +34,32 @@ import NoUserComponent from './NoUserComponent'
 import RoleRenderer from './render/RoleRenderer'
 import EditProjectUserComponent from './options/EditProjectUserComponent'
 import DeleteProjectUserComponent from './options/DeleteProjectUserComponent'
-import ProjectUserAccessRightFiltersComponent from './filters/ProjectUserAccessRightFiltersComponent'
-import ACCESS_RIGHT_FILTERS from '../../domain/AccessRightFilters'
+import { ProjectUserAccessRightFiltersComponent } from './filters/ProjectUserAccessRightFiltersComponent'
 import HeaderActionsBar from './HeaderActionsBar'
-import { getQueryString } from '../../domain/QueryUtils'
+import { getQueryString, getUserRequestParameters } from '../../domain/QueryUtils'
 
 export class ProjectUserAccessRightComponent extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     csvLink: PropTypes.string.isRequired,
     totalElements: PropTypes.number.isRequired,
-    pageSize: PropTypes.number.isRequired,
+    pageSize: PropTypes.number,
     isLoading: PropTypes.bool.isRequired,
-    onEdit: PropTypes.func.isRequired,
-    onDeleteAccount: PropTypes.func.isRequired,
-    groups: DataManagementShapes.AccessGroupList.isRequired,
+    onEdit: PropTypes.func,
+    onDeleteAccount: PropTypes.func,
 
     // table sorting, column visiblity & filters management
+    // eslint-disable-next-line react/no-unused-prop-types
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     columnsVisibility: TableFilterSortingAndVisibilityContainer.COLUMN_VISIBILITY_PROP_TYPE,
-    filters: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
-    onRefresh: PropTypes.func.isRequired,
-    updateFilter: PropTypes.func.isRequired,
-    clearFilters: PropTypes.func.isRequired,
-    onChangeColumnsVisibility: PropTypes.func.isRequired,
-    getColumnSortingData: PropTypes.func.isRequired,
-    onSort: PropTypes.func.isRequired,
+    onChangeColumnsVisibility: PropTypes.func,
+    getColumnSortingData: PropTypes.func,
+    onSort: PropTypes.func,
   }
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  /**
-   * Default state for filters edition
-   */
-  static DEFAULT_FILTERS_STATE = {
-    [ACCESS_RIGHT_FILTERS.EMAIL]: '',
-    [ACCESS_RIGHT_FILTERS.LASTNAME]: '',
-    [ACCESS_RIGHT_FILTERS.FIRSTNAME]: '',
-    [ACCESS_RIGHT_FILTERS.GROUP]: undefined,
   }
 
   static COLUMN_KEYS = {
@@ -116,15 +101,26 @@ export class ProjectUserAccessRightComponent extends React.Component {
   */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      filters,
+      requestParameters,
       csvLink,
     } = newProps
-
-    if (!isEqual(filters, oldProps.filters) || csvLink !== oldProps.csvLink) {
-      const queryString = getQueryString(filters)
-      this.setState({
+    const oldState = this.state || {}
+    let newState = { ...oldState }
+    const newRequestParameters = getUserRequestParameters(requestParameters, ProjectUserAccessRightFiltersComponent.DEFAULT_FILTERS_STATE)
+    if (!isEqual(newRequestParameters, oldProps.requestParameters)) {
+      newState = {
+        requestParameters: newRequestParameters,
+      }
+    }
+    if (!isEqual(newRequestParameters, oldProps.requestParameters) || csvLink !== oldProps.csvLink) {
+      const queryString = getQueryString(newRequestParameters)
+      newState = {
+        ...newState,
         csvLink: `${csvLink}${queryString}`,
-      })
+      }
+    }
+    if (!isEqual(newState, oldState)) {
+      this.setState(newState)
     }
   }
 
@@ -160,11 +156,12 @@ export class ProjectUserAccessRightComponent extends React.Component {
 
   render() {
     const {
-      onEdit, pageSize, totalElements, onRefresh, isLoading, groups,
-      getColumnSortingData, filters, requestParameters, columnsVisibility,
-      onSort, updateFilter, clearFilters, onChangeColumnsVisibility,
+      onEdit, pageSize, totalElements, isLoading,
+      getColumnSortingData, columnsVisibility,
+      onSort, onChangeColumnsVisibility,
     } = this.props
-    const { csvLink } = this.state
+    const { csvLink, requestParameters } = this.state
+    const filters = omit(requestParameters, 'sort')
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = [ // eslint wont fix: Major API rework required
@@ -231,14 +228,6 @@ export class ProjectUserAccessRightComponent extends React.Component {
     return (
       <TableLayout>
         <TableHeaderLine>
-          <ProjectUserAccessRightFiltersComponent
-            filters={filters}
-            updateFilter={updateFilter}
-            clearFilters={clearFilters}
-            groups={groups}
-          />
-        </TableHeaderLine>
-        <TableHeaderLine>
           {/* 1 - accounts count */}
           <TableHeaderContentBox>
             {formatMessage({ id: 'projectUser.list.info.nb.accounts' }, { value: totalElements })}
@@ -250,8 +239,6 @@ export class ProjectUserAccessRightComponent extends React.Component {
             <HeaderActionsBar
               csvLink={csvLink}
               columns={columns}
-              requestParameters={requestParameters}
-              onRefresh={onRefresh}
               onChangeColumnsVisibility={onChangeColumnsVisibility}
             />
           </TableHeaderOptionsArea>
@@ -266,7 +253,7 @@ export class ProjectUserAccessRightComponent extends React.Component {
           columns={columns}
           requestParams={requestParameters}
           emptyComponent={!isLoading
-            ? <NoUserComponent key="no.content" hasFilter={filters !== ProjectUserAccessRightComponent.DEFAULT_FILTERS_STATE} />
+            ? <NoUserComponent key="no.content" hasFilter={filters !== ProjectUserAccessRightFiltersComponent.DEFAULT_FILTERS_STATE} />
             : ProjectUserAccessRightComponent.LOADING_COMPONENT}
         />
         {this.renderDeleteConfirmDialog()}

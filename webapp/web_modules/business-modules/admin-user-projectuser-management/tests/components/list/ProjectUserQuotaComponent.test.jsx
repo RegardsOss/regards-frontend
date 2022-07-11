@@ -24,7 +24,6 @@ import {
 import { CommonDomain } from '@regardsoss/domain'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ProjectUserQuotaComponent from '../../../src/components/list/ProjectUserQuotaComponent'
-import ProjectUserQuotaFiltersComponent from '../../../src/components/list/filters/ProjectUserQuotaFiltersComponent'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -45,37 +44,25 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user quota list compone
       isLoading: false,
       onEdit: () => { },
       onDeleteAccount: () => { },
-      uiSettings: {
-        showVersion: true,
-        documentModels: [],
-        primaryQuicklookGroup: '',
-        quotaWarningCount: 50,
-        rateWarningCount: 50,
-      },
       onSetMaxQuota: () => { },
       showQuota: false,
+      uiSettings: {
+        showVersion: false,
+        documentModels: [],
+        primaryQuicklookGroup: 'pipou',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
+      },
 
       // table sorting, column visiblity & filters management
       requestParameters: {},
       columnsVisibility: {},
-      filters: {},
-      onRefresh: () => { },
-      updateFilter: () => { },
-      clearFilters: () => { },
       onChangeColumnsVisibility: () => { },
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
       onSort: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserQuotaComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
-    const filterComponent = enzymeWrapper.find(ProjectUserQuotaFiltersComponent)
-    testSuiteHelpers.assertWrapperProperties(filterComponent, {
-      onToggleOnlyLowQuotaUsers: enzymeWrapper.instance().onToggleOnlyLowQuotaUsers,
-      filters: props.filters,
-      updateFilter: props.updateFilter,
-      clearFilters: props.clearFilters,
-    }, 'Component should define the expected properties and callbacks')
-    assert.lengthOf(enzymeWrapper.find(ProjectUserQuotaFiltersComponent), 1, 'ProjectUserQuotaFiltersComponent should be set')
     assert.lengthOf(enzymeWrapper.find(PageableInfiniteTableContainer), 1, 'There should be 1 PageableInfiniteTableContainer')
   })
 })

@@ -32,12 +32,39 @@ const THROTTLE_DELAY_MS = 300
  * Every action using this container must have a autoCompleteActionDispatch function which will be called by the dispatch (eg: SearchSourceAction)
  */
 export class TableHeaderAutoCompleteFilterContainer extends React.Component {
+  static propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types
+    arrayActions: PropTypes.instanceOf(BasicArrayActions).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    arraySelectors: PropTypes.instanceOf(BasicArraySelectors).isRequired, // to retrieve entities from store
+    // eslint-disable-next-line react/no-unused-prop-types
+    text: PropTypes.string.isRequired,
+    onChangeText: PropTypes.func.isRequired,
+    hintText: PropTypes.string.isRequired,
+    style: PropTypes.objectOf(PropTypes.string),
+    fullWidth: PropTypes.bool,
+    // From mapStateToProps
+    isFetching: PropTypes.bool.isRequired,
+    hintsArray: PropTypes.arrayOf(PropTypes.string).isRequired,
+    noData: PropTypes.bool.isRequired,
+    // From mapDispatchToProps
+    getSearchHints: PropTypes.func.isRequired,
+  }
+
+  static defaultPropTypes = {
+    fullWidth: false,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
+     * Redux: map state to props function
+     * @param {*} state: current redux state
+     * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+     * @return {*} list of component properties extracted from redux state
+     */
   static mapStateToProps(state, { arraySelectors }) {
     return {
       isFetching: arraySelectors.isFetching(state),
@@ -58,28 +85,6 @@ export class TableHeaderAutoCompleteFilterContainer extends React.Component {
         // Note: we throttle here the emitted network requests to avoid dispatching for each key user pressed
         throttle((text) => dispatch(arrayActions.autoCompleteActionDispatch(text)), THROTTLE_DELAY_MS, { leading: true }),
     }
-  }
-
-  static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
-    arrayActions: PropTypes.instanceOf(BasicArrayActions).isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    arraySelectors: PropTypes.instanceOf(BasicArraySelectors).isRequired, // to retrieve entities from store
-    // eslint-disable-next-line react/no-unused-prop-types
-    text: PropTypes.string.isRequired,
-    onChangeText: PropTypes.func.isRequired,
-    hintText: PropTypes.string.isRequired,
-    style: PropTypes.objectOf(PropTypes.string),
-    // From mapStateToProps
-    isFetching: PropTypes.bool.isRequired,
-    hintsArray: PropTypes.arrayOf(PropTypes.string).isRequired,
-    noData: PropTypes.bool.isRequired,
-    // From mapDispatchToProps
-    getSearchHints: PropTypes.func.isRequired,
-  }
-
-  static contextTypes = {
-    ...themeContextType,
   }
 
   /**
@@ -106,7 +111,7 @@ export class TableHeaderAutoCompleteFilterContainer extends React.Component {
 
   render() {
     const {
-      text, hintText, isFetching, noData, hintsArray, style,
+      text, hintText, isFetching, noData, hintsArray, style, fullWidth,
     } = this.props
 
     return (
@@ -120,6 +125,7 @@ export class TableHeaderAutoCompleteFilterContainer extends React.Component {
         noData={noData}
         prepareHints={this.prepareHints}
         style={style}
+        fullWidth={fullWidth}
       />
     )
   }

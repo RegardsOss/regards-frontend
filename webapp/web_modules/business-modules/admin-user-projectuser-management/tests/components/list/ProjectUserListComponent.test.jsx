@@ -21,13 +21,15 @@ import { assert } from 'chai'
 import SelectField from 'material-ui/SelectField'
 import { browserHistory } from 'react-router'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import ProjectUserListComponent from '../../../src/components/list/ProjectUserListComponent'
+import { VISUALISATION_MODES_ENUM } from '../../../src/domain/VisualisationModes'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
 
 // Test a component rendering
-describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project project user list component', () => {
+describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -43,12 +45,33 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project project user list compo
     const props = {
       project: '',
       csvLink: '',
-      visualisationMode: 'account',
+      visualisationMode: VISUALISATION_MODES_ENUM.ACCOUNT,
       onRefresh: () => { },
       onCreate: () => { },
       onBack: () => { },
+      totalElements: 1,
+      origins: { },
+      isLoading: false,
+      onEdit: () => { },
+      onDeleteAccount: () => { },
+      onValidate: () => { },
+      onDeny: () => { },
+      onDisable: () => { },
+      onEnable: () => { },
+      onSendEmailConfirmation: () => { },
+      roleList: { },
+      onSetMaxQuota: () => { },
+      uiSettings: {
+        showVersion: false,
+        documentModels: [],
+        primaryQuicklookGroup: 'pipou',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
+      },
+      groups: { },
     }
     const enzymeWrapper = shallow(<ProjectUserListComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(SelectField), 1, 'SelectField should be set')
+    assert.lengthOf(enzymeWrapper.find(TableFilterSortingAndVisibilityContainer), 1, 'TableFilterSortingAndVisibilityContainer should be set')
   })
 })

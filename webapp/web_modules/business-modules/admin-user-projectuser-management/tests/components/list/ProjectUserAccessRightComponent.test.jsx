@@ -24,7 +24,6 @@ import {
 import { CommonDomain } from '@regardsoss/domain'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ProjectUserAccessRightComponent from '../../../src/components/list/ProjectUserAccessRightComponent'
-import ProjectUserAccessRightFiltersComponent from '../../../src/components/list/filters/ProjectUserAccessRightFiltersComponent'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -45,29 +44,16 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user access right compo
       isLoading: false,
       onEdit: () => { },
       onDeleteAccount: () => { },
-      groups: {},
 
       // table sorting, column visiblity & filters management
       requestParameters: {},
       columnsVisibility: {},
-      filters: {},
-      onRefresh: () => { },
-      updateFilter: () => { },
-      clearFilters: () => { },
       onChangeColumnsVisibility: () => { },
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
       onSort: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserAccessRightComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
-    const filterComponent = enzymeWrapper.find(ProjectUserAccessRightFiltersComponent)
-    testSuiteHelpers.assertWrapperProperties(filterComponent, {
-      groups: props.groups,
-      filters: props.filters,
-      updateFilter: props.updateFilter,
-      clearFilters: props.clearFilters,
-    }, 'Component should define the expected properties and callbacks')
-    assert.lengthOf(enzymeWrapper.find(ProjectUserAccessRightFiltersComponent), 1, 'ProjectUserAccessRightFiltersComponent should be set')
     assert.lengthOf(enzymeWrapper.find(PageableInfiniteTableContainer), 1, 'There should be 1 PageableInfiniteTableContainer')
   })
 })

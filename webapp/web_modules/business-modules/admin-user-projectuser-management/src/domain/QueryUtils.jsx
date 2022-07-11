@@ -18,10 +18,13 @@
  **/
 import pickBy from 'lodash/pickBy'
 import map from 'lodash/map'
+import pick from 'lodash/pick'
+import omit from 'lodash/omit'
+import includes from 'lodash/includes'
 import keys from 'lodash/keys'
 
 /**
- * Helper for csv query filters construction
+ * Helper for query filters construction
  * @author Théo Lasserre
  */
 
@@ -32,4 +35,13 @@ function pickFilters(filters) {
 export function getQueryString(filters) {
   const filteredFilters = pickFilters(filters)
   return map(keys(filteredFilters), (key) => `&${key}=${filters[key]}`).join('')
+}
+
+export function getUserRequestParameters(requestParameters, defaultFilterState) {
+  const filters = omit(requestParameters, 'sort')
+  const currentFilters = pickBy(filters, (filt, key) => includes(keys(defaultFilterState), key))
+  return {
+    ...currentFilters,
+    ...pick(requestParameters, 'sort'),
+  }
 }

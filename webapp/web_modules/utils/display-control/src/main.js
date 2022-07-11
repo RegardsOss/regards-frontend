@@ -31,3 +31,4 @@ export { default as MeasureResultProvider } from './measurement/MeasureResultPro
 export { default as HateoasKeys } from './model/HateoasKeys'
 export { default as HateoasLinks } from './model/HateoasLinks'
 export { default as withResourceDisplayControl } from './resources/withResourceDisplayControl'
+export { default as getDisplayName } from './getDisplayName'
