@@ -41,6 +41,7 @@ import AccountRefuseComponent from './render/AccountRefuseComponent'
 import ProjectsRenderComponent from './render/ProjectsRenderComponent'
 import AccountEnableComponent from './render/AccountEnableComponent'
 import AccountDeleteComponent from './render/AccountDeleteComponent'
+import StatusRenderComponent from './render/StatusRenderComponent'
 import AccountFiltersComponent from './filters/AccountFiltersComponent'
 import AccountMessageComponent from './message/AccountMessageComponent'
 import ACCOUNT_FILTERS from '../domain/AccountFilters'
@@ -217,7 +218,7 @@ export class AccountListComponent extends React.Component {
       // 3 - status
       new TableColumnBuilder(AccountListComponent.COLUMN_KEYS.STATUS)
         .titleHeaderCell()
-        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.STATUS}`)
+        .propertyRenderCell(`content.${AccountListComponent.COLUMN_KEYS.STATUS}`, StatusRenderComponent)
         .label(formatMessage({ id: 'account.list.table.status' }))
         .visible(get(columnsVisibility, AccountListComponent.COLUMN_KEYS.STATUS, true))
         .sortableHeaderCell(...getColumnSortingData(AccountListComponent.COLUMN_KEYS.STATUS), onSort)
