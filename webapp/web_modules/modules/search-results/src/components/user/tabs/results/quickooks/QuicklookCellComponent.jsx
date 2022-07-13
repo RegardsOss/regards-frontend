@@ -197,12 +197,10 @@ class QuicklookCellComponent extends React.PureComponent {
       presentationModels, embedInMap, mapThumbnailHeight,
       primaryQuicklookGroup, accessToken, projectName,
     } = itemProps
-    // when there is no attributes, we do not display footer
-    let footerHeight = 0
-    if (presentationModels.length > 0) {
-      footerHeight = (presentationModels.length * QuicklookCellComponent.EXPECTED_ATTRIBUTE_ROW_HEIGHT)
-        + (presentationModels.length ? QuicklookCellComponent.EXPECTED_ATTRIBUTES_PADDING : 0)
-    }
+    // when there is no attributes, we display one attribute height footer to show all available options
+    const nbLines = presentationModels.length || 1
+    const footerHeight = (nbLines * QuicklookCellComponent.EXPECTED_ATTRIBUTE_ROW_HEIGHT)
+        + QuicklookCellComponent.EXPECTED_ATTRIBUTES_PADDING
     // Get quicklook to display
     const { defaultPic } = QuicklookCellComponent.getPictures(entity, primaryQuicklookGroup, accessToken, projectName, embedInMap)
 
