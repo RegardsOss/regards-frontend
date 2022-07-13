@@ -18,11 +18,11 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { ProcessingClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { OrderListContainer } from '../../src/containers/OrderListContainer'
+import OrderListComponent from '../../src/components/OrderListComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -46,10 +46,16 @@ describe('[Admin Order Management] Testing OrderListContainer', () => {
       availableDependencies: [new ProcessingClient.ProcessingActions('idk').getDependency(RequestVerbEnum.GET)],
       dispatchResetToLevel: () => { },
       fetchPluginMetaDataList: () => { },
+      fetchOrderList: () => { },
     }
     const enzymeWrapper = shallow(<OrderListContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
+    const componentWrapper = enzymeWrapper.find(OrderListComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      project: props.params.project,
+      backUrl: enzymeWrapper.instance().getBackURL(),
+      onRefresh: enzymeWrapper.instance().onRefresh,
+    }, 'Component should define the expected properties')
   })
   it('should render correctly without processing dependencies', () => {
     const props = {
@@ -59,9 +65,15 @@ describe('[Admin Order Management] Testing OrderListContainer', () => {
       availableDependencies: [],
       dispatchResetToLevel: () => { },
       fetchPluginMetaDataList: () => { },
+      fetchOrderList: () => { },
     }
     const enzymeWrapper = shallow(<OrderListContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
+    const componentWrapper = enzymeWrapper.find(OrderListComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      project: props.params.project,
+      backUrl: enzymeWrapper.instance().getBackURL(),
+      onRefresh: enzymeWrapper.instance().onRefresh,
+    }, 'Component should define the expected properties')
   })
 })

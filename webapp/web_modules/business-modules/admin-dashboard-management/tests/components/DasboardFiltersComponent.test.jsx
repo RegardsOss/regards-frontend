@@ -36,7 +36,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Dashboard Filters', () => {
   it('should render correctly', () => {
     const props = {
       onUpdateFiltersParameters: () => { },
-      isFiltersPaneOpen: false,
+      isPaneOpened: false,
       onCloseFiltersPane: () => { },
     }
     const enzymeWrapper = shallow(<DasboardFiltersComponent {...props} />, { context })

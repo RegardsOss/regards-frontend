@@ -19,8 +19,10 @@
 import reduce from 'lodash/reduce'
 import pick from 'lodash/pick'
 import map from 'lodash/map'
+import get from 'lodash/get'
 import clone from 'lodash/clone'
 import omit from 'lodash/omit'
+import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
 import { CommonDomain } from '@regardsoss/domain'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
@@ -100,6 +102,11 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
     [CommonDomain.REQUEST_PARAMETERS.VALUES]: [],
   }
+
+  static getFilterDateValue = (inputValues, filterKey, dateParameter) => get(inputValues, `${filterKey}.${dateParameter}`, null)
+    ? new Date(inputValues[filterKey][dateParameter]) : null
+
+  static getParameterDateValue = (dateValue) => !isEmpty(dateValue) ? dateValue : null
 
   /**
    * Redux: map state to props function

@@ -19,17 +19,15 @@
 import map from 'lodash/map'
 import includes from 'lodash/includes'
 import keys from 'lodash/keys'
-import IconButton from 'material-ui/IconButton'
 import { MenuItem } from 'material-ui/Menu'
 import SelectField from 'material-ui/SelectField'
-import ClearFilter from 'mdi-material-ui/Backspace'
 import { CommonDomain, OrderDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
-  TableHeaderAutoCompleteFilter, TableHeaderLine, TableHeaderOptionsArea,
-  TableFilterSortingAndVisibilityContainer, DatePickerField, TableHeaderOptionGroup,
+  TableFilterSortingAndVisibilityContainer, DatePickerField,
+  withFiltersPane, TableHeaderAutoCompleteFilter,
 } from '@regardsoss/components'
 import { REQUEST_FILTERS } from '../domain/requestFilters'
 import { WAITING_FOR_USER_ENUM } from '../domain/waitingForUserFilterValues'
@@ -40,19 +38,13 @@ import { WAITING_FOR_USER_ENUM } from '../domain/waitingForUserFilterValues'
 */
 class OrderListFiltersComponent extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
-    matchingUsers: AccessShapes.ProjectUserList, // used in onPropertiesUpdated, current users list
-    isInError: PropTypes.bool.isRequired, // is currently in error?
-    isFetching: PropTypes.bool.isRequired, // is current fetching?
-    onUpdateUsersFilter: PropTypes.func.isRequired, // user entered some key value, callback to update matching users list
-    onUserFilterSelected: PropTypes.func.isRequired, // callback: user selected a user mail OR entered some text
-    onUpdateWaitingForUserFilter: PropTypes.func.isRequired,
-
-    // table sorting, column visiblity & filters management
-    filters: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
-    updateValuesFilter: PropTypes.func.isRequired,
+    matchingUsers: AccessShapes.ProjectUserList,
+    isFetching: PropTypes.bool.isRequired,
+    dispatchGetUsers: PropTypes.func.isRequired, // user entered some key value, callback to update matching users list
+    updateFilter: PropTypes.func.isRequired,
     updateDatesFilter: PropTypes.func.isRequired,
-    clearFilters: PropTypes.func.isRequired,
+    updateValuesFilter: PropTypes.func.isRequired,
+    inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
   }
 
   static contextTypes = {
@@ -60,7 +52,19 @@ class OrderListFiltersComponent extends React.Component {
     ...themeContextType,
   }
 
+  static DEFAULT_FILTERS_STATE = {
+    [REQUEST_FILTERS.OWNER]: '',
+    [REQUEST_FILTERS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
+    [REQUEST_FILTERS.STATUSES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [REQUEST_FILTERS.WAITING_FOR_USER]: null,
+  }
+
   static EXCLUDED_ORDER_STATUS_FILTER = [OrderDomain.ORDER_STATUS_ENUM.WAITING_USER_DOWNLOAD, OrderDomain.ORDER_STATUS_ENUM.UNKNOWN]
+
+  /** Component default state (controls the auto complete filter state) */
+  state = {
+    isInError: false,
+  }
 
   prepareHints = ({ content: { email } }) => ({
     id: email, // the value that interests us here
@@ -68,58 +72,94 @@ class OrderListFiltersComponent extends React.Component {
     value: <MenuItem primaryText={email} />, // graphic render
   })
 
+  /**
+ * Callback: the user selected a user mail or typed in some text
+ * @param userEmail: user email or input text
+ * @param isInUserList: true when the text match EXACTLY an existing user
+ */
+  onUserFilterSelected = (userEmail, isInUsersList) => {
+    const { updateFilter } = this.props
+    // A - Update text and error state
+    this.setState({ isInError: !isInUsersList })
+    // B - call parent handler (let the no data happen when no correct user is selected)
+    updateFilter(userEmail, REQUEST_FILTERS.OWNER)
+  }
+
+  /**
+   * Called by auto complete filter box
+   */
+   onUpdateUsersFilter = (newText = '') => {
+     const { dispatchGetUsers, updateFilter } = this.props
+     // update filter text
+     updateFilter(newText, REQUEST_FILTERS.OWNER)
+     // dipatch get users list for text (it will provide the new matching users list)
+     dispatchGetUsers(newText)
+   }
+
+  /**
+   * Callback: user cleared the user mail filter
+   */
+  onUserFilterCleared = () => this.onUserFilterSelected('', true) // empty user is considered part of the list
+
   render() {
     const {
-      isFetching, isInError, matchingUsers,
-      onUpdateUsersFilter, onUserFilterSelected, updateDatesFilter,
-      clearFilters, filters, updateValuesFilter, onUpdateWaitingForUserFilter,
+      updateFilter, inputValues, updateDatesFilter, updateValuesFilter, matchingUsers, isFetching,
     } = this.props
+    const { isInError } = this.state
     const {
-      intl: { formatMessage, locale },
-      moduleTheme: {
-        orderList: {
-          clearFilterButton, autoCompleteFilterStyle, selectFieldStyle,
-        },
-      },
+      intl: { locale, formatMessage }, moduleTheme: { searchPane: { childrenStyles: { mainDivStyle, lineDivStyle, filterLabelStyle } } },
     } = this.context
     return (
-      <TableHeaderLine>
-        <TableHeaderOptionsArea reducible alignLeft>
-          <TableHeaderOptionGroup>
-            <DatePickerField
-              id={`filter.${CommonDomain.REQUEST_PARAMETERS.AFTER}`}
-              dateHintText={formatMessage({ id: 'order.list.filters.creationDate.after.label' })}
-              onChange={(value) => updateDatesFilter(value ? value.toISOString() : '', REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
-              locale={locale}
-              value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(filters, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
-            />
-            <DatePickerField
-              id={`filter.${CommonDomain.REQUEST_PARAMETERS.BEFORE}`}
-              dateHintText={formatMessage({ id: 'order.list.filters.creationDate.before.label' })}
-              onChange={(value) => updateDatesFilter(value ? value.toISOString() : '', REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
-              locale={locale}
-              value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(filters, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
-              defaultTime="23:59:59"
-            />
-          </TableHeaderOptionGroup>
-          <TableHeaderAutoCompleteFilter
+      <div style={mainDivStyle}>
+        <div style={lineDivStyle}>
+          <div style={filterLabelStyle}>
+            {formatMessage({ id: 'order.list.filters.creationDate.label' })}
+          </div>
+          <DatePickerField
+            id={`filter.${CommonDomain.REQUEST_PARAMETERS.AFTER}`}
+            dateHintText={formatMessage({ id: 'order.list.filters.creationDate.after.label' })}
+            onChange={(value) => updateDatesFilter(value.toISOString(), REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
+            locale={locale}
+            value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(inputValues, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
+            fullWidth
+          />
+          <DatePickerField
+            id={`filter.${CommonDomain.REQUEST_PARAMETERS.BEFORE}`}
+            dateHintText={formatMessage({ id: 'order.list.filters.creationDate.before.label' })}
+            onChange={(value) => updateDatesFilter(value.toISOString(), REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
+            locale={locale}
+            value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(inputValues, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
+            defaultTime="23:59:59"
+            fullWidth
+          />
+        </div>
+        <div style={{ ...lineDivStyle, height: '56px', paddingTop: '10px' }}>
+          <div style={filterLabelStyle}>
+            {formatMessage({ id: 'order.list.filter.by.email.label' })}
+          </div>
+          <TableHeaderAutoCompleteFilter // TODO CREER COMPOSANTS G2N2RIQUE FILTRES
             hintText={formatMessage({ id: 'order.list.filter.by.email.hint' })}
-            text={filters[REQUEST_FILTERS.OWNER] || ''}
+            text={inputValues[REQUEST_FILTERS.OWNER] || ''}
             currentHints={matchingUsers}
             isFetching={isFetching}
             noData={isInError}
-            onUpdateInput={onUpdateUsersFilter}
-            onFilterSelected={onUserFilterSelected}
+            onUpdateInput={this.onUpdateUsersFilter}
+            onFilterSelected={this.onUserFilterSelected}
             prepareHints={this.prepareHints}
-            style={autoCompleteFilterStyle}
+            fullWidth
           />
+        </div>
+        <div style={lineDivStyle}>
+          <div style={filterLabelStyle}>
+            {formatMessage({ id: 'order.list.filters.status.label' })}
+          </div>
           <SelectField
             id={`filter.${REQUEST_FILTERS.STATUSES}`}
-            value={filters[REQUEST_FILTERS.STATUSES][CommonDomain.REQUEST_PARAMETERS.VALUES]}
+            value={inputValues[REQUEST_FILTERS.STATUSES][CommonDomain.REQUEST_PARAMETERS.VALUES]}
             onChange={(event, index, value) => updateValuesFilter(value, REQUEST_FILTERS.STATUSES)}
-            floatingLabelText={formatMessage({ id: 'order.list.filters.status.label.title' })}
+            hintText={formatMessage({ id: 'order.list.filters.status.label.title' })}
             multiple
-            style={selectFieldStyle}
+            fullWidth
           >
             {map(OrderDomain.ORDER_STATUS, (status) => {
               if (!includes(OrderListFiltersComponent.EXCLUDED_ORDER_STATUS_FILTER, status)) {
@@ -128,28 +168,26 @@ class OrderListFiltersComponent extends React.Component {
               return null
             })}
           </SelectField>
+        </div>
+        <div style={lineDivStyle}>
+          <div style={filterLabelStyle}>
+            {formatMessage({ id: 'order.list.filters.waiting.user.label' })}
+          </div>
           <SelectField
             id={`filter.${REQUEST_FILTERS.WAITING_FOR_USER}`}
-            value={filters[REQUEST_FILTERS.WAITING_FOR_USER] || ''}
-            onChange={(event, index, value) => onUpdateWaitingForUserFilter(value)}
-            floatingLabelText={formatMessage({ id: 'order.list.filters.waiting.user.label' })}
-            style={selectFieldStyle}
+            value={inputValues[REQUEST_FILTERS.WAITING_FOR_USER] || ''}
+            onChange={(event, index, value) => updateFilter(value, REQUEST_FILTERS.WAITING_FOR_USER)}
+            hintText={formatMessage({ id: 'order.list.filters.waiting.user.label.hint' })}
+            fullWidth
           >
             <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'order.list.filters.waiting.user.any' })} />
             {map(keys(WAITING_FOR_USER_ENUM), (waitingForUserKey) => (
               <MenuItem key={waitingForUserKey} value={WAITING_FOR_USER_ENUM[waitingForUserKey]} primaryText={formatMessage({ id: `order.list.filters.waiting.user.${WAITING_FOR_USER_ENUM[waitingForUserKey]}` })} />
             ))}
           </SelectField>
-          <IconButton
-            title={formatMessage({ id: 'order.list.clear.filter.tooltip' })}
-            style={clearFilterButton.style}
-            onClick={clearFilters}
-          >
-            <ClearFilter />
-          </IconButton>
-        </TableHeaderOptionsArea>
-      </TableHeaderLine>
+        </div>
+      </div>
     )
   }
 }
-export default OrderListFiltersComponent
+export default withFiltersPane(OrderListFiltersComponent.DEFAULT_FILTERS_STATE)(OrderListFiltersComponent)

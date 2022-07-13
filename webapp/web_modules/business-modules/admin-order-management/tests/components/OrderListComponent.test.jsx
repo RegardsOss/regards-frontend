@@ -19,9 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CardActionsComponent, TableSelectionModes } from '@regardsoss/components'
+import { CardActionsComponent, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { OrderClient, ProcessingClient, CommonClient } from '@regardsoss/client'
-import { OrderDomain } from '@regardsoss/domain'
 import {
   OrdersNavigationActions, ORDER_DISPLAY_MODES, OrderDisplayContainer, OrdersNavigationSelectors,
 } from '@regardsoss/order-common'
@@ -47,6 +46,7 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
     const props = {
       project: 'default',
       backUrl: 'random-url_value#123',
+      onRefresh: () => { },
       ordersActions: orderListActions,
       ordersSelectors: orderListSelectors,
       isProcessingDependenciesExist: true,
@@ -57,39 +57,12 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
       ordersNavigationActions: new OrdersNavigationActions('idk'),
       ordersNavigationSelectors: new OrdersNavigationSelectors(['osef']),
       pluginMetaDataSelectors: CommonClient.getPluginMetaDataSelectors(['idk']),
-      requestParameters: {
-        creationDate: {
-          after: Date.now(),
-          before: new Date().setMinutes(new Date().getMinutes() + 18),
-        },
-        owner: 'user1@test.fr',
-        statuses: {
-          mode: TableSelectionModes.INCLUDE,
-          values: [OrderDomain.ORDER_STATUS_ENUM.DONE],
-        },
-      },
-      filters: {
-        creationDate: {
-          after: Date.now(),
-          before: new Date().setMinutes(new Date().getMinutes() + 18),
-        },
-        owner: 'user1@test.fr',
-        statuses: {
-          mode: TableSelectionModes.INCLUDE,
-          values: [OrderDomain.ORDER_STATUS_ENUM.DONE],
-        },
-      },
-      updateFilter: () => { },
-      updateValuesFilter: () => { },
-      updateDatesFilter: () => { },
-      clearFilters: () => { },
     }
     const enzymeWrapper = shallow(<OrderListComponent {...props} />, { context })
     // 1 - check order list display container configuration
     const oDCWrapper = enzymeWrapper.find(OrderDisplayContainer)
     assert.lengthOf(oDCWrapper, 1, 'There should be the order display container that displays the orders table')
     testSuiteHelpers.assertWrapperProperties(oDCWrapper, {
-      ordersRequestParameters: props.requestParameters,
       ordersActions: props.ordersActions,
       ordersSelectors: props.ordersSelectors,
       displayMode: ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR,
@@ -112,11 +85,16 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
     const oLFCWrapper = enzymeWrapper.find(OrderListFiltersContainer)
     assert.lengthOf(oLFCWrapper, 1, 'There should be an order list filters container')
     testSuiteHelpers.assertWrapperProperties(oLFCWrapper, {
-      filters: props.filters,
-      updateFilter: props.updateFilter,
-      updateValuesFilter: props.updateValuesFilter,
-      updateDatesFilter: props.updateDatesFilter,
-      clearFilters: props.clearFilters,
+      isPaneOpened: enzymeWrapper.instance().state.isPaneOpened,
+      onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
+    }, 'it should be correctly configured')
+    // 4 - table filters container configuration
+    const tFSAVCWrapper = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
+    assert.lengthOf(tFSAVCWrapper, 1, 'There should be an order list filters container')
+    testSuiteHelpers.assertWrapperProperties(tFSAVCWrapper, {
+      pageActions: props.ordersActions,
+      pageSelectors: props.ordersSelectors,
+      onApplyRefreshRequestParameters: enzymeWrapper.instance().onApplyRefreshRequestParameters,
     }, 'it should be correctly configured')
   })
 })

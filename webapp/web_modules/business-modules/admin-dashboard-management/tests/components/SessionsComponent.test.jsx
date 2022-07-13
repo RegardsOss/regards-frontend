@@ -23,7 +23,6 @@ import Card from 'material-ui/Card'
 import {
   PageableInfiniteTableContainer,
 } from '@regardsoss/components'
-import SelectField from 'material-ui/SelectField'
 import SessionsComponent from '../../src/components/SessionsComponent'
 import styles from '../../src/styles'
 
@@ -51,9 +50,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SessionsComponent', () => {
     const enzymeWrapper = shallow(<SessionsComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const selectWrapper = enzymeWrapper.find(SelectField)
-    assert.lengthOf(selectWrapper, 1, 'There should be a SelectField')
 
     const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(tableWrapper, 1, 'There should be a PageableInfiniteTableContainer')

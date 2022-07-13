@@ -19,6 +19,7 @@
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
+import RaisedButton from 'material-ui/RaisedButton'
 import { BasicPageableSelectors, BasicSelector, BasicListSelectors } from '@regardsoss/store-utils'
 import { OrderClient, ProcessingClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -28,7 +29,6 @@ import {
   ORDER_DISPLAY_MODES, OrderDisplayContainer, OrdersNavigationActions, OrdersNavigationContainer,
 } from '@regardsoss/order-common'
 import OrderListFiltersContainer from '../containers/OrderListFiltersContainer'
-import { REQUEST_FILTERS } from '../domain/requestFilters'
 
 /**
 * Component to display order list in project
@@ -38,6 +38,7 @@ class OrderListComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
+    onRefresh: PropTypes.func.isRequired,
     // order request actions
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     // order request selectors
@@ -50,14 +51,6 @@ class OrderListComponent extends React.Component {
     processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
     processingActions: PropTypes.instanceOf(ProcessingClient.ProcessingActions).isRequired,
     pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
-
-    // table sorting, column visiblity & filters management
-    requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
-    filters: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
-    updateFilter: PropTypes.func.isRequired,
-    updateValuesFilter: PropTypes.func.isRequired,
-    updateDatesFilter: PropTypes.func.isRequired,
-    clearFilters: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -65,66 +58,104 @@ class OrderListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static DEFAULT_FILTERS_STATE = {
-    [REQUEST_FILTERS.OWNER]: '',
-    [REQUEST_FILTERS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
-    [REQUEST_FILTERS.STATUSES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [REQUEST_FILTERS.WAITING_FOR_USER]: null,
+  state = {
+    currentRequestParameters: {},
+    isPaneOpened: false,
+  }
+
+  handleFiltersPane = () => {
+    this.setState({
+      isPaneOpened: !this.state.isPaneOpened,
+    })
+  }
+
+  onApplyRefreshRequestParameters = (requestParameters) => {
+    this.setState({
+      currentRequestParameters: requestParameters,
+    })
+  }
+
+  onRefresh = () => {
+    const { onRefresh } = this.props
+    const { currentRequestParameters } = this.state
+    onRefresh(currentRequestParameters)
   }
 
   render() {
     const {
-      requestParameters, backUrl, ordersActions, ordersSelectors, project,
-      filters, updateFilter, updateValuesFilter, updateDatesFilter, clearFilters,
+      backUrl, ordersActions, ordersSelectors, project,
       ordersNavigationActions, ordersNavigationSelectors, orderFilesActions,
       orderFilesSelectors, isProcessingDependenciesExist, processingActions,
       processingSelectors, pluginMetaDataSelectors,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { orderList: { cardTextStyle, cardTitleStyle } } } = this.context
+    const { isPaneOpened } = this.state
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        orderList: {
+          cardTextStyle, cardTitleStyle, cardActionDivStyle, filterButtonStyle,
+          headerDivStyle,
+        },
+      },
+    } = this.context
     return (
       <Card>
         {/* title */}
-        <CardTitle
-          title={<OrdersNavigationContainer
-            title={formatMessage({ id: 'order.management.list.title' })}
-            rootIcon={null}
-            navigationActions={ordersNavigationActions}
-            navigationSelectors={ordersNavigationSelectors}
-          />}
-          subtitle={formatMessage({ id: 'order.management.list.subtitle' })}
-          titleStyle={cardTitleStyle}
-        />
+        <div style={headerDivStyle}>
+          <CardTitle
+            title={<OrdersNavigationContainer
+              title={formatMessage({ id: 'order.management.list.title' })}
+              rootIcon={null}
+              navigationActions={ordersNavigationActions}
+              navigationSelectors={ordersNavigationSelectors}
+            />}
+            subtitle={formatMessage({ id: 'order.management.list.subtitle' })}
+            titleStyle={cardTitleStyle}
+          />
+          <CardActions style={cardActionDivStyle}>
+            <CardActionsComponent
+              mainButtonLabel={formatMessage({ id: 'order.management.list.refresh' })}
+              mainButtonType="submit"
+              mainButtonClick={this.onRefresh}
+              secondaryButtonLabel={formatMessage({ id: 'order.management.list.back' })}
+              secondaryButtonUrl={backUrl}
+            />
+            <RaisedButton
+              onClick={this.handleFiltersPane}
+              label={formatMessage({ id: 'order.management.list.filter' })}
+              secondary
+              style={filterButtonStyle}
+            />
+          </CardActions>
+        </div>
         <CardText style={cardTextStyle}>
-          <OrderDisplayContainer
-            project={project}
-            ordersRequestParameters={requestParameters}
-            ordersActions={ordersActions}
-            ordersSelectors={ordersSelectors}
-            displayMode={ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR}
-            navigationActions={ordersNavigationActions}
-            navigationSelectors={ordersNavigationSelectors}
-            isProcessingDependenciesExist={isProcessingDependenciesExist}
-            orderFilesActions={orderFilesActions}
-            orderFilesSelectors={orderFilesSelectors}
-            processingActions={processingActions}
-            processingSelectors={processingSelectors}
-            pluginMetaDataSelectors={pluginMetaDataSelectors}
+          <TableFilterSortingAndVisibilityContainer
+            pageActions={ordersActions}
+            pageSelectors={ordersSelectors}
+            onApplyRefreshRequestParameters={this.onApplyRefreshRequestParameters}
           >
             <OrderListFiltersContainer
-              filters={filters}
-              updateFilter={updateFilter}
-              updateValuesFilter={updateValuesFilter}
-              updateDatesFilter={updateDatesFilter}
-              clearFilters={clearFilters}
+              key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+              isPaneOpened={isPaneOpened}
+              onCloseFiltersPane={this.handleFiltersPane}
             />
-          </OrderDisplayContainer>
+            <OrderDisplayContainer
+              key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+              project={project}
+              ordersActions={ordersActions}
+              ordersSelectors={ordersSelectors}
+              displayMode={ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR}
+              navigationActions={ordersNavigationActions}
+              navigationSelectors={ordersNavigationSelectors}
+              isProcessingDependenciesExist={isProcessingDependenciesExist}
+              orderFilesActions={orderFilesActions}
+              orderFilesSelectors={orderFilesSelectors}
+              processingActions={processingActions}
+              processingSelectors={processingSelectors}
+              pluginMetaDataSelectors={pluginMetaDataSelectors}
+            />
+
+          </TableFilterSortingAndVisibilityContainer>
         </CardText>
-        <CardActions>
-          <CardActionsComponent
-            secondaryButtonLabel={formatMessage({ id: 'order.list.cancel.button' })}
-            secondaryButtonUrl={backUrl}
-          />
-        </CardActions>
       </Card>
     )
   }

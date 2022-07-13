@@ -24,7 +24,6 @@ import { OrderClient, ProcessingClient } from '@regardsoss/client'
 import { BasicPageableSelectors, BasicListSelectors } from '@regardsoss/store-utils'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
-import { HOCUtils } from '@regardsoss/display-control'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { ORDER_DISPLAY_MODES } from '../model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../model/OrdersNavigationActions'
@@ -71,7 +70,7 @@ export class OrderDisplayContainer extends React.Component {
     project: PropTypes.string.isRequired,
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
     // parameters appying on the orders list request
-    ordersRequestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
+    requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // files actions and selector: if not provided, navigation is disabled
@@ -87,11 +86,6 @@ export class OrderDisplayContainer extends React.Component {
     isProcessingDependenciesExist: PropTypes.bool,
     // not provided in user mode
     pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors),
-    // optional children, can be used to add rows into orders table header
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node,
-    ]),
     // from mapDispatchToProps
     fetchProcessingList: PropTypes.func.isRequired,
     // from mapStateToProps
@@ -102,7 +96,7 @@ export class OrderDisplayContainer extends React.Component {
   }
 
   static defaultProps = {
-    ordersRequestParameters: {},
+    requestParameters: {},
     isProcessingDependenciesExist: false,
   }
 
@@ -115,8 +109,8 @@ export class OrderDisplayContainer extends React.Component {
 
   render() {
     const {
-      navigationActions, navigationPath, displayMode, children, project,
-      ordersRequestParameters, ordersActions, ordersSelectors, orderFilesActions,
+      navigationActions, navigationPath, displayMode, project,
+      requestParameters, ordersActions, ordersSelectors, orderFilesActions,
       orderFilesSelectors, processingSelectors, isProcessingDependenciesExist,
       pluginMetaDataSelectors,
     } = this.props
@@ -127,16 +121,14 @@ export class OrderDisplayContainer extends React.Component {
           <OrderListContainer
             project={project}
             displayMode={displayMode}
-            ordersRequestParameters={ordersRequestParameters}
+            ordersRequestParameters={requestParameters}
             ordersActions={ordersActions}
             ordersSelectors={ordersSelectors}
             navigationActions={navigationActions}
             processingSelectors={processingSelectors}
             pluginMetaDataSelectors={pluginMetaDataSelectors}
             isProcessingDependenciesExist={isProcessingDependenciesExist}
-          >
-            {HOCUtils.renderChildren(children)}
-          </OrderListContainer>)
+          />)
       case 1:
         // cannot be shown when navigation is disabled
         // first level: datasets in selected order

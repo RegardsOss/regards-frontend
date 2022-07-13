@@ -19,7 +19,6 @@
 import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
-import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { withI18n } from '@regardsoss/i18n'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { withModuleStyle } from '@regardsoss/theme'
@@ -45,14 +44,23 @@ export class OrderListContainer extends React.Component {
     }).isRequired,
     // from mapStateToProps
     availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    pageMeta: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
     // from mapDispatchToProps
     dispatchResetToLevel: PropTypes.func.isRequired,
     fetchPluginMetaDataList: PropTypes.func.isRequired,
+    fetchOrderList: PropTypes.func.isRequired,
   }
+
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20;
 
   static mapStateToProps(state) {
     return {
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+      pageMeta: orderListSelectors.getMetaData(state),
     }
   }
 
@@ -62,6 +70,7 @@ export class OrderListContainer extends React.Component {
       fetchPluginMetaDataList: (microserviceName) => dispatch(pluginMetaDataActions.fetchEntityList({
         microserviceName,
       })),
+      fetchOrderList: (pageNumber, size, pathParam, queryParams, bodyParams) => dispatch(orderListActions.fetchPagedEntityListByPost(pageNumber, size, pathParam, queryParams, bodyParams)),
     }
   }
 
@@ -82,19 +91,28 @@ export class OrderListContainer extends React.Component {
     dispatchResetToLevel(0)
   }
 
+  onRefresh = (bodyParameters) => {
+    const {
+      pageMeta, fetchOrderList,
+    } = this.props
+    const lastPage = (pageMeta && pageMeta.number) || 0
+    const fetchPageSize = OrderListContainer.PAGE_SIZE * (lastPage + 1)
+    fetchOrderList(0, fetchPageSize, {}, {}, bodyParameters)
+  }
+
   getBackURL = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/commands/board`
   }
 
-  renderComponent = (filterSortingAndVisibilityProps) => {
+  render() {
     const { params: { project } } = this.props
     const { isProcessingDependenciesExist } = this.state
     return (
       <OrderListComponent
-        {...filterSortingAndVisibilityProps}
         project={project}
         backUrl={this.getBackURL()}
+        onRefresh={this.onRefresh}
         ordersActions={orderListActions}
         ordersSelectors={orderListSelectors}
         ordersNavigationActions={ordersNavigationActions}
@@ -106,18 +124,6 @@ export class OrderListContainer extends React.Component {
         processingSelectors={processingSelectors}
         pluginMetaDataSelectors={pluginMetaDataSelectors}
       />
-    )
-  }
-
-  render() {
-    return (
-      <TableFilterSortingAndVisibilityContainer
-        pageActions={orderListActions}
-        pageSelectors={orderListSelectors}
-        defaultFiltersState={OrderListComponent.DEFAULT_FILTERS_STATE}
-      >
-        {this.renderComponent}
-      </TableFilterSortingAndVisibilityContainer>
     )
   }
 }

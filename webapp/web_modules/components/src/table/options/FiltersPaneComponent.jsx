@@ -20,7 +20,6 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import compose from 'lodash/fp/compose'
 import reduce from 'lodash/reduce'
-import get from 'lodash/get'
 import includes from 'lodash/includes'
 import debounce from 'lodash/debounce'
 import pickBy from 'lodash/pickBy'
@@ -42,6 +41,7 @@ import Drawer from 'material-ui/Drawer'
 import { CommonDomain } from '@regardsoss/domain'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
+import TableFilterSortingAndVisibilityContainer from './TableFilterSortingAndVisibilityContainer'
 import TableSelectionModes from '../model/TableSelectionModes'
 import styles from '../styles'
 import messages from '../i18n'
@@ -66,16 +66,6 @@ class FiltersPaneComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static DEFAULT_VALUES_RESTRICTION_STATE = {
-    [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
-    [CommonDomain.REQUEST_PARAMETERS.VALUES]: [],
-  }
-
-  static DEFAULT_DATES_RESTRICTION_STATE = {
-    [CommonDomain.REQUEST_PARAMETERS.AFTER]: null,
-    [CommonDomain.REQUEST_PARAMETERS.BEFORE]: null,
-  }
-
   /** List of locally consumed properties, others properties will be proxyfied to inject onRefresh function as the last param */
   static NON_REPORTED_PROPS = ['children', 'defaultFiltersState', 'i18n', 'theme']
 
@@ -95,8 +85,8 @@ class FiltersPaneComponent extends React.Component {
             // Date Restriction filters type
             const splitDates = split(query[queryKey], ',')
             acc[queryKey] = {
-              [CommonDomain.REQUEST_PARAMETERS.AFTER]: FiltersPaneComponent.getParameterDateValue(splitDates[0]),
-              [CommonDomain.REQUEST_PARAMETERS.BEFORE]: FiltersPaneComponent.getParameterDateValue(splitDates[1]),
+              [CommonDomain.REQUEST_PARAMETERS.AFTER]: TableFilterSortingAndVisibilityContainer.getParameterDateValue(splitDates[0]),
+              [CommonDomain.REQUEST_PARAMETERS.BEFORE]: TableFilterSortingAndVisibilityContainer.getParameterDateValue(splitDates[1]),
             }
           } else {
             // Other filters type
@@ -162,8 +152,8 @@ class FiltersPaneComponent extends React.Component {
           && isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.BEFORE]))) {
           // Dates Restriction filters type
           acc[filterKey] = {
-            [CommonDomain.REQUEST_PARAMETERS.AFTER]: FiltersPaneComponent.getFilterDateValue(parametersObject, filterKey, CommonDomain.REQUEST_PARAMETERS.AFTER),
-            [CommonDomain.REQUEST_PARAMETERS.BEFORE]: FiltersPaneComponent.getFilterDateValue(parametersObject, filterKey, CommonDomain.REQUEST_PARAMETERS.BEFORE),
+            [CommonDomain.REQUEST_PARAMETERS.AFTER]: TableFilterSortingAndVisibilityContainer.getFilterDateValue(parametersObject, filterKey, CommonDomain.REQUEST_PARAMETERS.AFTER),
+            [CommonDomain.REQUEST_PARAMETERS.BEFORE]: TableFilterSortingAndVisibilityContainer.getFilterDateValue(parametersObject, filterKey, CommonDomain.REQUEST_PARAMETERS.BEFORE),
           }
         }
       } else if (isBoolean(filterValue)) {
@@ -174,11 +164,6 @@ class FiltersPaneComponent extends React.Component {
       }
       return acc
     }, {}))
-
-  static getFilterDateValue = (inputValues, filterKey, dateParameter) => get(inputValues, `${filterKey}.${dateParameter}`, null)
-    ? new Date(inputValues[filterKey][dateParameter]) : null
-
-  static getParameterDateValue = (dateValue) => !isEmpty(dateValue) ? dateValue : null
 
   state = {
     inputValues: {},

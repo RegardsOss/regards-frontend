@@ -25,18 +25,21 @@ export default (theme) => ({
     cardTitleStyle: {
       marginLeft: '-8px',
     },
-    clearFilterButton: {
-      style: {
-        width: undefined,
-        height: undefined,
-        padding: theme.module.orderHistory.clearEmailFilterPadding,
-      },
+    cardActionDivStyle: {
+      padding: '5px',
+      width: '50%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
     },
-    autoCompleteFilterStyle: {
-      marginTop: '25px',
+    filterButtonStyle: {
+      marginLeft: '2px',
     },
-    selectFieldStyle: {
-      marginTop: '-10px',
+    headerDivStyle: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
     },
   },
   settings: {
