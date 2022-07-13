@@ -24,6 +24,7 @@ import get from 'lodash/get'
 import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { connect } from '@regardsoss/redux'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
@@ -41,10 +42,6 @@ import messages from '../i18n'
  */
 export class ModulesConfigurationErrorContainer extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
-    isAuthenticated: PropTypes.bool,
-    // eslint-disable-next-line react/no-unused-prop-types
-    isInstance: PropTypes.bool,
     // from mapStateToProps
     isFetchingAttributes: PropTypes.bool.isRequired,
     isFetchingModules: PropTypes.bool.isRequired,
@@ -120,11 +117,9 @@ export class ModulesConfigurationErrorContainer extends React.Component {
   */
   onPropertiesUpdated = (oldProps, nextProps) => {
     if (!this.state.hasError && (oldProps.modules !== nextProps.modules || oldProps.attributes !== nextProps.attributes)) {
-      if (nextProps.isAuthenticated && !nextProps.isInstance) {
-        this.setState({
-          errorConfContent: this.checkModulesConfiguration(nextProps.modules, nextProps.attributes),
-        })
-      }
+      this.setState({
+        errorConfContent: this.checkModulesConfiguration(nextProps.modules, nextProps.attributes),
+      })
     }
   }
 
@@ -220,6 +215,7 @@ export class ModulesConfigurationErrorContainer extends React.Component {
   }
 }
 export default compose(
+  withResourceDisplayControl,
   connect(ModulesConfigurationErrorContainer.mapStateToProps, ModulesConfigurationErrorContainer.mapDispatchToProps),
   withI18n(messages, true),
   withModuleStyle(styles))(ModulesConfigurationErrorContainer)

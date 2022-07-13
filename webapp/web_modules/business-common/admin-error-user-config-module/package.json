@@ -1,5 +1,5 @@
 {
-  "name": "@regardsoss/admin-error-configuration-modules-management",
+  "name": "@regardsoss/admin-error-user-config-module",
   "version": "1.10.0-SNAPSHOT",
   "private": true,
   "sideEffects": false,

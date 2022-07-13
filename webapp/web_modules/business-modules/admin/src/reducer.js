@@ -28,7 +28,7 @@ import { dataAccessReducers } from '@regardsoss/admin-board-dataaccess'
 import { modelsReducers } from '@regardsoss/admin-board-models'
 import { commandsReducers } from '@regardsoss/admin-board-commands'
 import { processingReducer } from '@regardsoss/admin-processing-management'
-import { errorConfModuleReducers } from '@regardsoss/admin-error-configuration-modules-management'
+import { errorConfModuleReducers } from '@regardsoss/admin-error-user-config-module'
 
 import { waitingAccessUsersEntitiesReducer } from './clients/WaitingAccessUsersEntitiesClient'
 

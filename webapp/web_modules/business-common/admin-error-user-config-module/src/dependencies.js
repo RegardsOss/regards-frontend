@@ -16,6 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { default as ModulesConfigurationErrorContainer } from './containers/ModulesConfigurationErrorContainer'
-export { default as errorConfModuleReducers } from './reducer'
-export { default as errorConfModuleDependencies } from './dependencies'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { attributeModelActions } from './clients/AttributeModelClient'
+import { moduleActions } from './clients/ModuleClient'
+
+/**
+ * Mandatory Dependencies to display module configuration error message
+ * @type {Array}
+ */
+
+export default [
+  attributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
+  attributeModelActions.getDependency(RequestVerbEnum.GET),
+  moduleActions.getDependency(RequestVerbEnum.GET_LIST),
+  moduleActions.getDependency(RequestVerbEnum.POST),
+]

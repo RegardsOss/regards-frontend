@@ -38,8 +38,6 @@ describe('[ADMIN CONFIGURATION MODULE MANAGEMENT] Testing ModulesConfigurationEr
   })
   it('should render correctly an error message', () => {
     const props = {
-      isAuthenticated: true,
-      isInstance: false,
       isFetchingAttributes: false,
       isFetchingModules: false,
       attributes: attrDumps1,

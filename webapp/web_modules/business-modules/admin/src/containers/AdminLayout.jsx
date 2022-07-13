@@ -17,15 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
-import flatten from 'lodash/flatten'
 import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateResultShape } from '@regardsoss/authentication-utils'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
-import { withResourceDisplayControl } from '@regardsoss/display-control'
-import { ModulesConfigurationErrorContainer, errorConfModuleDependencies } from '@regardsoss/admin-error-configuration-modules-management'
+import { ModulesConfigurationErrorWithResourceComponent } from '@regardsoss/admin-error-user-config-module'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import { AnchorComponent } from '@regardsoss/components'
@@ -34,8 +32,6 @@ import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
 import NotificationsManagerContainer from './NotificationsManagerContainer'
 import messages from '../i18n'
 import styles from '../styles'
-
-const ModulesConfigurationErrorContainerDisplayControl = withResourceDisplayControl(ModulesConfigurationErrorContainer)
 
 /**
  * React components to manage Administration application.
@@ -145,8 +141,7 @@ export class AdminLayout extends React.Component {
                 module={menuModuleConf}
               />
             </div>
-            <ModulesConfigurationErrorContainerDisplayControl
-              resourceDependencies={flatten(errorConfModuleDependencies)}
+            <ModulesConfigurationErrorWithResourceComponent
               isAuthenticated={isAuthenticated}
               isInstance={isInstance}
             />
