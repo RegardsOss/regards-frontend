@@ -19,12 +19,13 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import {
-  TableLayout, TableColumnsVisibilityOption, PageableInfiniteTableContainer,
+  TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
-import { CommonDomain } from '@regardsoss/domain'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { accountActions, accountSelectors } from '../../src/clients/AccountClient'
 import AccountListComponent from '../../src/components/AccountListComponent'
 import AccountFiltersComponent from '../../src/components/filters/AccountFiltersComponent'
+import AccountTableListComponent from '../../src/components/AccountTableListComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -42,7 +43,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
       allAccounts: {},
       waitingAccounts: {},
       isFetching: true,
-      pageSize: 15,
       onAccept: () => { },
       onRefuse: () => { },
       onEnable: () => { },
@@ -50,32 +50,38 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
       onDelete: () => { },
       onBack: () => { },
       isFetchingActions: false,
+      onRefresh: () => { },
       origins: [],
       projects: {},
-
-      // table sorting, column visiblity & filters management
-      requestParameters: {},
-      columnsVisibility: {},
-      filters: {},
-      onRefresh: () => { },
-      updateFilter: () => { },
-      clearFilters: () => { },
-      onChangeColumnsVisibility: () => { },
-      getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
-      onSort: () => { },
     }
     const enzymeWrapper = shallow(<AccountListComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
+    const tableVisibilityComponent = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
+    assert.lengthOf(tableVisibilityComponent, 1, 'TableFilterSortingAndVisibilityContainer should be set')
+    testSuiteHelpers.assertWrapperProperties(tableVisibilityComponent, {
+      pageActions: accountActions,
+      pageSelectors: accountSelectors,
+      onAccept: props.onAccept,
+      onRefuse: props.onRefuse,
+      onEnable: props.onEnable,
+      onDelete: props.onDelete,
+      updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+    }, 'Component should define the expected properties and callbacks')
     const filterComponent = enzymeWrapper.find(AccountFiltersComponent)
     assert.lengthOf(filterComponent, 1, 'AccountFiltersComponent should be set')
     testSuiteHelpers.assertWrapperProperties(filterComponent, {
+      isPaneOpened: enzymeWrapper.instance().state.isPaneOpened,
+      onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
       origins: props.origins,
       projects: props.projects,
-      filters: props.filters,
-      updateFilter: props.updateFilter,
-      clearFilters: props.clearFilters,
+      waitingAccounts: props.waitingAccounts,
     }, 'Component should define the expected properties and callbacks')
-    assert.lengthOf(enzymeWrapper.find(TableColumnsVisibilityOption), 1, 'There should be 1 TableColumnsVisibilityOption')
-    assert.lengthOf(enzymeWrapper.find(PageableInfiniteTableContainer), 1, 'There should be 1 PageableInfiniteTableContainer')
+    const tableComponent = enzymeWrapper.find(AccountTableListComponent)
+    assert.lengthOf(tableComponent, 1, 'AccountTableListComponent should be set')
+    testSuiteHelpers.assertWrapperProperties(tableComponent, {
+      allAccounts: props.allAccounts,
+      isFetchingActions: props.isFetchingActions,
+      isFetching: props.isFetching,
+      onEdit: props.onEdit,
+    }, 'Component should define the expected properties and callbacks')
   })
 })

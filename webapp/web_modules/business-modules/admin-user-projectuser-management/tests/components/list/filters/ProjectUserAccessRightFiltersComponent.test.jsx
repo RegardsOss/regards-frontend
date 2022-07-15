@@ -36,7 +36,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user access right filters compo
   it('should render correctly', () => {
     const props = {
       onUpdateFiltersParameters: () => { },
-      isFiltersPaneOpen: false,
+      isPaneOpened: false,
       onCloseFiltersPane: () => { },
       groups: {},
     }

@@ -24,30 +24,33 @@ const accountManagementStyles = (theme) => ({
     },
   },
   accounts: {
-    messagesDiv: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    waitingAccountsDiv: {
-      display: 'flex',
-      flexDirection: 'row',
-      marginLeft: '35px',
-    },
     waitingAccountsMessage: {
       color: 'rgb(203, 22, 22)',
       display: 'flex',
       alignItems: 'center',
+      fontSize: '18px',
     },
-    filtersDiv: {
+    headerDivStyle: {
       display: 'flex',
-      justifyContent: 'left',
-      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
     },
-    fieldStyle: {
-      marginRight: '10px',
+    cardActionDivStyle: {
+      padding: '5px',
+      width: '50%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
     },
-    fieldWidth: {
-      width: '220px',
+    filterButtonStyle: {
+      marginLeft: '2px',
+    },
+    filterIconStyle: {
+      minWidth: '40px',
+    },
+    messageStyle: {
+      marginBottom: '10px',
     },
   },
 })

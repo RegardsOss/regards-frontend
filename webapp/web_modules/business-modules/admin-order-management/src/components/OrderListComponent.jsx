@@ -69,7 +69,7 @@ class OrderListComponent extends React.Component {
     })
   }
 
-  onApplyRefreshRequestParameters = (requestParameters) => {
+  updateRefreshParameters = (requestParameters) => {
     this.setState({
       currentRequestParameters: requestParameters,
     })
@@ -131,7 +131,7 @@ class OrderListComponent extends React.Component {
           <TableFilterSortingAndVisibilityContainer
             pageActions={ordersActions}
             pageSelectors={ordersSelectors}
-            onApplyRefreshRequestParameters={this.onApplyRefreshRequestParameters}
+            updateRefreshParameters={this.updateRefreshParameters}
           >
             <OrderListFiltersContainer
               key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}

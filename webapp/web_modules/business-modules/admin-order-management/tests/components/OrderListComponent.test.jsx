@@ -94,7 +94,7 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
     testSuiteHelpers.assertWrapperProperties(tFSAVCWrapper, {
       pageActions: props.ordersActions,
       pageSelectors: props.ordersSelectors,
-      onApplyRefreshRequestParameters: enzymeWrapper.instance().onApplyRefreshRequestParameters,
+      updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
     }, 'it should be correctly configured')
   })
 })

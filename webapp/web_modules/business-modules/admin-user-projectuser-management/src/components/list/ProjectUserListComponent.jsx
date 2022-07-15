@@ -169,7 +169,7 @@ class ProjectUserListComponent extends React.Component {
     this.onUpdateLocation(value)
   }
 
-  onApplyRefreshRequestParameters = (requestParameters) => {
+  updateRefreshParameters = (requestParameters) => {
     this.setState({
       currentRequestParameters: requestParameters,
     })
@@ -306,7 +306,7 @@ class ProjectUserListComponent extends React.Component {
             onDisable={onDisable}
             onSendEmailConfirmation={onSendEmailConfirmation}
             onSetMaxQuota={onSetMaxQuota}
-            onApplyRefreshRequestParameters={this.onApplyRefreshRequestParameters}
+            updateRefreshParameters={this.updateRefreshParameters}
           >
             {this.getDisplayComponents(visualisationMode)}
           </TableFilterSortingAndVisibilityContainer>

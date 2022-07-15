@@ -46,7 +46,6 @@ const withFiltersPane = (defaultFiltersState) => (DecoratedComponent) => {
       const {
         isPaneOpened, onCloseFiltersPane, updateRequestParameters, ...otherProps
       } = this.props
-
       return (
         <FiltersPaneComponent
           isPaneOpened={isPaneOpened}

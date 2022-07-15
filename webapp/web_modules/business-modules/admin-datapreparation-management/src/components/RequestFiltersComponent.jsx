@@ -23,7 +23,7 @@ import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import IconButton from 'material-ui/IconButton'
 import { MenuItem } from 'material-ui/IconMenu'
-import { WorkerDomain, CommonDomain } from '@regardsoss/domain'
+import { WorkerDomain, CommonDomain, UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -74,14 +74,14 @@ class RequestFiltersComponent extends React.Component {
                   dateHintText={formatMessage({ id: 'datapreparation.filters.creationDate.after.label' })}
                   onChange={(value) => updateDatesFilter(value ? value.toISOString() : '', WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
                   locale={locale}
-                  value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(filters, WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
+                  value={UIDomain.FiltersPaneHelper.getFilterDateValue(filters, WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
                 />
                 <DatePickerField
                   id={`filter.${WorkerDomain.REQUEST_FILTERS.CREATION_DATE.BEFORE}`}
                   dateHintText={formatMessage({ id: 'datapreparation.filters.creationDate.before.label' })}
                   onChange={(value) => updateDatesFilter(value ? value.toISOString() : '', WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
                   locale={locale}
-                  value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(filters, WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
+                  value={UIDomain.FiltersPaneHelper.getFilterDateValue(filters, WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
                   defaultTime="23:59:59"
                 />
               </div>

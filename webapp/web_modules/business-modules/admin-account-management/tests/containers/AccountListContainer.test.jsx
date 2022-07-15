@@ -20,8 +20,6 @@ import pickBy from 'lodash/pickBy'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
-import { accountActions, accountSelectors } from '../../src/clients/AccountClient'
 import { AccountListContainer } from '../../src/containers/AccountListContainer'
 import AccountListComponent from '../../src/components/AccountListComponent'
 
@@ -75,16 +73,22 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list container', () => {
     }
 
     const enzymeWrapper = shallow(<AccountListContainer {...props} />)
-    const subComponent = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
+    const subComponent = enzymeWrapper.find(AccountListComponent)
     assert.lengthOf(subComponent, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(subComponent, {
-      pageActions: accountActions,
-      pageSelectors: accountSelectors,
-      defaultFiltersState: AccountListComponent.DEFAULT_FILTERS_STATE,
+      allAccounts: props.allAccounts,
+      waitingAccounts: props.waitingAccounts,
+      isFetchingActions: enzymeWrapper.instance().state.isFetchingActions,
+      isFetching: props.isFetching,
+      onEdit: enzymeWrapper.instance().onEdit,
+      onBack: enzymeWrapper.instance().onBack,
       onAccept: enzymeWrapper.instance().onAccept,
       onRefuse: enzymeWrapper.instance().onRefuse,
       onEnable: enzymeWrapper.instance().onEnable,
       onDelete: enzymeWrapper.instance().onDelete,
+      onRefresh: enzymeWrapper.instance().onRefresh,
+      origins: props.origins,
+      projects: props.projects,
     }, 'Component should define the expected properties and callbacks')
   })
 })

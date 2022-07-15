@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { browserHistory } from 'react-router'
+import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
+import { AdminInstanceDomain } from '@regardsoss/domain'
 import { ModuleStyleProvider } from '@regardsoss/theme'
-import { browserHistory } from 'react-router'
 import { AdminInstanceShapes, AdminShapes } from '@regardsoss/shape'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
@@ -31,6 +33,7 @@ import { refuseAccountActions } from '../clients/RefuseAccountClient'
 import { originActions, originSelectors } from '../clients/OriginsClient'
 import { projectActions, projectSelectors } from '../clients/ProjectsClient'
 import AccountListComponent from '../components/AccountListComponent'
+import ACCOUNT_FILTERS from '../domain/AccountFilters'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -59,6 +62,7 @@ export class AccountListContainer extends React.Component {
     origins: PropTypes.arrayOf(PropTypes.string),
     projects: AdminShapes.ProjectList.isRequired,
     // from mapDispatchToProps
+    fetchAccountList: PropTypes.func.isRequired,
     fetchWaitingAccountList: PropTypes.func.isRequired,
     sendAcceptUser: PropTypes.func.isRequired,
     sendRefuseUser: PropTypes.func.isRequired,
@@ -94,7 +98,8 @@ export class AccountListContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchWaitingAccountList: () => dispatch(accountWaitingActions.fetchWaitingAccountsEntityList()),
+      fetchWaitingAccountList: (pageNumber, size) => dispatch(accountWaitingActions.fetchWaitingAccountsEntityList(pageNumber, size)),
+      fetchAccountList: (pageNumber, size, pathParam, queryParams) => dispatch(accountActions.fetchPagedEntityList(pageNumber, size, pathParam, queryParams)),
       sendAcceptUser: (accountEmail) => dispatch(acceptAccountActions.sendAccept(accountEmail)),
       sendEnableUser: (accountEmail) => dispatch(enableAccountActions.sendEnable(accountEmail)),
       sendRefuseUser: (accountEmail) => dispatch(refuseAccountActions.sendRefuse(accountEmail)),
@@ -105,7 +110,9 @@ export class AccountListContainer extends React.Component {
     }
   }
 
-  state = { isFetchingActions: false }
+  state = {
+    isFetchingActions: false,
+  }
 
   UNSAFE_componentWillMount() {
     const { throwError, fetchOrigins, fetchProjects } = this.props
@@ -126,8 +133,17 @@ export class AccountListContainer extends React.Component {
    */
   componentDidMount = () => {
     const { fetchWaitingAccountList } = this.props
-    this.setState({ isFetchingActions: false })
-    fetchWaitingAccountList()
+    const { query } = browserHistory.getCurrentLocation()
+    const statusQuery = get(query, ACCOUNT_FILTERS.STATUS)
+    // prevent multiple network call
+    if (statusQuery && statusQuery === AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING) {
+      const fetchPageSize = this.getFetchPageSize()
+      fetchWaitingAccountList(0, fetchPageSize).then((actionResult) => {
+        if (!actionResult.error) {
+          this.setState({ isFetchingActions: false })
+        }
+      })
+    }
   }
 
   /**
@@ -192,41 +208,42 @@ export class AccountListContainer extends React.Component {
     ]).then(onDone).catch(onDone)).catch(onDone)
   }
 
-  renderListComp = (filterSortingAndVisibilityProps) => {
+  getFetchPageSize = () => {
+    const { pageMeta } = this.props
+    const lastPage = (pageMeta && pageMeta.number) || 0
+    return TableFilterSortingAndVisibilityContainer.PAGE_SIZE * (lastPage + 1)
+  }
+
+  onRefresh = (requestParameters) => {
+    const { fetchAccountList } = this.props
+    const fetchPageSize = this.getFetchPageSize()
+    fetchAccountList(0, fetchPageSize, {}, requestParameters)
+  }
+
+  render() {
     const {
       allAccounts, waitingAccounts, isFetching, origins, projects,
     } = this.props
     const { isFetchingActions } = this.state
     return (
-      <AccountListComponent
-        {...filterSortingAndVisibilityProps}
-        allAccounts={allAccounts}
-        waitingAccounts={waitingAccounts}
-        isFetchingActions={isFetchingActions}
-        isFetching={isFetching}
-        origins={origins}
-        projects={projects}
-        onEdit={this.onEdit}
-        onBack={this.onBack}
-      />
-    )
-  }
-
-  render() {
-    return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={styles}>
-          <TableFilterSortingAndVisibilityContainer
-            pageActions={accountActions}
-            pageSelectors={accountSelectors}
-            defaultFiltersState={AccountListComponent.DEFAULT_FILTERS_STATE}
+          <AccountListComponent
+            key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+            allAccounts={allAccounts}
+            waitingAccounts={waitingAccounts}
+            isFetchingActions={isFetchingActions}
+            isFetching={isFetching}
+            onEdit={this.onEdit}
+            onBack={this.onBack}
             onAccept={this.onAccept}
             onRefuse={this.onRefuse}
             onEnable={this.onEnable}
             onDelete={this.onDelete}
-          >
-            {this.renderListComp}
-          </TableFilterSortingAndVisibilityContainer>
+            origins={origins}
+            projects={projects}
+            onRefresh={this.onRefresh}
+          />
         </ModuleStyleProvider>
       </I18nProvider>
     )

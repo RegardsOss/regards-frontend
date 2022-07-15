@@ -24,21 +24,17 @@ import includes from 'lodash/includes'
 import debounce from 'lodash/debounce'
 import pickBy from 'lodash/pickBy'
 import omit from 'lodash/omit'
-import isBoolean from 'lodash/isBoolean'
-import isPlainObject from 'lodash/isPlainObject'
 import keys from 'lodash/keys'
-import isEqual from 'lodash/isEqual'
-import has from 'lodash/has'
 import split from 'lodash/split'
-import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
-import SearchIcon from 'mdi-material-ui/Magnify'
+import isEqual from 'lodash/isEqual'
 import ClearIcon from 'mdi-material-ui/Eraser'
+import SearchIcon from 'mdi-material-ui/Magnify'
 import IconButton from 'material-ui/IconButton'
 import CloseIcon from 'mdi-material-ui/Close'
 import FlatButton from 'material-ui/FlatButton'
 import Drawer from 'material-ui/Drawer'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, UIDomain } from '@regardsoss/domain'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import TableFilterSortingAndVisibilityContainer from './TableFilterSortingAndVisibilityContainer'
@@ -69,102 +65,6 @@ class FiltersPaneComponent extends React.Component {
   /** List of locally consumed properties, others properties will be proxyfied to inject onRefresh function as the last param */
   static NON_REPORTED_PROPS = ['children', 'defaultFiltersState', 'i18n', 'theme']
 
-  static extractFiltersFromURL = (defaultFiltersState) => {
-    const { query } = browserHistory.getCurrentLocation()
-    let urlFilters = { ...defaultFiltersState }
-    if (values(query).length > 0) {
-      urlFilters = reduce(query, (acc, queryValue, queryKey) => {
-        if (has(defaultFiltersState, queryKey)) {
-          if (has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.VALUES)) {
-            // Values Restrictiction filters type
-            acc[queryKey] = {
-              [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(query[queryKey], ','),
-            }
-          } else if (has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.BEFORE)
-            && has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.AFTER)) {
-            // Date Restriction filters type
-            const splitDates = split(query[queryKey], ',')
-            acc[queryKey] = {
-              [CommonDomain.REQUEST_PARAMETERS.AFTER]: TableFilterSortingAndVisibilityContainer.getParameterDateValue(splitDates[0]),
-              [CommonDomain.REQUEST_PARAMETERS.BEFORE]: TableFilterSortingAndVisibilityContainer.getParameterDateValue(splitDates[1]),
-            }
-          } else {
-            // Other filters type
-            acc[queryKey] = query[queryKey]
-          }
-        }
-        return acc
-      }, { ...defaultFiltersState })
-    }
-    return urlFilters
-  }
-
-  static updateURL = (inputValues) => {
-    const { pathname } = browserHistory.getCurrentLocation()
-    const newQuery = reduce(keys(inputValues), (acc, value) => {
-      if ((inputValues[value] !== null && inputValues[value] !== undefined && !isEmpty(inputValues[value])) || isBoolean(inputValues[value])) {
-        // Values Restriction & Dates Restriction
-        if (isPlainObject(inputValues[value])) {
-          if (CommonDomain.REQUEST_PARAMETERS.VALUES in inputValues[value] && !isEmpty(inputValues[value][CommonDomain.REQUEST_PARAMETERS.VALUES])) {
-            acc[value] = inputValues[value][CommonDomain.REQUEST_PARAMETERS.VALUES].toString()
-          } else if (CommonDomain.REQUEST_PARAMETERS.AFTER in inputValues[value] && CommonDomain.REQUEST_PARAMETERS.BEFORE in inputValues[value]) {
-            let paramValue = ''
-            if (inputValues[value][CommonDomain.REQUEST_PARAMETERS.AFTER] !== null) {
-              paramValue = inputValues[value][CommonDomain.REQUEST_PARAMETERS.AFTER]
-            }
-            if (inputValues[value][CommonDomain.REQUEST_PARAMETERS.BEFORE] !== null) {
-              paramValue += `,${inputValues[value][CommonDomain.REQUEST_PARAMETERS.BEFORE]}`
-            }
-            if (!isEmpty(paramValue)) {
-              acc[value] = paramValue
-            }
-          }
-        } else if (isBoolean(inputValues[value])) {
-          if (inputValues[value]) {
-            acc[value] = `${inputValues[value]}`
-          }
-        } else {
-          acc[value] = inputValues[value]
-        }
-      }
-      return acc
-    }, {})
-    browserHistory.replace({
-      pathname,
-      search: encodeURIComponent(new URLSearchParams(newQuery).toString()),
-      query: newQuery,
-    })
-  }
-
-  static buildRequestParameters = (parametersObject) => (
-    reduce(parametersObject, (acc, filterValue, filterKey) => {
-      if (has(filterValue, CommonDomain.REQUEST_PARAMETERS.VALUES)) {
-        if (!isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.VALUES])) {
-          // Values Restriction filters type
-          acc[filterKey] = {
-            [CommonDomain.REQUEST_PARAMETERS.VALUES]: filterValue[CommonDomain.REQUEST_PARAMETERS.VALUES],
-            [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
-          }
-        }
-      } else if (has(filterValue, CommonDomain.REQUEST_PARAMETERS.BEFORE)
-        || has(filterValue, CommonDomain.REQUEST_PARAMETERS.AFTER)) {
-        if (!(isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.AFTER])
-          && isEmpty(filterValue[CommonDomain.REQUEST_PARAMETERS.BEFORE]))) {
-          // Dates Restriction filters type
-          acc[filterKey] = {
-            [CommonDomain.REQUEST_PARAMETERS.AFTER]: TableFilterSortingAndVisibilityContainer.getFilterDateValue(parametersObject, filterKey, CommonDomain.REQUEST_PARAMETERS.AFTER),
-            [CommonDomain.REQUEST_PARAMETERS.BEFORE]: TableFilterSortingAndVisibilityContainer.getFilterDateValue(parametersObject, filterKey, CommonDomain.REQUEST_PARAMETERS.BEFORE),
-          }
-        }
-      } else if (isBoolean(filterValue)) {
-        acc[filterKey] = filterValue ? `${filterValue}` : ''
-      } else if (!isEmpty(filterValue)) {
-        // Other filters type
-        acc[filterKey] = filterValue
-      }
-      return acc
-    }, {}))
-
   state = {
     inputValues: {},
   }
@@ -176,8 +76,8 @@ class FiltersPaneComponent extends React.Component {
 
   UNSAFE_componentWillMount() {
     const { updateRequestParameters } = this.props
-    const extractedFilters = FiltersPaneComponent.extractFiltersFromURL(this.props.defaultFiltersState)
-    const requestParameters = FiltersPaneComponent.buildRequestParameters(extractedFilters)
+    const extractedFilters = UIDomain.FiltersPaneHelper.extractFiltersFromURL(this.props.defaultFiltersState)
+    const requestParameters = UIDomain.FiltersPaneHelper.buildRequestParameters(extractedFilters)
     updateRequestParameters(requestParameters)
     this.setState({
       inputValues: extractedFilters,
@@ -207,14 +107,14 @@ class FiltersPaneComponent extends React.Component {
     const newState = {
       inputValues: newFilters,
     }
-    const newRequestParameters = FiltersPaneComponent.buildRequestParameters(newFilters)
+    const newRequestParameters = UIDomain.FiltersPaneHelper.buildRequestParameters(newFilters)
     if (useDebounce) {
       this.applyRequestParameters(newRequestParameters)
     } else {
       updateRequestParameters(newRequestParameters)
     }
     this.setState(newState)
-    FiltersPaneComponent.updateURL(newFilters)
+    UIDomain.FiltersPaneHelper.updateURL(newFilters)
   }
 
   /**
@@ -226,7 +126,7 @@ class FiltersPaneComponent extends React.Component {
   updateValuesFilter = (value, filterElement, mode = TableSelectionModes.INCLUDE, useDebounce = false) => {
     let newFilterValue = {}
     if (isEmpty(value)) {
-      newFilterValue = FiltersPaneComponent.DEFAULT_VALUES_RESTRICTION_STATE
+      newFilterValue = TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE
     } else {
       newFilterValue = {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(value, ','),
@@ -262,7 +162,7 @@ class FiltersPaneComponent extends React.Component {
       this.setState({
         inputValues: defaultFiltersState,
       })
-      updateRequestParameters(FiltersPaneComponent.buildRequestParameters(defaultFiltersState))
+      updateRequestParameters(UIDomain.FiltersPaneHelper.buildRequestParameters(defaultFiltersState))
     }
     // Clear url parameters
     const newQuery = {

@@ -38,7 +38,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user account filters component'
       origins: {},
       roleList: {},
       onUpdateFiltersParameters: () => { },
-      isFiltersPaneOpen: false,
+      isPaneOpened: false,
       onCloseFiltersPane: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserAccountFiltersComponent {...props} />, { context })

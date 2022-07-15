@@ -21,7 +21,7 @@ import includes from 'lodash/includes'
 import keys from 'lodash/keys'
 import { MenuItem } from 'material-ui/Menu'
 import SelectField from 'material-ui/SelectField'
-import { CommonDomain, OrderDomain } from '@regardsoss/domain'
+import { CommonDomain, OrderDomain, UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -120,7 +120,7 @@ class OrderListFiltersComponent extends React.Component {
             dateHintText={formatMessage({ id: 'order.list.filters.creationDate.after.label' })}
             onChange={(value) => updateDatesFilter(value.toISOString(), REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
             locale={locale}
-            value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(inputValues, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
+            value={UIDomain.FiltersPaneHelper.getFilterDateValue(inputValues, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
             fullWidth
           />
           <DatePickerField
@@ -128,7 +128,7 @@ class OrderListFiltersComponent extends React.Component {
             dateHintText={formatMessage({ id: 'order.list.filters.creationDate.before.label' })}
             onChange={(value) => updateDatesFilter(value.toISOString(), REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
             locale={locale}
-            value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(inputValues, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
+            value={UIDomain.FiltersPaneHelper.getFilterDateValue(inputValues, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
             defaultTime="23:59:59"
             fullWidth
           />
