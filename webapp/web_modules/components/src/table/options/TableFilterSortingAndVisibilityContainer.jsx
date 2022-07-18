@@ -83,7 +83,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
   static REQUEST_PARAMETERS_PROP_TYPE = PropTypes.object
 
   // eslint-disable-next-line react/forbid-prop-types
-  static BODY_PARAMETERS_PROP_TYPE = PropTypes.object.isRequired
+  static BODY_PARAMETERS_PROP_TYPE = PropTypes.object
 
   // eslint-disable-next-line react/forbid-prop-types
   static COLUMN_VISIBILITY_PROP_TYPE = PropTypes.object

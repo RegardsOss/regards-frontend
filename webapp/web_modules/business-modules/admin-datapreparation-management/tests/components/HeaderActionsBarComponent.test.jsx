@@ -18,7 +18,6 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
   TableColumnsVisibilityOption, TableSelectionModes,
@@ -51,14 +50,10 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing HeaderActionsBarComponent',
 
       // table sorting, column visiblity & filters management
       requestParameters: {},
-      onRefresh: () => {},
       onChangeColumnsVisibility: () => {},
     }
     const enzymeWrapper = shallow(<HeaderActionsBarComponent {...props} />, { context })
     const tableColumnsWrapper = enzymeWrapper.find(TableColumnsVisibilityOption)
     assert.lengthOf(tableColumnsWrapper, 1, 'There should be a TableColumnsVisibilityOption')
-
-    const buttonWrapper = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(buttonWrapper, 1, 'There should be a FlatButton')
   })
 })

@@ -19,7 +19,6 @@
 import isEmpty from 'lodash/isEmpty'
 import every from 'lodash/every'
 import find from 'lodash/find'
-import Refresh from 'mdi-material-ui/Refresh'
 import FlatButton from 'material-ui/FlatButton'
 import RetryIcon from 'mdi-material-ui/Replay'
 import Delete from 'mdi-material-ui/Delete'
@@ -47,7 +46,6 @@ class HeaderActionsBarComponent extends React.Component {
     onRetry: PropTypes.func.isRequired,
 
     // table sorting, column visiblity & filters management
-    onRefresh: PropTypes.func.isRequired,
     onChangeColumnsVisibility: PropTypes.func.isRequired,
   }
 
@@ -82,7 +80,7 @@ class HeaderActionsBarComponent extends React.Component {
 
   render() {
     const {
-      columns, onChangeColumnsVisibility, onRefresh,
+      columns, onChangeColumnsVisibility,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
@@ -110,11 +108,6 @@ class HeaderActionsBarComponent extends React.Component {
           icon={<Delete />}
           onClick={this.onDelete}
           disabled={this.isButtonDisabled(DIALOG_TYPES.DELETE_DIALOG)}
-        />
-        <FlatButton
-          label={formatMessage({ id: 'datapreparation.actions.refresh' })}
-          icon={<Refresh />}
-          onClick={onRefresh}
         />
       </TableHeaderOptionGroup>
     )

@@ -357,6 +357,7 @@ export default (theme) => {
           display: 'flex',
           alignItems: 'center',
           marginBottom: '10px',
+          height: '48px',
         },
         filterLabelStyle: {
           width: '150px',

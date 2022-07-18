@@ -47,7 +47,6 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing HeaderActionsBarContainer',
       onRetry: PropTypes.func.isRequired,
 
       // table sorting, column visiblity & filters management
-      onRefresh: PropTypes.func.isRequired,
       onChangeColumnsVisibility: PropTypes.func.isRequired,
 
       // from mapStateToProps
@@ -60,7 +59,6 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing HeaderActionsBarContainer',
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       columns: props.columns,
-      onRefresh: props.onRefresh,
       onChangeColumnsVisibility: props.onChangeColumnsVisibility,
       areAllSelected: props.areAllSelected,
       selectionMode: props.selectionMode,

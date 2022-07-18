@@ -21,27 +21,6 @@
  * @author Théo Lasserre
  */
 const dataPreparationManagementStyles = (theme) => ({
-  filters: {
-    mainDivStyle: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    dateFilterDiv: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-    dateFilterLabel: {
-      marginTop: '10px',
-      marginRight: '10px',
-    },
-    fieldMargin: {
-      marginRight: '20px',
-    },
-    fieldMarginAlt: {
-      marginTop: '-25px',
-    },
-  },
   renderStyle: {
     statusStyle: {
       display: 'flex',
@@ -58,6 +37,22 @@ const dataPreparationManagementStyles = (theme) => ({
     settingDiv: {
       display: 'flex',
     },
+  },
+  headerDivStyle: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  cardActionDivStyle: {
+    padding: '5px',
+    width: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  filterButtonStyle: {
+    marginLeft: '2px',
   },
 })
 

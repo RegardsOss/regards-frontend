@@ -18,9 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { requestActions, requestSelectors } from '../../src/clients/WorkerRequestClient'
 import DataPreparationComponent from '../../src/components/DataPreparationComponent'
 import { DataPreparationContainer } from '../../src/containers/DataPreparationContainer'
 import styles from '../../src/styles'
@@ -41,21 +39,24 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationContainer', 
   it('should render correctly', () => {
     const props = {
       // from mapStateToProps
-      numberOfRequests: 40,
+      pageMeta: {
+        totalElements: 40,
+      },
       // from mapDispatchToProps
       fetchRequests: () => {},
       onDeleteRequest: () => {},
       onRetryRequest: () => {},
     }
     const enzymeWrapper = shallow(<DataPreparationContainer {...props} />, { context })
-    const subComponent = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
+    const subComponent = enzymeWrapper.find(DataPreparationComponent)
     assert.lengthOf(subComponent, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(subComponent, {
-      pageActions: requestActions,
-      pageSelectors: requestSelectors,
-      defaultFiltersState: DataPreparationComponent.DEFAULT_FILTERS_STATE,
       onDeleteRequest: enzymeWrapper.instance().onDeleteRequest,
       onRetryRequest: enzymeWrapper.instance().onRetryRequest,
+      onBack: enzymeWrapper.instance().onBack,
+      onRefresh: enzymeWrapper.instance().onRefresh,
+      isLoading: enzymeWrapper.instance().state.isFetching,
+      numberOfRequests: props.pageMeta.totalElements,
     }, 'Component should define the expected properties and callbacks')
   })
 })

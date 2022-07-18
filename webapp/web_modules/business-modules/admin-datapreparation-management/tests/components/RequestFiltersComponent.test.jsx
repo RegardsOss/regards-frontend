@@ -19,11 +19,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SelectField from 'material-ui/SelectField'
-import TextField from 'material-ui/TextField'
-import IconButton from 'material-ui/IconButton'
-import { DatePickerField } from '@regardsoss/components'
-import DataPreparationComponent from '../../src/components/DataPreparationComponent'
 import RequestFiltersComponent from '../../src/components/RequestFiltersComponent'
 import styles from '../../src/styles'
 
@@ -42,24 +37,13 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing RequestFiltersComponent', (
   })
   it('should render correctly', () => {
     const props = {
-      // table sorting, column visiblity & filters management
-      filters: DataPreparationComponent.DEFAULT_FILTERS_STATE,
+      inputValues: RequestFiltersComponent.DEFAULT_FILTERS_STATE,
       updateFilter: () => {},
       updateValuesFilter: () => {},
       updateDatesFilter: () => {},
-      clearFilters: () => {},
+      isPaneOpened: true,
+      onCloseFiltersPane: () => { },
     }
-    const enzymeWrapper = shallow(<RequestFiltersComponent {...props} />, { context })
-    const dateWrapper = enzymeWrapper.find(DatePickerField)
-    assert.lengthOf(dateWrapper, 2, 'There should be 2 DatePickerField')
-
-    const textWrapper = enzymeWrapper.find(TextField)
-    assert.lengthOf(textWrapper, 4, 'There should be 4 TextField')
-
-    const selectWrapper = enzymeWrapper.find(SelectField)
-    assert.lengthOf(selectWrapper, 1, 'There should be a SelectField')
-
-    const iconWrapper = enzymeWrapper.find(IconButton)
-    assert.lengthOf(iconWrapper, 1, 'There should be a IconButton')
+    shallow(<RequestFiltersComponent {...props} />, { context })
   })
 })

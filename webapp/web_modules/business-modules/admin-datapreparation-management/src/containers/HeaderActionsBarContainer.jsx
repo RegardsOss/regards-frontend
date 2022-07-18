@@ -33,7 +33,6 @@ export class HeaderActionsBarContainer extends React.Component {
     onRetry: PropTypes.func.isRequired,
 
     // table sorting, column visiblity & filters management
-    onRefresh: PropTypes.func.isRequired,
     onChangeColumnsVisibility: PropTypes.func.isRequired,
 
     // from mapStateToProps
@@ -58,14 +57,13 @@ export class HeaderActionsBarContainer extends React.Component {
 
   render() {
     const {
-      onRefresh, onChangeColumnsVisibility, columns,
+      onChangeColumnsVisibility, columns,
       tableSelection, selectionMode, areAllSelected,
       onDelete, onRetry,
     } = this.props
     return (
       <HeaderActionsBarComponent
         columns={columns}
-        onRefresh={onRefresh}
         onChangeColumnsVisibility={onChangeColumnsVisibility}
         areAllSelected={areAllSelected}
         selectionMode={selectionMode}

@@ -19,14 +19,12 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CommonDomain } from '@regardsoss/domain'
-import {
-  PageableInfiniteTableContainer,
-} from '@regardsoss/components'
-import { requestActions, requestSelectors } from '../../src/clients/WorkerRequestClient'
+import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import DataPreparationComponent from '../../src/components/DataPreparationComponent'
 import RequestFiltersComponent from '../../src/components/RequestFiltersComponent'
-import HeaderActionsBarContainer from '../../src/containers/HeaderActionsBarContainer'
+import DataPreparationTableComponent from '../../src/components/DataPreparationTableComponent'
+// import HeaderActionsBarContainer from '../../src/containers/HeaderActionsBarContainer'
+import { requestActions, requestSelectors } from '../../src/clients/WorkerRequestClient'
 
 import styles from '../../src/styles'
 
@@ -50,50 +48,30 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationComponent', 
       onDeleteRequest: () => {},
       onRetryRequest: () => {},
       numberOfRequests: 1,
-      pageSize: 5,
-
-      // table sorting, column visiblity & filters management
-      requestParameters: {},
-      bodyParameters: {},
-      columnsVisibility: {},
-      filters: DataPreparationComponent.DEFAULT_FILTERS_STATE,
-      onRefresh: () => {},
-      updateFilter: () => {},
-      updateValuesFilter: () => {},
-      updateDatesFilter: () => {},
-      clearFilters: () => {},
-      onChangeColumnsVisibility: () => {},
-      getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
-      onSort: () => {},
+      onRefresh: () => { },
     }
     const enzymeWrapper = shallow(<DataPreparationComponent {...props} />, { context })
+    const tableVisibilityWrapper = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
+    assert.lengthOf(tableVisibilityWrapper, 1, 'There should be a TableFilterSortingAndVisibilityContainer')
+    testSuiteHelpers.assertWrapperProperties(tableVisibilityWrapper, {
+      pageActions: requestActions,
+      pageSelectors: requestSelectors,
+      onDeleteRequest: props.onDeleteRequest,
+      onRetryRequest: props.onRetryRequest,
+      isPagePostFetching: true,
+      updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+    }, 'Component should define the expected properties')
+    const tableWrapper = enzymeWrapper.find(DataPreparationTableComponent)
+    assert.lengthOf(tableWrapper, 1, 'There should be a DataPreparationTableComponent')
+    testSuiteHelpers.assertWrapperProperties(tableWrapper, {
+      isLoading: props.isLoading,
+      numberOfRequests: props.numberOfRequests,
+    }, 'Component should define the expected properties')
     const filterWrapper = enzymeWrapper.find(RequestFiltersComponent)
     assert.lengthOf(filterWrapper, 1, 'There should be a RequestFiltersComponent')
     testSuiteHelpers.assertWrapperProperties(filterWrapper, {
-      filters: props.filters,
-      updateFilter: props.updateFilter,
-      updateValuesFilter: props.updateValuesFilter,
-      updateDatesFilter: props.updateDatesFilter,
-      clearFilters: props.clearFilters,
-    }, 'Component should define the expected properties')
-
-    const headerActionsBarWrapper = enzymeWrapper.find(HeaderActionsBarContainer)
-    assert.lengthOf(headerActionsBarWrapper, 1, 'There should be a HeaderActionsBar')
-    testSuiteHelpers.assertWrapperProperties(headerActionsBarWrapper, {
-      onRefresh: props.onRefresh,
-      onChangeColumnsVisibility: props.onChangeColumnsVisibility,
-      onDelete: enzymeWrapper.instance().onDelete,
-      onRetry: enzymeWrapper.instance().onRetry,
-    }, 'Component should define the expected properties')
-
-    const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
-    assert.lengthOf(tableWrapper, 1, 'There should be a PageableInfiniteTableContainer')
-    testSuiteHelpers.assertWrapperProperties(tableWrapper, {
-      pageActions: requestActions,
-      pageSelectors: requestSelectors,
-      pageSize: props.pageSize,
-      requestParams: props.requestParameters,
-      bodyParams: props.bodyParameters,
+      isPaneOpened: enzymeWrapper.instance().state.isPaneOpened,
+      onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
     }, 'Component should define the expected properties')
   })
 })

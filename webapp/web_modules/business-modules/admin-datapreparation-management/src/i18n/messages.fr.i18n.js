@@ -25,6 +25,7 @@ const messages = {
   // Card
   'datapreparation.card.title': 'Supervision des workers',
   'datapreparation.card.action.cancel': 'Retour',
+  'datapreparation.card.action.filter': 'Filtrer',
 
   // Dialogs
   'datapreparation.table.actions.delete.title': 'Supprimer la ou les requête(s) ?',
@@ -61,11 +62,15 @@ const messages = {
   'datapreparation.filters.creationDate.after.label': 'Depuis',
   'datapreparation.filters.creationDate.before.label': 'Jusqu\'à',
   'datapreparation.filters.source.label': 'Source',
+  'datapreparation.filters.source.label.title': 'Source :',
   'datapreparation.filters.session.label': 'Session',
+  'datapreparation.filters.session.label.title': 'Session :',
   'datapreparation.filters.workerType.label': 'Type de worker',
-  'datapreparation.filters.contentTypes.label': 'Type de contenu',
-  'datapreparation.filters.status.label.title': 'Statuts',
-  'datapreparation.filters.clear': 'Effacer filtres',
+  'datapreparation.filters.workerType.label.title': 'Type de worker :',
+  'datapreparation.filters.contentTypes.label': 'Type de contenu (ex: type1, type2, ...)',
+  'datapreparation.filters.contentTypes.label.title': 'Type de contenu :',
+  'datapreparation.filters.status.label': 'Statuts',
+  'datapreparation.filters.status.label.title': 'Statuts :',
 
   // Dialogs
   'datapreparation.dialogs.errors.title': 'Erreurs',

@@ -137,7 +137,7 @@ class OrderListFiltersComponent extends React.Component {
           <div style={filterLabelStyle}>
             {formatMessage({ id: 'order.list.filter.by.email.label' })}
           </div>
-          <TableHeaderAutoCompleteFilter // TODO CREER COMPOSANTS G2N2RIQUE FILTRES
+          <TableHeaderAutoCompleteFilter
             hintText={formatMessage({ id: 'order.list.filter.by.email.hint' })}
             text={inputValues[REQUEST_FILTERS.OWNER] || ''}
             currentHints={matchingUsers}

@@ -18,6 +18,8 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
+import pick from 'lodash/pick'
+import omit from 'lodash/omit'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import get from 'lodash/get'
@@ -48,8 +50,6 @@ export class DataPreparationContainer extends React.Component {
     onRetryRequest: PropTypes.func.isRequired,
   }
 
-  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20;
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -70,7 +70,7 @@ export class DataPreparationContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(requestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+      fetchRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(requestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
       onDeleteRequest: (requestBodyParameters) => dispatch(requestSignalsActions.delete(requestBodyParameters)),
       onRetryRequest: (requestBodyParameters) => dispatch(requestSignalsActions.retry(requestBodyParameters)),
     }
@@ -118,36 +118,32 @@ export class DataPreparationContainer extends React.Component {
     ).then(onDone).catch(onDone)).catch(onDone)
   }
 
-  renderComponent = (filterSortingAndVisibilityProps) => {
-    const {
-      pageMeta,
-    } = this.props
-    const { isFetching } = this.state
-    return (
-      <DataPreparationComponent
-        {...filterSortingAndVisibilityProps}
-        onBack={this.onBack}
-        isLoading={isFetching}
-        pageSize={DataPreparationContainer.PAGE_SIZE}
-        numberOfRequests={get(pageMeta, 'totalElements', 0)}
-      />
-    )
+  getFetchPageSize = () => {
+    const { pageMeta } = this.props
+    const lastPage = (pageMeta && pageMeta.number) || 0
+    return TableFilterSortingAndVisibilityContainer.PAGE_SIZE * (lastPage + 1)
+  }
+
+  onRefresh = (requestParameters) => {
+    const { fetchRequests } = this.props
+    const fetchPageSize = this.getFetchPageSize()
+    fetchRequests(0, fetchPageSize, {}, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') })
   }
 
   render() {
+    const { pageMeta } = this.props
+    const { isFetching } = this.state
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={styles}>
-          <TableFilterSortingAndVisibilityContainer
-            pageActions={requestActions}
-            pageSelectors={requestSelectors}
-            defaultFiltersState={DataPreparationComponent.DEFAULT_FILTERS_STATE}
-            onDeleteRequest={this.onDeleteRequest}
+          <DataPreparationComponent
+            onBack={this.onBack}
+            isLoading={isFetching}
+            numberOfRequests={get(pageMeta, 'totalElements', 0)}
+            onRefresh={this.onRefresh}
             onRetryRequest={this.onRetryRequest}
-            isPagePostFetching
-          >
-            {this.renderComponent}
-          </TableFilterSortingAndVisibilityContainer>
+            onDeleteRequest={this.onDeleteRequest}
+          />
         </ModuleStyleProvider>
       </I18nProvider>
     )

@@ -25,6 +25,7 @@ const messages = {
   // Card
   'datapreparation.card.title': 'Workers monitoring',
   'datapreparation.card.action.cancel': 'Back',
+  'datapreparation.card.action.filter': 'Filter',
 
   // Dialogs
   'datapreparation.table.actions.delete.title': 'Remove request(s) ?',
@@ -61,11 +62,15 @@ const messages = {
   'datapreparation.filters.creationDate.after.label': 'From',
   'datapreparation.filters.creationDate.before.label': 'To',
   'datapreparation.filters.source.label': 'Source',
+  'datapreparation.filters.source.label.title': 'Source :',
   'datapreparation.filters.session.label': 'Session',
+  'datapreparation.filters.session.label.title': 'Session :',
   'datapreparation.filters.workerType.label': 'Worker type',
-  'datapreparation.filters.contentTypes.label': 'Content types',
-  'datapreparation.filters.status.label.title': 'Status',
-  'datapreparation.filters.clear': 'Reset filters',
+  'datapreparation.filters.workerType.label.title': 'Worker type :',
+  'datapreparation.filters.contentTypes.label': 'Content types (ex: type1, type2, ...)',
+  'datapreparation.filters.contentTypes.label.title': 'Content types :',
+  'datapreparation.filters.status.label': 'Status',
+  'datapreparation.filters.status.label.title': 'Status :',
 
   // Dialogs
   'datapreparation.dialogs.errors.title': 'Errors',
