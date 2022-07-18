@@ -29,6 +29,10 @@ const accountManagementStyles = (theme) => ({
       display: 'flex',
       alignItems: 'center',
       fontSize: '18px',
+      width: 'auto',
+    },
+    waitingAccountsLineMessage: {
+      justifyContent: 'center',
     },
     headerDivStyle: {
       display: 'flex',

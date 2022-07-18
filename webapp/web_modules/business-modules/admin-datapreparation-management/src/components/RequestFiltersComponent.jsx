@@ -26,6 +26,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableSelectionModes, TableFilterSortingAndVisibilityContainer, DatePickerField, withFiltersPane,
+  FiltersPaneMainComponent,
+  FiltersPaneLineComponent,
 } from '@regardsoss/components'
 
 /**
@@ -60,20 +62,13 @@ class RequestFiltersComponent extends React.Component {
       updateFilter, inputValues, updateDatesFilter, updateValuesFilter,
     } = this.props
     const {
-      intl: { locale, formatMessage }, moduleTheme: {
-        searchPane: {
-          childrenStyles: {
-            mainDivStyle, lineDivStyle, filterLabelStyle,
-          },
-        },
-      },
+      intl: { locale, formatMessage },
     } = this.context
     return (
-      <div style={mainDivStyle}>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'datapreparation.filters.creationDate.label' })}
-          </div>
+      <FiltersPaneMainComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'datapreparation.filters.creationDate.label' })}
+        >
           <DatePickerField
             id={`filter.${CommonDomain.REQUEST_PARAMETERS.AFTER}`}
             dateHintText={formatMessage({ id: 'datapreparation.filters.creationDate.after.label' })}
@@ -91,55 +86,50 @@ class RequestFiltersComponent extends React.Component {
             defaultTime="23:59:59"
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'datapreparation.filters.contentTypes.label.title' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'datapreparation.filters.contentTypes.label.title' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'datapreparation.filters.contentTypes.label' })}
             value={join(inputValues[WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES][CommonDomain.REQUEST_PARAMETERS.VALUES], ',')}
             onChange={(event, value) => updateValuesFilter(value, WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES, TableSelectionModes.INCLUDE, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'datapreparation.filters.workerType.label.title' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'datapreparation.filters.workerType.label.title' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'datapreparation.filters.workerType.label' })}
             value={inputValues[WorkerDomain.REQUEST_FILTERS.WORKER_TYPE]}
             onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.WORKER_TYPE, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'datapreparation.filters.source.label.title' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'datapreparation.filters.source.label.title' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'datapreparation.filters.source.label' })}
             value={inputValues[WorkerDomain.REQUEST_FILTERS.SOURCE]}
             onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.SOURCE, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'datapreparation.filters.session.label.title' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'datapreparation.filters.session.label.title' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'datapreparation.filters.session.label' })}
             value={inputValues[WorkerDomain.REQUEST_FILTERS.SESSION]}
             onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.SESSION, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'datapreparation.filters.status.label.title' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'datapreparation.filters.status.label.title' })}
+        >
           <SelectField
             id="datapreparation.filters.status"
             value={inputValues[WorkerDomain.REQUEST_FILTERS.STATUSES][CommonDomain.REQUEST_PARAMETERS.VALUES]}
@@ -152,8 +142,8 @@ class RequestFiltersComponent extends React.Component {
               <MenuItem key={status} value={status} primaryText={status} />
             ))}
           </SelectField>
-        </div>
-      </div>
+        </FiltersPaneLineComponent>
+      </FiltersPaneMainComponent>
     )
   }
 }

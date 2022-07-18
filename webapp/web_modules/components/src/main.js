@@ -147,6 +147,8 @@ export { default as TableStyles } from './table/styles/styles'
 export { default as TableFilterSortingAndVisibilityContainer } from './table/options/TableFilterSortingAndVisibilityContainer'
 export { default as FiltersPaneComponent } from './table/options/FiltersPaneComponent'
 export { default as withFiltersPane } from './table/options/withFiltersPane'
+export { default as FiltersPaneMainComponent } from './table/options/FiltersPaneMainComponent'
+export { default as FiltersPaneLineComponent } from './table/options/FiltersPaneLineComponent'
 
 export { default as Title } from './titles/Title'
 

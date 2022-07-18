@@ -27,7 +27,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
   TableFilterSortingAndVisibilityContainer, DatePickerField,
-  withFiltersPane, TableHeaderAutoCompleteFilter,
+  withFiltersPane, TableHeaderAutoCompleteFilter, FiltersPaneMainComponent,
+  FiltersPaneLineComponent,
 } from '@regardsoss/components'
 import { REQUEST_FILTERS } from '../domain/requestFilters'
 import { WAITING_FOR_USER_ENUM } from '../domain/waitingForUserFilterValues'
@@ -106,15 +107,12 @@ class OrderListFiltersComponent extends React.Component {
       updateFilter, inputValues, updateDatesFilter, updateValuesFilter, matchingUsers, isFetching,
     } = this.props
     const { isInError } = this.state
-    const {
-      intl: { locale, formatMessage }, moduleTheme: { searchPane: { childrenStyles: { mainDivStyle, lineDivStyle, filterLabelStyle } } },
-    } = this.context
+    const { intl: { locale, formatMessage }, moduleTheme: { filters: { emailAutoCompleteStyle } } } = this.context
     return (
-      <div style={mainDivStyle}>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'order.list.filters.creationDate.label' })}
-          </div>
+      <FiltersPaneMainComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'order.list.filters.creationDate.label' })}
+        >
           <DatePickerField
             id={`filter.${CommonDomain.REQUEST_PARAMETERS.AFTER}`}
             dateHintText={formatMessage({ id: 'order.list.filters.creationDate.after.label' })}
@@ -132,11 +130,11 @@ class OrderListFiltersComponent extends React.Component {
             defaultTime="23:59:59"
             fullWidth
           />
-        </div>
-        <div style={{ ...lineDivStyle, height: '56px', paddingTop: '10px' }}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'order.list.filter.by.email.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'order.list.filter.by.email.label' })}
+          additionnalLineStyle={emailAutoCompleteStyle}
+        >
           <TableHeaderAutoCompleteFilter
             hintText={formatMessage({ id: 'order.list.filter.by.email.hint' })}
             text={inputValues[REQUEST_FILTERS.OWNER] || ''}
@@ -148,11 +146,10 @@ class OrderListFiltersComponent extends React.Component {
             prepareHints={this.prepareHints}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'order.list.filters.status.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'order.list.filters.status.label' })}
+        >
           <SelectField
             id={`filter.${REQUEST_FILTERS.STATUSES}`}
             value={inputValues[REQUEST_FILTERS.STATUSES][CommonDomain.REQUEST_PARAMETERS.VALUES]}
@@ -168,11 +165,10 @@ class OrderListFiltersComponent extends React.Component {
               return null
             })}
           </SelectField>
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'order.list.filters.waiting.user.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'order.list.filters.waiting.user.label' })}
+        >
           <SelectField
             id={`filter.${REQUEST_FILTERS.WAITING_FOR_USER}`}
             value={inputValues[REQUEST_FILTERS.WAITING_FOR_USER] || ''}
@@ -185,8 +181,8 @@ class OrderListFiltersComponent extends React.Component {
               <MenuItem key={waitingForUserKey} value={WAITING_FOR_USER_ENUM[waitingForUserKey]} primaryText={formatMessage({ id: `order.list.filters.waiting.user.${WAITING_FOR_USER_ENUM[waitingForUserKey]}` })} />
             ))}
           </SelectField>
-        </div>
-      </div>
+        </FiltersPaneLineComponent>
+      </FiltersPaneMainComponent>
     )
   }
 }

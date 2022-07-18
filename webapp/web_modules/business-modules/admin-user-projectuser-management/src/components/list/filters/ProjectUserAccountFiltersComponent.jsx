@@ -27,6 +27,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   DatePickerField, withFiltersPane, TableFilterSortingAndVisibilityContainer,
+  FiltersPaneMainComponent, FiltersPaneLineComponent,
 } from '@regardsoss/components'
 import ACCOUNT_FILTERS from '../../../domain/AccountFilters'
 
@@ -80,15 +81,12 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
     const {
       updateFilter, inputValues, origins, roleList,
     } = this.props
-    const {
-      intl: { locale, formatMessage }, moduleTheme: { searchPane: { childrenStyles: { mainDivStyle, lineDivStyle, filterLabelStyle } } },
-    } = this.context
+    const { intl: { locale, formatMessage } } = this.context
     return (
-      <div style={mainDivStyle}>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'projectUser.list.table.created.label' })}
-          </div>
+      <FiltersPaneMainComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.created.label' })}
+        >
           <DatePickerField
             id={`filter.${ACCOUNT_FILTERS.CREATED_AFTER}`}
             dateHintText={formatMessage({ id: `projectUser.list.table.created.${ACCOUNT_FILTERS.CREATED_AFTER}.label` })}
@@ -106,11 +104,10 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
             defaultTime="23:59:59"
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'projectUser.list.table.lastConnection.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.lastConnection.label' })}
+        >
           <DatePickerField
             id={`filter.${ACCOUNT_FILTERS.LAST_CONNECTION_AFTER}`}
             dateHintText={formatMessage({ id: `projectUser.list.table.lastConnection.${ACCOUNT_FILTERS.LAST_CONNECTION_AFTER}.label` })}
@@ -128,41 +125,40 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
             defaultTime="23:59:59"
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'projectUser.list.table.email.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.email.label' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'projectUser.list.table.email' })}
             value={inputValues[ACCOUNT_FILTERS.EMAIL]}
             onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.EMAIL, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'projectUser.list.table.lastname.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.lastname.label' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'projectUser.list.table.lastname' })}
             value={inputValues[ACCOUNT_FILTERS.LASTNAME]}
             onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.LASTNAME, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'projectUser.list.table.firstname.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.firstname.label' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'projectUser.list.table.firstname' })}
             value={inputValues[ACCOUNT_FILTERS.FIRSTNAME]}
             onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.FIRSTNAME, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.status.label' })}
+        >
           <SelectField
             id="projectUser.list.table.status"
             value={inputValues[ACCOUNT_FILTERS.STATUS]}
@@ -174,8 +170,10 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
               <MenuItem key={status} value={status} primaryText={formatMessage({ id: `projectUser.list.table.status.label.${status}` })} />
             ))}
           </SelectField>
-        </div>
-        <div style={lineDivStyle}>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.origin.label' })}
+        >
           <SelectField
             id="projectUser.list.table.origin"
             value={inputValues[ACCOUNT_FILTERS.ORIGIN]}
@@ -187,8 +185,10 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
               <MenuItem key={origin} value={origin.content.name} primaryText={origin.content.name} />
             ))}
           </SelectField>
-        </div>
-        <div style={lineDivStyle}>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.role.label' })}
+        >
           <SelectField
             id="projectUser.list.table.role"
             value={inputValues[ACCOUNT_FILTERS.ROLE]}
@@ -200,8 +200,8 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
               <MenuItem key={role.content.name} value={role.content.name} primaryText={this.getRolePrimaryText(role)} />
             ))}
           </SelectField>
-        </div>
-      </div>
+        </FiltersPaneLineComponent>
+      </FiltersPaneMainComponent>
     )
   }
 }

@@ -23,7 +23,10 @@ import TextField from 'material-ui/TextField'
 import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withFiltersPane, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import {
+  withFiltersPane, TableFilterSortingAndVisibilityContainer,
+  FiltersPaneMainComponent, FiltersPaneLineComponent,
+} from '@regardsoss/components'
 import ACCESS_RIGHT_FILTERS from '../../../domain/AccessRightFilters'
 
 /**
@@ -57,45 +60,42 @@ export class ProjectUserAccessRightFiltersComponent extends React.Component {
     const {
       updateFilter, inputValues, groups,
     } = this.props
-    const {
-      intl: { formatMessage }, moduleTheme: { searchPane: { childrenStyles: { mainDivStyle, lineDivStyle, filterLabelStyle } } },
-    } = this.context
+    const { intl: { formatMessage } } = this.context
     return (
-      <div style={mainDivStyle}>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'projectUser.list.table.email.label' })}
-          </div>
+      <FiltersPaneMainComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.email.label' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'projectUser.list.table.email' })}
             value={inputValues[ACCESS_RIGHT_FILTERS.EMAIL]}
             onChange={(event, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.EMAIL, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'projectUser.list.table.lastname.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.lastname.label' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'projectUser.list.table.lastname' })}
             value={inputValues[ACCESS_RIGHT_FILTERS.LASTNAME]}
             onChange={(event, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.LASTNAME, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'projectUser.list.table.firstname.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.firstname.label' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'projectUser.list.table.firstname' })}
             value={inputValues[ACCESS_RIGHT_FILTERS.FIRSTNAME]}
             onChange={(event, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.FIRSTNAME, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.groups.label' })}
+        >
           <SelectField
             id="projectUser.list.table.groups"
             value={inputValues[ACCESS_RIGHT_FILTERS.GROUP]}
@@ -107,8 +107,8 @@ export class ProjectUserAccessRightFiltersComponent extends React.Component {
               <MenuItem key={group.content.name} value={group.content.name} primaryText={group.content.name} />
             ))}
           </SelectField>
-        </div>
-      </div>
+        </FiltersPaneLineComponent>
+      </FiltersPaneMainComponent>
     )
   }
 }

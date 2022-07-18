@@ -20,7 +20,10 @@ import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withFiltersPane, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import {
+  withFiltersPane, TableFilterSortingAndVisibilityContainer,
+  FiltersPaneMainComponent, FiltersPaneLineComponent,
+} from '@regardsoss/components'
 import QUOTA_FILTERS from '../../../domain/QuotaFilters'
 
 /**
@@ -53,52 +56,47 @@ export class ProjectUserQuotaFiltersComponent extends React.Component {
     const {
       updateFilter, inputValues,
     } = this.props
-    const {
-      intl: { formatMessage }, moduleTheme: { searchPane: { childrenStyles: { mainDivStyle, lineDivStyle, filterLabelStyle } } },
-    } = this.context
+    const { intl: { formatMessage } } = this.context
     return (
-      <div style={mainDivStyle}>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'projectUser.list.table.email.label' })}
-          </div>
+      <FiltersPaneMainComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.email.label' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'projectUser.list.table.email' })}
             value={inputValues[QUOTA_FILTERS.EMAIL]}
             onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.EMAIL, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'projectUser.list.table.lastname.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.lastname.label' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'projectUser.list.table.lastname' })}
             value={inputValues[QUOTA_FILTERS.LASTNAME]}
             onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.LASTNAME, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'projectUser.list.table.firstname.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'projectUser.list.table.firstname.label' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'projectUser.list.table.firstname' })}
             value={inputValues[QUOTA_FILTERS.FIRSTNAME]}
             onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.FIRSTNAME, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent>
           <Checkbox
             checked={!!inputValues[QUOTA_FILTERS.USE_QUOTA_LIMITATION]}
             onCheck={() => updateFilter(!inputValues[QUOTA_FILTERS.USE_QUOTA_LIMITATION], QUOTA_FILTERS.USE_QUOTA_LIMITATION)}
             label={formatMessage({ id: 'projectUser.list.only.low.quota' })}
           />
-        </div>
-      </div>
+        </FiltersPaneLineComponent>
+      </FiltersPaneMainComponent>
     )
   }
 }

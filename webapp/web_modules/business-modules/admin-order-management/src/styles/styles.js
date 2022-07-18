@@ -42,6 +42,12 @@ export default (theme) => ({
       justifyContent: 'space-between',
     },
   },
+  filters: {
+    emailAutoCompleteStyle: {
+      height: '56px',
+      paddingTop: '10px',
+    },
+  },
   settings: {
     settingDiv: {
       display: 'flex',

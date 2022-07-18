@@ -29,6 +29,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableFilterSortingAndVisibilityContainer, withFiltersPane,
+  FiltersPaneMainComponent,
+  FiltersPaneLineComponent,
 } from '@regardsoss/components'
 import ACCOUNT_FILTERS from '../../domain/AccountFilters'
 
@@ -70,16 +72,16 @@ class AccountFiltersComponent extends React.Component {
     } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
-        searchPane: { childrenStyles: { mainDivStyle, lineDivStyle, filterLabelStyle } },
-        accounts: { waitingAccountsMessage, filterIconStyle },
+        accounts: { waitingAccountsMessage, waitingAccountsLineMessage, filterIconStyle },
       },
     } = this.context
     return (
-      <div style={mainDivStyle}>
-        <div style={{ ...lineDivStyle, justifyContent: 'center' }}>
-          <div style={waitingAccountsMessage}>
-            {formatMessage({ id: 'account.list.info.nb.waiting.accounts' }, { value: size(waitingAccounts) || 0 })}
-          </div>
+      <FiltersPaneMainComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'account.list.info.nb.waiting.accounts' }, { value: size(waitingAccounts) || 0 })}
+          additionnalLineStyle={waitingAccountsLineMessage}
+          additionnalLabelStyle={waitingAccountsMessage}
+        >
           <IconButton
             onClick={() => {
               const newValue = inputValues[ACCOUNT_FILTERS.STATUS] !== AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING ? AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING : null
@@ -90,44 +92,40 @@ class AccountFiltersComponent extends React.Component {
           >
             <FilterIcon />
           </IconButton>
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'account.list.table.filters.email.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'account.list.table.filters.email.label' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'account.list.table.filters.email' })}
             value={inputValues[ACCOUNT_FILTERS.EMAIL]}
             onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.EMAIL, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'account.list.table.filters.firstname.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'account.list.table.filters.firstname.label' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'account.list.table.filters.firstname' })}
             value={inputValues[ACCOUNT_FILTERS.FIRSTNAME]}
             onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.FIRSTNAME, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'account.list.table.filters.lastname.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'account.list.table.filters.lastname.label' })}
+        >
           <TextField
             hintText={formatMessage({ id: 'account.list.table.filters.lastname' })}
             value={inputValues[ACCOUNT_FILTERS.LASTNAME]}
             onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.LASTNAME, true)}
             fullWidth
           />
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'account.list.table.filters.status.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'account.list.table.filters.status.label' })}
+        >
           <SelectField
             id="account.list.table.filters.status"
             value={inputValues[ACCOUNT_FILTERS.STATUS]}
@@ -139,11 +137,10 @@ class AccountFiltersComponent extends React.Component {
               <MenuItem key={status} value={status} primaryText={formatMessage({ id: `account.list.table.filters.status.${status}` })} />
             ))}
           </SelectField>
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'account.list.table.filters.origin.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'account.list.table.filters.origin.label' })}
+        >
           <SelectField
             id="account.list.table.filters.origin"
             value={inputValues[ACCOUNT_FILTERS.ORIGIN]}
@@ -155,11 +152,10 @@ class AccountFiltersComponent extends React.Component {
               <MenuItem key={origin} value={origin} primaryText={origin} />
             ))}
           </SelectField>
-        </div>
-        <div style={lineDivStyle}>
-          <div style={filterLabelStyle}>
-            {formatMessage({ id: 'account.list.table.filters.projects.label' })}
-          </div>
+        </FiltersPaneLineComponent>
+        <FiltersPaneLineComponent
+          label={formatMessage({ id: 'account.list.table.filters.projects.label' })}
+        >
           <SelectField
             id="account.list.table.filters.projects"
             value={inputValues[ACCOUNT_FILTERS.PROJECTS]}
@@ -171,8 +167,8 @@ class AccountFiltersComponent extends React.Component {
               <MenuItem key={project} value={project.content.name} primaryText={project.content.name} />
             ))}
           </SelectField>
-        </div>
-      </div>
+        </FiltersPaneLineComponent>
+      </FiltersPaneMainComponent>
     )
   }
 }

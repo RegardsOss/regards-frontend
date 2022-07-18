@@ -27,6 +27,8 @@ import {
   Title,
   withFiltersPane,
   TableFilterSortingAndVisibilityContainer,
+  FiltersPaneMainComponent,
+  FiltersPaneLineComponent,
 } from '@regardsoss/components'
 import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../clients/SearchSessionsClient'
@@ -90,20 +92,17 @@ class DashboardFiltersComponent extends React.Component {
     const {
       updateFilter, inputValues,
     } = this.props
-    const {
-      intl: { formatMessage }, moduleTheme: { searchPane: { childrenStyles: { mainDivStyle, lineDivStyle, filterLabelStyle } } },
-    } = this.context
+    const { intl: { formatMessage } } = this.context
     return (
       <div>
-        <div style={mainDivStyle}>
+        <FiltersPaneMainComponent>
           <Title
             level={3}
             label={formatMessage({ id: 'dashboard.sources.title' })}
           />
-          <div style={lineDivStyle}>
-            <div style={filterLabelStyle}>
-              {formatMessage({ id: 'dashboard.filter.name.label' })}
-            </div>
+          <FiltersPaneLineComponent
+            label={formatMessage({ id: 'dashboard.filter.name.label' })}
+          >
             <TableHeaderAutoCompleteFilterContainer
               onChangeText={(value) => updateFilter(value, SOURCE_FILTER_PARAMS.NAME)}
               text={get(inputValues, `${SOURCE_FILTER_PARAMS.NAME}`, '')}
@@ -113,11 +112,10 @@ class DashboardFiltersComponent extends React.Component {
               arraySelectors={searchSourcesSelectors}
               fullWidth
             />
-          </div>
-          <div style={lineDivStyle}>
-            <div style={filterLabelStyle}>
-              {formatMessage({ id: 'dashboard.filter.status.label' })}
-            </div>
+          </FiltersPaneLineComponent>
+          <FiltersPaneLineComponent
+            label={formatMessage({ id: 'dashboard.filter.status.label' })}
+          >
             <SelectField
               id="dashboard.sources.filter.status"
               value={get(inputValues, `${SOURCE_FILTER_PARAMS.STATUS}`, STATUS_TYPES_ENUM.ALL)}
@@ -129,17 +127,16 @@ class DashboardFiltersComponent extends React.Component {
                 <MenuItem key={status} value={status} primaryText={formatMessage({ id: `dashboard.filter.status.${status}` })} />
               ))}
             </SelectField>
-          </div>
-        </div>
-        <div style={mainDivStyle}>
+          </FiltersPaneLineComponent>
+        </FiltersPaneMainComponent>
+        <FiltersPaneMainComponent>
           <Title
             level={3}
             label={formatMessage({ id: 'dashboard.sessions.title' })}
           />
-          <div style={lineDivStyle}>
-            <div style={filterLabelStyle}>
-              {formatMessage({ id: 'dashboard.filter.name.label' })}
-            </div>
+          <FiltersPaneLineComponent
+            label={formatMessage({ id: 'dashboard.filter.name.label' })}
+          >
             <TableHeaderAutoCompleteFilterContainer
               onChangeText={(value) => updateFilter(value, SESSION_FILTER_PARAMS.NAME)}
               text={get(inputValues, `${SESSION_FILTER_PARAMS.NAME}`, '')}
@@ -149,11 +146,10 @@ class DashboardFiltersComponent extends React.Component {
               arraySelectors={searchSessionsSelectors}
               fullWidth
             />
-          </div>
-          <div style={lineDivStyle}>
-            <div style={filterLabelStyle}>
-              {formatMessage({ id: 'dashboard.filter.status.label' })}
-            </div>
+          </FiltersPaneLineComponent>
+          <FiltersPaneLineComponent
+            label={formatMessage({ id: 'dashboard.filter.status.label' })}
+          >
             <SelectField
               id="dashboard.sources.filter.status"
               value={get(inputValues, `${SESSION_FILTER_PARAMS.STATUS}`, STATUS_TYPES_ENUM.ALL)}
@@ -165,8 +161,8 @@ class DashboardFiltersComponent extends React.Component {
                 <MenuItem key={status} value={status} primaryText={formatMessage({ id: `dashboard.filter.status.${status}` })} />
               ))}
             </SelectField>
-          </div>
-        </div>
+          </FiltersPaneLineComponent>
+        </FiltersPaneMainComponent>
       </div>)
   }
 }
