@@ -141,9 +141,9 @@ const messages = {
   'user.profile.quota.info.message.raw.data.download.definition': `Le téléchargement des fichiers de données (RAW DATA) est réalisé par téléchargement direct (catalogue, description, ...),
   ou par commande (fichier ZIP, metalink, ....). Les autres types de fichiers sont ignorés dans le calcul des indicateurs ci-dessous.`,
   'user.profile.quota.info.message.contact.notice': 'Vous pouvez contacter l\'administrateur du projet pour augmenter votre capacité de téléchargement de données.',
-  'user.profile.quota.info.title.current.status': 'État courrant',
+  'user.profile.quota.info.title.current.status': 'État courant',
   'user.profile.quota.info.message.unlimited.download': 'Vos téléchargement ne sont pas limités',
-  'user.profile.quota.info.message.remaining.downloads': '{remainingQuota}/{maxQuota} téléchargements autorisés',
+  'user.profile.quota.info.message.remaining.downloads': '{remainingQuota}/{maxQuota} téléchargements autorisé restants',
   'user.profile.quota.info.message.unlimited.rate': 'Vos téléchargements simultanés ne sont pas limités',
   'user.profile.quota.info.message.remaining.rate': '{currentRate}/{rateLimit} téléchargements en cours',
 
