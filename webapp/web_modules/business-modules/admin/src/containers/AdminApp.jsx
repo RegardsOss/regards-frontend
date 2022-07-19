@@ -18,16 +18,9 @@
  **/
 import { UIDomain } from '@regardsoss/domain'
 import { AuthenticationParametersActions, AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-utils'
-import { ProjectHandler } from '@regardsoss/project-handler'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
-import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
-import { ThemeProvider } from '@regardsoss/theme'
-import { BrowserCheckerDialog, ReactErrorBoundaryComponent } from '@regardsoss/components'
-import AdminLayout from './AdminLayout'
-import AuthenticationContainer from './AuthenticationContainer'
-import messages from '../i18n'
+import AdminAppComponent from '../components/AdminAppComponent'
 
 /**
  * React components to manage the instance application.
@@ -49,6 +42,35 @@ class AdminApp extends React.Component {
     // from mapDispatchToProps
     initializeApplication: PropTypes.func.isRequired,
     fetchEndpoints: PropTypes.func,
+  }
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    const authenticationResult = AuthenticationClient.authenticationSelectors.getResult(state)
+    return {
+      currentRole: authenticationResult ? authenticationResult.role : '',
+      isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
+      scope: AuthenticationParametersSelectors.getProject(state),
+      isInstance: AuthenticationParametersSelectors.isInstance(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      initializeApplication: (project) => dispatch(AuthenticationParametersActions.applicationStarted(project)),
+      fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
+    }
   }
 
   state = {
@@ -97,56 +119,16 @@ class AdminApp extends React.Component {
     }
   }
 
-  renderLayout = () => (
-    <AdminLayout {...this.props}>
-      {this.props.content}
-    </AdminLayout>
-  )
-
   render() {
-    const {
-      isAuthenticated, scope, params: { project }, isInstance,
-    } = this.props
     const { isLoadingEndpoints } = this.state
-
+    // prevent AdminAppComponent to render when scope is not defined
     return (
-      <ReactErrorBoundaryComponent>
-        <div>
-          { /** Project handler */
-            isInstance || !project ? null : <ProjectHandler projectName={project} title="Administration" />
-          }
-          <ThemeProvider>
-            <I18nProvider messages={messages}>
-              {/* Force authentication */}
-              <AuthenticationContainer scope={scope} isAuthenticated={isAuthenticated}>
-                {/* Check browser version and warn user */}
-                <BrowserCheckerDialog browserRequirements={STATIC_CONF.BROWSER_REQUIREMENTS} />
-                {/* Main render tree */}
-                <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
-                  {this.renderLayout}
-                </LoadableContentDisplayDecorator>
-              </AuthenticationContainer>
-            </I18nProvider>
-          </ThemeProvider>
-        </div>
-      </ReactErrorBoundaryComponent>
+      !!this.props.scope && <AdminAppComponent
+        {...this.props}
+        isLoadingEndpoints={isLoadingEndpoints}
+      />
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  const authenticationResult = AuthenticationClient.authenticationSelectors.getResult(state)
-  return {
-    currentRole: authenticationResult ? authenticationResult.role : '',
-    isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
-    scope: AuthenticationParametersSelectors.getProject(state),
-    isInstance: AuthenticationParametersSelectors.isInstance(state),
-  }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-  initializeApplication: (project) => dispatch(AuthenticationParametersActions.applicationStarted(project)),
-  fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminApp)
+export default connect(AdminApp.mapStateToProps, AdminApp.mapDispatchToProps)(AdminApp)
