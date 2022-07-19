@@ -75,7 +75,7 @@ class FiltersConfigurationComponent extends React.Component {
         <div style={content.tableFieldSpacer}>
           <AttributesListConfigurationComponent
             selectableAttributes={availableAttributes}
-            attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
+            attributesFilter={DamDomain.AttributeModelController.isValidFacetAttribute}
             attributesList={currentFormValues.facets.list}
             attributesListFieldName={`${currentNamespace}.facets.list`}
             hintMessageKey="search.results.form.configuration.result.no.filter"

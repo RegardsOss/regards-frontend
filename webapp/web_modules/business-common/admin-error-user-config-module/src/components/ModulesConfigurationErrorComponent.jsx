@@ -99,6 +99,8 @@ class ModulesConfigurationErrorComponent extends React.Component {
             {formatMessage({ id: 'error.message.module.subtitle.two' })}
             {formatMessage({ id: 'error.message.module.subtitle.three' })}
             <br />
+            {formatMessage({ id: 'error.message.module.subtitle.four' })}
+            <br />
           </div>
           {this.buildErrorMessage(errorConfContent)}
         </div>

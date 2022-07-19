@@ -47,9 +47,9 @@ describe('[ADMIN CONFIGURATION MODULE MANAGEMENT] Testing ModulesConfigurationEr
     }
     const enzymeWrapper = shallow(<ModulesConfigurationErrorContainer {...props} />, { context })
     assert.isNotEmpty(enzymeWrapper.instance().state.errorConfContent)
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent, 2)
+    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent, 3)
 
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[0].filters, 3)
+    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[0].filters, 4)
     assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[0].criteriasGroup, 1)
     assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[0].criteriasGroup[0].criteriaAttribute, 2)
 
@@ -57,5 +57,7 @@ describe('[ADMIN CONFIGURATION MODULE MANAGEMENT] Testing ModulesConfigurationEr
     assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[1].criteriasGroup, 1)
     assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[1].criteriasGroup[0].criteriaAttribute, 1)
     assert.notExists(enzymeWrapper.instance().state.errorConfContent[1].criteriasGroup[1])
+
+    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[2].filters, 1)
   })
 })

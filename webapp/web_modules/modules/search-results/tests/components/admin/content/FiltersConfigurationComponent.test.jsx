@@ -63,7 +63,7 @@ describe('[SEARCH RESULTS] Testing FiltersConfigurationComponent', () => {
     assert.lengthOf(attributesListField, 1, 'There should be attributes list field')
     testSuiteHelpers.assertWrapperProperties(attributesListField, {
       selectableAttributes: props.availableAttributes,
-      attributesFilter: DamDomain.AttributeModelController.isSearchableAttribute,
+      attributesFilter: DamDomain.AttributeModelController.isValidFacetAttribute,
       attributesList: props.currentFormValues.facets.list,
       attributesListFieldName: `${rootNamespace}.facets.list`,
       changeField: props.changeField,

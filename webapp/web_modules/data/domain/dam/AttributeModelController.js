@@ -164,6 +164,18 @@ const isSortableAttribute = (attribute) => !pseudoAttributesKeys.includes(get(at
  */
 const isSearchableAttribute = (attribute) => isSortableAttribute(attribute) && get(attribute, 'content.indexed') !== false
 
+/**
+ * List of model attributes that are not working right now with Elasticsearch v7 facets
+ */
+const MODEL_ATTR_TYPES_FACET_NOT_WORKING = [MODEL_ATTR_TYPES.INTEGER, MODEL_ATTR_TYPES.LONG]
+
+/**
+ * Filters attributes that can be searched and used by facets configuration
+ * @param {*} attribute attribute as returned by the server (within content field)
+ * @return {bool} true when that attribute can be used to search, filter
+ */
+const isValidFacetAttribute = (attribute) => isSearchableAttribute(attribute) && !MODEL_ATTR_TYPES_FACET_NOT_WORKING.includes(attribute.content.type)
+
 const DEFAULT_FRAGMENT = 'default'
 
 /**
@@ -229,6 +241,8 @@ export default {
   getAttributeModelFullName,
   pseudoAttributesKeys,
   isSearchableAttribute,
+  MODEL_ATTR_TYPES_FACET_NOT_WORKING,
+  isValidFacetAttribute,
   isSortableAttribute,
   standardAttributesKeys,
   standardAttributesAsModel,

@@ -1,5 +1,5 @@
 export const moduleDumps1 = {
-  1: { // filters : 3 indexed (1 doublon) 1 non indexed //// criteria : 1 group -> 2 indexed 1 non indexed
+  1: { // filters : 3 indexed (1 doublon) 1 non indexed 1 LONG //// criteria : 1 group -> 2 indexed 1 non indexed
     content: {
       id: 1,
       type: 'search-results',
@@ -738,7 +738,7 @@ export const moduleDumps1 = {
       },
     ],
   },
-  4: { // filters : 0 indexed 1 non indexed /// criteria : none ->>>> ignore module
+  4: { // filters : 0 indexed 1 non indexed 1 LONG /// criteria : none ->>>> ignore module
     content: {
       id: 4,
       type: 'search-results',

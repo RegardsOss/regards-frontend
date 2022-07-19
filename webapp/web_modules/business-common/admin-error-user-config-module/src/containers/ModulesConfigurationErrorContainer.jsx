@@ -28,7 +28,7 @@ import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { connect } from '@regardsoss/redux'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
-import { UIDomain } from '@regardsoss/domain'
+import { UIDomain, DamDomain } from '@regardsoss/domain'
 import { modulesManager } from '@regardsoss/modules'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
@@ -170,7 +170,7 @@ export class ModulesConfigurationErrorContainer extends React.Component {
     return errorConf
   }).filter((v) => !isEmpty(v))
 
-  buildFiltersErrors = (facetsConf, attributes) => map(facetsConf, (facetConf) => this.getFoundAttribute(facetConf.attributes[0].name, attributes)).filter((v) => !!v)
+  buildFiltersErrors = (facetsConf, attributes) => map(facetsConf, (facetConf) => this.getFacetAttribute(facetConf.attributes[0].name, attributes)).filter((v) => !!v)
 
   buildCriteriasGroupErrors = (criteriasGroupConf, attributes) => map(criteriasGroupConf, (criteriaGroupConf) => {
     const criteriasError = uniq(flatten(this.buildCriteriasErrors(criteriaGroupConf.criteria, attributes)))
@@ -199,6 +199,11 @@ export class ModulesConfigurationErrorContainer extends React.Component {
 
   getFoundAttribute = (attributeName, attributes) => {
     const foundAttribute = find(attributes, (attribute) => attribute.content.jsonPath === attributeName && attribute.content.indexed)
+    return get(foundAttribute, 'content', null)
+  }
+
+  getFacetAttribute = (attributeName, attributes) => {
+    const foundAttribute = find(attributes, (attribute) => attribute.content.jsonPath === attributeName && (attribute.content.indexed || DamDomain.AttributeModelController.MODEL_ATTR_TYPES_FACET_NOT_WORKING.includes(attribute.content.type)))
     return get(foundAttribute, 'content', null)
   }
 
