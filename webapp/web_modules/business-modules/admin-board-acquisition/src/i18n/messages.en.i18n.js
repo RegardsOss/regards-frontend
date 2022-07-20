@@ -42,7 +42,7 @@ const messages = {
 
   'ingest.board.external.datasources.title': 'Crawling',
   'ingest.board.external.datasources.description': 'Allows you to build the data catalog that will be exposed to all users. This feature is mandatory to expose products handled by Products Manager OAIS and GoJson or accessible from an external database or even from an accessible web service.',
-  'ingest.board.action.external.datasources.list.tooltip': 'Map data sources to internal models',
+  'ingest.board.action.external.datasources.list.tooltip': 'Configure datasource crawlers',
   'ingest.board.action.connection.list.tooltip': 'Configure connection to external databases',
   'ingest.board.action.datasource.monitor.tooltip': 'Monitor data crawling',
   'ingest.board.index.delete': 'Reset data catalog',

@@ -74,7 +74,7 @@ const messages = {
   'project.connection.list.action.back': 'Retour',
   'project.connection.is.configured': 'Active',
   'project.connection.is.not.valid': 'Échec lors de la connexion :',
-  'project.connection.is.disabled': 'En attente de connection...',
+  'project.connection.is.disabled': 'En attente de connexion...',
   'project.connection.is.connecting': 'En cours de connexion...',
   'project.connection.is.not.defined': 'Aucune connexion définie',
   'project.connection.form.error.server': 'Erreur de création de la connexion.',
