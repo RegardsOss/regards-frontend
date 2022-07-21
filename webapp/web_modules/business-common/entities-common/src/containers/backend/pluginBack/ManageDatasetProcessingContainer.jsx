@@ -108,6 +108,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
     onProcessChanged: PropTypes.func.isRequired,
 
     // from mapStateToProps
+    //eslint-disable-next-line react/no-unused-prop-types
     processingConfigurationList: ProcessingShapes.ProcessingList,
     processingMetadataList: CommonShapes.PluginMetaDataList,
 
@@ -127,46 +128,72 @@ export class ManageDatasetProcessingContainer extends React.Component {
   /**
    * Component initialization : retrieve link processing dataset list
    */
-  UNSAFE_componentWillMount = () => {
-    const { fetchLinkProcessingDatasetList } = this.props
-    fetchLinkProcessingDatasetList(this.props.datasetIpid)
+  componentDidMount = () => {
+    const { fetchLinkProcessingDatasetList, datasetIpid } = this.props
+    fetchLinkProcessingDatasetList(datasetIpid)
       .then((actionResult) => {
         if (actionResult.error) {
-          console.error(`Error retrieving linked process to dataset ${this.props.datasetIpid}`)
+          console.error(`Error retrieving linked process to dataset ${datasetIpid}`)
         } else {
-          this.filterProcessingConfigurationList(actionResult.payload, this.props.processingConfigurationList)
+          const pendingState = {
+            ...this.state,
+            linkProcessingDatasetList: actionResult.payload,
+            isLoading: false,
+          }
+          this.onPropertiesUpdated({}, this.props, pendingState)
         }
       })
   }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
-    if (!isEqual(this.props.processingConfigurationList, nextProps.processingConfigurationList)) {
-      this.filterProcessingConfigurationList(this.state.linkProcessingDatasetList, nextProps.processingConfigurationList)
+  /**
+  * Lifecycle method: component receive props. Used here to detect properties change and update local state
+  * @param {*} nextProps next component properties
+  */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps, this.state)
+
+  /**
+  * Properties change detected: update local state
+  * @param oldProps previous component properties
+  * @param newProps next component properties
+  */
+  onPropertiesUpdated = (oldProps, newProps, oldState) => {
+    const {
+      process,
+      processingConfigurationList,
+    } = newProps
+
+    // 1 - Update current configurations when selectable attributes change
+    const newState = { ...oldState }
+
+    // We must have processes linked to this dataset
+    if (!isEmpty(oldState.linkProcessingDatasetList)
+      && (
+        // On init, this object is empty
+        isEmpty(oldState.processingConfParametersObjects)
+        // props changed
+        || !isEqual(oldProps.processingConfigurationList, processingConfigurationList)
+        || !isEqual(oldProps.process, process)
+      )) {
+      newState.processingConfParametersObjects = this.getProcessingConfParametersObjects(oldState.linkProcessingDatasetList, processingConfigurationList, process)
+      newState.processingConfParametersSelected = this.getProcessingConfParametersSelected(newState.processingConfParametersObjects, process)
+      newState.isProcessingConfSelectedConfigurable = !!newState.processingConfParametersSelected && this.isParametersConfigurationNeeded(newState.processingConfParametersSelected)
+    }
+    // update when there is a state change
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
     }
   }
 
-  /**
-   * Filter processing configuration list to keep usable ones (corresponding to actual links & actual user role)
-   * @param {*} payload fetch result
-   */
-  filterProcessingConfigurationList = (linkProcessingDatasetList, processingConfigurationList) => {
+  getProcessingConfParametersObjects = (linkProcessingDatasetList, processingConfigurationList, process) => {
+    // Filter processing configuration list to keep usable ones (corresponding to actual links & actual user role)
     const processingConfigurationListFiltered = filter(processingConfigurationList, (processingConfiguration) => (
       some(linkProcessingDatasetList, (linkProcessingDataset) => linkProcessingDataset.processBusinessId === processingConfiguration.content.pluginConfiguration.businessId)
     ))
-    this.createProcessingConfParametersList(processingConfigurationListFiltered, linkProcessingDatasetList)
-  }
-
-  /**
-   * Manipulation of metadata, processingConf & links to create an easily exploitable object
-   * @param {*} payload fetch result
-   */
-  createProcessingConfParametersList = (processingConfigurationList, linkProcessingDatasetList) => {
     const { processingMetadataList } = this.props
-    const processBusinessId = get(this.props, 'process.processBusinessId', null)
-    const parameters = get(this.props, 'process.parameters', null)
-    let isProcessingConfSelectedConfigurable = false
+    const processBusinessId = get(process, 'processBusinessId', null)
+    const parameters = get(process, 'parameters', null)
     // We create an object containing multiple processingConf and their parameters
-    const processingConfParametersObjects = reduce(processingConfigurationList, (acc, processingConfiguration) => {
+    const processingConfParametersObjects = reduce(processingConfigurationListFiltered, (acc, processingConfiguration) => {
       // For each processing conf of a metadata, we retrieve its businessId and its parameters
       //eslint-disable-next-line lodash/prefer-filter
       forEach(processingMetadataList, (metadata) => {
@@ -178,9 +205,6 @@ export class ManageDatasetProcessingContainer extends React.Component {
           }
           // Resolved parameters for conf
           const resolvedParameters = resolveParametersWithTypes(newPluginConfiguration, metadata)
-          if (resolvedParameters.length > 0) {
-            isProcessingConfSelectedConfigurable = true
-          }
           // Init parameters values
           let parametersValue = {}
           if (processBusinessId === businessId) {
@@ -198,20 +222,21 @@ export class ManageDatasetProcessingContainer extends React.Component {
       })
       return acc
     }, {})
+    return processingConfParametersObjects
+  }
+
+  /**
+   * Manipulation of metadata, processingConf & links to create an easily exploitable object
+   */
+  getProcessingConfParametersSelected = (processingConfParametersObjects, process) => {
+    const processBusinessId = get(process, 'processBusinessId', null)
 
     // Set selected conf to dataset process businessId if exist, if not set to first conf found in processingConfParameters collection
     let processingConfParametersSelected = get(processingConfParametersObjects, `${processBusinessId}`, {})
     if (isEmpty(processingConfParametersSelected)) {
       processingConfParametersSelected = get(processingConfParametersObjects, keys(processingConfParametersObjects)[0])
     }
-
-    this.setState({
-      isLoading: false,
-      processingConfParametersSelected,
-      isProcessingConfSelectedConfigurable,
-      processingConfParametersObjects,
-      linkProcessingDatasetList,
-    })
+    return processingConfParametersSelected
   }
 
   /**
@@ -294,7 +319,6 @@ export class ManageDatasetProcessingContainer extends React.Component {
     } = this.props
     const { processingConfParametersObjects, processingConfParametersSelected, isProcessingConfSelectedConfigurable } = this.state
     const processBusinessId = get(this.props, 'process.processBusinessId', null)
-
     return (
       <LoadableContentDisplayDecorator
         isLoading={this.state.isLoading}
