@@ -46,18 +46,19 @@ describe('[ADMIN CONFIGURATION MODULE MANAGEMENT] Testing ModulesConfigurationEr
       fetchAttrModelList: () => { },
     }
     const enzymeWrapper = shallow(<ModulesConfigurationErrorContainer {...props} />, { context })
-    assert.isNotEmpty(enzymeWrapper.instance().state.errorConfContent)
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent, 3)
+    const { errorConfContent } = enzymeWrapper.instance().state
+    assert.isNotEmpty(errorConfContent)
+    assert.lengthOf(errorConfContent, 3)
+    //console.log(JSON.stringify(errorConfContent, null, 4))
+    assert.lengthOf(errorConfContent[0].filters, 1)
+    assert.lengthOf(errorConfContent[0].criteriasGroup, 1)
+    assert.lengthOf(errorConfContent[0].criteriasGroup[0].criteriaAttribute, 1)
 
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[0].filters, 4)
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[0].criteriasGroup, 1)
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[0].criteriasGroup[0].criteriaAttribute, 2)
+    assert.notExists(errorConfContent[1].filters)
+    assert.lengthOf(errorConfContent[1].criteriasGroup, 2)
+    assert.lengthOf(errorConfContent[1].criteriasGroup[0].criteriaAttribute, 1)
 
-    assert.notExists(enzymeWrapper.instance().state.errorConfContent[1].filters)
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[1].criteriasGroup, 1)
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[1].criteriasGroup[0].criteriaAttribute, 1)
-    assert.notExists(enzymeWrapper.instance().state.errorConfContent[1].criteriasGroup[1])
-
-    assert.lengthOf(enzymeWrapper.instance().state.errorConfContent[2].filters, 1)
+    assert.lengthOf(errorConfContent[2].filters, 1)
+    assert.notExists(errorConfContent[2].criteriasGroup)
   })
 })

@@ -17,23 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
-import flatten from 'lodash/flatten'
-import uniq from 'lodash/uniq'
-import filter from 'lodash/filter'
-import get from 'lodash/get'
-import find from 'lodash/find'
-import isEmpty from 'lodash/isEmpty'
-import map from 'lodash/map'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { connect } from '@regardsoss/redux'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
-import { UIDomain, DamDomain } from '@regardsoss/domain'
-import { modulesManager } from '@regardsoss/modules'
+import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
 import ModulesConfigurationErrorComponent from '../components/ModulesConfigurationErrorComponent'
+import ModuleConfErrorUtils from '../utils/ModuleConfErrorUtils'
 import styles from '../styles'
 import messages from '../i18n'
 
@@ -118,7 +111,7 @@ export class ModulesConfigurationErrorContainer extends React.Component {
   onPropertiesUpdated = (oldProps, nextProps) => {
     if (!this.state.hasError && (oldProps.modules !== nextProps.modules || oldProps.attributes !== nextProps.attributes)) {
       this.setState({
-        errorConfContent: this.checkModulesConfiguration(nextProps.modules, nextProps.attributes),
+        errorConfContent: ModuleConfErrorUtils.checkModulesConfiguration(nextProps.modules, nextProps.attributes),
       })
     }
   }
@@ -133,78 +126,6 @@ export class ModulesConfigurationErrorContainer extends React.Component {
           })
         }
       })
-  }
-
-  checkModulesConfiguration = (modules, attributes) => {
-    const searchModules = filter(modules, (mod) => mod.content.type === modulesManager.VisibleModuleTypes.SEARCH_RESULTS
-      || mod.content.type === modulesManager.VisibleModuleTypes.SEARCH_GRAPH)
-    return this.buildSearchConfErrorsObject(searchModules, attributes)
-  }
-
-  buildSearchConfErrorsObject = (modules, attributes) => map(modules, (mod) => {
-    let moduleToProcess = mod.content.conf
-    if (mod.content.type === modulesManager.VisibleModuleTypes.SEARCH_GRAPH) {
-      moduleToProcess = mod.content.conf.searchResult
-    }
-    const criteriasGroup = this.buildCriteriasGroupErrors(moduleToProcess.criteriaGroups, attributes)
-    const filters = uniq(this.buildFiltersErrors(moduleToProcess.facets.list, attributes))
-    let errorConf = {}
-    if (!isEmpty(criteriasGroup)) {
-      errorConf = {
-        ...errorConf,
-        criteriasGroup,
-      }
-    }
-    if (!isEmpty(filters)) {
-      errorConf = {
-        ...errorConf,
-        filters,
-      }
-    }
-    if (!isEmpty(criteriasGroup) || !isEmpty(filters)) {
-      errorConf = {
-        ...errorConf,
-        title: mod.content.page.title,
-      }
-    }
-    return errorConf
-  }).filter((v) => !isEmpty(v))
-
-  buildFiltersErrors = (facetsConf, attributes) => map(facetsConf, (facetConf) => this.getFacetAttribute(facetConf.attributes[0].name, attributes)).filter((v) => !!v)
-
-  buildCriteriasGroupErrors = (criteriasGroupConf, attributes) => map(criteriasGroupConf, (criteriaGroupConf) => {
-    const criteriasError = uniq(flatten(this.buildCriteriasErrors(criteriaGroupConf.criteria, attributes)))
-    if (!isEmpty(criteriasError)) {
-      return {
-        title: criteriaGroupConf.title,
-        criteriaAttribute: criteriasError,
-      }
-    }
-    return null
-  }).filter((v) => !!v)
-
-  buildCriteriasErrors = (criteriasConf, attributes) => map(criteriasConf, (criteriaConf) => {
-    const searchField = get(criteriaConf, 'conf.attributes.searchField', null)
-    if (!searchField) {
-      const lowerBound = get(criteriaConf, 'conf.attributes.lowerBound')
-      const upperBound = get(criteriaConf, 'conf.attributes.upperBound')
-      if (lowerBound && upperBound) {
-        return [this.getFoundAttribute(lowerBound, attributes), this.getFoundAttribute(upperBound, attributes)].filter((v) => !!v)
-      }
-    } else {
-      return this.getFoundAttribute(searchField, attributes)
-    }
-    return null
-  }).filter((v) => !!v)
-
-  getFoundAttribute = (attributeName, attributes) => {
-    const foundAttribute = find(attributes, (attribute) => attribute.content.jsonPath === attributeName && attribute.content.indexed)
-    return get(foundAttribute, 'content', null)
-  }
-
-  getFacetAttribute = (attributeName, attributes) => {
-    const foundAttribute = find(attributes, (attribute) => attribute.content.jsonPath === attributeName && (attribute.content.indexed || DamDomain.AttributeModelController.MODEL_ATTR_TYPES_FACET_NOT_WORKING.includes(attribute.content.type)))
-    return get(foundAttribute, 'content', null)
   }
 
   render() {
