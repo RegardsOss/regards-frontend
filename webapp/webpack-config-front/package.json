@@ -10,6 +10,7 @@
   ],
   "license": "GPL-3.0",
   "dependencies": {
+    "@jsdevtools/coverage-istanbul-loader": "^3.0.5",
     "autoprefixer": "^10.4.7",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",

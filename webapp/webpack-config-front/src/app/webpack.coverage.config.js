@@ -10,7 +10,7 @@ require('../conf/staticConfiguration')
 
 module.exports = function (projectContextPath) {
 
-  let config = addTestConfig(getCommonConfig(projectContextPath, 'test'), 'coverage')
+  let config = addTestConfig(getCommonConfig(projectContextPath, 'coverage'), 'coverage')
 
   config = merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.

@@ -3,7 +3,7 @@ const path = require('path')
 // alias here are VERY UGLY FIX to avoid DLL to be corrupted by UMD dependencies that can't be runned by plugins
 // If you import a dependency that is available for several platforms
 // define here the hardpath to the commonjs package
-module.exports = function (webappPath, mode) {
+module.exports = function (webappPath) {
   // const prodAlias = mode === 'prod' ? {
   //   cesium$: 'cesium/Cesium',
   //   cesium: 'cesium/Source',

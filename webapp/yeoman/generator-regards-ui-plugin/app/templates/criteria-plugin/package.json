@@ -14,9 +14,9 @@
     "lint": "eslint src tests --ext .js,.jsx",
     "lint:fix": "eslint --fix  src tests --ext .js,.jsx",
     "test": "npm run test:mocha --silent",
-    "test:coverage": "instant-mocha --timeout 5000 --webpack-config webpack.coverage.config.js \"**/@(tests|web_modules)/**/*.test.js{,x}\" --recursive",
-    "test:mocha": "instant-mocha --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend - Plugin service example tests'",
-    "test:watch": "instant-mocha --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --inline-diffs --watch"
+    "test:coverage": "mochapack --timeout 5000 --webpack-config webpack.coverage.config.js \"**/@(tests|web_modules)/**/*.test.js{,x}\" --recursive",
+    "test:mocha": "mochapack --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend - Plugin service example tests'",
+    "test:watch": "mochapack --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --inline-diffs --watch"
   },
   "config": {
     "mocha-sonar-reporter": {
@@ -61,7 +61,7 @@
     "eslint-plugin-promise": "~4.2.1",
     "eslint-plugin-react": "~7.21.5",
     "eslint-plugin-react-perf": "~3.3.1",
-    "instant-mocha": "^1.4.1",
+    "mochapack": "^2.1.4",
     "mocha": "~8.3.2",
     "mocha-loader": "~5.1.5",
     "mocha-sonar-reporter": "~0.1.6",

@@ -8,7 +8,7 @@ require('../conf/staticConfiguration')
 module.exports = function (projectContextPath) {
   const config = addTestConfig(getCommonConfig(projectContextPath, 'test'), 'test')
 
-  // Strange workaround with instant-mocha
+  // Strange workaround with mochapack
   delete config.output
 
   return merge(config, {

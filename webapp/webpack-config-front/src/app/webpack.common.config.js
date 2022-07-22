@@ -6,6 +6,7 @@ const alias = require('../utils/alias')
 const cpus = require('../utils/cpu')
 const getBabelEnvName = require('../utils/getBabelEnvName')
 const getStaticFileHashes = require('../utils/getStaticFileHashes')
+const getJavascriptBuildChain = require('../utils/getJavascriptBuildChain')
 
 const cesiumSource = 'node_modules/cesium/Source'
 module.exports = function (projectContextPath, mode = 'dev') {
@@ -33,7 +34,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
         'web_modules',
         'node_modules',
       ],
-      alias: alias(projectContextPath, mode),
+      alias: alias(projectContextPath),
     },
     module: {
       unknownContextCritical: false,
@@ -44,24 +45,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
           // Exclude the DLL folder build from the transpilation
           // and staticConfiguration this file is just copied not interpreted
           exclude: [/node_modules/, /dist/, /staticConfiguration(\.dev)?\.js$/],
-          use: [
-            {
-              loader: 'thread-loader',
-              options: {
-                workers: cpus,
-              },
-            },
-            {
-              loader: 'babel-loader',
-              options: {
-                // used to cache the results of the loader.
-                // Next builds will attempt to read from the cache
-                // the cache is different depending of the value of NODE_ENV
-                cacheDirectory: true,
-                envName: getBabelEnvName(mode),
-              },
-            },
-          ],
+          use: getJavascriptBuildChain(mode, cpus),
         },
         // Special for Cesium
         mode === 'prod'
@@ -103,7 +87,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
         {
           test: /\.css$/,
           use:
-            mode !== 'test'
+            mode !== 'test' && mode !== 'coverage'
               ? [MiniCssExtractPlugin.loader, 'css-loader']
               : ['css-loader'],
         },

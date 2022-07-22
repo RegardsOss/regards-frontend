@@ -6,7 +6,7 @@ module.exports = function (mode) {
       return 'development'
     case 'test':
     case 'coverage':
-      return mode
+      return 'test'
     default:
       throw new Error('Unexpected mode')
   }
