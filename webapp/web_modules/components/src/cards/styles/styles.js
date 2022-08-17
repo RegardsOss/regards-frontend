@@ -30,4 +30,10 @@ export default (theme) => ({
     flexDirection: 'column',
     alignItems: 'stretch',
   },
+  cardHeaderActionsDivStyle: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 })

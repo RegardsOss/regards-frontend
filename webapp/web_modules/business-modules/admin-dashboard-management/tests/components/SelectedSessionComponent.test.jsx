@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardHeaderActions } from '@regardsoss/components'
 import { AdminDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SelectedSessionComponent from '../../src/components/SelectedSessionComponent'
@@ -134,8 +134,8 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     }
     const enzymeWrapper = shallow(<SelectedSessionComponent {...props} />, { context })
 
-    const cardActionWrapper = enzymeWrapper.find(CardActionsComponent)
-    assert.lengthOf(cardActionWrapper, 1, 'There should be 1 CardActionsComponent')
+    const cardActionWrapper = enzymeWrapper.find(CardHeaderActions)
+    assert.lengthOf(cardActionWrapper, 1, 'There should be 1 CardHeaderActions')
 
     const acquisitionWrapper = enzymeWrapper.find(AcquisitionComponent)
     assert.lengthOf(acquisitionWrapper, 1, 'There should be a AcquisitionComponent')

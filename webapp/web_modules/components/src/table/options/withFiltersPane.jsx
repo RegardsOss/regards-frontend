@@ -41,8 +41,6 @@ const withFiltersPane = (defaultFiltersState) => (DecoratedComponent) => {
     static displayName = `WithFiltersPane(${getDisplayName(DecoratedComponent)})`
 
     render() {
-      // Remove from otherProps all props that doesn't need to be reinjected in children
-      // eslint-disable-next-line no-unused-vars, react/prop-types
       const {
         isPaneOpened, onCloseFiltersPane, updateRequestParameters, ...otherProps
       } = this.props

@@ -74,14 +74,14 @@ class ActionButtonComponent extends React.Component {
 
   render() {
     const {
-      button: ButtonConstructor, isVisible, url, style, ...remainingProps
+      button: ButtonConstructor, isVisible, url, ...remainingProps
     } = this.props
     return (
       <ShowableAtRender show={isVisible}>
         {(() => {
           if (url) {
             return (
-              <Link to={url} style={style}>
+              <Link to={url}>
                 <ButtonConstructor {...remainingProps} />
               </Link>
             )

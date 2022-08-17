@@ -17,15 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import {
-  Card, CardTitle, CardText, CardActions,
+  Card, CardText,
 } from 'material-ui/Card'
-import RaisedButton from 'material-ui/RaisedButton'
 import { AdminInstanceShapes, AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
-  CardActionsComponent, TableFilterSortingAndVisibilityContainer,
-  HelpMessageComponent,
+  TableFilterSortingAndVisibilityContainer,
+  HelpMessageComponent, CardHeaderActions,
 } from '@regardsoss/components'
 import { accountActions, accountSelectors } from '../clients/AccountClient'
 import AccountFiltersComponent from './filters/AccountFiltersComponent'
@@ -90,34 +89,26 @@ export class AccountListComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         accounts: {
-          headerDivStyle, cardActionDivStyle, filterButtonStyle, messageStyle,
+          filterButtonStyle, messageStyle,
         },
       },
     } = this.context
 
     return (
       <Card>
-        <div style={headerDivStyle}>
-          <CardTitle
-            title={formatMessage({ id: 'accounts.title' })}
-            subtitle={formatMessage({ id: 'accounts.subtitle' })}
-          />
-          <CardActions style={cardActionDivStyle}>
-            <CardActionsComponent
-              mainButtonLabel={formatMessage({ id: 'account.list.refresh' })}
-              mainButtonType="submit"
-              mainButtonClick={this.onRefresh}
-              secondaryButtonLabel={formatMessage({ id: 'account.list.action.cancel' })}
-              secondaryButtonClick={onBack}
-            />
-            <RaisedButton
-              onClick={this.handleFiltersPane}
-              label={formatMessage({ id: 'account.list.action.filter' })}
-              secondary
-              style={filterButtonStyle}
-            />
-          </CardActions>
-        </div>
+        <CardHeaderActions
+          title={formatMessage({ id: 'accounts.title' })}
+          subtitle={formatMessage({ id: 'accounts.subtitle' })}
+          mainButtonLabel={formatMessage({ id: 'account.list.refresh' })}
+          mainButtonType="submit"
+          mainButtonClick={this.onRefresh}
+          secondaryButtonLabel={formatMessage({ id: 'account.list.action.filter' })}
+          secondaryButtonClick={this.handleFiltersPane}
+          secondaryButtonStyle={filterButtonStyle}
+          thirdButtonLabel={formatMessage({ id: 'account.list.action.cancel' })}
+          thirdButtonClick={onBack}
+          useAlternateStyle
+        />
         <CardText>
           <div style={messageStyle}>
             <HelpMessageComponent

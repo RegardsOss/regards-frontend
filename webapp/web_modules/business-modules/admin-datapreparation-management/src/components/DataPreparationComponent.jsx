@@ -16,15 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import RaisedButton from 'material-ui/RaisedButton'
 import {
-  Card, CardText, CardTitle, CardActions,
+  Card, CardText,
 } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableFilterSortingAndVisibilityContainer,
-  CardActionsComponent,
+  CardHeaderActions,
 } from '@regardsoss/components'
 import DataPreparationTableComponent from './DataPreparationTableComponent'
 import RequestFiltersComponent from './RequestFiltersComponent'
@@ -76,27 +75,20 @@ class DataPreparationComponent extends React.Component {
       onBack, onDeleteRequest, onRetryRequest, numberOfRequests, isLoading,
     } = this.props
     const { isPaneOpened } = this.state
-    const { intl: { formatMessage }, moduleTheme: { headerDivStyle, cardActionDivStyle, filterButtonStyle } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { filterButtonStyle } } = this.context
     return (
       <Card>
-        <div style={headerDivStyle}>
-          <CardTitle title={formatMessage({ id: 'datapreparation.card.title' })} />
-          <CardActions style={cardActionDivStyle}>
-            <CardActionsComponent
-              mainButtonLabel={formatMessage({ id: 'datapreparation.actions.refresh' })}
-              mainButtonType="submit"
-              mainButtonClick={this.onRefresh}
-              secondaryButtonLabel={formatMessage({ id: 'datapreparation.card.action.cancel' })}
-              secondaryButtonClick={onBack}
-            />
-            <RaisedButton
-              onClick={this.handleFiltersPane}
-              label={formatMessage({ id: 'datapreparation.card.action.filter' })}
-              secondary
-              style={filterButtonStyle}
-            />
-          </CardActions>
-        </div>
+        <CardHeaderActions
+          title={formatMessage({ id: 'datapreparation.card.title' })}
+          mainButtonLabel={formatMessage({ id: 'datapreparation.actions.refresh' })}
+          mainButtonType="submit"
+          mainButtonClick={this.onRefresh}
+          secondaryButtonLabel={formatMessage({ id: 'datapreparation.card.action.filter' })}
+          secondaryButtonClick={this.handleFiltersPane}
+          secondaryButtonStyle={filterButtonStyle}
+          thirdButtonLabel={formatMessage({ id: 'datapreparation.card.action.cancel' })}
+          thirdButtonClick={onBack}
+        />
         <CardText>
           <TableFilterSortingAndVisibilityContainer
             pageActions={requestActions}

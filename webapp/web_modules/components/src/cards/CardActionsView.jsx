@@ -25,6 +25,16 @@ const SecondaryActionButtonComponentWithResourceDisplayControl = withResourceDis
 
 class CardActionsView extends React.Component {
   static propTypes = {
+    thirdButtonClassName: PropTypes.string,
+    thirdButtonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    thirdButtonUrl: PropTypes.string,
+    thirdButtonClick: PropTypes.func,
+    isThirdButtonDisabled: PropTypes.bool,
+    isThirdButtonVisible: PropTypes.bool,
+    thirdHateoasDependency: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
+    thirdButtonStyle: PropTypes.objectOf(PropTypes.any),
+
     secondaryButtonClassName: PropTypes.string,
     secondaryButtonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     secondaryButtonUrl: PropTypes.string,
@@ -32,6 +42,8 @@ class CardActionsView extends React.Component {
     isSecondaryButtonDisabled: PropTypes.bool,
     isSecondaryButtonVisible: PropTypes.bool,
     secondaryHateoasDependency: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
+    secondaryButtonStyle: PropTypes.objectOf(PropTypes.any),
 
     mainButtonClassName: PropTypes.string,
     mainButtonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -42,14 +54,16 @@ class CardActionsView extends React.Component {
     isMainButtonDisabled: PropTypes.bool,
     mainHateoasDependencies: PropTypes.arrayOf(PropTypes.string),
 
-    /* theme: PropTypes.objectOf(PropTypes.string).isRequired, */
+    useAlternateStyle: PropTypes.bool,
   }
 
   static defaultProps = {
+    isThirdButtonVisible: true,
     isSecondaryButtonVisible: true,
     isMainButtonVisible: true,
     isMainButtonDisabled: false,
     mainHateoasDependencies: [],
+    useAlternateStyle: false,
   }
 
   static styleCardActions = {
@@ -58,11 +72,32 @@ class CardActionsView extends React.Component {
     justifyContent: 'flex-end',
   }
 
-  render() {
-    const secondaryRequiredEndpoints = this.props.secondaryHateoasDependency ? [this.props.secondaryHateoasDependency] : []
+  static altStyleCardActions = {
+    padding: '5px',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginRight: '5px',
+  }
 
+  render() {
+    const thirdRequiredEndpoints = this.props.thirdHateoasDependency ? [this.props.thirdHateoasDependency] : []
+    const secondaryRequiredEndpoints = this.props.secondaryHateoasDependency ? [this.props.secondaryHateoasDependency] : []
     return (
-      <div style={CardActionsView.styleCardActions}>
+      <div style={!this.props.useAlternateStyle ? CardActionsView.styleCardActions : CardActionsView.altStyleCardActions}>
+        {
+          // third button if any
+          (this.props.thirdButtonUrl || this.props.thirdButtonClick)
+            && this.props.isThirdButtonVisible ? (
+              <SecondaryActionButtonComponentWithResourceDisplayControl
+                resourceDependencies={thirdRequiredEndpoints}
+                className={this.props.thirdButtonClassName}
+                label={this.props.thirdButtonLabel}
+                url={this.props.thirdButtonUrl}
+                onClick={this.props.thirdButtonClick}
+                disabled={this.props.isThirdButtonDisabled}
+                style={this.props.thirdButtonStyle}
+              />) : null
+        }
         {
           // secondary button if any
           (this.props.secondaryButtonUrl || this.props.secondaryButtonClick)
@@ -74,6 +109,7 @@ class CardActionsView extends React.Component {
                 url={this.props.secondaryButtonUrl}
                 onClick={this.props.secondaryButtonClick}
                 disabled={this.props.isSecondaryButtonDisabled}
+                style={this.props.secondaryButtonStyle}
               />) : null
         }
         {

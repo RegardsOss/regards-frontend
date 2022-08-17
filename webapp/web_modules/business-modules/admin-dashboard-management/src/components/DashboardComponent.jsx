@@ -20,12 +20,11 @@ import { browserHistory } from 'react-router'
 import get from 'lodash/get'
 import omitBy from 'lodash/omitBy'
 import isEmpty from 'lodash/isEmpty'
-import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardHeaderActions } from '@regardsoss/components'
 import {
-  Card, CardText, CardTitle, CardActions,
+  Card, CardText,
 } from 'material-ui/Card'
 import SourcesContainer from '../containers/SourcesContainer'
 import SessionsContainer from '../containers/SessionsContainer'
@@ -204,7 +203,7 @@ class DashboardComponent extends React.Component {
       intl: { formatMessage },
       moduleTheme: {
         headerStyle: {
-          headerDivStyle, cardTitleStyle, cardActionDivStyle, filterButtonStyle,
+          cardTitleStyle, filterButtonStyle,
         },
         dashboardStyle: { dashboardDivStyle, dashboardComponentsStyle, cardTextField },
       },
@@ -216,27 +215,19 @@ class DashboardComponent extends React.Component {
     const selectedSessionId = this.state[ENTITY_ENUM.SESSION]
     return (
       <Card>
-        <div style={headerDivStyle}>
-          <CardTitle
-            title={formatMessage({ id: 'dashboard.title' })}
-            style={cardTitleStyle}
-          />
-          <CardActions style={cardActionDivStyle}>
-            <CardActionsComponent
-              mainButtonLabel={formatMessage({ id: 'dashboard.refresh' })}
-              mainButtonType="submit"
-              mainButtonClick={() => onRefresh(sourceFilters, sessionFilters, selectedSourceId, selectedSessionId)}
-              secondaryButtonLabel={formatMessage({ id: 'dashboard.back' })}
-              secondaryButtonClick={getBackURL}
-            />
-            <RaisedButton
-              onClick={this.handleFiltersPane}
-              label={formatMessage({ id: 'dashboard.filter' })}
-              secondary
-              style={filterButtonStyle}
-            />
-          </CardActions>
-        </div>
+        <CardHeaderActions
+          title={formatMessage({ id: 'dashboard.title' })}
+          style={cardTitleStyle}
+          mainButtonLabel={formatMessage({ id: 'dashboard.refresh' })}
+          mainButtonType="submit"
+          mainButtonClick={() => onRefresh(sourceFilters, sessionFilters, selectedSourceId, selectedSessionId)}
+          secondaryButtonLabel={formatMessage({ id: 'dashboard.filter' })}
+          secondaryButtonClick={this.handleFiltersPane}
+          secondaryButtonStyle={filterButtonStyle}
+          thirdButtonLabel={formatMessage({ id: 'dashboard.back' })}
+          thirdButtonClick={getBackURL}
+          useAlternateStyle
+        />
         <DashboardFiltersComponent
           isPaneOpened={isPaneOpened}
           onCloseFiltersPane={this.handleFiltersPane}

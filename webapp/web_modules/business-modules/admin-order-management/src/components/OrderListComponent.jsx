@@ -17,14 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import {
-  Card, CardTitle, CardText, CardActions,
+  Card, CardText,
 } from 'material-ui/Card'
-import RaisedButton from 'material-ui/RaisedButton'
 import { BasicPageableSelectors, BasicSelector, BasicListSelectors } from '@regardsoss/store-utils'
 import { OrderClient, ProcessingClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { CardActionsComponent, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import { CardHeaderActions, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import {
   ORDER_DISPLAY_MODES, OrderDisplayContainer, OrdersNavigationActions, OrdersNavigationContainer,
 } from '@regardsoss/order-common'
@@ -92,41 +91,30 @@ class OrderListComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         orderList: {
-          cardTextStyle, cardTitleStyle, cardActionDivStyle, filterButtonStyle,
-          headerDivStyle,
+          cardTextStyle, cardTitleStyle, filterButtonStyle,
         },
       },
     } = this.context
     return (
       <Card>
-        {/* title */}
-        <div style={headerDivStyle}>
-          <CardTitle
-            title={<OrdersNavigationContainer
-              title={formatMessage({ id: 'order.management.list.title' })}
-              rootIcon={null}
-              navigationActions={ordersNavigationActions}
-              navigationSelectors={ordersNavigationSelectors}
-            />}
-            subtitle={formatMessage({ id: 'order.management.list.subtitle' })}
-            titleStyle={cardTitleStyle}
-          />
-          <CardActions style={cardActionDivStyle}>
-            <CardActionsComponent
-              mainButtonLabel={formatMessage({ id: 'order.management.list.refresh' })}
-              mainButtonType="submit"
-              mainButtonClick={this.onRefresh}
-              secondaryButtonLabel={formatMessage({ id: 'order.management.list.back' })}
-              secondaryButtonUrl={backUrl}
-            />
-            <RaisedButton
-              onClick={this.handleFiltersPane}
-              label={formatMessage({ id: 'order.management.list.filter' })}
-              secondary
-              style={filterButtonStyle}
-            />
-          </CardActions>
-        </div>
+        <CardHeaderActions
+          title={<OrdersNavigationContainer
+            title={formatMessage({ id: 'order.management.list.title' })}
+            rootIcon={null}
+            navigationActions={ordersNavigationActions}
+            navigationSelectors={ordersNavigationSelectors}
+          />}
+          subtitle={formatMessage({ id: 'order.management.list.subtitle' })}
+          titleStyle={cardTitleStyle}
+          mainButtonLabel={formatMessage({ id: 'order.management.list.refresh' })}
+          mainButtonType="submit"
+          mainButtonClick={this.onRefresh}
+          secondaryButtonLabel={formatMessage({ id: 'order.management.list.filter' })}
+          secondaryButtonClick={this.handleFiltersPane}
+          secondaryButtonStyle={filterButtonStyle}
+          thirdButtonLabel={formatMessage({ id: 'order.management.list.back' })}
+          thirdButtonUrl={backUrl}
+        />
         <CardText style={cardTextStyle}>
           <TableFilterSortingAndVisibilityContainer
             pageActions={ordersActions}

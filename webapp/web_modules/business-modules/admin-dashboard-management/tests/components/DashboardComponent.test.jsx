@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardHeaderActions } from '@regardsoss/components'
 import {
   Card,
 } from 'material-ui/Card'
@@ -60,8 +60,8 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
     const cardWrapper = enzymeWrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be a Card')
 
-    const cardActionWrapper = enzymeWrapper.find(CardActionsComponent)
-    assert.lengthOf(cardActionWrapper, 1, 'There should be a CardActionsComponent')
+    const cardActionWrapper = enzymeWrapper.find(CardHeaderActions)
+    assert.lengthOf(cardActionWrapper, 1, 'There should be a CardHeaderActions')
 
     const filterWrapper = enzymeWrapper.find(DashboardFiltersComponent)
     assert.lengthOf(filterWrapper, 1, 'There should be a DashboardFiltersComponent')

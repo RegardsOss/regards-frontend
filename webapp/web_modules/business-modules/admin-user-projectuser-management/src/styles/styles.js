@@ -149,11 +149,8 @@ export default function buildStyles(theme) {
         textAlign: 'center',
       },
       cardActionDivStyle: {
-        padding: '5px',
-        width: '50%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-end',
       },
       headerDivStyle: {
         display: 'flex',
@@ -166,7 +163,7 @@ export default function buildStyles(theme) {
         justifyContent: 'space-between',
       },
       filterButtonStyle: {
-        marginLeft: '2px',
+        backgroundColor: theme.palette.accent1Color,
       },
     },
     settings: {

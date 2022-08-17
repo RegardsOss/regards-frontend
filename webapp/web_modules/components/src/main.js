@@ -48,6 +48,7 @@ export { default as CardActionsView } from './cards/CardActionsView'
 export { default as MainActionButtonComponent } from './cards/MainActionButtonComponent'
 export { default as NoContentMessageInfo } from './cards/NoContentMessageInfo'
 export { default as SecondaryActionButtonComponent } from './cards/SecondaryActionButtonComponent'
+export { default as CardHeaderActions } from './cards/CardHeaderActions'
 
 export { default as NoContentComponent } from './content/feedback/NoContentComponent'
 export { default as ContentLoadingComponent } from './content/feedback/ContentLoadingComponent'

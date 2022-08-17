@@ -25,21 +25,8 @@ export default (theme) => ({
     cardTitleStyle: {
       marginLeft: '-8px',
     },
-    cardActionDivStyle: {
-      padding: '5px',
-      width: '50%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-    },
     filterButtonStyle: {
-      marginLeft: '2px',
-    },
-    headerDivStyle: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
+      backgroundColor: theme.palette.accent1Color,
     },
   },
   filters: {

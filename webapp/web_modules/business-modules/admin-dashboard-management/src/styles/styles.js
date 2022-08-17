@@ -22,25 +22,12 @@
  */
 const dashboardManagementStyles = (theme) => ({
   headerStyle: {
-    headerDivStyle: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
     cardTitleStyle: {
       width: '50%',
       padding: '5px',
     },
-    cardActionDivStyle: {
-      padding: '5px',
-      width: '50%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-    },
     filterButtonStyle: {
-      marginLeft: '2px',
+      backgroundColor: theme.palette.accent1Color,
     },
   },
   dashboardStyle: {

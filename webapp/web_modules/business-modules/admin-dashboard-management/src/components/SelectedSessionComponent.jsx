@@ -18,11 +18,11 @@
  **/
 import filter from 'lodash/filter'
 import {
-  Card, CardTitle, CardText, CardActions,
+  Card, CardText,
 } from 'material-ui/Card'
 import { AdminDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardHeaderActions } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import AcquisitionComponent from './AcquisitionComponent'
@@ -66,9 +66,6 @@ class SelectedSessionComponent extends React.Component {
     const {
       intl: { formatMessage },
       moduleTheme: {
-        headerStyle: {
-          headerDivStyle, cardActionDivStyle,
-        },
         selectedSessionStyle: {
           cardTextStyle,
         },
@@ -76,18 +73,12 @@ class SelectedSessionComponent extends React.Component {
     } = this.context
     return (
       <Card>
-        <div style={headerDivStyle}>
-          <CardTitle
-            title={formatMessage({ id: 'dashboard.selectedsession.title' }, { source: selectedSession.content.source, session: selectedSession.content.name })}
-          />
-          <CardActions style={cardActionDivStyle}>
-            <CardActionsComponent
-              mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.close' })}
-              mainButtonType="submit"
-              mainButtonClick={this.handleCloseSessionSelected}
-            />
-          </CardActions>
-        </div>
+        <CardHeaderActions
+          title={formatMessage({ id: 'dashboard.selectedsession.title' }, { source: selectedSession.content.source, session: selectedSession.content.name })}
+          mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.close' })}
+          mainButtonType="submit"
+          mainButtonClick={this.handleCloseSessionSelected}
+        />
         <CardText style={cardTextStyle}>
           <AcquisitionComponent
             project={project}

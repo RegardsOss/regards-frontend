@@ -32,7 +32,6 @@ import {
 } from 'material-ui/Card'
 import SelectField from 'material-ui/SelectField'
 import { MenuItem } from 'material-ui/IconMenu'
-import RaisedButton from 'material-ui/RaisedButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
@@ -286,12 +285,9 @@ class ProjectUserListComponent extends React.Component {
               mainButtonLabel={formatMessage({ id: 'projectUser.list.refresh' })}
               mainButtonType="submit"
               mainButtonClick={this.onRefresh}
-            />
-            <RaisedButton
-              onClick={this.handleFiltersPane}
-              label={formatMessage({ id: 'projectUser.list.filter' })}
-              secondary
-              style={filterButtonStyle}
+              secondaryButtonLabel={formatMessage({ id: 'projectUser.list.filter' })}
+              secondaryButtonClick={this.handleFiltersPane}
+              secondaryButtonStyle={filterButtonStyle}
             />
           </CardActions>
         </div>

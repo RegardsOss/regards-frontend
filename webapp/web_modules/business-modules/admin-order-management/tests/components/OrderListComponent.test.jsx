@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CardActionsComponent, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import { CardHeaderActions, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { OrderClient, ProcessingClient, CommonClient } from '@regardsoss/client'
 import {
   OrdersNavigationActions, ORDER_DISPLAY_MODES, OrderDisplayContainer, OrdersNavigationSelectors,
@@ -76,10 +76,10 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
       pluginMetaDataSelectors: props.pluginMetaDataSelectors,
     }, 'The order display container should be correctly configured')
     // 2 - check order list display container configuration
-    const cACWrapper = enzymeWrapper.find(CardActionsComponent)
-    assert.lengthOf(cACWrapper, 1, 'There should be a card action component to show back option')
+    const cACWrapper = enzymeWrapper.find(CardHeaderActions)
+    assert.lengthOf(cACWrapper, 1, 'There should be a card action component to show back, filter and refresh options')
     testSuiteHelpers.assertWrapperProperties(cACWrapper, {
-      secondaryButtonUrl: props.backUrl,
+      thirdButtonUrl: props.backUrl,
     }, 'The card action component should be correctly configured')
     // 3 - check filters container configuration
     const oLFCWrapper = enzymeWrapper.find(OrderListFiltersContainer)

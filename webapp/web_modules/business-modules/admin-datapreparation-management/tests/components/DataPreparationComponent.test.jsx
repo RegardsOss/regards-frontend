@@ -23,7 +23,6 @@ import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components
 import DataPreparationComponent from '../../src/components/DataPreparationComponent'
 import RequestFiltersComponent from '../../src/components/RequestFiltersComponent'
 import DataPreparationTableComponent from '../../src/components/DataPreparationTableComponent'
-// import HeaderActionsBarContainer from '../../src/containers/HeaderActionsBarContainer'
 import { requestActions, requestSelectors } from '../../src/clients/WorkerRequestClient'
 
 import styles from '../../src/styles'
