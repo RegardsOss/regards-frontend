@@ -50,7 +50,7 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingCha
       getField: () => { },
     }
     const enzymeWrapper = shallow(<IngestProcessingChainFormComponent {...props} />, { context })
-    assert.equal(enzymeWrapper.find(Field).length, 7, 'There should be 7 Redux form Field rendered. One for name, one for description, and one for each processing chain plugable step.')
+    assert.equal(enzymeWrapper.find(Field).length, 8, 'There should be 8 Redux form Field rendered. One for name, one for description, and one for each processing chain plugable step.')
   })
   it('should render correctly on edition mode', () => {
     const preprocessingPlugin = {
@@ -86,8 +86,19 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingCha
       parameters: [],
       iconUrl: null,
     }
-    const tagPlugin = {
+    const aipStorageMetadataPlugin = {
       id: 4,
+      pluginId: 'aipStorageMetadataPlugin',
+      label: 'aipStorageMetadataPluginConf',
+      version: '1.0.0',
+      priorityOrder: 1,
+      active: true,
+      pluginClassName: 'aipStorageMetadataPluginClassName',
+      parameters: [],
+      iconUrl: null,
+    }
+    const tagPlugin = {
+      id: 5,
       pluginId: 'tagPlugin',
       label: 'tagPluginConf',
       version: '1.0.0',
@@ -98,7 +109,7 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingCha
       iconUrl: null,
     }
     const postprocessingPlugin = {
-      id: 5,
+      id: 6,
       pluginId: 'postProcessingPlugin',
       label: 'postProcessingPluginConf',
       version: '1.0.0',
@@ -116,6 +127,7 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingCha
         preprocessingPlugin,
         validationPlugin,
         generationPlugin,
+        aipStorageMetadataPlugin,
         tagPlugin,
         postprocessingPlugin,
       },
@@ -129,11 +141,12 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingCha
       handleSubmit: () => { },
     }
     const enzymeWrapper = shallow(<IngestProcessingChainFormComponent {...props} />, { context })
-    assert.equal(enzymeWrapper.find(Field).length, 7, 'There should be 7 Redux form Field rendered. One for name, one for description, and one for each processing chain plugable step.')
+    assert.equal(enzymeWrapper.find(Field).length, 8, 'There should be 8 Redux form Field rendered. One for name, one for description, and one for each processing chain plugable step.')
     assert.equal(enzymeWrapper.find(Field).find({ name: 'name' }).length, 1, 'The name Field is not rendered')
     assert.equal(enzymeWrapper.find(Field).find({ name: 'description' }).length, 1, 'The description Field is not rendered')
     assert.equal(enzymeWrapper.find(Field).find({ name: 'validationPlugin' }).length, 1, 'The validationPlugin Field is not rendered')
     assert.equal(enzymeWrapper.find(Field).find({ name: 'generationPlugin' }).length, 1, 'The generationPlugin Field is not rendered')
+    assert.equal(enzymeWrapper.find(Field).find({ name: 'aipStorageMetadataPlugin' }).length, 1, 'The aipStorageMetadataPlugin Field is not rendered')
     assert.equal(enzymeWrapper.find(Field).find({ name: 'tagPlugin' }).length, 1, 'The tagPlugin Field is not rendered')
     assert.equal(enzymeWrapper.find(Field).find({ name: 'postProcessingPlugin' }).length, 1, 'The postprocessingPlugin Field is not rendered')
     assert.equal(enzymeWrapper.find(Field).find({ name: 'preProcessingPlugin' }).length, 1, 'The preprocessingPlugin Field is not rendered')

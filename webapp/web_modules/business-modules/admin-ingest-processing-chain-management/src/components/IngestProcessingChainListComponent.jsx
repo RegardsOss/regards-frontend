@@ -142,6 +142,7 @@ export class IngestProcessingChainListComponent extends React.Component {
           <li>{intl.formatMessage({ id: 'processing-chain.info.message.step3' })}</li>
           <li>{intl.formatMessage({ id: 'processing-chain.info.message.step4' })}</li>
           <li>{intl.formatMessage({ id: 'processing-chain.info.message.step5' })}</li>
+          <li>{intl.formatMessage({ id: 'processing-chain.info.message.step6' })}</li>
         </ul>
       </span>
     )

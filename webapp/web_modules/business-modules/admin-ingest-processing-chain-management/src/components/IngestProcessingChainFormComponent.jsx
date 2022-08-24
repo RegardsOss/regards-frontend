@@ -113,6 +113,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
     formatedFields.preProcessingPlugin = PluginFormUtils.formatPluginConf(fields.preProcessingPlugin ? fields.preProcessingPlugin : null)
     formatedFields.validationPlugin = PluginFormUtils.formatPluginConf(fields.validationPlugin ? fields.validationPlugin : null)
     formatedFields.generationPlugin = PluginFormUtils.formatPluginConf(fields.generationPlugin ? fields.generationPlugin : null)
+    formatedFields.aipStorageMetadataPlugin = PluginFormUtils.formatPluginConf(fields.aipStorageMetadataPlugin ? fields.aipStorageMetadataPlugin : null)
     formatedFields.tagPlugin = PluginFormUtils.formatPluginConf(fields.tagPlugin ? fields.tagPlugin : null)
     formatedFields.postProcessingPlugin = PluginFormUtils.formatPluginConf(fields.postProcessingPlugin ? fields.postProcessingPlugin : null)
     return this.props.onSubmit(formatedFields)
@@ -125,6 +126,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
     const preprocessingPlugin = get(processingChain, 'preprocessingPlugin', null)
     const validationPlugin = get(processingChain, 'validationPlugin', null)
     const generationPlugin = get(processingChain, 'generationPlugin', null)
+    const aipStorageMetadataPlugin = get(processingChain, 'aipStorageMetadataPlugin', null)
     const tagPlugin = get(processingChain, 'tagPlugin', null)
     const postprocessingPlugin = get(processingChain, 'postprocessingPlugin', null)
 
@@ -187,14 +189,21 @@ export class IngestProcessingChainFormComponent extends React.Component {
               true,
             )}
             {this.getPluginConfigurator(
-              4, formatMessage({ id: 'processing-chain.form.tag.plugin.label' }),
+              4, formatMessage({ id: 'processing-chain.form.storage_metadata_update.plugin.label' }),
+              formatMessage({ id: 'processing-chain.form.plugins.none.selected.mandatory' }),
+              IngestProcessingPluginTypes.STORAGE_METADATA_UPDATE,
+              aipStorageMetadataPlugin,
+              'aipStorageMetadataPlugin',
+            )}
+            {this.getPluginConfigurator(
+              5, formatMessage({ id: 'processing-chain.form.tag.plugin.label' }),
               formatMessage({ id: 'processing-chain.form.plugins.none.selected' }),
               IngestProcessingPluginTypes.TAG,
               tagPlugin,
               'tagPlugin',
             )}
             {this.getPluginConfigurator(
-              5, formatMessage({ id: 'processing-chain.form.postprocessing.plugin.label' }),
+              6, formatMessage({ id: 'processing-chain.form.postprocessing.plugin.label' }),
               formatMessage({ id: 'processing-chain.form.plugins.none.selected' }),
               IngestProcessingPluginTypes.POST_PROCESSING,
               postprocessingPlugin,
