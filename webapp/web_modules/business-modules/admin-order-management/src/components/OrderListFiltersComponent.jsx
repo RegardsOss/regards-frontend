@@ -116,7 +116,7 @@ class OrderListFiltersComponent extends React.Component {
           <DatePickerField
             id={`filter.${CommonDomain.REQUEST_PARAMETERS.AFTER}`}
             dateHintText={formatMessage({ id: 'order.list.filters.creationDate.after.label' })}
-            onChange={(value) => updateDatesFilter(value.toISOString(), REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
+            onChange={(value) => updateDatesFilter(value ? value.toISOString() : '', REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
             locale={locale}
             value={UIDomain.FiltersPaneHelper.getFilterDateValue(inputValues, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
             fullWidth
@@ -124,7 +124,7 @@ class OrderListFiltersComponent extends React.Component {
           <DatePickerField
             id={`filter.${CommonDomain.REQUEST_PARAMETERS.BEFORE}`}
             dateHintText={formatMessage({ id: 'order.list.filters.creationDate.before.label' })}
-            onChange={(value) => updateDatesFilter(value.toISOString(), REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
+            onChange={(value) => updateDatesFilter(value ? value.toISOString() : '', REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
             locale={locale}
             value={UIDomain.FiltersPaneHelper.getFilterDateValue(inputValues, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
             defaultTime="23:59:59"

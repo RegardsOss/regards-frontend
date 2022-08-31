@@ -90,7 +90,7 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
           <DatePickerField
             id={`filter.${ACCOUNT_FILTERS.CREATED_AFTER}`}
             dateHintText={formatMessage({ id: `projectUser.list.table.created.${ACCOUNT_FILTERS.CREATED_AFTER}.label` })}
-            onChange={(value) => updateFilter(value.toISOString(), ACCOUNT_FILTERS.CREATED_AFTER)}
+            onChange={(value) => updateFilter(value ? value.toISOString() : '', ACCOUNT_FILTERS.CREATED_AFTER)}
             locale={locale}
             value={this.getDateValue(inputValues[ACCOUNT_FILTERS.CREATED_AFTER])}
             fullWidth
@@ -98,7 +98,7 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
           <DatePickerField
             id={`filter.${ACCOUNT_FILTERS.CREATED_BEFORE}`}
             dateHintText={formatMessage({ id: `projectUser.list.table.created.${ACCOUNT_FILTERS.CREATED_BEFORE}.label` })}
-            onChange={(value) => updateFilter(value.toISOString(), ACCOUNT_FILTERS.CREATED_BEFORE)}
+            onChange={(value) => updateFilter(value ? value.toISOString() : '', ACCOUNT_FILTERS.CREATED_BEFORE)}
             locale={locale}
             value={this.getDateValue(inputValues[ACCOUNT_FILTERS.CREATED_BEFORE])}
             defaultTime="23:59:59"
@@ -111,7 +111,7 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
           <DatePickerField
             id={`filter.${ACCOUNT_FILTERS.LAST_CONNECTION_AFTER}`}
             dateHintText={formatMessage({ id: `projectUser.list.table.lastConnection.${ACCOUNT_FILTERS.LAST_CONNECTION_AFTER}.label` })}
-            onChange={(value) => updateFilter(value.toISOString(), ACCOUNT_FILTERS.LAST_CONNECTION_AFTER)}
+            onChange={(value) => updateFilter(value ? value.toISOString() : '', ACCOUNT_FILTERS.LAST_CONNECTION_AFTER)}
             locale={locale}
             value={this.getDateValue(inputValues[ACCOUNT_FILTERS.LAST_CONNECTION_AFTER])}
             fullWidth
@@ -119,7 +119,7 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
           <DatePickerField
             id={`filter.${ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE}`}
             dateHintText={formatMessage({ id: `projectUser.list.table.lastConnection.${ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE}.label` })}
-            onChange={(value) => updateFilter(value.toISOString(), ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE)}
+            onChange={(value) => updateFilter(value ? value.toISOString() : '', ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE)}
             locale={locale}
             value={this.getDateValue(inputValues[ACCOUNT_FILTERS.LAST_CONNECTION_BEFORE])}
             defaultTime="23:59:59"
