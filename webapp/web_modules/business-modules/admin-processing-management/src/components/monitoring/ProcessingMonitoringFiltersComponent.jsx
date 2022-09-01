@@ -137,7 +137,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
     let newFilterValue = newStateValue
     if (filterElement === PROCESS_FILTER_PARAMS.FROM
       || filterElement === PROCESS_FILTER_PARAMS.TO) {
-      newFilterValue = newStateValue.toISOString()
+      newFilterValue = newStateValue ? newStateValue.toISOString() : ''
     }
     const newState = {
       filters: {

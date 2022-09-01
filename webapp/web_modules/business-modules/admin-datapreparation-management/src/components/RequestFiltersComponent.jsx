@@ -72,14 +72,14 @@ class RequestFiltersComponent extends React.Component {
                 <DatePickerField
                   id={`filter.${CommonDomain.REQUEST_PARAMETERS.AFTER}`}
                   dateHintText={formatMessage({ id: 'datapreparation.filters.creationDate.after.label' })}
-                  onChange={(value) => updateDatesFilter(value.toISOString(), WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
+                  onChange={(value) => updateDatesFilter(value ? value.toISOString() : '', WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
                   locale={locale}
                   value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(filters, WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
                 />
                 <DatePickerField
                   id={`filter.${WorkerDomain.REQUEST_FILTERS.CREATION_DATE.BEFORE}`}
                   dateHintText={formatMessage({ id: 'datapreparation.filters.creationDate.before.label' })}
-                  onChange={(value) => updateDatesFilter(value.toISOString(), WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
+                  onChange={(value) => updateDatesFilter(value ? value.toISOString() : '', WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
                   locale={locale}
                   value={TableFilterSortingAndVisibilityContainer.getFilterDateValue(filters, WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
                   defaultTime="23:59:59"
