@@ -70,7 +70,7 @@ export class DateValueRender extends React.Component {
    */
   static getMessageParameters(date) {
     return {
-      year: date.getFullYear().toString(),
+      year: date.getUTCFullYear().toString(),
       month: DateValueRender.formatOn2Digits(date.getUTCMonth() + 1), // [0;11] -> [1;12]
       day: DateValueRender.formatOn2Digits(date.getUTCDate()),
       hours: DateValueRender.formatOn2Digits(date.getUTCHours()),

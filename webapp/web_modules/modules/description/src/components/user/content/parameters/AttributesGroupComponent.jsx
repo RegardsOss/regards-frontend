@@ -65,13 +65,12 @@ class AttributesGroupComponent extends React.Component {
           )
         }
         { /* 2. Show group elements */
-          elements.map(({ key: elementKey, label, displayedAttributes }) => (
-            <React.Fragment key={elementKey}>
-              <div title={label[locale]} style={attributesGroupsContainer.labelStyle}>
-                {label[locale]}
-              </div>
-              <div style={attributesGroupsContainer.valueStyle}>
-                { /** Render attributes values */
+          elements.map(({ key: elementKey, label, displayedAttributes }) => <React.Fragment key={elementKey}>
+            <div title={label[locale]} style={attributesGroupsContainer.labelStyle}>
+              {label[locale]}
+            </div>
+            <div style={attributesGroupsContainer.valueStyle}>
+              { /** Render attributes values */
                   flatMap(displayedAttributes, (({
                     key: attributeKey, render: { Constructor, props },
                   }, index) => [
@@ -85,9 +84,8 @@ class AttributesGroupComponent extends React.Component {
                       multilineDisplay
                     />]))
                 }
-              </div>
-            </React.Fragment>
-          ))
+            </div>
+          </React.Fragment>)
         }
       </>
     )
