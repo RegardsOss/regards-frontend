@@ -205,7 +205,7 @@ class GroupComponent extends React.Component {
               hintMessageKey="module.description.configuration.group.elements.hint"
               attributesListFieldName="dumb.key" // unused as it is not directly connected with form
               changeField={this.onElementsChanged}
-              attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
+              attributesFilter={DamDomain.AttributeModelController.isSortableAttribute}
             />
           </div>
           <div style={group.options}>
