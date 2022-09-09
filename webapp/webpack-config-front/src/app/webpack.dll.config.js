@@ -14,6 +14,12 @@ module.exports = function (projectContextPath, mode) {
       modules: [
         'node_modules',
       ],
+      fallback: {
+        "http": false,
+        "zlib": false,
+        "https": false,
+        "url": false,
+      },
       alias: alias(projectContextPath, 'dev'),
     },
     devtool: mode === 'dev' ? 'source-map' : 'cheap-source-map',

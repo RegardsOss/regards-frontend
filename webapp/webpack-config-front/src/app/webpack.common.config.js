@@ -34,6 +34,12 @@ module.exports = function (projectContextPath, mode = 'dev') {
         'web_modules',
         'node_modules',
       ],
+      fallback: {
+        "http": false,
+        "zlib": false,
+        "https": false,
+        "url": false,
+      },
       alias: alias(projectContextPath),
     },
     module: {
