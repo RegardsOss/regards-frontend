@@ -51,7 +51,7 @@ const messages = {
   'dataaccess.searchengines.form.no.plugin.available': 'Aucun type de protocole de recherche disponible.',
   'dataaccess.searchengines.form.back.button': 'Annuler',
 
-  'search-engines.form.label': 'Libellé',
+  'search-engines.form.label': 'Libellé (*)',
   'search-engines.form.label.infos': 'Description courte du protocole',
   'search-engines.form.dataset.type.all': 'Utiliser ce protocole pour toute recherche sur le catalogue',
   'search-engines.form.dataset.type.selected': 'Utiliser ce protocole pour toute recherche sur le jeu de données sélectionné',

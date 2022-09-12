@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import compose from 'lodash/fp/compose'
+import isNil from 'lodash/isNil'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import MoodIcon from 'mdi-material-ui/EmoticonOutline'
@@ -24,9 +26,11 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import {
   Card, CardActions, CardText, CardTitle,
 } from 'material-ui/Card'
+import { formValueSelector } from 'redux-form'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CatalogShapes, CommonShapes, DataManagementShapes } from '@regardsoss/shape'
+import { connect } from '@regardsoss/redux'
 import {
   reduxForm, Field, RenderTextField,
   ValidationHelpers, RenderPageableAutoCompleteField,
@@ -44,7 +48,7 @@ const datasetActions = new DataManagementClient.DatasetActions('admin-dataaccess
 const {
   validStringSize,
 } = ValidationHelpers
-const validString255 = [validStringSize(0, 255)]
+const requiredValidString255 = [ValidationHelpers.required, validStringSize(0, 255)]
 /**
 * Component to create/edit/diplicate a search engine configuration
 * @author Sébastien Binda
@@ -66,6 +70,8 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
     change: PropTypes.func,
     dataset: DataManagementShapes.DatasetContent,
+    // eslint-disable-next-line react/forbid-prop-types
+    editedConfiguration: PropTypes.any,
   }
 
   static defaultProps = {}
@@ -237,24 +243,26 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
                 title={formatMessage({ id: 'search-engines.form.dataset.section.title' })}
                 arrowMarginLeft={30}
             >
-              {formatMessage({ id: 'search-engines.form.dataset.infos' })}
-              <Field
-                name="dataset"
-                fullWidth
-                component={RenderPageableAutoCompleteField}
-                hintText={formatMessage({ id: 'search-engines.form.dataset.hinttext' })}
-                floatingLabelText={formatMessage({ id: 'search-engines.form.dataset' })}
-                pageSize={50}
-                entitiesFilterProperty="label"
-                entityActions={datasetActions}
-                entitiesPayloadKey={DatasetConfiguration.normalizrKey}
-                entitiesConfig={datasetAutoCompletConfig}
-                entitiesPath="feature"
-                format={(dataset) => dataset ? dataset.label : ''}
-              />
+              <span>
+                {formatMessage({ id: 'search-engines.form.dataset.infos' })}
+                <Field
+                  name="dataset"
+                  fullWidth
+                  component={RenderPageableAutoCompleteField}
+                  hintText={formatMessage({ id: 'search-engines.form.dataset.hinttext' })}
+                  floatingLabelText={formatMessage({ id: 'search-engines.form.dataset' })}
+                  pageSize={50}
+                  entitiesFilterProperty="label"
+                  entityActions={datasetActions}
+                  entitiesPayloadKey={DatasetConfiguration.normalizrKey}
+                  entitiesConfig={datasetAutoCompletConfig}
+                  entitiesPath="feature"
+                  format={(dataset) => dataset ? dataset.label : ''}
+                />
+              </span>
             </SubSectionCard>
             : null
-        }
+  }
       </div>
     )
   }
@@ -263,6 +271,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     const {
       onBack, mode, searchEngineConfiguration, handleSubmit, invalid,
       pluginConfigurationList, pluginMetaDataList, submitting,
+      editedConfiguration,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
@@ -304,7 +313,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
               type="text"
               label={formatMessage({ id: 'search-engines.form.label' })}
               hintText={formatMessage({ id: 'search-engines.form.label.infos' })}
-              validate={validString255}
+              validate={requiredValidString255}
             />
             <br />
             <br />
@@ -324,7 +333,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={buttonLabel}
               mainButtonType="submit"
-              isMainButtonDisabled={submitting || invalid}
+              isMainButtonDisabled={submitting || invalid || isNil(editedConfiguration)}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'search-engines.form.cancel.action' })}
               secondaryButtonClick={onBack}
             />
@@ -335,6 +344,22 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'search-engine-configuration-form',
-})(withModuleStyle(styles)(withI18n(messages)(SearchEngineConfigurationFormComponent)))
+const formID = 'search-engine-configuration-form'
+
+const connectedReduxForm = reduxForm({
+  form: formID,
+})(SearchEngineConfigurationFormComponent)
+
+const selector = formValueSelector(formID)
+
+export default compose(
+  connect(
+    (state) => {
+      const editedConfiguration = selector(state, 'configuration')
+      return {
+        editedConfiguration,
+      }
+    },
+  ),
+  withI18n(messages),
+  withModuleStyle(styles))(connectedReduxForm)

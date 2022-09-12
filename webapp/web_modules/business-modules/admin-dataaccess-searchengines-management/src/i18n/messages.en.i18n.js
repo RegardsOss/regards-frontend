@@ -51,7 +51,7 @@ const messages = {
   'dataaccess.searchengines.form.no.plugin.available': 'No search protocol available.',
   'dataaccess.searchengines.form.back.button': 'Cancel',
 
-  'search-engines.form.label': 'Label',
+  'search-engines.form.label': 'Label (*)',
   'search-engines.form.label.infos': 'Search protocol short description',
   'search-engines.form.dataset.type.all': 'Use this search protocol for every search on catalog',
   'search-engines.form.dataset.type.selected': 'Use this search protocol only for search on the selected dataset',
