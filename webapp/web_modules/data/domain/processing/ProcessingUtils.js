@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
+import cloneDeep from 'lodash/cloneDeep'
 import find from 'lodash/find'
 import map from 'lodash/map'
 import reduce from 'lodash/reduce'
@@ -33,19 +34,25 @@ function isOrderProcessingExist(order) {
   return find(order.content.datasetTasks, (datasetTask) => isDatasetProcessingExist(datasetTask))
 }
 
-function getProcessingParametersFullName(processing, metaData) {
+function getProcessingParametersFullName(processing, metaData, dataset) {
   const parameters = get(processing, 'content.pluginConfiguration.parameters', null)
   if (parameters) {
     return map(parameters, (parameter) => {
-      let { name } = parameter
-      if (metaData) {
+      const currentParameter = cloneDeep(parameter)
+      let { name } = currentParameter
+      if (parameter.dynamic) { // parameter is set by user
+        const dynamicParameterFound = find(dataset.processDatasetDescription.parameters, (dynamicParameter, dynamicParameterKey) => dynamicParameterKey === parameter.name)
+        if (dynamicParameterFound) {
+          currentParameter.value = dynamicParameterFound
+        }
+      } else if (metaData) { // parameter is set by metadata
         const metaDataParameterFound = find(metaData.content.parameters, (metaDataParameter) => metaDataParameter.name === parameter.name)
         if (metaDataParameterFound) {
           name = metaDataParameterFound.label
         }
       }
       return {
-        ...parameter,
+        ...currentParameter,
         name,
       }
     })
@@ -65,7 +72,7 @@ function getDatasetProcessing(dataset, processingList, pluginMetaDataList) {
           processingBusinessId: get(processingFound, 'content.pluginConfiguration.businessId', 'unknown'),
           datasetLabel: dataset.datasetLabel,
           processingLabel: getProcessingName(processingFound),
-          processingParameterList: getProcessingParametersFullName(processingFound, pluginMetaDataFound),
+          processingParameterList: getProcessingParametersFullName(processingFound, pluginMetaDataFound, dataset),
         }
       }
     }
