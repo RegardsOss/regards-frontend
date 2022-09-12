@@ -61,6 +61,8 @@ class DisplayPropertiesComponent extends React.Component {
     if (stepSubType === STEP_SUB_TYPES_ENUM.DATA_PROVIDER) {
       if (property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
         return this.getIntValue(sessionStep, 'generationError') + this.getIntValue(sessionStep, 'ingestionFailed')
+      } if (property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.PRODUCTS_CANCELED) {
+        return this.getIntValue(sessionStep, 'canceled')
       }
     }
     // Feature manager specific properties

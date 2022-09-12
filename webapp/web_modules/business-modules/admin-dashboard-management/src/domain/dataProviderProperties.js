@@ -31,6 +31,7 @@ export const DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM = {
   INCOMPLETE: 'incomplete',
   INVALID: 'invalid',
   PRODUCTS_ERRORS: 'productsErrors',
+  PRODUCTS_CANCELED: 'productsCanceled',
 }
 
 export const DATA_PROVIDER_PRODUCTS_PROPERTIES = values(DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM)

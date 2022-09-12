@@ -69,6 +69,7 @@ const messages = {
   'dashboard.selectedsession.ACQUISITION.dp.incomplete': 'Incomplete : {value}',
   'dashboard.selectedsession.ACQUISITION.dp.invalid': 'Invalid : {value}',
   'dashboard.selectedsession.ACQUISITION.dp.productsErrors': 'Errors : {value}',
+  'dashboard.selectedsession.ACQUISITION.dp.productsCanceled': 'Canceled : {value}',
   'dashboard.selectedsession.ACQUISITION.dp.generatedProducts': 'Generated : {value}',
   'dashboard.selectedsession.ACQUISITION.dp.filesAcquired.tooltip': '{value} file(s) detected',
   'dashboard.selectedsession.ACQUISITION.dp.filesInvalid.tooltip': '{value} file(s) invalid',
