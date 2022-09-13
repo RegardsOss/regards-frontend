@@ -77,6 +77,7 @@ const messages = {
   'dashboard.selectedsession.ACQUISITION.dp.invalid.tooltip': '{value} produit(s) invalide(s)',
   'dashboard.selectedsession.ACQUISITION.dp.productsErrors.tooltip': '{value} produit(s) érroné(s)',
   'dashboard.selectedsession.ACQUISITION.dp.generatedProducts.tooltip': '{value} produit(s) généré(s)',
+  'dashboard.selectedsession.ACQUISITION.dp.productsCanceled.tooltip': '{value} produit(s) annulé(s)',
   'dashboard.selectedsession.ACQUISITION.dp.button.see-errors': 'Voir les erreurs',
   'dashboard.selectedsession.ACQUISITION.dp.button.retry-errors': 'Relancer les erreurs',
   'dashboard.selectedsession.ACQUISITION.dp.dialog.title': 'Produits en erreurs',

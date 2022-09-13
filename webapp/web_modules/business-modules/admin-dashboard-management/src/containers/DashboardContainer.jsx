@@ -106,10 +106,10 @@ export class DashboardContainer extends React.Component {
     fetchSources(0, DashboardContainer.PAGE_SIZE, {}, { ...sourceFilters })
   }
 
-  dispatchAction = (dispatchFunc, payload) => {
+  dispatchAction = (dispatchFunc, payload, reqType = undefined) => {
     const { displayMessage } = this.props
     const { intl: { formatMessage } } = this.context
-    dispatchFunc(payload).then((actionResult) => {
+    dispatchFunc(payload, reqType).then((actionResult) => {
       if (!actionResult.error) {
         displayMessage(formatMessage({ id: 'dashboard.selectedsession.dialog.confirm.action.message' }))
       }
@@ -131,9 +131,9 @@ export class DashboardContainer extends React.Component {
     this.dispatchAction(relaunchStorages, payload)
   }
 
-  onRetryFEMRequests = (payload) => {
+  onRetryFEMRequests = (payload, reqType) => {
     const { retryFEMRequests } = this.props
-    this.dispatchAction(retryFEMRequests, payload)
+    this.dispatchAction(retryFEMRequests, payload, reqType)
   }
 
   onRetryWorkerRequests = (payload) => {

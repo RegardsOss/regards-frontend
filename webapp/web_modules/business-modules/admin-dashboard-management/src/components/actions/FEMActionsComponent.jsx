@@ -58,7 +58,7 @@ class FEMActionsComponent extends React.Component {
 
   onRetryErrors = () => {
     const { sessionStep, retryFEMRequests } = this.props
-    const tasks = reduce(FemDomain.REQUEST_TYPES, (acc, value, reqType) => {
+    const tasks = reduce(FemDomain.REQUEST_TYPES, (acc, reqType) => {
       if (reqType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES
         && reqType !== FemDomain.REQUEST_TYPES_ENUM.EXTRACTION) {
         acc.push(retryFEMRequests({
