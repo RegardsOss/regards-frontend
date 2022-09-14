@@ -67,13 +67,14 @@ export class DownloadCellComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { main: { tree: { cell: { iconButton } } } } } } = this.context
     const openInNewTab = STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(mimeType)
+    // If the file mimeType is configured to be open in a new tab, the download <a> link must be configured with target=blanck and no download property
     // this button should be shown only when the file can be downloaded AND is not constrained by quota OR user has a quota (=> not public)
     return available && (!QuotaDownloadUtils.isConstrainedByQuota(type, reference) || accessToken) ? (
       <DownloadButton
         ButtonConstructor={DownloadInnerButton}
         ButtonIcon={null}
         disabled={!QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)}
-        downloadName={label}
+        downloadName={openInNewTab ? null : label}
         downloadURL={uri}
         tooltip={formatMessage({ id: `module.description.common.${openInNewTab ? 'open' : 'download'}.file.tooltip` }, { fileName: label })}
         // icon button props
