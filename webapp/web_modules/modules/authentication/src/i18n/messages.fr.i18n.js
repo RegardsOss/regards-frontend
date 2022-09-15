@@ -52,8 +52,8 @@ const messages = {
   'account.request.form.send': 'Envoyer',
 
   // reset account password request form
-  'ask.reset.password.form.message': 'Entrez votre adresse e-mail, un lien de ré-initialisation du mot de passe vous sera envoyé',
-  'ask.reset.password.form.title': 'Ré-initialisation du mot de passe',
+  'ask.reset.password.form.message': 'Entrez votre adresse e-mail, un lien de réinitialisation du mot de passe vous sera envoyé',
+  'ask.reset.password.form.title': 'Réinitialisation du mot de passe',
   'ask.reset.password.form.send.failed': '{status, plural, '
     + '=404 {L\'adresse e-mail saisie est inconnue}'
     + 'other {Une erreur inconnue s\'est produite (#)}}',
@@ -85,10 +85,10 @@ const messages = {
   'ask.create.user.error.unknown': 'Une erreur inconnue s\'est produite  ({status})',
 
   // reset password operation
-  'ask.reset.password.sent.title': 'Demande de ré-initialisation envoyée',
-  'ask.reset.password.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail contenant le lien de ré-initialisation',
+  'ask.reset.password.sent.title': 'Demande de réinitialisation envoyée',
+  'ask.reset.password.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail contenant le lien de réinitialisation',
   'ask.reset.password.sent.option': 'Retour',
-  'ask.reset.password.token.expired.title': 'Échec de la ré-initialisation',
+  'ask.reset.password.token.expired.title': 'Échec de la réinitialisation',
   'ask.reset.password.token.expired.message': 'Votre requête a expiré, renouvelez la demande de réinitialisation du mot de passe',
   'ask.reset.password.token.expired.option': 'Retour',
   'reset.password.done.title': 'Mot de passe mis à jour',
@@ -127,7 +127,7 @@ const messages = {
   'unlock.account.done.option': 'Connexion',
 
   // reset password update (after receiving mail)
-  'reset.password.update.request.title': 'Ré-initialisation du mot de passe',
+  'reset.password.update.request.title': 'Réinitialisation du mot de passe',
   'change.password.update.request.title': 'Changer votre mot de passe',
   'reset.password.update.request.message': 'Entrez votre nouveau mot de passe pour finaliser la mise à jour de votre compte utilisateur. {passwordRules}',
   'change.password.update.request.message': 'Entrez votre ancien et nouveau mot de passe. {passwordRules}',
