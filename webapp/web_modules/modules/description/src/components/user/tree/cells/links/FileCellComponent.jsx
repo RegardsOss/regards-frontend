@@ -63,17 +63,18 @@ export class FileCellComponent extends React.Component {
       },
     } = this.props
     const { intl: { formatMessage } } = this.context
+    const isDownloadable = QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)
     return (
       <TreeLinkComponent
         text={label}
         // when available, show action tooltip, otherwise, show file name
-        tooltip={formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label })}
+        tooltip={isDownloadable ? formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label }) : null}
         selected={selected}
         IconConstructor={FileIcon}
         section={false}
         onClick={this.onLinkClicked}
         // disabled when file is not available, or when file is an internal raw data and quota is consumed
-        disabled={!QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)}
+        disabled={!isDownloadable}
       />)
   }
 }

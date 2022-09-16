@@ -201,7 +201,7 @@ describe('[Description] Testing FileLinkComponent', () => {
       const link = enzymeWrapper.find(PageLinkCellComponent)
       testSuiteHelpers.assertWrapperProperties(link, {
         text: props.file.label,
-        tooltip: 'module.description.common.file.preview.tooltip',
+        tooltip: expectations.link.disabled ? null : 'module.description.common.file.preview.tooltip',
         LinkIconConstructor: FileIcon,
         disabled: expectations.link.disabled,
         onClick: enzymeWrapper.instance().onFileLinkClicked,

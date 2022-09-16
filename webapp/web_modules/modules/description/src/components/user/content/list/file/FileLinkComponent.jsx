@@ -66,29 +66,30 @@ export class FileLinkComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage } } = this.context
     const openInNewTab = STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(mimeType)
+    const isDownloadable = QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)
     return (
       <PageElement>
         <PageLinkCellComponent
           text={label}
-          tooltip={formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label })}
+          tooltip={isDownloadable ? formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label }) : null}
           LinkIconConstructor={FileIcon}
           // disabled when file is not available, or when file is an internal raw data and quota is consumed
-          disabled={!QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)}
+          disabled={!isDownloadable}
           onClick={this.onFileLinkClicked}
         />
         { // Download button when file is available AND is not constrained by quota OR user has a quota (=> not public)
-           available && (!QuotaDownloadUtils.isConstrainedByQuota(type, reference) || accessToken) ? (
-             <DownloadButton
-               ButtonConstructor={PageElementOption}
-               disabled={!QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)}
-               tooltip={formatMessage({ id: `module.description.common.${openInNewTab ? 'open' : 'download'}.file.tooltip` }, { fileName: label })}
-               downloadURL={uri}
-               IconConstructor={DownloadIconComponent}
-               // icon component props
-               constrainedByQuota={QuotaDownloadUtils.isConstrainedByQuota(type, reference)}
-               quotaInfo={quotaInfo}
-               isBlank={openInNewTab}
-             />) : null // hide option when not available
+          available && (!QuotaDownloadUtils.isConstrainedByQuota(type, reference) || accessToken) ? (
+            <DownloadButton
+              ButtonConstructor={PageElementOption}
+              disabled={!isDownloadable}
+              tooltip={formatMessage({ id: `module.description.common.${openInNewTab ? 'open' : 'download'}.file.tooltip` }, { fileName: label })}
+              downloadURL={uri}
+              IconConstructor={DownloadIconComponent}
+              // icon component props
+              constrainedByQuota={QuotaDownloadUtils.isConstrainedByQuota(type, reference)}
+              quotaInfo={quotaInfo}
+              isBlank={openInNewTab}
+            />) : null // hide option when not available
         }
       </PageElement>
     )

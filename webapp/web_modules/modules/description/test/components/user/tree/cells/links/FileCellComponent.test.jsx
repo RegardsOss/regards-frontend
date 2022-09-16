@@ -161,7 +161,7 @@ describe('[Description] Testing FileCellComponent', () => {
       const enzymeWrapper = shallow(<FileCellComponent {...props} />, { context })
       const linkWrapper = testSuiteHelpers.assertCompWithProps(enzymeWrapper, TreeLinkComponent, {
         text: props.file.label,
-        tooltip: 'module.description.common.file.preview.tooltip',
+        tooltip: expectedDisabled ? null : 'module.description.common.file.preview.tooltip',
         selected: false,
         section: false,
         onClick: enzymeWrapper.instance().onLinkClicked,
