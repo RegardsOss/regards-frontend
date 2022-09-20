@@ -194,9 +194,9 @@ export class ContextManager extends React.Component {
    * @return {Promise} update promise, never entering catch clause
    */
   updateTag = (tag) => tag.type === CatalogDomain.TAG_TYPES_ENUM.WORD
-  // Word tag: immediately resolved
+    // Word tag: immediately resolved
     ? new Promise((resolve) => resolve(tag))
-  // Entities: requires a rights checking
+    // Entities: requires a rights checking
     : this.resolveEntity(tag.searchKey)
       .then((e) => e
         ? CriterionBuilder.buildEntityTagCriterion(e)

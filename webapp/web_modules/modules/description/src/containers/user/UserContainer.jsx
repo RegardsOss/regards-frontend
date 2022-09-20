@@ -141,11 +141,15 @@ export class UserContainer extends React.Component {
       return
     }
 
-    const { accessToken, projectName, moduleConf: { runtime: { selectedIndex, descriptionPath } } } = newProps
-    const { accessToken: oldAccessToken, projectName: oldProjectName, moduleConf: oldModuleConf } = oldProps
+    const {
+      accessToken, projectName, pageModuleId: newPageModuleId, moduleConf: { runtime: { selectedIndex, descriptionPath } },
+    } = newProps
+    const {
+      accessToken: oldAccessToken, pageModuleId: oldPageModuleId, projectName: oldProjectName, moduleConf: oldModuleConf,
+    } = oldProps
     const oldDescriptionPath = get(oldModuleConf, 'runtime.descriptionPath', [])
     if (!isEqual(accessToken, oldAccessToken)
-    || !isEqual(projectName, oldProjectName)) {
+      || !isEqual(projectName, oldProjectName)) {
       // 1. When project / token change, rebuild all from scratch
       this.onDescriptionRequestUpdated(newProps, true)
     } else if (!isEqual(oldDescriptionPath, descriptionPath)) {
@@ -155,7 +159,8 @@ export class UserContainer extends React.Component {
 
     const oldSelectedTreeEntry = get(oldProps, `descriptionState.descriptionPath[${selectedIndex}].entityWithTreeEntry.selectedTreeEntry`, {})
     const newSelectedTreeEntry = get(newProps, `descriptionState.descriptionPath[${selectedIndex}].entityWithTreeEntry.selectedTreeEntry`, {})
-    if (!isEmpty(newSelectedTreeEntry) && !isEmpty(newProps.descriptionState.descriptionPath) && !isEqual(oldSelectedTreeEntry, newSelectedTreeEntry)) {
+    if (!isEmpty(newSelectedTreeEntry) && !isEmpty(newProps.descriptionState.descriptionPath) && !isEqual(oldSelectedTreeEntry, newSelectedTreeEntry)
+      && !!newPageModuleId && !!oldPageModuleId && isEqual(newPageModuleId, oldPageModuleId)) {
       this.onSelectedTreeUpdated(newProps)
     }
   }
