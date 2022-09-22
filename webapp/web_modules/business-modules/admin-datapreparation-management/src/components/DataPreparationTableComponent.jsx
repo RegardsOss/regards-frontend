@@ -136,10 +136,10 @@ class DataPreparationTableComponent extends React.Component {
   onDelete = (entities, mode, multiple) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode, multiple)
 
   onConfirmActionDialog = (dialogRequestType) => {
-    const { requestParameters } = this.props
+    const { bodyParameters } = this.props
     const { entities, mode, multiple } = this.state[dialogRequestType]
     const payload = {
-      ...requestParameters,
+      ...bodyParameters,
       [WorkerDomain.REQUEST_FILTERS.IDS]: {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: multiple ? map(entities, (e) => e.content.id) : [get(entities, 'content.id', '')],
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
