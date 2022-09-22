@@ -159,10 +159,10 @@ class DataPreparationComponent extends React.Component {
   onDelete = (entities, mode, multiple) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode, multiple)
 
   onConfirmActionDialog = (dialogRequestType) => {
-    const { bodyParameters } = this.props
+    const { requestParameters } = this.props
     const { entities, mode, multiple } = this.state[dialogRequestType]
     const payload = {
-      ...bodyParameters,
+      ...requestParameters,
       [WorkerDomain.REQUEST_FILTERS.IDS]: {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: multiple ? map(entities, (e) => e.content.id) : [get(entities, 'content.id', '')],
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
@@ -227,7 +227,6 @@ class DataPreparationComponent extends React.Component {
       numberOfRequests, onBack, bodyParameters,
       filters, requestParameters, updateValuesFilter, updateDatesFilter,
     } = this.props
-
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = [
