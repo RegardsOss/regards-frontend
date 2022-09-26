@@ -203,6 +203,25 @@ const items = (projectName, intl, onResetIndex) => [
       },
     ],
   },
+  {
+    title: intl.formatMessage({ id: 'data.board.ltamanagement.title' }),
+    description: intl.formatMessage({ id: 'data.board.ltamanagement.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/ltamanagement/requests`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.ltamanagement.tooltip' }),
+        hateoasDependencies: [],
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/ltamanagement/settings`,
+        icon: <SettingsIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.ltamanagement.settings.tooltip' }),
+        hateoasDependencies: [],
+      },
+    ],
+  },
 ]
 
 export default items

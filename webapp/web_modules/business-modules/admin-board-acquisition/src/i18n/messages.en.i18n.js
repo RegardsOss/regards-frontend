@@ -60,6 +60,11 @@ const messages = {
   'data.board.datapreparation.description': 'Allows to view, monitor and manage list of recorded requests on WorkerManager microservice.',
   'data.board.action.datapreparation.tooltip': 'Show requests',
   'data.board.action.datapreparation.settings.tooltip': 'Settings',
+
+  'data.board.ltamanagement.title': 'LTA Manager',
+  'data.board.ltamanagement.description': 'Allows you to view the list of preservation/deletion requests in progress and in error.',
+  'data.board.action.ltamanagement.tooltip': 'Show requests',
+  'data.board.action.ltamanagement.settings.tooltip': 'Settings',
 }
 
 export default messages

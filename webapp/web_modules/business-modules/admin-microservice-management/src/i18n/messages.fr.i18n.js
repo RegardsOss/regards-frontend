@@ -35,6 +35,7 @@ const messages = {
   'microservice-management.rs-notifier.description': ' Service de notifiation destiné à la production',
   'microservice-management.rs-processing.description': 'Configuration du service de gestion des traitements',
   'microservice-management.rs-worker-manager.description': 'Configuration du service de gestion des workers',
+  'microservice-management.rs-lta-manager.description': 'Configuration du service de gestion des demandes de pérenisation/suppression (LTA)',
 
   'microservice-management.configuration.tooltip': 'Configurer',
   'microservice-management.plugins.tooltip': 'Plugins',
