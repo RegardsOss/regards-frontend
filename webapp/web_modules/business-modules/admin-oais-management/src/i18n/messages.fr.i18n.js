@@ -331,6 +331,7 @@ export default {
   'oais.settings.fieldgroup.dumpParameters.cronTrigger': 'Cron trigger',
   'oais.settings.fieldgroup.dumpParameters.dumpLocation': 'Emplacement du dump',
   'oais.settings.field.lastDumpReqDate': 'Dernière requête de dump effectuée',
+  'oais.settings.field.sipBodyTimeToLive': 'Nombre de jours avant suppression des SIPs',
   'oais.settings.action.confirm': 'Confirmer',
   'oais.settings.action.cancel': 'Retour',
   'oais.settings.field.cron.help.message':

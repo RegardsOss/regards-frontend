@@ -73,6 +73,14 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISSettingsComponent', () => {
             },
           },
         },
+        3: {
+          content: {
+            name: 'sip_body_time_to_live',
+            description: '',
+            value: 5,
+            defaultValue: 999,
+          },
+        },
       },
       onBack: () => { },
       onSubmit: () => { },
@@ -86,6 +94,6 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISSettingsComponent', () => {
     }
     const enzymeWrapper = shallow(<OAISSettingsComponent {...props} />, { context })
     const fieldsWrapper = enzymeWrapper.find(Field)
-    assert.lengthOf(fieldsWrapper, 5, 'There should be 5 Field component')
+    assert.lengthOf(fieldsWrapper, 6, 'There should be 6 Field component')
   })
 })

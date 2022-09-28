@@ -44,6 +44,7 @@ const SETTINGS = {
   ACTIVE_NOTIFICATION: 'active_notifications',
   LAST_DUMP_REQ_DATE: 'last_dump_req_date',
   DUMP_PARAMETERS: 'dump_parameters',
+  SIP_BODY_TIME_TO_LIVE: 'sip_body_time_to_live',
 }
 
 /**
@@ -66,6 +67,7 @@ export class OAISSettingsComponent extends React.Component {
     editedLastDumpReqDate: PropTypes.string,
     // eslint-disable-next-line react/forbid-prop-types
     editedDumpParameters: PropTypes.object,
+    editedLastSipBodyTimeToLive: PropTypes.number,
   }
 
   static contextTypes = {
@@ -89,6 +91,7 @@ export class OAISSettingsComponent extends React.Component {
         dumpLocation: dumpParameters.dumpLocation,
       },
       [SETTINGS.LAST_DUMP_REQ_DATE]: getValue(settings, SETTINGS.LAST_DUMP_REQ_DATE),
+      [SETTINGS.SIP_BODY_TIME_TO_LIVE]: getValue(settings, SETTINGS.SIP_BODY_TIME_TO_LIVE),
     })
   }
 
@@ -106,6 +109,7 @@ export class OAISSettingsComponent extends React.Component {
         dumpLocation: values[SETTINGS.DUMP_PARAMETERS].dumpLocation,
       }),
       [SETTINGS.LAST_DUMP_REQ_DATE]: getUpdatedSettingValue(settings, SETTINGS.LAST_DUMP_REQ_DATE, values[SETTINGS.LAST_DUMP_REQ_DATE]),
+      [SETTINGS.SIP_BODY_TIME_TO_LIVE]: getUpdatedSettingValue(settings, SETTINGS.SIP_BODY_TIME_TO_LIVE, values[SETTINGS.SIP_BODY_TIME_TO_LIVE]),
     })
   }
 
@@ -161,7 +165,7 @@ export class OAISSettingsComponent extends React.Component {
     const {
       submitting, pristine, invalid,
       handleSubmit, onBack, settings, editedActiveNotification,
-      editedLastDumpReqDate, editedDumpParameters,
+      editedLastDumpReqDate, editedDumpParameters, editedLastSipBodyTimeToLive,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { settings: { settingDiv, cronDivStyle, settingDivAlt } } } = this.context
     const isDumpParametersDisabled = isDisabled(settings, SETTINGS.DUMP_PARAMETERS)
@@ -198,6 +202,19 @@ export class OAISSettingsComponent extends React.Component {
                 component={RenderDateTimeField}
                 fullWidth
                 disabled={isDisabled(settings, SETTINGS.LAST_DUMP_REQ_DATE)}
+              />
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.SIP_BODY_TIME_TO_LIVE)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.SIP_BODY_TIME_TO_LIVE, editedLastSipBodyTimeToLive)}
+              />
+              <Field
+                name={SETTINGS.SIP_BODY_TIME_TO_LIVE}
+                label={formatMessage({ id: 'oais.settings.field.sipBodyTimeToLive' })}
+                component={RenderTextField}
+                fullWidth
+                disabled={isDisabled(settings, SETTINGS.SIP_BODY_TIME_TO_LIVE)}
               />
             </div>
             <div style={settingDivAlt}>
@@ -264,6 +281,7 @@ function selectedSetting(state) {
   return {
     editedActiveNotification: formValuesSelector(state, [SETTINGS.ACTIVE_NOTIFICATION]),
     editedLastDumpReqDate: formValuesSelector(state, [SETTINGS.LAST_DUMP_REQ_DATE]),
+    editedLastSipBodyTimeToLive: parseInt(formValuesSelector(state, [SETTINGS.SIP_BODY_TIME_TO_LIVE]), 10),
     editedDumpParameters: formValuesSelector(state, [SETTINGS.DUMP_PARAMETERS]),
   }
 }
