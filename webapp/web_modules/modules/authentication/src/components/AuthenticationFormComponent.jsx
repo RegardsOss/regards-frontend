@@ -102,7 +102,7 @@ export class AuthenticationFormComponent extends React.Component {
   }
 
   /** User callback: go to unlock account */
-  onGotoUnlockAccount =() => {
+  onGotoUnlockAccount = () => {
     const { onGotoUnlockAccount, currentMailValue } = this.props
     onGotoUnlockAccount(currentMailValue)
   }
@@ -118,7 +118,7 @@ export class AuthenticationFormComponent extends React.Component {
         />
         <CardActions style={moduleTheme.serviceProviderList}>
           <ScrollArea
-            vertcal
+            vertical
             style={moduleTheme.cardProviderScrollStyle}
           >
             {
@@ -175,10 +175,10 @@ export class AuthenticationFormComponent extends React.Component {
                   component={RenderTextField}
                   type="text"
                   label={this.context.intl.formatMessage({ id: 'authentication.username' })}
-                /**
-                 * NOTE : User login is not necesserally an email.
-                 * In case of authentication plugins like LDAP.
-                */
+                  /**
+                   * NOTE : User login is not necesserally an email.
+                   * In case of authentication plugins like LDAP.
+                  */
                   validate={ValidationHelpers.required}
                   normalize={trim}
                   disabled={this.props.submitting || this.props.loading}
