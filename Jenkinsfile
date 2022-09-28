@@ -259,13 +259,6 @@ pipeline {
         }
     }
     post {
-        failure {
-            tuleapNotifyCommitStatus status: 'failure', repositoryId: '872', credentialId: 'tuleap-front-ci-token'
-            mattermostSend color: 'danger', message: "Build Failed - ${env.JOB_NAME}#${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", text: "Changes: \n"+getChangeString()
-        }
-        success {
-            tuleapNotifyCommitStatus status: 'success', repositoryId: '872', credentialId: 'tuleap-front-ci-token'
-        }
         cleanup {
             echo 'POST-CLEANUP-TASK -- Rewrire owner and access rights, to avoid future build having files issues'
             sh 'chown -R jenkins:jenkins .'
@@ -274,28 +267,6 @@ pipeline {
         }
     }
 }
-
-
-@NonCPS
-def getChangeString() {
-    def changeString = ""
-
-    echo "Gathering SCM changes"
-    def changeLogSets = currentBuild.changeSets
-    for (int i = 0; i < changeLogSets.size(); i++) {
-        def entries = changeLogSets[i].items
-        for (int j = 0; j < entries.length; j++) {
-            def entry = entries[j]
-            changeString += " - ${entry.msg} [@${entry.author}]\n"
-        }
-    }
-
-    if (!changeString) {
-        changeString = " - No new changes"
-    }
-    return changeString
-}
-
 
 // Run a docker image
 // @params script script to execute
