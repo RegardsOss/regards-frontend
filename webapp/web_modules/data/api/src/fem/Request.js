@@ -32,7 +32,7 @@ export const REQUEST_EXTRACTION_FEM_ARRAY = arrayOf(REQUEST_EXTRACTION_FEM)
  * request fem management for normalizr
  */
 export const RequestFemConfiguration = {
-  entityKey: 'providerId',
+  entityKey: 'id',
   normalizrKey: 'requests',
 }
 

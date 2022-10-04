@@ -22,7 +22,7 @@ import { Schema, arrayOf } from 'normalizr'
  * REFERENCE management for normalizr
  */
 export const ReferenceConfiguration = {
-  entityKey: 'providerId',
+  entityKey: 'id',
   normalizrKey: 'references',
 }
 
