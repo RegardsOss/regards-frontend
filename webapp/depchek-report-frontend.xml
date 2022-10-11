@@ -25,12 +25,12 @@
         <evidence type="version" confidence="HIGH">
           <source>file</source>
           <name>version</name>
-          <value>1.11.1</value>
+          <value>1.12.0-SNAPSHOT</value>
         </evidence>
       </evidenceCollected>
       <identifiers>
         <identifier type="npm" confidence="HIGH">
-           <name>(jquery:1.11.1)</name>
+           <name>(jquery:1.12.0-SNAPSHOT)</name>
         </identifier>
       </identifiers>
       <vulnerabilities>
@@ -255,12 +255,12 @@
         <evidence type="version" confidence="HIGH">
           <source>file</source>
           <name>version</name>
-          <value>1.11.1</value>
+          <value>1.12.0-SNAPSHOT</value>
         </evidence>
       </evidenceCollected>
       <identifiers>
         <identifier type="npm" confidence="HIGH">
-           <name>(jquery:1.11.1)</name>
+           <name>(jquery:1.12.0-SNAPSHOT)</name>
         </identifier>
       </identifiers>
       <vulnerabilities>
@@ -879,12 +879,12 @@
         <evidence type="version" confidence="HIGH">
           <source>file</source>
           <name>version</name>
-          <value>1.11.1</value>
+          <value>1.12.0-SNAPSHOT</value>
         </evidence>
       </evidenceCollected>
       <identifiers>
         <identifier type="npm" confidence="HIGH">
-           <name>(jquery:1.11.1)</name>
+           <name>(jquery:1.12.0-SNAPSHOT)</name>
         </identifier>
       </identifiers>
       <vulnerabilities>
@@ -1027,12 +1027,12 @@
         <evidence type="version" confidence="HIGH">
           <source>file</source>
           <name>version</name>
-          <value>1.11.1</value>
+          <value>1.12.0-SNAPSHOT</value>
         </evidence>
       </evidenceCollected>
       <identifiers>
         <identifier type="npm" confidence="HIGH">
-           <name>(jquery:1.11.1)</name>
+           <name>(jquery:1.12.0-SNAPSHOT)</name>
         </identifier>
       </identifiers>
       <vulnerabilities>
@@ -1755,8 +1755,8 @@
       </vulnerabilities>
     </dependency>
     <dependency>
-      <fileName>jquery-1.11.1.js</fileName>
-      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/cdn/jquery-1.11.1.js</filePath>
+      <fileName>jquery-1.12.0-SNAPSHOT.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/cdn/jquery-1.12.0-SNAPSHOT.js</filePath>
       <md5>3d93b072d14f2bd1ede58f4847f537fd</md5>
       <sha1>73e5d044bd153dd912930e8be433059454ce19cd</sha1>
       <evidenceCollected>
@@ -1768,12 +1768,12 @@
         <evidence type="version" confidence="HIGH">
           <source>file</source>
           <name>version</name>
-          <value>1.11.1</value>
+          <value>1.12.0-SNAPSHOT</value>
         </evidence>
       </evidenceCollected>
       <identifiers>
         <identifier type="npm" confidence="HIGH">
-           <name>(jquery:1.11.1)</name>
+           <name>(jquery:1.12.0-SNAPSHOT)</name>
         </identifier>
       </identifiers>
       <vulnerabilities>
@@ -1903,8 +1903,8 @@
       </vulnerabilities>
     </dependency>
     <dependency>
-      <fileName>jquery-1.11.1.min.js</fileName>
-      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/cdn/jquery-1.11.1.min.js</filePath>
+      <fileName>jquery-1.12.0-SNAPSHOT.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/cdn/jquery-1.12.0-SNAPSHOT.min.js</filePath>
       <md5>8101d596b2b8fa35fe3a634ea342d7c3</md5>
       <sha1>d6c1f41972de07b09bfa63d2e50f9ab41ec372bd</sha1>
       <evidenceCollected>
@@ -1916,12 +1916,12 @@
         <evidence type="version" confidence="HIGH">
           <source>file</source>
           <name>version</name>
-          <value>1.11.1</value>
+          <value>1.12.0-SNAPSHOT</value>
         </evidence>
       </evidenceCollected>
       <identifiers>
         <identifier type="npm" confidence="HIGH">
-           <name>(jquery:1.11.1)</name>
+           <name>(jquery:1.12.0-SNAPSHOT)</name>
         </identifier>
       </identifiers>
       <vulnerabilities>
@@ -2064,12 +2064,12 @@
         <evidence type="version" confidence="HIGH">
           <source>file</source>
           <name>version</name>
-          <value>1.11.1</value>
+          <value>1.12.0-SNAPSHOT</value>
         </evidence>
       </evidenceCollected>
       <identifiers>
         <identifier type="npm" confidence="HIGH">
-           <name>(jquery:1.11.1)</name>
+           <name>(jquery:1.12.0-SNAPSHOT)</name>
         </identifier>
       </identifiers>
       <vulnerabilities>
@@ -2212,12 +2212,12 @@
         <evidence type="version" confidence="HIGH">
           <source>file</source>
           <name>version</name>
-          <value>1.11.1</value>
+          <value>1.12.0-SNAPSHOT</value>
         </evidence>
       </evidenceCollected>
       <identifiers>
         <identifier type="npm" confidence="HIGH">
-           <name>(jquery:1.11.1)</name>
+           <name>(jquery:1.12.0-SNAPSHOT)</name>
         </identifier>
       </identifiers>
       <vulnerabilities>
@@ -2360,12 +2360,12 @@
         <evidence type="version" confidence="HIGH">
           <source>file</source>
           <name>version</name>
-          <value>1.11.1</value>
+          <value>1.12.0-SNAPSHOT</value>
         </evidence>
       </evidenceCollected>
       <identifiers>
         <identifier type="npm" confidence="HIGH">
-           <name>(jquery:1.11.1)</name>
+           <name>(jquery:1.12.0-SNAPSHOT)</name>
         </identifier>
       </identifiers>
       <vulnerabilities>
@@ -2508,12 +2508,12 @@
         <evidence type="version" confidence="HIGH">
           <source>file</source>
           <name>version</name>
-          <value>1.11.1</value>
+          <value>1.12.0-SNAPSHOT</value>
         </evidence>
       </evidenceCollected>
       <identifiers>
         <identifier type="npm" confidence="HIGH">
-           <name>(jquery:1.11.1)</name>
+           <name>(jquery:1.12.0-SNAPSHOT)</name>
         </identifier>
       </identifiers>
       <vulnerabilities>
@@ -3241,12 +3241,12 @@
         <evidence type="version" confidence="HIGH">
           <source>file</source>
           <name>version</name>
-          <value>1.11.1</value>
+          <value>1.12.0-SNAPSHOT</value>
         </evidence>
       </evidenceCollected>
       <identifiers>
         <identifier type="npm" confidence="HIGH">
-           <name>(jquery:1.11.1)</name>
+           <name>(jquery:1.12.0-SNAPSHOT)</name>
         </identifier>
       </identifiers>
       <vulnerabilities>
