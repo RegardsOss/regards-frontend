@@ -62,7 +62,7 @@ const messages = {
   'data.board.action.datapreparation.settings.tooltip': 'Paramètres',
 
   'data.board.ltamanagement.title': 'Système de pérennisation (LTA)',
-  'data.board.ltamanagement.description': 'Permet de visualiser le listing des demandes de pérennisation/suppression en cours et en erreurs.',
+  'data.board.ltamanagement.description': 'Permet de visualiser le listing des demandes de pérennisation en cours et en erreurs.',
   'data.board.action.ltamanagement.tooltip': 'Consulter les demandes',
   'data.board.action.ltamanagement.settings.tooltip': 'Paramètres',
 }
