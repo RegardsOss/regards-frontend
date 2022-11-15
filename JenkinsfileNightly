@@ -255,8 +255,8 @@ pipeline {
                             -Dsonar.projectVersion=${TAG} \
                             -Dsonar.branch.name=develop \
                             -Dsonar.projectBaseDir=/data/webapp \
-                            -Dsonar.host.url=http://172.26.47.129:9000/'
-		                sh 'docker run --rm -w /data -v ${WORKSPACE}:/data skilldlabs/sonar-scanner:4.0.0 rm -rf /data/webapp/.scannerwork'
+                            -Dsonar.host.url=http://172.26.47.129:9000/ \
+                            -Dsonar.working.directory=/tmp/'
                     }
                 )
             }
