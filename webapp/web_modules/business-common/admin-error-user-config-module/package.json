@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/admin-error-user-config-module",
-  "version": "1.11.3",
+  "version": "1.11.4",
   "private": true,
   "sideEffects": false,
   "description": "Validate modules configuration uses searchable attributes",

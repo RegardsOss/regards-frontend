@@ -1,6 +1,6 @@
 {
   "name": "frontend-webapp",
-  "version": "1.11.3",
+  "version": "1.11.4",
   "description": "REGARDS frontend webapp",
   "private": true,
   "scripts": {
