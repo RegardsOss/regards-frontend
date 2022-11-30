@@ -25,6 +25,9 @@ module.exports = function (projectContextPath) {
     module: {
       noParse: [/node_modules\/sinon/, /node_modules\/nock/],
     },
+    watchOptions: {
+      ignored: '**/node_modules'
+    },
     devServer: {
       devMiddleware: {
         stats: {
