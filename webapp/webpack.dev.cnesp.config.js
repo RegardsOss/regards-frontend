@@ -24,6 +24,9 @@
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
 const webpack = require('webpack')
 
+// to avoid Error: listen EACCES: permission denied 0.0.0.0:443, 
+// do : sudo setcap 'cap_net_bind_service=+ep' `which node`
+
 const conf = webpackConfigurator
   .generateConfig({
     mode: 'dev',
