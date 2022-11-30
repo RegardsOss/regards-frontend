@@ -140,4 +140,46 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionComponent', () => {
     assert.isFalse(subComponentWrapper.props().isFetching, 'The component should not be marked fetching')
     assert.isTrue(subComponentWrapper.props().isInError, 'The component should be marked in error')
   })
+  it('should render enabled field when no availablePropertyValues and user entered text', () => {
+    const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
+      error: true,
+      text: 'idk',
+      availablePropertyValues: [],
+      isFetching: false,
+      onUpdateTextFilter: () => { },
+      onFilterSelected: () => { },
+    }
+    const enzymeWrapper = shallow(<EnumeratedCriterionComponent {...props} />, { context })
+    // check autocomplete field state
+    const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
+    assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
+    assert.isFalse(subComponentWrapper.props().isFetching, 'The component should not be marked fetching')
+    assert.isTrue(subComponentWrapper.props().isInError, 'The component should be marked in error')
+    testSuiteHelpers.assertWrapperProperties(subComponentWrapper, {
+      disabled: false,
+    }, 'Properties should be correctly reported')
+  })
+  it('should render disabled field when no availablePropertyValues and text is empty', () => {
+    const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
+      error: true,
+      text: '',
+      availablePropertyValues: [],
+      isFetching: false,
+      onUpdateTextFilter: () => { },
+      onFilterSelected: () => { },
+    }
+    const enzymeWrapper = shallow(<EnumeratedCriterionComponent {...props} />, { context })
+    // check autocomplete field state
+    const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
+    assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
+    assert.isFalse(subComponentWrapper.props().isFetching, 'The component should not be marked fetching')
+    assert.isTrue(subComponentWrapper.props().isInError, 'The component should be marked in error')
+    testSuiteHelpers.assertWrapperProperties(subComponentWrapper, {
+      disabled: true,
+    }, 'Properties should be correctly reported')
+  })
 })

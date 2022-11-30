@@ -18,6 +18,7 @@
  **/
 import noop from 'lodash/noop'
 import EqualIcon from 'mdi-material-ui/EqualBox'
+import isEmpty from 'lodash/isEmpty'
 import { MenuItem } from 'material-ui/IconMenu'
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -70,6 +71,10 @@ export class EnumeratedCriterionComponent extends React.Component {
     },
   }
 
+  state = {
+    isFieldDisabled: false,
+  }
+
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
@@ -90,6 +95,7 @@ export class EnumeratedCriterionComponent extends React.Component {
     // when available values change, rebuild the hints datasource (avoids consuming time and memory at render)
     if (oldProps.availablePropertyValues !== newProps.availablePropertyValues) {
       this.setState({
+        isFieldDisabled: isEmpty(newProps.text) && isEmpty(newProps.availablePropertyValues),
         currentHints: (newProps.availablePropertyValues || []).map((value) => ({
           id: value, // element id
           text: value, // element text (similar)
@@ -105,7 +111,7 @@ export class EnumeratedCriterionComponent extends React.Component {
       error, isFetching,
       onUpdateTextFilter, onFilterSelected,
     } = this.props
-    const { currentHints } = this.state
+    const { currentHints, isFieldDisabled } = this.state
     const { intl, muiTheme, moduleTheme: { menuStyle } } = this.context
     return (
       <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
@@ -136,6 +142,7 @@ export class EnumeratedCriterionComponent extends React.Component {
             onFilterSelected={onFilterSelected}
             menuStyle={menuStyle}
             fullWidth
+            disabled={isFieldDisabled}
           />
         </td>
       </tr>
