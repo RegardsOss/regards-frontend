@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss-modules/order-cart",
-  "version": "1.11.4",
+  "version": "1.11.5",
   "private": true,
   "sideEffects": false,
   "description": "Display order cart and the user selected data it contains",
