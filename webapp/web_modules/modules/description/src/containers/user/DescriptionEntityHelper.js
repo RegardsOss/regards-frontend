@@ -348,21 +348,29 @@ export class DescriptionEntityHelper {
 
   static buildURI(dataFile, accessToken, projectName) {
     const uriOriginParam = `origin=${root.location.protocol}//${root.location.host}`
-    let uri = DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)
+    let uri = this.removesPort(DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName))
     const contentInlineParameter = 'isContentInline=true'
     const separator = this.getSeparator(uri)
-
+    const gatewayUrlCleaned = this.removesPort(`${GATEWAY_HOSTNAME}/${API_URL}/`)
     // file is distributed by REGARDS microservice
     // we add get param need by storage
-    if (!dataFile.reference && includes(uri, `${GATEWAY_HOSTNAME}/${API_URL}/`)) {
+    if (!dataFile.reference && includes(uri, gatewayUrlCleaned)) {
       uri = `${uri}${separator}${uriOriginParam}`
       // does this file is allowed to be displayed in a frame
       if (includes(`${STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES}`, dataFile.mimeType)) {
         uri = `${uri}${this.getSeparator(uri)}${contentInlineParameter}`
       }
     }
-
     return uri
+  }
+
+  /**
+   * Removes port 80 and 443 of the uri if exists
+   * @param {string} uri
+   * @return {string} the uri without port 80 or 443
+   */
+  static removesPort(uri) {
+    return uri.replace(`:80/${API_URL}`, `/${API_URL}`).replace(`:443/${API_URL}`, `/${API_URL}`)
   }
 
   /**
