@@ -36,10 +36,6 @@ export default class SearchEntitiesCommonModelAttributesActions extends BasicSig
    * @param searchContext search context to match "selected" files
    */
   getCommonModelAttributes(searchContext) {
-    const searchContextSerialized = {
-      ...searchContext,
-      searchParameters: JSON.stringify(searchContext.searchParameters),
-    }
-    return this.sendSignal('GET', null, null, searchContextSerialized)
+    return this.sendSignal('GET', null, null, searchContext.searchParameters)
   }
 }
