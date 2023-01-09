@@ -122,6 +122,7 @@ export class EnumeratedCriterionComponent extends React.Component {
         <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
           <div style={muiTheme.module.searchResults.searchPane.criteria.optionsContainer}>
             <IconElementSelector
+              disabled={isFieldDisabled}
               value={EnumeratedCriterionComponent.EQUAL_OPERATOR}
               choices={EnumeratedCriterionComponent.OPERATORS}
               choiceGraphics={EnumeratedCriterionComponent.OPERATORS_DEFINITION}
