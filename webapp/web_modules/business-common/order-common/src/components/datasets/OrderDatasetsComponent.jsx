@@ -30,6 +30,7 @@ import {
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
 import OrderDatasetsCountHeaderMessage from './OrderDatasetsCountHeaderMessage'
 import ShowDatasetFilesContainer from '../../containers/datasets/ShowDatasetFilesContainer'
+import FileFiltersComponent from './FileFiltersComponent'
 import OrderDatasetsProcessingContainer from '../../containers/datasets/OrderDatasetsProcessingContainer'
 import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
 
@@ -39,6 +40,7 @@ const OBJECT_COUNT_KEY = 'column.objects.count'
 const FILES_COUNT_KEY = 'column.files.count'
 const FILES_SIZE_KEY = 'column.files.size'
 const PROCESSING_KEY = 'column.processing'
+const FILE_FILTERS_KEY = 'column.fileFilters'
 
 /**
  * Shows selected order datasets
@@ -103,7 +105,15 @@ class OrderDatasetsComponent extends React.Component {
       // 5 - Processing label
       // Check if user have access to processing endpoint
       ...isProcessingDependenciesExist ? [this.buildProcessingColumn()] : [],
-      // 5 - Options
+      // 6 - File filters
+      new TableColumnBuilder(FILE_FILTERS_KEY).titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: FileFiltersComponent,
+        })
+        .label(formatMessage({ id: 'datasets.list.column.fileFilters' }))
+        .visible(get(columnsVisibility, FILE_FILTERS_KEY, true))
+        .build(),
+      // 7 - Options
       new TableColumnBuilder().visible(get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true))
         .label(formatMessage({ id: 'datasets.list.column.options' }))
         .optionsColumn([{

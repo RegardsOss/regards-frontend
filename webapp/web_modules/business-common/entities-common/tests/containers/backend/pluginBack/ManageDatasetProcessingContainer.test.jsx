@@ -21,7 +21,7 @@ import sinon from 'sinon'
 import find from 'lodash/find'
 import { assert } from 'chai'
 import get from 'lodash/get'
-import { ProcessingClient, CommonClient } from '@regardsoss/client'
+import { ProcessingClient, CommonClient, OrderClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import ManageDatasetProcessingComponent from '../../../../src/components/backend/pluginBack/ManageDatasetProcessingComponent'
 import { ManageDatasetProcessingContainer } from '../../../../src/containers/backend/pluginBack/ManageDatasetProcessingContainer'
@@ -93,7 +93,9 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
       processingConfigurationList: DumpProvider.get('ProcessingClient', 'Processing'),
       processingMetadataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
       fetchLinkProcessingDatasetList: sinon.stub().callsFake(() => promiseFetchProcessingDatasetList),
+      removeFileFilters: () => { },
       updateDatasetProcessing: () => { },
+      fileFiltersActions: new OrderClient.OrderFileFiltersActions(),
     }
     const enzymeWrapper = shallow(<ManageDatasetProcessingContainer {...props} />, { context })
 
@@ -141,6 +143,8 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
       processingMetadataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
       fetchLinkProcessingDatasetList: sinon.stub().callsFake(() => promiseFetchProcessingDatasetList),
       updateDatasetProcessing: () => { },
+      removeFileFilters: () => { },
+      fileFiltersActions: new OrderClient.OrderFileFiltersActions(),
     }
     const enzymeWrapper = shallow(<ManageDatasetProcessingContainer {...props} />, { context })
 

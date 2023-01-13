@@ -42,6 +42,10 @@ export { default as OrderDatasetFilesActions } from './order/OrderDatasetFilesAc
 export { default as getOrderDatasetFilesReducer } from './order/OrderDatasetFilesReducer'
 export { default as getOrderDatasetFilesSelectors } from './order/OrderDatasetFilesSelectors'
 
+export { default as OrderFileFiltersActions } from './order/OrderFileFiltersActions'
+export { default as getOrderFileFiltersReducer } from './order/OrderFileFiltersReducer'
+export { default as getOrderFileFiltersSelectors } from './order/OrderFileFiltersSelectors'
+
 // get orders list (order) for current or all users
 export { default as OrderListActions } from './order/OrderListActions'
 export { default as getOrderListReducer } from './order/OrderListReducer'

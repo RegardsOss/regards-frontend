@@ -69,7 +69,7 @@ const moduleStyles = (theme) => ({
               },
             },
           },
-          processingStyle: {
+          columnButtonStyle: {
             display: 'flex',
             justifyContent: 'flex-end',
           },
@@ -81,6 +81,65 @@ const moduleStyles = (theme) => ({
           },
           numberTextStyle: {
             marginRight: theme.spacing.iconSize / 2,
+          },
+        },
+        warningMessageStyle: {
+          mainMessageDivStyle: {
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: '15px',
+          },
+          messageTextStyle: {
+            marginLeft: '10px',
+            color: theme.formsExtensions.validation.warningColor,
+          },
+          warningIconStyle: {
+            color: theme.formsExtensions.validation.warningColor,
+          },
+        },
+        fileFiltersStyle: {
+          dialogStyle: {
+            dialogHeightPercent: 100,
+            maxHeight: 360,
+            dialogWidthPercent: 50,
+          },
+          fieldsFiltersStyle: {
+            width: '100%',
+          },
+          deleteButtonStyle: {
+            color: 'red',
+          },
+          lineStyle: {
+            height: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '3px',
+          },
+          mainDivStyle: {
+            display: 'flex',
+            flexDirection: 'column',
+            height: '39px',
+            justifyContent: 'center',
+            padding: '0px 3px 3px 3px',
+          },
+          pStyle: {
+            color: 'rgb(230, 81, 0)',
+            marginRight: '2px',
+          },
+          pValueStyle: {
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+          },
+          iconStyle: {
+            height: '20px',
+            width: '20px',
+          },
+          labelStyle: {
+            fontSize: '13px',
+          },
+          buttonStyle: {
+            width: '100%',
+            textAlign: 'left',
           },
         },
       },

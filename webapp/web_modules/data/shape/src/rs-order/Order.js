@@ -32,6 +32,11 @@ export const DatasetProcessing = PropTypes.shape({
   parameters: PropTypes.objectOf(PropTypes.any),
 })
 
+export const FileSelectionDescription = PropTypes.shape({
+  fileTypes: PropTypes.arrayOf(PropTypes.string),
+  fileNamePattern: PropTypes.string,
+})
+
 /** An order dataset */
 export const DatasetTask = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -40,6 +45,7 @@ export const DatasetTask = PropTypes.shape({
   filesCount: PropTypes.number.isRequired,
   filesSize: PropTypes.number.isRequired,
   processDatasetDescription: DatasetProcessing,
+  fileSelectionDescription: FileSelectionDescription,
 })
 
 /** An order */

@@ -117,6 +117,8 @@ export class UserModuleContainer extends React.Component {
 
   state = {
     isProcessingDependenciesExist: allMatchHateoasDisplayLogic([processingActions.getDependency(RequestVerbEnum.GET)], this.props.availableDependencies),
+    // isFileFilterDependenciesExist: allMatchHateoasDisplayLogic([fileFiltersActions.getDependency(RequestVerbEnum.PUT)], this.props.availableDependencies),
+    isFileFilterDependenciesExist: true,
   }
 
   UNSAFE_componentWillMount() {
@@ -213,7 +215,7 @@ export class UserModuleContainer extends React.Component {
     const {
       basket, hasError, isAuthenticated, isFetching, dispatchClearCart, moduleConf: { showDatasets = true }, dispatchGetBasket,
     } = this.props
-    const { isProcessingDependenciesExist } = this.state
+    const { isProcessingDependenciesExist, isFileFilterDependenciesExist } = this.state
     return (
       /* main view */
       <OrderCartComponent
@@ -229,6 +231,7 @@ export class UserModuleContainer extends React.Component {
         processingSelectors={processingSelectors}
         pluginMetaDataSelectors={pluginMetaDataSelectors}
         linkProcessingDatasetActions={linkProcessingDatasetActions}
+        isFileFilterDependenciesExist={isFileFilterDependenciesExist}
         {...modulesHelper.getReportedUserModuleProps(this.props)}
       />
     )

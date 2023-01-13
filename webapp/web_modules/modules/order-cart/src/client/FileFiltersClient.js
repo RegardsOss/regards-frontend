@@ -16,11 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-  BasketSelelectionRequest, BasketDatedItemsSelection, BasketDatasetSelection, Basket,
-  BasketDatasetProcessingSelection, BasketDatasetFileSelectionDescription,
-} from './Basket'
-export {
-  DatasetTask, Order, OrderWithContent, OrderList, DatasetProcessing, FileSelectionDescription,
-} from './Order'
-export { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'
+import { OrderClient } from '@regardsoss/client'
+
+/**
+ * Processing entities client.
+ * @author Théo Lasserre
+ */
+const ENTITIES_STORE_PATH = ['modules.order-cart', 'filefilters']
+const REDUX_ACTION_NAMESPACE = 'order-cart/filefilters'
+
+export const fileFiltersReducer = OrderClient.getOrderFileFiltersReducer(REDUX_ACTION_NAMESPACE)
+export const fileFiltersActions = new OrderClient.OrderFileFiltersActions(REDUX_ACTION_NAMESPACE)
+export const fileFiltersSelectors = OrderClient.getOrderFileFiltersSelectors(ENTITIES_STORE_PATH)

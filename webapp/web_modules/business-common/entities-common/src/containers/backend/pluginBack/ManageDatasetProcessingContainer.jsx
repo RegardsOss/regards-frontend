@@ -69,10 +69,11 @@ export class ManageDatasetProcessingContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps),
    * @return {*} list of component properties extracted from redux state,
    */
-  static mapDispatchToProps(dispatch, { linkProcessingDatasetActions }) {
+  static mapDispatchToProps(dispatch, { fileFiltersActions, linkProcessingDatasetActions }) {
     return {
       fetchLinkProcessingDatasetList: (datasetSelectionIpId) => dispatch(linkProcessingDatasetActions.getLinkProcessDataset(datasetSelectionIpId)),
       updateDatasetProcessing: (datasetSelectionId, process) => dispatch(orderBasketActions.updateDatasetProcessingSelection(datasetSelectionId, process)),
+      removeFileFilters: (datasetSelectionId) => dispatch(fileFiltersActions.updateFileFilters(datasetSelectionId, null)),
     }
   }
 
@@ -98,11 +99,15 @@ export class ManageDatasetProcessingContainer extends React.Component {
     datasetSelectionId: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     process: OrderShapes.BasketDatasetProcessingSelection,
+    // eslint-disable-next-line react/no-unused-prop-types
+    fileSelectionDescription: OrderShapes.BasketDatasetFileSelectionDescription,
     disabled: PropTypes.bool.isRequired,
     //eslint-disable-next-line react/no-unused-prop-types
     processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
     //eslint-disable-next-line react/no-unused-prop-types
     pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    fileFiltersActions: PropTypes.instanceOf(OrderClient.OrderFileFiltersActions).isRequired,
     //eslint-disable-next-line react/no-unused-prop-types
     linkProcessingDatasetActions: PropTypes.instanceOf(BasicSignalActions).isRequired,
     onProcessChanged: PropTypes.func.isRequired,
@@ -115,6 +120,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
     // from mapDispatchToProps
     fetchLinkProcessingDatasetList: PropTypes.func,
     updateDatasetProcessing: PropTypes.func,
+    removeFileFilters: PropTypes.func.isRequired,
   }
 
   state = {
@@ -161,7 +167,6 @@ export class ManageDatasetProcessingContainer extends React.Component {
       process,
       processingConfigurationList,
     } = newProps
-
     // 1 - Update current configurations when selectable attributes change
     const newState = { ...oldState }
 
@@ -265,7 +270,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
    * @param {*} formValues
    */
   onConfigurationDone = (formValues = {}) => {
-    const { datasetSelectionId } = this.props
+    const { datasetSelectionId, fileSelectionDescription, removeFileFilters } = this.props
     const processBusinessId = get(this.props, 'process.processBusinessId', null)
     const { processingConfParametersSelected, processingConfParametersObjects } = this.state
     let processingConfParametersSelectedFound = processingConfParametersSelected
@@ -292,7 +297,15 @@ export class ManageDatasetProcessingContainer extends React.Component {
         processBusinessId: processingConfParametersSelectedFound.businessId,
         parameters: processingConfParametersSelectedFound.parameters,
       }
-      this.updateDatasetProcessing(datasetSelectionId, processingConfParametersSelectedToSend)
+      if (fileSelectionDescription) {
+        removeFileFilters(datasetSelectionId).then((actionResult) => {
+          if (!actionResult.error) {
+            this.updateDatasetProcessing(datasetSelectionId, processingConfParametersSelectedToSend)
+          }
+        })
+      } else {
+        this.updateDatasetProcessing(datasetSelectionId, processingConfParametersSelectedToSend)
+      }
     }
   }
 
@@ -315,7 +328,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
 
   render() {
     const {
-      disabled,
+      disabled, fileSelectionDescription,
     } = this.props
     const { processingConfParametersObjects, processingConfParametersSelected, isProcessingConfSelectedConfigurable } = this.state
     const processBusinessId = get(this.props, 'process.processBusinessId', null)
@@ -329,6 +342,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
           isProcessingConfSelectedConfigurable={isProcessingConfSelectedConfigurable}
           onSelectedProcessingConfChanged={this.onSelectedProcessingConfChanged}
           onConfigurationDone={this.onConfigurationDone}
+          fileSelectionDescription={fileSelectionDescription}
           onRemoveProcessing={this.onRemoveProcessing}
           processBusinessId={processBusinessId}
           disabled={disabled}

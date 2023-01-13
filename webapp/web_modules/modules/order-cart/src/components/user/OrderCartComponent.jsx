@@ -50,6 +50,7 @@ class OrderCartComponent extends React.Component {
     onClearCart: PropTypes.func.isRequired,
     onOrder: PropTypes.func.isRequired,
     isProcessingDependenciesExist: PropTypes.bool.isRequired,
+    isFileFilterDependenciesExist: PropTypes.bool.isRequired,
     processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
     pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
     linkProcessingDatasetActions: PropTypes.instanceOf(BasicSignalActions).isRequired,
@@ -104,6 +105,7 @@ class OrderCartComponent extends React.Component {
     const {
       isAuthenticated, basket, isFetching, onClearCart, onOrder, showDatasets, isProcessingDependenciesExist,
       processingSelectors, pluginMetaDataSelectors, linkProcessingDatasetActions, refreshBasket,
+      isFileFilterDependenciesExist,
       ...moduleProperties
     } = this.props
     const { totalObjectsCount, effectiveObjectsCount, showMessage } = this.state
@@ -143,6 +145,7 @@ class OrderCartComponent extends React.Component {
               processingSelectors={processingSelectors}
               pluginMetaDataSelectors={pluginMetaDataSelectors}
               linkProcessingDatasetActions={linkProcessingDatasetActions}
+              isFileFilterDependenciesExist={isFileFilterDependenciesExist}
             />
           </NoContentMessageInfo>
         </DynamicModulePane>

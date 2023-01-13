@@ -16,11 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-  BasketSelelectionRequest, BasketDatedItemsSelection, BasketDatasetSelection, Basket,
-  BasketDatasetProcessingSelection, BasketDatasetFileSelectionDescription,
-} from './Basket'
-export {
-  DatasetTask, Order, OrderWithContent, OrderList, DatasetProcessing, FileSelectionDescription,
-} from './Order'
-export { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'
+import { BasicSignalActions } from '@regardsoss/store-utils'
+
+/**
+ * Action to select criterions for basket files
+ * @author Théo Lasserre
+ */
+class OrderFileFiltersActions extends BasicSignalActions {
+  /**
+   * Constructor
+   * @param {*} namespace  actions namespace
+   */
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/order/basket/dataset/{datasetSelectionId}/updateFileFilters`,
+    })
+  }
+
+  /**
+   * Apply file selection filters
+  */
+  updateFileFilters(datasetSelectionId, filters) {
+    return this.sendSignal('PUT', filters, {
+      datasetSelectionId,
+    })
+  }
+}
+
+export default OrderFileFiltersActions

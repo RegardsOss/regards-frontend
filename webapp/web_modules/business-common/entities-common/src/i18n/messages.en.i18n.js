@@ -41,6 +41,7 @@ const messages = {
 
   // backend / pluginBack
   'entities.common.backend.pluginback.processing.dialog.title': 'Choose a processing',
+  'entities.common.backend.pluginback.processing.dialog.warning.message': 'Warning: setting processing for this item will remove the selected filters',
   'entities.common.backend.pluginback.processing.dialog.select.label': 'Processing',
   'entities.common.backend.pluginback.processing.dialog.select.maxFileInInput': '{value} products allowed',
   'entities.common.backend.pluginback.processing.dialog.remove': 'Remove',
@@ -50,7 +51,7 @@ const messages = {
   'entities.common.backend.pluginback.processing.dialog.remove.confirmation.message': 'This action will remove {processingLabel} processing from the dataset',
   'entities.common.backend.pluginback.processing.dialog.remove.tooltip': 'Remove Processing',
 
-  'entities.common.backend.pluginback.processing.button.add.label': 'Process',
+  'entities.common.backend.pluginback.processing.button.add.label': 'Add',
   'entities.common.backend.pluginback.processing.button.add.title': 'Add a new process',
   'entities.common.backend.pluginback.processing.button.edit.label': '{label}',
   'entities.common.backend.pluginback.processing.button.edit.title': 'Edit selected process',

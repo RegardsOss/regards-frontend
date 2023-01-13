@@ -101,5 +101,33 @@ export const SOME_ORDERS = {
       },
       links: [],
     },
+    2: {
+      content: {
+        id: 1,
+        label: 'hello command 3',
+        owner: 'hello@hello.com',
+        creationDate: '2017-10-10T15:59:57.664Z',
+        expirationDate: '2018-02-10T18:00:00.664Z',
+        percentCompleted: 56,
+        filesInErrorCount: 3,
+        waitingForUser: false,
+        status: 'RUNNING',
+        statusDate: '2017-09-08T12:02:33.664Z',
+        availableFilesCount: 12,
+        datasetTasks: [
+          {
+            id: 2,
+            datasetLabel: 'd3',
+            objectsCount: 25,
+            filesCount: 33,
+            filesSize: 4550,
+            fileSelectionDescription: {
+              fileNamePattern: '.*Ain*',
+            },
+          },
+        ],
+      },
+      links: [],
+    },
   },
 }

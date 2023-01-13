@@ -179,4 +179,28 @@ export default (theme) => ({
       color: theme.palette.accent3Color,
     },
   },
+  orderFileFiltersStyle: {
+    mainDivStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '44px',
+      justifyContent: 'center',
+      width: '100%',
+      fontSize: '14px',
+      alignItems: 'center',
+    },
+    lineDivStyle: {
+      height: '50%',
+      display: 'flex',
+      alignItems: 'center',
+    },
+    lineLabelStyle: {
+      color: 'rgb(230, 81, 0)',
+      marginRight: '3px',
+    },
+    lineValueStyle: {
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+    },
+  },
 })

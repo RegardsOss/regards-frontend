@@ -78,6 +78,33 @@ export default (theme) => ({
     removeProcessingButton: {
       color: 'red',
     },
+    disabledRemoveProcessingButton: {
+      color: 'red',
+    },
+    openButtonStyle: {
+      width: '100%',
+      textAlign: 'left',
+    },
+    iconStyle: {
+      height: '20px',
+      width: '20px',
+    },
+    labelStyle: {
+      fontSize: '13px',
+    },
+    warningMessageStyle: {
+      mainMessageDivStyle: {
+        display: 'flex',
+        alignItems: 'center',
+      },
+      messageTextStyle: {
+        marginLeft: '10px',
+        color: theme.formsExtensions.validation.warningColor,
+      },
+      warningIconStyle: {
+        color: theme.formsExtensions.validation.warningColor,
+      },
+    },
   },
   description: {
     markdownView: {

@@ -16,11 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-  BasketSelelectionRequest, BasketDatedItemsSelection, BasketDatasetSelection, Basket,
-  BasketDatasetProcessingSelection, BasketDatasetFileSelectionDescription,
-} from './Basket'
-export {
-  DatasetTask, Order, OrderWithContent, OrderList, DatasetProcessing, FileSelectionDescription,
-} from './Order'
-export { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
+
+/**
+ * @author Théo Lasserre
+ */
+
+/**
+ * Selectors instance builders
+ * @param {[string]} storePath path to access state in redux store
+ * @return selectors instance
+ */
+export default function getOrderFileFiltersSelectors(storePath) {
+  return new BasicPageableSelectors(storePath)
+}

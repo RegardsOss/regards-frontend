@@ -44,7 +44,7 @@ const styles = (theme) => (
     },
     cardProviderScrollStyle: {
       height: '335px',
-      width: '291px',
+      width: '276px',
     },
     cardProviderStyle: {
       width: '300px',

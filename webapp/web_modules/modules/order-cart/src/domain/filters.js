@@ -16,11 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-  BasketSelelectionRequest, BasketDatedItemsSelection, BasketDatasetSelection, Basket,
-  BasketDatasetProcessingSelection, BasketDatasetFileSelectionDescription,
-} from './Basket'
-export {
-  DatasetTask, Order, OrderWithContent, OrderList, DatasetProcessing, FileSelectionDescription,
-} from './Order'
-export { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'
+
+/** File types available for filter options */
+export const FILE_FILTERS_FILES_TYPES = {
+  RAWDATA: 'RAWDATA',
+  QUICKLOOK: 'QUICKLOOK',
+  THUMBNAIL: 'THUMBNAIL',
+}
+
+export const FILTER_PARAMS = {
+  TYPE: 'fileTypes',
+  NAME: 'fileNamePattern',
+}

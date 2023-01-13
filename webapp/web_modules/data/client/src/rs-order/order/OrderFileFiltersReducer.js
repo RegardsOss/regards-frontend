@@ -16,11 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-  BasketSelelectionRequest, BasketDatedItemsSelection, BasketDatasetSelection, Basket,
-  BasketDatasetProcessingSelection, BasketDatasetFileSelectionDescription,
-} from './Basket'
-export {
-  DatasetTask, Order, OrderWithContent, OrderList, DatasetProcessing, FileSelectionDescription,
-} from './Order'
-export { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'
+
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import OrderFileFiltersActions from './OrderFileFiltersActions'
+
+/**
+  * @author Théo Lasserre
+  */
+
+/**
+  * Builds reduce closure on actions namespace
+  * @param {*} namespace namespace
+  * @return reduce function (state, action) => state
+  */
+const getOrderFileFiltersReducer = (namespace) => {
+  const reducerInstance = new BasicSignalReducers(new OrderFileFiltersActions(namespace))
+  // reduce function
+  return (state, action) => reducerInstance.reduce(state, action)
+}
+
+export default getOrderFileFiltersReducer

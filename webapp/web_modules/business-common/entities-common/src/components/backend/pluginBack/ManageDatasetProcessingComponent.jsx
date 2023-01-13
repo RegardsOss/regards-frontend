@@ -20,7 +20,9 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender, PositionedDialog, withConfirmDialog } from '@regardsoss/components'
 import { PluginDescriptionDialog } from '@regardsoss/microservice-plugin-configurator'
+import { OrderShapes } from '@regardsoss/shape'
 import { reduxForm } from '@regardsoss/form-utils'
+import WarningIcon from 'mdi-material-ui/AlertOutline'
 import RemoveIcon from 'mdi-material-ui/Delete'
 import IconButton from 'material-ui/IconButton'
 import DetailIcon from 'mdi-material-ui/HelpCircle'
@@ -31,7 +33,6 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
 import AddIcon from 'mdi-material-ui/Plus'
-import Pencil from 'mdi-material-ui/Pencil'
 import ParametersConfigurationComponent from '../../ParametersConfigurationComponent'
 
 export const ButtonWithConfirmDialog = withConfirmDialog(FlatButton)
@@ -50,6 +51,8 @@ export class ManageDatasetProcessingComponent extends React.Component {
     onSelectedProcessingConfChanged: PropTypes.func.isRequired,
     onConfigurationDone: PropTypes.func.isRequired,
     onRemoveProcessing: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    fileSelectionDescription: OrderShapes.BasketDatasetFileSelectionDescription,
     processBusinessId: PropTypes.string,
     disabled: PropTypes.bool.isRequired,
 
@@ -110,7 +113,7 @@ export class ManageDatasetProcessingComponent extends React.Component {
 
   renderManageDatasetProcessingDialog = () => {
     const {
-      processingConfParametersObjects, processingConfParametersSelected, processBusinessId,
+      processingConfParametersObjects, processingConfParametersSelected, processBusinessId, fileSelectionDescription,
       onSelectedProcessingConfChanged, isProcessingConfSelectedConfigurable, initialize, handleSubmit, invalid,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { pluginServiceDialog } } = this.context
@@ -136,7 +139,7 @@ export class ManageDatasetProcessingComponent extends React.Component {
               icon={<RemoveIcon />}
               onClick={this.onRemove}
               disabled={!processBusinessId}
-              style={pluginServiceDialog.removeProcessingButton}
+              style={processBusinessId ? pluginServiceDialog.removeProcessingButton : null}
             />
             <FlatButton
               key="cancel"
@@ -155,6 +158,12 @@ export class ManageDatasetProcessingComponent extends React.Component {
             />
           </>}
         >
+          {
+            fileSelectionDescription ? <div style={pluginServiceDialog.warningMessageStyle.mainMessageDivStyle}>
+              <WarningIcon style={pluginServiceDialog.warningMessageStyle.warningIconStyle} />
+              <p style={pluginServiceDialog.warningMessageStyle.messageTextStyle}>{formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.warning.message' })}</p>
+            </div> : null
+          }
           <div style={pluginServiceDialog.selectPluginField}>
             <SelectField
               floatingLabelText={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.select.label' })}
@@ -201,13 +210,13 @@ export class ManageDatasetProcessingComponent extends React.Component {
     const {
       disabled, processingConfParametersObjects, processBusinessId,
     } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { pluginServiceDialog } } = this.context
 
     const processingSelected = get(processingConfParametersObjects, `${processBusinessId}`, {})
     const pLabel = !isEmpty(processingSelected) ? get(processingSelected, 'label', '') : ''
     const title = !isEmpty(processingSelected) ? 'entities.common.backend.pluginback.processing.button.edit.title' : 'entities.common.backend.pluginback.processing.button.add.title'
     const label = !isEmpty(processingSelected) ? 'entities.common.backend.pluginback.processing.button.edit.label' : 'entities.common.backend.pluginback.processing.button.add.label'
-    const icon = !isEmpty(processingSelected) ? <Pencil /> : <AddIcon />
+    const icon = isEmpty(processingSelected) ? <AddIcon style={pluginServiceDialog.iconStyle} /> : null
 
     return (
       <div>
@@ -219,6 +228,8 @@ export class ManageDatasetProcessingComponent extends React.Component {
           icon={icon}
           disabled={disabled || isEmpty(processingConfParametersObjects)}
           onClick={this.openOrCloseManageProcessingDialog}
+          style={pluginServiceDialog.openButtonStyle}
+          labelStyle={pluginServiceDialog.labelStyle}
         />
         {!isEmpty(processingConfParametersObjects) ? this.renderManageDatasetProcessingDialog() : null}
         {this.renderDescription()}

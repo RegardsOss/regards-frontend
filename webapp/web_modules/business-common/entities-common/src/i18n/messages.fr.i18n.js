@@ -41,6 +41,7 @@ const messages = {
 
   // backend / pluginBack
   'entities.common.backend.pluginback.processing.dialog.title': 'Sélectionner un traitement',
+  'entities.common.backend.pluginback.processing.dialog.warning.message': 'Attention: définir un traitement pour cet élément supprimera les filtres sélectionnés.',
   'entities.common.backend.pluginback.processing.dialog.select.label': 'Traitement',
   'entities.common.backend.pluginback.processing.dialog.select.maxFileInInput': '{value} produit(s) autorisé(s) pour ce traitement.',
   'entities.common.backend.pluginback.processing.dialog.remove': 'Supprimer',
@@ -50,7 +51,7 @@ const messages = {
   'entities.common.backend.pluginback.processing.dialog.remove.confirmation.message': 'Cette action supprimera le traitement {processingLabel} de ce jeu de données',
   'entities.common.backend.pluginback.processing.dialog.remove.tooltip': 'Supprimer le traitement',
 
-  'entities.common.backend.pluginback.processing.button.add.label': 'Traitement',
+  'entities.common.backend.pluginback.processing.button.add.label': 'Ajouter',
   'entities.common.backend.pluginback.processing.button.add.title': 'Selectionner un traitement',
   'entities.common.backend.pluginback.processing.button.edit.label': '{label}',
   'entities.common.backend.pluginback.processing.button.edit.title': 'Editer le traitement',

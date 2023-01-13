@@ -19,3 +19,4 @@
 
 export { ORDER_STATUS_ENUM, ORDER_STATUS } from './OrderStatus'
 export { ORDER_FILE_STATUS_ENUM, ORDER_FILE_STATUS } from './OrderFileStatus'
+export { FILTER_PARAMS, FILE_FILTERS_FILES_TYPES } from './OrderFileFilters'
