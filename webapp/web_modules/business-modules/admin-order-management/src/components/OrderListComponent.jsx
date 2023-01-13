@@ -23,11 +23,13 @@ import { BasicPageableSelectors, BasicSelector, BasicListSelectors } from '@rega
 import { OrderClient, ProcessingClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { CardHeaderActions, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import { CardHeaderActions, TableFilterSortingAndVisibilityContainer, FiltersChipsContainer } from '@regardsoss/components'
 import {
   ORDER_DISPLAY_MODES, OrderDisplayContainer, OrdersNavigationActions, OrdersNavigationContainer,
 } from '@regardsoss/order-common'
 import OrderListFiltersContainer from '../containers/OrderListFiltersContainer'
+import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
+import { FILTERS_I18N } from '../domain/filters'
 
 /**
 * Component to display order list in project
@@ -116,6 +118,11 @@ class OrderListComponent extends React.Component {
           thirdButtonUrl={backUrl}
         />
         <CardText style={cardTextStyle}>
+          <FiltersChipsContainer
+            filtersActions={filtersActions}
+            filtersSelectors={filtersSelectors}
+            filtersI18n={FILTERS_I18N}
+          />
           <TableFilterSortingAndVisibilityContainer
             pageActions={ordersActions}
             pageSelectors={ordersSelectors}
@@ -125,6 +132,8 @@ class OrderListComponent extends React.Component {
               key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
               isPaneOpened={isPaneOpened}
               onCloseFiltersPane={this.handleFiltersPane}
+              filtersActions={filtersActions}
+              filtersSelectors={filtersSelectors}
             />
             <OrderDisplayContainer
               key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}

@@ -23,7 +23,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableHeaderOptionGroup, TableColumnsVisibilityOption,
-  DownloadButton,
+  TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
 
 /**
@@ -31,11 +31,12 @@ import {
  */
 class HeaderActionsBar extends React.Component {
   static propTypes = {
-    csvLink: PropTypes.string.isRequired,
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onDownloadCSV: PropTypes.func,
 
     // table sorting, column visiblity & filters management
     onChangeColumnsVisibility: PropTypes.func.isRequired,
+    bodyParameters: TableFilterSortingAndVisibilityContainer.BODY_PARAMETERS_PROP_TYPE,
   }
 
   static contextTypes = {
@@ -45,16 +46,15 @@ class HeaderActionsBar extends React.Component {
 
   render() {
     const {
-      csvLink, columns, onChangeColumnsVisibility,
+      columns, onChangeColumnsVisibility, bodyParameters, onDownloadCSV,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <TableHeaderOptionGroup>
-        <DownloadButton
-          ButtonConstructor={FlatButton}
+        <FlatButton
+          onClick={() => onDownloadCSV(bodyParameters)}
           icon={<DownloadCSVIcon />}
           label={formatMessage({ id: 'projectUser.list.exportCSV.label' })}
-          downloadURL={csvLink}
           title={formatMessage({ id: 'projectUser.list.exportCSV.tooltip' })}
         />
         {/* columns visibility configuration  */}

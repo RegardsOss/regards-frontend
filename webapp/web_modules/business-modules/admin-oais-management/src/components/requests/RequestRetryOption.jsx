@@ -19,7 +19,7 @@
 import AvReplay from 'mdi-material-ui/Replay'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ResourceIconAction, TableSelectionModes } from '@regardsoss/components'
+import { ResourceIconAction } from '@regardsoss/components'
 import dependencies from '../../dependencies'
 
 /**
@@ -41,7 +41,7 @@ class RequestRetryOption extends React.Component {
    */
   onClick = () => {
     const { entity, onRetry } = this.props
-    onRetry(TableSelectionModes.includeSelected, [entity])
+    onRetry([entity])
   }
 
   render() {

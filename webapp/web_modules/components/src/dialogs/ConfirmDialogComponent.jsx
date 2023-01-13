@@ -47,7 +47,8 @@ class ConfirmDialogComponent extends React.Component {
   static propTypes = {
     dialogType: PropTypes.oneOf(values(ConfirmDialogComponentTypes)),
     title: PropTypes.string.isRequired,
-    message: PropTypes.string, // optional
+    // eslint-disable-next-line react/forbid-prop-types
+    message: PropTypes.any, // optional
     errorMessage: PropTypes.string, // optional
     onConfirm: PropTypes.func.isRequired,
     confirmMessageKey: PropTypes.string,

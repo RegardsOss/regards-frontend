@@ -19,12 +19,14 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CardHeaderActions } from '@regardsoss/components'
+import { CardHeaderActions, FiltersChipsContainer } from '@regardsoss/components'
 import {
   Card,
 } from 'material-ui/Card'
 import SourcesContainer from '../../src/containers/SourcesContainer'
+import { filtersActions, filtersSelectors } from '../../src/clients/FiltersClient'
 import SessionsContainer from '../../src/containers/SessionsContainer'
+import { FILTERS_I18N } from '../../src/domain/filters'
 import DashboardComponent from '../../src/components/DashboardComponent'
 import DashboardFiltersComponent from '../../src/components/DashboardFiltersComponent'
 import styles from '../../src/styles'
@@ -62,9 +64,28 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
 
     const cardActionWrapper = enzymeWrapper.find(CardHeaderActions)
     assert.lengthOf(cardActionWrapper, 1, 'There should be a CardHeaderActions')
+    testSuiteHelpers.assertWrapperProperties(cardActionWrapper, {
+      secondaryButtonClick: enzymeWrapper.instance().handleFiltersPane,
+      thirdButtonClick: props.getBackURL,
+    }, 'Component should define the expected properties')
 
     const filterWrapper = enzymeWrapper.find(DashboardFiltersComponent)
     assert.lengthOf(filterWrapper, 1, 'There should be a DashboardFiltersComponent')
+    testSuiteHelpers.assertWrapperProperties(filterWrapper, {
+      isPaneOpened: enzymeWrapper.instance().state.isPaneOpened,
+      onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
+      updateRequestParameters: enzymeWrapper.instance().updateRequestParameters,
+      filtersActions,
+      filtersSelectors,
+    }, 'Component should define the expected properties')
+
+    const filterChipWrapper = enzymeWrapper.find(FiltersChipsContainer)
+    assert.lengthOf(filterChipWrapper, 1, 'There should be a FiltersChipsContainer')
+    testSuiteHelpers.assertWrapperProperties(filterChipWrapper, {
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
+    })
 
     const sourceComponentWrapper = enzymeWrapper.find(SourcesContainer)
     assert.lengthOf(sourceComponentWrapper, 1, 'There should be a SourcesContainer')
@@ -73,7 +94,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       onSelected: enzymeWrapper.instance().onSelected,
       selectedSource: enzymeWrapper.instance().state.selectedSource,
       selectedSession: enzymeWrapper.instance().state.selectedSession,
-      onApplyFilters: enzymeWrapper.instance().onApplyFilters,
       filters: enzymeWrapper.instance().state.sourceFilters,
     }, 'Component should define the expected properties')
 
@@ -83,9 +103,9 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       project: props.project,
       onSelected: enzymeWrapper.instance().onSelected,
       selectedSession: enzymeWrapper.instance().state.selectedSession,
-      onApplyFilters: enzymeWrapper.instance().onApplyFilters,
       selectedSource: enzymeWrapper.instance().state.selectedSource,
       filters: enzymeWrapper.instance().state.sessionFilters,
+      fetchSelectedSession: props.fetchSelectedSession,
     }, 'Component should define the expected properties')
 
     const selectedSessionWrapper = enzymeWrapper.find(SelectedSessionContainer)

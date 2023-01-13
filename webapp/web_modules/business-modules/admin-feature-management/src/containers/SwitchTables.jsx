@@ -17,6 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import omit from 'lodash/omit'
+import pick from 'lodash/pick'
+import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -43,11 +46,11 @@ export class SwitchTables extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = (dispatch) => ({
-    fetchReferences: (pageIndex, pageSize, pathParams, queryParams) => dispatch(referencesActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
-    fetchCreationRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(creationRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
-    fetchDeleteRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(deleteRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
-    fetchNotificationRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(notificationRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
-    fetchUpdateRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(updateRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
+    fetchReferences: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(referencesActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+    fetchCreationRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(creationRequestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+    fetchDeleteRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(deleteRequestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+    fetchNotificationRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(notificationRequestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+    fetchUpdateRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(updateRequestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
   })
 
   /**
@@ -81,7 +84,7 @@ export class SwitchTables extends React.Component {
       project: PropTypes.string,
     }),
     onSwitchToPane: PropTypes.func.isRequired,
-    openedPane: PropTypes.string,
+    paneType: PropTypes.oneOf(FemDomain.REQUEST_TYPES).isRequired,
     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     featureManagerFilters: PropTypes.object.isRequired,
     // from mapStateToProps
@@ -136,15 +139,17 @@ export class SwitchTables extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
       fetchReferences, fetchCreationRequests, fetchDeleteRequests, fetchNotificationRequests, fetchUpdateRequests,
-      featureManagerFilters, openedPane,
+      featureManagerFilters, paneType,
     } = newProps
 
-    if (oldProps.featureManagerFilters !== featureManagerFilters && openedPane !== oldProps.openedPane) {
+    if (!isEqual(oldProps.featureManagerFilters, featureManagerFilters) && paneType !== oldProps.paneType) {
+      const requestParameters = { ...pick(featureManagerFilters, 'sort') }
+      const bodyParameters = { ...omit(featureManagerFilters, 'sort') }
       fetchReferences(0, SwitchTables.PAGE_SIZE, {}, featureManagerFilters)
-      fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, featureManagerFilters)
-      fetchDeleteRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, featureManagerFilters)
-      fetchNotificationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION }, featureManagerFilters)
-      fetchUpdateRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.UPDATE }, featureManagerFilters)
+      fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, requestParameters, bodyParameters)
+      fetchDeleteRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, requestParameters, bodyParameters)
+      fetchNotificationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION }, requestParameters, bodyParameters)
+      fetchUpdateRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.UPDATE }, requestParameters, bodyParameters)
     }
   }
 
@@ -220,7 +225,7 @@ export class SwitchTables extends React.Component {
       },
     } = this.context
     const {
-      openedPane, onSwitchToPane,
+      paneType, onSwitchToPane,
     } = this.props
     return (
       <div style={divStyle}>
@@ -231,7 +236,7 @@ export class SwitchTables extends React.Component {
             key={`switch-table-${pane}`}
             loading={isFetching}
             pane={pane}
-            openedPane={openedPane}
+            paneType={paneType}
             nbElementsInfos={nbElementsInfos}
             onSwitchToPane={onSwitchToPane}
           />)

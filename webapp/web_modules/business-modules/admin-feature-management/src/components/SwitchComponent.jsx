@@ -21,6 +21,7 @@ import Alert from 'mdi-material-ui/AlertCircleOutline'
 import Chip from 'material-ui/Chip'
 import FlatButton from 'material-ui/FlatButton'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { FemDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
@@ -35,7 +36,7 @@ class SwitchComponent extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     loading: PropTypes.bool.isRequired, // used only in onPropertiesUpdated
     pane: PropTypes.string.isRequired,
-    openedPane: PropTypes.string.isRequired,
+    paneType: PropTypes.oneOf(FemDomain.REQUEST_TYPES).isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     nbElementsInfos: PropTypes.object.isRequired,
     onSwitchToPane: PropTypes.func.isRequired,
@@ -139,7 +140,7 @@ class SwitchComponent extends React.Component {
       }, intl: { formatMessage },
     } = this.context
     const {
-      pane, openedPane, nbElementsInfos, onSwitchToPane,
+      pane, paneType, nbElementsInfos, onSwitchToPane,
     } = this.props
     const { loadingVisible } = this.state
     return (
@@ -149,8 +150,8 @@ class SwitchComponent extends React.Component {
             : formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElementsInfos.nbElements })}
           title={formatMessage({ id: `feature.references.switch-to.${pane}.title` })}
           onClick={() => onSwitchToPane(pane)}
-          style={openedPane === pane ? switchButton : null}
-          disabled={openedPane === pane}
+          style={paneType === pane ? switchButton : null}
+          disabled={paneType === pane}
         />
         <div style={loadingVisible ? displayIndicator : displayNone}>
           <RefreshIndicator

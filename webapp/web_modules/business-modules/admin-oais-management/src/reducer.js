@@ -37,6 +37,7 @@ import { requestSelectVersionModeReducer } from './clients/RequestSelectVersionM
 import { requestRetryReducer } from './clients/RequestRetryClient'
 import { requestDeleteReducer } from './clients/RequestDeleteClient'
 import { settingsReducer } from './clients/SettingsClient'
+import { filtersReducer } from './clients/FiltersClient'
 
 const oaisManagementReducer = combineReducers({
   aip: aipReducer,
@@ -59,6 +60,7 @@ const oaisManagementReducer = combineReducers({
   searchSessions: searchSessionsReducer,
   searchSources: searchSourcesReducer,
   settings: settingsReducer,
+  aipFilters: filtersReducer,
 })
 
 export default oaisManagementReducer

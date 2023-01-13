@@ -70,6 +70,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list container', () => {
       fetchOrigins: () => { },
       throwError: () => { },
       fetchProjects: () => { },
+      updateFiltersStore: () => { },
     }
 
     const enzymeWrapper = shallow(<AccountListContainer {...props} />)
@@ -89,6 +90,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list container', () => {
       onRefresh: enzymeWrapper.instance().onRefresh,
       origins: props.origins,
       projects: props.projects,
+      onFilterWaitingAccount: enzymeWrapper.instance().onFilterWaitingAccount,
     }, 'Component should define the expected properties and callbacks')
   })
 })

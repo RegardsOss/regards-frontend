@@ -16,34 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonDomain } from '@regardsoss/domain'
-import clone from 'lodash/clone'
-import every from 'lodash/every'
-import pickBy from 'lodash/pickBy'
-import find from 'lodash/find'
-import values from 'lodash/values'
-import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
-import isEqual from 'lodash/isEqual'
-import Refresh from 'mdi-material-ui/Refresh'
 import NoContentIcon from 'mdi-material-ui/CropFree'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
+import { FemDomain } from '@regardsoss/domain'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
-  TableHeaderOptionsArea, TableHeaderOptionGroup, TableSelectionModes,
-  DateValueRender, NoContentComponent, TableHeaderLine, TableHeaderLoadingComponent,
+  TableSelectionModes, DateValueRender, NoContentComponent, TableHeaderLine,
+  TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
-import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import FlatButton from 'material-ui/FlatButton'
-import ModeSend from 'mdi-material-ui/Send'
-import Delete from 'mdi-material-ui/Delete'
-import { FemShapes } from '@regardsoss/shape'
 import { referencesActions, referencesSelectors } from '../clients/ReferencesClient'
 import messages from '../i18n'
 import styles from '../styles'
 import { referencesTableSelectors, referencesTableActions } from '../clients/ReferencesTableClient'
+import HeaderActionsBarContainer from '../containers/HeaderActionsBarContainer'
 import DisseminationTableCustomCellRender from './render/DisseminationTableCustomCellRender'
 import ReferenceDetailOption from './options/ReferenceDetailOption'
 import ReferenceDeleteOption from './options/ReferenceDeleteOption'
@@ -51,8 +39,7 @@ import DeleteDialog from './options/DeleteDialog'
 import ReferenceDetailDialog from './options/ReferenceDetailDialog'
 import ReferenceNotifyDialog from './options/ReferenceNotifyDialog'
 import ReferenceNotifyOption from './options/ReferenceNotifyOption'
-
-const ResourceFlatButton = withResourceDisplayControl(FlatButton)
+import { DIALOG_TYPES } from '../domain/dialogTypes'
 
 /**
 * Displays the list of references
@@ -60,18 +47,18 @@ const ResourceFlatButton = withResourceDisplayControl(FlatButton)
 */
 export class ReferencesManagerComponent extends React.Component {
   static propTypes = {
-    onRefresh: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    featureManagerFilters: PropTypes.object.isRequired,
-    deleteReferences: PropTypes.func.isRequired,
-    notifyReferences: PropTypes.func.isRequired,
-    tableSelection: PropTypes.arrayOf(FemShapes.Reference),
-    selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
-    areAllSelected: PropTypes.bool.isRequired,
+    onDeleteRequests: PropTypes.func.isRequired,
+    onNotifyRequests: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
-  }
+    pageSize: PropTypes.number,
+    paneType: PropTypes.oneOf(FemDomain.REQUEST_TYPES).isRequired,
 
-  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+    // table sorting, column visiblity & filters management
+    requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
+    bodyParameters: TableFilterSortingAndVisibilityContainer.BODY_PARAMETERS_PROP_TYPE,
+    getColumnSortingData: PropTypes.func,
+    onSort: PropTypes.func,
+  }
 
   static contextTypes = {
     ...themeContextType,
@@ -88,13 +75,6 @@ export class ReferencesManagerComponent extends React.Component {
     Icon={SearchIcon}
   />
 
-  /** Possible dialog types for references */
-  static DIALOG_TYPES = {
-    DETAIL_DIALOG: 'detail',
-    DELETE_DIALOG: 'delete',
-    NOTIFY_DIALOG: 'notify',
-  }
-
   static SELECTION_MODE = {
     INCLUDE: 'INCLUDE',
     EXCLUDE: 'EXCLUDE',
@@ -108,94 +88,28 @@ export class ReferencesManagerComponent extends React.Component {
     ACTIONS: 'actions',
   }
 
-  static COLUMN_ORDER_TO_QUERY = {
-    [CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER]: 'ASC',
-    [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
-  }
-
-  static buildSortURL = (columnsSorting) => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${ReferencesManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
-
   state = {
-    [ReferencesManagerComponent.DIALOG_TYPES.DETAIL_DIALOG]: {
+    [DIALOG_TYPES.DETAIL_DIALOG]: {
       open: false,
       mode: TableSelectionModes.includeSelected,
       entities: [],
     },
-    [ReferencesManagerComponent.DIALOG_TYPES.DELETE_DIALOG]: {
+    [DIALOG_TYPES.DELETE_DIALOG]: {
       open: false,
       mode: TableSelectionModes.includeSelected,
       entities: [],
     },
-    [ReferencesManagerComponent.DIALOG_TYPES.NOTIFY_DIALOG]: {
+    [DIALOG_TYPES.NOTIFY_DIALOG]: {
       open: false,
       mode: TableSelectionModes.includeSelected,
       entities: [],
     },
-    columnsSorting: [],
-    contextRequestParameters: {},
-  }
-
-  /**
-    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-    */
-  UNSAFE_componentWillMount = () => {
-    this.onFiltersUpdated(this.props.featureManagerFilters)
-  }
-
-  /**
-    * Lifecycle method: component receive props. Used here to detect properties change and update local state
-    * @param {*} nextProps next component properties
-    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
-    this.onPropertiesUpdated(this.props, nextProps)
-  }
-
-  /**
-    * Properties change detected: update local state
-    * @param oldProps previous component properties
-    * @param newProps next component properties
-    */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    if (!isEqual(newProps.featureManagerFilters, oldProps.featureManagerFilters)) {
-      this.onFiltersUpdated(newProps.featureManagerFilters)
-    }
-  }
-
-  onFiltersUpdated = (featureManagerFilters) => {
-    const { contextRequestParameters } = this.state
-    this.setState({
-      contextRequestParameters: {
-        ...contextRequestParameters,
-        ...featureManagerFilters,
-      },
-    })
-  }
-
-  onSort = (columnSortKey, order) => {
-    const { columnsSorting, contextRequestParameters } = this.state
-
-    const columnIndex = columnsSorting.findIndex(({ columnKey }) => columnSortKey === columnKey)
-    const newColumnSorting = clone(columnsSorting)
-    if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
-      newColumnSorting.splice(columnIndex, 1)
-    } else if (columnIndex === -1) {
-      newColumnSorting.push({ columnKey: columnSortKey, order })
-    } else {
-      newColumnSorting.splice(columnIndex, 1, { columnKey: columnSortKey, order })
-    }
-    this.setState({
-      columnsSorting: newColumnSorting,
-      contextRequestParameters: {
-        ...contextRequestParameters,
-        sort: ReferencesManagerComponent.buildSortURL(newColumnSorting),
-      },
-    })
   }
 
   /**
   * Inner callback: Opens dialog corresopnding to request type
   * @param {[*]} entities entities as an array of FemShapes.Reference
-  * @param {string} dialogRequestType dialog type for the request to handle, from ReferencesManagerComponent.DIALOG_TYPES
+  * @param {string} dialogRequestType dialog type for the request to handle, from DIALOG_TYPES
   */
   onOpenActionDialog = (dialogRequestType, entities, mode = TableSelectionModes.includeSelected) => this.setState({
     [dialogRequestType]: {
@@ -209,23 +123,23 @@ export class ReferencesManagerComponent extends React.Component {
   * Callback: On view detail reference
   * @param {[*]} entities entities as an array of FemShapes.Reference
   */
-  onDetail = (entities) => this.onOpenActionDialog(ReferencesManagerComponent.DIALOG_TYPES.DETAIL_DIALOG, entities)
+  onDetail = (entities) => this.onOpenActionDialog(DIALOG_TYPES.DETAIL_DIALOG, entities)
 
   /**
   * Callback: On delete requests for selection as parameter (shows corresponding dialog)
   * @param {[*]} entities entities as an array of FemShapes.Reference
   */
-  onDelete = (entities, mode) => this.onOpenActionDialog(ReferencesManagerComponent.DIALOG_TYPES.DELETE_DIALOG, entities, mode)
+  onDelete = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
 
   /**
   * Callback: On notify requests for selection as parameter (shows corresponding dialog)
   * @param {[*]} entities entities as an array of FemShapes.Reference
   */
-  onNotify = (entities, mode) => this.onOpenActionDialog(ReferencesManagerComponent.DIALOG_TYPES.NOTIFY_DIALOG, entities, mode)
+  onNotify = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.NOTIFY_DIALOG, entities, mode)
 
   /**
   * Inner callback: closes dialog corresponding to request type
-  * @param {string} dialogRequestType dialog type for the request to handle, from ReferencesManagerComponent.DIALOG_TYPES
+  * @param {string} dialogRequestType dialog type for the request to handle, from DIALOG_TYPES
   */
   onCloseActionDialog = (dialogRequestType) => this.setState({
     [dialogRequestType]: {
@@ -239,14 +153,15 @@ export class ReferencesManagerComponent extends React.Component {
   * Inner callback: confirms action dialog. It:
   * - Hides corresponding dialog
   * - Converts payload to send server action
-  * @param {string} dialogRequestType dialog type for the request to handle, from ReferencesManagerComponent.DIALOG_TYPES
+  * @param {string} dialogRequestType dialog type for the request to handle, from DIALOG_TYPES
   * @return {*} payload for server action
   */
   onConfirmActionDialog = (dialogRequestType) => {
+    const { bodyParameters } = this.props
     const { entities, mode } = this.state[dialogRequestType]
     this.onCloseActionDialog(dialogRequestType)
     return {
-      filters: pickBy(this.state.contextRequestParameters, (contextRequestParameter) => !isEmpty(contextRequestParameter) && contextRequestParameter !== null),
+      ...bodyParameters,
       featureIdsSelectionMode: mode === TableSelectionModes.includeSelected
         ? ReferencesManagerComponent.SELECTION_MODE.INCLUDE
         : ReferencesManagerComponent.SELECTION_MODE.EXCLUDE,
@@ -255,17 +170,17 @@ export class ReferencesManagerComponent extends React.Component {
   }
 
   onConfirm = (dialogRequestType) => {
-    const { deleteReferences, notifyReferences } = this.props
+    const { onDeleteRequests, onNotifyRequests, paneType } = this.props
     const payload = this.onConfirmActionDialog(dialogRequestType)
     switch (dialogRequestType) {
-      case ReferencesManagerComponent.DIALOG_TYPES.DELETE_DIALOG:
-        deleteReferences(payload)
+      case DIALOG_TYPES.DELETE_DIALOG:
+        onDeleteRequests(payload, paneType)
         break
-      case ReferencesManagerComponent.DIALOG_TYPES.NOTIFY_DIALOG:
-        notifyReferences(payload)
+      case DIALOG_TYPES.NOTIFY_DIALOG:
+        onNotifyRequests(payload)
         break
       default:
-        console.error('Invalid dialogue type', dialogRequestType)
+        console.error('Invalid dialog type', dialogRequestType)
     }
   }
 
@@ -274,19 +189,19 @@ export class ReferencesManagerComponent extends React.Component {
     if (open) {
       let component = null
       switch (dialogRequestType) {
-        case ReferencesManagerComponent.DIALOG_TYPES.DETAIL_DIALOG:
+        case DIALOG_TYPES.DETAIL_DIALOG:
           component = <ReferenceDetailDialog
             reference={this.state[dialogRequestType].entities[0]}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
           />
           break
-        case ReferencesManagerComponent.DIALOG_TYPES.DELETE_DIALOG:
+        case DIALOG_TYPES.DELETE_DIALOG:
           component = <DeleteDialog
             onConfirmDelete={() => this.onConfirm(dialogRequestType)}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
           />
           break
-        case ReferencesManagerComponent.DIALOG_TYPES.NOTIFY_DIALOG:
+        case DIALOG_TYPES.NOTIFY_DIALOG:
           component = <ReferenceNotifyDialog
             onConfirmNotify={() => this.onConfirm(dialogRequestType)}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
@@ -299,28 +214,12 @@ export class ReferencesManagerComponent extends React.Component {
     return null
   }
 
-  isButtonDisabled = (dialogType) => {
-    const { tableSelection, areAllSelected } = this.props
-    let ret = !areAllSelected
-    if (!isEmpty(tableSelection)) {
-      ret = !every(tableSelection, (selection) => find(selection.links, (l) => l.rel === dialogType))
-    }
-    return ret
-  }
-
-  getColumnSortingData = (sortKey) => {
-    const { columnsSorting } = this.state
-    const columnIndex = columnsSorting.findIndex(({ columnKey }) => sortKey === columnKey)
-    return columnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[columnIndex].order, columnIndex]
-  }
-
   render() {
     const { intl: { formatMessage }, muiTheme, moduleTheme: { tableStyle: { loadingStyle } } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const {
-      onRefresh, tableSelection, selectionMode, isFetching,
+      isFetching, getColumnSortingData, onSort, pageSize, requestParameters, paneType, bodyParameters,
     } = this.props
-    const { contextRequestParameters, columnsSorting } = this.state
     // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
     const columns = [ // eslint wont fix: API issue
       // checkbox
@@ -329,16 +228,16 @@ export class ReferencesManagerComponent extends React.Component {
         .build(),
       new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.PROVIDER_ID).titleHeaderCell().propertyRenderCell('content.providerId')
         .label(formatMessage({ id: 'feature.references.list.table.headers.providerId' }))
-        .sortableHeaderCell(...this.getColumnSortingData(ReferencesManagerComponent.COLUMN_KEYS.PROVIDER_ID), this.onSort)
+        .sortableHeaderCell(...getColumnSortingData(ReferencesManagerComponent.COLUMN_KEYS.PROVIDER_ID), onSort)
         .build(),
       new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.LASTUPDATE).titleHeaderCell().propertyRenderCell('content.lastUpdate', DateValueRender)
         .label(formatMessage({ id: 'feature.references.list.table.headers.lastUpdate' }))
-        .sortableHeaderCell(...this.getColumnSortingData(ReferencesManagerComponent.COLUMN_KEYS.LASTUPDATE), this.onSort)
+        .sortableHeaderCell(...getColumnSortingData(ReferencesManagerComponent.COLUMN_KEYS.LASTUPDATE), onSort)
         .fixedSizing(200)
         .build(),
       new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.VERSION).titleHeaderCell().propertyRenderCell('content.version')
         .label(formatMessage({ id: 'feature.references.list.table.headers.version' }))
-        .sortableHeaderCell(...this.getColumnSortingData(ReferencesManagerComponent.COLUMN_KEYS.VERSION), this.onSort)
+        .sortableHeaderCell(...getColumnSortingData(ReferencesManagerComponent.COLUMN_KEYS.VERSION), onSort)
         .fixedSizing(100)
         .build(),
       new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.DISSEMINATION).titleHeaderCell()
@@ -368,38 +267,11 @@ export class ReferencesManagerComponent extends React.Component {
       <div>
         <TableLayout>
           <TableHeaderLine>
-            <TableHeaderOptionsArea reducible />
-            <TableHeaderOptionsArea reducible>
-              <TableHeaderOptionGroup>
-                <ResourceFlatButton
-                  displayLogic={allMatchHateoasDisplayLogic}
-                  hideDisabled
-                  key="notifySelection"
-                  title={formatMessage({ id: 'feature.references.tooltip.selection.notify' })}
-                  label={formatMessage({ id: 'feature.references.list.filters.buttons.notify' })}
-                  icon={<ModeSend />}
-                  onClick={() => this.onNotify(tableSelection, selectionMode)}
-                  disabled={this.isButtonDisabled(ReferencesManagerComponent.DIALOG_TYPES.NOTIFY_DIALOG)}
-                />
-                <ResourceFlatButton
-                  key="deleteSelection"
-                  displayLogic={allMatchHateoasDisplayLogic}
-                  hideDisabled
-                  title={formatMessage({ id: 'feature.references.tooltip.selection.delete' })}
-                  label={formatMessage({ id: 'feature.references.list.filters.buttons.delete' })}
-                  icon={<Delete />}
-                  onClick={() => this.onDelete(tableSelection, selectionMode)}
-                  disabled={this.isButtonDisabled(ReferencesManagerComponent.DIALOG_TYPES.DELETE_DIALOG)}
-                />
-              </TableHeaderOptionGroup>
-              <TableHeaderOptionGroup>
-                <FlatButton
-                  label={formatMessage({ id: 'dashboard.refresh' })}
-                  icon={<Refresh />}
-                  onClick={() => onRefresh(columnsSorting, contextRequestParameters)}
-                />
-              </TableHeaderOptionGroup>
-            </TableHeaderOptionsArea>
+            <HeaderActionsBarContainer
+              paneType={paneType}
+              onNotify={this.onNotify}
+              onDelete={this.onDelete}
+            />
           </TableHeaderLine>
           <div style={loadingStyle}>
             <TableHeaderLoadingComponent loading={isFetching} />
@@ -408,17 +280,19 @@ export class ReferencesManagerComponent extends React.Component {
             name="feature-management-table"
             pageActions={referencesActions}
             pageSelectors={referencesSelectors}
-            pageSize={ReferencesManagerComponent.PAGE_SIZE}
+            pageSize={pageSize}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}
             columns={columns}
-            requestParams={contextRequestParameters}
+            bodyParams={bodyParameters}
+            fetchUsingPostMethod
+            requestParams={requestParameters}
             emptyComponent={isFetching ? ReferencesManagerComponent.LOADING_COMPONENT : ReferencesManagerComponent.EMPTY_COMPONENT}
           />
         </TableLayout>
-        {this.renderDialog(ReferencesManagerComponent.DIALOG_TYPES.DETAIL_DIALOG)}
-        {this.renderDialog(ReferencesManagerComponent.DIALOG_TYPES.DELETE_DIALOG)}
-        {this.renderDialog(ReferencesManagerComponent.DIALOG_TYPES.NOTIFY_DIALOG)}
+        {this.renderDialog(DIALOG_TYPES.DETAIL_DIALOG)}
+        {this.renderDialog(DIALOG_TYPES.DELETE_DIALOG)}
+        {this.renderDialog(DIALOG_TYPES.NOTIFY_DIALOG)}
       </div>
     )
   }

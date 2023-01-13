@@ -17,35 +17,26 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import size from 'lodash/size'
-import FilterIcon from 'mdi-material-ui/Filter'
-import IconButton from 'material-ui/IconButton'
-import TextField from 'material-ui/TextField'
-import SelectField from 'material-ui/SelectField'
 import { MenuItem } from 'material-ui/IconMenu'
 import { AdminInstanceDomain } from '@regardsoss/domain'
-import { AdminShapes, AdminInstanceShapes } from '@regardsoss/shape'
+import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableFilterSortingAndVisibilityContainer, withFiltersPane,
-  FiltersPaneMainComponent,
-  FiltersPaneLineComponent,
+  FiltersPaneMainComponent, FilterPaneTextField, FilterPaneSelectFieldLegacy,
 } from '@regardsoss/components'
-import ACCOUNT_FILTERS from '../../domain/AccountFilters'
+import { FILTER_PARAMS, FILTERS_I18N } from '../../domain/filters'
 
 /**
  * @author Théo Lasserre
  */
-class AccountFiltersComponent extends React.Component {
+export class AccountFiltersComponent extends React.Component {
   static propTypes = {
     origins: PropTypes.arrayOf(PropTypes.string),
     projects: AdminShapes.ProjectList.isRequired,
-    waitingAccounts: PropTypes.objectOf(AdminInstanceShapes.Account),
-
     updateFilter: PropTypes.func.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
-
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
@@ -55,119 +46,46 @@ class AccountFiltersComponent extends React.Component {
   }
 
   /**
-   * Default state for filters edition
+   * Default form state used in filters pane
    */
   static DEFAULT_FILTERS_STATE = {
-    [ACCOUNT_FILTERS.EMAIL]: '',
-    [ACCOUNT_FILTERS.FIRSTNAME]: '',
-    [ACCOUNT_FILTERS.LASTNAME]: '',
-    [ACCOUNT_FILTERS.STATUS]: null,
-    [ACCOUNT_FILTERS.ORIGIN]: null,
-    [ACCOUNT_FILTERS.PROJECTS]: null,
+    [FILTER_PARAMS.EMAIL]: '',
+    [FILTER_PARAMS.FIRSTNAME]: '',
+    [FILTER_PARAMS.LASTNAME]: '',
+    [FILTER_PARAMS.STATUS]: null,
+    [FILTER_PARAMS.ORIGIN]: null,
+    [FILTER_PARAMS.PROJECTS]: null,
   }
 
   render() {
     const {
-      origins, projects, updateFilter, inputValues, waitingAccounts,
+      origins, projects, updateFilter, inputValues,
     } = this.props
-    const {
-      intl: { formatMessage }, moduleTheme: {
-        accounts: { waitingAccountsMessage, waitingAccountsLineMessage, filterIconStyle },
-      },
-    } = this.context
+    const { intl: { formatMessage } } = this.context
     return (
-      <FiltersPaneMainComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'account.list.info.nb.waiting.accounts' }, { value: size(waitingAccounts) || 0 })}
-          additionnalLineStyle={waitingAccountsLineMessage}
-          additionnalLabelStyle={waitingAccountsMessage}
-        >
-          <IconButton
-            onClick={() => {
-              const newValue = inputValues[ACCOUNT_FILTERS.STATUS] !== AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING ? AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING : null
-              return updateFilter(newValue, ACCOUNT_FILTERS.STATUS)
-            }}
-            title={formatMessage({ id: 'account.list.info.nb.waiting.accounts.filter' })}
-            style={filterIconStyle}
-          >
-            <FilterIcon />
-          </IconButton>
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'account.list.table.filters.email.label' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'account.list.table.filters.email' })}
-            value={inputValues[ACCOUNT_FILTERS.EMAIL]}
-            onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.EMAIL, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'account.list.table.filters.firstname.label' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'account.list.table.filters.firstname' })}
-            value={inputValues[ACCOUNT_FILTERS.FIRSTNAME]}
-            onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.FIRSTNAME, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'account.list.table.filters.lastname.label' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'account.list.table.filters.lastname' })}
-            value={inputValues[ACCOUNT_FILTERS.LASTNAME]}
-            onChange={(event, value) => updateFilter(value, ACCOUNT_FILTERS.LASTNAME, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'account.list.table.filters.status.label' })}
-        >
-          <SelectField
-            id="account.list.table.filters.status"
-            value={inputValues[ACCOUNT_FILTERS.STATUS]}
-            onChange={(event, index, value) => updateFilter(value, ACCOUNT_FILTERS.STATUS)}
-            fullWidth
-          >
-            <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'account.list.table.filters.status.any' })} />
-            {map(AdminInstanceDomain.ACCOUNT_STATUS_ENUM, (status) => (
-              <MenuItem key={status} value={status} primaryText={formatMessage({ id: `account.list.table.filters.status.${status}` })} />
-            ))}
-          </SelectField>
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'account.list.table.filters.origin.label' })}
-        >
-          <SelectField
-            id="account.list.table.filters.origin"
-            value={inputValues[ACCOUNT_FILTERS.ORIGIN]}
-            onChange={(event, index, value) => updateFilter(value, ACCOUNT_FILTERS.ORIGIN)}
-            fullWidth
-          >
-            <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'account.list.table.filters.origin.any' })} />
-            {map(origins, (origin) => (
-              <MenuItem key={origin} value={origin} primaryText={origin} />
-            ))}
-          </SelectField>
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'account.list.table.filters.projects.label' })}
-        >
-          <SelectField
-            id="account.list.table.filters.projects"
-            value={inputValues[ACCOUNT_FILTERS.PROJECTS]}
-            onChange={(event, index, value) => updateFilter(value, ACCOUNT_FILTERS.PROJECTS)}
-            fullWidth
-          >
-            <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'account.list.table.filters.projects.any' })} />
-            {map(projects, (project) => (
-              <MenuItem key={project} value={project.content.name} primaryText={project.content.name} />
-            ))}
-          </SelectField>
-        </FiltersPaneLineComponent>
+      <FiltersPaneMainComponent
+        updateFilter={updateFilter}
+        inputValues={inputValues}
+        filters18n={FILTERS_I18N}
+      >
+        <FilterPaneTextField filterKey={FILTER_PARAMS.EMAIL} />
+        <FilterPaneTextField filterKey={FILTER_PARAMS.FIRSTNAME} />
+        <FilterPaneTextField filterKey={FILTER_PARAMS.LASTNAME} />
+        <FilterPaneSelectFieldLegacy filterKey={FILTER_PARAMS.STATUS} allValuesOption>
+          {map(AdminInstanceDomain.ACCOUNT_STATUS_ENUM, (status) => (
+            <MenuItem key={status} value={status} primaryText={formatMessage({ id: `account.list.table.filters.status.${status}` })} />
+          ))}
+        </FilterPaneSelectFieldLegacy>
+        <FilterPaneSelectFieldLegacy filterKey={FILTER_PARAMS.ORIGIN} allValuesOption>
+          {map(origins, (origin) => (
+            <MenuItem key={origin} value={origin} primaryText={origin} />
+          ))}
+        </FilterPaneSelectFieldLegacy>
+        <FilterPaneSelectFieldLegacy filterKey={FILTER_PARAMS.PROJECTS} allValuesOption>
+          {map(projects, (project) => (
+            <MenuItem key={project.content.name} value={project.content.name} primaryText={project.content.name} />
+          ))}
+        </FilterPaneSelectFieldLegacy>
       </FiltersPaneMainComponent>
     )
   }

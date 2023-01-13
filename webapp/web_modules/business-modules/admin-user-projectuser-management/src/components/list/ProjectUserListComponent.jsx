@@ -44,15 +44,17 @@ import ProjectUserAccountFiltersComponent, { ProjectUserAccountFiltersComponent 
 import ProjectUserQuotaFiltersComponent, { ProjectUserQuotaFiltersComponent as ProjectUserQuotaFiltersComponentClass } from './filters/ProjectUserQuotaFiltersComponent'
 import ProjectUserAccessRightFiltersComponent, { ProjectUserAccessRightFiltersComponent as ProjectUserAccessRightFiltersComponentClass } from './filters/ProjectUserAccessRightFiltersComponent'
 import ProjectUserAccountComponent from './ProjectUserAccountComponent'
+import ProjectAccountChipsComponent from './ProjectAccountChipsComponent'
 import ProjectUserQuotaComponent from './ProjectUserQuotaComponent'
 import ProjectUserAccessRightComponent from './ProjectUserAccessRightComponent'
 import { VISUALISATION_MODES, VISUALISATION_MODES_ENUM } from '../../domain/VisualisationModes'
-import QUOTA_FILTERS from '../../domain/QuotaFilters'
+import { FILTER_PARAMS } from '../../domain/filters'
+import { filtersActions, filtersSelectors } from '../../clients/FiltersClient'
 
 class ProjectUserListComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
-    csvLink: PropTypes.string.isRequired,
+    onDownloadCSV: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     visualisationMode: PropTypes.oneOf(VISUALISATION_MODES_ENUM),
     onRefresh: PropTypes.func.isRequired,
@@ -179,14 +181,14 @@ class ProjectUserListComponent extends React.Component {
     const { currentRequestParameters } = this.state
     const refreshParameters = {
       ...currentRequestParameters,
-      [QUOTA_FILTERS.USE_QUOTA_LIMITATION]: currentRequestParameters[QUOTA_FILTERS.USE_QUOTA_LIMITATION] ? uiSettings.quotaWarningCount : null,
+      [FILTER_PARAMS.USE_QUOTA_LIMITATION]: currentRequestParameters[FILTER_PARAMS.USE_QUOTA_LIMITATION] ? uiSettings.quotaWarningCount : null,
     }
     onRefresh(refreshParameters)
   }
 
   getDisplayComponents = (visualisationMode) => {
     const {
-      project, csvLink, origins, roleList, totalElements,
+      project, origins, roleList, totalElements,
       isLoading, onEdit, uiSettings, groups,
     } = this.props
     const { isPaneOpened } = this.state
@@ -197,11 +199,12 @@ class ProjectUserListComponent extends React.Component {
         roleList={roleList}
         isPaneOpened={isPaneOpened}
         onCloseFiltersPane={this.handleFiltersPane}
+        filtersActions={filtersActions}
+        filtersSelectors={filtersSelectors}
       />,
         <ProjectUserAccountComponent
           key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
           project={project}
-          csvLink={csvLink}
           totalElements={totalElements}
           isLoading={isLoading}
           onEdit={onEdit}
@@ -212,11 +215,13 @@ class ProjectUserListComponent extends React.Component {
         key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
         isPaneOpened={isPaneOpened}
         onCloseFiltersPane={this.handleFiltersPane}
+        uiSettings={uiSettings}
+        filtersActions={filtersActions}
+        filtersSelectors={filtersSelectors}
       />,
         <ProjectUserQuotaComponent
           key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
           project={project}
-          csvLink={csvLink}
           totalElements={totalElements}
           onEdit={onEdit}
           isLoading={isLoading}
@@ -229,10 +234,11 @@ class ProjectUserListComponent extends React.Component {
         isPaneOpened={isPaneOpened}
         onCloseFiltersPane={this.handleFiltersPane}
         groups={groups}
+        filtersActions={filtersActions}
+        filtersSelectors={filtersSelectors}
       />,
         <ProjectUserAccessRightComponent
           key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
-          csvLink={csvLink}
           totalElements={totalElements}
           onEdit={onEdit}
           isLoading={isLoading}
@@ -250,8 +256,8 @@ class ProjectUserListComponent extends React.Component {
 
   render() {
     const {
-      onCreate, onBack, onDeleteAccount, onEnable, onValidate,
-      onDeny, onDisable, onSendEmailConfirmation, onSetMaxQuota,
+      onCreate, onBack, onDeleteAccount, onEnable, onValidate, onDownloadCSV,
+      onDeny, onDisable, onSendEmailConfirmation, onSetMaxQuota, roleList,
     } = this.props
     const { visualisationMode } = this.state
     const {
@@ -292,6 +298,11 @@ class ProjectUserListComponent extends React.Component {
           </CardActions>
         </div>
         <CardText>
+          <ProjectAccountChipsComponent
+            filtersActions={filtersActions}
+            filtersSelectors={filtersSelectors}
+            roleList={roleList}
+          />
           <TableFilterSortingAndVisibilityContainer
             pageActions={projectUserActions}
             pageSelectors={projectUserSelectors}
@@ -302,6 +313,8 @@ class ProjectUserListComponent extends React.Component {
             onDisable={onDisable}
             onSendEmailConfirmation={onSendEmailConfirmation}
             onSetMaxQuota={onSetMaxQuota}
+            onDownloadCSV={onDownloadCSV}
+            isPagePostFetching
             updateRefreshParameters={this.updateRefreshParameters}
           >
             {this.getDisplayComponents(visualisationMode)}

@@ -36,7 +36,7 @@ class AIPStatusRender extends React.Component {
   render() {
     const { value: state } = this.props
     const { intl: { formatMessage } } = this.context
-    return <StringValueRender value={formatMessage({ id: `oais.package.state.${state}` })} />
+    return <StringValueRender value={formatMessage({ id: `oais.list.filters.aipState.${state}` })} />
   }
 }
 

@@ -19,9 +19,12 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableSelectionModes } from '@regardsoss/components'
+import {
+  TableSelectionModes, FiltersPaneMainComponent, FilterPaneDatePickerField, FilterPaneSelectFieldLegacy, FilterPaneSelectField, FilterPaneAutoCompleteFieldLegacy,
+} from '@regardsoss/components'
 import { AdminDomain, OrderDomain } from '@regardsoss/domain'
-import OrderListFiltersComponent from '../../src/components/OrderListFiltersComponent'
+import { OrderListFiltersComponent } from '../../src/components/OrderListFiltersComponent'
+import { FILTERS_I18N } from '../../src/domain/filters'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -72,7 +75,30 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
         },
       },
     }
-    shallow(<OrderListFiltersComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<OrderListFiltersComponent {...props} />, { context })
+    const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
+    assert.lengthOf(mainComponent, 1, 'FiltersPaneMainComponent should be set')
+    testSuiteHelpers.assertWrapperProperties(mainComponent, {
+      updateFilter: props.updateFilter,
+      updateDatesFilter: props.updateDatesFilter,
+      updateValuesFilter: props.updateValuesFilter,
+      inputValues: props.inputValues,
+      filters18n: FILTERS_I18N,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 1, 'There should be 1 FilterPaneDatePickerField')
+    const autoCompleteField = enzymeWrapper.find(FilterPaneAutoCompleteFieldLegacy)
+    assert.lengthOf(autoCompleteField, 1, 'FilterPaneAutoCompleteFieldLegacy should be set')
+    testSuiteHelpers.assertWrapperProperties(autoCompleteField, {
+      currentHints: props.matchingUsers,
+      isFetching: props.isFetching,
+      noData: enzymeWrapper.instance().state.isInError,
+      onUpdateInput: enzymeWrapper.instance().onUpdateUsersFilter,
+      onFilterSelected: enzymeWrapper.instance().onUserFilterSelected,
+      prepareHints: enzymeWrapper.instance().prepareHints,
+    }, 'Component should defined the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneSelectField), 1, 'There should be 1 FilterPaneSelectField')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 1, 'There should be 1 FilterPaneDatePickerField')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneSelectFieldLegacy), 1, 'There should be 1 FilterPaneSelectFieldLegacy')
   })
   it('should render correctly when fetching', () => {
     const props = {
@@ -96,6 +122,29 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
         },
       },
     }
-    shallow(<OrderListFiltersComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<OrderListFiltersComponent {...props} />, { context })
+    const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
+    assert.lengthOf(mainComponent, 1, 'FiltersPaneMainComponent should be set')
+    testSuiteHelpers.assertWrapperProperties(mainComponent, {
+      updateFilter: props.updateFilter,
+      updateDatesFilter: props.updateDatesFilter,
+      updateValuesFilter: props.updateValuesFilter,
+      inputValues: props.inputValues,
+      filters18n: FILTERS_I18N,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 1, 'There should be 1 FilterPaneDatePickerField')
+    const autoCompleteField = enzymeWrapper.find(FilterPaneAutoCompleteFieldLegacy)
+    assert.lengthOf(autoCompleteField, 1, 'FilterPaneAutoCompleteFieldLegacy should be set')
+    testSuiteHelpers.assertWrapperProperties(autoCompleteField, {
+      currentHints: props.matchingUsers,
+      isFetching: props.isFetching,
+      noData: enzymeWrapper.instance().state.isInError,
+      onUpdateInput: enzymeWrapper.instance().onUpdateUsersFilter,
+      onFilterSelected: enzymeWrapper.instance().onUserFilterSelected,
+      prepareHints: enzymeWrapper.instance().prepareHints,
+    }, 'Component should defined the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneSelectField), 1, 'There should be 1 FilterPaneSelectField')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 1, 'There should be 1 FilterPaneDatePickerField')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneSelectFieldLegacy), 1, 'There should be 1 FilterPaneSelectFieldLegacy')
   })
 })

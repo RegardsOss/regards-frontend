@@ -28,11 +28,9 @@ const accountManagementStyles = (theme) => ({
       color: 'rgb(203, 22, 22)',
       display: 'flex',
       alignItems: 'center',
-      fontSize: '18px',
-      width: 'auto',
-    },
-    waitingAccountsLineMessage: {
-      justifyContent: 'center',
+      fontSize: '16px',
+      marginTop: '-5px',
+      marginLeft: '-12px',
     },
     filterButtonStyle: {
       backgroundColor: theme.palette.accent1Color,
@@ -41,7 +39,7 @@ const accountManagementStyles = (theme) => ({
       minWidth: '40px',
     },
     messageStyle: {
-      marginBottom: '10px',
+      marginBottom: '15px',
     },
   },
 })

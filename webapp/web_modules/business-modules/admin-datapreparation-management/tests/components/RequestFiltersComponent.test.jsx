@@ -19,7 +19,11 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import RequestFiltersComponent from '../../src/components/RequestFiltersComponent'
+import {
+  FiltersPaneMainComponent, FilterPaneDatePickerField, FilterPaneTextFieldValues, FilterPaneTextField, FilterPaneAutoCompleteField, FilterPaneSelectField,
+} from '@regardsoss/components'
+import { FILTERS_I18N } from '../../src/domain/filters'
+import { RequestFiltersComponent } from '../../src/components/RequestFiltersComponent'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -44,6 +48,20 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing RequestFiltersComponent', (
       isPaneOpened: true,
       onCloseFiltersPane: () => { },
     }
-    shallow(<RequestFiltersComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<RequestFiltersComponent {...props} />, { context })
+    const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
+    assert.lengthOf(mainComponent, 1, 'FiltersPaneMainComponent should be set')
+    testSuiteHelpers.assertWrapperProperties(mainComponent, {
+      updateFilter: props.updateFilter,
+      updateDatesFilter: props.updateDatesFilter,
+      updateValuesFilter: props.updateValuesFilter,
+      inputValues: props.inputValues,
+      filters18n: FILTERS_I18N,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 1, 'There should be 1 FilterPaneDatePickerField')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneTextFieldValues), 1, 'There should be 1 FilterPaneTextFieldValues')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneTextField), 1, 'There should be 1 FilterPaneTextField')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneAutoCompleteField), 2, 'There should be 2 FilterPaneAutoCompleteField')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneSelectField), 1, 'There should be 1 FilterPaneSelectField')
   })
 })

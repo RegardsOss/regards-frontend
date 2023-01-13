@@ -18,6 +18,10 @@
  **/
 
 import { FemDomain } from '@regardsoss/domain'
+import { referencesSelectors, referencesActions } from '../clients/ReferencesClient'
+import { referencesTableActions, referencesTableSelectors } from '../clients/ReferencesTableClient'
+import { referenceDeleteActions } from '../clients/ReferencesDeleteClient'
+import { referenceNotifyActions } from '../clients/ReferencesNotifyClient'
 import { creationRequestActions, creationRequestSelectors } from '../clients/CreationRequestsClient'
 import { creationRequestsTableActions, creationRequestsTableSelectors } from '../clients/CreationRequestsTableClient'
 import { deleteRequestActions, deleteRequestSelectors } from '../clients/DeleteRequestsClient'
@@ -30,6 +34,14 @@ import { requestRetryActions } from '../clients/RequestRetryClient'
 import { requestDeleteActions } from '../clients/RequestDeleteClient'
 
 export default {
+  [FemDomain.REQUEST_TYPES_ENUM.REFERENCES]: {
+    actions: referencesActions,
+    selectors: referencesSelectors,
+    tableActions: referencesTableActions,
+    tableSelectors: referencesTableSelectors,
+    notifyActions: referenceNotifyActions,
+    deleteActions: referenceDeleteActions,
+  },
   [FemDomain.REQUEST_TYPES_ENUM.CREATION]: {
     actions: creationRequestActions,
     selectors: creationRequestSelectors,

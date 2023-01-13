@@ -18,46 +18,36 @@
  **/
 
 import {
-  TableHeaderOptionsArea,
-  TableHeaderLine,
-  TableHeaderOptionGroup,
-  DatePickerField,
+  withFiltersPane,
+  FiltersPaneMainComponent,
+  TableFilterSortingAndVisibilityContainer,
+  FilterPaneDatePickerField,
+  FilterPaneTextField,
+  FilterPaneSelectFieldLegacy,
+  FilterPaneSelectField,
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ProcessingDomain } from '@regardsoss/domain'
-import isEmpty from 'lodash/isEmpty'
-import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import map from 'lodash/map'
-import filter from 'lodash/filter'
-import SelectField from 'material-ui/SelectField'
-import TextField from 'material-ui/TextField'
 import MenuItem from 'material-ui/MenuItem'
-import FlatButton from 'material-ui/FlatButton'
-import Filter from 'mdi-material-ui/Filter'
-import Close from 'mdi-material-ui/Close'
-import Refresh from 'mdi-material-ui/Refresh'
 import { ProcessingShapes } from '@regardsoss/shape'
-
-const PROCESS_FILTER_PARAMS = {
-  PROCESS_BID: 'processBusinessId',
-  USERNAME: 'userEmail',
-  FROM: 'from',
-  TO: 'to',
-  STATUS: 'status',
-}
+import { FILTER_PARAMS, FILTERS_I18N } from '../../domain/filters'
 
 /**
  * Monitoring processing list filters
  * @author Théo Lasserre
  */
-class ProcessingMonitoringFiltersComponent extends React.Component {
+export class ProcessingMonitoringFiltersComponent extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
+    inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
+    updateFilter: PropTypes.func.isRequired,
+    updateValuesFilter: PropTypes.func.isRequired,
+    updateDatesFilter: PropTypes.func.isRequired,
     processingList: ProcessingShapes.ProcessingList.isRequired,
-    onRefresh: PropTypes.func.isRequired,
-    onApplyFilters: PropTypes.func.isRequired,
+
+    // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
   static contextTypes = {
@@ -66,181 +56,45 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
   }
 
   /**
-   * Default state for filters edition
-   */
+ * Default form state used in filters pane
+ */
   static DEFAULT_FILTERS_STATE = {
-    [PROCESS_FILTER_PARAMS.PROCESS_BID]: '',
-    [PROCESS_FILTER_PARAMS.USERNAME]: '',
-    [PROCESS_FILTER_PARAMS.FROM]: null,
-    [PROCESS_FILTER_PARAMS.TO]: null,
-    [PROCESS_FILTER_PARAMS.STATUS]: ProcessingDomain.PROCESS_STATUS_TYPES,
-  }
-
-  state = {
-    filters: ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE,
-  }
-
-  /**
-   * Used to set state's processNameHints values
-   * @param {*} inputValue
-   */
-  getConfigurationProcessNames = (inputValue = '') => {
-    const { processingList } = this.props
-    const processNameList = map(processingList, (processing) => (
-      ProcessingDomain.ProcessingUtils.getProcessingName(processing)
-    ))
-    return !isEmpty(inputValue) ? filter(processNameList, (processName) => processName.startsWith(inputValue)) : processNameList
-  }
-
-  /**
-   * Used to build hint items correctly
-   * @param {*} element
-   */
-  prepareHints = (element) => ({ id: element, text: element, value: element })
-
-  /**
-   * User callback: Apply edited filters to current request
-   */
-  onApplyFilters = () => {
-    const { onApplyFilters } = this.props
-    const { filters } = this.state
-    if (!isEqual(filters, ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE)) {
-      const filtersClean = {
-        ...filters,
-      }
-      onApplyFilters(filtersClean)
-    }
-  }
-
-  onRefresh = () => {
-    this.props.onRefresh({ ...this.state.filters, tenant: this.props.project })
-  }
-
-  /**
-   * User callback: Reset filter to default
-   */
-  onClearFilters = () => {
-    this.setState({
-      filters: ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE,
-    })
-  }
-
-  getDateFieldValue = (fieldValue) => fieldValue ? new Date(fieldValue) : null
-
-  /**
-   * Update filters
-   * @param {*} newStateValue
-   * @param {*} filterElement
-   */
-  updateState(newStateValue, filterElement) {
-    const { filters } = this.state
-    let newFilterValue = newStateValue
-    if (filterElement === PROCESS_FILTER_PARAMS.FROM
-      || filterElement === PROCESS_FILTER_PARAMS.TO) {
-      newFilterValue = newStateValue ? newStateValue.toISOString() : ''
-    }
-    const newState = {
-      filters: {
-        ...filters,
-        [filterElement]: newFilterValue,
-      },
-    }
-    this.setState(newState)
+    [FILTER_PARAMS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
+    [FILTER_PARAMS.USERNAME]: '',
+    [FILTER_PARAMS.PROCESS_BID]: null,
+    [FILTER_PARAMS.STATUS]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
     const {
-      intl: { formatMessage, locale },
-      moduleTheme: { processingMonitoring: { filters: { selectFieldStyle } } },
-    } = this.context
-    const { filters } = this.state
-    const { processingList } = this.props
-
-    return [
-      <TableHeaderLine key="filters">
-        <TableHeaderOptionsArea>
-          <TableHeaderOptionGroup>
-            <SelectField
-              id={`processing.monitoring.filters.${PROCESS_FILTER_PARAMS.PROCESS_BID}`}
-              value={filters[PROCESS_FILTER_PARAMS.PROCESS_BID]}
-              floatingLabelText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.PROCESS_BID}-hint` })}
-              onChange={(event, index, value) => this.updateState(value, PROCESS_FILTER_PARAMS.PROCESS_BID)}
-              style={selectFieldStyle}
-            >
-              {map(processingList, (process) => (
-                <MenuItem key={get(process, 'content.pluginConfiguration.label')} value={get(process, 'content.pluginConfiguration.businessId')} primaryText={get(process, 'content.pluginConfiguration.label')} />
-              ))}
-            </SelectField>
-            <TextField
-              hintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.USERNAME}-hint` })}
-              name={`processing.monitoring.filters.${PROCESS_FILTER_PARAMS.USERNAME}`}
-              type="text"
-              fullWidth
-              onChange={(event) => this.updateState(event.target.value, PROCESS_FILTER_PARAMS.USERNAME)}
-              value={filters[PROCESS_FILTER_PARAMS.USERNAME]}
-            />
-
-          </TableHeaderOptionGroup>
-          <TableHeaderOptionGroup>
-            <DatePickerField
-              id={`filter.${PROCESS_FILTER_PARAMS.FROM}`}
-              dateHintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.FROM}.label` })}
-              onChange={(inputValue) => this.updateState(inputValue, PROCESS_FILTER_PARAMS.FROM)}
-              locale={locale}
-              value={this.getDateFieldValue(filters[PROCESS_FILTER_PARAMS.FROM])}
-            />
-            <DatePickerField
-              id={`filter.${PROCESS_FILTER_PARAMS.TO}`}
-              dateHintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.TO}.label` })}
-              onChange={(inputValue) => this.updateState(inputValue, PROCESS_FILTER_PARAMS.TO)}
-              locale={locale}
-              value={this.getDateFieldValue(filters[PROCESS_FILTER_PARAMS.TO])}
-              defaultTime="23:59:59"
-            />
-          </TableHeaderOptionGroup>
-          <TableHeaderOptionsArea>
-            <TableHeaderOptionGroup>
-              <SelectField
-                id="filter.select.field"
-                multiple
-                value={filters[PROCESS_FILTER_PARAMS.STATUS]}
-                floatingLabelText={formatMessage({ id: 'processing.monitoring.filters.status' })}
-                onChange={(event, index, value) => this.updateState(value, PROCESS_FILTER_PARAMS.STATUS)}
-              >
-                {map(ProcessingDomain.PROCESS_STATUS_TYPES, (status) => (
-                  <MenuItem key={status} value={status} primaryText={status} />
-                ))}
-              </SelectField>
-            </TableHeaderOptionGroup>
-          </TableHeaderOptionsArea>
-        </TableHeaderOptionsArea>
-      </TableHeaderLine>,
-      <TableHeaderLine key="table_actions">
-        <TableHeaderOptionsArea>
-          <TableHeaderOptionGroup>
-            <FlatButton
-              label={formatMessage({ id: 'processing.management.table.refresh.button' })}
-              icon={<Refresh />}
-              onClick={this.onRefresh}
-            />
-          </TableHeaderOptionGroup>
-          <TableHeaderOptionGroup>
-            <FlatButton
-              label={formatMessage({ id: 'processing.monitoring.filters.reset' })}
-              icon={<Close />}
-              disabled={isEqual(filters, ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE)}
-              onClick={this.onClearFilters}
-            />
-            <FlatButton
-              label={formatMessage({ id: 'processing.monitoring.filters.apply' })}
-              icon={<Filter />}
-              disabled={isEqual(filters, ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE)}
-              onClick={this.onApplyFilters}
-            />
-          </TableHeaderOptionGroup>
-        </TableHeaderOptionsArea>
-      </TableHeaderLine>,
-    ]
+      processingList, updateFilter, inputValues, updateValuesFilter, updateDatesFilter,
+    } = this.props
+    return (
+      <FiltersPaneMainComponent
+        filters18n={FILTERS_I18N}
+        updateDatesFilter={updateDatesFilter}
+        inputValues={inputValues}
+        updateFilter={updateFilter}
+        updateValuesFilter={updateValuesFilter}
+      >
+        <FilterPaneDatePickerField filterKey={FILTER_PARAMS.CREATION_DATE} />
+        <FilterPaneTextField filterKey={FILTER_PARAMS.USERNAME} />
+        <FilterPaneSelectFieldLegacy
+          filterKey={FILTER_PARAMS.PROCESS_BID}
+          allValuesOption
+        >
+          {map(processingList, (process) => (
+            <MenuItem key={get(process, 'content.pluginConfiguration.label')} value={get(process, 'content.pluginConfiguration.businessId')} primaryText={get(process, 'content.pluginConfiguration.label')} />
+          ))}
+        </FilterPaneSelectFieldLegacy>
+        <FilterPaneSelectField filterKey={FILTER_PARAMS.STATUS}>
+          {map(ProcessingDomain.PROCESS_STATUS_TYPES, (status) => (
+            <MenuItem key={status} value={status} primaryText={formatMessage({ id: `processing.monitoring.filters.status.${status}` })} />
+          ))}
+        </FilterPaneSelectField>
+      </FiltersPaneMainComponent>
+    )
   }
 }
-export default ProcessingMonitoringFiltersComponent
+export default withFiltersPane(ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE)(ProcessingMonitoringFiltersComponent)

@@ -17,28 +17,26 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import get from 'lodash/get'
-import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
-  TableHeaderAutoCompleteFilterContainer,
   Title,
   withFiltersPane,
   TableFilterSortingAndVisibilityContainer,
   FiltersPaneMainComponent,
-  FiltersPaneLineComponent,
+  FilterPaneAutoCompleteField,
+  FilterPaneSelectFieldLegacy,
 } from '@regardsoss/components'
 import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../clients/SearchSessionsClient'
-import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
-import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS } from '../domain/filters'
+import { STATUS_TYPES } from '../domain/statusTypes'
+import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS, FILTERS_I18N } from '../domain/filters'
 
 /**
  * @author Théo Lasserre
  */
-class DashboardFiltersComponent extends React.Component {
+export class DashboardFiltersComponent extends React.Component {
   static propTypes = {
     updateFilter: PropTypes.func.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
@@ -55,9 +53,9 @@ class DashboardFiltersComponent extends React.Component {
    */
   static DEFAULT_FILTERS_STATE = {
     [SOURCE_FILTER_PARAMS.NAME]: '',
-    [SOURCE_FILTER_PARAMS.STATUS]: '',
+    [SOURCE_FILTER_PARAMS.STATUS]: null,
     [SESSION_FILTER_PARAMS.NAME]: '',
-    [SESSION_FILTER_PARAMS.STATUS]: '',
+    [SESSION_FILTER_PARAMS.STATUS]: null,
   }
 
   static contextTypes = {
@@ -94,77 +92,40 @@ class DashboardFiltersComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
-      <div>
-        <FiltersPaneMainComponent>
-          <Title
-            level={3}
-            label={formatMessage({ id: 'dashboard.sources.title' })}
-          />
-          <FiltersPaneLineComponent
-            label={formatMessage({ id: 'dashboard.filter.name.label' })}
-          >
-            <TableHeaderAutoCompleteFilterContainer
-              onChangeText={(value) => updateFilter(value, SOURCE_FILTER_PARAMS.NAME)}
-              text={get(inputValues, `${SOURCE_FILTER_PARAMS.NAME}`, '')}
-              hintText={formatMessage({ id: 'dashboard.filter.name' })}
-              key="sourceAuto"
-              arrayActions={searchSourcesActions}
-              arraySelectors={searchSourcesSelectors}
-              fullWidth
-            />
-          </FiltersPaneLineComponent>
-          <FiltersPaneLineComponent
-            label={formatMessage({ id: 'dashboard.filter.status.label' })}
-          >
-            <SelectField
-              id="dashboard.sources.filter.status"
-              value={get(inputValues, `${SOURCE_FILTER_PARAMS.STATUS}`, STATUS_TYPES_ENUM.ALL)}
-              hintText={formatMessage({ id: 'dashboard.filter.status' })}
-              onChange={(event, index, value) => updateFilter(value, SOURCE_FILTER_PARAMS.STATUS)}
-              fullWidth
-            >
-              {map(STATUS_TYPES, (status) => (
-                <MenuItem key={status} value={status} primaryText={formatMessage({ id: `dashboard.filter.status.${status}` })} />
-              ))}
-            </SelectField>
-          </FiltersPaneLineComponent>
-        </FiltersPaneMainComponent>
-        <FiltersPaneMainComponent>
-          <Title
-            level={3}
-            label={formatMessage({ id: 'dashboard.sessions.title' })}
-          />
-          <FiltersPaneLineComponent
-            label={formatMessage({ id: 'dashboard.filter.name.label' })}
-          >
-            <TableHeaderAutoCompleteFilterContainer
-              onChangeText={(value) => updateFilter(value, SESSION_FILTER_PARAMS.NAME)}
-              text={get(inputValues, `${SESSION_FILTER_PARAMS.NAME}`, '')}
-              hintText={formatMessage({ id: 'dashboard.filter.name' })}
-              key="sessionAuto"
-              arrayActions={searchSessionsActions}
-              arraySelectors={searchSessionsSelectors}
-              fullWidth
-            />
-          </FiltersPaneLineComponent>
-          <FiltersPaneLineComponent
-            label={formatMessage({ id: 'dashboard.filter.status.label' })}
-          >
-            <SelectField
-              id="dashboard.sources.filter.status"
-              value={get(inputValues, `${SESSION_FILTER_PARAMS.STATUS}`, STATUS_TYPES_ENUM.ALL)}
-              hintText={formatMessage({ id: 'dashboard.filter.status' })}
-              onChange={(event, index, value) => updateFilter(value, SESSION_FILTER_PARAMS.STATUS)}
-              fullWidth
-            >
-              {map(STATUS_TYPES, (status) => (
-                <MenuItem key={status} value={status} primaryText={formatMessage({ id: `dashboard.filter.status.${status}` })} />
-              ))}
-            </SelectField>
-          </FiltersPaneLineComponent>
-        </FiltersPaneMainComponent>
-      </div>)
+      <FiltersPaneMainComponent
+        updateFilter={updateFilter}
+        inputValues={inputValues}
+        filters18n={FILTERS_I18N}
+      >
+        <Title
+          level={3}
+          label={formatMessage({ id: 'dashboard.sources.title' })}
+        />
+        <FilterPaneAutoCompleteField
+          filterKey={SOURCE_FILTER_PARAMS.NAME}
+          arrayActions={searchSourcesActions}
+          arraySelectors={searchSourcesSelectors}
+        />
+        <FilterPaneSelectFieldLegacy filterKey={SOURCE_FILTER_PARAMS.STATUS} allValuesOption>
+          {map(STATUS_TYPES, (status) => (
+            <MenuItem key={status} value={status} primaryText={formatMessage({ id: `dashboard.filter.sourceState.${status}` })} />
+          ))}
+        </FilterPaneSelectFieldLegacy>
+        <Title
+          level={3}
+          label={formatMessage({ id: 'dashboard.sessions.title' })}
+        />
+        <FilterPaneAutoCompleteField
+          filterKey={SESSION_FILTER_PARAMS.NAME}
+          arrayActions={searchSessionsActions}
+          arraySelectors={searchSessionsSelectors}
+        />
+        <FilterPaneSelectFieldLegacy filterKey={SESSION_FILTER_PARAMS.STATUS} allValuesOption>
+          {map(STATUS_TYPES, (status) => (
+            <MenuItem key={status} value={status} primaryText={formatMessage({ id: `dashboard.filter.sessionState.${status}` })} />
+          ))}
+        </FilterPaneSelectFieldLegacy>
+      </FiltersPaneMainComponent>)
   }
 }
-
 export default withFiltersPane(DashboardFiltersComponent.DEFAULT_FILTERS_STATE)(DashboardFiltersComponent)

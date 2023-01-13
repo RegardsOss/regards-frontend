@@ -23,7 +23,6 @@ import { tableSelectors } from '../clients/TableClient'
 import HeaderActionsBarComponent from '../components/HeaderActionsBarComponent'
 
 /**
- * Comment Here
  * @author Théo Lasserre
  */
 export class HeaderActionsBarContainer extends React.Component {

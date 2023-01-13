@@ -55,6 +55,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserListContainer', () =
       },
       authentication: {}, // used only in onPropertiesUpdated
       // from mapDispatchToProps
+      onDownloadCSV: () => { },
       fetchUsers: () => { },
       onDeleteAccount: () => { },
       onValidateProjectUser: () => { },
@@ -74,8 +75,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserListContainer', () =
     const instance = enzymeWrapper.instance()
     testSuiteHelpers.assertCompWithProps(enzymeWrapper, ProjectUserListComponent, {
       project: props.params.project,
-      csvLink: '',
       onRefresh: instance.onRefresh,
+      onDownloadCSV: instance.onDownloadCSV,
       onCreate: instance.onCreate,
       onBack: instance.onBack,
       visualisationMode: props.params.visualisationMode,
@@ -93,6 +94,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserListContainer', () =
       onEdit: instance.onEdit,
       roleList: props.roleList,
       groups: props.groups,
-    })
+    }, 'Component should define the expected properties and callbacks')
   })
 })

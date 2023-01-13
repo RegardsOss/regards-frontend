@@ -31,7 +31,7 @@ export class AcquisitionProcessingChainModeRenderer extends React.Component {
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
       links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
-    onToggle: PropTypes.func.isRequired,
+    onToggle: PropTypes.func,
   }
 
   static contextTypes = {
@@ -42,13 +42,18 @@ export class AcquisitionProcessingChainModeRenderer extends React.Component {
   /** HateOAS Link to delete on All storages  */
   static CHANGE_MODE_LINK = 'patch'
 
+  static TOGGLE_VALUES = {
+    MANUAL: 'MANUAL',
+    AUTO: 'AUTO',
+  }
+
   onToggle = () => {
     const { entity, onToggle } = this.props
-    let toggleMode = 'MANUAL'
-    if (entity.content.chain.mode === 'MANUAL') {
-      toggleMode = 'AUTO'
+    let toggleMode = AcquisitionProcessingChainModeRenderer.TOGGLE_VALUES.MANUAL
+    if (entity.content.chain.mode === AcquisitionProcessingChainModeRenderer.TOGGLE_VALUES.MANUAL) {
+      toggleMode = AcquisitionProcessingChainModeRenderer.TOGGLE_VALUES.AUTO
     }
-    onToggle(entity.content.chainId, 'ONLY_MODE', toggleMode)
+    onToggle(entity, 'ONLY_MODE', toggleMode)
   }
 
   render() {
@@ -63,10 +68,7 @@ export class AcquisitionProcessingChainModeRenderer extends React.Component {
         },
       },
     } = this.context
-    let isToggled = true
-    if (mode === 'MANUAL') {
-      isToggled = false
-    }
+    const isToggled = mode !== AcquisitionProcessingChainModeRenderer.TOGGLE_VALUES.MANUAL
 
     return (
 

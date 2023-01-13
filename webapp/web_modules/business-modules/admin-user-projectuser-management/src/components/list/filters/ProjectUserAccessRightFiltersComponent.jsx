@@ -17,17 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import TextField from 'material-ui/TextField'
 import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   withFiltersPane, TableFilterSortingAndVisibilityContainer,
-  FiltersPaneMainComponent, FiltersPaneLineComponent,
+  FiltersPaneMainComponent, FilterPaneSelectField, FilterPaneTextField,
 } from '@regardsoss/components'
-import ACCESS_RIGHT_FILTERS from '../../../domain/AccessRightFilters'
+import { FILTER_PARAMS, FILTERS_I18N } from '../../../domain/filters'
 
 /**
  * @author Théo Lasserre
@@ -36,8 +34,8 @@ export class ProjectUserAccessRightFiltersComponent extends React.Component {
   static propTypes = {
     groups: DataManagementShapes.AccessGroupList.isRequired,
     updateFilter: PropTypes.func.isRequired,
+    updateValuesFilter: PropTypes.func.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
-
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
@@ -50,64 +48,31 @@ export class ProjectUserAccessRightFiltersComponent extends React.Component {
    * Default state for inputValues edition
    */
   static DEFAULT_FILTERS_STATE = {
-    [ACCESS_RIGHT_FILTERS.EMAIL]: '',
-    [ACCESS_RIGHT_FILTERS.LASTNAME]: '',
-    [ACCESS_RIGHT_FILTERS.FIRSTNAME]: '',
-    [ACCESS_RIGHT_FILTERS.GROUP]: undefined,
+    [FILTER_PARAMS.EMAIL]: '',
+    [FILTER_PARAMS.LASTNAME]: '',
+    [FILTER_PARAMS.FIRSTNAME]: '',
+    [FILTER_PARAMS.GROUP]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
   }
 
   render() {
     const {
-      updateFilter, inputValues, groups,
+      updateFilter, inputValues, groups, updateValuesFilter,
     } = this.props
-    const { intl: { formatMessage } } = this.context
     return (
-      <FiltersPaneMainComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'projectUser.list.table.email.label' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'projectUser.list.table.email' })}
-            value={inputValues[ACCESS_RIGHT_FILTERS.EMAIL]}
-            onChange={(event, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.EMAIL, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'projectUser.list.table.lastname.label' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'projectUser.list.table.lastname' })}
-            value={inputValues[ACCESS_RIGHT_FILTERS.LASTNAME]}
-            onChange={(event, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.LASTNAME, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'projectUser.list.table.firstname.label' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'projectUser.list.table.firstname' })}
-            value={inputValues[ACCESS_RIGHT_FILTERS.FIRSTNAME]}
-            onChange={(event, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.FIRSTNAME, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'projectUser.list.table.groups.label' })}
-        >
-          <SelectField
-            id="projectUser.list.table.groups"
-            value={inputValues[ACCESS_RIGHT_FILTERS.GROUP]}
-            onChange={(event, index, value) => updateFilter(value, ACCESS_RIGHT_FILTERS.GROUP)}
-            fullWidth
-          >
-            <MenuItem key="any.option" value={undefined} primaryText={formatMessage({ id: 'projectUser.list.table.groups.label.any' })} />
-            {map(groups, (group) => (
-              <MenuItem key={group.content.name} value={group.content.name} primaryText={group.content.name} />
-            ))}
-          </SelectField>
-        </FiltersPaneLineComponent>
+      <FiltersPaneMainComponent
+        filters18n={FILTERS_I18N}
+        updateFilter={updateFilter}
+        inputValues={inputValues}
+        updateValuesFilter={updateValuesFilter}
+      >
+        <FilterPaneTextField filterKey={FILTER_PARAMS.EMAIL} />
+        <FilterPaneTextField filterKey={FILTER_PARAMS.LASTNAME} />
+        <FilterPaneTextField filterKey={FILTER_PARAMS.FIRSTNAME} />
+        <FilterPaneSelectField filterKey={FILTER_PARAMS.GROUP}>
+          {map(groups, (group) => (
+            <MenuItem key={group.content.name} value={group.content.name} primaryText={group.content.name} />
+          ))}
+        </FilterPaneSelectField>
       </FiltersPaneMainComponent>
     )
   }

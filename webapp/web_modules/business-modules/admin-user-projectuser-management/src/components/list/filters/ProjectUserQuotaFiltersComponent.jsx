@@ -16,15 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import TextField from 'material-ui/TextField'
-import Checkbox from 'material-ui/Checkbox'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { UIShapes } from '@regardsoss/shape'
 import {
   withFiltersPane, TableFilterSortingAndVisibilityContainer,
-  FiltersPaneMainComponent, FiltersPaneLineComponent,
+  FiltersPaneMainComponent,
+  FilterPaneTextField, FilterPaneCheckboxField,
 } from '@regardsoss/components'
-import QUOTA_FILTERS from '../../../domain/QuotaFilters'
+import { FILTER_PARAMS, FILTERS_I18N } from '../../../domain/filters'
 
 /**
  * @author Théo Lasserre
@@ -33,7 +33,7 @@ export class ProjectUserQuotaFiltersComponent extends React.Component {
   static propTypes = {
     updateFilter: PropTypes.func.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
-
+    uiSettings: UIShapes.UISettings.isRequired,
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
@@ -46,56 +46,26 @@ export class ProjectUserQuotaFiltersComponent extends React.Component {
    * Default state for inputValues edition
    */
   static DEFAULT_FILTERS_STATE = {
-    [QUOTA_FILTERS.EMAIL]: '',
-    [QUOTA_FILTERS.LASTNAME]: '',
-    [QUOTA_FILTERS.FIRSTNAME]: '',
-    [QUOTA_FILTERS.USE_QUOTA_LIMITATION]: false,
+    [FILTER_PARAMS.EMAIL]: '',
+    [FILTER_PARAMS.LASTNAME]: '',
+    [FILTER_PARAMS.FIRSTNAME]: '',
+    [FILTER_PARAMS.USE_QUOTA_LIMITATION]: false,
   }
 
   render() {
     const {
-      updateFilter, inputValues,
+      updateFilter, inputValues, uiSettings,
     } = this.props
-    const { intl: { formatMessage } } = this.context
     return (
-      <FiltersPaneMainComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'projectUser.list.table.email.label' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'projectUser.list.table.email' })}
-            value={inputValues[QUOTA_FILTERS.EMAIL]}
-            onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.EMAIL, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'projectUser.list.table.lastname.label' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'projectUser.list.table.lastname' })}
-            value={inputValues[QUOTA_FILTERS.LASTNAME]}
-            onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.LASTNAME, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'projectUser.list.table.firstname.label' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'projectUser.list.table.firstname' })}
-            value={inputValues[QUOTA_FILTERS.FIRSTNAME]}
-            onChange={(event, value) => updateFilter(value, QUOTA_FILTERS.FIRSTNAME, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent>
-          <Checkbox
-            checked={!!inputValues[QUOTA_FILTERS.USE_QUOTA_LIMITATION]}
-            onCheck={() => updateFilter(!inputValues[QUOTA_FILTERS.USE_QUOTA_LIMITATION], QUOTA_FILTERS.USE_QUOTA_LIMITATION)}
-            label={formatMessage({ id: 'projectUser.list.only.low.quota' })}
-          />
-        </FiltersPaneLineComponent>
+      <FiltersPaneMainComponent
+        filters18n={FILTERS_I18N}
+        updateFilter={updateFilter}
+        inputValues={inputValues}
+      >
+        <FilterPaneTextField filterKey={FILTER_PARAMS.EMAIL} />
+        <FilterPaneTextField filterKey={FILTER_PARAMS.LASTNAME} />
+        <FilterPaneTextField filterKey={FILTER_PARAMS.FIRSTNAME} />
+        <FilterPaneCheckboxField filterKey={FILTER_PARAMS.USE_QUOTA_LIMITATION} uiValue={uiSettings.quotaWarningCount} />
       </FiltersPaneMainComponent>
     )
   }

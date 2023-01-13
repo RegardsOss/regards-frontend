@@ -18,7 +18,6 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import omit from 'lodash/omit'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -36,21 +35,21 @@ import EditProjectUserComponent from './options/EditProjectUserComponent'
 import DeleteProjectUserComponent from './options/DeleteProjectUserComponent'
 import { ProjectUserAccessRightFiltersComponent } from './filters/ProjectUserAccessRightFiltersComponent'
 import HeaderActionsBar from './HeaderActionsBar'
-import { getQueryString, getUserRequestParameters } from '../../domain/QueryUtils'
+import { getUserRequestParameters } from '../../domain/QueryUtils'
 
 export class ProjectUserAccessRightComponent extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
-    csvLink: PropTypes.string.isRequired,
     totalElements: PropTypes.number.isRequired,
     pageSize: PropTypes.number,
     isLoading: PropTypes.bool.isRequired,
     onEdit: PropTypes.func,
     onDeleteAccount: PropTypes.func,
+    onDownloadCSV: PropTypes.func,
 
     // table sorting, column visiblity & filters management
     // eslint-disable-next-line react/no-unused-prop-types
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
+    bodyParameters: TableFilterSortingAndVisibilityContainer.BODY_PARAMETERS_PROP_TYPE,
     columnsVisibility: TableFilterSortingAndVisibilityContainer.COLUMN_VISIBILITY_PROP_TYPE,
     onChangeColumnsVisibility: PropTypes.func,
     getColumnSortingData: PropTypes.func,
@@ -80,7 +79,6 @@ export class ProjectUserAccessRightComponent extends React.Component {
   state = {
     deleteDialogOpened: false,
     entityToProcess: null,
-    csvLink: '',
   }
 
   /**
@@ -102,7 +100,6 @@ export class ProjectUserAccessRightComponent extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
       requestParameters,
-      csvLink,
     } = newProps
     const oldState = this.state || {}
     let newState = { ...oldState }
@@ -110,13 +107,6 @@ export class ProjectUserAccessRightComponent extends React.Component {
     if (!isEqual(newRequestParameters, oldProps.requestParameters)) {
       newState = {
         requestParameters: newRequestParameters,
-      }
-    }
-    if (!isEqual(newRequestParameters, oldProps.requestParameters) || csvLink !== oldProps.csvLink) {
-      const queryString = getQueryString(newRequestParameters)
-      newState = {
-        ...newState,
-        csvLink: `${csvLink}${queryString}`,
       }
     }
     if (!isEqual(newState, oldState)) {
@@ -158,10 +148,10 @@ export class ProjectUserAccessRightComponent extends React.Component {
     const {
       onEdit, pageSize, totalElements, isLoading,
       getColumnSortingData, columnsVisibility,
-      onSort, onChangeColumnsVisibility,
+      onSort, onChangeColumnsVisibility, bodyParameters,
+      onDownloadCSV,
     } = this.props
-    const { csvLink, requestParameters } = this.state
-    const filters = omit(requestParameters, 'sort')
+    const { requestParameters } = this.state
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = [ // eslint wont fix: Major API rework required
@@ -169,7 +159,7 @@ export class ProjectUserAccessRightComponent extends React.Component {
       new TableColumnBuilder(ProjectUserAccessRightComponent.COLUMN_KEYS.EMAIL)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserAccessRightComponent.COLUMN_KEYS.EMAIL}`)
-        .label(formatMessage({ id: 'projectUser.list.table.email' }))
+        .label(formatMessage({ id: 'projectUser.list.table.email.label' }))
         .visible(get(columnsVisibility, ProjectUserAccessRightComponent.COLUMN_KEYS.EMAIL, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserAccessRightComponent.COLUMN_KEYS.EMAIL), onSort)
         .build(),
@@ -177,7 +167,7 @@ export class ProjectUserAccessRightComponent extends React.Component {
       new TableColumnBuilder(ProjectUserAccessRightComponent.COLUMN_KEYS.LASTNAME)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserAccessRightComponent.COLUMN_KEYS.LASTNAME}`)
-        .label(formatMessage({ id: 'projectUser.list.table.lastname' }))
+        .label(formatMessage({ id: 'projectUser.list.table.lastName.label' }))
         .visible(get(columnsVisibility, ProjectUserAccessRightComponent.COLUMN_KEYS.LASTNAME, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserAccessRightComponent.COLUMN_KEYS.LASTNAME), onSort)
         .build(),
@@ -185,7 +175,7 @@ export class ProjectUserAccessRightComponent extends React.Component {
       new TableColumnBuilder(ProjectUserAccessRightComponent.COLUMN_KEYS.FIRSTNAME)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserAccessRightComponent.COLUMN_KEYS.FIRSTNAME}`)
-        .label(formatMessage({ id: 'projectUser.list.table.firstname' }))
+        .label(formatMessage({ id: 'projectUser.list.table.firstName.label' }))
         .visible(get(columnsVisibility, ProjectUserAccessRightComponent.COLUMN_KEYS.FIRSTNAME, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserAccessRightComponent.COLUMN_KEYS.FIRSTNAME), onSort)
         .build(),
@@ -193,7 +183,7 @@ export class ProjectUserAccessRightComponent extends React.Component {
       new TableColumnBuilder(ProjectUserAccessRightComponent.COLUMN_KEYS.GROUPS)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserAccessRightComponent.COLUMN_KEYS.GROUPS}`)
-        .label(formatMessage({ id: 'projectUser.list.table.groups' }))
+        .label(formatMessage({ id: 'projectUser.list.table.accessGroup.label' }))
         .visible(get(columnsVisibility, ProjectUserAccessRightComponent.COLUMN_KEYS.GROUPS, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserAccessRightComponent.COLUMN_KEYS.GROUPS), onSort)
         .build(),
@@ -201,7 +191,7 @@ export class ProjectUserAccessRightComponent extends React.Component {
       new TableColumnBuilder(ProjectUserAccessRightComponent.COLUMN_KEYS.ROLE)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserAccessRightComponent.COLUMN_KEYS.ROLE}`)
-        .label(formatMessage({ id: 'projectUser.list.table.role' }))
+        .label(formatMessage({ id: 'projectUser.list.table.role.label' }))
         .visible(get(columnsVisibility, ProjectUserAccessRightComponent.COLUMN_KEYS.ROLE, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserAccessRightComponent.COLUMN_KEYS.ROLE), onSort)
         .rowCellDefinition({
@@ -237,7 +227,8 @@ export class ProjectUserAccessRightComponent extends React.Component {
           {/* 3 - table options  */}
           <TableHeaderOptionsArea>
             <HeaderActionsBar
-              csvLink={csvLink}
+              onDownloadCSV={onDownloadCSV}
+              bodyParameters={bodyParameters}
               columns={columns}
               onChangeColumnsVisibility={onChangeColumnsVisibility}
             />
@@ -252,8 +243,10 @@ export class ProjectUserAccessRightComponent extends React.Component {
           maxRowCount={maxRowCount}
           columns={columns}
           requestParams={requestParameters}
+          bodyParams={bodyParameters}
+          fetchUsingPostMethod
           emptyComponent={!isLoading
-            ? <NoUserComponent key="no.content" hasFilter={filters !== ProjectUserAccessRightFiltersComponent.DEFAULT_FILTERS_STATE} />
+            ? <NoUserComponent key="no.content" hasFilter={bodyParameters !== ProjectUserAccessRightFiltersComponent.DEFAULT_FILTERS_STATE} />
             : ProjectUserAccessRightComponent.LOADING_COMPONENT}
         />
         {this.renderDeleteConfirmDialog()}

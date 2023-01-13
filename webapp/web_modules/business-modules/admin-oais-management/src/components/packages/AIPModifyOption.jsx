@@ -39,7 +39,7 @@ class AIPModifyOption extends React.Component {
 
   onClick = () => {
     const { entity, onModify } = this.props
-    onModify(entity)
+    onModify([entity])
   }
 
   render() {

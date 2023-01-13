@@ -24,39 +24,9 @@ const featureManagementStyles = (theme) => ({
   displayNone: {
     display: 'none',
   },
-  filter: {
-    dateToLabelStyle: {
-      marginRight: '10px',
-    },
-    dateFieldGroupStyle: {
-      display: 'flex',
-      alignItems: 'center',
-      marginLeft: '10px',
-    },
-    selectFieldGroupStyle: {
-      marginTop: '-20px',
-    },
-    fieldStyle: {
-      margin: '0px 10px',
-    },
-    dateStyle: {
-      width: '120px',
-      margin: '0px 10px',
-    },
-    autocomplete: {
-      marginRight: '10px',
-      marginLeft: '10px',
-    },
-    tableHeaderContainerStyle: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-    tableHeaderFiltersStyle: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    dateFromStyle: {
-      marginLeft: '10px',
+  card: {
+    filterButtonStyle: {
+      backgroundColor: theme.palette.accent1Color,
     },
   },
   tableStyle: {
@@ -131,6 +101,9 @@ const featureManagementStyles = (theme) => ({
     indicatorStyle: {
       position: 'relative',
     },
+  },
+  headerActionBarStyle: {
+    width: '100%',
   },
   detailsStyle: {
     height: '300px',

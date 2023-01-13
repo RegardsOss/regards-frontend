@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { FemDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SwitchComponent from '../../src/components/SwitchComponent'
 import { SwitchTables } from '../../src/containers/SwitchTables'
@@ -51,7 +52,7 @@ describe('[ Module name] Testing SwitchTables', () => {
         to: '',
         state: '',
       },
-      openedPane: '',
+      paneType: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
       // from mapStateToProps
       referencesMeta: {
         totalElements: 0,

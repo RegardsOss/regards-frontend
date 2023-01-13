@@ -44,7 +44,7 @@ export class AcquisitionProcessingChainEnabledRenderer extends React.Component {
 
   onToggle = () => {
     const { entity, onToggle } = this.props
-    onToggle(entity.content.chainId, 'ONLY_ACTIVITY', !entity.content.chain.active)
+    onToggle(entity, 'ONLY_ACTIVITY', !entity.content.chain.active)
   }
 
   render() {

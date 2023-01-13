@@ -56,7 +56,7 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestStatusRenderCell', () => {
 
     const enzymeWrapper = shallow(<RequestStatusRenderCell {...props} />, { context })
     // 1 - check status render
-    assert.include(enzymeWrapper.debug(), `oais.requests.status.${state}`)
+    assert.include(enzymeWrapper.debug(), `oais.list.filters.requestState.${state}`)
     // 2 - check error or version mode button is displayed / hidden
     const buttonWrapper = enzymeWrapper.find(IconButton)
     switch (state) {

@@ -22,9 +22,15 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
   TableLayout, PageableInfiniteTableContainer, TableHeaderLoadingComponent,
 } from '@regardsoss/components'
-import { FemDomain } from '@regardsoss/domain'
-import FlatButton from 'material-ui/FlatButton'
+import { FemDomain, CommonDomain } from '@regardsoss/domain'
+import HeaderActionsBarContainer from '../../src/containers/HeaderActionsBarContainer'
 import { RequestManagerComponent } from '../../src/components/RequestManagerComponent'
+import { referencesActions, referencesSelectors } from '../../src/clients/ReferencesClient'
+import { creationRequestActions, creationRequestSelectors } from '../../src/clients/CreationRequestsClient'
+import { updateRequestActions, updateRequestSelectors } from '../../src/clients/UpdateRequestsClient'
+import { deleteRequestActions, deleteRequestSelectors } from '../../src/clients/DeleteRequestsClient'
+import { notificationRequestActions, notificationRequestSelectors } from '../../src/clients/NotificationRequestsClient'
+
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -40,32 +46,129 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
   it('should exists', () => {
     assert.isDefined(RequestManagerComponent)
   })
-  it('should render correctly', () => {
+  it('should render correctly REFERENCES tab', () => {
     const props = {
-      onRefresh: () => { },
-      featureManagerFilters: {},
-      onApplyRequestFilter: () => { },
-      deleteRequests: () => { },
-      retryRequests: () => { },
-      tableSelection: [],
-      paneType: FemDomain.REQUEST_TYPES_ENUM.CREATION,
-      clients: {},
-      selectionMode: 'include.selected',
-      links: [],
-      areAllSelected: false,
+      onDeleteRequests: () => {},
+      onRetryRequests: () => {},
+      paneType: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
       isFetching: false,
+      getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
     }
     const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
-    const tableWrapper = enzymeWrapper.find(TableLayout)
-    assert.lengthOf(tableWrapper, 1, 'There should be a TableLayout')
-
-    const refreshButton = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(refreshButton, 1, 'There should be a FlatButton')
-
-    const loadingComponent = enzymeWrapper.find(TableHeaderLoadingComponent)
-    assert.lengthOf(loadingComponent, 1, 'There should be a TableHeaderLoadingComponent')
-
-    const tableContainer = enzymeWrapper.find(PageableInfiniteTableContainer)
-    assert.lengthOf(tableContainer, 1, 'There should be a PageableInfiniteTableContainer')
+    assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
+    const headerContainer = enzymeWrapper.find(HeaderActionsBarContainer)
+    assert.lengthOf(headerContainer, 1, 'There should be 1 HeaderActionsBarContainer')
+    testSuiteHelpers.assertWrapperProperties(headerContainer, {
+      paneType: props.paneType,
+      onRetry: enzymeWrapper.instance().onRetry,
+      onDelete: enzymeWrapper.instance().onDelete,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
+    const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
+    testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
+      pageActions: referencesActions,
+      pageSelectors: referencesSelectors,
+    }, 'Component should define the expected properties and callbacks')
+  })
+  it('should render correctly CREATION tab', () => {
+    const props = {
+      onDeleteRequests: () => {},
+      onRetryRequests: () => {},
+      paneType: FemDomain.REQUEST_TYPES_ENUM.CREATION,
+      isFetching: false,
+      getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
+    }
+    const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
+    const headerContainer = enzymeWrapper.find(HeaderActionsBarContainer)
+    assert.lengthOf(headerContainer, 1, 'There should be 1 HeaderActionsBarContainer')
+    testSuiteHelpers.assertWrapperProperties(headerContainer, {
+      paneType: props.paneType,
+      onRetry: enzymeWrapper.instance().onRetry,
+      onDelete: enzymeWrapper.instance().onDelete,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
+    const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
+    testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
+      pageActions: creationRequestActions,
+      pageSelectors: creationRequestSelectors,
+    }, 'Component should define the expected properties and callbacks')
+  })
+  it('should render correctly UPDATE tab', () => {
+    const props = {
+      onDeleteRequests: () => {},
+      onRetryRequests: () => {},
+      paneType: FemDomain.REQUEST_TYPES_ENUM.UPDATE,
+      isFetching: false,
+      getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
+    }
+    const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
+    const headerContainer = enzymeWrapper.find(HeaderActionsBarContainer)
+    assert.lengthOf(headerContainer, 1, 'There should be 1 HeaderActionsBarContainer')
+    testSuiteHelpers.assertWrapperProperties(headerContainer, {
+      paneType: props.paneType,
+      onRetry: enzymeWrapper.instance().onRetry,
+      onDelete: enzymeWrapper.instance().onDelete,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
+    const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
+    testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
+      pageActions: updateRequestActions,
+      pageSelectors: updateRequestSelectors,
+    }, 'Component should define the expected properties and callbacks')
+  })
+  it('should render correctly DELETE tab', () => {
+    const props = {
+      onDeleteRequests: () => {},
+      onRetryRequests: () => {},
+      paneType: FemDomain.REQUEST_TYPES_ENUM.DELETE,
+      isFetching: false,
+      getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
+    }
+    const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
+    const headerContainer = enzymeWrapper.find(HeaderActionsBarContainer)
+    assert.lengthOf(headerContainer, 1, 'There should be 1 HeaderActionsBarContainer')
+    testSuiteHelpers.assertWrapperProperties(headerContainer, {
+      paneType: props.paneType,
+      onRetry: enzymeWrapper.instance().onRetry,
+      onDelete: enzymeWrapper.instance().onDelete,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
+    const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
+    testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
+      pageActions: deleteRequestActions,
+      pageSelectors: deleteRequestSelectors,
+    }, 'Component should define the expected properties and callbacks')
+  })
+  it('should render correctly NOTIFICATION tab', () => {
+    const props = {
+      onDeleteRequests: () => {},
+      onRetryRequests: () => {},
+      paneType: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION,
+      isFetching: false,
+      getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
+    }
+    const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
+    const headerContainer = enzymeWrapper.find(HeaderActionsBarContainer)
+    assert.lengthOf(headerContainer, 1, 'There should be 1 HeaderActionsBarContainer')
+    testSuiteHelpers.assertWrapperProperties(headerContainer, {
+      paneType: props.paneType,
+      onRetry: enzymeWrapper.instance().onRetry,
+      onDelete: enzymeWrapper.instance().onDelete,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
+    const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
+    testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
+      pageActions: notificationRequestActions,
+      pageSelectors: notificationRequestSelectors,
+    }, 'Component should define the expected properties and callbacks')
   })
 })

@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
+import { HateoasToggle } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AcquisitionProcessingChainModeRenderer } from '../../../src/components/acquisitionChain/AcquisitionProcessingChainModeRenderer'
 import styles from '../../../src/styles'
@@ -59,7 +60,8 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainMod
       },
       onToggle: () => {},
     }
-    shallow(<AcquisitionProcessingChainModeRenderer {...props} />, { context })
+    const enzymeWrapper = shallow(<AcquisitionProcessingChainModeRenderer {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(HateoasToggle), 1, 'HateoasToggle should be set')
   })
   it('should render correctly mode MANUAL', () => {
     const props = {
@@ -84,6 +86,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainMod
       },
       onToggle: () => {},
     }
-    shallow(<AcquisitionProcessingChainModeRenderer {...props} />, { context })
+    const enzymeWrapper = shallow(<AcquisitionProcessingChainModeRenderer {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(HateoasToggle), 1, 'HateoasToggle should be set')
   })
 })

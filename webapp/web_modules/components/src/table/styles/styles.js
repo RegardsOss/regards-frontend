@@ -353,15 +353,95 @@ export default (theme) => {
           display: 'flex',
           flexDirection: 'column',
         },
-        lineDivStyle: {
+        mainLineDivStyle: {
           display: 'flex',
           alignItems: 'center',
           marginBottom: '10px',
           height: '48px',
         },
+        lineDivStyle: {
+          width: '100%',
+          maxWidth: '450px',
+        },
+        mainMultilineDivStyle: {
+          display: 'flex',
+          alignItems: 'center',
+          marginBottom: '10px',
+        },
+        multilineDivStyle: {
+          width: '100%',
+        },
         filterLabelStyle: {
           width: '150px',
         },
+        textFieldValuesStyle: {
+          mainDivStyle: {
+            display: 'flex',
+            flexDirection: 'column',
+          },
+          textFieldDivStyle: {
+            display: 'flex',
+            justifyContent: 'flex-start',
+            width: '100%',
+            alignItems: 'flex-end',
+          },
+          scrollAreaStyle: {
+            maxHeight: '115px',
+          },
+          valuesDivStyle: {
+            display: 'flex', width: '100%', maxWidth: '440px', flexWrap: 'wrap',
+          },
+          chipStyle: {
+            margin: '3px 3px 3px 0px',
+          },
+          chipValueStyle: {
+            width: '100%', maxWidth: '360px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis',
+          },
+        },
+      },
+      autocompleteStyle: {
+        paddingTop: '10px',
+      },
+    },
+    filtersChipsStyle: {
+      mainDivStyle: {
+        display: 'flex',
+        alignItems: 'center',
+        marginRight: '20px',
+        marginBottom: '3px',
+        marginTop: '-7px',
+      },
+      filtersDivStyle: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        width: '100%',
+      },
+      chipStyle: {
+        marginRight: '5px',
+        marginBottom: '5px',
+      },
+      chipLabelStyle: {
+        marginRight: '3px',
+      },
+      chipAltLabelStyle: {
+        marginRight: '3px',
+        marginLeft: '3px',
+      },
+      chipValueStyle: {
+        fontWeight: 'bold',
+        color: theme.module.searchResults.searchPane.titleBar.backgroundColor,
+      },
+      chipMainStyle: {
+        display: 'flex',
+      },
+      chipValueDivStyle: {
+        display: 'flex',
+      },
+      scrollAreaStyle: {
+        maxWidth: '680px',
+      },
+      scrollAreaContentStyle: {
+        display: 'inline-block',
       },
     },
   })

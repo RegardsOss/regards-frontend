@@ -41,6 +41,14 @@ const messages = {
   'filter.pane.title': 'Filtrer...',
   'filter.pane.close.button': 'Fermer',
   'filter.pane.clear.button': 'Effacer',
+  'filter.pane.date.after.hintText': 'Date (depuis)',
+  'filter.pane.hour.after.hintText': 'Heure (depuis)',
+  'filter.pane.date.before.hintText': 'Date (jusqu\'à)',
+  'filter.pane.hour.before.hintText': 'Heure (jusqu\'à)',
+  'filter.pane.select.field.any': 'Tous',
+
+  'filter.chips.date.from': ' depuis ',
+  'filter.chips.date.to': ' jusqu\'à ',
 }
 
 export default messages

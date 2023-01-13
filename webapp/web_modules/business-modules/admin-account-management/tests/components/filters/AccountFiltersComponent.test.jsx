@@ -19,7 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import AccountFiltersComponent from '../../../src/components/filters/AccountFiltersComponent'
+import { FiltersPaneMainComponent, FilterPaneTextField } from '@regardsoss/components'
+import { AccountFiltersComponent } from '../../../src/components/filters/AccountFiltersComponent'
+import { FILTERS_I18N } from '../../../src/domain/filters'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -43,6 +45,14 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account filters component', () => {
       inputValues: {},
       updateFilter: () => { },
     }
-    shallow(<AccountFiltersComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<AccountFiltersComponent {...props} />, { context })
+    const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
+    assert.lengthOf(mainComponent, 1, 'FiltersPaneMainComponent should be set')
+    testSuiteHelpers.assertWrapperProperties(mainComponent, {
+      updateFilter: props.updateFilter,
+      inputValues: props.inputValues,
+      filters18n: FILTERS_I18N,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneTextField), 3, 'There should be 3 FilterPaneTextField')
   })
 })

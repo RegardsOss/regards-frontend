@@ -318,6 +318,15 @@ const styles = (theme) => ({
     },
   },
   chains: {
+    filterButtonStyle: {
+      backgroundColor: theme.palette.accent1Color,
+    },
+    headerActionBarStyle: {
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
     stateStyle: {
       display: 'flex',
       alignItems: 'center',
@@ -366,18 +375,6 @@ const styles = (theme) => ({
       marginLeft: '4px',
       color: theme.formsExtensions.validation.warningColor,
       cursor: 'pointer',
-    },
-    filters: {
-      fieldStyle: {
-        width: '210px',
-        margin: '0px 10px',
-      },
-      checkboxFieldStyle: {
-        width: '210px',
-        margin: '0px 10px',
-        padding: '12px 0px 0px 0px',
-        height: '48px',
-      },
     },
     productSessionLink: {
       textDecoration: 'underline',

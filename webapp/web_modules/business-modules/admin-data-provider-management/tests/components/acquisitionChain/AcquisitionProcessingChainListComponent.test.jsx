@@ -19,9 +19,15 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { PageableInfiniteTableContainer, AutoRefreshPageableTableHOC } from '@regardsoss/components'
+import {
+  FiltersChipsContainer, TableFilterSortingAndVisibilityContainer, CardHeaderActions, CardActionsComponent,
+} from '@regardsoss/components'
 import { AcquisitionProcessingChainListComponent } from '../../../src/components/acquisitionChain/AcquisitionProcessingChainListComponent'
 import AcquisitionProcessingChainListFiltersComponent from '../../../src/components/acquisitionChain/AcquisitionProcessingChainListFiltersComponent'
+import AcquisitionProcessingChainTableComponent from '../../../src/components/acquisitionChain/AcquisitionProcessingChainTableComponent'
+import { filtersActions, filtersSelectors } from '../../../src/clients/FiltersClient'
+import { AcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors } from '../../../src/clients/AcquisitionProcessingChainClient'
+import { FILTERS_I18N } from '../../../src/domain/filters'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -39,52 +45,71 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainLis
   })
   it('should render correctly', () => {
     const props = {
-      project: 'test-project',
-      initialFilters: { state: 'IN_PROGRESS' },
-      pageSize: 100,
       resultsCount: 10,
       entitiesLoading: false,
       onRefresh: () => new Promise(() => { }),
       onBack: () => new Promise(() => { }),
-      onRunChain: () => new Promise(() => { }),
-      onStopChain: () => new Promise(() => { }),
       onDelete: () => {},
       onEdit: () => {},
       onDuplicate: () => {},
+      onRunChain: () => new Promise(() => { }),
+      onStopChain: () => new Promise(() => { }),
       onListSessions: () => {},
       onCreate: () => {},
-      fetchPage: () => {},
       onMultiToggleSelection: () => {},
       onToggle: () => {},
       isOneCheckboxToggled: true,
       hasAccess: true,
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainListComponent {...props} />, { context })
-    const filters = enzymeWrapper.find(AcquisitionProcessingChainListFiltersComponent)
-    assert.equal(filters.length, 1, 'The filters should be rendered')
-    const autoRefreshComponent = enzymeWrapper.find(AutoRefreshPageableTableHOC)
-    assert.equal(autoRefreshComponent.length, 1, 'The AutoRefreshPageableTableHOC should be rendered')
-    testSuiteHelpers.assertWrapperProperties(autoRefreshComponent, {
-      requestParams: enzymeWrapper.instance().state.requestParams,
-      enableAutoRefresh: enzymeWrapper.instance().state.isAutoRefreshEnabled,
-    }, 'The AutoRefreshPageableTableHOC should be correctly configured')
-    const tables = enzymeWrapper.find(PageableInfiniteTableContainer)
-    assert.equal(tables.length, 1, 'The PageableInfiniteTableContainer should be rendered')
-    const table = tables.at(0)
-    // As the AcquisitionProcessingChainListFiltersComponent is not mounted by shallow, the initialFilters are not applyed
-    let expectedRequestParams = {}
-    assert.equal(table.props().queryPageSize, props.pageSize, 'Table queryPageSize invalid')
-    assert.deepEqual(table.props().requestParams, expectedRequestParams, 'Table requestParams invalid')
-    // Simulate new filters applied by the subcomponent AcquisitionProcessingChainListFiltersComponent
-    const newFilters = { newFilter: 'value', state: 'TERMINATED' }
-    enzymeWrapper.instance().applyFilters(newFilters, () => {
-      enzymeWrapper.update()
-      const updatedTable = enzymeWrapper.find(PageableInfiniteTableContainer).at(0)
-      expectedRequestParams = {
-        ...props.contextFilters,
-        ...newFilters,
-      }
-      assert.deepEqual(updatedTable.props().requestParams, expectedRequestParams, 'Table requestParams invalid after filters update')
+    const headerComponent = enzymeWrapper.find(CardHeaderActions)
+    assert.lengthOf(headerComponent, 1, 'CardHeaderActions should be set')
+    testSuiteHelpers.assertWrapperProperties(headerComponent, {
+      mainButtonClick: enzymeWrapper.instance().onRefresh,
+      secondaryButtonClick: enzymeWrapper.instance().handleFiltersPane,
+      thirdButtonClick: props.onBack,
+    })
+    const chipsContainer = enzymeWrapper.find(FiltersChipsContainer)
+    assert.lengthOf(chipsContainer, 1, 'FiltersChipsContainer should be set')
+    testSuiteHelpers.assertWrapperProperties(chipsContainer, {
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
+    })
+    const tableVisibilityComponent = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
+    assert.lengthOf(tableVisibilityComponent, 1, 'TableFilterSortingAndVisibilityContainer should be set')
+    testSuiteHelpers.assertWrapperProperties(tableVisibilityComponent, {
+      pageActions: AcquisitionProcessingChainActions,
+      pageSelectors: AcquisitionProcessingChainSelectors,
+      onToggle: props.onToggle,
+      onDelete: props.onDelete,
+      onStopChain: props.onStopChain,
+      onRunChain: props.onRunChain,
+      updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+    }, 'Component should define the expected properties and callbacks')
+    const filtersComponent = enzymeWrapper.find(AcquisitionProcessingChainListFiltersComponent)
+    testSuiteHelpers.assertWrapperProperties(filtersComponent, {
+      isPaneOpened: enzymeWrapper.instance().state.isPaneOpened,
+      onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
+      filtersActions,
+      filtersSelectors,
+    })
+    const tableComponent = enzymeWrapper.find(AcquisitionProcessingChainTableComponent)
+    assert.lengthOf(tableComponent, 1, 'AcquisitionProcessingChainTableComponent should be set')
+    testSuiteHelpers.assertWrapperProperties(tableComponent, {
+      hasAccess: props.hasAccess,
+      updateErrorMessage: enzymeWrapper.instance().updateErrorMessage,
+      onListSessions: props.onListSessions,
+      onDuplicate: props.onDuplicate,
+      onEdit: props.onEdit,
+      entitiesLoading: props.entitiesLoading,
+      resultsCount: props.resultsCount,
+      isOneCheckboxToggled: props.isOneCheckboxToggled,
+    })
+    const cardActionComponent = enzymeWrapper.find(CardActionsComponent)
+    assert.lengthOf(cardActionComponent, 1, 'CardActionsComponent should be set')
+    testSuiteHelpers.assertWrapperProperties(cardActionComponent, {
+      mainButtonClick: props.onCreate,
     })
   })
 })

@@ -16,13 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import pick from 'lodash/pick'
+import omit from 'lodash/omit'
+import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider, withI18n } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { withModuleStyle } from '@regardsoss/theme'
 import { ProcessingShapes } from '@regardsoss/shape'
 import compose from 'lodash/fp/compose'
-import get from 'lodash/get'
 import { processingActions, processingSelectors } from '../clients/ProcessingClient'
 import { processingMonitoringActions, processingMonitoringSelectors } from '../clients/ProcessingMonitoringClient'
 import messages from '../i18n'
@@ -53,7 +56,7 @@ export class ProcessingMonitoringContainer extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = (dispatch) => ({
-    fetchProcessingMonitorList: (pageIndex, pageSize, requestParams, queryParams) => dispatch(processingMonitoringActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
+    fetchProcessingMonitorList: (pageIndex, pageSize, requestParams, queryParams, bodyParams) => dispatch(processingMonitoringActions.fetchPagedEntityListByPost(pageIndex, pageSize, requestParams, queryParams, bodyParams)),
     fetchProcessingList: () => dispatch(processingActions.fetchEntityList()),
   })
 
@@ -99,16 +102,21 @@ export class ProcessingMonitoringContainer extends React.Component {
     })
   }
 
-  onRefresh = (filters) => {
-    const { meta, fetchProcessingMonitorList } = this.props
-    const curentPage = get(meta, 'number', 0)
-    const curentPageSize = get(meta, 'size', ProcessingMonitoringComponent.PAGE_SIZE)
-    return fetchProcessingMonitorList(0, curentPageSize * (curentPage + 1), {}, filters)
+  getFetchPageSize = () => {
+    const { meta } = this.props
+    const lastPage = (meta && meta.number) || 0
+    return TableFilterSortingAndVisibilityContainer.PAGE_SIZE * (lastPage + 1)
   }
 
-  getBackURL = () => {
+  onRefresh = (requestParameters) => {
+    const { fetchProcessingMonitorList } = this.props
+    const fetchPageSize = this.getFetchPageSize()
+    fetchProcessingMonitorList(0, fetchPageSize, {}, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') })
+  }
+
+  onBack = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/commands/board`
+    browserHistory.push(`/admin/${project}/data/acquisition/board`)
   }
 
   render() {
@@ -125,10 +133,11 @@ export class ProcessingMonitoringContainer extends React.Component {
           <ProcessingMonitoringComponent
             project={project}
             onRefresh={this.onRefresh}
-            backUrl={this.getBackURL()}
+            onBack={this.onBack}
             processingList={processingList}
             resultsCount={meta.totalElements}
-            entitiesLoading={entitiesLoading}
+            entitiesLoading={entitiesLoading || isLoading}
+            isLoading={isLoading}
           />
         </LoadableContentDisplayDecorator>
       </I18nProvider>

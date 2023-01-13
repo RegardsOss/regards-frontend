@@ -37,14 +37,12 @@ import EditQuotaComponent from './options/EditQuotaComponent'
 import { ProjectUserQuotaFiltersComponent } from './filters/ProjectUserQuotaFiltersComponent'
 import MaxQuotaDialogComponent from './dialog/MaxQuotaDialogComponent'
 import QuotaRenderer from './render/QuotaRenderer'
-import QUOTA_FILTERS from '../../domain/QuotaFilters'
+import { FILTER_PARAMS } from '../../domain/filters'
 import HeaderActionsBar from './HeaderActionsBar'
-import { getQueryString, getUserRequestParameters } from '../../domain/QueryUtils'
+import { getUserRequestParameters } from '../../domain/QueryUtils'
 
 export class ProjectUserQuotaComponent extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
-    csvLink: PropTypes.string,
     totalElements: PropTypes.number.isRequired,
     pageSize: PropTypes.number,
     isLoading: PropTypes.bool.isRequired,
@@ -52,10 +50,12 @@ export class ProjectUserQuotaComponent extends React.Component {
     onDeleteAccount: PropTypes.func,
     uiSettings: UIShapes.UISettings.isRequired,
     onSetMaxQuota: PropTypes.func,
+    onDownloadCSV: PropTypes.func,
 
     // table sorting, column visiblity & filters management
     // eslint-disable-next-line react/no-unused-prop-types
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
+    bodyParameters: TableFilterSortingAndVisibilityContainer.BODY_PARAMETERS_PROP_TYPE,
     columnsVisibility: TableFilterSortingAndVisibilityContainer.COLUMN_VISIBILITY_PROP_TYPE,
     onChangeColumnsVisibility: PropTypes.func,
     getColumnSortingData: PropTypes.func,
@@ -86,7 +86,6 @@ export class ProjectUserQuotaComponent extends React.Component {
     deleteDialogOpened: false,
     quotaDialogOpened: false,
     entityToProcess: null,
-    csvLink: '',
     requestParameters: {},
   }
 
@@ -108,7 +107,6 @@ export class ProjectUserQuotaComponent extends React.Component {
   */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      csvLink,
       requestParameters,
       uiSettings,
     } = newProps
@@ -120,15 +118,8 @@ export class ProjectUserQuotaComponent extends React.Component {
       newState = {
         requestParameters: {
           ...newRequestParameters,
-          [QUOTA_FILTERS.USE_QUOTA_LIMITATION]: newRequestParameters[QUOTA_FILTERS.USE_QUOTA_LIMITATION] ? uiSettings.quotaWarningCount : null,
+          [FILTER_PARAMS.USE_QUOTA_LIMITATION]: newRequestParameters[FILTER_PARAMS.USE_QUOTA_LIMITATION] ? uiSettings.quotaWarningCount : null,
         },
-      }
-    }
-    if (!isEqual(newRequestParameters, oldProps.requestParameters) || csvLink !== oldProps.csvLink) {
-      const queryString = getQueryString(newRequestParameters)
-      newState = {
-        ...newState,
-        csvLink: `${csvLink}${queryString}`,
       }
     }
     if (!isEqual(newState, oldState)) {
@@ -198,10 +189,10 @@ export class ProjectUserQuotaComponent extends React.Component {
     const {
       onEdit, pageSize, totalElements, isLoading,
       getColumnSortingData, columnsVisibility,
-      onSort, onChangeColumnsVisibility,
-      uiSettings,
+      onSort, onChangeColumnsVisibility, bodyParameters,
+      uiSettings, onDownloadCSV,
     } = this.props
-    const { csvLink, requestParameters } = this.state
+    const { requestParameters } = this.state
     const { quotaDialogOpened, entityToProcess } = this.state
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -210,7 +201,7 @@ export class ProjectUserQuotaComponent extends React.Component {
       new TableColumnBuilder(ProjectUserQuotaComponent.COLUMN_KEYS.EMAIL)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserQuotaComponent.COLUMN_KEYS.EMAIL}`)
-        .label(formatMessage({ id: 'projectUser.list.table.email' }))
+        .label(formatMessage({ id: 'projectUser.list.table.email.label' }))
         .visible(get(columnsVisibility, ProjectUserQuotaComponent.COLUMN_KEYS.EMAIL, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserQuotaComponent.COLUMN_KEYS.EMAIL), onSort)
         .build(),
@@ -218,7 +209,7 @@ export class ProjectUserQuotaComponent extends React.Component {
       new TableColumnBuilder(ProjectUserQuotaComponent.COLUMN_KEYS.LASTNAME)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserQuotaComponent.COLUMN_KEYS.LASTNAME}`)
-        .label(formatMessage({ id: 'projectUser.list.table.lastname' }))
+        .label(formatMessage({ id: 'projectUser.list.table.lastName.label' }))
         .visible(get(columnsVisibility, ProjectUserQuotaComponent.COLUMN_KEYS.LASTNAME, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserQuotaComponent.COLUMN_KEYS.LASTNAME), onSort)
         .build(),
@@ -226,7 +217,7 @@ export class ProjectUserQuotaComponent extends React.Component {
       new TableColumnBuilder(ProjectUserQuotaComponent.COLUMN_KEYS.FIRSTNAME)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserQuotaComponent.COLUMN_KEYS.FIRSTNAME}`)
-        .label(formatMessage({ id: 'projectUser.list.table.firstname' }))
+        .label(formatMessage({ id: 'projectUser.list.table.firstName.label' }))
         .visible(get(columnsVisibility, ProjectUserQuotaComponent.COLUMN_KEYS.FIRSTNAME, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserQuotaComponent.COLUMN_KEYS.FIRSTNAME), onSort)
         .build(),
@@ -285,7 +276,8 @@ export class ProjectUserQuotaComponent extends React.Component {
           {/* 3 - table options  */}
           <TableHeaderOptionsArea>
             <HeaderActionsBar
-              csvLink={csvLink}
+              bodyParameters={bodyParameters}
+              onDownloadCSV={onDownloadCSV}
               columns={columns}
               onChangeColumnsVisibility={onChangeColumnsVisibility}
             />
@@ -300,8 +292,10 @@ export class ProjectUserQuotaComponent extends React.Component {
           maxRowCount={maxRowCount}
           columns={columns}
           requestParams={requestParameters}
+          bodyParams={bodyParameters}
+          fetchUsingPostMethod
           emptyComponent={!isLoading
-            ? <NoUserComponent key="no.content" hasFilter={requestParameters !== ProjectUserQuotaFiltersComponent.DEFAULT_FILTERS_STATE} />
+            ? <NoUserComponent key="no.content" hasFilter={bodyParameters !== ProjectUserQuotaFiltersComponent.DEFAULT_FILTERS_STATE} />
             : ProjectUserQuotaComponent.LOADING_COMPONENT}
         />
         <MaxQuotaDialogComponent

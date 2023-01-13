@@ -30,10 +30,11 @@ import { accountWaitingActions, accountWaitingSelectors } from '../clients/Accou
 import { acceptAccountActions } from '../clients/AcceptAccountClient'
 import { enableAccountActions } from '../clients/EnableAccountClient'
 import { refuseAccountActions } from '../clients/RefuseAccountClient'
+import { filtersActions } from '../clients/FiltersClient'
 import { originActions, originSelectors } from '../clients/OriginsClient'
 import { projectActions, projectSelectors } from '../clients/ProjectsClient'
 import AccountListComponent from '../components/AccountListComponent'
-import ACCOUNT_FILTERS from '../domain/AccountFilters'
+import { FILTER_PARAMS } from '../domain/filters'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -71,6 +72,7 @@ export class AccountListContainer extends React.Component {
     fetchOrigins: PropTypes.func.isRequired,
     throwError: PropTypes.func.isRequired,
     fetchProjects: PropTypes.func.isRequired,
+    updateFiltersStore: PropTypes.func.isRequired,
   }
 
   /**
@@ -107,6 +109,7 @@ export class AccountListContainer extends React.Component {
       fetchOrigins: () => dispatch(originActions.fetchEntityList()),
       throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
       fetchProjects: () => dispatch(projectActions.fetchPagedEntityList()),
+      updateFiltersStore: (filtersValues) => dispatch(filtersActions.updateFiltersStore(filtersValues)),
     }
   }
 
@@ -134,7 +137,7 @@ export class AccountListContainer extends React.Component {
   componentDidMount = () => {
     const { fetchWaitingAccountList } = this.props
     const { query } = browserHistory.getCurrentLocation()
-    const statusQuery = get(query, ACCOUNT_FILTERS.STATUS)
+    const statusQuery = get(query, FILTER_PARAMS.STATUS)
     // prevent multiple network call
     if (statusQuery && statusQuery === AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING) {
       const fetchPageSize = this.getFetchPageSize()
@@ -220,6 +223,13 @@ export class AccountListContainer extends React.Component {
     fetchAccountList(0, fetchPageSize, {}, requestParameters)
   }
 
+  onFilterWaitingAccount = () => {
+    const { updateFiltersStore } = this.props
+    updateFiltersStore({
+      [FILTER_PARAMS.STATUS]: AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING,
+    })
+  }
+
   render() {
     const {
       allAccounts, waitingAccounts, isFetching, origins, projects,
@@ -229,7 +239,6 @@ export class AccountListContainer extends React.Component {
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={styles}>
           <AccountListComponent
-            key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
             allAccounts={allAccounts}
             waitingAccounts={waitingAccounts}
             isFetchingActions={isFetchingActions}
@@ -243,6 +252,7 @@ export class AccountListContainer extends React.Component {
             origins={origins}
             projects={projects}
             onRefresh={this.onRefresh}
+            onFilterWaitingAccount={this.onFilterWaitingAccount}
           />
         </ModuleStyleProvider>
       </I18nProvider>

@@ -18,15 +18,18 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { FiltersPaneComponent } from '@regardsoss/components'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import ProjectUserQuotaFiltersComponent from '../../../../src/components/list/filters/ProjectUserQuotaFiltersComponent'
+import {
+  FiltersPaneMainComponent, FilterPaneCheckboxField, FilterPaneTextField,
+} from '@regardsoss/components'
+import { ProjectUserQuotaFiltersComponent } from '../../../../src/components/list/filters/ProjectUserQuotaFiltersComponent'
+import { FILTERS_I18N } from '../../../../src/domain/filters'
 import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 // Test a component rendering
-describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user access right filters component', () => {
+describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user quota filters component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -35,11 +38,25 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user access right filters compo
   })
   it('should render correctly', () => {
     const props = {
-      onUpdateFiltersParameters: () => { },
-      isPaneOpened: false,
-      onCloseFiltersPane: () => { },
+      updateFilter: () => { },
+      inputValues: {},
+      uiSettings: {
+        showVersion: false,
+        documentModels: [],
+        primaryQuicklookGroup: 'pipou',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
+      },
     }
     const enzymeWrapper = shallow(<ProjectUserQuotaFiltersComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(FiltersPaneComponent), 1, 'There should be a FiltersPaneComponent')
+    const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
+    assert.lengthOf(mainComponent, 1, 'FiltersPaneMainComponent should be set')
+    testSuiteHelpers.assertWrapperProperties(mainComponent, {
+      updateFilter: props.updateFilter,
+      inputValues: props.inputValues,
+      filters18n: FILTERS_I18N,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneTextField), 3, 'There should be 2 FilterPaneTextField')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneCheckboxField), 1, 'There should be 1 FilterPaneCheckboxField')
   })
 })

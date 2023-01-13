@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import { TableSelectionModes } from '@regardsoss/components'
+import { AdminDomain } from '@regardsoss/domain'
 import ProjectUserActions from './ProjectUserActions'
 
 export default class WaitingAccessUsersEntitiesActions extends ProjectUserActions {
@@ -28,6 +30,12 @@ export default class WaitingAccessUsersEntitiesActions extends ProjectUserAction
   }
 
   fetchWaitingUsersEntityList(index, size) {
-    return this.fetchPagedEntityList(index, size, null, { status: 'WAITING_ACCESS' })
+    const bodyParams = {
+      state: {
+        values: [AdminDomain.PROJECT_USER_STATUS_ENUM.WAITING_ACCESS],
+        mode: TableSelectionModes.INCLUDE,
+      },
+    }
+    return this.fetchPagedEntityListByPost(index, size, null, null, bodyParams)
   }
 }

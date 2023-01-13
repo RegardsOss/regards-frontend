@@ -26,6 +26,8 @@ import { projectUserSettingsReducer } from './clients/ProjectUserSettingsClient'
 import { uiSettingsReducer } from './clients/UISettingsClient'
 import { projectUserEmailConfirmationSignalReducer } from './clients/ProjectUserEmailConfirmationClient'
 import { originReducer } from './clients/OriginsClient'
+import { filtersReducer } from './clients/FiltersClient'
+import { csvReducer } from './clients/DownloadCSVClient'
 
 const projectUserManagementReducer = combineReducers({
   accessGroup: accessGroupReducer,
@@ -37,6 +39,8 @@ const projectUserManagementReducer = combineReducers({
   uiSettings: uiSettingsReducer,
   emailConfirmationSignal: projectUserEmailConfirmationSignalReducer,
   origins: originReducer,
+  projectUserFilters: filtersReducer,
+  csv: csvReducer,
 })
 
 export default projectUserManagementReducer

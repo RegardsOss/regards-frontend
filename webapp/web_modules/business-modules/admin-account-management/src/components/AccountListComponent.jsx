@@ -16,19 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import size from 'lodash/size'
 import {
   Card, CardText,
 } from 'material-ui/Card'
+import FilterIcon from 'mdi-material-ui/Filter'
+import IconButton from 'material-ui/IconButton'
 import { AdminInstanceShapes, AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableFilterSortingAndVisibilityContainer,
   HelpMessageComponent, CardHeaderActions,
+  FiltersChipsContainer,
 } from '@regardsoss/components'
+import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
 import { accountActions, accountSelectors } from '../clients/AccountClient'
 import AccountFiltersComponent from './filters/AccountFiltersComponent'
 import AccountTableListComponent from './AccountTableListComponent'
+import { FILTERS_I18N } from '../domain/filters'
 
 /**
  * React component to list all REGARDS account.
@@ -48,6 +54,7 @@ export class AccountListComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     origins: PropTypes.arrayOf(PropTypes.string),
     projects: AdminShapes.ProjectList.isRequired,
+    onFilterWaitingAccount: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -84,12 +91,13 @@ export class AccountListComponent extends React.Component {
       isFetchingActions,
       onBack, onEdit, onAccept, onEnable, isFetching, onRefuse,
       waitingAccounts, allAccounts, onDelete, origins, projects,
+      onFilterWaitingAccount,
     } = this.props
     const { isPaneOpened } = this.state
     const {
       intl: { formatMessage }, moduleTheme: {
         accounts: {
-          filterButtonStyle, messageStyle,
+          filterButtonStyle, messageStyle, filterIconStyle, waitingAccountsMessage,
         },
       },
     } = this.context
@@ -110,6 +118,21 @@ export class AccountListComponent extends React.Component {
           useAlternateStyle
         />
         <CardText>
+          <FiltersChipsContainer
+            filtersActions={filtersActions}
+            filtersSelectors={filtersSelectors}
+            filtersI18n={FILTERS_I18N}
+          />
+          <div style={waitingAccountsMessage}>
+            <IconButton
+              onClick={onFilterWaitingAccount}
+              title={formatMessage({ id: 'account.list.info.nb.waiting.accounts.filter' })}
+              style={filterIconStyle}
+            >
+              <FilterIcon />
+            </IconButton>
+            {formatMessage({ id: 'account.list.info.nb.waiting.accounts' }, { value: size(waitingAccounts) || 0 })}
+          </div>
           <div style={messageStyle}>
             <HelpMessageComponent
               message={formatMessage({ id: 'account.list.info.why-cant-remove-account-having-project-user' })}
@@ -130,7 +153,8 @@ export class AccountListComponent extends React.Component {
               onCloseFiltersPane={this.handleFiltersPane}
               origins={origins}
               projects={projects}
-              waitingAccounts={waitingAccounts}
+              filtersActions={filtersActions}
+              filtersSelectors={filtersSelectors}
             />
             <AccountTableListComponent
               key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}

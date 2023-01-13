@@ -36,7 +36,7 @@ class ProjectUserStatusRenderCell extends React.Component {
   render() {
     const { value } = this.props
     const { intl: { formatMessage } } = this.context
-    return <StringValueRender value={formatMessage({ id: `projectUser.list.table.status.label.${value}` })} />
+    return <StringValueRender value={formatMessage({ id: `projectUser.list.table.status.${value}` })} />
   }
 }
 export default ProjectUserStatusRenderCell

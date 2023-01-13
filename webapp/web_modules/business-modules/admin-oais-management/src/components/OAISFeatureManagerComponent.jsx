@@ -16,18 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
-import lowerCase from 'lodash/lowerCase'
+import some from 'lodash/some'
+import endsWith from 'lodash/endsWith'
+import includes from 'lodash/includes'
 import { browserHistory } from 'react-router'
-import { Card, CardTitle, CardActions } from 'material-ui/Card'
-import { Breadcrumb, CardActionsComponent } from '@regardsoss/components'
+import { Card, CardText } from 'material-ui/Card'
+import {
+  Breadcrumb, TableHeaderLine, CardHeaderActions, TableFilterSortingAndVisibilityContainer,
+  TableLayout, FiltersChipsContainer,
+} from '@regardsoss/components'
+import { IngestDomain } from '@regardsoss/domain'
 import PageView from 'mdi-material-ui/CardSearch'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import OAISFeatureManagerFiltersContainer from '../containers/OAISFeatureManagerFiltersContainer'
-import OAISPackageManagerContainer from '../containers/packages/OAISPackageManagerContainer'
-import OAISRequestManagerContainer from '../containers/requests/OAISRequestManagerContainer'
+import clientByPane from '../domain/ClientByPane'
 import OAISSwitchTables from './OAISSwitchTables'
+import AIPFeatureManagerFiltersComponent from './AIPFeatureManagerFiltersComponent'
+import RequestsFeatureManagerFiltersComponent from './RequestsFeatureManagerFiltersComponent'
+import OAISRequestManagerComponent from './requests/OAISRequestManagerComponent'
+import OAISPackageManagerComponent from './packages/OAISPackageManagerComponent'
+import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
+import { FILTERS_I18N } from '../domain/filters'
 
 /**
  * OAIS Feature manager component.
@@ -38,10 +47,18 @@ class OAISFeatureManagerComponent extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
       session: PropTypes.string,
-      aip: PropTypes.string,
+      type: PropTypes.string,
     }),
-    clearAIPSelection: PropTypes.func.isRequired,
-    clearRequestSelection: PropTypes.func.isRequired,
+    modeSelectionAllowed: PropTypes.bool.isRequired, // version mode selection allowed to current user?
+    isLoading: PropTypes.bool,
+    storages: PropTypes.arrayOf(PropTypes.string),
+    onRefresh: PropTypes.func.isRequired,
+    onDeleteRequests: PropTypes.func.isRequired,
+    onRetryRequests: PropTypes.func.isRequired,
+    onAbortRequests: PropTypes.func.isRequired,
+    onSelectVersionOption: PropTypes.func.isRequired,
+    onModifyAip: PropTypes.func.isRequired,
+    onBack: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -49,72 +66,60 @@ class OAISFeatureManagerComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static OPEN_PANE = {
-    PACKAGES: 'PACKAGES',
-    REQUESTS: 'REQUESTS',
-  }
-
   state = {
-    openedPane: OAISFeatureManagerComponent.OPEN_PANE.PACKAGES,
-    featureManagerFilters: OAISFeatureManagerFiltersContainer.extractStateFromURL(),
-    productFilters: OAISPackageManagerContainer.extractStateFromURL(),
-    requestFilters: OAISRequestManagerContainer.extractStateFromURL(),
+    paneType: IngestDomain.REQUEST_TYPES_ENUM.AIP,
+    currentRequestParameters: {},
+    isFilterPaneOpened: false,
   }
 
   UNSAFE_componentWillMount = () => {
-    const { query } = browserHistory.getCurrentLocation()
-    if (values(query).length > 0) {
-      const { display } = query
-      let openedPane
-      let productFilters = {}
-      let requestFilters = {}
-      if (display) {
-        switch (display) {
-          case lowerCase(OAISFeatureManagerComponent.OPEN_PANE.PACKAGES):
-            openedPane = OAISFeatureManagerComponent.OPEN_PANE.PACKAGES
-            productFilters = OAISPackageManagerContainer.extractStateFromURL()
-            break
-          case lowerCase(OAISFeatureManagerComponent.OPEN_PANE.REQUESTS):
-            openedPane = OAISFeatureManagerComponent.OPEN_PANE.REQUESTS
-            requestFilters = OAISRequestManagerContainer.extractStateFromURL()
-            break
-          default:
-            productFilters = OAISPackageManagerContainer.extractStateFromURL()
-            requestFilters = OAISRequestManagerContainer.extractStateFromURL()
-            break
-        }
-      }
-      this.setState({
-        openedPane,
-        productFilters,
-        requestFilters,
-      })
+    const { params: { type } } = this.props
+    if (includes(IngestDomain.REQUEST_TYPES, type)) {
+      this.onSwitchToPane(type)
     }
   }
 
-  onBack = (level) => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/board`
-    browserHistory.push(url)
-  }
-
-  onSwitchToPackages = () => {
-    const { clearRequestSelection } = this.props
-    clearRequestSelection()
-    this.setState({
-      openedPane: OAISFeatureManagerComponent.OPEN_PANE.PACKAGES,
+  updatePaneURL = (pane) => {
+    const { pathname, query, search } = browserHistory.getCurrentLocation()
+    let newPathName
+    if (some(IngestDomain.REQUEST_TYPES, (reqType) => endsWith(pathname, reqType))) {
+      newPathName = `${pathname.substring(0, pathname.lastIndexOf('/'))}/${pane}`
+    } else {
+      newPathName = `${pathname}/${pane}`
+    }
+    browserHistory.replace({
+      pathname: newPathName,
+      search,
+      query,
     })
   }
 
-  onSwitchToRequests = () => {
-    const { clearAIPSelection } = this.props
-    clearAIPSelection()
+  /**
+  * Update state with pane type
+  * @param {*} paneType see FeatureManagerComponent.PANES for values
+  */
+  onSwitchToPane = (paneType) => {
+    this.updatePaneURL(paneType)
     this.setState({
-      openedPane: OAISFeatureManagerComponent.OPEN_PANE.REQUESTS,
+      paneType,
+    })
+  }
+
+  updateRefreshParameters = (requestParameters) => {
+    this.setState({
+      currentRequestParameters: requestParameters,
+    })
+  }
+
+  handleFiltersPane = () => {
+    const { isFilterPaneOpened } = this.state
+    this.setState({
+      isFilterPaneOpened: !isFilterPaneOpened,
     })
   }
 
   renderBreadCrumb = () => {
+    const { onBack } = this.props
     const { intl: { formatMessage } } = this.context
     const elements = [formatMessage({ id: 'oais.session.title' })]
     return (
@@ -122,97 +127,98 @@ class OAISFeatureManagerComponent extends React.Component {
         rootIcon={<PageView />}
         elements={elements}
         labelGenerator={(label) => label}
-        onAction={this.onBack}
+        onAction={onBack}
       />
     )
   }
 
-  updateStateFromFeatureManagerFilters = (filterKey, filterValue) => {
-    const { clearAIPSelection, clearRequestSelection } = this.props
-    clearAIPSelection()
-    clearRequestSelection()
-    this.setState({
-      featureManagerFilters: {
-        ...this.state.featureManagerFilters,
-        [filterKey]: filterValue,
-      },
-    })
-  }
-
-  updateStateFromPackageManager = (newFilters) => {
-    const { clearAIPSelection } = this.props
-    clearAIPSelection()
-    this.setState({
-      productFilters: {
-        ...this.state.productFilters,
-        ...newFilters,
-      },
-    })
-  }
-
-  updateStateFromRequestManager = (newFilters) => {
-    const { clearRequestSelection } = this.props
-    clearRequestSelection()
-    this.setState({
-      requestFilters: {
-        ...this.state.requestFilters,
-        ...newFilters,
-      },
-    })
+  getDisplayComponents = (paneType) => {
+    const { isLoading, storages, modeSelectionAllowed } = this.props
+    const { isFilterPaneOpened } = this.state
+    if (paneType === IngestDomain.REQUEST_TYPES_ENUM.AIP) {
+      return [
+        <AIPFeatureManagerFiltersComponent
+          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+          isPaneOpened={isFilterPaneOpened}
+          onCloseFiltersPane={this.handleFiltersPane}
+          filtersActions={filtersActions}
+          filtersSelectors={filtersSelectors}
+          storages={storages}
+        />,
+        <OAISPackageManagerComponent
+          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+          isLoading={isLoading}
+          paneType={paneType}
+        />,
+      ]
+    }
+    return [
+      <RequestsFeatureManagerFiltersComponent
+        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+        isPaneOpened={isFilterPaneOpened}
+        onCloseFiltersPane={this.handleFiltersPane}
+        filtersActions={filtersActions}
+        filtersSelectors={filtersSelectors}
+      />,
+      <OAISRequestManagerComponent
+        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+        isLoading={isLoading}
+        paneType={paneType}
+        modeSelectionAllowed={modeSelectionAllowed}
+      />,
+    ]
   }
 
   render() {
-    const { intl: { formatMessage }, moduleTheme: { displayBlock, displayNone } } = this.context
-    const { params } = this.props
+    const { intl: { formatMessage }, moduleTheme: { filterButtonStyle } } = this.context
     const {
-      openedPane, featureManagerFilters, productFilters, requestFilters,
-    } = this.state
+      params, onRefresh, onBack, onDeleteRequests, onRetryRequests, onAbortRequests, onSelectVersionOption, onModifyAip,
+    } = this.props
+    const { paneType, currentRequestParameters } = this.state
     return (
       <div>
         <Card>
-          <CardTitle
+          <CardHeaderActions
             title={this.renderBreadCrumb()}
+            mainButtonLabel={formatMessage({ id: 'oais.aips.session.refresh.button' })}
+            mainButtonType="submit"
+            mainButtonClick={() => onRefresh(currentRequestParameters, paneType)}
+            secondaryButtonLabel={formatMessage({ id: 'oais.aips.session.filter.button' })}
+            secondaryButtonClick={this.handleFiltersPane}
+            secondaryButtonStyle={filterButtonStyle}
+            thirdButtonLabel={formatMessage({ id: 'oais.aips.session.button.back' })}
+            thirdButtonClick={onBack}
           />
-          <OAISFeatureManagerFiltersContainer
-            featureManagerFilters={featureManagerFilters}
-            updateStateFromFeatureManagerFilters={this.updateStateFromFeatureManagerFilters}
-          />
-          <OAISSwitchTables
-            params={params}
-            onSwitchToRequests={this.onSwitchToRequests}
-            onSwitchToPackages={this.onSwitchToPackages}
-            openedPane={openedPane}
-            featureManagerFilters={featureManagerFilters}
-            productFilters={productFilters}
-            requestFilters={requestFilters}
-          />
-          <div>
-            <div style={openedPane === OAISFeatureManagerComponent.OPEN_PANE.PACKAGES ? displayBlock : displayNone}>
-              <OAISPackageManagerContainer
-                key={`package-manager-${openedPane}`}
-                updateStateFromFeatureManagerFilters={this.updateStateFromFeatureManagerFilters}
-                updateStateFromPackageManager={this.updateStateFromPackageManager}
-                featureManagerFilters={featureManagerFilters}
-                productFilters={productFilters}
-                params={params}
-              />
-            </div>
-            <div style={openedPane === OAISFeatureManagerComponent.OPEN_PANE.REQUESTS ? displayBlock : displayNone}>
-              <OAISRequestManagerContainer
-                key={`request-manager-${openedPane}`}
-                updateStateFromRequestManager={this.updateStateFromRequestManager}
-                featureManagerFilters={featureManagerFilters}
-                requestFilters={requestFilters}
-                params={params}
-              />
-            </div>
-          </div>
-          <CardActions>
-            <CardActionsComponent
-              mainButtonLabel={formatMessage({ id: 'oais.button.back' })}
-              mainButtonClick={this.onBack}
+          <CardText>
+            <FiltersChipsContainer
+              filtersActions={filtersActions}
+              filtersSelectors={filtersSelectors}
+              filtersI18n={FILTERS_I18N}
             />
-          </CardActions>
+            <TableLayout>
+              <TableHeaderLine>
+                <OAISSwitchTables
+                  params={params}
+                  onSwitchToPane={this.onSwitchToPane}
+                  openedPane={paneType}
+                  bodyParameters={currentRequestParameters}
+                />
+              </TableHeaderLine>
+            </TableLayout>
+            <TableFilterSortingAndVisibilityContainer
+              pageActions={clientByPane[paneType].actions}
+              pageSelectors={clientByPane[paneType].selectors}
+              isPagePostFetching
+              updateRefreshParameters={this.updateRefreshParameters}
+              onDeleteRequests={onDeleteRequests}
+              onRetryRequests={onRetryRequests}
+              onAbortRequests={onAbortRequests}
+              onSelectVersionOption={onSelectVersionOption}
+              onModifyAip={onModifyAip}
+            >
+              {this.getDisplayComponents(paneType)}
+            </TableFilterSortingAndVisibilityContainer>
+          </CardText>
         </Card>
       </div>
     )

@@ -22,6 +22,11 @@ import { ProcessingClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { OrderListContainer } from '../../src/containers/OrderListContainer'
+import { processingActions, processingSelectors } from '../../src/clients/ProcessingClient'
+import { ordersNavigationActions, ordersNavigationSelectors } from '../../src/clients/OrdersNavigationClient'
+import { orderFilesActions, orderFilesSelectors } from '../../src/clients/OrderFilesClient'
+import { orderListActions, orderListSelectors } from '../../src/clients/OrderListClient'
+import { pluginMetaDataSelectors } from '../../src/clients/PluginMetaDataClient'
 import OrderListComponent from '../../src/components/OrderListComponent'
 import styles from '../../src/styles/styles'
 
@@ -55,6 +60,16 @@ describe('[Admin Order Management] Testing OrderListContainer', () => {
       project: props.params.project,
       backUrl: enzymeWrapper.instance().getBackURL(),
       onRefresh: enzymeWrapper.instance().onRefresh,
+      ordersActions: orderListActions,
+      ordersSelectors: orderListSelectors,
+      ordersNavigationActions,
+      ordersNavigationSelectors,
+      orderFilesActions,
+      orderFilesSelectors,
+      isProcessingDependenciesExist: enzymeWrapper.instance().state.isProcessingDependenciesExist,
+      processingActions,
+      processingSelectors,
+      pluginMetaDataSelectors,
     }, 'Component should define the expected properties')
   })
   it('should render correctly without processing dependencies', () => {
@@ -74,6 +89,16 @@ describe('[Admin Order Management] Testing OrderListContainer', () => {
       project: props.params.project,
       backUrl: enzymeWrapper.instance().getBackURL(),
       onRefresh: enzymeWrapper.instance().onRefresh,
+      ordersActions: orderListActions,
+      ordersSelectors: orderListSelectors,
+      ordersNavigationActions,
+      ordersNavigationSelectors,
+      orderFilesActions,
+      orderFilesSelectors,
+      isProcessingDependenciesExist: enzymeWrapper.instance().state.isProcessingDependenciesExist,
+      processingActions,
+      processingSelectors,
+      pluginMetaDataSelectors,
     }, 'Component should define the expected properties')
   })
 })

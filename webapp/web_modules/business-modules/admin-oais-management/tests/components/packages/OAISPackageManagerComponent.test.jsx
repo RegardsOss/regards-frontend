@@ -18,8 +18,11 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { IngestDomain, CommonDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableLayout } from '@regardsoss/components'
+import { TableLayout, PageableInfiniteTableContainer, TableHeaderLoadingComponent } from '@regardsoss/components'
+import HeaderActionsBarContainer from '../../../src/containers/HeaderActionsBarContainer'
+import { aipActions, aipSelectors } from '../../../src/clients/AIPClient'
 import { OAISPackageManagerComponent } from '../../../src/components/packages/OAISPackageManagerComponent'
 import styles from '../../../src/styles'
 
@@ -39,18 +42,30 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerComponent', () => {
 
   it('should render correctly', () => {
     const props = {
-      updateStateFromFeatureManagerFilters: () => {},
-      updateStateFromPackageManager: () => {},
-      pageSize: 1,
-      pageLoading: false,
-      fetchPage: () => {},
-      clearSelection: () => {},
-      deleteAips: () => {},
-      modifyAips: () => {},
-      selectionMode: '',
+      isLoading: false,
+      onDeleteRequests: () => {},
+      onModifyAip: () => {},
+      paneType: IngestDomain.REQUEST_TYPES_ENUM.AIP,
+      getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
     }
     const enzymeWrapper = shallow(<OAISPackageManagerComponent {...props} />, { context })
-    const tableLayoutWrapper = enzymeWrapper.find(TableLayout)
-    assert.lengthOf(tableLayoutWrapper, 1, 'There should be a TableLayout')
+    assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
+    const headerComponent = enzymeWrapper.find(HeaderActionsBarContainer)
+    assert.lengthOf(headerComponent, 1, 'HeaderActionsBarContainer should be set')
+    testSuiteHelpers.assertWrapperProperties(headerComponent, {
+      paneType: props.paneType,
+      onModify: enzymeWrapper.instance().onModify,
+      onDelete: enzymeWrapper.instance().onDelete,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
+    const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
+    testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
+      pageActions: aipActions,
+      pageSelectors: aipSelectors,
+      fetchUsingPostMethod: true,
+      requestParams: props.requestParameters,
+      bodyParams: props.bodyParameters,
+    }, 'Component should define the expected properties and callbacks')
   })
 })

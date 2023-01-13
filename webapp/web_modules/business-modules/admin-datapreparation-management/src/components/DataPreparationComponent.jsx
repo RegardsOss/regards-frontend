@@ -24,10 +24,13 @@ import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableFilterSortingAndVisibilityContainer,
   CardHeaderActions,
+  FiltersChipsContainer,
 } from '@regardsoss/components'
 import DataPreparationTableComponent from './DataPreparationTableComponent'
 import RequestFiltersComponent from './RequestFiltersComponent'
+import { FILTERS_I18N } from '../domain/filters'
 import { requestActions, requestSelectors } from '../clients/WorkerRequestClient'
+import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
 
 /**
  * @author Théo Lasserre
@@ -49,6 +52,7 @@ class DataPreparationComponent extends React.Component {
 
   state = {
     isPaneOpened: false,
+    currentRequestParameters: {},
   }
 
   onRefresh = () => {
@@ -90,6 +94,11 @@ class DataPreparationComponent extends React.Component {
           thirdButtonClick={onBack}
         />
         <CardText>
+          <FiltersChipsContainer
+            filtersActions={filtersActions}
+            filtersSelectors={filtersSelectors}
+            filtersI18n={FILTERS_I18N}
+          />
           <TableFilterSortingAndVisibilityContainer
             pageActions={requestActions}
             pageSelectors={requestSelectors}
@@ -102,6 +111,8 @@ class DataPreparationComponent extends React.Component {
               key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
               isPaneOpened={isPaneOpened}
               onCloseFiltersPane={this.handleFiltersPane}
+              filtersActions={filtersActions}
+              filtersSelectors={filtersSelectors}
             />
             <DataPreparationTableComponent
               key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}

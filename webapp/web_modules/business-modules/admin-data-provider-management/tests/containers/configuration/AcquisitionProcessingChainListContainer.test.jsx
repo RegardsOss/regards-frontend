@@ -51,6 +51,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainLi
       deleteChain: () => {},
       toggleChain: () => {},
       isOneCheckboxToggled: true,
+      throwError: () => { },
 
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainListContainer {...props} />, { context })
@@ -63,9 +64,18 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainLi
     assert.equal(component.props().project, props.params.project, 'Invalid project param')
     assert.isTrue(isFunction(component.props().onRefresh), 'Invalid onRefresh param')
     assert.isTrue(isFunction(component.props().onBack), 'Invalid onRefresh param')
-    assert.equal(component.props().onRunChain, props.runChain, 'Invalid onRunChain param')
-    assert.equal(component.props().onStopChain, props.stopChain, 'Invalid onStopChain param')
-    assert.equal(component.props().pageSize, AcquisitionProcessingChainListContainer.PAGE_SIZE, 'Invalid pageSize param')
+    assert.equal(component.props().onRunChain, enzymeWrapper.instance().onRunChain, 'Invalid onRunChain param')
+    assert.equal(component.props().onCreate, enzymeWrapper.instance().onCreate, 'Invalid onCreate param')
+    assert.equal(component.props().onDelete, enzymeWrapper.instance().onDelete, 'Invalid onDelete param')
+    assert.equal(component.props().onEdit, enzymeWrapper.instance().onEdit, 'Invalid onEdit param')
+    assert.equal(component.props().onDuplicate, enzymeWrapper.instance().onDuplicate, 'Invalid onDuplicate param')
+    assert.equal(component.props().onListSessions, enzymeWrapper.instance().onListSessions, 'Invalid onListSessions param')
+    assert.equal(component.props().onRunChain, enzymeWrapper.instance().onRunChain, 'Invalid onRunChain param')
+    assert.equal(component.props().onStopChain, enzymeWrapper.instance().onStopChain, 'Invalid onStopChain param')
+    assert.equal(component.props().onMultiToggleSelection, enzymeWrapper.instance().onMultiToggleSelection, 'Invalid onMultiToggleSelection param')
+    assert.equal(component.props().onToggle, enzymeWrapper.instance().onToggle, 'Invalid onToggle param')
+    assert.equal(component.props().onToggleEnable, enzymeWrapper.instance().onToggleEnable, 'Invalid onToggleEnable param')
+    assert.equal(component.props().isOneCheckboxToggled, props.isOneCheckboxToggled, 'Invalid isOneCheckboxToggled param')
     assert.equal(component.props().resultsCount, 0, 'Invalid resultsCount param')
     assert.equal(component.props().entitiesLoading, false, 'Invalid entitiesLoading param')
   })

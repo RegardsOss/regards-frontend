@@ -17,5 +17,5 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export { PLUGIN_TYPE } from './PluginType'
-export { PROCESS_STATUS_TYPES } from './ProcessStatusType'
+export { PROCESS_STATUS_TYPES, PROCESS_STATUS_TYPES_VALUES } from './ProcessStatusType'
 export { default as ProcessingUtils } from './ProcessingUtils'

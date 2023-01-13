@@ -42,22 +42,23 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerContainer', () => {
         project: 'any',
         type: 'any',
       },
-      clearReferencesSelection: () => { },
-      clearCreationSelection: () => { },
-      clearDeleteSelection: () => { },
-      clearNotificationSelection: () => { },
-      clearUpdateSelection: () => { },
+      fetchRequests: () => { },
+      deleteRequests: () => { },
+      retryRequests: () => { },
+      notifyRequests: () => { },
     }
     const enzymeWrapper = shallow(<FeatureManagerContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(FeatureManagerComponent)
+    const instance = enzymeWrapper.instance()
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       params: props.params,
-      clearReferencesSelection: props.clearReferencesSelection,
-      clearCreationSelection: props.clearCreationSelection,
-      clearDeleteSelection: props.clearDeleteSelection,
-      clearNotificationSelection: props.clearNotificationSelection,
-      clearUpdateSelection: props.clearUpdateSelection,
+      onBack: instance.onBack,
+      onRefresh: instance.onRefresh,
+      isFetching: instance.state.isFetching,
+      onDeleteRequests: instance.onDeleteRequests,
+      onRetryRequests: instance.onRetryRequests,
+      onNotifyRequests: instance.onNotifyRequests,
     }, 'Component should define the expected properties')
   })
 })

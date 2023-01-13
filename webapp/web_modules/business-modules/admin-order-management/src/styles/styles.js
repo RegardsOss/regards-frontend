@@ -29,12 +29,6 @@ export default (theme) => ({
       backgroundColor: theme.palette.accent1Color,
     },
   },
-  filters: {
-    emailAutoCompleteStyle: {
-      height: '56px',
-      paddingTop: '10px',
-    },
-  },
   settings: {
     settingDiv: {
       display: 'flex',

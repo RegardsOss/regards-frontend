@@ -22,7 +22,7 @@ import omitBy from 'lodash/omitBy'
 import isEmpty from 'lodash/isEmpty'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { CardHeaderActions } from '@regardsoss/components'
+import { CardHeaderActions, FiltersChipsContainer } from '@regardsoss/components'
 import {
   Card, CardText,
 } from 'material-ui/Card'
@@ -31,8 +31,8 @@ import SessionsContainer from '../containers/SessionsContainer'
 import SelectedSessionContainer from '../containers/SelectedSessionContainer'
 import DashboardFiltersComponent from './DashboardFiltersComponent'
 import { ENTITY_ENUM } from '../domain/entityTypes'
-import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS } from '../domain/filters'
-import { STATUS_TYPES_ENUM } from '../domain/statusTypes'
+import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS, FILTERS_I18N } from '../domain/filters'
+import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
 
 /**
  * DashboardComponent
@@ -184,11 +184,11 @@ class DashboardComponent extends React.Component {
     this.setState({
       sourceFilters: {
         [SOURCE_FILTER_PARAMS.NAME]: get(requestParameters, `${SOURCE_FILTER_PARAMS.NAME}`, ''),
-        [SOURCE_FILTER_PARAMS.STATUS]: get(requestParameters, `${SOURCE_FILTER_PARAMS.STATUS}`, STATUS_TYPES_ENUM.ALL),
+        [SOURCE_FILTER_PARAMS.STATUS]: get(requestParameters, `${SOURCE_FILTER_PARAMS.STATUS}`),
       },
       sessionFilters: {
         [SESSION_FILTER_PARAMS.NAME]: get(requestParameters, `${SESSION_FILTER_PARAMS.NAME}`, ''),
-        [SESSION_FILTER_PARAMS.STATUS]: get(requestParameters, `${SESSION_FILTER_PARAMS.STATUS}`, STATUS_TYPES_ENUM.ALL),
+        [SESSION_FILTER_PARAMS.STATUS]: get(requestParameters, `${SESSION_FILTER_PARAMS.STATUS}`),
       },
     })
   }
@@ -205,7 +205,9 @@ class DashboardComponent extends React.Component {
         headerStyle: {
           cardTitleStyle, filterButtonStyle,
         },
-        dashboardStyle: { dashboardDivStyle, dashboardComponentsStyle, cardTextField },
+        dashboardStyle: {
+          dashboardDivStyle, dashboardComponentsStyle, cardTextField, filterDivStyle,
+        },
       },
     } = this.context
     const {
@@ -220,7 +222,7 @@ class DashboardComponent extends React.Component {
           style={cardTitleStyle}
           mainButtonLabel={formatMessage({ id: 'dashboard.refresh' })}
           mainButtonType="submit"
-          mainButtonClick={() => onRefresh(sourceFilters, sessionFilters, selectedSourceId, selectedSessionId)}
+          mainButtonClick={() => onRefresh(sourceFilters, sessionFilters, selectedSourceId)}
           secondaryButtonLabel={formatMessage({ id: 'dashboard.filter' })}
           secondaryButtonClick={this.handleFiltersPane}
           secondaryButtonStyle={filterButtonStyle}
@@ -232,8 +234,18 @@ class DashboardComponent extends React.Component {
           isPaneOpened={isPaneOpened}
           onCloseFiltersPane={this.handleFiltersPane}
           updateRequestParameters={this.updateRequestParameters}
+          filtersActions={filtersActions}
+          filtersSelectors={filtersSelectors}
+          ignoredURLParameters={[ENTITY_ENUM.SOURCE, ENTITY_ENUM.SESSION]}
         />
         <CardText style={cardTextField}>
+          <div style={filterDivStyle}>
+            <FiltersChipsContainer
+              filtersActions={filtersActions}
+              filtersSelectors={filtersSelectors}
+              filtersI18n={FILTERS_I18N}
+            />
+          </div>
           <div style={dashboardDivStyle}>
             <div style={dashboardComponentsStyle}>
               <SourcesContainer

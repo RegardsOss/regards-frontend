@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CommonDomain } from '@regardsoss/domain'
 import {
-  PageableInfiniteTableContainer,
+  PageableInfiniteTableContainer, TableHeaderContentBox, TableHeaderLoadingComponent,
 } from '@regardsoss/components'
 import DataPreparationTableComponent from '../../src/components/DataPreparationTableComponent'
 import HeaderActionsBarContainer from '../../src/containers/HeaderActionsBarContainer'
@@ -59,6 +59,8 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationTableCompone
       onSort: () => {},
     }
     const enzymeWrapper = shallow(<DataPreparationTableComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(TableHeaderContentBox), 1, 'TableHeaderContentBox should be set')
+    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'TableHeaderLoadingComponent should be set')
     const headerActionsBarWrapper = enzymeWrapper.find(HeaderActionsBarContainer)
     assert.lengthOf(headerActionsBarWrapper, 1, 'There should be a HeaderActionsBar')
     testSuiteHelpers.assertWrapperProperties(headerActionsBarWrapper, {
@@ -75,6 +77,7 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationTableCompone
       pageSize: props.pageSize,
       requestParams: props.requestParameters,
       bodyParams: props.bodyParameters,
+      fetchUsingPostMethod: true,
     }, 'Component should define the expected properties')
   })
 })

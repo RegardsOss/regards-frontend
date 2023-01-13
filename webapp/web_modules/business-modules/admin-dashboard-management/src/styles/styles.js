@@ -34,6 +34,9 @@ const dashboardManagementStyles = (theme) => ({
     cardTextField: {
       padding: '0',
     },
+    filterDivStyle: {
+      marginLeft: '15px',
+    },
     dashboardDivStyle: {
       display: 'flex',
       flexDirection: 'column',

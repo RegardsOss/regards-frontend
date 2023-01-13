@@ -19,13 +19,15 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CardHeaderActions, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import { CardHeaderActions, TableFilterSortingAndVisibilityContainer, FiltersChipsContainer } from '@regardsoss/components'
 import { OrderClient, ProcessingClient, CommonClient } from '@regardsoss/client'
 import {
   OrdersNavigationActions, ORDER_DISPLAY_MODES, OrderDisplayContainer, OrdersNavigationSelectors,
 } from '@regardsoss/order-common'
+import { filtersActions, filtersSelectors } from '../../src/clients/FiltersClient'
 import { orderListActions, orderListSelectors } from '../../src/clients/OrderListClient'
 import OrderListComponent from '../../src/components/OrderListComponent'
+import { FILTERS_I18N } from '../../src/domain/filters'
 import OrderListFiltersContainer from '../../src/containers/OrderListFiltersContainer'
 import styles from '../../src/styles/styles'
 
@@ -79,6 +81,8 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
     const cACWrapper = enzymeWrapper.find(CardHeaderActions)
     assert.lengthOf(cACWrapper, 1, 'There should be a card action component to show back, filter and refresh options')
     testSuiteHelpers.assertWrapperProperties(cACWrapper, {
+      mainButtonClick: enzymeWrapper.instance().onRefresh,
+      secondaryButtonClick: enzymeWrapper.instance().handleFiltersPane,
       thirdButtonUrl: props.backUrl,
     }, 'The card action component should be correctly configured')
     // 3 - check filters container configuration
@@ -87,6 +91,8 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
     testSuiteHelpers.assertWrapperProperties(oLFCWrapper, {
       isPaneOpened: enzymeWrapper.instance().state.isPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
+      filtersActions,
+      filtersSelectors,
     }, 'it should be correctly configured')
     // 4 - table filters container configuration
     const tFSAVCWrapper = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
@@ -95,6 +101,14 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
       pageActions: props.ordersActions,
       pageSelectors: props.ordersSelectors,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+    }, 'it should be correctly configured')
+    // 5 - table filters chips
+    const tFChipsWrapper = enzymeWrapper.find(FiltersChipsContainer)
+    assert.lengthOf(tFChipsWrapper, 1, 'There should be a FiltersChipsContainer')
+    testSuiteHelpers.assertWrapperProperties(tFChipsWrapper, {
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'it should be correctly configured')
   })
 })

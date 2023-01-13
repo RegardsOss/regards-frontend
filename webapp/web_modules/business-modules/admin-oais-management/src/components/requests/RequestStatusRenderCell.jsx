@@ -24,7 +24,6 @@ import { IngestDomain } from '@regardsoss/domain'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { TableSelectionModes } from '@regardsoss/components'
 
 /**
  * Renders aip request status
@@ -57,7 +56,7 @@ class RequestStatusRenderCell extends React.Component {
    */
   onSelectVersionOption = () => {
     const { entity, onSelectVersionOption } = this.props
-    onSelectVersionOption(TableSelectionModes.includeSelected, [entity])
+    onSelectVersionOption([entity])
   }
 
   render() {
@@ -70,12 +69,12 @@ class RequestStatusRenderCell extends React.Component {
     const isWaitingAction = state === IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE && modeSelectionAllowed
     return (
       <div
-        title={formatMessage({ id: `oais.requests.status.${state}` })}
+        title={formatMessage({ id: `oais.list.filters.requestState.${state}` })}
         onClick={isWaitingAction ? this.onSelectVersionOption : null}
         style={isWaitingAction ? waitingAction : common}
       >
         { /* 1. label */
-          formatMessage({ id: `oais.requests.status.${state}` })
+          formatMessage({ id: `oais.list.filters.requestState.${state}` })
         }
         { /* 2. show error action if any */
          isEmpty(errors)

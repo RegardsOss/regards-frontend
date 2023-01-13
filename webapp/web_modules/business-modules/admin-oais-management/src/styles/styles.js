@@ -22,28 +22,24 @@ const aipManagementStyles = (theme) => ({
     errorColor: theme.formsExtensions.validation.errorColor,
     validColor: theme.formsExtensions.validation.validColor,
   },
+  filterButtonStyle: {
+    backgroundColor: theme.palette.accent1Color,
+  },
+  headerActionBarStyle: {
+    width: '100%',
+  },
+  tableStyle: {
+    loadingStyle: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      width: '100%',
+    },
+  },
   displayBlock: {
     display: 'block',
   },
   displayNone: {
     display: 'none',
-  },
-  filter: {
-    dateFromStyle: {
-      marginLeft: '10px',
-    },
-    fieldStyle: {
-      width: '190px',
-      margin: '0px 10px',
-    },
-    dateStyle: {
-      width: '120px',
-      margin: '0px 10px',
-    },
-    autocomplete: {
-      marginRight: '10px',
-      marginLeft: '10px',
-    },
   },
   session: {
     error: {
@@ -152,6 +148,9 @@ const aipManagementStyles = (theme) => ({
   },
   switchButton: {
     color: theme.palette.accent1Color,
+  },
+  switchTable: {
+    display: 'flex',
   },
   aipModifyDialog: {
     display: 'flex',

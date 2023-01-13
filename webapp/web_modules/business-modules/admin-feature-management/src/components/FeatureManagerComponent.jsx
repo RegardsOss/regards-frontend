@@ -20,18 +20,24 @@ import includes from 'lodash/includes'
 import some from 'lodash/some'
 import endsWith from 'lodash/endsWith'
 import { browserHistory } from 'react-router'
-import { Card, CardTitle, CardActions } from 'material-ui/Card'
-import { Breadcrumb, CardActionsComponent } from '@regardsoss/components'
+import { Card, CardText } from 'material-ui/Card'
+import {
+  Breadcrumb, TableFilterSortingAndVisibilityContainer,
+  CardHeaderActions, FiltersChipsContainer, TableHeaderLine,
+  TableLayout,
+} from '@regardsoss/components'
 import { FemDomain } from '@regardsoss/domain'
 import PageView from 'mdi-material-ui/CardSearch'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import throttle from 'lodash/throttle'
-import ReferencesManagerContainer from '../containers/ReferencesManagerContainer'
-import RequestManagerContainer from '../containers/RequestManagerContainer'
-import FeatureManagerFiltersComponent from './filters/FeatureManagerFiltersComponent'
+import ReferencesManagerComponent from './ReferencesManagerComponent'
+import RequestManagerComponent from './RequestManagerComponent'
+import RequestManagerFiltersComponent from './filters/RequestManagerFiltersComponent'
+import ReferenceManagerFiltersComponent from './filters/ReferenceManagerFiltersComponent'
 import SwitchTables from '../containers/SwitchTables'
+import { FILTERS_I18N } from '../domain/filters'
 import clientByPane from '../domain/ClientByPane'
+import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
 
 /**
 * Feature manager component.
@@ -43,11 +49,12 @@ class FeatureManagerComponent extends React.Component {
       project: PropTypes.string,
       type: PropTypes.string,
     }),
-    clearReferencesSelection: PropTypes.func.isRequired,
-    clearCreationSelection: PropTypes.func.isRequired,
-    clearDeleteSelection: PropTypes.func.isRequired,
-    clearNotificationSelection: PropTypes.func.isRequired,
-    clearUpdateSelection: PropTypes.func.isRequired,
+    onBack: PropTypes.func.isRequired,
+    onRefresh: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    onDeleteRequests: PropTypes.func.isRequired,
+    onRetryRequests: PropTypes.func.isRequired,
+    onNotifyRequests: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -56,8 +63,9 @@ class FeatureManagerComponent extends React.Component {
   }
 
   state = {
-    openedPane: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
-    featureManagerFilters: FeatureManagerFiltersComponent.extractFiltersFromURL(),
+    paneType: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
+    currentRequestParameters: {},
+    isFilterPaneOpened: false,
   }
 
   UNSAFE_componentWillMount = () => {
@@ -65,31 +73,6 @@ class FeatureManagerComponent extends React.Component {
     if (includes(FemDomain.REQUEST_TYPES, type)) {
       this.onSwitchToPane(type)
     }
-  }
-
-  onBack = () => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/board`
-    browserHistory.push(url)
-  }
-
-  onApplyFilters = throttle((featureManagerFilters) => {
-    this.setState({ featureManagerFilters: FeatureManagerFiltersComponent.buildRequestParameters(featureManagerFilters, this.state.featureManagerFilters) })
-  }, 1000, { leading: true, trailing: true })
-
-  clearAllSelections = () => {
-    const {
-      clearReferencesSelection,
-      clearCreationSelection,
-      clearDeleteSelection,
-      clearNotificationSelection,
-      clearUpdateSelection,
-    } = this.props
-    clearReferencesSelection()
-    clearCreationSelection()
-    clearDeleteSelection()
-    clearNotificationSelection()
-    clearUpdateSelection()
   }
 
   updatePaneURL = (pane) => {
@@ -108,28 +91,31 @@ class FeatureManagerComponent extends React.Component {
   }
 
   /**
-  * Update state with pane type and clear all selection except choosen pane
+  * Update state with pane type
   * @param {*} paneType see FeatureManagerComponent.PANES for values
   */
   onSwitchToPane = (paneType) => {
-    this.clearAllSelections()
     this.updatePaneURL(paneType)
     this.setState({
-      openedPane: paneType,
+      paneType,
     })
   }
 
-  /**
-   * Clear filters
-   */
-  onClearFilters = () => {
-    const { featureManagerFilters } = this.state
+  updateRefreshParameters = (requestParameters) => {
     this.setState({
-      featureManagerFilters: FeatureManagerFiltersComponent.buildRequestParameters(FeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE, featureManagerFilters),
+      currentRequestParameters: requestParameters,
+    })
+  }
+
+  handleFiltersPane = () => {
+    const { isFilterPaneOpened } = this.state
+    this.setState({
+      isFilterPaneOpened: !isFilterPaneOpened,
     })
   }
 
   renderBreadCrumb = () => {
+    const { onBack } = this.props
     const { intl: { formatMessage } } = this.context
     const elements = [formatMessage({ id: 'feature.references.title' })]
     return (
@@ -137,60 +123,94 @@ class FeatureManagerComponent extends React.Component {
         rootIcon={<PageView />}
         elements={elements}
         labelGenerator={(label) => label}
-        onAction={this.onBack}
+        onAction={onBack}
       />
     )
   }
 
+  getDisplayComponents = (paneType) => {
+    const { isFetching } = this.props
+    const { isFilterPaneOpened } = this.state
+    if (paneType === FemDomain.REQUEST_TYPES_ENUM.REFERENCES) {
+      return [
+        <ReferenceManagerFiltersComponent
+          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+          isPaneOpened={isFilterPaneOpened}
+          onCloseFiltersPane={this.handleFiltersPane}
+          filtersActions={filtersActions}
+          filtersSelectors={filtersSelectors}
+        />,
+        <ReferencesManagerComponent
+          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+          isFetching={isFetching}
+          paneType={paneType}
+        />,
+      ]
+    }
+    return [
+      <RequestManagerFiltersComponent
+        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+        isPaneOpened={isFilterPaneOpened}
+        onCloseFiltersPane={this.handleFiltersPane}
+        filtersActions={filtersActions}
+        filtersSelectors={filtersSelectors}
+      />,
+      <RequestManagerComponent
+        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+        paneType={paneType}
+        isFetching={isFetching}
+      />,
+    ]
+  }
+
   render() {
-    const { intl: { formatMessage } } = this.context
-    const { params } = this.props
     const {
-      openedPane, featureManagerFilters,
-    } = this.state
+      params, onBack, onRefresh, onDeleteRequests, onNotifyRequests, onRetryRequests,
+    } = this.props
+    const { intl: { formatMessage }, moduleTheme: { card: { filterButtonStyle } } } = this.context
+    const { paneType, currentRequestParameters } = this.state
     return (
       <div>
         <Card>
-          <CardTitle
+          <CardHeaderActions
             title={this.renderBreadCrumb()}
+            mainButtonLabel={formatMessage({ id: 'feature.button.refresh' })}
+            mainButtonType="submit"
+            mainButtonClick={() => onRefresh(currentRequestParameters, paneType)}
+            secondaryButtonLabel={formatMessage({ id: 'feature.button.filter' })}
+            secondaryButtonClick={this.handleFiltersPane}
+            secondaryButtonStyle={filterButtonStyle}
+            thirdButtonLabel={formatMessage({ id: 'feature.button.back' })}
+            thirdButtonClick={onBack}
           />
-          <FeatureManagerFiltersComponent
-            onApplyFilters={this.onApplyFilters}
-            featureManagerFilters={featureManagerFilters}
-            openedPane={openedPane}
-            onClearFilters={this.onClearFilters}
-          />
-          <SwitchTables
-            params={params}
-            onSwitchToPane={this.onSwitchToPane}
-            featureManagerFilters={featureManagerFilters}
-            openedPane={openedPane}
-          />
-          <div>
-            {
-              openedPane === FemDomain.REQUEST_TYPES_ENUM.REFERENCES
-                ? (<ReferencesManagerContainer
-                    key={`feature-manager-${openedPane}`}
-                    featureManagerFilters={featureManagerFilters}
-                    params={params}
-                    paneType={openedPane}
-                />)
-                : (
-                  <RequestManagerContainer
-                    key={openedPane}
-                    featureManagerFilters={featureManagerFilters}
-                    paneType={openedPane}
-                    clients={clientByPane[openedPane]}
-                  />
-                )
-            }
-          </div>
-          <CardActions>
-            <CardActionsComponent
-              mainButtonLabel={formatMessage({ id: 'feature.button.back' })}
-              mainButtonClick={this.onBack}
+          <CardText>
+            <FiltersChipsContainer
+              filtersActions={filtersActions}
+              filtersSelectors={filtersSelectors}
+              filtersI18n={FILTERS_I18N}
             />
-          </CardActions>
+            <TableLayout>
+              <TableHeaderLine>
+                <SwitchTables
+                  params={params}
+                  onSwitchToPane={this.onSwitchToPane}
+                  featureManagerFilters={currentRequestParameters}
+                  paneType={paneType}
+                />
+              </TableHeaderLine>
+            </TableLayout>
+            <TableFilterSortingAndVisibilityContainer
+              pageActions={clientByPane[paneType].actions}
+              pageSelectors={clientByPane[paneType].selectors}
+              updateRefreshParameters={this.updateRefreshParameters}
+              onDeleteRequests={onDeleteRequests}
+              onNotifyRequests={onNotifyRequests}
+              onRetryRequests={onRetryRequests}
+              isPagePostFetching
+            >
+              {this.getDisplayComponents(paneType)}
+            </TableFilterSortingAndVisibilityContainer>
+          </CardText>
         </Card>
       </div>
     )

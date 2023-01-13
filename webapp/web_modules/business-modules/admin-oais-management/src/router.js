@@ -41,6 +41,18 @@ export const sipSumitionSummaryRoute = {
   },
 }
 
+export const oaisFeatureManagerRouteType = {
+  path: 'featureManager/:type',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/OAISFeatureManagerContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 export const oaisFeatureManagerRoute = {
   path: 'featureManager',
   getComponents(nextState, cb) {
@@ -69,6 +81,7 @@ const aipManagementRouter = {
   childRoutes: [
     sipSumitionRoute,
     sipSumitionSummaryRoute,
+    oaisFeatureManagerRouteType,
     oaisFeatureManagerRoute,
     oaisSettingsRoute,
   ],

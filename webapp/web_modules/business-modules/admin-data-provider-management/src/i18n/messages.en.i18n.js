@@ -102,6 +102,8 @@ const messages = {
   'acquisition-chain.list.subtitle': 'Data acquisition chains management. This section allows you to configure, run and stop acquisition chains.',
   'acquisition-product.help.deletion.message': 'To delete a chain, you have to desable it first.',
   'acquisition-chain.empty.title': 'No chain configured',
+  'acquisition-chain.no.content.message': 'No requests',
+  'acquisition-chain.loading.content.title': 'Loading...',
   'acquisition-chain-breadcrumb.label': 'Acquisition chains',
 
   // 2.2 Table header
@@ -143,22 +145,19 @@ const messages = {
   'acquisition-chain.list.delete.confirm.title': 'Delete chain {label} ?',
 
   // 2.4 Table filters
-  'acquisition-chain.list.filters.label': 'Label',
-  'acquisition-chain.list.filters.running': 'Status',
-  'acquisition-chain.list.filters.mode': 'Activation mode',
-  'acquisition-chain.list.filters.mode.all': 'All',
-  'acquisition-chain.list.filters.mode.auto': 'Automatic',
-  'acquisition-chain.list.filters.mode.manual': 'Manual',
-  'acquisition-chain.list.filters.running.all': 'All',
-  'acquisition-chain.list.filters.running.running': 'Actives',
-  'acquisition-chain.list.filters.running.stopped': 'Stopped',
-  'acquisition-chain.list.filters.apply.button': 'Apply filters',
-  'acquisition-chain.list.filters.clear.button': 'Clear',
+  'acquisition-chain.list.filters.label.label': 'Label',
+  'acquisition-chain.list.filters.running.label': 'Activation state',
+  'acquisition-chain.list.filters.mode.label': 'Activation mode',
+  'acquisition-chain.list.filters.mode.AUTO': 'Automatic',
+  'acquisition-chain.list.filters.mode.MANUAL': 'Manual',
+  'acquisition-chain.list.filters.running.true': 'Actives',
+  'acquisition-chain.list.filters.running.false': 'Stopped',
   'acquisition-chain.list.refresh.button': 'Refresh',
+  'acquisition-chain.list.filter.button': 'Filter',
   'acquisition-chain.list.enable-selected.button': 'Enable selected chains',
   'acquisition-chain.list.disable-selected.button': 'Disable selected chains',
   'acquisition-chain.list.refresh.auto.label': 'Auto Refresh',
-  'acquisition-chain.list.back.button': 'Cancel',
+  'acquisition-chain.list.back.button': 'Back',
 
   //3. Sessions Monitor
   'acquisition-sessions.empty-response': 'No session available',

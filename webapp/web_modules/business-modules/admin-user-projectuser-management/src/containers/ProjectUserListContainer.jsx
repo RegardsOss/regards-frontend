@@ -17,9 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import omit from 'lodash/omit'
+import pick from 'lodash/pick'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { AdminClient } from '@regardsoss/client'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
@@ -31,14 +32,13 @@ import { projectUserSignalActions, projectUserSignalSelectors } from '../clients
 import { projectUserEmailConfirmationSignalActions } from '../clients/ProjectUserEmailConfirmationClient'
 import { uiSettingsActions, uiSettingsSelectors } from '../clients/UISettingsClient'
 import { originActions, originSelectors } from '../clients/OriginsClient'
+import { csvActions } from '../clients/DownloadCSVClient'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import ProjectUserListComponent from '../components/list/ProjectUserListComponent'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import messages from '../i18n'
 import styles from '../styles'
-
-const csvSummaryFileActions = new AdminClient.DownloadUserMetalinkFileAtions()
 
 /**
  * @author Théo Lasserre
@@ -65,6 +65,7 @@ export class ProjectUserListContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     authentication: AuthenticateShape.isRequired, // used only in onPropertiesUpdated
     // from mapDispatchToProps
+    onDownloadCSV: PropTypes.func.isRequired,
     fetchUsers: PropTypes.func.isRequired,
     onDeleteAccount: PropTypes.func.isRequired,
     onValidateProjectUser: PropTypes.func.isRequired,
@@ -107,9 +108,9 @@ export class ProjectUserListContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch) {
+  static mapDispatchToProps(dispatch, { authentication }) {
     return {
-      fetchUsers: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(projectUserActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+      fetchUsers: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(projectUserActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
       onDeleteAccount: (userId) => dispatch(projectUserActions.deleteEntity(userId)),
       onValidateProjectUser: (userId) => dispatch(projectUserSignalActions.sendAccept(userId)),
       onDenyProjectUser: (userId) => dispatch(projectUserSignalActions.sendDeny(userId)),
@@ -122,12 +123,13 @@ export class ProjectUserListContainer extends React.Component {
       onUpdateAccount: (userId, updatedAccount) => dispatch(projectUserActions.updateEntity(userId, updatedAccount)),
       fetchUISettings: () => dispatch(uiSettingsActions.getSettings()),
       fetchGroups: () => dispatch(accessGroupActions.fetchPagedEntityList()),
+      onDownloadCSV: (requestParameters) => dispatch(csvActions.downloadCSV(get(authentication, 'result.access_token'), requestParameters)),
     }
   }
 
   state = {
     isFetching: false,
-    csvLink: '',
+    // csvLink: '',
   }
 
   /**
@@ -167,34 +169,34 @@ export class ProjectUserListContainer extends React.Component {
     this.setState({ isFetching: false })
   }
 
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  // /**
+  //  * Lifecycle method: component receive props. Used here to detect properties change and update local state
+  //  * @param {*} nextProps next component properties
+  //  */
+  // UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const { authentication } = newProps
-    // when authentication changed, update the link to get CSV user list
-    if (oldProps.authentication !== authentication) {
-      this.setState({
-        csvLink: csvSummaryFileActions.getFileDownloadLink(get(newProps, 'authentication.result.access_token')),
-      })
-    }
-  }
+  // /**
+  //  * Properties change detected: update local state
+  //  * @param oldProps previous component properties
+  //  * @param newProps next component properties
+  //  */
+  // onPropertiesUpdated = (oldProps, newProps) => {
+  //   const { authentication } = newProps
+  //   // when authentication changed, update the link to get CSV user list
+  //   if (oldProps.authentication !== authentication) {
+  //     this.setState({
+  //       csvLink: csvSummaryFileActions.getFileDownloadLink(get(newProps, 'authentication.result.access_token')),
+  //     })
+  //   }
+  // }
 
-  onRefresh = (contextRequestURLParameters) => {
+  onRefresh = (requestParameters) => {
     const {
       pageMeta, fetchUsers,
     } = this.props
     const lastPage = (pageMeta && pageMeta.number) || 0
     const fetchPageSize = ProjectUserListContainer.PAGE_SIZE * (lastPage + 1)
-    fetchUsers(0, fetchPageSize, {}, { ...contextRequestURLParameters })
+    fetchUsers(0, fetchPageSize, {}, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') })
   }
 
   onBack = () => {
@@ -214,6 +216,11 @@ export class ProjectUserListContainer extends React.Component {
   onEdit = (userId) => {
     const { params: { project } } = this.props
     browserHistory.push(`/admin/${project}/user/project-user/${userId}/edit`)
+  }
+
+  onDownloadCSV = (requestParameters, onRefresh) => {
+    const { onDownloadCSV } = this.props
+    this.perform(onDownloadCSV(requestParameters), onRefresh)
   }
 
   onDeleteAccount = (accountId, onRefresh) => {
@@ -279,18 +286,18 @@ export class ProjectUserListContainer extends React.Component {
       isFetchingViewData, isFetchingActions, uiSettings,
       roleList, groups,
     } = this.props
-    const { isFetching, csvLink } = this.state
+    const { isFetching } = this.state
     return (
       <I18nProvider messages={messages} stackCallingContext>
         <ModuleStyleProvider module={styles}>
           <ProjectUserListComponent
             project={project}
-            csvLink={csvLink}
             onRefresh={this.onRefresh}
             onCreate={this.onCreate}
             onBack={this.onBack}
             visualisationMode={visualisationMode}
             onDeleteAccount={this.onDeleteAccount}
+            onDownloadCSV={this.onDownloadCSV}
             onEnable={this.onEnableProjectUser}
             onValidate={this.onValidateProjectUser}
             onDeny={this.onDenyProjectUser}

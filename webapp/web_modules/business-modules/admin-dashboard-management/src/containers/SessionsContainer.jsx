@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
+import isEqual from 'lodash/isEqual'
 import filter from 'lodash/filter'
 import { connect } from '@regardsoss/redux'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
@@ -91,7 +92,7 @@ export class SessionsContainer extends React.Component {
       selectedSessionId, fetchSelectedSession, throwError, sessions, selectedSourceId,
     } = newProps
     const { intl: { formatMessage } } = this.context
-    if (!isEmpty(selectedSessionId) && selectedSessionId !== oldProps.selectedSessionId) {
+    if (this.doesSessionChanged(oldProps, newProps)) {
       const filteredSessions = filter(sessions, (session) => session.content.source === selectedSourceId)
       const selectedSession = find(filteredSessions, (session) => session.content.name === selectedSessionId)
       if (selectedSession) {
@@ -103,6 +104,8 @@ export class SessionsContainer extends React.Component {
       }
     }
   }
+
+  doesSessionChanged = (oldProps, newProps) => (!isEmpty(newProps.selectedSessionId) && newProps.selectedSessionId !== oldProps.selectedSessionId) || (!isEmpty(newProps.sessions) && !isEqual(newProps.sessions, oldProps.sessions))
 
   render() {
     const {

@@ -25,6 +25,7 @@ import { refuseAccountReducer } from './clients/RefuseAccountClient'
 import { accountSettingsReducer } from './clients/AccountSettingsClient'
 import { originReducer } from './clients/OriginsClient'
 import { projectReducer } from './clients/ProjectsClient'
+import { filtersReducer } from './clients/FiltersClient'
 
 const accountManagementReducer = combineReducers({
   account: accountReducer,
@@ -35,6 +36,7 @@ const accountManagementReducer = combineReducers({
   settings: accountSettingsReducer,
   origins: originReducer,
   projects: projectReducer,
+  accountsFilters: filtersReducer,
 })
 
 export default accountManagementReducer

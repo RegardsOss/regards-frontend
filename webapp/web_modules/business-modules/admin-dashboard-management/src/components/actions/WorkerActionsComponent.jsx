@@ -45,14 +45,14 @@ class WorkerActionsComponent extends React.Component {
     isRetryErrorsDialogOpen: false,
   }
 
-  getWorkerURL = (status) => `/admin/${this.props.project}/data/acquisition/datapreparation/requests?${WorkerDomain.REQUEST_FILTERS.SOURCE}=${encodeURIComponent(this.props.sessionStep.source)}&${WorkerDomain.REQUEST_FILTERS.SESSION}=${encodeURIComponent(this.props.sessionStep.session)}&${WorkerDomain.REQUEST_FILTERS.STATUSES}=${status}`
+  getWorkerURL = (status) => `/admin/${this.props.project}/data/acquisition/datapreparation/requests?${WorkerDomain.FILTER_PARAMS_ENUM.SOURCE}=${encodeURIComponent(this.props.sessionStep.source)}&${WorkerDomain.FILTER_PARAMS_ENUM.SESSION}=${encodeURIComponent(this.props.sessionStep.session)}&${WorkerDomain.FILTER_PARAMS_ENUM.STATUSES}=${status}`
 
   onSeeErrors = () => browserHistory.push(this.getWorkerURL(WorkerDomain.REQUEST_STATUS_ENUM.ERROR))
 
   onRetryErrors = () => {
     const { retryWorkerRequests } = this.props
     return retryWorkerRequests({
-      [WorkerDomain.REQUEST_FILTERS.STATUSES]: {
+      [WorkerDomain.FILTER_PARAMS_ENUM.STATUSES]: {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: [WorkerDomain.REQUEST_STATUS_ENUM.ERROR],
         [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
       },

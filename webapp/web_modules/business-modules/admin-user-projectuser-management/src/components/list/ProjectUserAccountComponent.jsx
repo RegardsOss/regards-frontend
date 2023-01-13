@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import omit from 'lodash/omit'
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
@@ -41,7 +40,7 @@ import AllowAccessComponent from './options/AllowAccessComponent'
 import SendEmailComponent from './options/SendEmailComponent'
 import { ProjectUserAccountFiltersComponent } from './filters/ProjectUserAccountFiltersComponent'
 import HeaderActionsBar from './HeaderActionsBar'
-import { getQueryString, getUserRequestParameters } from '../../domain/QueryUtils'
+import { getUserRequestParameters } from '../../domain/QueryUtils'
 
 const DIALOG_TYPES = {
   DELETE_DIALOG: 'deleteDialog',
@@ -50,8 +49,6 @@ const DIALOG_TYPES = {
 
 export class ProjectUserAccountComponent extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
-    csvLink: PropTypes.string,
     totalElements: PropTypes.number.isRequired,
     pageSize: PropTypes.number,
     isLoading: PropTypes.bool.isRequired,
@@ -62,10 +59,12 @@ export class ProjectUserAccountComponent extends React.Component {
     onDisable: PropTypes.func,
     onEnable: PropTypes.func,
     onSendEmailConfirmation: PropTypes.func,
+    onDownloadCSV: PropTypes.func,
 
     // table sorting, column visiblity & filters management
     // eslint-disable-next-line react/no-unused-prop-types
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
+    bodyParameters: TableFilterSortingAndVisibilityContainer.BODY_PARAMETERS_PROP_TYPE,
     columnsVisibility: TableFilterSortingAndVisibilityContainer.COLUMN_VISIBILITY_PROP_TYPE,
     onChangeColumnsVisibility: PropTypes.func,
     getColumnSortingData: PropTypes.func,
@@ -103,7 +102,6 @@ export class ProjectUserAccountComponent extends React.Component {
       open: false,
       userEmail: '',
     },
-    csvLink: '',
     requestParameters: {},
   }
 
@@ -124,23 +122,13 @@ export class ProjectUserAccountComponent extends React.Component {
   * @param newProps next component properties
   */
   onPropertiesUpdated = (oldProps, newProps) => {
-    const {
-      requestParameters,
-      csvLink,
-    } = newProps
+    const { requestParameters } = newProps
     const oldState = this.state || {}
     let newState = { ...oldState }
     const newRequestParameters = getUserRequestParameters(requestParameters, ProjectUserAccountFiltersComponent.DEFAULT_FILTERS_STATE)
     if (!isEqual(newRequestParameters, oldProps.requestParameters)) {
       newState = {
         requestParameters: newRequestParameters,
-      }
-    }
-    if (!isEqual(newRequestParameters, oldProps.requestParameters) || csvLink !== oldProps.csvLink) {
-      const queryString = getQueryString(newRequestParameters)
-      newState = {
-        ...newState,
-        csvLink: `${csvLink}${queryString}`,
       }
     }
     if (!isEqual(newState, oldState)) {
@@ -219,12 +207,10 @@ export class ProjectUserAccountComponent extends React.Component {
       onEdit, onDisable, pageSize, totalElements,
       onValidate, onDeny, isLoading, onEnable,
       getColumnSortingData, columnsVisibility,
-      onSort, onChangeColumnsVisibility,
+      onSort, onChangeColumnsVisibility, bodyParameters,
+      onDownloadCSV,
     } = this.props
-    const {
-      csvLink, requestParameters,
-    } = this.state
-    const filters = omit(requestParameters, 'sort')
+    const { requestParameters } = this.state
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = [ // eslint wont fix: Major API rework required
@@ -232,7 +218,7 @@ export class ProjectUserAccountComponent extends React.Component {
       new TableColumnBuilder(ProjectUserAccountComponent.COLUMN_KEYS.EMAIL)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserAccountComponent.COLUMN_KEYS.EMAIL}`)
-        .label(formatMessage({ id: 'projectUser.list.table.email' }))
+        .label(formatMessage({ id: 'projectUser.list.table.email.label' }))
         .visible(get(columnsVisibility, ProjectUserAccountComponent.COLUMN_KEYS.EMAIL, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserAccountComponent.COLUMN_KEYS.EMAIL), onSort)
         .build(),
@@ -240,7 +226,7 @@ export class ProjectUserAccountComponent extends React.Component {
       new TableColumnBuilder(ProjectUserAccountComponent.COLUMN_KEYS.LASTNAME)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserAccountComponent.COLUMN_KEYS.LASTNAME}`)
-        .label(formatMessage({ id: 'projectUser.list.table.lastname' }))
+        .label(formatMessage({ id: 'projectUser.list.table.lastName.label' }))
         .visible(get(columnsVisibility, ProjectUserAccountComponent.COLUMN_KEYS.LASTNAME, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserAccountComponent.COLUMN_KEYS.LASTNAME), onSort)
         .build(),
@@ -248,7 +234,7 @@ export class ProjectUserAccountComponent extends React.Component {
       new TableColumnBuilder(ProjectUserAccountComponent.COLUMN_KEYS.FIRSTNAME)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserAccountComponent.COLUMN_KEYS.FIRSTNAME}`)
-        .label(formatMessage({ id: 'projectUser.list.table.firstname' }))
+        .label(formatMessage({ id: 'projectUser.list.table.firstName.label' }))
         .visible(get(columnsVisibility, ProjectUserAccountComponent.COLUMN_KEYS.FIRSTNAME, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserAccountComponent.COLUMN_KEYS.FIRSTNAME), onSort)
         .build(),
@@ -256,7 +242,7 @@ export class ProjectUserAccountComponent extends React.Component {
       new TableColumnBuilder(ProjectUserAccountComponent.COLUMN_KEYS.STATUS)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserAccountComponent.COLUMN_KEYS.STATUS}`, ProjectUserStatusRenderCell)
-        .label(formatMessage({ id: 'projectUser.list.table.status' }))
+        .label(formatMessage({ id: 'projectUser.list.table.status.label' }))
         .visible(get(columnsVisibility, ProjectUserAccountComponent.COLUMN_KEYS.STATUS, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserAccountComponent.COLUMN_KEYS.STATUS), onSort)
         .build(),
@@ -264,7 +250,7 @@ export class ProjectUserAccountComponent extends React.Component {
       new TableColumnBuilder(ProjectUserAccountComponent.COLUMN_KEYS.ORIGIN)
         .titleHeaderCell()
         .propertyRenderCell(`content.${ProjectUserAccountComponent.COLUMN_KEYS.ORIGIN}`)
-        .label(formatMessage({ id: 'projectUser.list.table.origin' }))
+        .label(formatMessage({ id: 'projectUser.list.table.origin.label' }))
         .visible(get(columnsVisibility, ProjectUserAccountComponent.COLUMN_KEYS.ORIGIN, true))
         .sortableHeaderCell(...getColumnSortingData(ProjectUserAccountComponent.COLUMN_KEYS.ORIGIN), onSort)
         .build(),
@@ -323,7 +309,8 @@ export class ProjectUserAccountComponent extends React.Component {
           {/* 3 - table options  */}
           <TableHeaderOptionsArea>
             <HeaderActionsBar
-              csvLink={csvLink}
+              onDownloadCSV={onDownloadCSV}
+              bodyParameters={bodyParameters}
               columns={columns}
               onChangeColumnsVisibility={onChangeColumnsVisibility}
             />
@@ -338,8 +325,10 @@ export class ProjectUserAccountComponent extends React.Component {
           maxRowCount={maxRowCount}
           columns={columns}
           requestParams={requestParameters}
+          bodyParams={bodyParameters}
+          fetchUsingPostMethod
           emptyComponent={!isLoading
-            ? <NoUserComponent key="no.content" hasFilter={filters !== ProjectUserAccountFiltersComponent.DEFAULT_FILTERS_STATE} />
+            ? <NoUserComponent key="no.content" hasFilter={bodyParameters !== ProjectUserAccountFiltersComponent.DEFAULT_FILTERS_STATE} />
             : ProjectUserAccountComponent.LOADING_COMPONENT}
         />
         {this.renderDeleteConfirmDialog()}

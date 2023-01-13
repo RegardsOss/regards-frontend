@@ -16,17 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
 /**
  * @author Théo Lasserre
  */
-export const PROCESS_STATUS_TYPES = [
-  'SUCCESS',
-  'FAILURE',
-  'CANCELLED',
-  'TIMED_OUT',
-  'CLEANUP',
-  'RUNNING',
-  'PREPARE',
-  'REGISTERED',
-]
+export const PROCESS_STATUS_TYPES = {
+  SUCCESS: 'SUCCESS',
+  FAILURE: 'FAILURE',
+  CANCELLED: 'CANCELLED',
+  TIMED_OUT: 'TIMED_OUT',
+  CLEANUP: 'CLEANUP',
+  RUNNING: 'RUNNING',
+  PREPARE: 'PREPARE',
+  REGISTERED: 'REGISTERED',
+}
+export const PROCESS_STATUS_TYPES_VALUES = values(PROCESS_STATUS_TYPES)

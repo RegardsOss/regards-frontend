@@ -18,9 +18,12 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { FiltersPaneComponent } from '@regardsoss/components'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import ProjectUserAccessRightFiltersComponent from '../../../../src/components/list/filters/ProjectUserAccessRightFiltersComponent'
+import {
+  FiltersPaneMainComponent, FilterPaneTextField, FilterPaneSelectField,
+} from '@regardsoss/components'
+import { ProjectUserAccessRightFiltersComponent } from '../../../../src/components/list/filters/ProjectUserAccessRightFiltersComponent'
+import { FILTERS_I18N } from '../../../../src/domain/filters'
 import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -35,12 +38,21 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user access right filters compo
   })
   it('should render correctly', () => {
     const props = {
-      onUpdateFiltersParameters: () => { },
-      isPaneOpened: false,
-      onCloseFiltersPane: () => { },
       groups: {},
+      updateFilter: () => { },
+      inputValues: {},
+      updateValuesFilter: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserAccessRightFiltersComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(FiltersPaneComponent), 1, 'There should be a FiltersPaneComponent')
+    const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
+    assert.lengthOf(mainComponent, 1, 'FiltersPaneMainComponent should be set')
+    testSuiteHelpers.assertWrapperProperties(mainComponent, {
+      updateFilter: props.updateFilter,
+      updateValuesFilter: props.updateValuesFilter,
+      inputValues: props.inputValues,
+      filters18n: FILTERS_I18N,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneTextField), 3, 'There should be 3 FilterPaneTextField')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneSelectField), 1, 'There should be 1 FilterPaneSelectField')
   })
 })

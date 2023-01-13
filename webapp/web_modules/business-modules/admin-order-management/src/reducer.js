@@ -24,6 +24,7 @@ import { orderFilesReducer } from './clients/OrderFilesClient'
 import { ordersNavigationReducer } from './clients/OrdersNavigationClient'
 import { processingReducer } from './clients/ProcessingClient'
 import { pluginMetaDataReducer } from './clients/PluginMetaDataClient'
+import { filtersReducer } from './clients/FiltersClient'
 
 const orderManagementReducer = combineReducers({
   orders: orderListReducer,
@@ -33,6 +34,7 @@ const orderManagementReducer = combineReducers({
   navigation: ordersNavigationReducer,
   processing: processingReducer,
   pluginMetaData: pluginMetaDataReducer,
+  orderFilters: filtersReducer,
 })
 
 export default orderManagementReducer

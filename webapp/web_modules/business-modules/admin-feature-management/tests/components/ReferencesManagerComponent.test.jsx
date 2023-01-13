@@ -18,12 +18,14 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { FemDomain, CommonDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
   TableLayout, PageableInfiniteTableContainer, TableHeaderLoadingComponent,
 } from '@regardsoss/components'
-import FlatButton from 'material-ui/FlatButton'
+import HeaderActionsBarContainer from '../../src/containers/HeaderActionsBarContainer'
 import { ReferencesManagerComponent } from '../../src/components/ReferencesManagerComponent'
+import { referencesActions, referencesSelectors } from '../../src/clients/ReferencesClient'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -41,26 +43,28 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing ReferencesManagerComponent', () => 
   })
   it('should render correctly', () => {
     const props = {
-      onRefresh: () => { },
-      featureManagerFilters: {},
-      deleteReferences: () => { },
-      notifyReferences: () => { },
-      tableSelection: [],
-      selectionMode: 'include.selected',
-      areAllSelected: false,
+      onDeleteRequests: () => { },
+      onNotifyRequests: () => { },
       isFetching: false,
+      paneType: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
+      getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
     }
     const enzymeWrapper = shallow(<ReferencesManagerComponent {...props} />, { context })
-    const tableWrapper = enzymeWrapper.find(TableLayout)
-    assert.lengthOf(tableWrapper, 1, 'There should be a TableLayout')
-
-    const refreshButton = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(refreshButton, 1, 'There should be a FlatButton')
-
-    const loadingComponent = enzymeWrapper.find(TableHeaderLoadingComponent)
-    assert.lengthOf(loadingComponent, 1, 'There should be a TableHeaderLoadingComponent')
-
-    const tableContainer = enzymeWrapper.find(PageableInfiniteTableContainer)
-    assert.lengthOf(tableContainer, 1, 'There should be a PageableInfiniteTableContainer')
+    assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
+    const headerComponent = enzymeWrapper.find(HeaderActionsBarContainer)
+    assert.lengthOf(headerComponent, 1, 'There should be 1 HeaderActionsBarContainer')
+    testSuiteHelpers.assertWrapperProperties(headerComponent, {
+      paneType: props.paneType,
+      onNotify: enzymeWrapper.instance().onNotify,
+      onDelete: enzymeWrapper.instance().onDelete,
+    })
+    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
+    const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
+    testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
+      pageActions: referencesActions,
+      pageSelectors: referencesSelectors,
+      requestParams: props.requestParameters,
+    })
   })
 })

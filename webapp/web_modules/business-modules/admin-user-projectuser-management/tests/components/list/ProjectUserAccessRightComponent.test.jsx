@@ -19,10 +19,12 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import {
-  TableLayout, PageableInfiniteTableContainer,
+  TableLayout, PageableInfiniteTableContainer, TableHeaderContentBox, TableHeaderLoadingComponent,
 } from '@regardsoss/components'
 import { CommonDomain } from '@regardsoss/domain'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import HeaderActionsBar from '../../../src/components/list/HeaderActionsBar'
+import { projectUserActions, projectUserSelectors } from '../../../src/clients/ProjectUserClient'
 import ProjectUserAccessRightComponent from '../../../src/components/list/ProjectUserAccessRightComponent'
 import styles from '../../../src/styles/styles'
 
@@ -38,15 +40,16 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user access right compo
   })
   it('should render correctly', () => {
     const props = {
-      csvLink: '',
       totalElements: 100,
       pageSize: 20,
       isLoading: false,
       onEdit: () => { },
       onDeleteAccount: () => { },
+      onDownloadCSV: () => { },
 
       // table sorting, column visiblity & filters management
       requestParameters: {},
+      bodyParameters: {},
       columnsVisibility: {},
       onChangeColumnsVisibility: () => { },
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
@@ -54,6 +57,22 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user access right compo
     }
     const enzymeWrapper = shallow(<ProjectUserAccessRightComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
-    assert.lengthOf(enzymeWrapper.find(PageableInfiniteTableContainer), 1, 'There should be 1 PageableInfiniteTableContainer')
+    assert.lengthOf(enzymeWrapper.find(TableHeaderContentBox), 1, 'TableHeaderContentBox should be set')
+    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'TableHeaderLoadingComponent should be set')
+    const headerComponent = enzymeWrapper.find(HeaderActionsBar)
+    assert.lengthOf(headerComponent, 1, 'HeaderActionsBar should be set')
+    testSuiteHelpers.assertWrapperProperties(headerComponent, {
+      onDownloadCSV: props.onDownloadCSV,
+      bodyParameters: props.bodyParameters,
+      onChangeColumnsVisibility: props.onChangeColumnsVisibility,
+    }, 'Component should define the expected properties and callbacks')
+    const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
+    testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
+      pageActions: projectUserActions,
+      pageSelectors: projectUserSelectors,
+      requestParams: enzymeWrapper.instance().state.requestParameters,
+      bodyParams: props.bodyParameters,
+    }, 'Component should define the expected properties and callbacks')
   })
 })

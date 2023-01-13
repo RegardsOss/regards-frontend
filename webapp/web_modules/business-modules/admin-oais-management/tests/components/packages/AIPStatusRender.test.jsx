@@ -44,6 +44,6 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPStatusRender', () => {
     const enzymeWrapper = shallow(<AIPStatusRender {...props} />, { context })
     const delegateRender = enzymeWrapper.find(StringValueRender)
     assert.lengthOf(delegateRender, 1, 'There should be delegate string value render')
-    assert.equal(delegateRender.props().value, `oais.package.state.${status}`, 'It should render internationalized status')
+    assert.equal(delegateRender.props().value, `oais.list.filters.aipState.${status}`, 'It should render internationalized status')
   }))
 })

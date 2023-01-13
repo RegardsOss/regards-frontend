@@ -20,6 +20,9 @@ import { combineReducers } from 'redux'
 import { requestReducer } from './clients/WorkerRequestClient'
 import { tableReducer } from './clients/TableClient'
 import { settingsReducer } from './clients/SettingsClient'
+import { filtersReducer } from './clients/FiltersClient'
+import { searchSourcesReducer } from './clients/SearchSourcesClient'
+import { searchSessionsReducer } from './clients/SearchSessionsClient'
 
 /**
  * @author Théo Lasserre
@@ -28,6 +31,9 @@ const reducer = combineReducers({
   requests: requestReducer,
   requestsTable: tableReducer,
   settings: settingsReducer,
+  dataPreparationFilters: filtersReducer,
+  searchSources: searchSourcesReducer,
+  searchSessions: searchSessionsReducer,
 })
 
 export default reducer

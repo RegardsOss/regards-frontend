@@ -40,7 +40,7 @@ describe('[ADMIN PROCESSING MANAGEMENT] Test ProcessingMonitoring container', ()
     assert.isDefined(ProcessingMonitoringComponent)
   })
 
-  it('should render properly', (done) => {
+  it('should render properly', () => {
     const promise = Promise.resolve({ error: false })
     const props = {
       params: {
@@ -54,25 +54,24 @@ describe('[ADMIN PROCESSING MANAGEMENT] Test ProcessingMonitoring container', ()
       entitiesLoading: false,
     }
 
-    const wrapper = shallow(
+    const enzymeWrapper = shallow(
       <ProcessingMonitoringContainer
         {...props}
       />,
       { context },
     )
 
-    // Wait the component calls the promise in its React lifecycle to run the test the content of the rendered Component afterward
-    promise.then(() => {
-      // Check loading component
-      const loading = wrapper.find(LoadableContentDisplayDecorator)
-      assert.equal(loading.length, 1, 'There should have a loading component rendered')
-      assert.equal(loading.props().isLoading, false, 'Loading should be false')
-      // Check child component
-      const component = wrapper.find(ProcessingMonitoringComponent)
-      assert.equal(component.length, 1, 'There should have a ProcessingMonitoringComponent rendered')
-      assert.equal(component.props().processingList, props.processingList, 'Processings should be correctly passed')
-      assert.equal(component.props().backUrl, `/admin/${props.params.project}/commands/board`, 'backUrl should be correctly passed')
-      done()
-    })
+    assert.lengthOf(enzymeWrapper.find(LoadableContentDisplayDecorator), 1, 'LoadableContentDisplayDecoratorshould be set')
+    const component = enzymeWrapper.find(ProcessingMonitoringComponent)
+    assert.lengthOf(component, 1, 'There should be 1 ProcessingMonitoringComponent')
+    testSuiteHelpers.assertWrapperProperties(component, {
+      project: 'testProject',
+      onRefresh: enzymeWrapper.instance().onRefresh,
+      onBack: enzymeWrapper.instance().onBack,
+      processingList: props.processingList,
+      resultsCount: 0,
+      entitiesLoading: true,
+      isLoading: true,
+    }, 'Component should define the expected properties and callbacks')
   })
 })

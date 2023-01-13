@@ -41,7 +41,7 @@ class RoleRenderer extends React.Component {
     let roleName = entity.content.role.name
     const defaultRoleFound = find(AdminDomain.DEFAULT_ROLES_ENUM, (defaultRole) => defaultRole === roleName)
     if (defaultRoleFound) {
-      roleName = formatMessage({ id: `projectUser.list.table.role.label.${roleName}` })
+      roleName = formatMessage({ id: `projectUser.list.table.role.${roleName}` })
     }
     return roleName
   }

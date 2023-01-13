@@ -19,7 +19,7 @@
 import DeleteOnAllIcon from 'mdi-material-ui/DeleteForever'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ResourceIconAction, TableSelectionModes } from '@regardsoss/components'
+import { ResourceIconAction } from '@regardsoss/components'
 import dependencies from '../../dependencies'
 
 /**
@@ -41,7 +41,7 @@ class RequestDeleteOption extends React.Component {
    */
   onClick = () => {
     const { entity, onDelete } = this.props
-    onDelete(TableSelectionModes.includeSelected, [entity])
+    onDelete([entity])
   }
 
   render() {

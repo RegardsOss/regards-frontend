@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { FemDomain } from '@regardsoss/domain'
 import FlatButton from 'material-ui/FlatButton'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
@@ -41,12 +42,12 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing SwitchComponent', () => {
     const props = {
       loading: false,
       pane: '',
-      openedPane: '',
       nbElementsInfos: {
         nbElements: 0,
         nbErrors: 0,
       },
       onSwitchToPane: () => { },
+      paneType: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
     }
     const enzymeWrapper = shallow(<SwitchComponent {...props} />, { context })
     const buttonWrapper = enzymeWrapper.find(FlatButton)

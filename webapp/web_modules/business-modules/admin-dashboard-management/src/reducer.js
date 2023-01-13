@@ -23,6 +23,7 @@ import { searchSessionsReducer } from './clients/SearchSessionsClient'
 import { sessionsReducer } from './clients/SessionsClient'
 import { productReducer } from './clients/SearchProductsClient'
 import { selectedSessionReducer } from './clients/SelectedSessionClient'
+import { filtersReducer } from './clients/FiltersClient'
 
 /**
  * @author Théo Lasserre
@@ -34,6 +35,7 @@ const dashboardManagementReducer = combineReducers({
   sessions: sessionsReducer,
   products: productReducer,
   selectedSession: selectedSessionReducer,
+  dashboardFilters: filtersReducer,
 })
 
 export default dashboardManagementReducer

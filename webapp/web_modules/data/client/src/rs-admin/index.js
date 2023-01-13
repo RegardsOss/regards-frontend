@@ -20,6 +20,10 @@ export { default as AccountPasswordActions } from './accounts/AccountPasswordAct
 export { default as getAccountPasswordReducer } from './accounts/AccountPasswordReducer'
 export { default as getAccountPasswordSelectors } from './accounts/AccountPasswordSelectors'
 
+export { default as FiltersActions } from './filters/FiltersActions'
+export { default as getFiltersReducer } from './filters/FiltersReducer'
+export { default as getFiltersSelectors } from './filters/FiltersSelectors'
+
 export { default as EndpointActions } from './endpoint/EndpointActions'
 export { default as getEndpointReducers } from './endpoint/EndpointReducers'
 export { default as getEndpointSelectors } from './endpoint/EndpointSelectors'
@@ -126,7 +130,9 @@ export { default as ProjectUserEmailConfirmationActions } from './user/ProjectUs
 export { default as getProjectUserEmailConfirmationReducer } from './user/ProjectUserEmailConfirmationReducer'
 export { default as getProjectUserEmailConfirmationSelectors } from './user/ProjectUserEmailConfirmationSelectors'
 
-export { default as DownloadUserMetalinkFileAtions } from './user/DownloadUserMetalinkFileAtions'
+export { default as DownloadUserMetalinkFileActions } from './user/DownloadUserMetalinkFileActions'
+export { default as getDownloadUserMetalinkFileReducer } from './user/DownloadUserMetalinkFileReducer'
+export { default as getDownloadUserMetalinkFileSelectors } from './user/DownloadUserMetalinkFileSelectors'
 
 export { default as GroupsCountActions } from './user/GroupsCountActions'
 export { default as getGroupsCountReducer } from './user/GroupsCountReducer'

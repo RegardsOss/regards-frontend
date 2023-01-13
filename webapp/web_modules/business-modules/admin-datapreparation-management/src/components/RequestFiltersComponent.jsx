@@ -17,23 +17,24 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import join from 'lodash/join'
-import TextField from 'material-ui/TextField'
-import SelectField from 'material-ui/SelectField'
 import { MenuItem } from 'material-ui/IconMenu'
-import { WorkerDomain, CommonDomain, UIDomain } from '@regardsoss/domain'
+import { WorkerDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
-  TableSelectionModes, TableFilterSortingAndVisibilityContainer, DatePickerField, withFiltersPane,
-  FiltersPaneMainComponent,
-  FiltersPaneLineComponent,
+  TableFilterSortingAndVisibilityContainer, withFiltersPane,
+  FiltersPaneMainComponent, FilterPaneSelectField,
+  FilterPaneDatePickerField, FilterPaneTextFieldValues,
+  FilterPaneTextField, FilterPaneAutoCompleteField,
 } from '@regardsoss/components'
+import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
+import { searchSessionsActions, searchSessionsSelectors } from '../clients/SearchSessionsClient'
+import { FILTERS_I18N } from '../domain/filters'
 
 /**
  * @author Théo Lasserre
  */
-class RequestFiltersComponent extends React.Component {
+export class RequestFiltersComponent extends React.Component {
   static propTypes = {
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     updateFilter: PropTypes.func.isRequired,
@@ -48,101 +49,49 @@ class RequestFiltersComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+ * Default form state used in filters pane
+ */
   static DEFAULT_FILTERS_STATE = {
-    [WorkerDomain.REQUEST_FILTERS.SOURCE]: '',
-    [WorkerDomain.REQUEST_FILTERS.SESSION]: '',
-    [WorkerDomain.REQUEST_FILTERS.WORKER_TYPE]: '',
-    [WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [WorkerDomain.REQUEST_FILTERS.STATUSES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [WorkerDomain.REQUEST_FILTERS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
+    [WorkerDomain.FILTER_PARAMS_ENUM.SOURCE]: '',
+    [WorkerDomain.FILTER_PARAMS_ENUM.SESSION]: '',
+    [WorkerDomain.FILTER_PARAMS_ENUM.WORKER_TYPE]: '',
+    [WorkerDomain.FILTER_PARAMS_ENUM.CONTENT_TYPES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [WorkerDomain.FILTER_PARAMS_ENUM.STATUSES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [WorkerDomain.FILTER_PARAMS_ENUM.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
   }
 
   render() {
     const {
       updateFilter, inputValues, updateDatesFilter, updateValuesFilter,
     } = this.props
-    const {
-      intl: { locale, formatMessage },
-    } = this.context
+    const { intl: { formatMessage } } = this.context
     return (
-      <FiltersPaneMainComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'datapreparation.filters.creationDate.label' })}
-        >
-          <DatePickerField
-            id={`filter.${CommonDomain.REQUEST_PARAMETERS.AFTER}`}
-            dateHintText={formatMessage({ id: 'datapreparation.filters.creationDate.after.label' })}
-            onChange={(value) => updateDatesFilter(value ? value.toISOString() : '', WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
-            locale={locale}
-            value={UIDomain.FiltersPaneHelper.getFilterDateValue(inputValues, WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
-            fullWidth
-          />
-          <DatePickerField
-            id={`filter.${WorkerDomain.REQUEST_FILTERS.CREATION_DATE.BEFORE}`}
-            dateHintText={formatMessage({ id: 'datapreparation.filters.creationDate.before.label' })}
-            onChange={(value) => updateDatesFilter(value ? value.toISOString() : '', WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
-            locale={locale}
-            value={UIDomain.FiltersPaneHelper.getFilterDateValue(inputValues, WorkerDomain.REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
-            defaultTime="23:59:59"
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'datapreparation.filters.contentTypes.label.title' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'datapreparation.filters.contentTypes.label' })}
-            value={join(inputValues[WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES][CommonDomain.REQUEST_PARAMETERS.VALUES], ',')}
-            onChange={(event, value) => updateValuesFilter(value, WorkerDomain.REQUEST_FILTERS.CONTENT_TYPES, TableSelectionModes.INCLUDE, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'datapreparation.filters.workerType.label.title' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'datapreparation.filters.workerType.label' })}
-            value={inputValues[WorkerDomain.REQUEST_FILTERS.WORKER_TYPE]}
-            onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.WORKER_TYPE, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'datapreparation.filters.source.label.title' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'datapreparation.filters.source.label' })}
-            value={inputValues[WorkerDomain.REQUEST_FILTERS.SOURCE]}
-            onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.SOURCE, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'datapreparation.filters.session.label.title' })}
-        >
-          <TextField
-            hintText={formatMessage({ id: 'datapreparation.filters.session.label' })}
-            value={inputValues[WorkerDomain.REQUEST_FILTERS.SESSION]}
-            onChange={(event, value) => updateFilter(value, WorkerDomain.REQUEST_FILTERS.SESSION, true)}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'datapreparation.filters.status.label.title' })}
-        >
-          <SelectField
-            id="datapreparation.filters.status"
-            value={inputValues[WorkerDomain.REQUEST_FILTERS.STATUSES][CommonDomain.REQUEST_PARAMETERS.VALUES]}
-            onChange={(event, index, value) => updateValuesFilter(value, WorkerDomain.REQUEST_FILTERS.STATUSES)}
-            hintText={formatMessage({ id: 'datapreparation.filters.status.label' })}
-            multiple
-            fullWidth
-          >
-            {map(WorkerDomain.REQUEST_STATUS, (status) => (
-              <MenuItem key={status} value={status} primaryText={status} />
-            ))}
-          </SelectField>
-        </FiltersPaneLineComponent>
+      <FiltersPaneMainComponent
+        updateFilter={updateFilter}
+        updateDatesFilter={updateDatesFilter}
+        updateValuesFilter={updateValuesFilter}
+        inputValues={inputValues}
+        filters18n={FILTERS_I18N}
+      >
+        <FilterPaneDatePickerField filterKey={WorkerDomain.FILTER_PARAMS_ENUM.CREATION_DATE} />
+        <FilterPaneTextFieldValues filterKey={WorkerDomain.FILTER_PARAMS_ENUM.CONTENT_TYPES} />
+        <FilterPaneTextField filterKey={WorkerDomain.FILTER_PARAMS_ENUM.WORKER_TYPE} />
+        <FilterPaneAutoCompleteField
+          filterKey={WorkerDomain.FILTER_PARAMS_ENUM.SOURCE}
+          arrayActions={searchSourcesActions}
+          arraySelectors={searchSourcesSelectors}
+        />
+        <FilterPaneAutoCompleteField
+          filterKey={WorkerDomain.FILTER_PARAMS_ENUM.SESSION}
+          arrayActions={searchSessionsActions}
+          arraySelectors={searchSessionsSelectors}
+        />
+        <FilterPaneSelectField filterKey={WorkerDomain.FILTER_PARAMS_ENUM.STATUSES}>
+          {map(WorkerDomain.REQUEST_STATUS, (status) => (
+            <MenuItem key={status} value={status} primaryText={formatMessage({ id: `datapreparation.filters.statuses.${status}` })} />
+          ))}
+        </FilterPaneSelectField>
       </FiltersPaneMainComponent>
     )
   }

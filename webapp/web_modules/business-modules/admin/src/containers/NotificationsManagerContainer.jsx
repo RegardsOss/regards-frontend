@@ -33,7 +33,7 @@ const projectNotificationsFetchers = [
 /** Corresponding dependencies */
 const projectNotificationsDependencies = [
   // fetch waiting project users dependencies
-  waitingAccessUsersEntitiesActions.getDependency(RequestVerbEnum.GET),
+  waitingAccessUsersEntitiesActions.getDependency(RequestVerbEnum.POST),
 ]
 
 /** Notifications fetchers for instance admin interface */

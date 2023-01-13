@@ -38,11 +38,9 @@ class TableDeleteOption extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     handleHateoas: PropTypes.bool,
     disableInsteadOfHide: PropTypes.bool,
-    fetchPage: PropTypes.func.isRequired, // fetch method: (pageIndex, pageSize, pathParams, requestParams) => Promise
     pathParams: CommonShapes.RequestParameters,
     requestParams: CommonShapes.RequestParameters,
     onDelete: PropTypes.func.isRequired, // delete method (entity, onDone) => ()
-    queryPageSize: PropTypes.number.isRequired,
   }
 
   /** List of property keys that should not be reported to sub component */
@@ -50,11 +48,9 @@ class TableDeleteOption extends React.Component {
     'rowIndex',
     'entity',
     'handleHateoas',
-    'fetchPage',
     'pathParams',
     'requestParams',
     'onDelete',
-    'queryPageSize',
     'disableInsteadOfHide',
   ]
 
@@ -72,18 +68,7 @@ class TableDeleteOption extends React.Component {
    */
   onDelete = () => {
     const { entity, onDelete } = this.props
-    onDelete(entity, this.onDeleteDone)
-  }
-
-  /**
-   * Delete has been performed, finish table refreshing
-   */
-  onDeleteDone = () => {
-    const {
-      rowIndex, fetchPage, queryPageSize, pathParams, requestParams,
-    } = this.props
-    const pageIndex = Math.floor(rowIndex / queryPageSize)
-    fetchPage(pageIndex, queryPageSize, pathParams, requestParams)
+    onDelete(entity)
   }
 
   renderWithHateoas = () => {

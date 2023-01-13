@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { AdminClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { OrderListFiltersContainer, OrderListFiltersComponentWithRights } from '../../src/containers/OrderListFiltersContainer'
 import styles from '../../src/styles/styles'
@@ -40,6 +41,8 @@ describe('[Admin Order Management] Testing OrderListFiltersContainer', () => {
       isPaneOpened: false,
       onCloseFiltersPane: () => { },
       updateRequestParameters: () => { },
+      filtersActions: new AdminClient.FiltersActions(),
+      filtersSelectors: AdminClient.getFiltersSelectors('test'),
 
       isFetching: true,
       users: {},
@@ -62,6 +65,8 @@ describe('[Admin Order Management] Testing OrderListFiltersContainer', () => {
       isPaneOpened: false,
       onCloseFiltersPane: () => { },
       updateRequestParameters: () => { },
+      filtersActions: new AdminClient.FiltersActions(),
+      filtersSelectors: AdminClient.getFiltersSelectors('test'),
 
       isFetching: false,
       users: {},

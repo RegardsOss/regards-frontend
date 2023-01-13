@@ -18,10 +18,8 @@
  */
 export default (theme) => ({
   processingMonitoring: {
-    filters: {
-      selectFieldStyle: {
-        marginRight: '10px',
-      },
+    filterButtonStyle: {
+      backgroundColor: theme.palette.accent1Color,
     },
   },
   processingList: {

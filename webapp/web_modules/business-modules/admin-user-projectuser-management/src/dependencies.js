@@ -27,7 +27,7 @@ import { accessGroupActions } from './clients/AccessGroupClient'
  * @author Sébastien binda
  */
 const listDependencies = [
-  projectUserActions.getDependency(RequestVerbEnum.GET_LIST),
+  projectUserActions.getDependency(RequestVerbEnum.POST),
 ]
 const addDependencies = [
   projectUserActions.getDependency(RequestVerbEnum.POST),

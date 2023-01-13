@@ -41,6 +41,14 @@ const messages = {
   'filter.pane.title': 'Filter...',
   'filter.pane.close.button': 'Close',
   'filter.pane.clear.button': 'Clear',
+  'filter.pane.date.after.hintText': 'Date (after)',
+  'filter.pane.hour.after.hintText': 'Hour (after)',
+  'filter.pane.date.before.hintText': 'Date (before)',
+  'filter.pane.hour.before.hintText': 'Hour (before)',
+  'filter.pane.select.field.any': 'All',
+
+  'filter.chips.date.from': ' from ',
+  'filter.chips.date.to': ' to ',
 }
 
 export default messages

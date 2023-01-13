@@ -18,7 +18,8 @@
  **/
 import throttle from 'lodash/throttle'
 import { connect } from '@regardsoss/redux'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { RequestVerbEnum, BasicSelector } from '@regardsoss/store-utils'
+import { AdminClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
@@ -64,7 +65,7 @@ export class OrderListFiltersContainer extends React.Component {
       // Note: we throttle here the emitted network requests to avoid dispatching for each key entered
       dispatchGetUsers:
         throttle(
-          (partialEmail) => dispatch(projectUserActions.fetchPagedEntityList(0, PAGE_SIZE, null, { partialEmail })),
+          (partialEmail) => dispatch(projectUserActions.fetchPagedEntityListByPost(0, PAGE_SIZE, null, { partialEmail })),
           THROTTLE_DELAY_MS, { leading: false }),
     }
   }
@@ -73,6 +74,10 @@ export class OrderListFiltersContainer extends React.Component {
     isPaneOpened: PropTypes.bool.isRequired,
     onCloseFiltersPane: PropTypes.func.isRequired,
     updateRequestParameters: PropTypes.func.isRequired, // comes from TableFilterSortingAndVisibilibtyContainer
+    // eslint-disable-next-line react/no-unused-prop-types
+    filtersActions: PropTypes.instanceOf(AdminClient.FiltersActions).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    filtersSelectors: PropTypes.instanceOf(BasicSelector).isRequired,
 
     // from mapStateToProps
     isFetching: PropTypes.bool.isRequired,
@@ -85,7 +90,7 @@ export class OrderListFiltersContainer extends React.Component {
     const {
       isFetching, users, isPaneOpened,
       onCloseFiltersPane, updateRequestParameters,
-      dispatchGetUsers,
+      dispatchGetUsers, filtersActions, filtersSelectors,
     } = this.props
     return (
       <OrderListFiltersComponentWithRights
@@ -96,6 +101,8 @@ export class OrderListFiltersContainer extends React.Component {
         isPaneOpened={isPaneOpened}
         onCloseFiltersPane={onCloseFiltersPane}
         updateRequestParameters={updateRequestParameters}
+        filtersActions={filtersActions}
+        filtersSelectors={filtersSelectors}
       />
     )
   }

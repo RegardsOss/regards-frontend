@@ -16,13 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import map from 'lodash/map'
+import pick from 'lodash/pick'
+import omit from 'lodash/omit'
+import compose from 'lodash/fp/compose'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { IngestShapes, CommonShapes } from '@regardsoss/shape'
+import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import {
   RunAcquisitionProcessingChainActions, StopAcquisitionProcessingChainActions,
   ToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainActions, AcquisitionProcessingChainEditActions,
@@ -31,6 +36,7 @@ import {
 import AcquisitionProcessingChainListComponent from '../../components/acquisitionChain/AcquisitionProcessingChainListComponent'
 import { tableSelectors } from '../../clients/TableClient'
 import AcquisitionProcessingChainListFiltersComponent from '../../components/acquisitionChain/AcquisitionProcessingChainListFiltersComponent'
+import messages from '../../i18n'
 
 /**
 * Container to handle AcquisitionProcessingChains.
@@ -64,6 +70,7 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
     runChain: PropTypes.func.isRequired,
     stopChain: PropTypes.func.isRequired,
     multiToggleChain: PropTypes.func.isRequired,
+    throwError: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -73,7 +80,11 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
     displayLogic: allMatchHateoasDisplayLogic,
   }
 
-  static PAGE_SIZE = 100
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  // static PAGE_SIZE = 100
 
   /**
    * Redux: map state to props function
@@ -101,13 +112,23 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchPage: (pageIndex, pageSize, requestParams) => dispatch(AcquisitionProcessingChainActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
+      fetchPage: (pageIndex, pageSize, pathParam, requestParams) => dispatch(AcquisitionProcessingChainActions.fetchPagedEntityList(pageIndex, pageSize, pathParam, requestParams)),
       runChain: (chainId, sessionName) => dispatch(RunAcquisitionProcessingChainActions.run(chainId, sessionName)),
       stopChain: (chainId) => dispatch(StopAcquisitionProcessingChainActions.stop(chainId)),
       deleteChain: (id) => dispatch(AcquisitionProcessingChainEditActions.deleteEntity(id)),
       toggleChain: (chainId, target, nextValue) => dispatch(ToggleAcquisitionProcessingChainActions.toggle(chainId, target, nextValue)),
       multiToggleChain: (chains, target, nextValue) => dispatch(MultiToggleAcquisitionProcessingChainActions.toggle(chains, target, nextValue)),
+      throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
     }
+  }
+
+  state = { isFetching: false }
+
+  /**
+   * Lifecycle method: component did mount. Used here to fetch user lists
+   */
+  componentDidMount = () => {
+    this.setState({ isFetching: false })
   }
 
   /**
@@ -115,8 +136,7 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
    */
   onBack = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/board`
-    browserHistory.push(url)
+    browserHistory.push(`/admin/${project}/data/acquisition/board`)
   }
 
   /**
@@ -148,19 +168,16 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  onRefresh = (filters) => {
-    const { meta, fetchPage } = this.props
-    const curentPage = get(meta, 'number', 0)
-    const curentPageSize = get(meta, 'size', AcquisitionProcessingChainListContainer.PAGE_SIZE)
-    return fetchPage(0, curentPageSize * (curentPage + 1), filters)
+  getFetchPageSize = () => {
+    const { meta } = this.props
+    const lastPage = (meta && meta.number) || 0
+    return TableFilterSortingAndVisibilityContainer.PAGE_SIZE * (lastPage + 1)
   }
 
-  /**
-   * Callback to delete the given chain by id
-   * @param { content: * } chain : Object containing the chain to delete ({content: chain})
-   */
-  onDelete = ({ content: { chainId } }, callback) => {
-    this.props.deleteChain(chainId).then(callback)
+  onRefresh = (requestParameters) => {
+    const { fetchPage } = this.props
+    const fetchPageSize = this.getFetchPageSize()
+    return fetchPage(0, fetchPageSize, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') })
   }
 
   /**
@@ -168,23 +185,80 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
    */
   onCreate = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/chain/create`
-    browserHistory.push(url)
+    browserHistory.push(`/admin/${project}/data/acquisition/dataprovider/chain/create`)
   }
 
-  onMultiToggleSelection = (target, nextValue) => {
-    //
+  /**
+   * Set actions fetching state
+   * @param {bool} isFetchingActions is fetching actions?
+   */
+  setFetching = (isFetching) => this.setState({ isFetching })
+
+  /**
+   * Marks fetching true, performs promise as parameter, update waiting users state then marks fetching false
+   * @param promise
+   */
+  perform = (promise, onRefresh) => {
+    this.setFetching(true)
+    const onDone = () => { this.setFetching(false) }
+    Promise.resolve(promise).then(() => Promise.resolve(
+      onRefresh(true),
+    ).then(onDone).catch(onDone)).catch(onDone)
+  }
+
+  onToggle = (entity, target, nextValue, onRefresh) => {
+    const { toggleChain } = this.props
+    const { chainId } = entity.content
+    this.perform(toggleChain(chainId, target, nextValue), onRefresh)
+  }
+
+  onMultiToggleSelection = (target, nextValue, onRefresh) => {
     const { toggledChains, multiToggleChain } = this.props
     const chainList = map(toggledChains, 'content.chainId')
-    multiToggleChain(chainList, target, nextValue)
+    this.perform(multiToggleChain(chainList, target, nextValue), onRefresh)
   }
 
-  onToggle = (chainId, target, nextValue) => this.props.toggleChain(chainId, target, nextValue)
+  /**
+   * Callback to delete the given chain by id
+   * @param { content: * } chain : Object containing the chain to delete ({content: chain})
+   */
+  onDelete = (entity, onRefresh) => {
+    const { deleteChain } = this.props
+    const { chainId } = entity.content
+    this.perform(deleteChain(chainId), onRefresh)
+  }
+
+  onRunChain = (entity, sessionName, onRefresh) => {
+    const { runChain, throwError } = this.props
+    const { intl: { formatMessage } } = this.context
+    const { chainId, label } = entity.content
+    this.perform(runChain(chainId, sessionName).then(
+      (actionResult) => {
+        if (actionResult.error) {
+          throwError(formatMessage({ id: 'acquisition-chain.list.run.error' }, { label, chainId }))
+        }
+      },
+    ), onRefresh)
+  }
+
+  onStopChain = (entity, onRefresh) => {
+    const { stopChain, throwError } = this.props
+    const { intl: { formatMessage } } = this.context
+    const { chainId, label } = entity.content
+    this.perform(stopChain(chainId).then(
+      (actionResult) => {
+        if (actionResult.error) {
+          throwError(formatMessage({ id: 'acquisition-chain.list.stop.error' }, { label, chainId }))
+        }
+      },
+    ), onRefresh)
+  }
 
   render() {
     const {
-      meta, entitiesLoading, runChain, stopChain, params: { project }, isOneCheckboxToggled, displayLogic, availableDependencies,
+      meta, entitiesLoading, params: { project }, isOneCheckboxToggled, displayLogic, availableDependencies,
     } = this.props
+    const { isFetching } = this.state
 
     const hasAccess = displayLogic(AcquisitionProcessingChainListFiltersComponent.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES, availableDependencies)
     return (
@@ -196,13 +270,11 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
         onDelete={this.onDelete}
         onEdit={this.onEdit}
         onDuplicate={this.onDuplicate}
-        fetchPage={this.props.fetchPage}
         onListSessions={this.onListSessions}
-        onRunChain={runChain}
-        onStopChain={stopChain}
-        pageSize={AcquisitionProcessingChainListContainer.PAGE_SIZE}
+        onRunChain={this.onRunChain}
+        onStopChain={this.onStopChain}
         resultsCount={meta.totalElements}
-        entitiesLoading={entitiesLoading}
+        entitiesLoading={entitiesLoading || isFetching}
         onMultiToggleSelection={this.onMultiToggleSelection}
         onToggle={this.onToggle}
         onToggleEnable={this.onToggleEnable}
@@ -212,6 +284,7 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
     )
   }
 }
-export default connect(
-  AcquisitionProcessingChainListContainer.mapStateToProps,
-  AcquisitionProcessingChainListContainer.mapDispatchToProps)(AcquisitionProcessingChainListContainer)
+export default compose(
+  connect(AcquisitionProcessingChainListContainer.mapStateToProps,
+    AcquisitionProcessingChainListContainer.mapDispatchToProps),
+  withI18n(messages))(AcquisitionProcessingChainListContainer)

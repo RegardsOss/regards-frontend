@@ -36,7 +36,7 @@ class AIPTypeRender extends React.Component {
   render() {
     const { value: type } = this.props
     const { intl: { formatMessage } } = this.context
-    return <StringValueRender value={formatMessage({ id: `oais.package.type.${type}` })} />
+    return <StringValueRender value={formatMessage({ id: `oais.list.filters.aipIdType.${type}` })} />
   }
 }
 

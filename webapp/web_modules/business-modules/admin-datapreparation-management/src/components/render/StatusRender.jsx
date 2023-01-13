@@ -43,9 +43,9 @@ class StatusRender extends React.Component {
 
   render() {
     const { entity: { content: { status, error } }, onViewRequestErrors } = this.props
-    const { moduleTheme: { renderStyle: { statusStyle } } } = this.context
+    const { moduleTheme: { renderStyle: { statusStyle } }, intl: { formatMessage } } = this.context
     return <div style={statusStyle}>
-      <StringValueRender value={status} />
+      <StringValueRender value={formatMessage({ id: `datapreparation.filters.statuses.${status}` })} />
       {
         (status === WorkerDomain.REQUEST_STATUS_ENUM.ERROR || status === WorkerDomain.REQUEST_STATUS_ENUM.INVALID_CONTENT) && !isEmpty(error)
           ? <IconButton onClick={() => onViewRequestErrors(this.props.entity)}>

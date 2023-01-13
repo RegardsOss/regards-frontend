@@ -37,7 +37,7 @@ import dependencies from '../../dependencies'
  */
 export default class RequestOperationsMenuComponent extends React.Component {
   static propTypes = {
-    pageMeta: CommonShapes.PageMetadata.isRequired,
+    pageMeta: CommonShapes.PageMetadata,
     availableEndpoints: PropTypes.arrayOf(PropTypes.string).isRequired,
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),

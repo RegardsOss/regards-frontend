@@ -20,6 +20,7 @@ import get from 'lodash/get'
 import map from 'lodash/map'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
+import { WorkerDomain, CommonDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -30,7 +31,6 @@ import {
   TableFilterSortingAndVisibilityContainer,
   TableSelectionModes,
 } from '@regardsoss/components'
-import { CommonDomain, WorkerDomain } from '@regardsoss/domain'
 import DIALOG_TYPES from '../domain/dialogTypes'
 import DeleteRequestComponent from './options/DeleteRequestComponent'
 import RetryRequestComponent from './options/RetryRequestComponent'
@@ -140,7 +140,7 @@ class DataPreparationTableComponent extends React.Component {
     const { entities, mode, multiple } = this.state[dialogRequestType]
     const payload = {
       ...bodyParameters,
-      [WorkerDomain.REQUEST_FILTERS.IDS]: {
+      [WorkerDomain.FILTER_PARAMS_ENUM.IDS]: {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: multiple ? map(entities, (e) => e.content.id) : [get(entities, 'content.id', '')],
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
       },
@@ -160,7 +160,7 @@ class DataPreparationTableComponent extends React.Component {
         onDeleteRequest(payload)
         break
       default:
-        console.error('Invalid dialogue type : ', dialogType)
+        console.error('Invalid dialog type : ', dialogType)
     }
   }
 

@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { browserHistory } from 'react-router'
+import { AdminShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import compose from 'lodash/fp/compose'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
@@ -26,7 +28,7 @@ import {
   sessionsActions, sessionsRelaunchProductActions, sessionsRelaunchAIPActions,
   storagesRelaunchActions, requestRetryActions,
 } from '../clients/SessionsClient'
-import { selectedSessionActions } from '../clients/SelectedSessionClient'
+import { selectedSessionActions, selectedSessionSelectors } from '../clients/SelectedSessionClient'
 import { sourcesActions } from '../clients/SourcesClient'
 import { requestSignalsActions } from '../clients/WorkerRequestSignalsClient'
 import DashboardComponent from '../components/DashboardComponent'
@@ -44,6 +46,9 @@ export class DashboardContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
+    // from mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    selectedSession: AdminShapes.Session,
     // from mapDispatchToProps
     fetchSessions: PropTypes.func.isRequired,
     fetchSources: PropTypes.func.isRequired,
@@ -58,6 +63,18 @@ export class DashboardContainer extends React.Component {
   }
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      selectedSession: selectedSessionSelectors.getSession(state),
+    }
+  }
 
   /**
    * Redux: map dispatch to props function
@@ -98,12 +115,16 @@ export class DashboardContainer extends React.Component {
    * @param {*} sourceFilters
    * @param {*} sessionFilters
    */
-  onRefresh = (sourceFilters, sessionFilters, selectedSourceId, selectedSessionId) => {
+  onRefresh = (sourceFilters, sessionFilters, selectedSourceId) => {
     const {
-      fetchSessions, fetchSources,
+      fetchSessions, fetchSources, fetchSelectedSession, params: { project }, selectedSession,
     } = this.props
-    fetchSessions(0, DashboardContainer.PAGE_SIZE, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSourceId || null })
-    fetchSources(0, DashboardContainer.PAGE_SIZE, {}, { ...sourceFilters })
+    fetchSessions(0, DashboardContainer.PAGE_SIZE, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSourceId || null, tenant: project })
+    fetchSources(0, DashboardContainer.PAGE_SIZE, {}, { ...sourceFilters, tenant: project })
+    const selectedSessionId = get(selectedSession, 'content.id', null)
+    if (selectedSessionId) {
+      fetchSelectedSession(selectedSessionId)
+    }
   }
 
   dispatchAction = (dispatchFunc, payload, reqType = undefined) => {
@@ -163,5 +184,5 @@ export class DashboardContainer extends React.Component {
 }
 
 export default compose(
-  connect(null, DashboardContainer.mapDispatchToProps),
+  connect(DashboardContainer.mapStateToProps, DashboardContainer.mapDispatchToProps),
   withI18n(messages), withModuleStyle(styles))(DashboardContainer)

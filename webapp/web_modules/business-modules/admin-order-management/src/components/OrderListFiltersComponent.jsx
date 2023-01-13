@@ -20,24 +20,23 @@ import map from 'lodash/map'
 import includes from 'lodash/includes'
 import keys from 'lodash/keys'
 import { MenuItem } from 'material-ui/Menu'
-import SelectField from 'material-ui/SelectField'
-import { CommonDomain, OrderDomain, UIDomain } from '@regardsoss/domain'
+import { OrderDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
-  TableFilterSortingAndVisibilityContainer, DatePickerField,
-  withFiltersPane, TableHeaderAutoCompleteFilter, FiltersPaneMainComponent,
-  FiltersPaneLineComponent,
+  TableFilterSortingAndVisibilityContainer, FilterPaneAutoCompleteFieldLegacy,
+  withFiltersPane, FilterPaneSelectField, FiltersPaneMainComponent,
+  FilterPaneSelectFieldLegacy, FilterPaneDatePickerField,
 } from '@regardsoss/components'
-import { REQUEST_FILTERS } from '../domain/requestFilters'
+import { FILTER_PARAMS, FILTERS_I18N } from '../domain/filters'
 import { WAITING_FOR_USER_ENUM } from '../domain/waitingForUserFilterValues'
 
 /**
 * Order list filters component
-* @author Raphaël Mechali
+* @author Théo Lasserre
 */
-class OrderListFiltersComponent extends React.Component {
+export class OrderListFiltersComponent extends React.Component {
   static propTypes = {
     matchingUsers: AccessShapes.ProjectUserList,
     isFetching: PropTypes.bool.isRequired,
@@ -54,10 +53,10 @@ class OrderListFiltersComponent extends React.Component {
   }
 
   static DEFAULT_FILTERS_STATE = {
-    [REQUEST_FILTERS.OWNER]: '',
-    [REQUEST_FILTERS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
-    [REQUEST_FILTERS.STATUSES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [REQUEST_FILTERS.WAITING_FOR_USER]: null,
+    [FILTER_PARAMS.OWNER]: '',
+    [FILTER_PARAMS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
+    [FILTER_PARAMS.STATUSES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [FILTER_PARAMS.WAITING_FOR_USER]: null,
   }
 
   static EXCLUDED_ORDER_STATUS_FILTER = [OrderDomain.ORDER_STATUS_ENUM.WAITING_USER_DOWNLOAD, OrderDomain.ORDER_STATUS_ENUM.UNKNOWN]
@@ -83,7 +82,7 @@ class OrderListFiltersComponent extends React.Component {
     // A - Update text and error state
     this.setState({ isInError: !isInUsersList })
     // B - call parent handler (let the no data happen when no correct user is selected)
-    updateFilter(userEmail, REQUEST_FILTERS.OWNER)
+    updateFilter(userEmail, FILTER_PARAMS.OWNER)
   }
 
   /**
@@ -92,7 +91,7 @@ class OrderListFiltersComponent extends React.Component {
    onUpdateUsersFilter = (newText = '') => {
      const { dispatchGetUsers, updateFilter } = this.props
      // update filter text
-     updateFilter(newText, REQUEST_FILTERS.OWNER)
+     updateFilter(newText, FILTER_PARAMS.OWNER, true)
      // dipatch get users list for text (it will provide the new matching users list)
      dispatchGetUsers(newText)
    }
@@ -107,81 +106,38 @@ class OrderListFiltersComponent extends React.Component {
       updateFilter, inputValues, updateDatesFilter, updateValuesFilter, matchingUsers, isFetching,
     } = this.props
     const { isInError } = this.state
-    const { intl: { locale, formatMessage }, moduleTheme: { filters: { emailAutoCompleteStyle } } } = this.context
+    const { intl: { formatMessage } } = this.context
     return (
-      <FiltersPaneMainComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'order.list.filters.creationDate.label' })}
-        >
-          <DatePickerField
-            id={`filter.${CommonDomain.REQUEST_PARAMETERS.AFTER}`}
-            dateHintText={formatMessage({ id: 'order.list.filters.creationDate.after.label' })}
-            onChange={(value) => updateDatesFilter(value ? value.toISOString() : '', REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
-            locale={locale}
-            value={UIDomain.FiltersPaneHelper.getFilterDateValue(inputValues, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.AFTER)}
-            fullWidth
-          />
-          <DatePickerField
-            id={`filter.${CommonDomain.REQUEST_PARAMETERS.BEFORE}`}
-            dateHintText={formatMessage({ id: 'order.list.filters.creationDate.before.label' })}
-            onChange={(value) => updateDatesFilter(value ? value.toISOString() : '', REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
-            locale={locale}
-            value={UIDomain.FiltersPaneHelper.getFilterDateValue(inputValues, REQUEST_FILTERS.CREATION_DATE, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
-            defaultTime="23:59:59"
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'order.list.filter.by.email.label' })}
-          additionnalLineStyle={emailAutoCompleteStyle}
-        >
-          <TableHeaderAutoCompleteFilter
-            hintText={formatMessage({ id: 'order.list.filter.by.email.hint' })}
-            text={inputValues[REQUEST_FILTERS.OWNER] || ''}
-            currentHints={matchingUsers}
-            isFetching={isFetching}
-            noData={isInError}
-            onUpdateInput={this.onUpdateUsersFilter}
-            onFilterSelected={this.onUserFilterSelected}
-            prepareHints={this.prepareHints}
-            fullWidth
-          />
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'order.list.filters.status.label' })}
-        >
-          <SelectField
-            id={`filter.${REQUEST_FILTERS.STATUSES}`}
-            value={inputValues[REQUEST_FILTERS.STATUSES][CommonDomain.REQUEST_PARAMETERS.VALUES]}
-            onChange={(event, index, value) => updateValuesFilter(value, REQUEST_FILTERS.STATUSES)}
-            hintText={formatMessage({ id: 'order.list.filters.status.label.title' })}
-            multiple
-            fullWidth
-          >
-            {map(OrderDomain.ORDER_STATUS, (status) => {
-              if (!includes(OrderListFiltersComponent.EXCLUDED_ORDER_STATUS_FILTER, status)) {
-                return <MenuItem key={status} value={status} primaryText={formatMessage({ id: `order.list.filters.status.${status}` })} />
-              }
-              return null
-            })}
-          </SelectField>
-        </FiltersPaneLineComponent>
-        <FiltersPaneLineComponent
-          label={formatMessage({ id: 'order.list.filters.waiting.user.label' })}
-        >
-          <SelectField
-            id={`filter.${REQUEST_FILTERS.WAITING_FOR_USER}`}
-            value={inputValues[REQUEST_FILTERS.WAITING_FOR_USER] || ''}
-            onChange={(event, index, value) => updateFilter(value, REQUEST_FILTERS.WAITING_FOR_USER)}
-            hintText={formatMessage({ id: 'order.list.filters.waiting.user.label.hint' })}
-            fullWidth
-          >
-            <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'order.list.filters.waiting.user.any' })} />
-            {map(keys(WAITING_FOR_USER_ENUM), (waitingForUserKey) => (
-              <MenuItem key={waitingForUserKey} value={WAITING_FOR_USER_ENUM[waitingForUserKey]} primaryText={formatMessage({ id: `order.list.filters.waiting.user.${WAITING_FOR_USER_ENUM[waitingForUserKey]}` })} />
-            ))}
-          </SelectField>
-        </FiltersPaneLineComponent>
+      <FiltersPaneMainComponent
+        updateFilter={updateFilter}
+        updateDatesFilter={updateDatesFilter}
+        updateValuesFilter={updateValuesFilter}
+        inputValues={inputValues}
+        filters18n={FILTERS_I18N}
+      >
+        <FilterPaneDatePickerField filterKey={FILTER_PARAMS.CREATION_DATE} />
+        <FilterPaneAutoCompleteFieldLegacy
+          filterKey={FILTER_PARAMS.OWNER}
+          currentHints={matchingUsers}
+          isFetching={isFetching}
+          noData={isInError}
+          onUpdateInput={this.onUpdateUsersFilter}
+          onFilterSelected={this.onUserFilterSelected}
+          prepareHints={this.prepareHints}
+        />
+        <FilterPaneSelectField filterKey={FILTER_PARAMS.STATUSES}>
+          {map(OrderDomain.ORDER_STATUS, (status) => {
+            if (!includes(OrderListFiltersComponent.EXCLUDED_ORDER_STATUS_FILTER, status)) {
+              return <MenuItem key={status} value={status} primaryText={formatMessage({ id: `order.list.filters.statuses.${status}` })} />
+            }
+            return null
+          })}
+        </FilterPaneSelectField>
+        <FilterPaneSelectFieldLegacy filterKey={FILTER_PARAMS.WAITING_FOR_USER} allValuesOption>
+          {map(keys(WAITING_FOR_USER_ENUM), (waitingForUserKey) => (
+            <MenuItem key={waitingForUserKey} value={WAITING_FOR_USER_ENUM[waitingForUserKey]} primaryText={formatMessage({ id: `order.list.filters.waitingForUser.${WAITING_FOR_USER_ENUM[waitingForUserKey]}` })} />
+          ))}
+        </FilterPaneSelectFieldLegacy>
       </FiltersPaneMainComponent>
     )
   }

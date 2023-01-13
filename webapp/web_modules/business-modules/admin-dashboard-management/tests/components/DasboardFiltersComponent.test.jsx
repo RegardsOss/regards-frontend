@@ -18,9 +18,10 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { FiltersPaneComponent } from '@regardsoss/components'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import DasboardFiltersComponent from '../../src/components/DashboardFiltersComponent'
+import { FiltersPaneMainComponent, FilterPaneAutoCompleteField, FilterPaneSelectFieldLegacy } from '@regardsoss/components'
+import { DashboardFiltersComponent } from '../../src/components/DashboardFiltersComponent'
+import { FILTERS_I18N } from '../../src/domain/filters'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -30,16 +31,22 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Dashboard Filters', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('should exists', () => {
-    assert.isDefined(DasboardFiltersComponent)
-  })
   it('should render correctly', () => {
     const props = {
-      onUpdateFiltersParameters: () => { },
-      isPaneOpened: false,
-      onCloseFiltersPane: () => { },
+      inputValues: { },
+      requestParameters: { },
+      updateFilter: () => { },
+      updateRequestParameters: () => { },
     }
-    const enzymeWrapper = shallow(<DasboardFiltersComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(FiltersPaneComponent), 1, 'There should be a FiltersPaneComponent')
+    const enzymeWrapper = shallow(<DashboardFiltersComponent {...props} />, { context })
+    const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
+    assert.lengthOf(mainComponent, 1, 'FiltersPaneMainComponent should be set')
+    testSuiteHelpers.assertWrapperProperties(mainComponent, {
+      updateFilter: props.updateFilter,
+      inputValues: props.inputValues,
+      filters18n: FILTERS_I18N,
+    }, 'Component should define the expected properties and callbacks')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneAutoCompleteField), 2, 'There should be 2 FilterPaneAutoCompleteField')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneSelectFieldLegacy), 2, 'There should be 2 FilterPaneSelectFieldLegacy')
   })
 })

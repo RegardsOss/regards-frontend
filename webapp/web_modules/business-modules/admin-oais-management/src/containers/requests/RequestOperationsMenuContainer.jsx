@@ -18,10 +18,12 @@
  **/
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
-import { CommonShapes, IngestShapes } from '@regardsoss/shape'
+import { IngestDomain } from '@regardsoss/domain'
+import { IngestShapes, CommonShapes } from '@regardsoss/shape'
 import { TableSelectionModes } from '@regardsoss/components'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import RequestOperationsMenuComponent from '../../components/requests/RequestOperationsMenuComponent'
+import clientByPane from '../../domain/ClientByPane'
 
 /**
  * Request operations menu container
@@ -29,7 +31,6 @@ import RequestOperationsMenuComponent from '../../components/requests/RequestOpe
  */
 export class RequestOperationsMenuContainer extends React.Component {
   static propTypes = {
-    pageMeta: CommonShapes.PageMetadata.isRequired,
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     onSelectVersionOption: PropTypes.func.isRequired,
@@ -38,6 +39,7 @@ export class RequestOperationsMenuContainer extends React.Component {
     onAbort: PropTypes.func.isRequired,
     // from mapStateToProps
     availableEndpoints: PropTypes.arrayOf(PropTypes.string).isRequired,
+    pageMeta: CommonShapes.PageMetadata,
   }
 
   /**
@@ -48,6 +50,7 @@ export class RequestOperationsMenuContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
+      pageMeta: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].selectors.getMetaData(state),
       availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     }
   }

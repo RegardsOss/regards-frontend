@@ -41,11 +41,29 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerContainer', () => {
       params: {
         project: 'any',
       },
-      clearAIPSelection: () => {},
-      clearRequestSelection: () => {},
+      fetchProcessingChains: () => {},
+      fetchPage: () => {},
+      deleteRequests: () => {},
+      retryRequests: () => {},
+      abortRequests: () => {},
+      selectVersionOption: () => {},
+      fetchStorages: () => {},
+      modifyAips: () => {},
     }
     const enzymeWrapper = shallow(<OAISFeatureManagerContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(OAISFeatureManagerComponent)
-    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
+    const instance = enzymeWrapper.instance()
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, OAISFeatureManagerComponent, {
+      params: props.params,
+      isLoading: false,
+      storages: props.storages,
+      onRefresh: instance.onRefresh,
+      onDeleteRequests: instance.onDeleteRequests,
+      onRetryRequests: instance.onRetryRequests,
+      onAbortRequests: instance.onAbortRequests,
+      onSelectVersionOption: instance.onSelectVersionOption,
+      onModifyAip: instance.onModifyAip,
+      modeSelectionAllowed: false,
+      onBack: instance.onBack,
+    }, 'Component should define the expected properties and callbacks')
   })
 })

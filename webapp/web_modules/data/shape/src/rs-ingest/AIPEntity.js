@@ -35,7 +35,7 @@ export const AIPEntityContent = PropTypes.shape({
     providerId: PropTypes.string.isRequired,
     session: PropTypes.string.isRequired,
     sessionOwner: PropTypes.string.isRequired,
-    state: PropTypes.string,
+    requestState: PropTypes.string,
     storages: PropTypes.arrayOf(PropTypes.string),
     tags: PropTypes.arrayOf(PropTypes.string),
   }),
