@@ -32,7 +32,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class FilterPaneTextField extends React.Component {
   static propTypes = {
-    filters18n: UIShapes.Filtersi18nList,
+    filtersI18n: UIShapes.FiltersI18nList,
     filterKey: PropTypes.string.isRequired,
     updateFilter: PropTypes.func,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
@@ -50,17 +50,17 @@ class FilterPaneTextField extends React.Component {
 
   render() {
     const {
-      filters18n, inputValues, filterKey, updateFilter, useDebounce,
+      filtersI18n, inputValues, filterKey, updateFilter, useDebounce,
     } = this.props
     const { intl: { formatMessage } } = this.context
-    const hintTextKey = get(filters18n, `${filterKey}.hintTextKey`, '')
+    const hintTextKey = get(filtersI18n, `${filterKey}.hintTextKey`, '')
     return (
       <FiltersPaneLineComponent
-        label={formatMessage({ id: filters18n[filterKey].labelKey })}
+        label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
       >
         <TextField
           id={`pane.${filterKey}`}
-          hintText={!isEmpty(hintTextKey) ? formatMessage({ id: filters18n[filterKey].hintTextKey }) : hintTextKey}
+          hintText={!isEmpty(hintTextKey) ? formatMessage({ id: filtersI18n[filterKey].hintTextKey }) : hintTextKey}
           value={get(inputValues, filterKey, '')}
           onChange={(event, value) => updateFilter(value, filterKey, useDebounce)}
           fullWidth

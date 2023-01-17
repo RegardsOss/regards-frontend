@@ -18,7 +18,8 @@
  **/
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
-import { IngestDomain } from '@regardsoss/domain'
+import { IngestDomain, CommonDomain } from '@regardsoss/domain'
+import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
@@ -27,7 +28,7 @@ import {
 } from '@regardsoss/components'
 import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../clients/SearchSessionsClient'
-import { FILTER_PARAMS, FILTERS_I18N } from '../domain/filters'
+import { FILTER_PARAMS } from '../domain/filters'
 
 /**
   * Requests Feature manager filters component.
@@ -39,6 +40,7 @@ export class RequestsFeatureManagerFiltersComponent extends React.Component {
     updateValuesFilter: PropTypes.func.isRequired,
     updateDatesFilter: PropTypes.func.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
@@ -53,20 +55,20 @@ export class RequestsFeatureManagerFiltersComponent extends React.Component {
   static DEFAULT_FILTERS_STATE = {
     [FILTER_PARAMS.SOURCE]: '',
     [FILTER_PARAMS.SESSION]: '',
-    [FILTER_PARAMS.PROVIDER_IDS]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [FILTER_PARAMS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
-    [FILTER_PARAMS.REQUEST_ID_TYPE]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [FILTER_PARAMS.REQUEST_STATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+    [FILTER_PARAMS.REQUEST_ID_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [FILTER_PARAMS.REQUEST_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
     const {
-      updateFilter, inputValues, updateValuesFilter, updateDatesFilter,
+      updateFilter, inputValues, updateValuesFilter, updateDatesFilter, filtersI18n,
     } = this.props
     return (
       <FiltersPaneMainComponent
-        filters18n={FILTERS_I18N}
+        filtersI18n={filtersI18n}
         updateDatesFilter={updateDatesFilter}
         inputValues={inputValues}
         updateFilter={updateFilter}

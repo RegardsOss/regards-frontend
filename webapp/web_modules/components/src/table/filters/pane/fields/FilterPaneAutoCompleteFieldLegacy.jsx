@@ -33,7 +33,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class FilterPaneAutoCompleteFieldLegacy extends React.Component {
   static propTypes = {
-    filters18n: UIShapes.Filtersi18nList,
+    filtersI18n: UIShapes.FiltersI18nList,
     filterKey: PropTypes.string.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     currentHints: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.any), PropTypes.objectOf(PropTypes.any)]).isRequired,
@@ -51,19 +51,19 @@ class FilterPaneAutoCompleteFieldLegacy extends React.Component {
 
   render() {
     const {
-      filters18n, inputValues, filterKey, currentHints, isFetching, noData, onUpdateInput,
+      filtersI18n, inputValues, filterKey, currentHints, isFetching, noData, onUpdateInput,
       onFilterSelected, prepareHints,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { searchPane: { autocompleteStyle } } } = this.context
-    const hintTextKey = get(filters18n, `${filterKey}.hintTextKey`, '')
+    const hintTextKey = get(filtersI18n, `${filterKey}.hintTextKey`, '')
     return (
       <FiltersPaneLineComponent
-        label={formatMessage({ id: filters18n[filterKey].labelKey })}
+        label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
       >
         <TableHeaderAutoCompleteFilter
           id={`pane.${filterKey}`}
           key={`pane.${filterKey}.auto`}
-          hintText={!isEmpty(hintTextKey) ? formatMessage({ id: filters18n[filterKey].hintTextKey }) : hintTextKey}
+          hintText={!isEmpty(hintTextKey) ? formatMessage({ id: filtersI18n[filterKey].hintTextKey }) : hintTextKey}
           text={get(inputValues, filterKey, '')}
           currentHints={currentHints}
           isFetching={isFetching}

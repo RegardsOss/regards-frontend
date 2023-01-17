@@ -38,7 +38,7 @@ class EditQuotaComponent extends React.Component {
   }
 
   /** Action dependencies */
-  static DEPENDENCIES = [projectUserActions.getDependency(RequestVerbEnum.PUT)]
+  static DEPENDENCIES = [projectUserActions.getDependency(RequestVerbEnum.POST)]
 
   /** Click callback: show dialog */
   onClick = () => {

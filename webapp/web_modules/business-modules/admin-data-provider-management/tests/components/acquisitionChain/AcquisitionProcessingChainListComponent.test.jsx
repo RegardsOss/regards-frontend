@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
-  FiltersChipsContainer, TableFilterSortingAndVisibilityContainer, CardHeaderActions, CardActionsComponent,
+  TableFilterSortingAndVisibilityAndChipsComponent, CardHeaderActions, CardActionsComponent,
 } from '@regardsoss/components'
 import { AcquisitionProcessingChainListComponent } from '../../../src/components/acquisitionChain/AcquisitionProcessingChainListComponent'
 import AcquisitionProcessingChainListFiltersComponent from '../../../src/components/acquisitionChain/AcquisitionProcessingChainListFiltersComponent'
@@ -69,15 +69,8 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainLis
       secondaryButtonClick: enzymeWrapper.instance().handleFiltersPane,
       thirdButtonClick: props.onBack,
     })
-    const chipsContainer = enzymeWrapper.find(FiltersChipsContainer)
-    assert.lengthOf(chipsContainer, 1, 'FiltersChipsContainer should be set')
-    testSuiteHelpers.assertWrapperProperties(chipsContainer, {
-      filtersActions,
-      filtersSelectors,
-      filtersI18n: FILTERS_I18N,
-    })
-    const tableVisibilityComponent = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
-    assert.lengthOf(tableVisibilityComponent, 1, 'TableFilterSortingAndVisibilityContainer should be set')
+    const tableVisibilityComponent = enzymeWrapper.find(TableFilterSortingAndVisibilityAndChipsComponent)
+    assert.lengthOf(tableVisibilityComponent, 1, 'TableFilterSortingAndVisibilityAndChipsComponent should be set')
     testSuiteHelpers.assertWrapperProperties(tableVisibilityComponent, {
       pageActions: AcquisitionProcessingChainActions,
       pageSelectors: AcquisitionProcessingChainSelectors,
@@ -86,13 +79,14 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainLis
       onStopChain: props.onStopChain,
       onRunChain: props.onRunChain,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties and callbacks')
     const filtersComponent = enzymeWrapper.find(AcquisitionProcessingChainListFiltersComponent)
     testSuiteHelpers.assertWrapperProperties(filtersComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
-      filtersActions,
-      filtersSelectors,
     })
     const tableComponent = enzymeWrapper.find(AcquisitionProcessingChainTableComponent)
     assert.lengthOf(tableComponent, 1, 'AcquisitionProcessingChainTableComponent should be set')

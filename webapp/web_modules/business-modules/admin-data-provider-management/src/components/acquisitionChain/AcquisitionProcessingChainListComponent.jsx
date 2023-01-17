@@ -21,10 +21,11 @@ import {
 } from 'material-ui/Card'
 import PageView from 'mdi-material-ui/CardSearch'
 import {
-  CardActionsComponent, Breadcrumb, FiltersChipsContainer,
+  CardActionsComponent, Breadcrumb, TableFilterSortingAndVisibilityAndChipsComponent,
   TableFilterSortingAndVisibilityContainer, CardHeaderActions,
 } from '@regardsoss/components'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import { CommonDomain } from '@regardsoss/domain'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import AcquisitionProcessingChainListFiltersComponent from './AcquisitionProcessingChainListFiltersComponent'
 import AcquisitionProcessingChainTableComponent from './AcquisitionProcessingChainTableComponent'
@@ -125,12 +126,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
           thirdButtonClick={onBack}
         />
         <CardText>
-          <FiltersChipsContainer
-            filtersActions={filtersActions}
-            filtersSelectors={filtersSelectors}
-            filtersI18n={FILTERS_I18N}
-          />
-          <TableFilterSortingAndVisibilityContainer
+          <TableFilterSortingAndVisibilityAndChipsComponent
             pageActions={AcquisitionProcessingChainActions}
             pageSelectors={AcquisitionProcessingChainSelectors}
             onMultiToggleSelection={onMultiToggleSelection}
@@ -139,16 +135,17 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
             onStopChain={onStopChain}
             onRunChain={onRunChain}
             updateRefreshParameters={this.updateRefreshParameters}
+            filtersActions={filtersActions}
+            filtersSelectors={filtersSelectors}
+            filtersI18n={FILTERS_I18N}
           >
             <AcquisitionProcessingChainListFiltersComponent
-              key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+              key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
               isPaneOpened={isPaneOpened}
               onCloseFiltersPane={this.handleFiltersPane}
-              filtersActions={filtersActions}
-              filtersSelectors={filtersSelectors}
             />
             <AcquisitionProcessingChainTableComponent
-              key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+              key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
               pageSize={TableFilterSortingAndVisibilityContainer.PAGE_SIZE}
               hasAccess={hasAccess}
               updateErrorMessage={this.updateErrorMessage}
@@ -159,7 +156,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
               resultsCount={resultsCount}
               isOneCheckboxToggled={isOneCheckboxToggled}
             />
-          </TableFilterSortingAndVisibilityContainer>
+          </TableFilterSortingAndVisibilityAndChipsComponent>
         </CardText>
         <CardActions>
           <CardActionsComponent

@@ -42,7 +42,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class FilterPaneTextFieldValues extends React.Component {
   static propTypes = {
-    filters18n: UIShapes.Filtersi18nList,
+    filtersI18n: UIShapes.FiltersI18nList,
     filterKey: PropTypes.string.isRequired,
     updateValuesFilter: PropTypes.func,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
@@ -123,7 +123,7 @@ class FilterPaneTextFieldValues extends React.Component {
 
   render() {
     const {
-      filters18n, inputValues, filterKey,
+      filtersI18n, inputValues, filterKey,
     } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
@@ -137,16 +137,16 @@ class FilterPaneTextFieldValues extends React.Component {
       },
     } = this.context
     const { fieldText } = this.state
-    const hintTextKey = get(filters18n, `${filterKey}.hintTextKey`, '')
+    const hintTextKey = get(filtersI18n, `${filterKey}.hintTextKey`, '')
     return (
       <FiltersPaneLineComponent
-        label={formatMessage({ id: filters18n[filterKey].labelKey })}
+        label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
         multiline
       >
         <div style={mainDivStyle}>
           <div style={textFieldDivStyle}>
             <TextField
-              hintText={!isEmpty(hintTextKey) ? formatMessage({ id: filters18n[filterKey].hintTextKey }) : hintTextKey}
+              hintText={!isEmpty(hintTextKey) ? formatMessage({ id: filtersI18n[filterKey].hintTextKey }) : hintTextKey}
               onKeyPress={this.onKeyPressed}
               value={fieldText}
               onChange={this.onChangeValue}

@@ -25,7 +25,8 @@ import {
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { FILTER_PARAMS, FILTERS_I18N } from '../../domain/filters'
+import { UIShapes } from '@regardsoss/shape'
+import { FILTER_PARAMS } from '../../domain/filters'
 import { RUNNING_TYPES } from '../../domain/runningTypes'
 import { MODE_TYPES } from '../../domain/modeTypes'
 
@@ -37,6 +38,7 @@ export class AcquisitionProcessingChainListFiltersComponent extends React.Compon
   static propTypes = {
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     updateFilter: PropTypes.func.isRequired,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
   }
 
   static contextTypes = {
@@ -51,7 +53,7 @@ export class AcquisitionProcessingChainListFiltersComponent extends React.Compon
   }
 
   render() {
-    const { updateFilter, inputValues } = this.props
+    const { updateFilter, inputValues, filtersI18n } = this.props
     const {
       intl: { formatMessage },
     } = this.context
@@ -59,7 +61,7 @@ export class AcquisitionProcessingChainListFiltersComponent extends React.Compon
       <FiltersPaneMainComponent
         updateFilter={updateFilter}
         inputValues={inputValues}
-        filters18n={FILTERS_I18N}
+        filtersI18n={filtersI18n}
       >
         <FilterPaneSelectFieldLegacy filterKey={FILTER_PARAMS.RUNNING} allValuesOption>
           {map(RUNNING_TYPES, (type) => (

@@ -91,8 +91,6 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
     testSuiteHelpers.assertWrapperProperties(oLFCWrapper, {
       isPaneOpened: enzymeWrapper.instance().state.isPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
-      filtersActions,
-      filtersSelectors,
     }, 'it should be correctly configured')
     // 4 - table filters container configuration
     const tFSAVCWrapper = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
@@ -101,6 +99,9 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
       pageActions: props.ordersActions,
       pageSelectors: props.ordersSelectors,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'it should be correctly configured')
     // 5 - table filters chips
     const tFChipsWrapper = enzymeWrapper.find(FiltersChipsContainer)

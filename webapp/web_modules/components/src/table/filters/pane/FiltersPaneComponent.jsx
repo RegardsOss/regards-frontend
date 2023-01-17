@@ -38,7 +38,7 @@ import Drawer from 'material-ui/Drawer'
 import { CommonDomain, UIDomain } from '@regardsoss/domain'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
-import TableFilterSortingAndVisibilityContainer from '../TableFilterSortingAndVisibilityContainer'
+import { UIShapes } from '@regardsoss/shape'
 import TableSelectionModes from '../../model/TableSelectionModes'
 import styles from '../../styles'
 import messages from '../../i18n'
@@ -57,6 +57,7 @@ class FiltersPaneComponent extends React.Component {
     updateRequestParameters: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     filtersComponentProps: PropTypes.object,
+    filtersI18n: UIShapes.FiltersI18nList,
     updateFiltersStore: PropTypes.func.isRequired,
     clearFiltersStore: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
@@ -115,9 +116,9 @@ class FiltersPaneComponent extends React.Component {
 
   /**
     * Update a filter
-    * @param {*} newFilterValue
-    * @param {*} filterElement
-    * @param {*} useDebounce
+    * @param {object} newFilterValue
+    * @param {string} filterElement
+    * @param {boolean} useDebounce
     */
   updateFilter = (newFilterValue, filterElement, useDebounce = false) => {
     const { updateRequestParameters, updateFiltersStore, ignoredURLParameters } = this.props
@@ -142,14 +143,15 @@ class FiltersPaneComponent extends React.Component {
 
   /**
    * Update a Values Restriction filter type
-   * @param {*} value
-   * @param {*} filterElement
-   * @param {*} mode
+   * @param {object} value
+   * @param {string} filterElement
+   * @param {string} mode : either INCLUDE or EXCLUDE
+   * @param {boolean} useDebounce
    */
   updateValuesFilter = (value, filterElement, mode = TableSelectionModes.INCLUDE, useDebounce = false) => {
     let newFilterValue = {}
     if (isEmpty(value)) {
-      newFilterValue = TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE
+      newFilterValue = CommonDomain.TableFilterDefaultStateEnum.VALUES
     } else {
       newFilterValue = {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(value, ','),
@@ -161,9 +163,9 @@ class FiltersPaneComponent extends React.Component {
 
   /**
    * Update a Dates Restriction filter type
-   * @param {*} value
-   * @param {*} filterElement
-   * @param {*} dateParameter : either AFTER or BEFORE
+   * @param {object} value
+   * @param {string} filterElement
+   * @param {string} dateParameter : either AFTER or BEFORE
    */
   updateDatesFilter = (value, filterElement, dateParameter, useDebounce = false) => {
     const { inputValues } = this.state
@@ -203,6 +205,7 @@ class FiltersPaneComponent extends React.Component {
   render() {
     const {
       isPaneOpened, onCloseFiltersPane, filtersComponent, filtersComponentProps,
+      filtersI18n,
     } = this.props
     const {
       inputValues,
@@ -224,6 +227,7 @@ class FiltersPaneComponent extends React.Component {
       updateFilter: this.updateFilter,
       updateValuesFilter: this.updateValuesFilter,
       updateDatesFilter: this.updateDatesFilter,
+      filtersI18n,
       inputValues,
     })
     return (

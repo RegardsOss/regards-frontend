@@ -28,12 +28,12 @@ import {
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { ProcessingDomain } from '@regardsoss/domain'
+import { ProcessingDomain, CommonDomain } from '@regardsoss/domain'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
-import { ProcessingShapes } from '@regardsoss/shape'
-import { FILTER_PARAMS, FILTERS_I18N } from '../../domain/filters'
+import { ProcessingShapes, UIShapes } from '@regardsoss/shape'
+import { FILTER_PARAMS } from '../../domain/filters'
 
 /**
  * Monitoring processing list filters
@@ -46,6 +46,7 @@ export class ProcessingMonitoringFiltersComponent extends React.Component {
     updateValuesFilter: PropTypes.func.isRequired,
     updateDatesFilter: PropTypes.func.isRequired,
     processingList: ProcessingShapes.ProcessingList.isRequired,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
 
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
@@ -59,20 +60,21 @@ export class ProcessingMonitoringFiltersComponent extends React.Component {
  * Default form state used in filters pane
  */
   static DEFAULT_FILTERS_STATE = {
-    [FILTER_PARAMS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
+    [FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
     [FILTER_PARAMS.USERNAME]: '',
     [FILTER_PARAMS.PROCESS_BID]: null,
-    [FILTER_PARAMS.STATUS]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [FILTER_PARAMS.STATUS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
     const {
       processingList, updateFilter, inputValues, updateValuesFilter, updateDatesFilter,
+      filtersI18n,
     } = this.props
     return (
       <FiltersPaneMainComponent
-        filters18n={FILTERS_I18N}
+        filtersI18n={filtersI18n}
         updateDatesFilter={updateDatesFilter}
         inputValues={inputValues}
         updateFilter={updateFilter}

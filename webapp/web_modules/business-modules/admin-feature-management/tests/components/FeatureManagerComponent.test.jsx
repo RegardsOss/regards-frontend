@@ -110,14 +110,15 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       onNotifyRequests: props.onNotifyRequests,
       onRetryRequests: props.onRetryRequests,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties and callbacks')
     let filterComponent = enzymeWrapper.find(ReferenceManagerFiltersComponent)
     assert.lengthOf(filterComponent, 1, 'ReferenceManagerFiltersComponent should be set')
     testSuiteHelpers.assertWrapperProperties(filterComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isFilterPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
-      filtersActions,
-      filtersSelectors,
     }, 'Component should define the expected properties and callbacks')
     let tableComponent = enzymeWrapper.find(ReferencesManagerComponent)
     assert.lengthOf(tableComponent, 1, 'ReferenceManagerFiltersComponent should be set')
@@ -145,6 +146,9 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       onNotifyRequests: props.onNotifyRequests,
       onRetryRequests: props.onRetryRequests,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties and callbacks')
     filterComponent = enzymeWrapper.find(ReferenceManagerFiltersComponent)
     assert.lengthOf(filterComponent, 0, 'ReferenceManagerFiltersComponent should not be set')
@@ -155,8 +159,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
     testSuiteHelpers.assertWrapperProperties(requestFilterComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isFilterPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
-      filtersActions,
-      filtersSelectors,
     }, 'Component should define the expected properties and callbacks')
     requestComponent = enzymeWrapper.find(RequestManagerComponent)
     assert.lengthOf(requestComponent, 1, 'RequestManagerComponent should be set')
@@ -180,6 +182,9 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       onNotifyRequests: props.onNotifyRequests,
       onRetryRequests: props.onRetryRequests,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties and callbacks')
     filterComponent = enzymeWrapper.find(ReferenceManagerFiltersComponent)
     assert.lengthOf(filterComponent, 0, 'ReferenceManagerFiltersComponent should not be set')
@@ -190,8 +195,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
     testSuiteHelpers.assertWrapperProperties(requestFilterComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isFilterPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
-      filtersActions,
-      filtersSelectors,
     }, 'Component should define the expected properties and callbacks')
     requestComponent = enzymeWrapper.find(RequestManagerComponent)
     assert.lengthOf(requestComponent, 1, 'RequestManagerComponent should be set')
@@ -215,6 +218,9 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       onNotifyRequests: props.onNotifyRequests,
       onRetryRequests: props.onRetryRequests,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties and callbacks')
     filterComponent = enzymeWrapper.find(ReferenceManagerFiltersComponent)
     assert.lengthOf(filterComponent, 0, 'ReferenceManagerFiltersComponent should not be set')
@@ -225,8 +231,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
     testSuiteHelpers.assertWrapperProperties(requestFilterComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isFilterPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
-      filtersActions,
-      filtersSelectors,
     }, 'Component should define the expected properties and callbacks')
     requestComponent = enzymeWrapper.find(RequestManagerComponent)
     assert.lengthOf(requestComponent, 1, 'RequestManagerComponent should be set')
@@ -250,6 +254,9 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       onNotifyRequests: props.onNotifyRequests,
       onRetryRequests: props.onRetryRequests,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties and callbacks')
     filterComponent = enzymeWrapper.find(ReferenceManagerFiltersComponent)
     assert.lengthOf(filterComponent, 0, 'ReferenceManagerFiltersComponent should not be set')
@@ -260,8 +267,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
     testSuiteHelpers.assertWrapperProperties(requestFilterComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isFilterPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
-      filtersActions,
-      filtersSelectors,
     }, 'Component should define the expected properties and callbacks')
     requestComponent = enzymeWrapper.find(RequestManagerComponent)
     assert.lengthOf(requestComponent, 1, 'RequestManagerComponent should be set')

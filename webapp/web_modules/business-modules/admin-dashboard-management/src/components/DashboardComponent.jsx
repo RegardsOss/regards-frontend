@@ -236,6 +236,7 @@ class DashboardComponent extends React.Component {
           updateRequestParameters={this.updateRequestParameters}
           filtersActions={filtersActions}
           filtersSelectors={filtersSelectors}
+          filtersI18n={FILTERS_I18N}
           ignoredURLParameters={[ENTITY_ENUM.SOURCE, ENTITY_ENUM.SESSION]}
         />
         <CardText style={cardTextField}>

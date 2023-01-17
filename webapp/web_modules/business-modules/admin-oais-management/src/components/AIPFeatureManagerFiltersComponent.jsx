@@ -19,9 +19,10 @@
 import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
 import MenuItem from 'material-ui/MenuItem'
-import { DamDomain, IngestDomain } from '@regardsoss/domain'
+import { DamDomain, IngestDomain, CommonDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { UIShapes } from '@regardsoss/shape'
 import {
   FilterPaneAutoCompleteField, withFiltersPane, TableFilterSortingAndVisibilityContainer, FiltersPaneMainComponent,
   FilterPaneDatePickerField, FilterPaneSelectFieldLegacy, FilterPaneTextFieldValues, FilterPaneSelectField,
@@ -29,7 +30,7 @@ import {
 import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../clients/SearchSessionsClient'
 import { VERSION_OPTIONS } from '../domain/versionOptions'
-import { FILTER_PARAMS, FILTERS_I18N } from '../domain/filters'
+import { FILTER_PARAMS } from '../domain/filters'
 
 /**
  * AIP Feature manager filters component.
@@ -42,6 +43,7 @@ export class AIPFeatureManagerFiltersComponent extends React.Component {
     updateDatesFilter: PropTypes.func.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     storages: PropTypes.arrayOf(PropTypes.string),
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
@@ -56,11 +58,11 @@ export class AIPFeatureManagerFiltersComponent extends React.Component {
   static DEFAULT_FILTERS_STATE = {
     [FILTER_PARAMS.SOURCE]: '',
     [FILTER_PARAMS.SESSION]: '',
-    [FILTER_PARAMS.PROVIDER_IDS]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [FILTER_PARAMS.LAST_UPDATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
-    [FILTER_PARAMS.AIP_IP_TYPE]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [FILTER_PARAMS.AIP_STATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [FILTER_PARAMS.STORAGES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+    [FILTER_PARAMS.AIP_IP_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [FILTER_PARAMS.AIP_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [FILTER_PARAMS.STORAGES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
     [FILTER_PARAMS.LAST]: null,
   }
 
@@ -68,6 +70,7 @@ export class AIPFeatureManagerFiltersComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     const {
       updateFilter, inputValues, storages, updateValuesFilter, updateDatesFilter,
+      filtersI18n,
     } = this.props
     return (
       <FiltersPaneMainComponent
@@ -75,7 +78,7 @@ export class AIPFeatureManagerFiltersComponent extends React.Component {
         inputValues={inputValues}
         updateValuesFilter={updateValuesFilter}
         updateDatesFilter={updateDatesFilter}
-        filters18n={FILTERS_I18N}
+        filtersI18n={filtersI18n}
       >
         <FilterPaneDatePickerField
           filterKey={FILTER_PARAMS.LAST_UPDATE}

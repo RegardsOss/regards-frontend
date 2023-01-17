@@ -30,7 +30,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class FilterPaneCheckboxField extends React.Component {
   static propTypes = {
-    filters18n: UIShapes.Filtersi18nList,
+    filtersI18n: UIShapes.FiltersI18nList,
     filterKey: PropTypes.string.isRequired,
     updateFilter: PropTypes.func,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
@@ -50,13 +50,13 @@ class FilterPaneCheckboxField extends React.Component {
 
   render() {
     const {
-      filters18n, inputValues, filterKey, updateFilter, uiValue,
+      filtersI18n, inputValues, filterKey, updateFilter, uiValue,
     } = this.props
     const { intl: { formatMessage } } = this.context
     const filterValue = uiValue || !inputValues[filterKey]
     return (
       <FiltersPaneLineComponent
-        label={formatMessage({ id: filters18n[filterKey].labelKey })}
+        label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
       >
         <Checkbox
           checked={!!inputValues[filterKey]}

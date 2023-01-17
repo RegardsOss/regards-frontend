@@ -39,6 +39,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing user account filters componen
       inputValues: {},
       updateFilter: () => { },
       isPaneOpened: false,
+      filtersI18n: FILTERS_I18N,
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainListFiltersComponent {...props} />, { context })
     const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
@@ -46,7 +47,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing user account filters componen
     testSuiteHelpers.assertWrapperProperties(mainComponent, {
       updateFilter: props.updateFilter,
       inputValues: props.inputValues,
-      filters18n: FILTERS_I18N,
+      filtersI18n: props.filtersI18n,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(FilterPaneSelectFieldLegacy), 2, 'There should be 2 FilterPaneSelectFieldLegacy')
     assert.lengthOf(enzymeWrapper.find(FilterPaneTextField), 1, 'There should be 1 FilterPaneTextField')

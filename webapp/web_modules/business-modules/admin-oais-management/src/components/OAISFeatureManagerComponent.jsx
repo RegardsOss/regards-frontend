@@ -25,7 +25,7 @@ import {
   Breadcrumb, TableHeaderLine, CardHeaderActions, TableFilterSortingAndVisibilityContainer,
   TableLayout, FiltersChipsContainer,
 } from '@regardsoss/components'
-import { IngestDomain } from '@regardsoss/domain'
+import { IngestDomain, CommonDomain } from '@regardsoss/domain'
 import PageView from 'mdi-material-ui/CardSearch'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -138,15 +138,13 @@ class OAISFeatureManagerComponent extends React.Component {
     if (paneType === IngestDomain.REQUEST_TYPES_ENUM.AIP) {
       return [
         <AIPFeatureManagerFiltersComponent
-          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+          key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
           isPaneOpened={isFilterPaneOpened}
           onCloseFiltersPane={this.handleFiltersPane}
-          filtersActions={filtersActions}
-          filtersSelectors={filtersSelectors}
           storages={storages}
         />,
         <OAISPackageManagerComponent
-          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+          key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
           isLoading={isLoading}
           paneType={paneType}
         />,
@@ -154,14 +152,12 @@ class OAISFeatureManagerComponent extends React.Component {
     }
     return [
       <RequestsFeatureManagerFiltersComponent
-        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+        key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
         isPaneOpened={isFilterPaneOpened}
         onCloseFiltersPane={this.handleFiltersPane}
-        filtersActions={filtersActions}
-        filtersSelectors={filtersSelectors}
       />,
       <OAISRequestManagerComponent
-        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+        key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
         isLoading={isLoading}
         paneType={paneType}
         modeSelectionAllowed={modeSelectionAllowed}
@@ -215,6 +211,9 @@ class OAISFeatureManagerComponent extends React.Component {
               onAbortRequests={onAbortRequests}
               onSelectVersionOption={onSelectVersionOption}
               onModifyAip={onModifyAip}
+              filtersActions={filtersActions}
+              filtersSelectors={filtersSelectors}
+              filtersI18n={FILTERS_I18N}
             >
               {this.getDisplayComponents(paneType)}
             </TableFilterSortingAndVisibilityContainer>

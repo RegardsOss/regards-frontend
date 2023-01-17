@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import IconButton from 'material-ui/IconButton'
 import {
-  TableFilterSortingAndVisibilityContainer, CardHeaderActions, FiltersChipsContainer,
+  TableFilterSortingAndVisibilityAndChipsComponent, CardHeaderActions,
   HelpMessageComponent,
 } from '@regardsoss/components'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
@@ -67,19 +67,12 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
       secondaryButtonClick: enzymeWrapper.instance().handleFiltersPane,
       thirdButtonClick: props.onBack,
     })
-    const chipsContainer = enzymeWrapper.find(FiltersChipsContainer)
-    assert.lengthOf(chipsContainer, 1, 'FiltersChipsContainer should be set')
-    testSuiteHelpers.assertWrapperProperties(chipsContainer, {
-      filtersActions,
-      filtersSelectors,
-      filtersI18n: FILTERS_I18N,
-    })
     const iconButton = enzymeWrapper.find(IconButton)
     assert.lengthOf(iconButton, 1, 'IconButton should be set')
     const helpMessageComponent = enzymeWrapper.find(HelpMessageComponent)
     assert.lengthOf(helpMessageComponent, 1, 'HelpMessageComponent should be set')
-    const tableVisibilityComponent = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
-    assert.lengthOf(tableVisibilityComponent, 1, 'TableFilterSortingAndVisibilityContainer should be set')
+    const tableVisibilityComponent = enzymeWrapper.find(TableFilterSortingAndVisibilityAndChipsComponent)
+    assert.lengthOf(tableVisibilityComponent, 1, 'TableFilterSortingAndVisibilityAndChipsComponent should be set')
     testSuiteHelpers.assertWrapperProperties(tableVisibilityComponent, {
       pageActions: accountActions,
       pageSelectors: accountSelectors,
@@ -88,6 +81,9 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
       onEnable: props.onEnable,
       onDelete: props.onDelete,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties and callbacks')
     const filterComponent = enzymeWrapper.find(AccountFiltersComponent)
     assert.lengthOf(filterComponent, 1, 'AccountFiltersComponent should be set')
@@ -96,8 +92,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
       origins: props.origins,
       projects: props.projects,
-      filtersActions,
-      filtersSelectors,
     }, 'Component should define the expected properties and callbacks')
     const tableComponent = enzymeWrapper.find(AccountTableListComponent)
     assert.lengthOf(tableComponent, 1, 'AccountTableListComponent should be set')

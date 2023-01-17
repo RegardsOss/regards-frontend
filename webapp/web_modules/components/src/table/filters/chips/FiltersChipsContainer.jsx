@@ -20,8 +20,8 @@ import compose from 'lodash/fp/compose'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { connect } from '@regardsoss/redux'
-import { AdminClient } from '@regardsoss/client'
 import { BasicSelector } from '@regardsoss/store-utils'
+import { FiltersActions } from '@regardsoss/components'
 import FiltersChipsComponent from './FiltersChipsComponent'
 import messages from '../../i18n'
 import styles from '../../styles'
@@ -32,7 +32,7 @@ import styles from '../../styles'
 export class FiltersChipsContainer extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    filtersActions: PropTypes.instanceOf(AdminClient.FiltersActions).isRequired,
+    filtersActions: PropTypes.instanceOf(FiltersActions).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     filtersSelectors: PropTypes.instanceOf(BasicSelector).isRequired,
     // eslint-disable-next-line react/forbid-prop-types

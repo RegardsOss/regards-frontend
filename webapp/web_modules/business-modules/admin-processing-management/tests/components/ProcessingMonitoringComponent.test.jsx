@@ -21,11 +21,10 @@ import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext, DumpProvider } from '@regardsoss/tests-helpers'
 import {
   CardActionsComponent,
-  TableFilterSortingAndVisibilityContainer,
+  TableFilterSortingAndVisibilityAndChipsComponent,
   CardHeaderActions,
 } from '@regardsoss/components'
 import ProcessingMonitoringComponent from '../../src/components/ProcessingMonitoringComponent'
-import ProcessingMonitoringChipsComponent from '../../src/components/ProcessingMonitoringChipsComponent'
 import ProcessingMonitoringFiltersComponent from '../../src/components/monitoring/ProcessingMonitoringFiltersComponent'
 import ProcessingMonitoringTableComponent from '../../src/components/ProcessingMonitoringTableComponent'
 import { processingMonitoringActions, processingMonitoringSelectors } from '../../src/clients/ProcessingMonitoringClient'
@@ -46,7 +45,7 @@ describe('[ADMIN PROCESSING MANAGEMENT] Testing ProcessingMonitoring component',
     assert.isDefined(ProcessingMonitoringComponent)
     assert.isDefined(CardActionsComponent)
     assert.isDefined(ProcessingMonitoringFiltersComponent)
-    assert.isDefined(TableFilterSortingAndVisibilityContainer)
+    assert.isDefined(TableFilterSortingAndVisibilityAndChipsComponent)
     assert.isDefined(ProcessingMonitoringTableComponent)
   })
 
@@ -72,19 +71,15 @@ describe('[ADMIN PROCESSING MANAGEMENT] Testing ProcessingMonitoring component',
       secondaryButtonClick: enzymeWrapper.instance().handleFiltersPane,
       thirdButtonClick: props.onBack,
     })
-    const chipsComponent = enzymeWrapper.find(ProcessingMonitoringChipsComponent)
-    assert.lengthOf(chipsComponent, 1, 'ProcessingMonitoringChipsComponent should be set')
-    testSuiteHelpers.assertWrapperProperties(chipsComponent, {
-      filtersActions,
-      filtersSelectors,
-      processingList: props.processingList,
-    })
-    const tableVisibilityComponent = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
-    assert.lengthOf(tableVisibilityComponent, 1, 'TableFilterSortingAndVisibilityContainer should be set')
+    const tableVisibilityComponent = enzymeWrapper.find(TableFilterSortingAndVisibilityAndChipsComponent)
+    assert.lengthOf(tableVisibilityComponent, 1, 'TableFilterSortingAndVisibilityAndChipsComponent should be set')
     testSuiteHelpers.assertWrapperProperties(tableVisibilityComponent, {
       pageActions: processingMonitoringActions,
       pageSelectors: processingMonitoringSelectors,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: enzymeWrapper.instance().buildFiltersI18n(),
     }, 'Component should define the expected properties and callbacks')
     const filterComponent = enzymeWrapper.find(ProcessingMonitoringFiltersComponent)
     assert.lengthOf(filterComponent, 1, 'ProcessingMonitoringFiltersComponent should be set')
@@ -92,8 +87,6 @@ describe('[ADMIN PROCESSING MANAGEMENT] Testing ProcessingMonitoring component',
       isPaneOpened: enzymeWrapper.instance().state.isPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
       processingList: props.processingList,
-      filtersActions,
-      filtersSelectors,
     }, 'Component should define the expected properties and callbacks')
     const tableComponent = enzymeWrapper.find(ProcessingMonitoringTableComponent)
     assert.lengthOf(tableComponent, 1, 'ProcessingMonitoringTableComponent should be set')

@@ -22,9 +22,10 @@ import map from 'lodash/map'
 import clone from 'lodash/clone'
 import omit from 'lodash/omit'
 import { connect } from '@regardsoss/redux'
+import { UIShapes } from '@regardsoss/shape'
 import { CommonDomain } from '@regardsoss/domain'
-import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
-import TableSelectionModes from '../model/TableSelectionModes'
+import { FiltersActions } from '@regardsoss/components'
+import { BasicPageableSelectors, BasicPageableActions, BasicSelector } from '@regardsoss/store-utils'
 
 /**
  * Container that provides table sorting, column visiblity & filters management
@@ -43,6 +44,12 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     updateRefreshParameters: PropTypes.func.isRequired,
     isPagePostFetching: PropTypes.bool,
+    // eslint-disable-next-line react/no-unused-prop-types
+    filtersActions: PropTypes.instanceOf(FiltersActions).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    filtersSelectors: PropTypes.instanceOf(BasicSelector).isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
     // from mapStateToProps
     pageMeta: PropTypes.shape({
       number: PropTypes.number,
@@ -66,11 +73,6 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE
 
-  static COMPONENT_TYPE = {
-    FILTER: 'FILTER',
-    COMPONENT: 'COMPONENT',
-  }
-
   /** List of locally consumed properties, others properties will be proxyfied to inject onRefresh function as the last param */
   static NON_REPORTED_PROPS = ['children', 'pageActions', 'pageSelectors', 'defaultFiltersState', 'pageMeta', 'fetchPagedEntityList', 'i18n', 'theme']
 
@@ -90,16 +92,6 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
 
   // eslint-disable-next-line react/forbid-prop-types
   static FILTERS_PROP_TYPE = PropTypes.object
-
-  static DEFAULT_DATES_RESTRICTION_STATE = {
-    [CommonDomain.REQUEST_PARAMETERS.AFTER]: null,
-    [CommonDomain.REQUEST_PARAMETERS.BEFORE]: null,
-  }
-
-  static DEFAULT_VALUES_RESTRICTION_STATE = {
-    [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
-    [CommonDomain.REQUEST_PARAMETERS.VALUES]: [],
-  }
 
   /**
    * Redux: map state to props function
@@ -225,7 +217,9 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
   }
 
   render() {
-    const { children, isPagePostFetching } = this.props
+    const {
+      children, isPagePostFetching, filtersActions, filtersSelectors, filtersI18n,
+    } = this.props
     const {
       requestParameters,
       columnsVisibility,
@@ -234,7 +228,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     // render only the childrens
     return (
       React.Children.map(children, (child) => {
-        if (child.key === TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT) {
+        if (child.key === CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT) {
           return React.cloneElement(child, {
             ...child.props,
             ...this.getProxyfiedFunc(newPropsToProxy),
@@ -247,10 +241,13 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
             bodyParameters: isPagePostFetching ? omit(requestParameters, 'sort') : {},
             columnsVisibility,
           })
-        } if (child.key === TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER) {
+        } if (child.key === CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER) {
           return React.cloneElement(child, {
             ...child.props,
             updateRequestParameters: this.updateRequestParameters,
+            filtersActions,
+            filtersSelectors,
+            filtersI18n,
           })
         }
         return null

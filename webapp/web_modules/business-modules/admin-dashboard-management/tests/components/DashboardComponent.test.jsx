@@ -77,6 +77,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       updateRequestParameters: enzymeWrapper.instance().updateRequestParameters,
       filtersActions,
       filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties')
 
     const filterChipWrapper = enzymeWrapper.find(FiltersChipsContainer)

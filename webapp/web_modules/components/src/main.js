@@ -128,6 +128,9 @@ export { default as TableColumnsVisibilityOption } from './table/content/columns
 export { default as TableHeaderAutoCompleteFilter } from './table/header/TableHeaderAutoCompleteFilter'
 export { default as TableHeaderAutoCompleteFilterContainer } from './table/header/TableHeaderAutoCompleteFilterContainer'
 export { default as TableHeaderCheckbox } from './table/header/TableHeaderCheckbox'
+export { default as FiltersActions } from './table/filters/clients/FiltersActions'
+export { default as getFiltersReducer } from './table/filters/clients/FiltersReducer'
+export { default as getFiltersSelectors } from './table/filters/clients/FiltersSelectors'
 
 export { default as TableHeaderContentBox } from './table/header/TableHeaderContentBox'
 export { default as TableHeaderLine } from './table/header/TableHeaderLine'
@@ -146,6 +149,7 @@ export { default as TableSimpleActionOption } from './table/content/cells/option
 export { default as TableSelectionModes } from './table/model/TableSelectionModes'
 export { default as TableStyles } from './table/styles/styles'
 export { default as TableFilterSortingAndVisibilityContainer } from './table/filters/TableFilterSortingAndVisibilityContainer'
+export { default as TableFilterSortingAndVisibilityAndChipsComponent } from './table/filters/TableFilterSortingAndVisibilityAndChipsComponent'
 export { default as FiltersChipsContainer } from './table/filters/chips/FiltersChipsContainer'
 export { default as FiltersPaneContainer } from './table/filters/pane/FiltersPaneContainer'
 export { default as FiltersPaneComponent } from './table/filters/pane/FiltersPaneComponent'

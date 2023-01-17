@@ -102,6 +102,9 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
       onAbortRequests: props.onAbortRequests,
       onSelectVersionOption: props.onSelectVersionOption,
       onModifyAip: props.onModifyAip,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties and callbacks')
 
     let aipFiltersComponent = enzymeWrapper.find(AIPFeatureManagerFiltersComponent)
@@ -109,8 +112,6 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
     testSuiteHelpers.assertWrapperProperties(aipFiltersComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isFilterPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
-      filtersActions,
-      filtersSelectors,
       storages: props.storages,
     })
     let packageComponent = enzymeWrapper.find(OAISPackageManagerComponent)
@@ -142,6 +143,9 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
       onAbortRequests: props.onAbortRequests,
       onSelectVersionOption: props.onSelectVersionOption,
       onModifyAip: props.onModifyAip,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties and callbacks')
 
     aipFiltersComponent = enzymeWrapper.find(AIPFeatureManagerFiltersComponent)
@@ -153,8 +157,6 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
     testSuiteHelpers.assertWrapperProperties(requestFiltersComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isFilterPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
-      filtersActions,
-      filtersSelectors,
     })
     requestComponent = enzymeWrapper.find(OAISRequestManagerComponent)
     assert.lengthOf(requestComponent, 1, 'OAISRequestManagerComponent should be set')

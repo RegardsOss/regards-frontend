@@ -16,21 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
+import reduce from 'lodash/reduce'
+import get from 'lodash/get'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   CardHeaderActions,
-  TableFilterSortingAndVisibilityContainer,
+  TableFilterSortingAndVisibilityAndChipsComponent,
 } from '@regardsoss/components'
 import Card from 'material-ui/Card'
 import CardText from 'material-ui/Card/CardText'
 import { ProcessingShapes } from '@regardsoss/shape'
+import { CommonDomain } from '@regardsoss/domain'
 import { processingMonitoringActions, processingMonitoringSelectors } from '../clients/ProcessingMonitoringClient'
 import ProcessingMonitoringFiltersComponent from './monitoring/ProcessingMonitoringFiltersComponent'
 import ProcessingMonitoringTableComponent from './ProcessingMonitoringTableComponent'
-import ProcessingMonitoringChipsComponent from './ProcessingMonitoringChipsComponent'
 import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
+import { FILTERS_I18N, FILTER_PARAMS } from '../domain/filters'
 
 /**
  * Component to monitor processing in project
@@ -54,6 +56,7 @@ export class ProcessingMonitoringComponent extends React.Component {
   state = {
     isPaneOpened: false,
     currentRequestParameters: {},
+    filtersI18n: FILTERS_I18N,
   }
 
   onRefresh = () => {
@@ -72,6 +75,21 @@ export class ProcessingMonitoringComponent extends React.Component {
   updateRefreshParameters = (requestParameters) => {
     this.setState({
       currentRequestParameters: requestParameters,
+    })
+  }
+
+  buildFiltersI18n = () => {
+    const { processingList } = this.props
+    const { filtersI18n } = this.state
+    return ({
+      ...filtersI18n,
+      [FILTER_PARAMS.PROCESS_BID]: {
+        labelKey: FILTERS_I18N[FILTER_PARAMS.PROCESS_BID].labelKey,
+        chipValueKeys: reduce(processingList, (acc, process) => ({
+          ...acc,
+          [get(process, 'content.pluginConfiguration.businessId')]: get(process, 'content.pluginConfiguration.label'),
+        }), {}),
+      },
     })
   }
 
@@ -96,32 +114,28 @@ export class ProcessingMonitoringComponent extends React.Component {
           thirdButtonClick={onBack}
         />
         <CardText>
-          <ProcessingMonitoringChipsComponent
-            filtersActions={filtersActions}
-            filtersSelectors={filtersSelectors}
-            processingList={processingList}
-          />
-          <TableFilterSortingAndVisibilityContainer
+          <TableFilterSortingAndVisibilityAndChipsComponent
             pageActions={processingMonitoringActions}
             pageSelectors={processingMonitoringSelectors}
             isPagePostFetching
             updateRefreshParameters={this.updateRefreshParameters}
+            filtersActions={filtersActions}
+            filtersSelectors={filtersSelectors}
+            filtersI18n={this.buildFiltersI18n()}
           >
             <ProcessingMonitoringFiltersComponent
-              key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+              key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
               isPaneOpened={isPaneOpened}
               onCloseFiltersPane={this.handleFiltersPane}
-              filtersActions={filtersActions}
-              filtersSelectors={filtersSelectors}
               processingList={processingList}
             />
             <ProcessingMonitoringTableComponent
-              key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+              key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
               project={project}
               entitiesLoading={entitiesLoading}
               resultsCount={resultsCount}
             />
-          </TableFilterSortingAndVisibilityContainer>
+          </TableFilterSortingAndVisibilityAndChipsComponent>
         </CardText>
       </Card>
     )

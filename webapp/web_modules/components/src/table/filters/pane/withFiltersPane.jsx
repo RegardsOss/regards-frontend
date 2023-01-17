@@ -17,11 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { getDisplayName } from '@regardsoss/display-control'
-import { AdminClient } from '@regardsoss/client'
+import { UIShapes } from '@regardsoss/shape'
 import { BasicSelector } from '@regardsoss/store-utils'
-import {
-  FiltersPaneContainer,
-} from '@regardsoss/components'
+import { FiltersPaneContainer, FiltersActions } from '@regardsoss/components'
 /**
  * Decorates a React component, add filter pane management.
  *
@@ -39,8 +37,9 @@ const withFiltersPane = (defaultFiltersState) => (DecoratedComponent) => {
       onCloseFiltersPane: PropTypes.func.isRequired,
       updateRequestParameters: PropTypes.func,
       ignoredURLParameters: PropTypes.arrayOf(PropTypes.string),
-      filtersActions: PropTypes.instanceOf(AdminClient.FiltersActions).isRequired,
-      filtersSelectors: PropTypes.instanceOf(BasicSelector).isRequired,
+      filtersActions: PropTypes.instanceOf(FiltersActions),
+      filtersSelectors: PropTypes.instanceOf(BasicSelector),
+      filtersI18n: UIShapes.FiltersI18nList,
     }
 
     static displayName = `WithFiltersPane(${getDisplayName(DecoratedComponent)})`
@@ -48,7 +47,7 @@ const withFiltersPane = (defaultFiltersState) => (DecoratedComponent) => {
     render() {
       const {
         isPaneOpened, onCloseFiltersPane, updateRequestParameters, filtersActions,
-        filtersSelectors, ignoredURLParameters, ...otherProps
+        filtersI18n, filtersSelectors, ignoredURLParameters, ...otherProps
       } = this.props
       return (
         <FiltersPaneContainer
@@ -60,6 +59,7 @@ const withFiltersPane = (defaultFiltersState) => (DecoratedComponent) => {
           updateRequestParameters={updateRequestParameters}
           filtersActions={filtersActions}
           filtersSelectors={filtersSelectors}
+          filtersI18n={filtersI18n}
           filtersComponentProps={otherProps}
         />
       )

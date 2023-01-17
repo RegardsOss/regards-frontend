@@ -19,24 +19,17 @@
 import omitBy from 'lodash/omitBy'
 import isNil from 'lodash/isNil'
 import get from 'lodash/get'
-import { BasicReducer } from '@regardsoss/store-utils'
 import FiltersActions from './FiltersActions'
 
-export class FiltersReducer extends BasicReducer {
-  static DEFAULT_STATE = {
-    filters: {},
-  }
+export class FiltersReducer {
+  static DEFAULT_STATE = {}
 
-  constructor(namespace) {
-    super(new FiltersActions(namespace))
+  constructor(filterActions) {
+    this.filterActions = filterActions
     this.defaultState = FiltersReducer.DEFAULT_STATE
   }
 
   reduce(state = this.defaultState, action) {
-    if (this.isCancelled(state, action)) {
-      return state
-    }
-    const nextState = super.reduce(state, action)
     const filters = get(action, 'filters', {})
     switch (action.type) {
       case FiltersActions.SIGNALS.UPDATE_FILTERS:
@@ -48,7 +41,7 @@ export class FiltersReducer extends BasicReducer {
           filters: {},
         }
       default:
-        return nextState
+        return state
     }
   }
 }

@@ -20,13 +20,15 @@ import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { CommonDomain } from '@regardsoss/domain'
+import { UIShapes } from '@regardsoss/shape'
 import {
   FilterPaneDatePickerField, FilterPaneAutoCompleteField, FilterPaneSelectFieldLegacy,
   withFiltersPane, FiltersPaneMainComponent, FilterPaneTextFieldValues, TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
-import { FILTER_PARAMS, FILTERS_I18N } from '../../domain/filters'
+import { FILTER_PARAMS } from '../../domain/filters'
 import { DISSEMINATION_PENDING_VALUES } from '../../domain/DisseminationStatus'
 
 /**
@@ -39,6 +41,7 @@ export class ReferenceManagerFiltersComponent extends React.Component {
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     updateValuesFilter: PropTypes.func.isRequired,
     updateDatesFilter: PropTypes.func.isRequired,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
@@ -53,19 +56,19 @@ export class ReferenceManagerFiltersComponent extends React.Component {
   static DEFAULT_FILTERS_STATE = {
     [FILTER_PARAMS.SOURCE]: '',
     [FILTER_PARAMS.SESSION]: '',
-    [FILTER_PARAMS.PROVIDER_IDS]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [FILTER_PARAMS.LAST_UPDATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
+    [FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
     [FILTER_PARAMS.DISSEMINATION_PENDING]: null,
   }
 
   render() {
     const {
-      updateFilter, inputValues, updateValuesFilter, updateDatesFilter,
+      updateFilter, inputValues, updateValuesFilter, updateDatesFilter, filtersI18n,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <FiltersPaneMainComponent
-        filters18n={FILTERS_I18N}
+        filtersI18n={filtersI18n}
         updateDatesFilter={updateDatesFilter}
         updateFilter={updateFilter}
         updateValuesFilter={updateValuesFilter}

@@ -20,8 +20,8 @@ import map from 'lodash/map'
 import includes from 'lodash/includes'
 import keys from 'lodash/keys'
 import { MenuItem } from 'material-ui/Menu'
-import { OrderDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
+import { OrderDomain, CommonDomain } from '@regardsoss/domain'
+import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
@@ -29,7 +29,7 @@ import {
   withFiltersPane, FilterPaneSelectField, FiltersPaneMainComponent,
   FilterPaneSelectFieldLegacy, FilterPaneDatePickerField,
 } from '@regardsoss/components'
-import { FILTER_PARAMS, FILTERS_I18N } from '../domain/filters'
+import { FILTER_PARAMS } from '../domain/filters'
 import { WAITING_FOR_USER_ENUM } from '../domain/waitingForUserFilterValues'
 
 /**
@@ -45,6 +45,7 @@ export class OrderListFiltersComponent extends React.Component {
     updateDatesFilter: PropTypes.func.isRequired,
     updateValuesFilter: PropTypes.func.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
   }
 
   static contextTypes = {
@@ -54,8 +55,8 @@ export class OrderListFiltersComponent extends React.Component {
 
   static DEFAULT_FILTERS_STATE = {
     [FILTER_PARAMS.OWNER]: '',
-    [FILTER_PARAMS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
-    [FILTER_PARAMS.STATUSES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+    [FILTER_PARAMS.STATUSES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
     [FILTER_PARAMS.WAITING_FOR_USER]: null,
   }
 
@@ -104,6 +105,7 @@ export class OrderListFiltersComponent extends React.Component {
   render() {
     const {
       updateFilter, inputValues, updateDatesFilter, updateValuesFilter, matchingUsers, isFetching,
+      filtersI18n,
     } = this.props
     const { isInError } = this.state
     const { intl: { formatMessage } } = this.context
@@ -113,7 +115,7 @@ export class OrderListFiltersComponent extends React.Component {
         updateDatesFilter={updateDatesFilter}
         updateValuesFilter={updateValuesFilter}
         inputValues={inputValues}
-        filters18n={FILTERS_I18N}
+        filtersI18n={filtersI18n}
       >
         <FilterPaneDatePickerField filterKey={FILTER_PARAMS.CREATION_DATE} />
         <FilterPaneAutoCompleteFieldLegacy

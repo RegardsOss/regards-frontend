@@ -32,7 +32,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class FilterPaneDatePickerField extends React.Component {
   static propTypes = {
-    filters18n: UIShapes.Filtersi18nList,
+    filtersI18n: UIShapes.FiltersI18nList,
     filterKey: PropTypes.string.isRequired,
     updateDatesFilter: PropTypes.func,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
@@ -60,12 +60,12 @@ class FilterPaneDatePickerField extends React.Component {
 
   render() {
     const {
-      filters18n, updateDatesFilter, filterKey, inputValues, multiline, displayTime,
+      filtersI18n, updateDatesFilter, filterKey, inputValues, multiline, displayTime,
     } = this.props
     const { intl: { formatMessage, locale } } = this.context
     return (
       <FiltersPaneLineComponent
-        label={formatMessage({ id: filters18n[filterKey].labelKey })}
+        label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
         multiline={multiline}
       >
         <DatePickerField

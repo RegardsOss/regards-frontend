@@ -37,6 +37,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Dashboard Filters', () => {
       requestParameters: { },
       updateFilter: () => { },
       updateRequestParameters: () => { },
+      filtersI18n: FILTERS_I18N,
     }
     const enzymeWrapper = shallow(<DashboardFiltersComponent {...props} />, { context })
     const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
@@ -44,7 +45,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Dashboard Filters', () => {
     testSuiteHelpers.assertWrapperProperties(mainComponent, {
       updateFilter: props.updateFilter,
       inputValues: props.inputValues,
-      filters18n: FILTERS_I18N,
+      filtersI18n: props.filtersI18n,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(FilterPaneAutoCompleteField), 2, 'There should be 2 FilterPaneAutoCompleteField')
     assert.lengthOf(enzymeWrapper.find(FilterPaneSelectFieldLegacy), 2, 'There should be 2 FilterPaneSelectFieldLegacy')

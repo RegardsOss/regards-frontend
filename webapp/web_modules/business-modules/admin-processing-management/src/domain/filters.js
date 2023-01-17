@@ -50,7 +50,7 @@ export const FILTERS_I18N = {
   },
   [FILTER_PARAMS.PROCESS_BID]: {
     labelKey: 'processing.monitoring.filters.processBusinessId.label',
-    // chipValueKeys are built in ProcessingMonitoringChipsComponent
+    // chipValueKeys are built in ProcessingMonitoringComponent
   },
   [FILTER_PARAMS.STATUS]: {
     labelKey: 'processing.monitoring.filters.status.label',

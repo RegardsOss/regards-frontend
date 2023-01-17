@@ -47,6 +47,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user quota filters component', 
         quotaWarningCount: 150,
         rateWarningCount: 5,
       },
+      filtersI18n: FILTERS_I18N,
     }
     const enzymeWrapper = shallow(<ProjectUserQuotaFiltersComponent {...props} />, { context })
     const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
@@ -54,7 +55,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user quota filters component', 
     testSuiteHelpers.assertWrapperProperties(mainComponent, {
       updateFilter: props.updateFilter,
       inputValues: props.inputValues,
-      filters18n: FILTERS_I18N,
+      filtersI18n: props.filtersI18n,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(FilterPaneTextField), 3, 'There should be 2 FilterPaneTextField')
     assert.lengthOf(enzymeWrapper.find(FilterPaneCheckboxField), 1, 'There should be 1 FilterPaneCheckboxField')

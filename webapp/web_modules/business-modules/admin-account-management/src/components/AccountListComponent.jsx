@@ -25,10 +25,10 @@ import IconButton from 'material-ui/IconButton'
 import { AdminInstanceShapes, AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { CommonDomain } from '@regardsoss/domain'
 import {
-  TableFilterSortingAndVisibilityContainer,
+  TableFilterSortingAndVisibilityAndChipsComponent,
   HelpMessageComponent, CardHeaderActions,
-  FiltersChipsContainer,
 } from '@regardsoss/components'
 import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
 import { accountActions, accountSelectors } from '../clients/AccountClient'
@@ -118,11 +118,6 @@ export class AccountListComponent extends React.Component {
           useAlternateStyle
         />
         <CardText>
-          <FiltersChipsContainer
-            filtersActions={filtersActions}
-            filtersSelectors={filtersSelectors}
-            filtersI18n={FILTERS_I18N}
-          />
           <div style={waitingAccountsMessage}>
             <IconButton
               onClick={onFilterWaitingAccount}
@@ -138,7 +133,7 @@ export class AccountListComponent extends React.Component {
               message={formatMessage({ id: 'account.list.info.why-cant-remove-account-having-project-user' })}
             />
           </div>
-          <TableFilterSortingAndVisibilityContainer
+          <TableFilterSortingAndVisibilityAndChipsComponent
             pageActions={accountActions}
             pageSelectors={accountSelectors}
             onAccept={onAccept}
@@ -146,24 +141,25 @@ export class AccountListComponent extends React.Component {
             onEnable={onEnable}
             onDelete={onDelete}
             updateRefreshParameters={this.updateRefreshParameters}
+            filtersActions={filtersActions}
+            filtersSelectors={filtersSelectors}
+            filtersI18n={FILTERS_I18N}
           >
             <AccountFiltersComponent
-              key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+              key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
               isPaneOpened={isPaneOpened}
               onCloseFiltersPane={this.handleFiltersPane}
               origins={origins}
               projects={projects}
-              filtersActions={filtersActions}
-              filtersSelectors={filtersSelectors}
             />
             <AccountTableListComponent
-              key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+              key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
               allAccounts={allAccounts}
               isFetchingActions={isFetchingActions}
               isFetching={isFetching}
               onEdit={onEdit}
             />
-          </TableFilterSortingAndVisibilityContainer>
+          </TableFilterSortingAndVisibilityAndChipsComponent>
         </CardText>
       </Card>
     )

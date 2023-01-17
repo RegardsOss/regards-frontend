@@ -19,14 +19,14 @@
 import map from 'lodash/map'
 import { MenuItem } from 'material-ui/IconMenu'
 import { AdminInstanceDomain } from '@regardsoss/domain'
-import { AdminShapes } from '@regardsoss/shape'
+import { AdminShapes, UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableFilterSortingAndVisibilityContainer, withFiltersPane,
   FiltersPaneMainComponent, FilterPaneTextField, FilterPaneSelectFieldLegacy,
 } from '@regardsoss/components'
-import { FILTER_PARAMS, FILTERS_I18N } from '../../domain/filters'
+import { FILTER_PARAMS } from '../../domain/filters'
 
 /**
  * @author Théo Lasserre
@@ -37,6 +37,7 @@ export class AccountFiltersComponent extends React.Component {
     projects: AdminShapes.ProjectList.isRequired,
     updateFilter: PropTypes.func.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
@@ -59,14 +60,14 @@ export class AccountFiltersComponent extends React.Component {
 
   render() {
     const {
-      origins, projects, updateFilter, inputValues,
+      origins, projects, updateFilter, inputValues, filtersI18n,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <FiltersPaneMainComponent
         updateFilter={updateFilter}
         inputValues={inputValues}
-        filters18n={FILTERS_I18N}
+        filtersI18n={filtersI18n}
       >
         <FilterPaneTextField filterKey={FILTER_PARAMS.EMAIL} />
         <FilterPaneTextField filterKey={FILTER_PARAMS.FIRSTNAME} />

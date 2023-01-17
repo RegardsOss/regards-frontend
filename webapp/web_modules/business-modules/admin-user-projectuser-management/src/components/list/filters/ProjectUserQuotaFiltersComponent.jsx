@@ -24,7 +24,7 @@ import {
   FiltersPaneMainComponent,
   FilterPaneTextField, FilterPaneCheckboxField,
 } from '@regardsoss/components'
-import { FILTER_PARAMS, FILTERS_I18N } from '../../../domain/filters'
+import { FILTER_PARAMS } from '../../../domain/filters'
 
 /**
  * @author Théo Lasserre
@@ -34,6 +34,7 @@ export class ProjectUserQuotaFiltersComponent extends React.Component {
     updateFilter: PropTypes.func.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     uiSettings: UIShapes.UISettings.isRequired,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
@@ -54,11 +55,11 @@ export class ProjectUserQuotaFiltersComponent extends React.Component {
 
   render() {
     const {
-      updateFilter, inputValues, uiSettings,
+      updateFilter, inputValues, uiSettings, filtersI18n,
     } = this.props
     return (
       <FiltersPaneMainComponent
-        filters18n={FILTERS_I18N}
+        filtersI18n={filtersI18n}
         updateFilter={updateFilter}
         inputValues={inputValues}
       >

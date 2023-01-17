@@ -18,13 +18,14 @@
  **/
 
 /**
- * A filter i18n definition
  * @author Théo Lasserre
  */
 
-const Filteri18n = PropTypes.shape({
-  labelKey: PropTypes.string.isRequired,
-  hintTextKey: PropTypes.string,
-})
+const COMPONENT_TYPE = {
+  FILTER: 'FILTER',
+  COMPONENT: 'COMPONENT',
+}
 
-export const Filtersi18nList = PropTypes.objectOf(Filteri18n)
+export default {
+  COMPONENT_TYPE,
+}

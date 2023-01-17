@@ -16,18 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicActions } from '@regardsoss/store-utils'
 
-export default class FiltersActions extends BasicActions {
+export default class FiltersActions {
   static SIGNALS = {
     UPDATE_FILTERS: 'UPDATE_FILTERS',
     CLEAR_FILTERS: 'CLEAR_FILTERS',
   }
 
   constructor(namespace) {
-    super({
-      namespace,
-    })
+    this.namespace = namespace
   }
 
   clearFiltersStore() {

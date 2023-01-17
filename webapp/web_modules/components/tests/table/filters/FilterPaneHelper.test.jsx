@@ -19,15 +19,14 @@
 import { assert } from 'chai'
 import { browserHistory } from 'react-router'
 import { UIDomain, CommonDomain } from '@regardsoss/domain'
-import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 
 const DEFAULT_FILTERS_STATE = {
   filter1: '',
   filter2: null,
   filter3: 0,
   filter4: 'test',
-  filter5: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-  filter6: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
+  filter5: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  filter6: CommonDomain.TableFilterDefaultStateEnum.DATES,
 }
 
 describe('[Components] Test FilterPaneHelper', () => {

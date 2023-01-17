@@ -18,9 +18,10 @@
  **/
 import map from 'lodash/map'
 import { MenuItem } from 'material-ui/IconMenu'
-import { WorkerDomain } from '@regardsoss/domain'
+import { WorkerDomain, CommonDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { UIShapes } from '@regardsoss/shape'
 import {
   TableFilterSortingAndVisibilityContainer, withFiltersPane,
   FiltersPaneMainComponent, FilterPaneSelectField,
@@ -29,7 +30,6 @@ import {
 } from '@regardsoss/components'
 import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../clients/SearchSessionsClient'
-import { FILTERS_I18N } from '../domain/filters'
 
 /**
  * @author Théo Lasserre
@@ -40,6 +40,7 @@ export class RequestFiltersComponent extends React.Component {
     updateFilter: PropTypes.func.isRequired,
     updateValuesFilter: PropTypes.func.isRequired,
     updateDatesFilter: PropTypes.func.isRequired,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
 
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
@@ -56,14 +57,15 @@ export class RequestFiltersComponent extends React.Component {
     [WorkerDomain.FILTER_PARAMS_ENUM.SOURCE]: '',
     [WorkerDomain.FILTER_PARAMS_ENUM.SESSION]: '',
     [WorkerDomain.FILTER_PARAMS_ENUM.WORKER_TYPE]: '',
-    [WorkerDomain.FILTER_PARAMS_ENUM.CONTENT_TYPES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [WorkerDomain.FILTER_PARAMS_ENUM.STATUSES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [WorkerDomain.FILTER_PARAMS_ENUM.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
+    [WorkerDomain.FILTER_PARAMS_ENUM.CONTENT_TYPES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [WorkerDomain.FILTER_PARAMS_ENUM.STATUSES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [WorkerDomain.FILTER_PARAMS_ENUM.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
   }
 
   render() {
     const {
       updateFilter, inputValues, updateDatesFilter, updateValuesFilter,
+      filtersI18n,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
@@ -72,7 +74,7 @@ export class RequestFiltersComponent extends React.Component {
         updateDatesFilter={updateDatesFilter}
         updateValuesFilter={updateValuesFilter}
         inputValues={inputValues}
-        filters18n={FILTERS_I18N}
+        filtersI18n={filtersI18n}
       >
         <FilterPaneDatePickerField filterKey={WorkerDomain.FILTER_PARAMS_ENUM.CREATION_DATE} />
         <FilterPaneTextFieldValues filterKey={WorkerDomain.FILTER_PARAMS_ENUM.CONTENT_TYPES} />

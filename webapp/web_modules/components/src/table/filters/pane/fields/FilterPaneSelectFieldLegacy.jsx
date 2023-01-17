@@ -34,7 +34,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class FilterPaneSelectFieldLegacy extends React.Component {
   static propTypes = {
-    filters18n: UIShapes.Filtersi18nList,
+    filtersI18n: UIShapes.FiltersI18nList,
     filterKey: PropTypes.string.isRequired,
     updateFilter: PropTypes.func,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
@@ -56,14 +56,14 @@ class FilterPaneSelectFieldLegacy extends React.Component {
 
   render() {
     const {
-      filters18n, updateFilter, filterKey, inputValues, allValuesOption,
+      filtersI18n, updateFilter, filterKey, inputValues, allValuesOption,
       children,
     } = this.props
     const { intl: { formatMessage } } = this.context
-    const hintTextKey = get(filters18n, `${filterKey}.hintTextKey`, '')
+    const hintTextKey = get(filtersI18n, `${filterKey}.hintTextKey`, '')
     return (
       <FiltersPaneLineComponent
-        label={formatMessage({ id: filters18n[filterKey].labelKey })}
+        label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
       >
         <SelectField
           id={`pane.${filterKey}`}

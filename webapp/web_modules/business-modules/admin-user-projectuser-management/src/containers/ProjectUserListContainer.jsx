@@ -129,7 +129,6 @@ export class ProjectUserListContainer extends React.Component {
 
   state = {
     isFetching: false,
-    // csvLink: '',
   }
 
   /**
@@ -168,27 +167,6 @@ export class ProjectUserListContainer extends React.Component {
   componentDidMount = () => {
     this.setState({ isFetching: false })
   }
-
-  // /**
-  //  * Lifecycle method: component receive props. Used here to detect properties change and update local state
-  //  * @param {*} nextProps next component properties
-  //  */
-  // UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-  // /**
-  //  * Properties change detected: update local state
-  //  * @param oldProps previous component properties
-  //  * @param newProps next component properties
-  //  */
-  // onPropertiesUpdated = (oldProps, newProps) => {
-  //   const { authentication } = newProps
-  //   // when authentication changed, update the link to get CSV user list
-  //   if (oldProps.authentication !== authentication) {
-  //     this.setState({
-  //       csvLink: csvSummaryFileActions.getFileDownloadLink(get(newProps, 'authentication.result.access_token')),
-  //     })
-  //   }
-  // }
 
   onRefresh = (requestParameters) => {
     const {

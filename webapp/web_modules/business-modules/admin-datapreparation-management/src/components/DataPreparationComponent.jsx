@@ -22,10 +22,10 @@ import {
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
-  TableFilterSortingAndVisibilityContainer,
+  TableFilterSortingAndVisibilityAndChipsComponent,
   CardHeaderActions,
-  FiltersChipsContainer,
 } from '@regardsoss/components'
+import { CommonDomain } from '@regardsoss/domain'
 import DataPreparationTableComponent from './DataPreparationTableComponent'
 import RequestFiltersComponent from './RequestFiltersComponent'
 import { FILTERS_I18N } from '../domain/filters'
@@ -94,32 +94,28 @@ class DataPreparationComponent extends React.Component {
           thirdButtonClick={onBack}
         />
         <CardText>
-          <FiltersChipsContainer
-            filtersActions={filtersActions}
-            filtersSelectors={filtersSelectors}
-            filtersI18n={FILTERS_I18N}
-          />
-          <TableFilterSortingAndVisibilityContainer
+          <TableFilterSortingAndVisibilityAndChipsComponent
             pageActions={requestActions}
             pageSelectors={requestSelectors}
             onDeleteRequest={onDeleteRequest}
             onRetryRequest={onRetryRequest}
             isPagePostFetching
             updateRefreshParameters={this.updateRefreshParameters}
+            filtersActions={filtersActions}
+            filtersSelectors={filtersSelectors}
+            filtersI18n={FILTERS_I18N}
           >
             <RequestFiltersComponent
-              key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+              key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
               isPaneOpened={isPaneOpened}
               onCloseFiltersPane={this.handleFiltersPane}
-              filtersActions={filtersActions}
-              filtersSelectors={filtersSelectors}
             />
             <DataPreparationTableComponent
-              key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+              key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
               isLoading={isLoading}
               numberOfRequests={numberOfRequests}
             />
-          </TableFilterSortingAndVisibilityContainer>
+          </TableFilterSortingAndVisibilityAndChipsComponent>
         </CardText>
       </Card>
     )

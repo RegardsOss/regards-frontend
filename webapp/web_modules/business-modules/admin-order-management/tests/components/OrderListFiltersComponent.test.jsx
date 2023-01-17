@@ -74,6 +74,7 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
           values: [OrderDomain.ORDER_STATUS_ENUM.DONE],
         },
       },
+      filtersI18n: FILTERS_I18N,
     }
     const enzymeWrapper = shallow(<OrderListFiltersComponent {...props} />, { context })
     const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
@@ -83,7 +84,7 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
       updateDatesFilter: props.updateDatesFilter,
       updateValuesFilter: props.updateValuesFilter,
       inputValues: props.inputValues,
-      filters18n: FILTERS_I18N,
+      filtersI18n: props.filtersI18n,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 1, 'There should be 1 FilterPaneDatePickerField')
     const autoCompleteField = enzymeWrapper.find(FilterPaneAutoCompleteFieldLegacy)
@@ -121,6 +122,7 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
           values: [OrderDomain.ORDER_STATUS_ENUM.DONE],
         },
       },
+      filtersI18n: FILTERS_I18N,
     }
     const enzymeWrapper = shallow(<OrderListFiltersComponent {...props} />, { context })
     const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
@@ -130,7 +132,7 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
       updateDatesFilter: props.updateDatesFilter,
       updateValuesFilter: props.updateValuesFilter,
       inputValues: props.inputValues,
-      filters18n: FILTERS_I18N,
+      filtersI18n: props.filtersI18n,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 1, 'There should be 1 FilterPaneDatePickerField')
     const autoCompleteField = enzymeWrapper.find(FilterPaneAutoCompleteFieldLegacy)

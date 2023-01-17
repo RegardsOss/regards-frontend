@@ -17,8 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { UIShapes } from '@regardsoss/shape'
 import { BasicSelector } from '@regardsoss/store-utils'
-import { AdminClient } from '@regardsoss/client'
+import { FiltersActions } from '@regardsoss/components'
 import FiltersPaneComponent from './FiltersPaneComponent'
 
 /**
@@ -36,9 +37,10 @@ export class FiltersPaneContainer extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     filtersComponentProps: PropTypes.object,
     // eslint-disable-next-line react/no-unused-prop-types
-    filtersActions: PropTypes.instanceOf(AdminClient.FiltersActions).isRequired,
+    filtersActions: PropTypes.instanceOf(FiltersActions).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     filtersSelectors: PropTypes.instanceOf(BasicSelector).isRequired,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
     // from mapDispatchToProps
     updateFiltersStore: PropTypes.func.isRequired,
     clearFiltersStore: PropTypes.func.isRequired,
@@ -76,6 +78,7 @@ export class FiltersPaneContainer extends React.Component {
     const {
       isPaneOpened, onCloseFiltersPane, defaultFiltersState, filtersComponent, updateRequestParameters,
       filtersComponentProps, updateFiltersStore, clearFiltersStore, filters, ignoredURLParameters,
+      filtersI18n,
     } = this.props
     return (
       <FiltersPaneComponent
@@ -89,6 +92,7 @@ export class FiltersPaneContainer extends React.Component {
         updateFiltersStore={updateFiltersStore}
         clearFiltersStore={clearFiltersStore}
         filters={filters}
+        filtersI18n={filtersI18n}
       />
     )
   }

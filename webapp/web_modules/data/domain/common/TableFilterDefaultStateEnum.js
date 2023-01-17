@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,16 +15,24 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { FiltersActions, getFiltersReducer, getFiltersSelectors } from '@regardsoss/components'
+ **/
+import { TableSelectionModes } from '@regardsoss/components'
+import REQUEST_PARAMETERS from './RequestParameters'
 
 /**
- * filters entities client.
  * @author Théo Lasserre
  */
-const ENTITIES_STORE_PATH = ['admin', 'processing', 'processing-monitor-filters']
-const REDUX_ACTION_NAMESPACE = 'admin-processing-management/filters'
+const VALUES = {
+  [REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
+  [REQUEST_PARAMETERS.VALUES]: [],
+}
 
-export const filtersActions = new FiltersActions(REDUX_ACTION_NAMESPACE)
-export const filtersReducer = getFiltersReducer(REDUX_ACTION_NAMESPACE)
-export const filtersSelectors = getFiltersSelectors(ENTITIES_STORE_PATH)
+const DATES = {
+  [REQUEST_PARAMETERS.AFTER]: null,
+  [REQUEST_PARAMETERS.BEFORE]: null,
+}
+
+export default {
+  VALUES,
+  DATES,
+}

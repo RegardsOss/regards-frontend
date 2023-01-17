@@ -44,6 +44,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user account filters component'
       inputValues: {},
       updateDatesFilter: () => { },
       updateValuesFilter: () => { },
+      filtersI18n: FILTERS_I18N,
     }
     const enzymeWrapper = shallow(<ProjectUserAccountFiltersComponent {...props} />, { context })
     const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
@@ -53,7 +54,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user account filters component'
       updateDatesFilter: props.updateDatesFilter,
       updateValuesFilter: props.updateValuesFilter,
       inputValues: props.inputValues,
-      filters18n: FILTERS_I18N,
+      filtersI18n: props.filtersI18n,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 2, 'There should be 2 FilterPaneDatePickerField')
     assert.lengthOf(enzymeWrapper.find(FilterPaneTextField), 3, 'There should be 2 FilterPaneTextField')

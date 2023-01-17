@@ -37,18 +37,18 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   AdminShapes, CommonShapes, UIShapes, DataManagementShapes,
 } from '@regardsoss/shape'
-import { CardActionsComponent, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import { CommonDomain } from '@regardsoss/domain'
+import { CardActionsComponent, TableFilterSortingAndVisibilityAndChipsComponent } from '@regardsoss/components'
 import dependencies from '../../dependencies'
 import { projectUserActions, projectUserSelectors } from '../../clients/ProjectUserClient'
 import ProjectUserAccountFiltersComponent, { ProjectUserAccountFiltersComponent as ProjectUserAccountFiltersComponentClass } from './filters/ProjectUserAccountFiltersComponent'
 import ProjectUserQuotaFiltersComponent, { ProjectUserQuotaFiltersComponent as ProjectUserQuotaFiltersComponentClass } from './filters/ProjectUserQuotaFiltersComponent'
 import ProjectUserAccessRightFiltersComponent, { ProjectUserAccessRightFiltersComponent as ProjectUserAccessRightFiltersComponentClass } from './filters/ProjectUserAccessRightFiltersComponent'
 import ProjectUserAccountComponent from './ProjectUserAccountComponent'
-import ProjectAccountChipsComponent from './ProjectAccountChipsComponent'
 import ProjectUserQuotaComponent from './ProjectUserQuotaComponent'
 import ProjectUserAccessRightComponent from './ProjectUserAccessRightComponent'
 import { VISUALISATION_MODES, VISUALISATION_MODES_ENUM } from '../../domain/VisualisationModes'
-import { FILTER_PARAMS } from '../../domain/filters'
+import { FILTER_PARAMS, FILTERS_I18N } from '../../domain/filters'
 import { filtersActions, filtersSelectors } from '../../clients/FiltersClient'
 
 class ProjectUserListComponent extends React.Component {
@@ -98,6 +98,7 @@ class ProjectUserListComponent extends React.Component {
     visualisationMode: VISUALISATION_MODES.ACCOUNT, // default visualisation mode
     isPaneOpened: false,
     currentRequestParameters: {},
+    filtersI18n: FILTERS_I18N,
   }
 
   /**
@@ -194,16 +195,14 @@ class ProjectUserListComponent extends React.Component {
     const { isPaneOpened } = this.state
     if (visualisationMode === VISUALISATION_MODES.ACCOUNT) {
       return [<ProjectUserAccountFiltersComponent
-        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+        key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
         origins={origins}
         roleList={roleList}
         isPaneOpened={isPaneOpened}
         onCloseFiltersPane={this.handleFiltersPane}
-        filtersActions={filtersActions}
-        filtersSelectors={filtersSelectors}
       />,
         <ProjectUserAccountComponent
-          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+          key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
           project={project}
           totalElements={totalElements}
           isLoading={isLoading}
@@ -212,15 +211,13 @@ class ProjectUserListComponent extends React.Component {
     }
     if (visualisationMode === VISUALISATION_MODES.QUOTA) {
       return [<ProjectUserQuotaFiltersComponent
-        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+        key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
         isPaneOpened={isPaneOpened}
         onCloseFiltersPane={this.handleFiltersPane}
         uiSettings={uiSettings}
-        filtersActions={filtersActions}
-        filtersSelectors={filtersSelectors}
       />,
         <ProjectUserQuotaComponent
-          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+          key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
           project={project}
           totalElements={totalElements}
           onEdit={onEdit}
@@ -230,15 +227,13 @@ class ProjectUserListComponent extends React.Component {
     }
     if (visualisationMode === VISUALISATION_MODES.ACCESS_RIGHT) {
       return [<ProjectUserAccessRightFiltersComponent
-        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+        key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
         isPaneOpened={isPaneOpened}
         onCloseFiltersPane={this.handleFiltersPane}
         groups={groups}
-        filtersActions={filtersActions}
-        filtersSelectors={filtersSelectors}
       />,
         <ProjectUserAccessRightComponent
-          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+          key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
           totalElements={totalElements}
           onEdit={onEdit}
           isLoading={isLoading}
@@ -254,10 +249,26 @@ class ProjectUserListComponent extends React.Component {
     })
   }
 
+  buildFiltersI18n = () => {
+    const { roleList } = this.props
+    const { filtersI18n } = this.state
+    return ({
+      ...filtersI18n,
+      [FILTER_PARAMS.ROLE]: {
+        labelKey: 'projectUser.list.table.role.label',
+        hintTextKey: 'projectUser.list.table.role.label',
+        chipValueKeys: reduce(roleList, (acc, role) => ({
+          ...acc,
+          [role.content.name]: `projectUser.list.table.role.${role.content.name}`,
+        }), {}),
+      },
+    })
+  }
+
   render() {
     const {
       onCreate, onBack, onDeleteAccount, onEnable, onValidate, onDownloadCSV,
-      onDeny, onDisable, onSendEmailConfirmation, onSetMaxQuota, roleList,
+      onDeny, onDisable, onSendEmailConfirmation, onSetMaxQuota,
     } = this.props
     const { visualisationMode } = this.state
     const {
@@ -298,12 +309,7 @@ class ProjectUserListComponent extends React.Component {
           </CardActions>
         </div>
         <CardText>
-          <ProjectAccountChipsComponent
-            filtersActions={filtersActions}
-            filtersSelectors={filtersSelectors}
-            roleList={roleList}
-          />
-          <TableFilterSortingAndVisibilityContainer
+          <TableFilterSortingAndVisibilityAndChipsComponent
             pageActions={projectUserActions}
             pageSelectors={projectUserSelectors}
             onDeleteAccount={onDeleteAccount}
@@ -316,9 +322,12 @@ class ProjectUserListComponent extends React.Component {
             onDownloadCSV={onDownloadCSV}
             isPagePostFetching
             updateRefreshParameters={this.updateRefreshParameters}
+            filtersActions={filtersActions}
+            filtersSelectors={filtersSelectors}
+            filtersI18n={this.buildFiltersI18n()}
           >
             {this.getDisplayComponents(visualisationMode)}
-          </TableFilterSortingAndVisibilityContainer>
+          </TableFilterSortingAndVisibilityAndChipsComponent>
         </CardText>
         <CardActions>
           <CardActionsComponent

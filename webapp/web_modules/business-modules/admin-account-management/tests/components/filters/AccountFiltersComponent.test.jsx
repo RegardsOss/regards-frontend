@@ -41,6 +41,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account filters component', () => {
       waitingAccounts: {},
       onCloseFiltersPane: () => { },
       isPaneOpened: true,
+      filtersI18n: FILTERS_I18N,
 
       inputValues: {},
       updateFilter: () => { },
@@ -51,7 +52,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account filters component', () => {
     testSuiteHelpers.assertWrapperProperties(mainComponent, {
       updateFilter: props.updateFilter,
       inputValues: props.inputValues,
-      filters18n: FILTERS_I18N,
+      filtersI18n: props.filtersI18n,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(FilterPaneTextField), 3, 'There should be 3 FilterPaneTextField')
   })

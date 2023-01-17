@@ -22,7 +22,7 @@ import SelectField from 'material-ui/SelectField'
 import { CardTitle, CardActions } from 'material-ui/Card'
 import { browserHistory } from 'react-router'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import { TableFilterSortingAndVisibilityAndChipsComponent } from '@regardsoss/components'
 import { filtersActions, filtersSelectors } from '../../../src/clients/FiltersClient'
 import { projectUserActions, projectUserSelectors } from '../../../src/clients/ProjectUserClient'
 import ProjectUserAccountFiltersComponent from '../../../src/components/list/filters/ProjectUserAccountFiltersComponent'
@@ -32,7 +32,6 @@ import ProjectUserQuotaComponent from '../../../src/components/list/ProjectUserQ
 import ProjectUserListComponent from '../../../src/components/list/ProjectUserListComponent'
 import ProjectUserAccessRightComponent from '../../../src/components/list/ProjectUserAccessRightComponent'
 import ProjectUserAccessRightFiltersComponent from '../../../src/components/list/filters/ProjectUserAccessRightFiltersComponent'
-import ProjectAccountChipsComponent from '../../../src/components/list/ProjectAccountChipsComponent'
 import { VISUALISATION_MODES } from '../../../src/domain/VisualisationModes'
 import styles from '../../../src/styles'
 
@@ -84,9 +83,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
     assert.lengthOf(enzymeWrapper.find(CardTitle), 1, 'CardTitle should be set')
     assert.lengthOf(enzymeWrapper.find(CardActions), 2, 'CardActions should be set')
     assert.lengthOf(enzymeWrapper.find(SelectField), 1, 'SelectField should be set')
-    assert.lengthOf(enzymeWrapper.find(ProjectAccountChipsComponent), 1, 'ProjectAccountChipsComponent should be set')
-    const tableVisibilityComponent = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
-    assert.lengthOf(tableVisibilityComponent, 1, 'TableFilterSortingAndVisibilityContainer should be set')
+    const tableVisibilityComponent = enzymeWrapper.find(TableFilterSortingAndVisibilityAndChipsComponent)
+    assert.lengthOf(tableVisibilityComponent, 1, 'TableFilterSortingAndVisibilityAndChipsComponent should be set')
     testSuiteHelpers.assertWrapperProperties(tableVisibilityComponent, {
       pageActions: projectUserActions,
       pageSelectors: projectUserSelectors,
@@ -99,6 +97,9 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
       onSetMaxQuota: props.onSetMaxQuota,
       onDownloadCSV: props.onDownloadCSV,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: enzymeWrapper.instance().buildFiltersI18n(),
     }, 'Component should define the expected properties and callbacks')
 
     // ACCOUNT TAB
@@ -107,8 +108,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
     testSuiteHelpers.assertWrapperProperties(filterComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
-      filtersActions,
-      filtersSelectors,
       origins: props.origins,
       roleList: props.roleList,
     }, 'Component should define the expected properties and callbacks')
@@ -144,8 +143,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
     testSuiteHelpers.assertWrapperProperties(quotaFilterComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
-      filtersActions,
-      filtersSelectors,
     }, 'Component should define the expected properties and callbacks')
     quotaTableComponent = enzymeWrapper.find(ProjectUserQuotaComponent)
     assert.lengthOf(quotaTableComponent, 1, 'ProjectUserQuotaComponent should be set')
@@ -180,8 +177,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
     testSuiteHelpers.assertWrapperProperties(accessRightFilterComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
-      filtersActions,
-      filtersSelectors,
       groups: props.groups,
     }, 'Component should define the expected properties and callbacks')
     accessRightTableComponent = enzymeWrapper.find(ProjectUserAccessRightComponent)

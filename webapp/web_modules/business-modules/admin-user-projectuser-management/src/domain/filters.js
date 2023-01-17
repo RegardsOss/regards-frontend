@@ -81,7 +81,7 @@ export const FILTERS_I18N = {
   [FILTER_PARAMS.ROLE]: {
     labelKey: 'projectUser.list.table.role.label',
     hintTextKey: 'projectUser.list.table.role.label',
-    // chipValueKeys are built in ProjectAccountChipsComponent
+    // chipValueKeys are built in ProjectUserListComponent
   },
   [FILTER_PARAMS.USE_QUOTA_LIMITATION]: {
     labelKey: 'projectUser.list.only.low.quota',

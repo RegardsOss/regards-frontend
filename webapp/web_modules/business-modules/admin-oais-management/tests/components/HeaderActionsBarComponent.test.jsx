@@ -63,7 +63,6 @@ describe('[OAIS AIP MANAGEMENT] Testing HeaderActionsBarComponent', () => {
     }
     const enzymeWrapper = shallow(<HeaderActionsBarComponent {...props} />, { context })
     const operationsContainer = enzymeWrapper.find(RequestOperationsMenuContainer)
-    // console.error('enzymeWrapper : ', enzymeWrapper.debug({ verbose: true }))
     assert.lengthOf(operationsContainer, 1, 'RequestOperationsMenuContainer should be set')
     testSuiteHelpers.assertWrapperProperties(operationsContainer, {
       selectionMode: props.selectionMode,

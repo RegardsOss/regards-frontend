@@ -26,7 +26,7 @@ import {
   CardHeaderActions, FiltersChipsContainer, TableHeaderLine,
   TableLayout,
 } from '@regardsoss/components'
-import { FemDomain } from '@regardsoss/domain'
+import { FemDomain, CommonDomain } from '@regardsoss/domain'
 import PageView from 'mdi-material-ui/CardSearch'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -134,14 +134,12 @@ class FeatureManagerComponent extends React.Component {
     if (paneType === FemDomain.REQUEST_TYPES_ENUM.REFERENCES) {
       return [
         <ReferenceManagerFiltersComponent
-          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+          key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
           isPaneOpened={isFilterPaneOpened}
           onCloseFiltersPane={this.handleFiltersPane}
-          filtersActions={filtersActions}
-          filtersSelectors={filtersSelectors}
         />,
         <ReferencesManagerComponent
-          key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+          key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
           isFetching={isFetching}
           paneType={paneType}
         />,
@@ -149,14 +147,12 @@ class FeatureManagerComponent extends React.Component {
     }
     return [
       <RequestManagerFiltersComponent
-        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+        key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
         isPaneOpened={isFilterPaneOpened}
         onCloseFiltersPane={this.handleFiltersPane}
-        filtersActions={filtersActions}
-        filtersSelectors={filtersSelectors}
       />,
       <RequestManagerComponent
-        key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+        key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
         paneType={paneType}
         isFetching={isFetching}
       />,
@@ -207,6 +203,9 @@ class FeatureManagerComponent extends React.Component {
               onNotifyRequests={onNotifyRequests}
               onRetryRequests={onRetryRequests}
               isPagePostFetching
+              filtersActions={filtersActions}
+              filtersSelectors={filtersSelectors}
+              filtersI18n={FILTERS_I18N}
             >
               {this.getDisplayComponents(paneType)}
             </TableFilterSortingAndVisibilityContainer>

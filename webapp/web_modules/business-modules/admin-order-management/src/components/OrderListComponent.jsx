@@ -27,6 +27,7 @@ import { CardHeaderActions, TableFilterSortingAndVisibilityContainer, FiltersChi
 import {
   ORDER_DISPLAY_MODES, OrderDisplayContainer, OrdersNavigationActions, OrdersNavigationContainer,
 } from '@regardsoss/order-common'
+import { CommonDomain } from '@regardsoss/domain'
 import OrderListFiltersContainer from '../containers/OrderListFiltersContainer'
 import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
 import { FILTERS_I18N } from '../domain/filters'
@@ -127,16 +128,17 @@ class OrderListComponent extends React.Component {
             pageActions={ordersActions}
             pageSelectors={ordersSelectors}
             updateRefreshParameters={this.updateRefreshParameters}
+            filtersActions={filtersActions}
+            filtersSelectors={filtersSelectors}
+            filtersI18n={FILTERS_I18N}
           >
             <OrderListFiltersContainer
-              key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.FILTER}
+              key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
               isPaneOpened={isPaneOpened}
               onCloseFiltersPane={this.handleFiltersPane}
-              filtersActions={filtersActions}
-              filtersSelectors={filtersSelectors}
             />
             <OrderDisplayContainer
-              key={TableFilterSortingAndVisibilityContainer.COMPONENT_TYPE.COMPONENT}
+              key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
               project={project}
               ordersActions={ordersActions}
               ordersSelectors={ordersSelectors}

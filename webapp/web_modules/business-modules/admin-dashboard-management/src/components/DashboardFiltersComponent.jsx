@@ -20,6 +20,7 @@ import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { UIShapes } from '@regardsoss/shape'
 import {
   Title,
   withFiltersPane,
@@ -31,7 +32,7 @@ import {
 import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../clients/SearchSessionsClient'
 import { STATUS_TYPES } from '../domain/statusTypes'
-import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS, FILTERS_I18N } from '../domain/filters'
+import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS } from '../domain/filters'
 
 /**
  * @author Théo Lasserre
@@ -42,6 +43,7 @@ export class DashboardFiltersComponent extends React.Component {
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     // eslint-disable-next-line react/no-unused-prop-types
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
 
     // eslint-disable-next-line react/no-unused-prop-types
     updateRequestParameters: PropTypes.func.isRequired,
@@ -88,14 +90,14 @@ export class DashboardFiltersComponent extends React.Component {
 
   render() {
     const {
-      updateFilter, inputValues,
+      updateFilter, inputValues, filtersI18n,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <FiltersPaneMainComponent
         updateFilter={updateFilter}
         inputValues={inputValues}
-        filters18n={FILTERS_I18N}
+        filtersI18n={filtersI18n}
       >
         <Title
           level={3}

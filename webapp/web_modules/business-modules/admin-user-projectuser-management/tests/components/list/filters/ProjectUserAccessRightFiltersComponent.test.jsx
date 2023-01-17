@@ -42,6 +42,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user access right filters compo
       updateFilter: () => { },
       inputValues: {},
       updateValuesFilter: () => { },
+      filtersI18n: FILTERS_I18N,
     }
     const enzymeWrapper = shallow(<ProjectUserAccessRightFiltersComponent {...props} />, { context })
     const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
@@ -50,7 +51,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user access right filters compo
       updateFilter: props.updateFilter,
       updateValuesFilter: props.updateValuesFilter,
       inputValues: props.inputValues,
-      filters18n: FILTERS_I18N,
+      filtersI18n: props.filtersI18n,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(FilterPaneTextField), 3, 'There should be 3 FilterPaneTextField')
     assert.lengthOf(enzymeWrapper.find(FilterPaneSelectField), 1, 'There should be 1 FilterPaneSelectField')

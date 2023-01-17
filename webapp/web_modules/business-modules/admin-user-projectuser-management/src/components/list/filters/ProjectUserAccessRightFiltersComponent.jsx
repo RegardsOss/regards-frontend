@@ -19,13 +19,14 @@
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { DataManagementShapes, UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { CommonDomain } from '@regardsoss/domain'
 import {
   withFiltersPane, TableFilterSortingAndVisibilityContainer,
   FiltersPaneMainComponent, FilterPaneSelectField, FilterPaneTextField,
 } from '@regardsoss/components'
-import { FILTER_PARAMS, FILTERS_I18N } from '../../../domain/filters'
+import { FILTER_PARAMS } from '../../../domain/filters'
 
 /**
  * @author Théo Lasserre
@@ -36,6 +37,7 @@ export class ProjectUserAccessRightFiltersComponent extends React.Component {
     updateFilter: PropTypes.func.isRequired,
     updateValuesFilter: PropTypes.func.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
@@ -51,16 +53,16 @@ export class ProjectUserAccessRightFiltersComponent extends React.Component {
     [FILTER_PARAMS.EMAIL]: '',
     [FILTER_PARAMS.LASTNAME]: '',
     [FILTER_PARAMS.FIRSTNAME]: '',
-    [FILTER_PARAMS.GROUP]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [FILTER_PARAMS.GROUP]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
   }
 
   render() {
     const {
-      updateFilter, inputValues, groups, updateValuesFilter,
+      updateFilter, inputValues, groups, updateValuesFilter, filtersI18n,
     } = this.props
     return (
       <FiltersPaneMainComponent
-        filters18n={FILTERS_I18N}
+        filtersI18n={filtersI18n}
         updateFilter={updateFilter}
         inputValues={inputValues}
         updateValuesFilter={updateValuesFilter}

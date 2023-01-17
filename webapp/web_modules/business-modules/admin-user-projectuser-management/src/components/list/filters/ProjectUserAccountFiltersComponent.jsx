@@ -19,8 +19,8 @@
 import map from 'lodash/map'
 import find from 'lodash/find'
 import { MenuItem } from 'material-ui/IconMenu'
-import { AdminDomain } from '@regardsoss/domain'
-import { CommonShapes, AdminShapes } from '@regardsoss/shape'
+import { AdminDomain, CommonDomain } from '@regardsoss/domain'
+import { CommonShapes, AdminShapes, UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -28,7 +28,7 @@ import {
   FiltersPaneMainComponent, FilterPaneDatePickerField,
   FilterPaneSelectField,
 } from '@regardsoss/components'
-import { FILTER_PARAMS, FILTERS_I18N } from '../../../domain/filters'
+import { FILTER_PARAMS } from '../../../domain/filters'
 
 /**
  * @author Théo Lasserre
@@ -41,6 +41,7 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
     updateDatesFilter: PropTypes.func.isRequired,
     updateValuesFilter: PropTypes.func.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
@@ -53,14 +54,14 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
    * Default state for inputValues edition
    */
   static DEFAULT_FILTERS_STATE = {
-    [FILTER_PARAMS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
-    [FILTER_PARAMS.LAST_CONNECTION]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
+    [FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+    [FILTER_PARAMS.LAST_CONNECTION]: CommonDomain.TableFilterDefaultStateEnum.DATES,
     [FILTER_PARAMS.EMAIL]: '',
     [FILTER_PARAMS.LASTNAME]: '',
     [FILTER_PARAMS.FIRSTNAME]: '',
-    [FILTER_PARAMS.STATUS]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [FILTER_PARAMS.ORIGIN]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
-    [FILTER_PARAMS.ROLE]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [FILTER_PARAMS.STATUS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [FILTER_PARAMS.ORIGIN]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [FILTER_PARAMS.ROLE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
   }
 
   getRolePrimaryText = (role) => {
@@ -76,11 +77,12 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
   render() {
     const {
       updateFilter, inputValues, origins, roleList, updateDatesFilter, updateValuesFilter,
+      filtersI18n,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <FiltersPaneMainComponent
-        filters18n={FILTERS_I18N}
+        filtersI18n={filtersI18n}
         updateDatesFilter={updateDatesFilter}
         inputValues={inputValues}
         updateFilter={updateFilter}

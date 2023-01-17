@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { AdminClient } from '@regardsoss/client'
+import { FiltersActions, getFiltersReducer, getFiltersSelectors } from '@regardsoss/components'
 
 /**
  * filters entities client.
@@ -25,6 +25,6 @@ import { AdminClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'user-management', 'project-user-management', 'projectUserFilters']
 const REDUX_ACTION_NAMESPACE = 'admin-user-projectuser-management/filters'
 
-export const filtersActions = new AdminClient.FiltersActions(REDUX_ACTION_NAMESPACE)
-export const filtersReducer = AdminClient.getFiltersReducer(REDUX_ACTION_NAMESPACE)
-export const filtersSelectors = AdminClient.getFiltersSelectors(ENTITIES_STORE_PATH)
+export const filtersActions = new FiltersActions(REDUX_ACTION_NAMESPACE)
+export const filtersReducer = getFiltersReducer(REDUX_ACTION_NAMESPACE)
+export const filtersSelectors = getFiltersSelectors(ENTITIES_STORE_PATH)

@@ -48,6 +48,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestsFeatureManagerFiltersCompon
       updateDatesFilter: () => { },
       isPaneOpened: true,
       onCloseFiltersPane: () => { },
+      filtersI18n: FILTERS_I18N,
     }
     const enzymeWrapper = shallow(<RequestsFeatureManagerFiltersComponent {...props} />, { context })
     const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
@@ -57,7 +58,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestsFeatureManagerFiltersCompon
       updateDatesFilter: props.updateDatesFilter,
       updateValuesFilter: props.updateValuesFilter,
       inputValues: props.inputValues,
-      filters18n: FILTERS_I18N,
+      filtersI18n: props.filtersI18n,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 1, 'There should be 1 FilterPaneDatePickerField')
     assert.lengthOf(enzymeWrapper.find(FilterPaneAutoCompleteField), 2, 'There should be 2 FilterPaneAutoCompleteField')

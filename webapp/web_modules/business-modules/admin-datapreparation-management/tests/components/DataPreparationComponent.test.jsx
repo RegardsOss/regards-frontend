@@ -19,12 +19,13 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import { TableFilterSortingAndVisibilityAndChipsComponent } from '@regardsoss/components'
 import DataPreparationComponent from '../../src/components/DataPreparationComponent'
 import RequestFiltersComponent from '../../src/components/RequestFiltersComponent'
 import DataPreparationTableComponent from '../../src/components/DataPreparationTableComponent'
 import { requestActions, requestSelectors } from '../../src/clients/WorkerRequestClient'
-
+import { filtersActions, filtersSelectors } from '../../src/clients/FiltersClient'
+import { FILTERS_I18N } from '../../src/domain/filters'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -50,8 +51,8 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationComponent', 
       onRefresh: () => { },
     }
     const enzymeWrapper = shallow(<DataPreparationComponent {...props} />, { context })
-    const tableVisibilityWrapper = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
-    assert.lengthOf(tableVisibilityWrapper, 1, 'There should be a TableFilterSortingAndVisibilityContainer')
+    const tableVisibilityWrapper = enzymeWrapper.find(TableFilterSortingAndVisibilityAndChipsComponent)
+    assert.lengthOf(tableVisibilityWrapper, 1, 'There should be a TableFilterSortingAndVisibilityAndChipsComponent')
     testSuiteHelpers.assertWrapperProperties(tableVisibilityWrapper, {
       pageActions: requestActions,
       pageSelectors: requestSelectors,
@@ -59,6 +60,9 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationComponent', 
       onRetryRequest: props.onRetryRequest,
       isPagePostFetching: true,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
+      filtersActions,
+      filtersSelectors,
+      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties')
     const tableWrapper = enzymeWrapper.find(DataPreparationTableComponent)
     assert.lengthOf(tableWrapper, 1, 'There should be a DataPreparationTableComponent')

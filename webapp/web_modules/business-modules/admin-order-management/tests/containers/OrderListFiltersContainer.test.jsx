@@ -18,9 +18,10 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { AdminClient } from '@regardsoss/client'
+import { FiltersActions, getFiltersSelectors } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { OrderListFiltersContainer, OrderListFiltersComponentWithRights } from '../../src/containers/OrderListFiltersContainer'
+import { FILTERS_I18N } from '../../src/domain/filters'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -41,8 +42,9 @@ describe('[Admin Order Management] Testing OrderListFiltersContainer', () => {
       isPaneOpened: false,
       onCloseFiltersPane: () => { },
       updateRequestParameters: () => { },
-      filtersActions: new AdminClient.FiltersActions(),
-      filtersSelectors: AdminClient.getFiltersSelectors('test'),
+      filtersActions: new FiltersActions(),
+      filtersSelectors: getFiltersSelectors('test'),
+      filtersI18n: FILTERS_I18N,
 
       isFetching: true,
       users: {},
@@ -58,6 +60,7 @@ describe('[Admin Order Management] Testing OrderListFiltersContainer', () => {
       isPaneOpened: props.isPaneOpened,
       onCloseFiltersPane: props.onCloseFiltersPane,
       updateRequestParameters: props.updateRequestParameters,
+      filtersI18n: props.filtersI18n,
     }, 'Component should define the expected properties')
   })
   it('should render correctly not fetching', () => {
@@ -65,8 +68,9 @@ describe('[Admin Order Management] Testing OrderListFiltersContainer', () => {
       isPaneOpened: false,
       onCloseFiltersPane: () => { },
       updateRequestParameters: () => { },
-      filtersActions: new AdminClient.FiltersActions(),
-      filtersSelectors: AdminClient.getFiltersSelectors('test'),
+      filtersActions: new FiltersActions(),
+      filtersSelectors: getFiltersSelectors('test'),
+      filtersI18n: FILTERS_I18N,
 
       isFetching: false,
       users: {},
@@ -82,6 +86,7 @@ describe('[Admin Order Management] Testing OrderListFiltersContainer', () => {
       isPaneOpened: props.isPaneOpened,
       onCloseFiltersPane: props.onCloseFiltersPane,
       updateRequestParameters: props.updateRequestParameters,
+      filtersI18n: props.filtersI18n,
     }, 'Component should define the expected properties')
   })
 })

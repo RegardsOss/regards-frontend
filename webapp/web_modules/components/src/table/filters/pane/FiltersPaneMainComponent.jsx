@@ -29,7 +29,7 @@ class FiltersPaneMainComponent extends React.Component {
     updateDatesFilter: PropTypes.func,
     updateValuesFilter: PropTypes.func,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
-    filters18n: UIShapes.Filtersi18nList.isRequired,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -42,7 +42,7 @@ class FiltersPaneMainComponent extends React.Component {
 
   render() {
     const {
-      children, updateFilter, inputValues, filters18n, updateDatesFilter, updateValuesFilter,
+      children, updateFilter, inputValues, filtersI18n, updateDatesFilter, updateValuesFilter,
     } = this.props
     const {
       moduleTheme: { searchPane: { childrenStyles: { mainDivStyle } } },
@@ -54,7 +54,7 @@ class FiltersPaneMainComponent extends React.Component {
             ...child.props,
             updateFilter,
             inputValues,
-            filters18n,
+            filtersI18n,
             updateDatesFilter,
             updateValuesFilter,
           }))

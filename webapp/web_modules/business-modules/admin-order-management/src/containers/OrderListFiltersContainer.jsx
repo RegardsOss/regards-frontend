@@ -19,15 +19,15 @@
 import throttle from 'lodash/throttle'
 import { connect } from '@regardsoss/redux'
 import { RequestVerbEnum, BasicSelector } from '@regardsoss/store-utils'
-import { AdminClient } from '@regardsoss/client'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, UIShapes } from '@regardsoss/shape'
+import { FiltersActions } from '@regardsoss/components'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import OrderListFiltersComponent from '../components/OrderListFiltersComponent'
 
 // compute filter dependencies, show this panel only when all are available
 const allFiltersDependencies = [
-  projectUserActions.getDependency(RequestVerbEnum.GET_LIST),
+  projectUserActions.getDependency(RequestVerbEnum.POST),
 ]
 // a default page size
 const PAGE_SIZE = 50
@@ -65,7 +65,7 @@ export class OrderListFiltersContainer extends React.Component {
       // Note: we throttle here the emitted network requests to avoid dispatching for each key entered
       dispatchGetUsers:
         throttle(
-          (partialEmail) => dispatch(projectUserActions.fetchPagedEntityListByPost(0, PAGE_SIZE, null, { partialEmail })),
+          (partialEmail) => dispatch(projectUserActions.fetchPagedEntityListByPost(0, PAGE_SIZE, null, null, { partialEmail })),
           THROTTLE_DELAY_MS, { leading: false }),
     }
   }
@@ -75,9 +75,10 @@ export class OrderListFiltersContainer extends React.Component {
     onCloseFiltersPane: PropTypes.func.isRequired,
     updateRequestParameters: PropTypes.func.isRequired, // comes from TableFilterSortingAndVisibilibtyContainer
     // eslint-disable-next-line react/no-unused-prop-types
-    filtersActions: PropTypes.instanceOf(AdminClient.FiltersActions).isRequired,
+    filtersActions: PropTypes.instanceOf(FiltersActions).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     filtersSelectors: PropTypes.instanceOf(BasicSelector).isRequired,
+    filtersI18n: UIShapes.FiltersI18nList.isRequired,
 
     // from mapStateToProps
     isFetching: PropTypes.bool.isRequired,
@@ -88,7 +89,7 @@ export class OrderListFiltersContainer extends React.Component {
 
   render() {
     const {
-      isFetching, users, isPaneOpened,
+      isFetching, users, isPaneOpened, filtersI18n,
       onCloseFiltersPane, updateRequestParameters,
       dispatchGetUsers, filtersActions, filtersSelectors,
     } = this.props
@@ -103,6 +104,7 @@ export class OrderListFiltersContainer extends React.Component {
         updateRequestParameters={updateRequestParameters}
         filtersActions={filtersActions}
         filtersSelectors={filtersSelectors}
+        filtersI18n={filtersI18n}
       />
     )
   }
