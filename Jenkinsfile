@@ -244,8 +244,9 @@ pipeline {
             parallel {
                 stage('Deploy Docker image') {
                     steps {
-                        // Copy the bundle inside the folder where apache container will be bundled
-                        sh 'cp -R ./webapp/dist/prod jenkins/nginx/dist'
+                        // Create the output folder jenkins/nginx/dist/, clean it if already existing, then
+                        // copy the bundle inside the folder where front container is created
+                        sh 'mkdir -p jenkins/nginx/dist/ && rm -rf jenkins/nginx/dist/* && cp -R ./webapp/dist/prod/* jenkins/nginx/dist/'
                         // build image from nginx, tag with version/branch, then push
                         sh 'cd jenkins/nginx && ./buildTagAndPush.sh'
                     }
