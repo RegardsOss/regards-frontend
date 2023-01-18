@@ -102,3 +102,5 @@ export {
 } from './fem/Request'
 // Worker
 export { REQUEST_WORKER, REQUEST_WORKER_ARRAY, RequestWorkerConfiguration } from './worker/Request'
+// LTA
+export { REQUEST_LTA, REQUEST_LTA_ARRAY, RequestLTAConfiguration } from './lta/Request'

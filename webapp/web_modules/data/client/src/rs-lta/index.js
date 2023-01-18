@@ -16,9 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-// export { default as RequestActions } from './request/RequestActions'
-// export { default as getRequestReducer } from './request/RequestReducer'
-// export { default as getRequestSelectors } from './request/RequestSelectors'
+export { default as RequestActions } from './request/RequestActions'
+export { default as getRequestReducer } from './request/RequestReducer'
+export { default as getRequestSelectors } from './request/RequestSelectors'
+
+export { default as RequestDeleteActions } from './request/RequestDeleteActions'
+export { default as getRequestDeleteReducer } from './request/RequestDeleteReducer'
+export { default as getRequestDeleteSelectors } from './request/RequestDeleteSelectors'
 
 export { default as SettingsActions } from './settings/SettingsActions'
 export { default as getSettingsReducer } from './settings/SettingsReducer'

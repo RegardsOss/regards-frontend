@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,40 +15,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 
 /**
  * @author Théo Lasserre
  */
-export const requestListRoute = {
-  path: 'requests',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/LTAManagerContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
+const DIALOG_TYPES = {
+  DELETE_DIALOG: 'deleteDialog',
+  VIEW_PRODUCT_DIALOG: 'productDialog',
+  VIEW_MESSAGE: 'viewMessage',
 }
 
-export const settingsRoute = {
-  path: 'settings',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/SettingsContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-const dataPreparationManagementRouter = {
-  childRoutes: [
-    requestListRoute,
-    settingsRoute,
-  ],
-}
-
-export default dataPreparationManagementRouter
+export default DIALOG_TYPES

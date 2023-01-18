@@ -18,18 +18,26 @@
  **/
 import { combineReducers } from 'redux'
 import { modelReducer } from './clients/ModelClient'
-// import { requestReducer } from './clients/WorkerRequestClient'
-// import { tableReducer } from './clients/TableClient'
+import { requestReducer } from './clients/LTAClient'
+import { tableReducer } from './clients/TableClient'
 import { settingsReducer } from './clients/SettingsClient'
+import { filtersReducer } from './clients/FiltersClient'
+import { searchSessionsReducer } from './clients/SearchSessionsClient'
+import { searchSourcesReducer } from './clients/SearchSourcesClient'
+import { requestDeleteReducer } from './clients/RequestDeleteClient'
 
 /**
  * @author Théo Lasserre
  */
 const reducer = combineReducers({
-  // requests: requestReducer,
-  // requestsTable: tableReducer,
+  requests: requestReducer,
+  requestsTable: tableReducer,
   settings: settingsReducer,
   model: modelReducer,
+  ltaFilters: filtersReducer,
+  searchSessions: searchSessionsReducer,
+  searchSources: searchSourcesReducer,
+  requestDelete: requestDeleteReducer,
 })
 
 export default reducer

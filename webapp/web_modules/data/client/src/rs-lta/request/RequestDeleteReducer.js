@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -16,39 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import RequestDeleteActions from './RequestDeleteActions'
 
-/**
- * @author Théo Lasserre
- */
-export const requestListRoute = {
-  path: 'requests',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/LTAManagerContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
+class RequestDeleteReducer extends BasicSignalReducers {
+  constructor(namespace) {
+    super(new RequestDeleteActions(namespace))
+  }
 }
 
-export const settingsRoute = {
-  path: 'settings',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/SettingsContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
+/** Closure builder for reducer function */
+export default (namespace) => {
+  const reducerInstance = new RequestDeleteReducer(namespace)
+  return (state, action) => reducerInstance.reduce(state, action)
 }
-
-const dataPreparationManagementRouter = {
-  childRoutes: [
-    requestListRoute,
-    settingsRoute,
-  ],
-}
-
-export default dataPreparationManagementRouter

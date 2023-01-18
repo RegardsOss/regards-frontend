@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,40 +15,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
- * @author Théo Lasserre
- */
-export const requestListRoute = {
-  path: 'requests',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/LTAManagerContainer')
-      cb(null, {
-        content: container.default,
-      })
+  * Actions to send a request to delete a lta request
+  * @author Théo Lasserre
+  */
+export default class RequestDeleteActions extends BasicSignalActions {
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.LTA_MANAGER}/products`,
+      namespace,
+      bypassErrorMiddleware: false,
     })
-  },
+  }
 }
-
-export const settingsRoute = {
-  path: 'settings',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/SettingsContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-const dataPreparationManagementRouter = {
-  childRoutes: [
-    requestListRoute,
-    settingsRoute,
-  ],
-}
-
-export default dataPreparationManagementRouter

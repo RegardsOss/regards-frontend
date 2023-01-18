@@ -16,39 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import { REQUEST_LTA, REQUEST_LTA_ARRAY } from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
+ * Redux actions to handle request entities from backend server.
  * @author Théo Lasserre
  */
-export const requestListRoute = {
-  path: 'requests',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/LTAManagerContainer')
-      cb(null, {
-        content: container.default,
-      })
+export default class RequestActions extends BasicPageableActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.LTA_MANAGER}/products/search`,
+      schemaTypes: {
+        ENTITY: REQUEST_LTA,
+        ENTITY_ARRAY: REQUEST_LTA_ARRAY,
+      },
     })
-  },
+  }
 }
-
-export const settingsRoute = {
-  path: 'settings',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/SettingsContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-const dataPreparationManagementRouter = {
-  childRoutes: [
-    requestListRoute,
-    settingsRoute,
-  ],
-}
-
-export default dataPreparationManagementRouter

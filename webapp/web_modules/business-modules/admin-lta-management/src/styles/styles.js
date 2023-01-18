@@ -20,22 +20,20 @@
 /**
  * @author Théo Lasserre
  */
-const dataPreparationManagementStyles = (theme) => ({
+const ltaManagementStyles = (theme) => ({
   renderStyle: {
     statusStyle: {
       display: 'flex',
       alignItems: 'center',
     },
   },
-  dialogsStyle: {
-    errorDetailsStyle: {
-      height: '300px',
-      width: '100%',
-    },
+  dialogStyle: {
+    height: '300px',
+    width: '100%',
   },
   filterButtonStyle: {
     backgroundColor: theme.palette.accent1Color,
   },
 })
 
-export default dataPreparationManagementStyles
+export default ltaManagementStyles

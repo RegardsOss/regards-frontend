@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
  * Test SettingsComponent
  * @author Théo Lasserre
  */
-describe('[LTA MANAGEMENT] Testing SettingsComponent', () => {
+describe('[ADMIN LTA MANAGEMENT] Testing SettingsComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

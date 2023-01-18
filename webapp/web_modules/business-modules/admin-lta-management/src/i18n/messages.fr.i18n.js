@@ -23,58 +23,60 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   // Card
-  'lta.card.title': 'LTA manager',
+  'lta.card.title': 'Demandes de pérennisation',
   'lta.card.action.cancel': 'Retour',
   'lta.card.action.filter': 'Filtrer',
+  'lta.card.action.refresh': 'Rafraîchir',
 
   // Dialogs
-  // 'lta.table.actions.delete.title': 'Supprimer la ou les requête(s) ?',
-  // 'lta.table.actions.retry.title': 'Relancer la ou les requête(s) ?',
+  'lta.table.actions.delete.title': 'Supprimer la ou les requête(s) ?',
+  'lta.table.actions.view.message.tooltip': 'Voir le message',
+  'lta.table.actions.view.product.tooltip': 'Voir le produit de la requête',
+  'lta.table.actions.view.product.title': 'Produit de la requête',
+  'lta.table.actions.dialog.close': 'Fermer',
 
   // Table Header
-  // 'lta.table.header.source': 'Source',
-  // 'lta.table.header.session': 'Session',
-  // 'lta.table.header.contentType': 'Content type',
-  // 'lta.table.header.creationDate': 'Date de création',
-  // 'lta.table.header.workerType': 'Worker',
-  // 'lta.table.header.status': 'Statut',
-  // 'lta.table.header.actions': 'Actions',
+  'lta.table.header.requestId': 'ID',
+  'lta.table.header.owner': 'Source',
+  'lta.table.header.status': 'Status',
+  'lta.table.header.session': 'Session',
+  'lta.table.header.statusDate': 'Dernière mise à jour',
+  'lta.table.header.datatype': 'Type de produit',
+  'lta.table.header.creationDate': 'Date de création',
+  'lta.table.header.message': 'Message',
+  'lta.table.header.model': 'Modèle',
+  'lta.table.header.product': 'Produit',
+  'lta.table.header.actions': 'Actions',
 
   // Table actions
-  // 'lta.table.actions.delete.tooltip': 'Supprimer',
-  // 'lta.table.actions.retry.tooltip': 'Relancer',
+  'lta.table.actions.delete.tooltip': 'Supprimer',
+
+  // Table columns
+  'lta.table.column.status.VALIDATED': 'Validée',
+  'lta.table.column.status.GENERATION_PENDING': 'En cours de génération',
+  'lta.table.column.status.GENERATED': 'Générée',
+  'lta.table.column.status.GENERATION_ERROR': 'Erreur de génération',
+  'lta.table.column.status.INGESTION_PENDING': 'En cours d\'ingestion',
+  'lta.table.column.status.DONE': 'Terminée',
+  'lta.table.column.status.INGESTION_ERROR': 'Erreur d\'ingestion',
 
   // Global actions
-  // 'lta.actions.refresh': 'Rafraichir',
-  // 'lta.actions.retry.title': 'Relancer les requêtes sélectionnées',
-  // 'lta.actions.retry.label': 'Relancer la sélection',
-  // 'lta.actions.delete.title': 'Supprimer les requêtes sélectionnées',
-  // 'lta.actions.delete.label': 'Supprimer la sélection',
+  'lta.actions.delete.title': 'Supprimer les requêtes sélectionnées',
+  'lta.actions.delete.label': 'Supprimer la sélection',
 
   // Table Infos
-  // 'lta.table.info.nb.requests': '{value} résultat(s)',
-  // 'lta.table.no.content.title': 'Rien à afficher',
-  // 'lta.table.no.content.message': 'Pas de requêtes',
-  // 'lta.table.loading.content.title': 'Chargement...',
+  'lta.table.info.nb.requests': '{value} résultat(s)',
+  'lta.table.no.content.title': 'Rien à afficher',
+  'lta.table.no.content.message': 'Pas de requêtes',
+  'lta.table.loading.content.title': 'Chargement...',
 
   // Filters
-  // 'lta.filters.creationDate.label': 'Date de création :',
-  // 'lta.filters.creationDate.after.label': 'Depuis',
-  // 'lta.filters.creationDate.before.label': 'Jusqu\'à',
-  // 'lta.filters.source.label': 'Source',
-  // 'lta.filters.source.label.title': 'Source :',
-  // 'lta.filters.session.label': 'Session',
-  // 'lta.filters.session.label.title': 'Session :',
-  // 'lta.filters.workerType.label': 'Type de worker',
-  // 'lta.filters.workerType.label.title': 'Type de worker :',
-  // 'lta.filters.contentTypes.label': 'Type de contenu (ex: type1, type2, ...)',
-  // 'lta.filters.contentTypes.label.title': 'Type de contenu :',
-  // 'lta.filters.status.label': 'Statuts',
-  // 'lta.filters.status.label.title': 'Statuts :',
-
-  // Dialogs
-  // 'lta.dialogs.errors.title': 'Erreurs',
-  // 'lta.dialogs.close': 'Fermer',
+  'lta.filters.session.label': 'Session',
+  'lta.filters.owner.label': 'Source',
+  'lta.filters.datatype.label': 'Type de produit',
+  'lta.filters.creationDate.label': 'Date de création',
+  'lta.filters.statusDate.label': 'Dernière mise à jour',
+  'lta.filters.statuses.label': 'Statuts',
 
   // Settings
   'lta.settings.card.title': 'Paramètres du LTA manager',

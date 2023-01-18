@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,40 +15,25 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+**/
+import { LTADomain } from '@regardsoss/domain'
 
 /**
  * @author Théo Lasserre
  */
-export const requestListRoute = {
-  path: 'requests',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/LTAManagerContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
+const RequestContent = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  requestId: PropTypes.string.isRequired,
+  owner: PropTypes.string.isRequired,
+  status: PropTypes.oneOf(LTADomain.REQUEST_STATUS).isRequired,
+  session: PropTypes.string,
+  statusDate: PropTypes.string.isRequired,
+  creationDate: PropTypes.string.isRequired,
+  message: PropTypes.string,
+  model: PropTypes.string.isRequired,
+  product: PropTypes.string.isRequired,
+})
 
-export const settingsRoute = {
-  path: 'settings',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/SettingsContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-const dataPreparationManagementRouter = {
-  childRoutes: [
-    requestListRoute,
-    settingsRoute,
-  ],
-}
-
-export default dataPreparationManagementRouter
+export const Request = PropTypes.shape({
+  content: RequestContent,
+})
