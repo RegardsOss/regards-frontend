@@ -16,35 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { LTAClient } from '@regardsoss/client'
 
 /**
- * Describes settings
+ * Module hateoas depencies
  * @author Théo Lasserre
  */
+const listDependencies = [
+  // new LTAClient.RequestActions().getDependency(RequestVerbEnum.POST),
+]
 
-/** A setting item shape */
-export const SettingsContent = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-    PropTypes.array,
-  ]),
-  defaultValue: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-    PropTypes.array,
-  ]),
-})
+const settingsDependencies = [
+  new LTAClient.SettingsActions().getDependency(RequestVerbEnum.GET_LIST),
+  new LTAClient.SettingsActions().getDependency(RequestVerbEnum.PUT),
+]
 
-export const Settings = PropTypes.shape({
-  content: SettingsContent,
-})
-
-export const SettingsList = PropTypes.objectOf(Settings)
-export const SettingsArray = PropTypes.arrayOf(Settings)
+export default {
+  listDependencies,
+  settingsDependencies,
+}

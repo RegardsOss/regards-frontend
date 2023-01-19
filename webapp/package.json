@@ -93,6 +93,7 @@
     "@regardsoss/admin-error-user-config-module": "file:web_modules/business-common/admin-error-user-config-module",
     "@regardsoss/admin-feature-management": "file:web_modules/business-modules/admin-feature-management",
     "@regardsoss/admin-ingest-processing-chain-management": "file:web_modules/business-modules/admin-ingest-processing-chain-management",
+    "@regardsoss/admin-lta-management": "file:web_modules/business-modules/admin-lta-management",
     "@regardsoss/admin-microservice-management": "file:web_modules/business-modules/admin-microservice-management",
     "@regardsoss/admin-oais-management": "file:web_modules/business-modules/admin-oais-management",
     "@regardsoss/admin-order-management": "file:web_modules/business-modules/admin-order-management",

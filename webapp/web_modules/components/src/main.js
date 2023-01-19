@@ -191,3 +191,8 @@ export { default as withValuesRenderContext } from './values/withValuesRenderCon
 export { default as InfiniteGalleryContainer } from './gallery/InfiniteGalleryContainer'
 
 export { default as ReactErrorBoundaryComponent } from './react-error-boundary/ErrorMessage'
+
+// Settings
+export { default as SettingsTextField } from './settings/SettingsTextField'
+export { default as SettingsMainComponent } from './settings/SettingsMainComponent'
+export { default as SettingsArrayField } from './settings/SettingsArrayField'

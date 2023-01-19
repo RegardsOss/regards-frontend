@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,36 +15,40 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-
-/**
- * Describes settings
- * @author Théo Lasserre
  */
 
-/** A setting item shape */
-export const SettingsContent = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-    PropTypes.array,
-  ]),
-  defaultValue: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-    PropTypes.array,
-  ]),
-})
+/**
+ * @author Théo Lasserre
+ */
+// export const requestListRoute = {
+//   path: 'requests',
+//   getComponents(nextState, cb) {
+//     require.ensure([], (require) => {
+//       const container = require('./containers/LTAContainer')
+//       cb(null, {
+//         content: container.default,
+//       })
+//     })
+//   },
+// }
 
-export const Settings = PropTypes.shape({
-  content: SettingsContent,
-})
+export const settingsRoute = {
+  path: 'settings',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/SettingsContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
 
-export const SettingsList = PropTypes.objectOf(Settings)
-export const SettingsArray = PropTypes.arrayOf(Settings)
+const dataPreparationManagementRouter = {
+  childRoutes: [
+    // requestListRoute,
+    settingsRoute,
+  ],
+}
+
+export default dataPreparationManagementRouter

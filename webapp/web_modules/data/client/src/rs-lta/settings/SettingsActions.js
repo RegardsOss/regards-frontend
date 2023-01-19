@@ -15,36 +15,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { SETTINGS, SETTINGS_ARRAY } from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
- * Describes settings
+ * Actions to get Settings
  * @author Théo Lasserre
  */
+class SettingsActions extends BasicListActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.LTA_MANAGER}/settings`,
+      entityPathVariable: 'name',
+      schemaTypes: {
+        ENTITY: SETTINGS,
+        ENTITY_ARRAY: SETTINGS_ARRAY,
+      },
+    })
+  }
+}
 
-/** A setting item shape */
-export const SettingsContent = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-    PropTypes.array,
-  ]),
-  defaultValue: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-    PropTypes.array,
-  ]),
-})
-
-export const Settings = PropTypes.shape({
-  content: SettingsContent,
-})
-
-export const SettingsList = PropTypes.objectOf(Settings)
-export const SettingsArray = PropTypes.arrayOf(Settings)
+export default SettingsActions

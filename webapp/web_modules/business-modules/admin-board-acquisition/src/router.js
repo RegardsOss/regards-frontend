@@ -116,6 +116,16 @@ export const dataPreparationManagementRouter = {
   },
 }
 
+export const ltaManagementRouter = {
+  path: 'ltamanagement',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const ltaManagement = require('@regardsoss/admin-lta-management')
+      cb(null, [ltaManagement.ltaManagementRouter])
+    })
+  },
+}
+
 const acquisitionRouter = {
   childRoutes: [
     boardRoute,
@@ -128,6 +138,7 @@ const acquisitionRouter = {
     dashboardManagementRouter,
     featureManagementRouter,
     dataPreparationManagementRouter,
+    ltaManagementRouter,
   ],
 }
 

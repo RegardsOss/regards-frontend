@@ -18,33 +18,21 @@
  **/
 
 /**
- * Describes settings
- * @author Théo Lasserre
+ * Card components styles
+ * @author Raphaël Mechali
  */
-
-/** A setting item shape */
-export const SettingsContent = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-    PropTypes.array,
-  ]),
-  defaultValue: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-    PropTypes.array,
-  ]),
-})
-
-export const Settings = PropTypes.shape({
-  content: SettingsContent,
-})
-
-export const SettingsList = PropTypes.objectOf(Settings)
-export const SettingsArray = PropTypes.arrayOf(Settings)
+export default function getStyles(theme) {
+  return {
+    settingDiv: {
+      display: 'flex',
+    },
+    settingDivAlt: {
+      display: 'flex',
+      marginTop: '20px',
+    },
+    settingArrayDiv: {
+      display: 'flex',
+      marginTop: '20px',
+    },
+  }
+}

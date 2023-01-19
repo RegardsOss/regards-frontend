@@ -24,6 +24,7 @@ import { storageManagementDependencies } from '@regardsoss/admin-storage-managem
 import { dashboardManagementDependencies } from '@regardsoss/admin-dashboard-management'
 import { featureManagementDependencies } from '@regardsoss/admin-feature-management'
 import { dataPreparationManagementDependencies } from '@regardsoss/admin-datapreparation-management'
+import { ltaManagementDependencies } from '@regardsoss/admin-lta-management'
 
 /**
  * Mandatory Dependencies to display module in project menu
@@ -43,4 +44,5 @@ export default [
   dashboardManagementDependencies.listDependencies,
   featureManagementDependencies.listDependencies,
   dataPreparationManagementDependencies.listDependencies,
+  ltaManagementDependencies.listDependencies,
 ]

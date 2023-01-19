@@ -33,6 +33,7 @@ import { storageManagementDependencies } from '@regardsoss/admin-storage-managem
 import { featureManagementDependencies } from '@regardsoss/admin-feature-management'
 import { dashboardManagementDependencies } from '@regardsoss/admin-dashboard-management'
 import { dataPreparationManagementDependencies } from '@regardsoss/admin-datapreparation-management'
+import { ltaManagementDependencies } from '@regardsoss/admin-lta-management'
 import { indexActions, RESET_INDEX_ACTION } from '../clients/IndexClient'
 import { oaisDependencies } from '../../../admin-oais-management'
 
@@ -218,7 +219,9 @@ const items = (projectName, intl, onResetIndex) => [
         path: `/admin/${projectName}/data/acquisition/ltamanagement/settings`,
         icon: <SettingsIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.ltamanagement.settings.tooltip' }),
-        hateoasDependencies: [],
+        hateoasDependencies: [
+          ...ltaManagementDependencies.settingsDependencies,
+        ],
       },
     ],
   },

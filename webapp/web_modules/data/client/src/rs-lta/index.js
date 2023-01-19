@@ -16,35 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+// export { default as RequestActions } from './request/RequestActions'
+// export { default as getRequestReducer } from './request/RequestReducer'
+// export { default as getRequestSelectors } from './request/RequestSelectors'
 
-/**
- * Describes settings
- * @author Théo Lasserre
- */
-
-/** A setting item shape */
-export const SettingsContent = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-    PropTypes.array,
-  ]),
-  defaultValue: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-    PropTypes.array,
-  ]),
-})
-
-export const Settings = PropTypes.shape({
-  content: SettingsContent,
-})
-
-export const SettingsList = PropTypes.objectOf(Settings)
-export const SettingsArray = PropTypes.arrayOf(Settings)
+export { default as SettingsActions } from './settings/SettingsActions'
+export { default as getSettingsReducer } from './settings/SettingsReducer'
+export { default as getSettingsSelectors } from './settings/SettingsSelectors'
+export { default as UpdateSettingActions } from './settings/UpdateSettingActions'

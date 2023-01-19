@@ -45,6 +45,7 @@ import * as ProcessingCl from './rs-processing'
 import * as StorageCl from './rs-storage'
 import * as UICl from './ui'
 import * as WorkerCl from './rs-worker'
+import * as LTACl from './rs-lta'
 
 export const AccessInstanceClient = AccessInstanceCl
 export const AccessProjectClient = AccessProjectCl
@@ -62,3 +63,4 @@ export const ProcessingClient = ProcessingCl
 export const StorageClient = StorageCl
 export const UIClient = UICl
 export const WorkerClient = WorkerCl
+export const LTAClient = LTACl

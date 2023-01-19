@@ -16,35 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
- * Describes settings
- * @author Théo Lasserre
+ * Update a setting
  */
+export default class UpdateSettingActions extends BasicSignalActions {
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.LTA_MANAGER}/settings/{name}`,
+      namespace,
+    })
+  }
 
-/** A setting item shape */
-export const SettingsContent = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-    PropTypes.array,
-  ]),
-  defaultValue: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.number,
-    PropTypes.array,
-  ]),
-})
-
-export const Settings = PropTypes.shape({
-  content: SettingsContent,
-})
-
-export const SettingsList = PropTypes.objectOf(Settings)
-export const SettingsArray = PropTypes.arrayOf(Settings)
+  updateSetting = (settingName, settingValue) => this.sendSignal('PUT', {
+    ...settingValue,
+  }, {
+    name: settingName,
+  })
+}
