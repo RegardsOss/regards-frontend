@@ -28,6 +28,7 @@ import { projectUserEmailConfirmationSignalReducer } from './clients/ProjectUser
 import { originReducer } from './clients/OriginsClient'
 import { filtersReducer } from './clients/FiltersClient'
 import { csvReducer } from './clients/DownloadCSVClient'
+import { projectUserFCUDReducer } from './clients/ProjectUserFCUDClient'
 
 const projectUserManagementReducer = combineReducers({
   accessGroup: accessGroupReducer,
@@ -41,6 +42,7 @@ const projectUserManagementReducer = combineReducers({
   origins: originReducer,
   projectUserFilters: filtersReducer,
   csv: csvReducer,
+  projectUserFCUD: projectUserFCUDReducer,
 })
 
 export default projectUserManagementReducer

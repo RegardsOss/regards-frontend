@@ -15,19 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+/**
+ * FCUD : Fetch Create Update Delete project user client
  */
-import { PROJECT_USER, PROJECT_USER_ARRAY } from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { AccessProjectClient } from '@regardsoss/client'
 
-export default class ProjectUserActions extends BasicPageableActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/users/search`,
-      schemaTypes: {
-        ENTITY: PROJECT_USER,
-        ENTITY_ARRAY: PROJECT_USER_ARRAY,
-      },
-    })
-  }
-}
+const namespace = 'admin-user-projectuser-management/project-user-fcud'
+
+export const projectUserFCUDActions = new AccessProjectClient.ProjectUserFCUDActions(namespace)
+export const projectUserFCUDReducer = AccessProjectClient.getProjectUserFCUDReducer(namespace)
+export const projectUserFCUDSelectors = AccessProjectClient.getProjectUserFCUDSelectors(['admin', 'user-management', 'project-user-management', 'projectUserFCUD'])

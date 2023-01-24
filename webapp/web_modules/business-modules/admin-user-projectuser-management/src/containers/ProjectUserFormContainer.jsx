@@ -32,11 +32,11 @@ import { getMetadataArray, packMetadataField } from '@regardsoss/user-metadata-c
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-utils'
 import { roleActions, roleSelectors } from '../clients/RoleClient'
-import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import { accountPasswordActions, accountPasswordSelectors } from '../clients/AccountPasswordClient'
 import { projectUserSettingsActions, projectUserSettingsSelectors } from '../clients/ProjectUserSettingsClient'
 import ProjectUserFormComponent from '../components/ProjectUserFormComponent'
+import { projectUserFCUDActions, projectUserFCUDSelectors } from '../clients/ProjectUserFCUDClient'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -75,7 +75,7 @@ export class ProjectUserFormContainer extends React.Component {
     return {
       roleList: roleSelectors.getList(state),
       groupList: accessGroupSelectors.getList(state),
-      user: ownProps.params.user_id ? projectUserSelectors.getById(state, ownProps.params.user_id) : null,
+      user: ownProps.params.user_id ? projectUserFCUDSelectors.getById(state, ownProps.params.user_id) : null,
       passwordRules: accountPasswordSelectors.getRules(state),
       settings: projectUserSettingsSelectors.getList(state),
     }
@@ -89,10 +89,10 @@ export class ProjectUserFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchUser: (userId) => dispatch(projectUserActions.fetchEntity(userId)),
+      fetchUser: (userId) => dispatch(projectUserFCUDActions.fetchEntity(userId)),
       fetchSettings: () => dispatch(projectUserSettingsActions.fetchEntityList()),
-      createProjectUser: ({ useExistingAccount, ...values }) => dispatch(projectUserActions.createEntity(omit(values, ['useExistingAccount']))),
-      updateProjectUser: (id, values) => dispatch(projectUserActions.updateEntity(id, omit(values, ['useExistingAccount']))),
+      createProjectUser: ({ useExistingAccount, ...values }) => dispatch(projectUserFCUDActions.createEntity(omit(values, ['useExistingAccount']))),
+      updateProjectUser: (id, values) => dispatch(projectUserFCUDActions.updateEntity(id, omit(values, ['useExistingAccount']))),
       fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
       fetchGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList()),
       fetchPasswordValidity: (newPassword) => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
@@ -169,8 +169,8 @@ export class ProjectUserFormContainer extends React.Component {
       role: { name: roleName },
       metadata: packMetadataField(user, values),
       accessGroups,
-      maxQuota,
-      rateLimit,
+      maxQuota: parseInt(maxQuota, 10),
+      rateLimit: parseInt(rateLimit, 10),
     }
 
     const updateUser = this.props.updateProjectUser(this.props.params.user_id, updatedUser)
@@ -205,8 +205,8 @@ export class ProjectUserFormContainer extends React.Component {
       // the backend will use that URL in the email
       requestLink: `${root.location.protocol}//${root.location.host}/user/${projectName}?${frontendParameter}`,
       accessGroups: values.accessGroups,
-      maxQuota: values.maxQuota,
-      rateLimit: values.rateLimit,
+      maxQuota: parseInt(values.maxQuota, 10),
+      rateLimit: parseInt(values.rateLimit, 10),
     }
 
     return Promise.resolve(createProjectUser(newUser))

@@ -37,6 +37,8 @@ import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroup
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import ProjectUserListComponent from '../components/list/ProjectUserListComponent'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
+import { projectUserFCUDActions } from '../clients/ProjectUserFCUDClient'
+
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -111,7 +113,7 @@ export class ProjectUserListContainer extends React.Component {
   static mapDispatchToProps(dispatch, { authentication }) {
     return {
       fetchUsers: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(projectUserActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
-      onDeleteAccount: (userId) => dispatch(projectUserActions.deleteEntity(userId)),
+      onDeleteAccount: (userId) => dispatch(projectUserFCUDActions.deleteEntity(userId)),
       onValidateProjectUser: (userId) => dispatch(projectUserSignalActions.sendAccept(userId)),
       onDenyProjectUser: (userId) => dispatch(projectUserSignalActions.sendDeny(userId)),
       onSendEmailConfirmation: (email, project) => dispatch(projectUserEmailConfirmationSignalActions.sendEmailConfirmation(email, project)),
@@ -120,7 +122,7 @@ export class ProjectUserListContainer extends React.Component {
       fetchOrigins: () => dispatch(originActions.fetchPagedEntityList()),
       throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
       fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
-      onUpdateAccount: (userId, updatedAccount) => dispatch(projectUserActions.updateEntity(userId, updatedAccount)),
+      onUpdateAccount: (userId, updatedAccount) => dispatch(projectUserFCUDActions.updateEntity(userId, updatedAccount)),
       fetchUISettings: () => dispatch(uiSettingsActions.getSettings()),
       fetchGroups: () => dispatch(accessGroupActions.fetchPagedEntityList()),
       onDownloadCSV: (requestParameters) => dispatch(csvActions.downloadCSV(get(authentication, 'result.access_token'), requestParameters)),

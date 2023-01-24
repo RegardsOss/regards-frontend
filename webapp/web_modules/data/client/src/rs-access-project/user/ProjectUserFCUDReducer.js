@@ -16,18 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { PROJECT_USER, PROJECT_USER_ARRAY } from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { ProjectUserConfiguration } from '@regardsoss/api'
+import ProjectUserFCUDActions from './ProjectUserFCUDActions'
 
-export default class ProjectUserActions extends BasicPageableActions {
+/**
+ * FCUD : Fetch Create Update Delete project user reducer
+ */
+export class ProjectUserFCUDReducer extends BasicPageableReducers {
   constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/users/search`,
-      schemaTypes: {
-        ENTITY: PROJECT_USER,
-        ENTITY_ARRAY: PROJECT_USER_ARRAY,
-      },
-    })
+    super(ProjectUserConfiguration, new ProjectUserFCUDActions(namespace))
   }
+}
+
+/** Closure builder for reducer function */
+export default (namespace) => {
+  const reducerInstance = new ProjectUserFCUDReducer(namespace)
+  return (state, action) => reducerInstance.reduce(state, action)
 }

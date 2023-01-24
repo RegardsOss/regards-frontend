@@ -351,7 +351,6 @@ export class ProjectUserFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               fullWidth
-
             />
             {
               // show user metadata for project
