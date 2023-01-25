@@ -107,7 +107,7 @@ class LTAManagerComponent extends React.Component {
               onCloseFiltersPane={this.handleFiltersPane}
             />
             <LTAManagerTableComponent
-              key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
+              key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
               isLoading={isLoading}
               numberOfRequests={numberOfRequests}
             />
