@@ -48,6 +48,7 @@ const messages = {
   'order.settings.subtitle': 'Configure settings',
   'order.settings.clear': 'Clear',
   'order.settings.field.appSubOrderDuration': 'Sub order applicative duration (in hour)',
+  'order.settings.field.orderExpirationDuration': 'Maximum duration of an order before expiration (in hour)',
   'order.settings.fieldgroup.userOrderParameters': 'User order settings',
   'order.settings.fieldgroup.userOrderParameters.subOrderDuration': 'Sub order user duration (in hour)',
   'order.settings.fieldgroup.userOrderParameters.delayBeforeEmailNotification': 'Delay before email notification when an order is ready (in hour)',

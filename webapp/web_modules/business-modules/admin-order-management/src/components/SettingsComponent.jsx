@@ -41,6 +41,7 @@ const {
 const SETTINGS = {
   APP_SUB_ORDER_DURATION: 'app_sub_order_duration',
   USER_ORDER_PARAMETERS: 'user_order_parameters',
+  EXPIRATION_MAX_DURATION: 'expiration_max_duration_in_hours',
 }
 
 /**
@@ -62,6 +63,7 @@ export class SettingsComponent extends React.Component {
     editedAppSubOrderDuration: PropTypes.number,
     // eslint-disable-next-line react/forbid-prop-types
     editedUserOrderParameters: PropTypes.object,
+    editedExpirationMaxDuration: PropTypes.number,
   }
 
   static contextTypes = {
@@ -79,6 +81,7 @@ export class SettingsComponent extends React.Component {
         subOrderDuration: userOrderParameters.subOrderDuration,
         delayBeforeEmailNotification: userOrderParameters.delayBeforeEmailNotification,
       },
+      [SETTINGS.EXPIRATION_MAX_DURATION]: getValue(settings, SETTINGS.EXPIRATION_MAX_DURATION),
     })
   }
 
@@ -94,6 +97,7 @@ export class SettingsComponent extends React.Component {
         subOrderDuration: parseInt(values[SETTINGS.USER_ORDER_PARAMETERS].subOrderDuration, 10),
         delayBeforeEmailNotification: parseInt(values[SETTINGS.USER_ORDER_PARAMETERS].delayBeforeEmailNotification, 10),
       }),
+      [SETTINGS.EXPIRATION_MAX_DURATION]: getUpdatedSettingValue(settings, SETTINGS.EXPIRATION_MAX_DURATION, values[SETTINGS.EXPIRATION_MAX_DURATION]),
     })
   }
 
@@ -118,6 +122,7 @@ export class SettingsComponent extends React.Component {
     const {
       submitting, pristine, invalid, editedAppSubOrderDuration,
       handleSubmit, onBack, settings, editedUserOrderParameters,
+      editedExpirationMaxDuration,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { settings: { settingDiv, settingDivAlt } } } = this.context
     const isUserOrderParametersDisabled = isDisabled(settings, SETTINGS.USER_ORDER_PARAMETERS)
@@ -141,6 +146,20 @@ export class SettingsComponent extends React.Component {
                 component={RenderTextField}
                 fullWidth
                 disabled={isDisabled(settings, SETTINGS.APP_SUB_ORDER_DURATION)}
+              />
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.EXPIRATION_MAX_DURATION)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.EXPIRATION_MAX_DURATION, editedExpirationMaxDuration)}
+                addAlternateStyle
+              />
+              <Field
+                name={SETTINGS.EXPIRATION_MAX_DURATION}
+                label={formatMessage({ id: 'order.settings.field.orderExpirationDuration' })}
+                component={RenderTextField}
+                fullWidth
+                disabled={isDisabled(settings, SETTINGS.EXPIRATION_MAX_DURATION)}
               />
             </div>
             <div style={settingDivAlt}>
@@ -195,6 +214,7 @@ function selectedSetting(state) {
   return {
     editedAppSubOrderDuration: parseInt(formValuesSelector(state, [SETTINGS.APP_SUB_ORDER_DURATION]), 10),
     editedUserOrderParameters: formValuesSelector(state, [SETTINGS.USER_ORDER_PARAMETERS]),
+    editedExpirationMaxDuration: parseInt(formValuesSelector(state, [SETTINGS.EXPIRATION_MAX_DURATION]), 10),
   }
 }
 

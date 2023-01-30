@@ -63,6 +63,14 @@ describe('[ADMIN ORDER MANAGEMENT] Testing SettingsComponent', () => {
             },
           },
         },
+        2: {
+          content: {
+            name: 'expiration_max_duration_in_hours',
+            description: 'Order expiration duration maximal (in hours)',
+            value: 168,
+            defaultValue: 168,
+          },
+        },
       },
       onBack: () => { },
       onSubmit: () => { },
@@ -76,6 +84,6 @@ describe('[ADMIN ORDER MANAGEMENT] Testing SettingsComponent', () => {
     }
     const enzymeWrapper = shallow(<SettingsComponent {...props} />, { context })
     const fieldsWrapper = enzymeWrapper.find(Field)
-    assert.lengthOf(fieldsWrapper, 3, 'There should be 3 Field component')
+    assert.lengthOf(fieldsWrapper, 4, 'There should be 4 Field component')
   })
 })
