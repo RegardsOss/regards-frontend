@@ -31,6 +31,12 @@ import clientByPane from '../domain/ClientByPane'
  * @author Simon MILHAU
  */
 export class OAISSwitchTables extends React.Component {
+  static DEFAULT_PAGE_META = {
+    number: 0,
+    size: STATIC_CONF.TABLE.PAGE_SIZE || 20,
+    totalElements: 0,
+  }
+
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -79,6 +85,11 @@ export class OAISSwitchTables extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
+  }
+
+  static defaultProps = {
+    aipsMeta: OAISSwitchTables.DEFAULT_PAGE_META,
+    requestsMeta: OAISSwitchTables.DEFAULT_PAGE_META,
   }
 
   /**

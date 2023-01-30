@@ -39,6 +39,12 @@ import { updateRequestActions, updateRequestSelectors } from '../clients/UpdateR
 export class SwitchTables extends React.Component {
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
 
+  static DEFAULT_PAGE_META = {
+    number: 0,
+    size: STATIC_CONF.TABLE.PAGE_SIZE || 20,
+    totalElements: 0,
+  }
+
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -118,6 +124,14 @@ export class SwitchTables extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
+  }
+
+  static defaultProps = {
+    referencesMeta: SwitchTables.DEFAULT_PAGE_META,
+    creationMeta: SwitchTables.DEFAULT_PAGE_META,
+    updateMeta: SwitchTables.DEFAULT_PAGE_META,
+    deleteMeta: SwitchTables.DEFAULT_PAGE_META,
+    notificationMeta: SwitchTables.DEFAULT_PAGE_META,
   }
 
   /**

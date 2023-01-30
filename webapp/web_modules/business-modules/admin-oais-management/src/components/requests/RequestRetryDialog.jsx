@@ -43,8 +43,6 @@ export class RequestRetryDialog extends React.Component {
         key="cancel"
         id="confirm.dialog.cancel"
         label={formatMessage({ id: 'oais.requests.confirm.retry.close' })}
-        primary
-        keyboardFocused
         onClick={onClose}
       />,
       <FlatButton
@@ -52,6 +50,8 @@ export class RequestRetryDialog extends React.Component {
         className="selenium-confirmDialogButton"
         label={formatMessage({ id: 'oais.requests.confirm.retry' })}
         onClick={onConfirmRetry}
+        primary
+        keyboardFocused
       />]
   }
 

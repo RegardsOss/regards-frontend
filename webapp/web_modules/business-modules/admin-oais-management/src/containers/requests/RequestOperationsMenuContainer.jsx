@@ -42,6 +42,14 @@ export class RequestOperationsMenuContainer extends React.Component {
     pageMeta: CommonShapes.PageMetadata,
   }
 
+  static defaultProps = {
+    pageMeta: {
+      number: 0,
+      size: STATIC_CONF.TABLE.PAGE_SIZE || 20,
+      totalElements: 0,
+    },
+  }
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
