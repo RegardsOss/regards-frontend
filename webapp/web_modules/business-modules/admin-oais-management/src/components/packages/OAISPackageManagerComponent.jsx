@@ -197,7 +197,7 @@ export class OAISPackageManagerComponent extends React.Component {
   }
 
   getActionPayload = (entities, mode) => ({
-    [FILTER_PARAMS.AIP_IDS]: mode === TableSelectionModes.includeSelected ? map(entities, (entity) => get(entity, 'content.aipId', '')) : [],
+    [FILTER_PARAMS.AIP_IDS]: map(entities, (entity) => get(entity, 'content.aipId', '')),
     selectionMode: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
   })
 
