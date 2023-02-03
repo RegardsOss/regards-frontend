@@ -6,5 +6,4 @@ sed -i s/\$\{regards\.config\.cloud\.gateway\.url}/"$GATEWAY_PUBLIC_URL"/g /var/
 cat /var/www/conf/staticConfiguration.js
 
 echo "Launching nginx..."
-nginx -g 'daemon off;'
-echo "Nginx launched but not sync"
+exec nginx -g 'daemon off;'
