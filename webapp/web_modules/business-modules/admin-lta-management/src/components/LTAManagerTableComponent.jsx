@@ -67,7 +67,7 @@ class LTAManagerTableComponent extends React.Component {
   }
 
   static COLUMN_KEYS = {
-    REQUEST_ID: 'requestId',
+    REQUEST_ID: 'correlationId',
     OWNER: 'owner',
     STATUS: 'status',
     SESSION: 'session',
@@ -133,13 +133,15 @@ class LTAManagerTableComponent extends React.Component {
 
   onViewMessage = (entities) => this.onOpenActionDialog(DIALOG_TYPES.VIEW_MESSAGE, entities)
 
+  getEntityCorrelationId = (entity) => get(entity, `content.${LTAManagerTableComponent.COLUMN_KEYS.REQUEST_ID}`, '')
+
   onConfirmActionDialog = (dialogRequestType) => {
     const { bodyParameters } = this.props
     const { entities, mode, multiple } = this.state[dialogRequestType]
     const payload = {
       ...bodyParameters,
       [FILTER_PARAMS.IDS]: {
-        [CommonDomain.REQUEST_PARAMETERS.VALUES]: multiple ? map(entities, (e) => e.content.id) : [get(entities, 'content.id', '')],
+        [CommonDomain.REQUEST_PARAMETERS.VALUES]: multiple ? map(entities, (e) => this.getEntityCorrelationId(e)) : [this.getEntityCorrelationId(entities)],
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
       },
     }

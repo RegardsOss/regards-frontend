@@ -23,7 +23,7 @@ import { Schema, arrayOf } from 'normalizr'
  * @author Théo Lasserre
  */
 export const RequestLTAConfiguration = {
-  entityKey: 'id',
+  entityKey: 'correlationId',
   normalizrKey: 'requests',
 }
 

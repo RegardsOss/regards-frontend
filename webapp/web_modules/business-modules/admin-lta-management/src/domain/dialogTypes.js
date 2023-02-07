@@ -21,7 +21,7 @@
  * @author Théo Lasserre
  */
 const DIALOG_TYPES = {
-  DELETE_DIALOG: 'deleteDialog',
+  DELETE_DIALOG: 'delete',
   VIEW_PRODUCT_DIALOG: 'productDialog',
   VIEW_MESSAGE: 'viewMessage',
 }

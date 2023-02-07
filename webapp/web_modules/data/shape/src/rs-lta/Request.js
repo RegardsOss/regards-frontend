@@ -16,22 +16,47 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
-import { LTADomain } from '@regardsoss/domain'
+import { LTADomain, CommonDomain } from '@regardsoss/domain'
+import EntityGeoProperties from '../rs-catalog/entity/EntityGeoProperties'
+
+const LTAFileShape = PropTypes.shape({
+  checksumMd5: PropTypes.string.isRequired,
+  filename: PropTypes.string.isRequired,
+  mimeType: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(CommonDomain.DATA_TYPES).isRequired,
+  url: PropTypes.string.isRequired,
+})
+
+const ProductShape = PropTypes.shape({
+  correlationId: PropTypes.string.isRequired,
+  datatype: PropTypes.string.isRequired,
+  files: PropTypes.arrayOf(LTAFileShape).isRequired,
+  geometry: EntityGeoProperties,
+  tags: PropTypes.arrayOf(PropTypes.string),
+  id: PropTypes.string.isRequired,
+  originUrn: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
+  properties: PropTypes.object,
+  owner: PropTypes.string.isRequired,
+  replaceMode: PropTypes.bool.isRequired,
+  session: PropTypes.string,
+  storePath: PropTypes.string,
+})
 
 /**
  * @author Théo Lasserre
  */
 const RequestContent = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  requestId: PropTypes.string.isRequired,
+  correlationId: PropTypes.string.isRequired,
   owner: PropTypes.string.isRequired,
   status: PropTypes.oneOf(LTADomain.REQUEST_STATUS).isRequired,
-  session: PropTypes.string,
+  session: PropTypes.string.isRequired,
   statusDate: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
   message: PropTypes.string,
   model: PropTypes.string.isRequired,
-  product: PropTypes.string.isRequired,
+  product: ProductShape.isRequired,
+  storePath: PropTypes.string.isRequired,
 })
 
 export const Request = PropTypes.shape({

@@ -19,7 +19,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { LTADomain } from '@regardsoss/domain'
 import { ResourceIconAction } from '@regardsoss/components'
 import ViewProductComponent from '../../../src/components/options/ViewProductComponent'
 import styles from '../../../src/styles'
@@ -41,16 +40,45 @@ describe('[ADMIN LTA MANAGEMENT] Testing ViewProductComponent', () => {
     const props = {
       entity: {
         content: {
-          id: 0,
-          requestId: 'test',
-          owner: 'source',
-          session: 'session',
-          statusDate: '01/05/1965',
-          creationDate: '05/05/0550',
-          model: 'model',
-          product: 'product',
-          status: LTADomain.REQUEST_STATUS_ENUM.GENERATED,
+          correlationId: 'f418cc03-deb4-4bdd-96a3-14f70a98ba7e',
+          owner: 'regards-admin@c-s.fr',
+          session: 'session_testlink_2513',
+          status: 'VALIDATED',
+          statusDate: '2023-02-07T10:41:29.459257Z',
+          creationDate: '2023-02-07T10:41:29.459257Z',
+          model: 'DataModel2497',
+          storePath: '/path/subpath',
+          product: {
+            correlationId: 'f418cc03-deb4-4bdd-96a3-14f70a98ba7e',
+            id: 'f418cc03-deb4-4bdd-96a3-14f70a98ba7e',
+            datatype: 'DATA',
+            geometry: {
+              coordinates: [
+                10,
+                20,
+              ],
+              type: 'Point',
+            },
+            files: [
+              {
+                type: 'RAWDATA',
+                url: 'http://vm-perf.cloud-espace.si.c-s.fr/img/fr_flag.png',
+                filename: 'fr-flag',
+                checksumMd5: '74049fd14fc214448463e88b4fa6c8d3',
+                mimeType: 'application/octet-stream',
+              },
+            ],
+            tags: [
+              'TEST-LTA-SIMPLE',
+            ],
+            originUrn: 'myOriginUrn',
+            storePath: '/path/subpath',
+            session: 'session_testlink_2513',
+            replaceMode: false,
+            owner: 'regards-admin@c-s.fr',
+          },
         },
+        links: [],
       },
       onViewProduct: () => { },
     }
