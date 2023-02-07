@@ -285,6 +285,7 @@ class DataPreparationTableComponent extends React.Component {
           name="worker-request-list-table"
           pageActions={requestActions}
           pageSelectors={requestSelectors}
+          tableActions={tableActions}
           pageSize={pageSize}
           minRowCount={minRowCount}
           maxRowCount={maxRowCount}

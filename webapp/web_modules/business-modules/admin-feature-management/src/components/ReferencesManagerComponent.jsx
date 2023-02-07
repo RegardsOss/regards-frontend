@@ -280,6 +280,7 @@ export class ReferencesManagerComponent extends React.Component {
             name="feature-management-table"
             pageActions={referencesActions}
             pageSelectors={referencesSelectors}
+            tableActions={referencesTableActions}
             pageSize={pageSize}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}

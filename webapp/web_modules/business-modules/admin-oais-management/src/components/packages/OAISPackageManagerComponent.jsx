@@ -328,6 +328,7 @@ export class OAISPackageManagerComponent extends React.Component {
             name="package-management-table"
             pageActions={clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].actions}
             pageSelectors={clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].selectors}
+            tableActions={clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].tableActions}
             pageSize={pageSize}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}

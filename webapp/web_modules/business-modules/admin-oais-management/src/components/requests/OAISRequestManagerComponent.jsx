@@ -293,6 +293,7 @@ export class OAISRequestManagerComponent extends React.Component {
             name="request-management-table"
             pageActions={clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].actions}
             pageSelectors={clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].selectors}
+            tableActions={clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].tableActions}
             pageSize={pageSize}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}

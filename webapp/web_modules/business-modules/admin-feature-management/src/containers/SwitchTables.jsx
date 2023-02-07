@@ -159,7 +159,7 @@ export class SwitchTables extends React.Component {
     if (!isEqual(oldProps.featureManagerFilters, featureManagerFilters) && paneType !== oldProps.paneType) {
       const requestParameters = { ...pick(featureManagerFilters, 'sort') }
       const bodyParameters = { ...omit(featureManagerFilters, 'sort') }
-      fetchReferences(0, SwitchTables.PAGE_SIZE, {}, featureManagerFilters)
+      fetchReferences(0, SwitchTables.PAGE_SIZE, {}, requestParameters, bodyParameters)
       fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, requestParameters, bodyParameters)
       fetchDeleteRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, requestParameters, bodyParameters)
       fetchNotificationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION }, requestParameters, bodyParameters)

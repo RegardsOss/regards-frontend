@@ -289,6 +289,7 @@ export class RequestManagerComponent extends React.Component {
             name="request-management-table"
             pageActions={clientByPane[paneType].actions}
             pageSelectors={clientByPane[paneType].selectors}
+            tableActions={clientByPane[paneType].tableActions}
             pageSize={pageSize}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}
