@@ -28,7 +28,6 @@ import {
   FiltersPaneMainComponent, FilterPaneDatePickerField,
   FilterPaneSelectField,
 } from '@regardsoss/components'
-import { FILTER_PARAMS } from '../../../domain/filters'
 
 /**
  * @author Théo Lasserre
@@ -54,14 +53,14 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
    * Default state for inputValues edition
    */
   static DEFAULT_FILTERS_STATE = {
-    [FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-    [FILTER_PARAMS.LAST_CONNECTION]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-    [FILTER_PARAMS.EMAIL]: '',
-    [FILTER_PARAMS.LASTNAME]: '',
-    [FILTER_PARAMS.FIRSTNAME]: '',
-    [FILTER_PARAMS.STATUS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [FILTER_PARAMS.ORIGIN]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [FILTER_PARAMS.ROLE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [AdminDomain.FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+    [AdminDomain.FILTER_PARAMS.LAST_CONNECTION]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+    [AdminDomain.FILTER_PARAMS.EMAIL]: '',
+    [AdminDomain.FILTER_PARAMS.LASTNAME]: '',
+    [AdminDomain.FILTER_PARAMS.FIRSTNAME]: '',
+    [AdminDomain.FILTER_PARAMS.STATUS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [AdminDomain.FILTER_PARAMS.ORIGIN]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [AdminDomain.FILTER_PARAMS.ROLE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
   }
 
   getRolePrimaryText = (role) => {
@@ -88,22 +87,22 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
         updateFilter={updateFilter}
         updateValuesFilter={updateValuesFilter}
       >
-        <FilterPaneDatePickerField filterKey={FILTER_PARAMS.CREATION_DATE} />
-        <FilterPaneDatePickerField filterKey={FILTER_PARAMS.LAST_CONNECTION} />
-        <FilterPaneTextField filterKey={FILTER_PARAMS.EMAIL} />
-        <FilterPaneTextField filterKey={FILTER_PARAMS.LASTNAME} />
-        <FilterPaneTextField filterKey={FILTER_PARAMS.FIRSTNAME} />
-        <FilterPaneSelectField filterKey={FILTER_PARAMS.STATUS}>
+        <FilterPaneDatePickerField filterKey={AdminDomain.FILTER_PARAMS.CREATION_DATE} />
+        <FilterPaneDatePickerField filterKey={AdminDomain.FILTER_PARAMS.LAST_CONNECTION} />
+        <FilterPaneTextField filterKey={AdminDomain.FILTER_PARAMS.EMAIL} />
+        <FilterPaneTextField filterKey={AdminDomain.FILTER_PARAMS.LASTNAME} />
+        <FilterPaneTextField filterKey={AdminDomain.FILTER_PARAMS.FIRSTNAME} />
+        <FilterPaneSelectField filterKey={AdminDomain.FILTER_PARAMS.STATUS}>
           {map(AdminDomain.PROJECT_USER_STATUS, (status) => (
             <MenuItem key={status} value={status} primaryText={formatMessage({ id: `projectUser.list.table.status.${status}` })} />
           ))}
         </FilterPaneSelectField>
-        <FilterPaneSelectField filterKey={FILTER_PARAMS.ORIGIN}>
+        <FilterPaneSelectField filterKey={AdminDomain.FILTER_PARAMS.ORIGIN}>
           {map(origins, (origin) => (
             <MenuItem key={origin} value={origin.content.name} primaryText={origin.content.name} />
           ))}
         </FilterPaneSelectField>
-        <FilterPaneSelectField filterKey={FILTER_PARAMS.ROLE}>
+        <FilterPaneSelectField filterKey={AdminDomain.FILTER_PARAMS.ROLE}>
           {map(roleList, (role) => (
             <MenuItem key={role.content.name} value={role.content.name} primaryText={this.getRolePrimaryText(role)} />
           ))}

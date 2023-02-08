@@ -20,26 +20,8 @@ import reduce from 'lodash/reduce'
 import { AdminDomain } from '@regardsoss/domain'
 
 /**
- * Filters definitions
  * @author Théo Lasserre
  */
-
-/**
- * Possible filters parameters
- * values are properties names sent to backend (ex: lastConnection)
- */
-export const FILTER_PARAMS = {
-  CREATION_DATE: 'creationDate',
-  LAST_CONNECTION: 'lastConnection',
-  EMAIL: 'email',
-  FIRSTNAME: 'firstName',
-  LASTNAME: 'lastName',
-  STATUS: 'status',
-  ORIGIN: 'origins',
-  ROLE: 'roles',
-  USE_QUOTA_LIMITATION: 'quotaWarningCount',
-  GROUP: 'accessGroups',
-}
 
 /**
  * i18n filters keys used in filters pane and in filters chip
@@ -47,25 +29,25 @@ export const FILTER_PARAMS = {
  * (optional) chipValueKeys are the internationalized possible values of a SelectField type filter.
  */
 export const FILTERS_I18N = {
-  [FILTER_PARAMS.CREATION_DATE]: {
+  [AdminDomain.FILTER_PARAMS.CREATION_DATE]: {
     labelKey: 'projectUser.list.table.created',
   },
-  [FILTER_PARAMS.LAST_CONNECTION]: {
+  [AdminDomain.FILTER_PARAMS.LAST_CONNECTION]: {
     labelKey: 'projectUser.list.table.lastConnection',
   },
-  [FILTER_PARAMS.EMAIL]: {
+  [AdminDomain.FILTER_PARAMS.EMAIL]: {
     labelKey: 'projectUser.list.table.email.label',
     hintTextKey: 'projectUser.list.table.email.label',
   },
-  [FILTER_PARAMS.LASTNAME]: {
+  [AdminDomain.FILTER_PARAMS.LASTNAME]: {
     labelKey: 'projectUser.list.table.lastName.label',
     hintTextKey: 'projectUser.list.table.lastName.label',
   },
-  [FILTER_PARAMS.FIRSTNAME]: {
+  [AdminDomain.FILTER_PARAMS.FIRSTNAME]: {
     labelKey: 'projectUser.list.table.firstName.label',
     hintTextKey: 'projectUser.list.table.firstName.label',
   },
-  [FILTER_PARAMS.STATUS]: {
+  [AdminDomain.FILTER_PARAMS.STATUS]: {
     labelKey: 'projectUser.list.table.status.label',
     hintTextKey: 'projectUser.list.table.status.label',
     chipValueKeys: reduce(AdminDomain.PROJECT_USER_STATUS, (acc, value) => ({
@@ -73,20 +55,20 @@ export const FILTERS_I18N = {
       [value]: `projectUser.list.table.status.${value}`,
     }), {}),
   },
-  [FILTER_PARAMS.ORIGIN]: {
+  [AdminDomain.FILTER_PARAMS.ORIGIN]: {
     labelKey: 'projectUser.list.table.origin.label',
     hintTextKey: 'projectUser.list.table.origin.label',
     // chipValueKeys is not needed since we display raw selected value
   },
-  [FILTER_PARAMS.ROLE]: {
+  [AdminDomain.FILTER_PARAMS.ROLE]: {
     labelKey: 'projectUser.list.table.role.label',
     hintTextKey: 'projectUser.list.table.role.label',
     // chipValueKeys are built in ProjectUserListComponent
   },
-  [FILTER_PARAMS.USE_QUOTA_LIMITATION]: {
+  [AdminDomain.FILTER_PARAMS.USE_QUOTA_LIMITATION]: {
     labelKey: 'projectUser.list.only.low.quota',
   },
-  [FILTER_PARAMS.GROUP]: {
+  [AdminDomain.FILTER_PARAMS.GROUP]: {
     labelKey: 'projectUser.list.table.accessGroup.label',
     hintTextKey: 'projectUser.list.table.accessGroup.label',
     // chipValueKeys is not needed since we display raw selected value

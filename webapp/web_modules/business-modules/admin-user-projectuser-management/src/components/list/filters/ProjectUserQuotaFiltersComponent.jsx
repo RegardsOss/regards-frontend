@@ -19,12 +19,12 @@
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { UIShapes } from '@regardsoss/shape'
+import { AdminDomain } from '@regardsoss/domain'
 import {
   withFiltersPane, TableFilterSortingAndVisibilityContainer,
   FiltersPaneMainComponent,
   FilterPaneTextField, FilterPaneCheckboxField,
 } from '@regardsoss/components'
-import { FILTER_PARAMS } from '../../../domain/filters'
 
 /**
  * @author Théo Lasserre
@@ -47,10 +47,10 @@ export class ProjectUserQuotaFiltersComponent extends React.Component {
    * Default state for inputValues edition
    */
   static DEFAULT_FILTERS_STATE = {
-    [FILTER_PARAMS.EMAIL]: '',
-    [FILTER_PARAMS.LASTNAME]: '',
-    [FILTER_PARAMS.FIRSTNAME]: '',
-    [FILTER_PARAMS.USE_QUOTA_LIMITATION]: false,
+    [AdminDomain.FILTER_PARAMS.EMAIL]: '',
+    [AdminDomain.FILTER_PARAMS.LASTNAME]: '',
+    [AdminDomain.FILTER_PARAMS.FIRSTNAME]: '',
+    [AdminDomain.FILTER_PARAMS.USE_QUOTA_LIMITATION]: false,
   }
 
   render() {
@@ -63,10 +63,10 @@ export class ProjectUserQuotaFiltersComponent extends React.Component {
         updateFilter={updateFilter}
         inputValues={inputValues}
       >
-        <FilterPaneTextField filterKey={FILTER_PARAMS.EMAIL} />
-        <FilterPaneTextField filterKey={FILTER_PARAMS.LASTNAME} />
-        <FilterPaneTextField filterKey={FILTER_PARAMS.FIRSTNAME} />
-        <FilterPaneCheckboxField filterKey={FILTER_PARAMS.USE_QUOTA_LIMITATION} uiValue={uiSettings.quotaWarningCount} />
+        <FilterPaneTextField filterKey={AdminDomain.FILTER_PARAMS.EMAIL} />
+        <FilterPaneTextField filterKey={AdminDomain.FILTER_PARAMS.LASTNAME} />
+        <FilterPaneTextField filterKey={AdminDomain.FILTER_PARAMS.FIRSTNAME} />
+        <FilterPaneCheckboxField filterKey={AdminDomain.FILTER_PARAMS.USE_QUOTA_LIMITATION} uiValue={uiSettings.quotaWarningCount} />
       </FiltersPaneMainComponent>
     )
   }

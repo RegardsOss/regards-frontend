@@ -21,12 +21,11 @@ import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes, UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, AdminDomain } from '@regardsoss/domain'
 import {
   withFiltersPane, TableFilterSortingAndVisibilityContainer,
   FiltersPaneMainComponent, FilterPaneSelectField, FilterPaneTextField,
 } from '@regardsoss/components'
-import { FILTER_PARAMS } from '../../../domain/filters'
 
 /**
  * @author Théo Lasserre
@@ -50,10 +49,10 @@ export class ProjectUserAccessRightFiltersComponent extends React.Component {
    * Default state for inputValues edition
    */
   static DEFAULT_FILTERS_STATE = {
-    [FILTER_PARAMS.EMAIL]: '',
-    [FILTER_PARAMS.LASTNAME]: '',
-    [FILTER_PARAMS.FIRSTNAME]: '',
-    [FILTER_PARAMS.GROUP]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [AdminDomain.FILTER_PARAMS.EMAIL]: '',
+    [AdminDomain.FILTER_PARAMS.LASTNAME]: '',
+    [AdminDomain.FILTER_PARAMS.FIRSTNAME]: '',
+    [AdminDomain.FILTER_PARAMS.GROUP]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
   }
 
   render() {
@@ -67,10 +66,10 @@ export class ProjectUserAccessRightFiltersComponent extends React.Component {
         inputValues={inputValues}
         updateValuesFilter={updateValuesFilter}
       >
-        <FilterPaneTextField filterKey={FILTER_PARAMS.EMAIL} />
-        <FilterPaneTextField filterKey={FILTER_PARAMS.LASTNAME} />
-        <FilterPaneTextField filterKey={FILTER_PARAMS.FIRSTNAME} />
-        <FilterPaneSelectField filterKey={FILTER_PARAMS.GROUP}>
+        <FilterPaneTextField filterKey={AdminDomain.FILTER_PARAMS.EMAIL} />
+        <FilterPaneTextField filterKey={AdminDomain.FILTER_PARAMS.LASTNAME} />
+        <FilterPaneTextField filterKey={AdminDomain.FILTER_PARAMS.FIRSTNAME} />
+        <FilterPaneSelectField filterKey={AdminDomain.FILTER_PARAMS.GROUP}>
           {map(groups, (group) => (
             <MenuItem key={group.content.name} value={group.content.name} primaryText={group.content.name} />
           ))}

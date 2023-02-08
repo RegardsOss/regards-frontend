@@ -37,7 +37,7 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   AdminShapes, CommonShapes, UIShapes, DataManagementShapes,
 } from '@regardsoss/shape'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, AdminDomain } from '@regardsoss/domain'
 import { CardActionsComponent, TableFilterSortingAndVisibilityAndChipsComponent } from '@regardsoss/components'
 import dependencies from '../../dependencies'
 import { projectUserActions, projectUserSelectors } from '../../clients/ProjectUserClient'
@@ -48,7 +48,7 @@ import ProjectUserAccountComponent from './ProjectUserAccountComponent'
 import ProjectUserQuotaComponent from './ProjectUserQuotaComponent'
 import ProjectUserAccessRightComponent from './ProjectUserAccessRightComponent'
 import { VISUALISATION_MODES, VISUALISATION_MODES_ENUM } from '../../domain/VisualisationModes'
-import { FILTER_PARAMS, FILTERS_I18N } from '../../domain/filters'
+import { FILTERS_I18N } from '../../domain/filters'
 import { filtersActions, filtersSelectors } from '../../clients/FiltersClient'
 
 class ProjectUserListComponent extends React.Component {
@@ -182,7 +182,7 @@ class ProjectUserListComponent extends React.Component {
     const { currentRequestParameters } = this.state
     const refreshParameters = {
       ...currentRequestParameters,
-      [FILTER_PARAMS.USE_QUOTA_LIMITATION]: currentRequestParameters[FILTER_PARAMS.USE_QUOTA_LIMITATION] ? uiSettings.quotaWarningCount : null,
+      [AdminDomain.FILTER_PARAMS.USE_QUOTA_LIMITATION]: currentRequestParameters[AdminDomain.FILTER_PARAMS.USE_QUOTA_LIMITATION] ? uiSettings.quotaWarningCount : null,
     }
     onRefresh(refreshParameters)
   }
@@ -254,7 +254,7 @@ class ProjectUserListComponent extends React.Component {
     const { filtersI18n } = this.state
     return ({
       ...filtersI18n,
-      [FILTER_PARAMS.ROLE]: {
+      [AdminDomain.FILTER_PARAMS.ROLE]: {
         labelKey: 'projectUser.list.table.role.label',
         hintTextKey: 'projectUser.list.table.role.label',
         chipValueKeys: reduce(roleList, (acc, role) => ({

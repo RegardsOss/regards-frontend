@@ -31,7 +31,7 @@ export default class WaitingAccessUsersEntitiesActions extends ProjectUserAction
 
   fetchWaitingUsersEntityList(index, size) {
     const bodyParams = {
-      state: {
+      [AdminDomain.FILTER_PARAMS.STATUS]: {
         values: [AdminDomain.PROJECT_USER_STATUS_ENUM.WAITING_ACCESS],
         mode: TableSelectionModes.INCLUDE,
       },

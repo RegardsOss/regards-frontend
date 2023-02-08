@@ -17,12 +17,24 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export { DEFAULT_ROLES, DEFAULT_ROLES_ENUM } from './DefaultRoles'
-export { default as EnumConnectivity } from './EnumConnectivity'
-export { default as EnumJavaPrimitiveType } from './EnumJavaPrimitiveType'
-export { default as ProjectConnectionStateEnum } from './ProjectConnectionStateEnum'
-export { PROJECT_USER_SETTINGS_MODE, PROJECT_USER_SETTINGS_MODE_ENUM } from './ProjectUserSettingsMode'
-export { PROJECT_USER_STATUS, PROJECT_USER_STATUS_ENUM } from './ProjectUserStatus'
-export { PROJECT_CRS, PROJECT_CRS_ENUM } from './ProjectCrsEnum'
-export { STEP_TYPE_ENUM, STEP_TYPE } from './dashboard/StepType'
-export { FILTER_PARAMS } from './ProjectUserFilters'
+/**
+ * Project users filters definitions
+ * @author Théo Lasserre
+ */
+
+/**
+ * Possible filters parameters
+ * values are properties names sent to backend (ex: lastConnection)
+ */
+export const FILTER_PARAMS = {
+  CREATION_DATE: 'creationDate',
+  LAST_CONNECTION: 'lastConnection',
+  EMAIL: 'email',
+  FIRSTNAME: 'firstName',
+  LASTNAME: 'lastName',
+  STATUS: 'status',
+  ORIGIN: 'origins',
+  ROLE: 'roles',
+  USE_QUOTA_LIMITATION: 'quotaWarningCount',
+  GROUP: 'accessGroups',
+}

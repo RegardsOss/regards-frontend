@@ -22,6 +22,7 @@ import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import { UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { AdminDomain } from '@regardsoss/domain'
 import {
   NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
   ShowableAtRender, PageableInfiniteTableContainer,
@@ -37,7 +38,6 @@ import EditQuotaComponent from './options/EditQuotaComponent'
 import { ProjectUserQuotaFiltersComponent } from './filters/ProjectUserQuotaFiltersComponent'
 import MaxQuotaDialogComponent from './dialog/MaxQuotaDialogComponent'
 import QuotaRenderer from './render/QuotaRenderer'
-import { FILTER_PARAMS } from '../../domain/filters'
 import HeaderActionsBar from './HeaderActionsBar'
 import { getUserRequestParameters } from '../../domain/QueryUtils'
 
@@ -118,7 +118,7 @@ export class ProjectUserQuotaComponent extends React.Component {
       newState = {
         requestParameters: {
           ...newRequestParameters,
-          [FILTER_PARAMS.USE_QUOTA_LIMITATION]: newRequestParameters[FILTER_PARAMS.USE_QUOTA_LIMITATION] ? uiSettings.quotaWarningCount : null,
+          [AdminDomain.FILTER_PARAMS.USE_QUOTA_LIMITATION]: newRequestParameters[AdminDomain.FILTER_PARAMS.USE_QUOTA_LIMITATION] ? uiSettings.quotaWarningCount : null,
         },
       }
     }
