@@ -362,6 +362,7 @@ export default (theme) => {
         lineDivStyle: {
           width: '100%',
           maxWidth: '450px',
+          display: 'flex',
         },
         mainMultilineDivStyle: {
           display: 'flex',
