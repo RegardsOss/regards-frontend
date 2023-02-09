@@ -191,7 +191,7 @@ export class OAISRequestManagerComponent extends React.Component {
     }
   }
 
-  onConfirm = (dialogRequestType) => {
+  onConfirm = (dialogRequestType, newVersioningMode) => {
     const {
       onDeleteRequests, onAbortRequests, paneType, onRetryRequests,
       onSelectVersionOption,
@@ -208,7 +208,10 @@ export class OAISRequestManagerComponent extends React.Component {
         onRetryRequests(payload)
         break
       case DIALOG_TYPES.VERSION_OPTION_SELECTION_DIALOG:
-        onSelectVersionOption(payload)
+        onSelectVersionOption({
+          ...payload,
+          newVersioningMode,
+        })
         break
       default:
         console.error('Invalid dialog type', dialogRequestType)
@@ -236,7 +239,7 @@ export class OAISRequestManagerComponent extends React.Component {
           component = <VersionOptionSelectionDialog // 2. version option selection
             selection={this.state[DIALOG_TYPES.VERSION_OPTION_SELECTION_DIALOG]}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
-            onConfirm={() => this.onConfirm(dialogRequestType)}
+            onConfirm={(selectedVersionModeOption) => this.onConfirm(dialogRequestType, selectedVersionModeOption)}
           />
           break
         case DIALOG_TYPES.RETRY_DIALOG:
