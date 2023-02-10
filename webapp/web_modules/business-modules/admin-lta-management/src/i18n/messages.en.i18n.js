@@ -30,6 +30,7 @@ const messages = {
 
   // Dialogs
   'lta.table.actions.delete.title': 'Remove request(s) ?',
+  'lta.table.actions.delete.message': 'Only requests that are not being processed will be deleted.',
   'lta.table.actions.view.message.tooltip': 'See message',
   'lta.table.actions.view.product.tooltip': 'See request product',
   'lta.table.actions.view.product.title': 'Request product',

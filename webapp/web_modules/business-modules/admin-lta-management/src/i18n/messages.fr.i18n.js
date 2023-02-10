@@ -30,6 +30,7 @@ const messages = {
 
   // Dialogs
   'lta.table.actions.delete.title': 'Supprimer la ou les requête(s) ?',
+  'lta.table.actions.delete.message': 'Seules les requêtes qui ne sont pas en cours de traitement seront supprimées.',
   'lta.table.actions.view.message.tooltip': 'Voir le message',
   'lta.table.actions.view.product.tooltip': 'Voir le produit de la requête',
   'lta.table.actions.view.product.title': 'Produit de la requête',

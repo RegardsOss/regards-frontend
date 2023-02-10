@@ -163,13 +163,14 @@ class LTAManagerTableComponent extends React.Component {
 
   renderDialog = (dialogType) => {
     const { intl: { formatMessage } } = this.context
-    const { open } = this.state[dialogType]
+    const { open, mode } = this.state[dialogType]
     if (open) {
       let component = null
       switch (dialogType) {
         case DIALOG_TYPES.DELETE_DIALOG:
           component = <ConfirmDialogComponent
             dialogType={ConfirmDialogComponentTypes.DELETE}
+            message={mode === TableSelectionModes.excludeSelected ? formatMessage({ id: 'lta.table.actions.delete.message' }) : null}
             onConfirm={() => this.onConfirm(dialogType)}
             onClose={() => this.onCloseActionDialog(dialogType)}
             title={formatMessage({ id: 'lta.table.actions.delete.title' })}
