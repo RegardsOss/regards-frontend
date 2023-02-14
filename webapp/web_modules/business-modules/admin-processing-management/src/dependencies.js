@@ -31,7 +31,7 @@ const listProcessingDependencies = [
 ]
 
 const listMonitoringDependencies = [
-  processingMonitoringActions.getDependency(RequestVerbEnum.GET_LIST),
+  processingMonitoringActions.getDependency(RequestVerbEnum.POST),
 ]
 
 const addProcessingDependencies = [

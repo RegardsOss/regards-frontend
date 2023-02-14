@@ -24,7 +24,7 @@ import { LTAClient } from '@regardsoss/client'
  * @author Théo Lasserre
  */
 const listDependencies = [
-  // new LTAClient.RequestActions().getDependency(RequestVerbEnum.POST),
+  new LTAClient.RequestActions().getDependency(RequestVerbEnum.POST),
 ]
 
 const settingsDependencies = [

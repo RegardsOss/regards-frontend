@@ -34,11 +34,11 @@ const settingDependencies = [
 ]
 
 const listDependencies = [
-  referencesActions.getDependency(RequestVerbEnum.GET),
-  creationRequestActions.getDependency(RequestVerbEnum.GET),
-  deleteRequestActions.getDependency(RequestVerbEnum.GET),
-  notificationRequestActions.getDependency(RequestVerbEnum.GET),
-  updateRequestActions.getDependency(RequestVerbEnum.GET),
+  referencesActions.getDependency(RequestVerbEnum.POST),
+  creationRequestActions.getDependency(RequestVerbEnum.POST),
+  deleteRequestActions.getDependency(RequestVerbEnum.POST),
+  notificationRequestActions.getDependency(RequestVerbEnum.POST),
+  updateRequestActions.getDependency(RequestVerbEnum.POST),
 ]
 
 export default {
