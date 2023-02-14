@@ -434,6 +434,7 @@ export default (theme) => {
       },
       chipMainStyle: {
         display: 'flex',
+        alignItems: 'center',
       },
       chipValueDivStyle: {
         display: 'flex',

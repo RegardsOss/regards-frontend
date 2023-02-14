@@ -172,11 +172,16 @@ class FiltersChipsComponent extends React.Component {
     const {
       intl: { formatMessage, messages },
     } = this.context
-    const i18nValueKey = get(filtersI18n, `${filterKey}.chipValueKeys.${value}`)
-    if (!this.i18nExist(i18nValueKey, messages)) {
+    const i18nValueKeyOrDirectValue = get(filtersI18n, `${filterKey}.chipValueKeys.${value}`)
+    const displayedDirectValues = get(filtersI18n, `${filterKey}.displayedDirectValues`, false)
+    // We want to display value without i18n formatting (when selected value is made by user for example)
+    if (displayedDirectValues) {
+      return `${i18nValueKeyOrDirectValue}`
+    }
+    if (!this.i18nExist(i18nValueKeyOrDirectValue, messages)) {
       return `${value}`
     }
-    return formatMessage({ id: i18nValueKey })
+    return formatMessage({ id: i18nValueKeyOrDirectValue })
   }
 
   i18nExist = (i18nKey, messages) => keys(messages).includes(i18nKey)

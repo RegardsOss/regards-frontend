@@ -89,6 +89,7 @@ export class ProcessingMonitoringComponent extends React.Component {
           ...acc,
           [get(process, 'content.pluginConfiguration.businessId')]: get(process, 'content.pluginConfiguration.label'),
         }), {}),
+        displayedDirectValues: true, // we dont provide in chipValueKeys multiple i18n keys but direct values instead since they are user made.
       },
     })
   }
