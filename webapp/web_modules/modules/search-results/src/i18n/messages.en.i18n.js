@@ -225,7 +225,7 @@ const messages = {
   'show.description.tooltip': 'Details',
   'filter.related.data': 'Display data',
   'add.to.cart.tooltip': 'Add item to my cart',
-  'add.selection.to.cart.label': 'Add to basket',
+  'add.selection.to.cart.label': 'Add to cart',
   'add.selection.to.cart.tooltip': 'Add selected items to my cart',
   'zoom.to.product.tooltip': 'Zoom to this product on the map',
   'open.zoomed.picture.tooltip': 'Visualize the quicklook',
