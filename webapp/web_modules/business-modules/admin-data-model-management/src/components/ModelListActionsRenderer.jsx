@@ -28,7 +28,7 @@ import { ActionsMenuCell, HateoasIconAction, ResourceIconAction } from '@regards
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { modelAttributesActions } from '../clients/ModelAttributesClient'
+import { modelAttributeDataManagementDependencies } from '@regardsoss/admin-data-modelattribute-management'
 import { modelActions } from '../clients/ModelClient'
 
 const actionsBreakpoints = [940, 995, 1065, 1320, 1380]
@@ -87,7 +87,7 @@ class ModelListActionsRenderer extends React.Component {
         </HateoasIconAction>
 
         <ResourceIconAction
-          resourceDependencies={modelAttributesActions.getDependency(RequestVerbEnum.POST)}
+          resourceDependencies={modelAttributeDataManagementDependencies.editDependencies}
           onClick={() => handleBindAttributes(entity.content.name)}
           title={intl.formatMessage({ id: 'model.list.action.bind' })}
         >

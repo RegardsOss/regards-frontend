@@ -16,6 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { default as modelAttributeDataManagementReducer } from './reducer'
-export { default as modelAttributeDataManagementRouter } from './router'
-export { default as modelAttributeDataManagementDependencies } from './dependencies'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { modelAttributeComputationTypesActions } from './clients/ModelAttributeComputationTypesClient'
+import { modelAttributesActions } from './clients/ModelAttributesClient'
+
+/**
+ * Mandatory Dependencies to edit an association between a model and attributes
+ * @type {Array}
+ */
+const editDependencies = [
+  modelAttributeComputationTypesActions.getDependency(RequestVerbEnum.GET_LIST),
+  modelAttributesActions.getDependency(RequestVerbEnum.POST),
+]
+
+export default {
+  editDependencies,
+}
