@@ -49,7 +49,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list container', () => {
 
   it('should render self and subcomponents', () => {
     const props = {
-      allAccounts,
       waitingAccounts,
       isFetching: false,
       pageMeta: {
@@ -77,7 +76,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list container', () => {
     const subComponent = enzymeWrapper.find(AccountListComponent)
     assert.lengthOf(subComponent, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(subComponent, {
-      allAccounts: props.allAccounts,
       waitingAccounts: props.waitingAccounts,
       isFetchingActions: enzymeWrapper.instance().state.isFetchingActions,
       isFetching: props.isFetching,

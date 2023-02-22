@@ -218,7 +218,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
 
   render() {
     const {
-      children, isPagePostFetching, filtersActions, filtersSelectors, filtersI18n,
+      children, isPagePostFetching, filtersActions, filtersSelectors, filtersI18n, pageMeta,
     } = this.props
     const {
       requestParameters,
@@ -240,6 +240,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
             requestParameters: isPagePostFetching ? pick(requestParameters, 'sort') : requestParameters,
             bodyParameters: isPagePostFetching ? omit(requestParameters, 'sort') : {},
             columnsVisibility,
+            pageMeta,
           })
         } if (child.key === CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER) {
           return React.cloneElement(child, {

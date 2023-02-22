@@ -38,14 +38,10 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationContainer', 
   })
   it('should render correctly', () => {
     const props = {
-      // from mapStateToProps
-      pageMeta: {
-        totalElements: 40,
-      },
       // from mapDispatchToProps
-      fetchRequests: () => {},
-      onDeleteRequest: () => {},
-      onRetryRequest: () => {},
+      fetchRequests: () => { },
+      onDeleteRequest: () => { },
+      onRetryRequest: () => { },
     }
     const enzymeWrapper = shallow(<DataPreparationContainer {...props} />, { context })
     const subComponent = enzymeWrapper.find(DataPreparationComponent)
@@ -56,7 +52,6 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationContainer', 
       onBack: enzymeWrapper.instance().onBack,
       onRefresh: enzymeWrapper.instance().onRefresh,
       isLoading: enzymeWrapper.instance().state.isFetching,
-      numberOfRequests: props.pageMeta.totalElements,
     }, 'Component should define the expected properties and callbacks')
   })
 })

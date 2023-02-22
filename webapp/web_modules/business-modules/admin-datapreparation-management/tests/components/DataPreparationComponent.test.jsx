@@ -43,11 +43,10 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationComponent', 
   })
   it('should render correctly', () => {
     const props = {
-      onBack: () => {},
+      onBack: () => { },
       isLoading: false,
-      onDeleteRequest: () => {},
-      onRetryRequest: () => {},
-      numberOfRequests: 1,
+      onDeleteRequest: () => { },
+      onRetryRequest: () => { },
       onRefresh: () => { },
     }
     const enzymeWrapper = shallow(<DataPreparationComponent {...props} />, { context })
@@ -68,7 +67,6 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationComponent', 
     assert.lengthOf(tableWrapper, 1, 'There should be a DataPreparationTableComponent')
     testSuiteHelpers.assertWrapperProperties(tableWrapper, {
       isLoading: props.isLoading,
-      numberOfRequests: props.numberOfRequests,
     }, 'Component should define the expected properties')
     const filterWrapper = enzymeWrapper.find(RequestFiltersComponent)
     assert.lengthOf(filterWrapper, 1, 'There should be a RequestFiltersComponent')

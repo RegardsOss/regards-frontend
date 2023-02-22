@@ -60,7 +60,6 @@ class ProjectUserListComponent extends React.Component {
     onRefresh: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
-    totalElements: PropTypes.number.isRequired,
     origins: CommonShapes.ServiceProviderList.isRequired,
     isLoading: PropTypes.bool.isRequired,
     onEdit: PropTypes.func.isRequired,
@@ -189,7 +188,7 @@ class ProjectUserListComponent extends React.Component {
 
   getDisplayComponents = (visualisationMode) => {
     const {
-      project, origins, roleList, totalElements,
+      project, origins, roleList,
       isLoading, onEdit, uiSettings, groups,
     } = this.props
     const { isPaneOpened } = this.state
@@ -204,7 +203,6 @@ class ProjectUserListComponent extends React.Component {
         <ProjectUserAccountComponent
           key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
           project={project}
-          totalElements={totalElements}
           isLoading={isLoading}
           onEdit={onEdit}
         />]
@@ -219,7 +217,6 @@ class ProjectUserListComponent extends React.Component {
         <ProjectUserQuotaComponent
           key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
           project={project}
-          totalElements={totalElements}
           onEdit={onEdit}
           isLoading={isLoading}
           uiSettings={uiSettings}
@@ -234,7 +231,6 @@ class ProjectUserListComponent extends React.Component {
       />,
         <ProjectUserAccessRightComponent
           key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
-          totalElements={totalElements}
           onEdit={onEdit}
           isLoading={isLoading}
         />]

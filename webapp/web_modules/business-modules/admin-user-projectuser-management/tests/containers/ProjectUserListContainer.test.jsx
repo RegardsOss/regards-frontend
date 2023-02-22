@@ -88,7 +88,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserListContainer', () =
       onSendEmailConfirmation: instance.onSendEmailConfirmation,
       onSetMaxQuota: instance.onSetMaxQuota,
       uiSettings: props.uiSettings,
-      totalElements: props.pageMeta.totalElements,
       origins: props.origins,
       isLoading: false,
       onEdit: instance.onEdit,

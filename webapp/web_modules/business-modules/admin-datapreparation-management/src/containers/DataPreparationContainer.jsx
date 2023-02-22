@@ -22,7 +22,6 @@ import pick from 'lodash/pick'
 import omit from 'lodash/omit'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
-import get from 'lodash/get'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { requestActions, requestSelectors } from '../clients/WorkerRequestClient'
 import { requestSignalsActions } from '../clients/WorkerRequestSignalsClient'
@@ -131,7 +130,6 @@ export class DataPreparationContainer extends React.Component {
   }
 
   render() {
-    const { pageMeta } = this.props
     const { isFetching } = this.state
     return (
       <I18nProvider messages={messages}>
@@ -139,7 +137,6 @@ export class DataPreparationContainer extends React.Component {
           <DataPreparationComponent
             onBack={this.onBack}
             isLoading={isFetching}
-            numberOfRequests={get(pageMeta, 'totalElements', 0)}
             onRefresh={this.onRefresh}
             onRetryRequest={this.onRetryRequest}
             onDeleteRequest={this.onDeleteRequest}

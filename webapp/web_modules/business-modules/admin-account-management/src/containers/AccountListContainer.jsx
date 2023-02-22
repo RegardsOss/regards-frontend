@@ -44,11 +44,6 @@ import styles from '../styles'
 export class AccountListContainer extends React.Component {
   static propTypes = {
     // from mapStateToProps
-    allAccounts: PropTypes.shape({
-      content: PropTypes.objectOf({
-        Account: AdminInstanceShapes.Account,
-      }),
-    }),
     waitingAccounts: PropTypes.shape({
       content: PropTypes.objectOf({
         Account: AdminInstanceShapes.Account,
@@ -83,7 +78,6 @@ export class AccountListContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      allAccounts: accountSelectors.getList(state) || {},
       waitingAccounts: accountWaitingSelectors.getList(state) || {},
       isFetching: accountSelectors.isFetching(state) || accountWaitingSelectors.isFetching(state),
       pageMeta: accountSelectors.getMetaData(state),
@@ -232,14 +226,13 @@ export class AccountListContainer extends React.Component {
 
   render() {
     const {
-      allAccounts, waitingAccounts, isFetching, origins, projects,
+      waitingAccounts, isFetching, origins, projects,
     } = this.props
     const { isFetchingActions } = this.state
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={styles}>
           <AccountListComponent
-            allAccounts={allAccounts}
             waitingAccounts={waitingAccounts}
             isFetchingActions={isFetchingActions}
             isFetching={isFetching}

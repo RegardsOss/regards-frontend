@@ -49,8 +49,12 @@ class LTAManagerTableComponent extends React.Component {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
     onDeleteRequest: PropTypes.func,
-    numberOfRequests: PropTypes.number.isRequired,
     pageSize: PropTypes.number,
+    pageMeta: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
 
     // table sorting, column visiblity & filters management
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
@@ -200,8 +204,8 @@ class LTAManagerTableComponent extends React.Component {
       pageSize, isLoading,
       getColumnSortingData, columnsVisibility,
       onSort, onChangeColumnsVisibility,
-      numberOfRequests, bodyParameters,
-      requestParameters,
+      bodyParameters,
+      requestParameters, pageMeta,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -282,7 +286,7 @@ class LTAManagerTableComponent extends React.Component {
       <TableLayout>
         <TableHeaderLine>
           <TableHeaderContentBox>
-            {formatMessage({ id: 'lta.table.info.nb.requests' }, { value: numberOfRequests })}
+            {formatMessage({ id: 'lta.table.info.nb.requests' }, { value: get(pageMeta, 'totalElements', 0) })}
           </TableHeaderContentBox>
           <TableHeaderLoadingComponent loading={isLoading} />
           <TableHeaderOptionsArea>

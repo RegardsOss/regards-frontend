@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import pick from 'lodash/pick'
 import omit from 'lodash/omit'
 import { browserHistory } from 'react-router'
@@ -125,7 +124,6 @@ export class LTAManagerContainer extends React.Component {
   }
 
   render() {
-    const { pageMeta } = this.props
     const { isFetching } = this.state
     return (
       <I18nProvider messages={messages}>
@@ -133,7 +131,6 @@ export class LTAManagerContainer extends React.Component {
           <LTAManagerComponent
             onBack={this.onBack}
             isLoading={isFetching}
-            numberOfRequests={get(pageMeta, 'totalElements', 0)}
             onRefresh={this.onRefresh}
             onDeleteRequest={this.onDeleteRequest}
           />

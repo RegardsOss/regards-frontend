@@ -41,7 +41,6 @@ import { FILTERS_I18N } from '../domain/filters'
  */
 export class AccountListComponent extends React.Component {
   static propTypes = {
-    allAccounts: PropTypes.objectOf(AdminInstanceShapes.Account),
     waitingAccounts: PropTypes.objectOf(AdminInstanceShapes.Account),
     isFetching: PropTypes.bool.isRequired,
     onAccept: PropTypes.func.isRequired,
@@ -90,7 +89,7 @@ export class AccountListComponent extends React.Component {
     const {
       isFetchingActions,
       onBack, onEdit, onAccept, onEnable, isFetching, onRefuse,
-      waitingAccounts, allAccounts, onDelete, origins, projects,
+      waitingAccounts, onDelete, origins, projects,
       onFilterWaitingAccount,
     } = this.props
     const { isPaneOpened } = this.state
@@ -154,7 +153,6 @@ export class AccountListComponent extends React.Component {
             />
             <AccountTableListComponent
               key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
-              allAccounts={allAccounts}
               isFetchingActions={isFetchingActions}
               isFetching={isFetching}
               onEdit={onEdit}

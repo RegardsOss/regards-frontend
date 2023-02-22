@@ -38,10 +38,6 @@ describe('[ADMIN LTA MANAGEMENT] Testing LTAManagerContainer', () => {
   })
   it('should render correctly', () => {
     const props = {
-      // from mapStateToProps
-      pageMeta: {
-        totalElements: 40,
-      },
       // from mapDispatchToProps
       fetchRequests: () => { },
       deleteRequests: () => { },
@@ -54,7 +50,6 @@ describe('[ADMIN LTA MANAGEMENT] Testing LTAManagerContainer', () => {
       onBack: enzymeWrapper.instance().onBack,
       onRefresh: enzymeWrapper.instance().onRefresh,
       isLoading: enzymeWrapper.instance().state.isFetching,
-      numberOfRequests: props.pageMeta.totalElements,
     }, 'Component should define the expected properties and callbacks')
   })
 })

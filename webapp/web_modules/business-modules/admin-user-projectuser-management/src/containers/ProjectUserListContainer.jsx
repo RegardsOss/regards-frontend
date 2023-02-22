@@ -262,7 +262,7 @@ export class ProjectUserListContainer extends React.Component {
 
   render() {
     const {
-      params: { project, visualisationMode }, pageMeta, origins,
+      params: { project, visualisationMode }, origins,
       isFetchingViewData, isFetchingActions, uiSettings,
       roleList, groups,
     } = this.props
@@ -285,7 +285,6 @@ export class ProjectUserListContainer extends React.Component {
             onSendEmailConfirmation={this.onSendEmailConfirmation}
             onSetMaxQuota={this.onSetMaxQuota}
             uiSettings={uiSettings}
-            totalElements={get(pageMeta, 'totalElements', 0)}
             origins={origins}
             isLoading={isFetchingViewData || isFetchingActions || isFetching}
             onEdit={this.onEdit}

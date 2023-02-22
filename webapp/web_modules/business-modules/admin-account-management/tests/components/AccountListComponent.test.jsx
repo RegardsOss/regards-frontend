@@ -44,7 +44,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
   })
   it('should render correctly', () => {
     const props = {
-      allAccounts: {},
       waitingAccounts: {},
       isFetching: true,
       onAccept: () => { },
@@ -57,7 +56,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
       onRefresh: () => { },
       origins: [],
       projects: {},
-      onFilterWaitingAccount: () => {},
+      onFilterWaitingAccount: () => { },
     }
     const enzymeWrapper = shallow(<AccountListComponent {...props} />, { context })
     const headerComponent = enzymeWrapper.find(CardHeaderActions)
@@ -96,7 +95,6 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
     const tableComponent = enzymeWrapper.find(AccountTableListComponent)
     assert.lengthOf(tableComponent, 1, 'AccountTableListComponent should be set')
     testSuiteHelpers.assertWrapperProperties(tableComponent, {
-      allAccounts: props.allAccounts,
       isFetchingActions: props.isFetchingActions,
       isFetching: props.isFetching,
       onEdit: props.onEdit,

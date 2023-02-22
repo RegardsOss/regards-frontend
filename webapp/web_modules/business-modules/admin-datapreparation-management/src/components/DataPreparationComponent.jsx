@@ -41,7 +41,6 @@ class DataPreparationComponent extends React.Component {
     isLoading: PropTypes.bool.isRequired,
     onDeleteRequest: PropTypes.func.isRequired,
     onRetryRequest: PropTypes.func.isRequired,
-    numberOfRequests: PropTypes.number.isRequired,
     onRefresh: PropTypes.func.isRequired,
   }
 
@@ -76,7 +75,7 @@ class DataPreparationComponent extends React.Component {
 
   render() {
     const {
-      onBack, onDeleteRequest, onRetryRequest, numberOfRequests, isLoading,
+      onBack, onDeleteRequest, onRetryRequest, isLoading,
     } = this.props
     const { isPaneOpened } = this.state
     const { intl: { formatMessage }, moduleTheme: { filterButtonStyle } } = this.context
@@ -113,7 +112,6 @@ class DataPreparationComponent extends React.Component {
             <DataPreparationTableComponent
               key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
               isLoading={isLoading}
-              numberOfRequests={numberOfRequests}
             />
           </TableFilterSortingAndVisibilityAndChipsComponent>
         </CardText>

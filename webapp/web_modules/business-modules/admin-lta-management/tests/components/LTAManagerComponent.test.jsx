@@ -47,7 +47,6 @@ describe('[ADMIN LTA MANAGEMENT] Testing LTAManagerComponent', () => {
       onBack: () => { },
       isLoading: false,
       onDeleteRequest: () => { },
-      numberOfRequests: 1,
       onRefresh: () => { },
     }
     const enzymeWrapper = shallow(<LTAManagerComponent {...props} />, { context })
@@ -67,7 +66,6 @@ describe('[ADMIN LTA MANAGEMENT] Testing LTAManagerComponent', () => {
     assert.lengthOf(tableWrapper, 1, 'There should be a LTAManagerTableComponent')
     testSuiteHelpers.assertWrapperProperties(tableWrapper, {
       isLoading: props.isLoading,
-      numberOfRequests: props.numberOfRequests,
     }, 'Component should define the expected properties')
     const filterWrapper = enzymeWrapper.find(RequestFiltersComponent)
     assert.lengthOf(filterWrapper, 1, 'There should be a RequestFiltersComponent')

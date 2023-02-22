@@ -17,10 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import size from 'lodash/size'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
-import { AdminInstanceShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -43,7 +41,6 @@ import StatusRenderComponent from './render/StatusRenderComponent'
  */
 export class AccountTableListComponent extends React.Component {
   static propTypes = {
-    allAccounts: PropTypes.objectOf(AdminInstanceShapes.Account),
     isFetching: PropTypes.bool.isRequired,
     pageSize: PropTypes.number,
     onAccept: PropTypes.func,
@@ -52,6 +49,11 @@ export class AccountTableListComponent extends React.Component {
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func,
     isFetchingActions: PropTypes.bool.isRequired,
+    pageMeta: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
 
     // table sorting, column visiblity & filters management
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
@@ -156,9 +158,9 @@ export class AccountTableListComponent extends React.Component {
     const {
       isFetchingActions,
       onEdit, onAccept, onEnable, isFetching,
-      pageSize, allAccounts,
+      pageSize,
       requestParameters, columnsVisibility, onChangeColumnsVisibility,
-      getColumnSortingData, onSort,
+      getColumnSortingData, onSort, pageMeta,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -255,7 +257,7 @@ export class AccountTableListComponent extends React.Component {
         <TableHeaderLine>
           {/* 1 - accounts count */}
           <TableHeaderContentBox>
-            {formatMessage({ id: 'account.list.info.nb.accounts' }, { value: size(allAccounts) || 0 })}
+            {formatMessage({ id: 'account.list.info.nb.accounts' }, { value: get(pageMeta, 'totalElements', 0) })}
           </TableHeaderContentBox>
           {/* 2 - loading */}
           <TableHeaderLoadingComponent loading={isFetching} />

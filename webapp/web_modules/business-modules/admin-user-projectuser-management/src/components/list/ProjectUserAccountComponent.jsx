@@ -49,7 +49,6 @@ const DIALOG_TYPES = {
 
 export class ProjectUserAccountComponent extends React.Component {
   static propTypes = {
-    totalElements: PropTypes.number.isRequired,
     pageSize: PropTypes.number,
     isLoading: PropTypes.bool.isRequired,
     onEdit: PropTypes.func,
@@ -60,6 +59,11 @@ export class ProjectUserAccountComponent extends React.Component {
     onEnable: PropTypes.func,
     onSendEmailConfirmation: PropTypes.func,
     onDownloadCSV: PropTypes.func,
+    pageMeta: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
 
     // table sorting, column visiblity & filters management
     // eslint-disable-next-line react/no-unused-prop-types
@@ -204,11 +208,11 @@ export class ProjectUserAccountComponent extends React.Component {
 
   render() {
     const {
-      onEdit, onDisable, pageSize, totalElements,
+      onEdit, onDisable, pageSize,
       onValidate, onDeny, isLoading, onEnable,
       getColumnSortingData, columnsVisibility,
       onSort, onChangeColumnsVisibility, bodyParameters,
-      onDownloadCSV,
+      onDownloadCSV, pageMeta,
     } = this.props
     const { requestParameters } = this.state
     const { intl: { formatMessage }, muiTheme } = this.context
@@ -302,7 +306,7 @@ export class ProjectUserAccountComponent extends React.Component {
         <TableHeaderLine>
           {/* 1 - accounts count */}
           <TableHeaderContentBox>
-            {formatMessage({ id: 'projectUser.list.info.nb.accounts' }, { value: totalElements })}
+            {formatMessage({ id: 'projectUser.list.info.nb.accounts' }, { value: get(pageMeta, 'totalElements', 0) })}
           </TableHeaderContentBox>
           {/* 2 - loading */}
           <TableHeaderLoadingComponent loading={isLoading} />

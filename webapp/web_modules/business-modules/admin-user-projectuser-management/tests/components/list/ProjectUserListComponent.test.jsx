@@ -57,8 +57,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
       onRefresh: () => { },
       onCreate: () => { },
       onBack: () => { },
-      totalElements: 1,
-      origins: { },
+      origins: {},
       isLoading: false,
       onEdit: () => { },
       onDeleteAccount: () => { },
@@ -68,7 +67,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
       onDisable: () => { },
       onEnable: () => { },
       onSendEmailConfirmation: () => { },
-      roleList: { },
+      roleList: {},
       onSetMaxQuota: () => { },
       uiSettings: {
         showVersion: false,
@@ -77,7 +76,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
         quotaWarningCount: 150,
         rateWarningCount: 5,
       },
-      groups: { },
+      groups: {},
     }
     const enzymeWrapper = shallow(<ProjectUserListComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(CardTitle), 1, 'CardTitle should be set')
@@ -115,7 +114,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
     assert.lengthOf(tableComponent, 1, 'ProjectUserAccountComponent should be set')
     testSuiteHelpers.assertWrapperProperties(tableComponent, {
       project: props.project,
-      totalElements: props.totalElements,
       isLoading: props.isLoading,
       onEdit: props.onEdit,
     }, 'Component should define the expected properties and callbacks')
@@ -148,7 +146,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
     assert.lengthOf(quotaTableComponent, 1, 'ProjectUserQuotaComponent should be set')
     testSuiteHelpers.assertWrapperProperties(quotaTableComponent, {
       project: props.project,
-      totalElements: props.totalElements,
       isLoading: props.isLoading,
       onEdit: props.onEdit,
       uiSettings: props.uiSettings,
@@ -182,7 +179,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
     accessRightTableComponent = enzymeWrapper.find(ProjectUserAccessRightComponent)
     assert.lengthOf(accessRightTableComponent, 1, 'ProjectUserAccessRightComponent should be set')
     testSuiteHelpers.assertWrapperProperties(accessRightTableComponent, {
-      totalElements: props.totalElements,
       isLoading: props.isLoading,
       onEdit: props.onEdit,
     }, 'Component should define the expected properties and callbacks')

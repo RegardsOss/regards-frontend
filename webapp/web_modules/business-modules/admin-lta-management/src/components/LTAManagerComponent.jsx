@@ -39,7 +39,6 @@ class LTAManagerComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     onDeleteRequest: PropTypes.func.isRequired,
-    numberOfRequests: PropTypes.number.isRequired,
     onRefresh: PropTypes.func.isRequired,
   }
 
@@ -73,7 +72,7 @@ class LTAManagerComponent extends React.Component {
 
   render() {
     const {
-      onBack, onDeleteRequest, numberOfRequests, isLoading,
+      onBack, onDeleteRequest, isLoading,
     } = this.props
     const { isPaneOpened } = this.state
     const { intl: { formatMessage }, moduleTheme: { filterButtonStyle } } = this.context
@@ -109,7 +108,6 @@ class LTAManagerComponent extends React.Component {
             <LTAManagerTableComponent
               key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
               isLoading={isLoading}
-              numberOfRequests={numberOfRequests}
             />
           </TableFilterSortingAndVisibilityAndChipsComponent>
         </CardText>

@@ -43,7 +43,6 @@ import { getUserRequestParameters } from '../../domain/QueryUtils'
 
 export class ProjectUserQuotaComponent extends React.Component {
   static propTypes = {
-    totalElements: PropTypes.number.isRequired,
     pageSize: PropTypes.number,
     isLoading: PropTypes.bool.isRequired,
     onEdit: PropTypes.func,
@@ -60,6 +59,11 @@ export class ProjectUserQuotaComponent extends React.Component {
     onChangeColumnsVisibility: PropTypes.func,
     getColumnSortingData: PropTypes.func,
     onSort: PropTypes.func,
+    pageMeta: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
   }
 
   static contextTypes = {
@@ -187,10 +191,10 @@ export class ProjectUserQuotaComponent extends React.Component {
 
   render() {
     const {
-      onEdit, pageSize, totalElements, isLoading,
+      onEdit, pageSize, isLoading,
       getColumnSortingData, columnsVisibility,
       onSort, onChangeColumnsVisibility, bodyParameters,
-      uiSettings, onDownloadCSV,
+      uiSettings, onDownloadCSV, pageMeta,
     } = this.props
     const { requestParameters } = this.state
     const { quotaDialogOpened, entityToProcess } = this.state
@@ -269,7 +273,7 @@ export class ProjectUserQuotaComponent extends React.Component {
         <TableHeaderLine>
           {/* 1 - accounts count */}
           <TableHeaderContentBox>
-            {formatMessage({ id: 'projectUser.list.info.nb.accounts' }, { value: totalElements })}
+            {formatMessage({ id: 'projectUser.list.info.nb.accounts' }, { value: get(pageMeta, 'totalElements', 0) })}
           </TableHeaderContentBox>
           {/* 2 - loading */}
           <TableHeaderLoadingComponent loading={isLoading} />
