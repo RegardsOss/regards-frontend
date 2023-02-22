@@ -33,6 +33,8 @@ export const FILTER_PARAMS = {
   LAST_UPDATE: 'lastUpdate',
   STATE: 'states',
   DISSEMINATION_PENDING: 'disseminationPending',
+  IDS: 'featureIds',
+  REQUEST_IDS: 'requestIds',
 }
 
 /**

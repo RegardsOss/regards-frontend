@@ -95,7 +95,6 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
     open: false,
     mode: TableSelectionModes.includeSelected,
     entities: [],
-    multiple: false,
   }
 
   state = {
@@ -107,12 +106,11 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
     [DIALOG_TYPES.DELETE_DIALOG]: AcquisitionProcessingChainTableComponent.DEFAULT_DIALOG_STATE,
   }
 
-  onOpenActionDialog = (dialogType, entities, mode = TableSelectionModes.includeSelected, multiple = false) => this.setState({
+  onOpenActionDialog = (dialogType, entities, mode = TableSelectionModes.includeSelected) => this.setState({
     [dialogType]: {
       open: true,
       mode,
       entities,
-      multiple,
     },
   })
 
@@ -138,9 +136,9 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
     })
   }
 
-  onRun = (entities, mode, multiple) => this.onOpenActionDialog(DIALOG_TYPES.RUN_DIALOG, entities, mode, multiple)
+  onRun = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.RUN_DIALOG, entities, mode)
 
-  onDelete = (entities, mode, multiple) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode, multiple)
+  onDelete = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
 
   onToggleAutoRefresh = () => {
     this.setState({

@@ -100,7 +100,6 @@ class LTAManagerTableComponent extends React.Component {
       open: false,
       mode: TableSelectionModes.includeSelected,
       entities: [],
-      multiple: false,
     },
     [DIALOG_TYPES.VIEW_PRODUCT_DIALOG]: {
       open: false,
@@ -114,12 +113,11 @@ class LTAManagerTableComponent extends React.Component {
     },
   }
 
-  onOpenActionDialog = (dialogType, entities, mode = TableSelectionModes.includeSelected, multiple = false) => this.setState({
+  onOpenActionDialog = (dialogType, entities, mode = TableSelectionModes.includeSelected) => this.setState({
     [dialogType]: {
       open: true,
       mode,
       entities,
-      multiple,
     },
   })
 
@@ -131,7 +129,7 @@ class LTAManagerTableComponent extends React.Component {
     },
   })
 
-  onDelete = (entities, mode, multiple) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode, multiple)
+  onDelete = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
 
   onViewProduct = (entities) => this.onOpenActionDialog(DIALOG_TYPES.VIEW_PRODUCT_DIALOG, entities)
 
@@ -141,11 +139,11 @@ class LTAManagerTableComponent extends React.Component {
 
   onConfirmActionDialog = (dialogRequestType) => {
     const { bodyParameters } = this.props
-    const { entities, mode, multiple } = this.state[dialogRequestType]
+    const { entities, mode } = this.state[dialogRequestType]
     const payload = {
       ...bodyParameters,
       [FILTER_PARAMS.IDS]: {
-        [CommonDomain.REQUEST_PARAMETERS.VALUES]: multiple ? map(entities, (e) => this.getEntityCorrelationId(e)) : [this.getEntityCorrelationId(entities)],
+        [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => this.getEntityCorrelationId(e)),
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
       },
     }

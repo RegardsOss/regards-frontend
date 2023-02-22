@@ -44,6 +44,7 @@ export const FILTER_PARAMS = {
   REQUEST_ID_TYPE: 'requestIdType',
   LAST: 'last',
   AIP_IDS: 'aipIds',
+  REQUEST_IDS: 'requestIds',
 }
 
 /**

@@ -59,27 +59,27 @@ class HeaderActionsBarComponent extends React.Component {
 
   onModify = () => {
     const { onModify, tableSelection, selectionMode } = this.props
-    onModify(tableSelection, selectionMode, true)
+    onModify(tableSelection, selectionMode)
   }
 
   onDelete = () => {
     const { onDelete, tableSelection, selectionMode } = this.props
-    onDelete(tableSelection, selectionMode, true)
+    onDelete(tableSelection, selectionMode)
   }
 
   onRetry = () => {
     const { onRetry, tableSelection, selectionMode } = this.props
-    onRetry(tableSelection, selectionMode, true)
+    onRetry(tableSelection, selectionMode)
   }
 
   onSelectVersionOption = () => {
     const { onSelectVersionOption, tableSelection, selectionMode } = this.props
-    onSelectVersionOption(tableSelection, selectionMode, true)
+    onSelectVersionOption(tableSelection, selectionMode)
   }
 
   onAbort = () => {
-    const { onAbort, tableSelection, selectionMode } = this.props
-    onAbort(tableSelection, selectionMode, true)
+    const { onAbort } = this.props
+    onAbort()
   }
 
   render() {

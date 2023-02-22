@@ -27,7 +27,7 @@ import {
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { IngestDomain } from '@regardsoss/domain'
+import { IngestDomain, CommonDomain } from '@regardsoss/domain'
 import Dialog from 'material-ui/Dialog'
 import HeaderActionsBarContainer from '../../containers/HeaderActionsBarContainer'
 import StorageArrayRender from './StorageArrayRender'
@@ -197,8 +197,10 @@ export class OAISPackageManagerComponent extends React.Component {
   }
 
   getActionPayload = (entities, mode) => ({
-    [FILTER_PARAMS.AIP_IDS]: map(entities, (entity) => get(entity, 'content.aipId', '')),
-    selectionMode: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
+    [FILTER_PARAMS.AIP_IDS]: {
+      [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => get(e, 'content.aipId', '')),
+      [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
+    },
   })
 
   renderDialog = (dialogRequestType) => {

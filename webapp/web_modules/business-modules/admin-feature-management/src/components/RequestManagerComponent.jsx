@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import map from 'lodash/map'
 import NoContentIcon from 'mdi-material-ui/CropFree'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
@@ -27,7 +28,7 @@ import {
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { FemDomain } from '@regardsoss/domain'
+import { FemDomain, CommonDomain } from '@regardsoss/domain'
 import DeleteDialog from './options/DeleteDialog'
 import clientByPane from '../domain/ClientByPane'
 import RetryDialog from './options/RetryDialog'
@@ -37,6 +38,7 @@ import StatusRender from './render/StatusRender'
 import ErrorDetailsDialog from './options/ErrorDetailsDialog'
 import HeaderActionsBarContainer from '../containers/HeaderActionsBarContainer'
 import { DIALOG_TYPES } from '../domain/dialogTypes'
+import { FILTER_PARAMS } from '../domain/filters'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -171,10 +173,10 @@ export class RequestManagerComponent extends React.Component {
     this.onCloseActionDialog(dialogRequestType)
     return {
       ...bodyParameters,
-      requestIdSelectionMode: mode === TableSelectionModes.includeSelected
-        ? RequestManagerComponent.SELECTION_MODE.INCLUDE
-        : RequestManagerComponent.SELECTION_MODE.EXCLUDE,
-      requestIds: map(entities, (e) => e.content.id),
+      [FILTER_PARAMS.IDS]: {
+        [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => get(e, 'content.id', '')),
+        [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
+      },
     }
   }
 

@@ -17,9 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import get from 'lodash/get'
 import NoContentIcon from 'mdi-material-ui/CropFree'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
-import { FemDomain } from '@regardsoss/domain'
+import { FemDomain, CommonDomain } from '@regardsoss/domain'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableSelectionModes, DateValueRender, NoContentComponent, TableHeaderLine,
@@ -40,6 +41,7 @@ import ReferenceDetailDialog from './options/ReferenceDetailDialog'
 import ReferenceNotifyDialog from './options/ReferenceNotifyDialog'
 import ReferenceNotifyOption from './options/ReferenceNotifyOption'
 import { DIALOG_TYPES } from '../domain/dialogTypes'
+import { FILTER_PARAMS } from '../domain/filters'
 
 /**
 * Displays the list of references
@@ -162,10 +164,10 @@ export class ReferencesManagerComponent extends React.Component {
     this.onCloseActionDialog(dialogRequestType)
     return {
       ...bodyParameters,
-      featureIdsSelectionMode: mode === TableSelectionModes.includeSelected
-        ? ReferencesManagerComponent.SELECTION_MODE.INCLUDE
-        : ReferencesManagerComponent.SELECTION_MODE.EXCLUDE,
-      featureIds: map(entities, (e) => e.content.id),
+      [FILTER_PARAMS.IDS]: {
+        [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => get(e, 'content.id', '')),
+        [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
+      },
     }
   }
 

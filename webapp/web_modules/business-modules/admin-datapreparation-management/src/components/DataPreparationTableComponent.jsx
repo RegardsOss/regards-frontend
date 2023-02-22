@@ -97,13 +97,11 @@ class DataPreparationTableComponent extends React.Component {
       open: false,
       mode: TableSelectionModes.includeSelected,
       entities: [],
-      multiple: false,
     },
     [DIALOG_TYPES.RETRY_DIALOG]: {
       open: false,
       mode: TableSelectionModes.includeSelected,
       entities: [],
-      multiple: false,
     },
     [DIALOG_TYPES.ERRORS_DIALOG]: {
       open: false,
@@ -112,12 +110,11 @@ class DataPreparationTableComponent extends React.Component {
     },
   }
 
-  onOpenActionDialog = (dialogType, entities, mode = TableSelectionModes.includeSelected, multiple = false) => this.setState({
+  onOpenActionDialog = (dialogType, entities, mode = TableSelectionModes.includeSelected) => this.setState({
     [dialogType]: {
       open: true,
       mode,
       entities,
-      multiple,
     },
   })
 
@@ -135,17 +132,17 @@ class DataPreparationTableComponent extends React.Component {
    */
   onViewRequestErrors = (entity) => this.onOpenActionDialog(DIALOG_TYPES.ERRORS_DIALOG, [entity], TableSelectionModes.includeSelected)
 
-  onRetry = (entities, mode, multiple) => this.onOpenActionDialog(DIALOG_TYPES.RETRY_DIALOG, entities, mode, multiple)
+  onRetry = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.RETRY_DIALOG, entities, mode)
 
-  onDelete = (entities, mode, multiple) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode, multiple)
+  onDelete = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
 
   onConfirmActionDialog = (dialogRequestType) => {
     const { bodyParameters } = this.props
-    const { entities, mode, multiple } = this.state[dialogRequestType]
+    const { entities, mode } = this.state[dialogRequestType]
     const payload = {
       ...bodyParameters,
       [WorkerDomain.FILTER_PARAMS_ENUM.IDS]: {
-        [CommonDomain.REQUEST_PARAMETERS.VALUES]: multiple ? map(entities, (e) => e.content.id) : [get(entities, 'content.id', '')],
+        [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => get(e, 'content.id', '')),
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
       },
     }

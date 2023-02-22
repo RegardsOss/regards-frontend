@@ -70,12 +70,12 @@ class HeaderActionsBarComponent extends React.Component {
 
   onDelete = () => {
     const { onDelete, tableSelection, selectionMode } = this.props
-    onDelete(tableSelection, selectionMode, true)
+    onDelete(tableSelection, selectionMode)
   }
 
   onRetry = () => {
     const { onRetry, tableSelection, selectionMode } = this.props
-    onRetry(tableSelection, selectionMode, true)
+    onRetry(tableSelection, selectionMode)
   }
 
   render() {
