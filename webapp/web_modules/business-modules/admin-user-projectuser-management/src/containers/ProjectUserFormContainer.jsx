@@ -114,7 +114,7 @@ export class ProjectUserFormContainer extends React.Component {
       this.props.fetchPasswordRules(),
     ]
 
-    if (this.state.isEditing && !this.props.user) {
+    if (this.state.isEditing) {
       tasks.push(this.props.fetchUser(this.props.params.user_id))
     }
 
