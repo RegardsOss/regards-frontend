@@ -63,7 +63,7 @@ const nameFieldValidators = [
   ValidationHelpers.lengthLessThan(ATT_MODEL_NAME_MAX_SIZE),
 ]
 
-const labelFieldValidators = [ValidationHelpers.required, ValidationHelpers.lengthLessThan(20)]
+const labelFieldValidators = [ValidationHelpers.required, ValidationHelpers.lengthLessThan(255)]
 
 /**
  * Display edit and create attribute model form
