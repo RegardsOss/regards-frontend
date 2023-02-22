@@ -184,7 +184,7 @@ export class ResultsContextHelper {
       }, {}),
     }
     return reduce(allAttributes, (acc, sortAttr, attrKey) => {
-      if (AttributeModelController.isSearchableAttribute(sortAttr.attribute)) {
+      if (AttributeModelController.isSortableAttribute(sortAttr.attribute)) {
         acc[attrKey] = sortAttr
       }
       return acc

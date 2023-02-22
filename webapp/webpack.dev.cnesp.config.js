@@ -26,6 +26,8 @@ const webpack = require('webpack')
 
 // to avoid Error: listen EACCES: permission denied 0.0.0.0:443, 
 // do : sudo setcap 'cap_net_bind_service=+ep' `which node`
+// then run chrome with no-cors : 
+// google-chrome --disable-site-isolation-trials --disable-web-security --user-data-dir="~/tmp"
 
 const conf = webpackConfigurator
   .generateConfig({
