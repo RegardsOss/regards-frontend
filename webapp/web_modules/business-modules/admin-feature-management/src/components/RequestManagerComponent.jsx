@@ -173,7 +173,7 @@ export class RequestManagerComponent extends React.Component {
     this.onCloseActionDialog(dialogRequestType)
     return {
       ...bodyParameters,
-      [FILTER_PARAMS.IDS]: {
+      [FILTER_PARAMS.REQUEST_IDS]: {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => get(e, 'content.id', '')),
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
       },
