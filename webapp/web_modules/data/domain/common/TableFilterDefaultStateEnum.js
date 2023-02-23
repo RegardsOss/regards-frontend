@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { TableSelectionModes } from '@regardsoss/components'
-import REQUEST_PARAMETERS from './RequestParameters'
+import { REQUEST_PARAMETERS, MATCH_MODE_ENUM } from './RequestParameters'
 
 /**
  * @author Théo Lasserre
@@ -25,6 +25,8 @@ import REQUEST_PARAMETERS from './RequestParameters'
 const VALUES = {
   [REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
   [REQUEST_PARAMETERS.VALUES]: [],
+  [REQUEST_PARAMETERS.IGNORE_CASE]: true,
+  [REQUEST_PARAMETERS.MATCH_MODE]: MATCH_MODE_ENUM.STRICT,
 }
 
 const DATES = {

@@ -18,7 +18,7 @@
  **/
 import map from 'lodash/map'
 import { MenuItem } from 'material-ui/IconMenu'
-import { LTADomain } from '@regardsoss/domain'
+import { LTADomain, CommonDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { UIShapes } from '@regardsoss/shape'
@@ -50,12 +50,12 @@ export class RequestFiltersComponent extends React.Component {
   }
 
   static DEFAULT_FILTERS_STATE = {
-    [FILTER_PARAMS.CREATION_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
-    [FILTER_PARAMS.STATUS_DATE]: TableFilterSortingAndVisibilityContainer.DEFAULT_DATES_RESTRICTION_STATE,
+    [FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+    [FILTER_PARAMS.STATUS_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
     [FILTER_PARAMS.SESSION]: '',
     [FILTER_PARAMS.OWNER]: '',
     [FILTER_PARAMS.DATATYPE]: '',
-    [FILTER_PARAMS.STATUSES]: TableFilterSortingAndVisibilityContainer.DEFAULT_VALUES_RESTRICTION_STATE,
+    [FILTER_PARAMS.STATUSES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
   }
 
   render() {

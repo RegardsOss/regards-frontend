@@ -84,7 +84,7 @@ export class RequestManagerFiltersComponent extends React.Component {
           arrayActions={searchSessionsActions}
           arraySelectors={searchSessionsSelectors}
         />
-        <FilterPaneTextFieldValues filterKey={FILTER_PARAMS.PROVIDER_IDS} />
+        <FilterPaneTextFieldValues filterKey={FILTER_PARAMS.PROVIDER_IDS} matchMode={CommonDomain.MATCH_MODE_ENUM.CONTAINS} />
         <FilterPaneSelectField filterKey={FILTER_PARAMS.STATE}>
           {FemDomain.REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `feature.list.filters.state.${status}` })} />)}
         </FilterPaneSelectField>

@@ -147,8 +147,10 @@ class FiltersPaneComponent extends React.Component {
    * @param {string} filterElement
    * @param {string} mode : either INCLUDE or EXCLUDE
    * @param {boolean} useDebounce
+   * @param {string} matchMode: either STRICT|STARTS_WITH|ENDS_WITH|CONTAINS
+   * @param {boolean} ignoreCase
    */
-  updateValuesFilter = (value, filterElement, mode = TableSelectionModes.INCLUDE, useDebounce = false) => {
+  updateValuesFilter = (value, filterElement, mode = TableSelectionModes.INCLUDE, useDebounce = false, matchMode = CommonDomain.MATCH_MODE_ENUM.STRICT, ingoreCase = true) => {
     let newFilterValue = {}
     if (isEmpty(value)) {
       newFilterValue = CommonDomain.TableFilterDefaultStateEnum.VALUES
@@ -156,6 +158,8 @@ class FiltersPaneComponent extends React.Component {
       newFilterValue = {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(value, ','),
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode,
+        [CommonDomain.REQUEST_PARAMETERS.MATCH_MODE]: matchMode,
+        [CommonDomain.REQUEST_PARAMETERS.IGNORE_CASE]: ingoreCase,
       }
     }
     this.updateFilter(newFilterValue, filterElement, useDebounce)

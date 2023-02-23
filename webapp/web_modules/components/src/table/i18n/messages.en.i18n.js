@@ -49,6 +49,11 @@ const messages = {
 
   'filter.chips.date.from': ' from ',
   'filter.chips.date.to': ' to ',
+
+  'filter.pane.textfield.values.warn': 'Confirm to add value',
+  'filter.pane.textfield.values.exist': 'Already exists',
+  'filter.pane.textfield.values.display': 'Selected values :',
+  'filter.pane.textfield.values.none': 'No selected values',
 }
 
 export default messages

@@ -376,6 +376,12 @@ export default (theme) => {
           width: '150px',
         },
         textFieldValuesStyle: {
+          addNewElementStyle: {
+            color: theme.formsExtensions.validation.warningColor,
+          },
+          defaultElementStyle: {
+            color: theme.textField.borderColor,
+          },
           mainDivStyle: {
             display: 'flex',
             flexDirection: 'column',
@@ -388,15 +394,27 @@ export default (theme) => {
           },
           scrollAreaStyle: {
             maxHeight: '115px',
+            marginTop: '15px',
+          },
+          underlineStyle: {
+            borderBottomWidth: '1px',
+            opacity: 0.3,
           },
           valuesDivStyle: {
-            display: 'flex', width: '100%', maxWidth: '440px', flexWrap: 'wrap',
+            display: 'flex',
+            width: '100%',
+            maxWidth: '440px',
+            flexWrap: 'wrap',
           },
           chipStyle: {
             margin: '3px 3px 3px 0px',
           },
           chipValueStyle: {
-            width: '100%', maxWidth: '360px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis',
+            width: '100%',
+            maxWidth: '360px',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
           },
         },
       },

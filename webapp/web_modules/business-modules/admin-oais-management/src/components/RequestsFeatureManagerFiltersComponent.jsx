@@ -92,6 +92,7 @@ export class RequestsFeatureManagerFiltersComponent extends React.Component {
         <FilterPaneTextFieldValues
           filterKey={FILTER_PARAMS.PROVIDER_IDS}
           title={formatMessage({ id: 'oais.packages.tooltip.providerId' })}
+          matchMode={CommonDomain.MATCH_MODE_ENUM.CONTAINS}
         />
         <FilterPaneSelectField
           filterKey={FILTER_PARAMS.REQUEST_ID_TYPE}

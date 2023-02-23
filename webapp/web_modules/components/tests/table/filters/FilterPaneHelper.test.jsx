@@ -39,7 +39,11 @@ describe('[Components] Test FilterPaneHelper', () => {
       },
       filter3: 'bonsoir',
       filter4: 'bonjour',
-      filter5: 'val1',
+      filter5: JSON.stringify({
+        values: ['val1'],
+        matchMode: CommonDomain.MATCH_MODE_ENUM.STRICT,
+        ignoreCase: true,
+      }),
       filter6: '01/02/2002',
       filter7: 'noDefaultState',
     }
@@ -49,6 +53,7 @@ describe('[Components] Test FilterPaneHelper', () => {
       hash: '',
     })
     let extractedFilters = UIDomain.FiltersPaneHelper.extractFiltersFromURL({ ...DEFAULT_FILTERS_STATE })
+    console.log(extractedFilters)
     assert.deepEqual(extractedFilters, {
       filter1: '',
       filter2: {
@@ -59,6 +64,8 @@ describe('[Components] Test FilterPaneHelper', () => {
       filter4: 'bonjour',
       filter5: {
         values: ['val1'],
+        matchMode: CommonDomain.MATCH_MODE_ENUM.STRICT,
+        ignoreCase: true,
       },
       filter6: {
         [CommonDomain.REQUEST_PARAMETERS.AFTER]: '01/02/2002',
@@ -99,6 +106,8 @@ describe('[Components] Test FilterPaneHelper', () => {
     const filters = {
       filter1: {
         values: ['test1', 'test2'],
+        ignoreCase: true,
+        matchMode: CommonDomain.MATCH_MODE_ENUM.STRICT,
       },
       filter2: true,
       filter3: false,
@@ -118,6 +127,8 @@ describe('[Components] Test FilterPaneHelper', () => {
       filter1: {
         values: ['test1', 'test2'],
         mode: 'INCLUDE',
+        ignoreCase: true,
+        matchMode: CommonDomain.MATCH_MODE_ENUM.STRICT,
       },
       filter2: 'true',
       filter3: '',

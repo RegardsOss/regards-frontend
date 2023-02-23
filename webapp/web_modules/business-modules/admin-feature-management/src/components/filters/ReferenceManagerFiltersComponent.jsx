@@ -89,7 +89,7 @@ export class ReferenceManagerFiltersComponent extends React.Component {
           arrayActions={searchSessionsActions}
           arraySelectors={searchSessionsSelectors}
         />
-        <FilterPaneTextFieldValues filterKey={FILTER_PARAMS.PROVIDER_IDS} />
+        <FilterPaneTextFieldValues filterKey={FILTER_PARAMS.PROVIDER_IDS} matchMode={CommonDomain.MATCH_MODE_ENUM.CONTAINS} />
         <FilterPaneSelectFieldLegacy
           filterKey={FILTER_PARAMS.DISSEMINATION_PENDING}
           allValuesOption

@@ -46,6 +46,7 @@ class FilterPaneTextFieldValues extends React.Component {
     filterKey: PropTypes.string.isRequired,
     updateValuesFilter: PropTypes.func,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
+    matchMode: PropTypes.oneOf(CommonDomain.MATCH_MODE),
   }
 
   static contextTypes = {
@@ -66,13 +67,15 @@ class FilterPaneTextFieldValues extends React.Component {
   }
 
   onAddField = () => {
-    const { updateValuesFilter, filterKey, inputValues } = this.props
+    const {
+      updateValuesFilter, filterKey, inputValues, matchMode,
+    } = this.props
     const { fieldText } = this.state
     const fieldToAdd = fieldText.trim()
     if (fieldToAdd) {
       const currentFilterValues = get(inputValues, `${filterKey}.${CommonDomain.REQUEST_PARAMETERS.VALUES}`)
       const newFilterValues = !isEmpty(currentFilterValues) ? `${join(get(inputValues, `${filterKey}.${CommonDomain.REQUEST_PARAMETERS.VALUES}`), ',')},${fieldToAdd}` : `${fieldToAdd}`
-      updateValuesFilter(newFilterValues, filterKey, TableSelectionModes.INCLUDE)
+      updateValuesFilter(newFilterValues, filterKey, TableSelectionModes.INCLUDE, false, matchMode)
       this.setState({ fieldText: '' })
     }
   }
@@ -87,7 +90,9 @@ class FilterPaneTextFieldValues extends React.Component {
   }
 
   onRemoveField = (filterValue) => {
-    const { updateValuesFilter, inputValues, filterKey } = this.props
+    const {
+      updateValuesFilter, inputValues, filterKey, matchMode,
+    } = this.props
     const currentFilterValues = get(inputValues, `${filterKey}.${CommonDomain.REQUEST_PARAMETERS.VALUES}`)
     const newFilterValues = reduce(currentFilterValues, (acc, value) => {
       if (value !== filterValue) {
@@ -95,7 +100,7 @@ class FilterPaneTextFieldValues extends React.Component {
       }
       return acc
     }, [])
-    updateValuesFilter(newFilterValues, filterKey, TableSelectionModes.INCLUDE)
+    updateValuesFilter(newFilterValues, filterKey, TableSelectionModes.INCLUDE, false, matchMode)
   }
 
   renderChip = (filterValue, index) => {
@@ -121,6 +126,40 @@ class FilterPaneTextFieldValues extends React.Component {
     return !!(isEmpty(fieldText) || fieldAlreadyExist)
   }
 
+  getTextMessage = (chipValues) => {
+    const { fieldText, fieldAlreadyExist } = this.state
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        searchPane: {
+          childrenStyles: {
+            textFieldValuesStyle: {
+              addNewElementStyle, defaultElementStyle,
+            },
+          },
+        },
+      },
+    } = this.context
+    let messageText = ''
+    let messageStyle = {}
+    if (!isEmpty(chipValues)) {
+      messageText = formatMessage({ id: 'filter.pane.textfield.values.display' })
+      messageStyle = defaultElementStyle
+    } else {
+      messageText = formatMessage({ id: 'filter.pane.textfield.values.none' })
+      messageStyle = defaultElementStyle
+    }
+
+    if (!isEmpty(fieldText)) {
+      messageStyle = addNewElementStyle
+      if (fieldAlreadyExist) {
+        messageText = formatMessage({ id: 'filter.pane.textfield.values.exist' })
+      } else {
+        messageText = formatMessage({ id: 'filter.pane.textfield.values.warn' })
+      }
+    }
+    return { messageText, messageStyle }
+  }
+
   render() {
     const {
       filtersI18n, inputValues, filterKey,
@@ -131,13 +170,17 @@ class FilterPaneTextFieldValues extends React.Component {
           childrenStyles: {
             textFieldValuesStyle: {
               mainDivStyle, textFieldDivStyle, valuesDivStyle, scrollAreaStyle,
+              addNewElementStyle, underlineStyle,
             },
           },
         },
       },
     } = this.context
+
     const { fieldText } = this.state
     const hintTextKey = get(filtersI18n, `${filterKey}.hintTextKey`, '')
+    const chipValues = get(inputValues, `${filterKey}.${CommonDomain.REQUEST_PARAMETERS.VALUES}`)
+    const textMessage = this.getTextMessage(chipValues)
     return (
       <FiltersPaneLineComponent
         label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
@@ -150,9 +193,12 @@ class FilterPaneTextFieldValues extends React.Component {
               onKeyPress={this.onKeyPressed}
               value={fieldText}
               onChange={this.onChangeValue}
+              errorStyle={textMessage.messageStyle}
+              errorText={textMessage.messageText}
+              underlineFocusStyle={underlineStyle}
               fullWidth
             />
-            <IconButton onClick={this.onAddField} disabled={this.isAddIconDisabled()}>
+            <IconButton onClick={this.onAddField} disabled={this.isAddIconDisabled()} iconStyle={!this.isAddIconDisabled() ? addNewElementStyle : null}>
               <AddIcon />
             </IconButton>
           </div>
@@ -161,7 +207,7 @@ class FilterPaneTextFieldValues extends React.Component {
             style={scrollAreaStyle}
           >
             <div style={valuesDivStyle}>
-              {map(get(inputValues, `${filterKey}.${CommonDomain.REQUEST_PARAMETERS.VALUES}`), (value, index) => this.renderChip(value, index))}
+              {map(chipValues, (value, index) => this.renderChip(value, index))}
             </div>
           </ScrollArea>
         </div>

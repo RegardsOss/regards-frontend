@@ -41,7 +41,7 @@ export { default as SettingsUtils } from './SettingsUtils'
 export { default as DisplayBigNumbers } from './DisplayBigNumbers'
 
 // Common Request Parameters
-export { default as REQUEST_PARAMETERS } from './RequestParameters'
+export { REQUEST_PARAMETERS, MATCH_MODE_ENUM, MATCH_MODE } from './RequestParameters'
 
 export { default as TableFilterDefaultStateEnum } from './TableFilterDefaultStateEnum'
 export { default as TableFilterComponentType } from './TableFilterComponentType'

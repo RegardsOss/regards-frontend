@@ -46,8 +46,11 @@ export class FiltersPaneHelper {
         if (has(defaultFiltersState, queryKey)) {
           if (has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.VALUES)) {
             // Values Restrictiction filters type
+            const parsedQueryValue = JSON.parse(queryValue)
             acc[queryKey] = {
-              [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(queryValue, ','),
+              [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(parsedQueryValue[CommonDomain.REQUEST_PARAMETERS.VALUES], ','),
+              [CommonDomain.REQUEST_PARAMETERS.MATCH_MODE]: parsedQueryValue[CommonDomain.REQUEST_PARAMETERS.MATCH_MODE],
+              [CommonDomain.REQUEST_PARAMETERS.IGNORE_CASE]: parsedQueryValue[CommonDomain.REQUEST_PARAMETERS.IGNORE_CASE],
             }
           } else if (has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.BEFORE)
             && has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.AFTER)) {
@@ -81,7 +84,11 @@ export class FiltersPaneHelper {
         // Values Restriction & Dates Restriction
         if (isPlainObject(inputValues[value])) {
           if (has(inputValues[value], CommonDomain.REQUEST_PARAMETERS.VALUES) && !isEmpty(inputValues[value][CommonDomain.REQUEST_PARAMETERS.VALUES])) {
-            acc[value] = inputValues[value][CommonDomain.REQUEST_PARAMETERS.VALUES].toString()
+            acc[value] = JSON.stringify({
+              [CommonDomain.REQUEST_PARAMETERS.VALUES]: inputValues[value][CommonDomain.REQUEST_PARAMETERS.VALUES].toString(),
+              [CommonDomain.REQUEST_PARAMETERS.MATCH_MODE]: inputValues[value][CommonDomain.REQUEST_PARAMETERS.MATCH_MODE],
+              [CommonDomain.REQUEST_PARAMETERS.IGNORE_CASE]: inputValues[value][CommonDomain.REQUEST_PARAMETERS.IGNORE_CASE],
+            })
           } else if (has(inputValues[value], CommonDomain.REQUEST_PARAMETERS.AFTER) || has(inputValues[value], CommonDomain.REQUEST_PARAMETERS.BEFORE)) {
             let paramValue = ''
             if (!FiltersPaneHelper.isAfterDateEmptyFilter(inputValues[value])) {
@@ -119,6 +126,8 @@ export class FiltersPaneHelper {
           acc[filterKey] = {
             [CommonDomain.REQUEST_PARAMETERS.VALUES]: filterValue[CommonDomain.REQUEST_PARAMETERS.VALUES],
             [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
+            [CommonDomain.REQUEST_PARAMETERS.IGNORE_CASE]: filterValue[CommonDomain.REQUEST_PARAMETERS.IGNORE_CASE],
+            [CommonDomain.REQUEST_PARAMETERS.MATCH_MODE]: filterValue[CommonDomain.REQUEST_PARAMETERS.MATCH_MODE],
           }
         }
       } else if (has(filterValue, CommonDomain.REQUEST_PARAMETERS.BEFORE)
