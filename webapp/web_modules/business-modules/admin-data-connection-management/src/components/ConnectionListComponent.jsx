@@ -78,15 +78,6 @@ export class ConnectionListComponent extends React.Component {
     })
   }
 
-  printIsActive = (active) => {
-    const { intl: { formatMessage } } = this.context
-
-    if (active) {
-      return formatMessage({ id: 'connection.list.isActive.true' })
-    }
-    return formatMessage({ id: 'connection.list.isActive.false' })
-  }
-
   renderDeleteConfirmDialog = () => {
     const { intl: { formatMessage } } = this.context
 
@@ -136,7 +127,6 @@ export class ConnectionListComponent extends React.Component {
             >
               <TableRow>
                 <TableHeaderColumn>{formatMessage({ id: 'connection.list.table.label' })}</TableHeaderColumn>
-                <TableHeaderColumn>{formatMessage({ id: 'connection.list.table.isActive' })}</TableHeaderColumn>
                 <TableHeaderColumn>{formatMessage({ id: 'connection.list.table.test' })}</TableHeaderColumn>
                 <TableHeaderColumn>{formatMessage({ id: 'connection.list.table.actions' })}</TableHeaderColumn>
               </TableRow>
@@ -149,7 +139,6 @@ export class ConnectionListComponent extends React.Component {
               {map(connectionList, (connection, i) => (
                 <TableRow key={i}>
                   <TableRowColumn>{connection.content.label}</TableRowColumn>
-                  <TableRowColumn>{this.printIsActive(connection.content.active)}</TableRowColumn>
                   <TableRowColumn><ConnectionTesterIconButton connection={connection} handleTestConnection={handleTestConnection} /></TableRowColumn>
                   <TableRowColumn>
                     <ActionsMenuCell
