@@ -197,3 +197,4 @@ export { default as ReactErrorBoundaryComponent } from './react-error-boundary/E
 export { default as SettingsTextField } from './settings/SettingsTextField'
 export { default as SettingsMainComponent } from './settings/SettingsMainComponent'
 export { default as SettingsArrayField } from './settings/SettingsArrayField'
+export { default as SettingsMapField } from './settings/SettingsMapField'

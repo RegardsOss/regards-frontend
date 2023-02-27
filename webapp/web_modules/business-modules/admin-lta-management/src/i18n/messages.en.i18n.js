@@ -86,7 +86,6 @@ const messages = {
   'lta.settings.field.successExpirationInHours': 'Life time of succedeed requests in hours',
   'lta.settings.field.datatypes.new': 'New datatype',
   'lta.settings.field.datatypes': 'Datatypes',
-  'lta.settings.field.datatypes.name': 'Label',
   'lta.settings.field.datatypes.model': 'Model',
   'lta.settings.field.datatypes.storePath': 'Store path',
   'lta.settings.action.confirm': 'Confirm',

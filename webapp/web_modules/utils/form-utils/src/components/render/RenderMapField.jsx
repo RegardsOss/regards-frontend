@@ -22,6 +22,7 @@ import isString from 'lodash/isString'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
 import keys from 'lodash/keys'
+import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import omit from 'lodash/omit'
 import AddBoxIcon from 'mdi-material-ui/PlusBox'
@@ -95,6 +96,32 @@ class RenderMapField extends React.Component {
     newKeyErrorMessage: null,
     keyToDelete: null,
     keyToDuplicate: null,
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const oldValue = get(oldProps, 'input.value', {})
+    const newValue = get(newProps, 'input.value', {})
+    if (!isEqual(oldValue, newValue)) {
+      this.setState({
+        mapKeys: keys(newValue),
+      })
+    }
   }
 
   /**
@@ -393,10 +420,10 @@ class RenderMapField extends React.Component {
       moduleTheme: {
         arrayObject: {
           layoutStyle, leftColumnStyle, rightColumnStyle, leftListStyle, leftButtonStyle, titleStyle, contentStyle,
+          cardStyle,
         },
       },
     } = this.context
-
     const { displayedKey, mapKeys } = this.state
     const {
       mapValueFieldComponent, input, mapValueFieldProps, meta, disabled, mapKeyLabel,
@@ -407,12 +434,13 @@ class RenderMapField extends React.Component {
         name={`${input.name}.${key}`}
         component={mapValueFieldComponent}
         {...mapValueFieldProps}
+        formNamespace={`${input.name}.${key}`}
         validate={ValidationHelpers.required}
         disabled={disabled}
         fullWidth
       />) : null
     return (
-      <Card>
+      <Card style={cardStyle}>
         {meta.error && isString(meta.error)
           ? <FormErrorMessage>{RenderHelper.getErrorMessage(true, meta.error, intl)}</FormErrorMessage>
           : null}

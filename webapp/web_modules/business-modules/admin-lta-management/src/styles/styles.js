@@ -34,6 +34,9 @@ const ltaManagementStyles = (theme) => ({
   filterButtonStyle: {
     backgroundColor: theme.palette.accent1Color,
   },
+  settingDatatypesStyle: {
+    width: '100%',
+  },
 })
 
 export default ltaManagementStyles

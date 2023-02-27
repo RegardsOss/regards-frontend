@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { SettingsTextField, SettingsArrayField } from '@regardsoss/components'
+import { SettingsTextField, SettingsMapField } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SettingsComponent } from '../../src/components/SettingsComponent'
 import styles from '../../src/styles'
@@ -83,6 +83,6 @@ describe('[ADMIN LTA MANAGEMENT] Testing SettingsComponent', () => {
     }
     const enzymeWrapper = shallow(<SettingsComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(SettingsTextField), 2, 'There should be 2 SettingsTextField')
-    assert.lengthOf(enzymeWrapper.find(SettingsArrayField), 1, 'There should be 1 SettingsArrayField')
+    assert.lengthOf(enzymeWrapper.find(SettingsMapField), 1, 'There should be 1 SettingsMapField')
   })
 })

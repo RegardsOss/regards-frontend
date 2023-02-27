@@ -149,6 +149,9 @@ export default function styles(theme) {
         border: '1px solid',
         borderColor: theme.palette.borderColor,
       },
+      cardStyle: {
+        width: '100%',
+      },
       titleStyle: {
         width: '100%',
       },

@@ -86,9 +86,8 @@ const messages = {
   'lta.settings.field.successExpirationInHours': 'Durée de vie des requêtes réussies en heures',
   'lta.settings.field.datatypes.new': 'Nouveau type de produit',
   'lta.settings.field.datatypes': 'Types de produits',
-  'lta.settings.field.datatypes.name': 'Label',
   'lta.settings.field.datatypes.model': 'Modèle de données',
-  'lta.settings.field.datatypes.storePath': 'Espace de stockage',
+  'lta.settings.field.datatypes.storePath': 'Chemin de stockage cible',
   'lta.settings.action.confirm': 'Confirmer',
   'lta.settings.action.cancel': 'Annuler',
 

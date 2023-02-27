@@ -20,57 +20,59 @@ import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, Field, RenderSelectField } from '@regardsoss/form-utils'
+import {
+  RenderTextField, Field, RenderSelectField, ValidationHelpers,
+} from '@regardsoss/form-utils'
+import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { DATA_TYPES_SETTINGS } from '../domain/settings'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * @author Théo Lasserre
  */
 export class SettingDataTypesComponent extends React.Component {
   static propTypes = {
-    name: PropTypes.string.isRequired,
+    formNamespace: PropTypes.string.isRequired,
     modelList: DataManagementShapes.ModelList,
   }
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   render() {
-    const { name, modelList } = this.props
-    const { intl: { formatMessage } } = this.context
-    return [
-      <Field
-        key={`${DATA_TYPES_SETTINGS.NAME}`}
-        name={`${name}.${DATA_TYPES_SETTINGS.NAME}`}
-        label={formatMessage({ id: 'lta.settings.field.datatypes.name' })}
-        component={RenderTextField}
-        fullWidth
-      />,
-      <Field
-        key={`${DATA_TYPES_SETTINGS.MODEL}`}
-        name={`${name}.${DATA_TYPES_SETTINGS.MODEL}`}
-        label={formatMessage({ id: 'lta.settings.field.datatypes.model' })}
-        component={RenderSelectField}
-        fullWidth
-      >
-        {map(modelList, (model) => (
-          <MenuItem
-            key={model.content.id}
-            value={model.content.name}
-            primaryText={model.content.name}
-          />
-        ))}
-      </Field>,
-      <Field
-        key={`${DATA_TYPES_SETTINGS.STORE_PATH}`}
-        name={`${name}.${DATA_TYPES_SETTINGS.STORE_PATH}`}
-        label={formatMessage({ id: 'lta.settings.field.datatypes.storePath' })}
-        component={RenderTextField}
-        fullWidth
-      />,
-    ]
+    const { formNamespace, modelList } = this.props
+    const { intl: { formatMessage }, moduleTheme: { settingDatatypesStyle } } = this.context
+    return (
+      <div style={settingDatatypesStyle}>
+        <Field
+          key={`${formNamespace}.${DATA_TYPES_SETTINGS.MODEL}`}
+          name={`${formNamespace}.${DATA_TYPES_SETTINGS.MODEL}`}
+          label={formatMessage({ id: 'lta.settings.field.datatypes.model' })}
+          component={RenderSelectField}
+          validate={ValidationHelpers.required}
+          fullWidth
+        >
+          {map(modelList, (model) => (
+            <MenuItem
+              key={model.content.id}
+              value={model.content.name}
+              primaryText={model.content.name}
+            />
+          ))}
+        </Field>
+        <Field
+          key={`${formNamespace}.${DATA_TYPES_SETTINGS.STORE_PATH}`}
+          name={`${formNamespace}.${DATA_TYPES_SETTINGS.STORE_PATH}`}
+          label={formatMessage({ id: 'lta.settings.field.datatypes.storePath' })}
+          component={RenderTextField}
+          validate={ValidationHelpers.required}
+          fullWidth
+        />
+      </div>
+    )
   }
 }
-export default withI18n(messages, true)(SettingDataTypesComponent)
+export default withModuleStyle(styles)(withI18n(messages, true)(SettingDataTypesComponent))
