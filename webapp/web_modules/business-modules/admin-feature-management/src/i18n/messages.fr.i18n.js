@@ -72,7 +72,7 @@ const messages = {
   'feature.references.notify.title': 'Notifier les produits sélectionnées',
   'feature.references.notify': 'Notifier',
   'feature.references.notify.message': 'Voulez vous notifier les produits sélectionnées vers tous les destinataires configurés. Ces destinataires sont configurés sur le service rs-notifier dont vous pouvez récupérer la configuration depuis la fonction Microservice de cet IHM.',
-  'feature.references.detail.title': 'Détail',
+  'feature.references.detail.title': 'Détail du produit GeoJSON',
 
   // Requests
   'feature.requests.empty.results': 'Aucune requete trouvée',

@@ -72,7 +72,7 @@ const messages = {
   'feature.references.notify.title': 'Notify selected products',
   'feature.references.notify': 'Notify',
   'feature.references.notify.message': 'Do you want to notify the selected products to all configured recipients. These recipients are configured on the rs-notifier service, the configuration of which you can retrieve from the Microservice function of this UI.',
-  'feature.references.detail.title': 'Detail',
+  'feature.references.detail.title': 'GeoJson product detail',
 
   // Requests
   'feature.requests.empty.results': 'No request found',

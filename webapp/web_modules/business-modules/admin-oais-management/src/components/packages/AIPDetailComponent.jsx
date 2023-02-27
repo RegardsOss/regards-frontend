@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,15 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Card, CardActions, CardMedia } from 'material-ui/Card'
 import { IngestShapes } from '@regardsoss/shape'
 import { MIME_TYPES } from '@regardsoss/mime-types'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
+import { CardActionsComponent, CodeFileDisplayer, PositionedDialog } from '@regardsoss/components'
 
 /**
- * AIPDetailComponent
+ * Display a modal to show the AIP as a JSON
  * @author Léo Mieulet
  */
 class AIPDetailComponent extends React.Component {
@@ -42,23 +41,42 @@ class AIPDetailComponent extends React.Component {
 
   render() {
     const { aip } = this.props
-    const { intl, moduleTheme } = this.context
+    const {
+      intl: { formatMessage },
+      moduleTheme: {
+        oaisDetailDialog: {
+          widthPercent,
+          heightPercent,
+          dialogBodyStyle,
+          contentStyle,
+          actionsStyle,
+          jsonContentViewerStyle,
+        },
+      },
+    } = this.context
     return (
-      <Card>
-        <CardMedia>
+      <PositionedDialog
+        dialogWidthPercent={widthPercent}
+        dialogHeightPercent={heightPercent}
+        bodyStyle={dialogBodyStyle}
+        title={formatMessage({ id: 'oais.aips.list.aip-details.title' })}
+        modal
+        open
+      >
+        <div style={contentStyle}>
           <CodeFileDisplayer
             content={JSON.stringify(aip, null, '\t')}
             contentType={MIME_TYPES.JSON_MIME_TYPE}
-            style={moduleTheme.aipDetailsStyle}
+            style={jsonContentViewerStyle}
           />
-        </CardMedia>
-        <CardActions>
+        </div>
+        <div style={actionsStyle}>
           <CardActionsComponent
-            mainButtonLabel={intl.formatMessage({ id: 'oais.packages.close' })}
+            mainButtonLabel={formatMessage({ id: 'oais.packages.close' })}
             mainButtonClick={this.props.onClose}
           />
-        </CardActions>
-      </Card>
+        </div>
+      </PositionedDialog>
     )
   }
 }

@@ -74,7 +74,6 @@ export default {
   'oais.packages.empty.results': 'No product found',
   'oais.packages.loading.results': 'Products loading ...',
   'oais.packages.details.sip.title': 'SIP Details',
-  'oais.packages.details.aip.title': 'AIP Details',
 
   'oais.packages.tooltip.providerId': 'Enter a subset of the provider ID',
   'oais.packages.tooltip.type': 'Filter by product type',

@@ -74,7 +74,6 @@ export default {
   'oais.packages.empty.results': 'Aucun produit trouvé',
   'oais.packages.loading.results': 'Chargement des produits ...',
   'oais.packages.details.sip.title': 'Détails du SIP',
-  'oais.packages.details.aip.title': 'Détail de l\'AIP',
 
   'oais.packages.tooltip.providerId': 'Saisir une partie de l\'identifiant fournisseur',
   'oais.packages.tooltip.type': 'Filtrer par le type de produits',
@@ -83,8 +82,8 @@ export default {
   'oais.packages.tooltip.version': 'Filtrer par la version des produit',
   'oais.packages.tooltip.history': 'Voir l\'historique du produit',
   'oais.packages.tooltip.details': 'Voir les détails du produit',
-  'oais.packages.tooltip.details.aip': 'Voir les détails de l\'AIP du produit',
-  'oais.packages.tooltip.details.sip': 'Voir les détails de l\'SIP du produit',
+  'oais.packages.tooltip.details.aip': 'Voir les détails de l\'AIP lié à ce produit',
+  'oais.packages.tooltip.details.sip': 'Voir les détails du SIP lié à ce produit',
   'oais.packages.tooltip.modify': 'Modifier le produit',
   'oais.packages.tooltip.delete': 'Supprimer le produit',
   'oais.packages.tooltip.selection.modify': 'Modifier les produits sélectionnés',

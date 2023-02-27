@@ -28,7 +28,6 @@ import {
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { IngestDomain, CommonDomain } from '@regardsoss/domain'
-import Dialog from 'material-ui/Dialog'
 import HeaderActionsBarContainer from '../../containers/HeaderActionsBarContainer'
 import StorageArrayRender from './StorageArrayRender'
 import AIPHistoryOptionContainer from '../../containers/packages/AIPHistoryOptionContainer'
@@ -205,7 +204,6 @@ export class OAISPackageManagerComponent extends React.Component {
 
   renderDialog = (dialogRequestType) => {
     const { open } = this.state[dialogRequestType]
-    const { intl: { formatMessage } } = this.context
     const { bodyParameters } = this.props
     if (open) {
       let component = null
@@ -237,15 +235,11 @@ export class OAISPackageManagerComponent extends React.Component {
           />
           break
         case DIALOG_TYPES.AIP_DETAIL_DIALOG:
-          component = <Dialog
-            title={formatMessage({ id: 'oais.aips.list.aip-details.title' })}
-            open
-          >
-            <AIPDetailComponent
-              aip={this.state[dialogRequestType].entities}
-              onClose={() => this.onCloseActionDialog(dialogRequestType)}
-            />
-          </Dialog>
+          component = <AIPDetailComponent
+            aip={this.state[dialogRequestType].entities}
+            onClose={() => this.onCloseActionDialog(dialogRequestType)}
+          />
+
           break
         default:
       }

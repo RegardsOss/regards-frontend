@@ -80,6 +80,8 @@ export class AceEditorAdapter extends React.Component {
         require('ace-builds/src-noconflict/mode-json')
         require('ace-builds/src-noconflict/mode-xml')
         this.RenderComponent = require('react-ace').default
+        // add search box integration
+        require('ace-builds/src-noconflict/ext-searchbox')
         // override ace config to let it find its files
         window.ace.config.set('basePath', '/ace')
         window.ace.config.set('themePath', '/ace')

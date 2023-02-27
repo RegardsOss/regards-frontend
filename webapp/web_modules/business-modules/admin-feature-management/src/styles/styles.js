@@ -105,9 +105,30 @@ const featureManagementStyles = (theme) => ({
   headerActionBarStyle: {
     width: '100%',
   },
-  detailsStyle: {
-    height: '300px',
-    width: '100%',
+  featureDetailDialog: {
+    widthPercent: 80,
+    heightPercent: 80,
+    dialogBodyStyle: { paddingBottom: 0 },
+    contentStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      flexGrow: 1,
+      flexShrink: 1,
+      minHeight: 0, // mandatory to get scroll area working on firefox (Thor #183319)
+    },
+    actionsStyle: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      flexGrow: 0,
+      flexShrink: 0,
+      padding: '10px 0',
+    },
+    jsonContentViewerStyle: {
+      height: '100%',
+      width: '100%',
+    },
   },
   settings: {
     settingDiv: {

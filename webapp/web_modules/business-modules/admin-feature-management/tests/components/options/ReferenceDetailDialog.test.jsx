@@ -18,9 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import Dialog from 'material-ui/Dialog'
-import { Card } from 'material-ui/Card'
-import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
+import { CardActionsComponent, CodeFileDisplayer, PositionedDialog } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ReferenceDetailDialog from '../../../src/components/options/ReferenceDetailDialog'
 import styles from '../../../src/styles'
@@ -48,11 +46,9 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing ReferenceDetailDialog', () => {
       onClose: () => { },
     }
     const enzymeWrapper = shallow(<ReferenceDetailDialog {...props} />, { context })
-    const dialogWrapper = enzymeWrapper.find(Dialog)
-    assert.lengthOf(dialogWrapper, 1, 'There should be a Dialog')
 
-    const cardWrapper = enzymeWrapper.find(Card)
-    assert.lengthOf(cardWrapper, 1, 'There should be a Card')
+    const positionnedDialogWrapper = enzymeWrapper.find(PositionedDialog)
+    assert.lengthOf(positionnedDialogWrapper, 1, 'There should be a PositionedDialog')
 
     const codeWrapper = enzymeWrapper.find(CodeFileDisplayer)
     assert.lengthOf(codeWrapper, 1, 'There should be a CodeFileDisplayer')
