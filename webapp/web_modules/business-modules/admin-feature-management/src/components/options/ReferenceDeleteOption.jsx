@@ -41,7 +41,7 @@ class ReferenceDeleteOption extends React.Component {
    */
   onClick = () => {
     const { entity, onDelete } = this.props
-    onDelete([entity])
+    onDelete(entity)
   }
 
   isDisabled = () => {

@@ -94,7 +94,7 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
   static DEFAULT_DIALOG_STATE = {
     open: false,
     mode: TableSelectionModes.includeSelected,
-    entities: [],
+    entity: null,
   }
 
   state = {
@@ -106,11 +106,11 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
     [DIALOG_TYPES.DELETE_DIALOG]: AcquisitionProcessingChainTableComponent.DEFAULT_DIALOG_STATE,
   }
 
-  onOpenActionDialog = (dialogType, entities, mode = TableSelectionModes.includeSelected) => this.setState({
+  onOpenActionDialog = (dialogType, entity) => this.setState({
     [dialogType]: {
       open: true,
-      mode,
-      entities,
+      mode: TableSelectionModes.includeSelected,
+      entity,
     },
   })
 
@@ -136,9 +136,9 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
     })
   }
 
-  onRun = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.RUN_DIALOG, entities, mode)
+  onRunSelectedChain = (entity) => this.onOpenActionDialog(DIALOG_TYPES.RUN_DIALOG, entity)
 
-  onDelete = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
+  onDeleteSelectedChain = (entity) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entity)
 
   onToggleAutoRefresh = () => {
     this.setState({
@@ -151,10 +151,10 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
     const dialogStateValues = this.state[dialogType]
     switch (dialogType) {
       case DIALOG_TYPES.RUN_DIALOG:
-        onRunChain(dialogStateValues.entities, dialogStateValues.sessionName)
+        onRunChain(dialogStateValues.entity, dialogStateValues.sessionName)
         break
       case DIALOG_TYPES.DELETE_DIALOG:
-        onDelete(dialogStateValues.entities)
+        onDelete(dialogStateValues.entity)
         break
       default:
         console.error('Invalid dialog type : ', dialogType)
@@ -163,7 +163,7 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
 
   renderDialog = (dialogType) => {
     const { intl: { formatMessage } } = this.context
-    const { open, entities } = this.state[dialogType]
+    const { open, entity } = this.state[dialogType]
     if (open) {
       let title
       let dialogConfirmType
@@ -187,7 +187,7 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
           break
         case DIALOG_TYPES.DELETE_DIALOG:
           dialogConfirmType = ConfirmDialogComponentTypes.DELETE
-          title = formatMessage({ id: 'acquisition-chain.list.delete.confirm.title' }, { label: entities.content.chain.label })
+          title = formatMessage({ id: 'acquisition-chain.list.delete.confirm.title' }, { label: entity.content.chain.label })
           break
         default:
       }
@@ -247,7 +247,7 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
         optionProps: { onListSessions },
       }, {
         OptionConstructor: AcquisitionProcessingChainTableRunAction,
-        optionProps: { onRunChain: this.onRun },
+        optionProps: { onRunChain: this.onRunSelectedChain },
       }, {
         OptionConstructor: AcquisitionProcessingChainTableStopAction,
         optionProps: { onStopChain },
@@ -261,7 +261,7 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
         OptionConstructor: TableDeleteOption,
         optionProps: {
           disableInsteadOfHide: true,
-          onDelete: this.onDelete,
+          onDelete: this.onDeleteSelectedChain,
           handleHateoas: true,
         },
       }]).build(),

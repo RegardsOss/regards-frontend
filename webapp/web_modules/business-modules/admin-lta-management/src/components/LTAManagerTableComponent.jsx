@@ -130,11 +130,13 @@ class LTAManagerTableComponent extends React.Component {
     },
   })
 
-  onDelete = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
+  onDeleteSelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
 
-  onViewProduct = (entities) => this.onOpenActionDialog(DIALOG_TYPES.VIEW_PRODUCT_DIALOG, entities)
+  onDeleteProduct = (entity) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, [entity])
 
-  onViewMessage = (entities) => this.onOpenActionDialog(DIALOG_TYPES.VIEW_MESSAGE, entities)
+  onViewProduct = (entity) => this.onOpenActionDialog(DIALOG_TYPES.VIEW_PRODUCT_DIALOG, [entity])
+
+  onViewMessage = (entity) => this.onOpenActionDialog(DIALOG_TYPES.VIEW_MESSAGE, [entity])
 
   getEntityId = (entity) => {
     const id = get(entity, `content.${LTAManagerTableComponent.COLUMN_KEYS.REQUEST_ID}`, null)
@@ -282,7 +284,7 @@ class LTAManagerTableComponent extends React.Component {
           optionProps: { onViewProduct: this.onViewProduct },
         }, {
           OptionConstructor: DeleteRequestComponent,
-          optionProps: { isLoading, onDelete: this.onDelete },
+          optionProps: { isLoading, onDelete: this.onDeleteProduct },
         }])
         .build(),
     ]
@@ -297,7 +299,7 @@ class LTAManagerTableComponent extends React.Component {
             <HeaderActionsBarContainer
               columns={columns}
               onChangeColumnsVisibility={onChangeColumnsVisibility}
-              onDelete={this.onDelete}
+              onDelete={this.onDeleteSelection}
             />
           </TableHeaderOptionsArea>
         </TableHeaderLine>

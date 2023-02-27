@@ -91,7 +91,6 @@ class HeaderActionsBarComponent extends React.Component {
         />
         <ResourceFlatButton
           displayLogic={allMatchHateoasDisplayLogic}
-          hideDisabled
           key="retrySelection"
           title={formatMessage({ id: 'datapreparation.actions.retry.title' })}
           label={formatMessage({ id: 'datapreparation.actions.retry.label' })}
@@ -102,7 +101,6 @@ class HeaderActionsBarComponent extends React.Component {
         <ResourceFlatButton
           key="deleteSelection"
           displayLogic={allMatchHateoasDisplayLogic}
-          hideDisabled
           title={formatMessage({ id: 'datapreparation.actions.delete.title' })}
           label={formatMessage({ id: 'datapreparation.actions.delete.label' })}
           icon={<Delete />}

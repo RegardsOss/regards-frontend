@@ -55,8 +55,8 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing ReferencesManagerComponent', () => 
     assert.lengthOf(headerComponent, 1, 'There should be 1 HeaderActionsBarContainer')
     testSuiteHelpers.assertWrapperProperties(headerComponent, {
       paneType: props.paneType,
-      onNotify: enzymeWrapper.instance().onNotify,
-      onDelete: enzymeWrapper.instance().onDelete,
+      onNotify: enzymeWrapper.instance().onNotifySelection,
+      onDelete: enzymeWrapper.instance().onDeleteSelection,
     })
     assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)

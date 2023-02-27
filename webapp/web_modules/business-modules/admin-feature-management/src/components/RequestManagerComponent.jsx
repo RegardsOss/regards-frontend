@@ -139,13 +139,25 @@ export class RequestManagerComponent extends React.Component {
    * Callback: On retry requests for selection as parameter (shows corresponding dialog)
    * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
    */
-  onRetry = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.RETRY_DIALOG, mode, entities)
+  onRetrySelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.RETRY_DIALOG, mode, entities)
+
+  /**
+   * Callback: On retry requests for selection as parameter (shows corresponding dialog)
+   * @param {*} entity entity of IngestShapes.RequestEntity (to include or exclude from request)
+   */
+  onRetryRequest = (entity) => this.onRetrySelection([entity])
 
   /**
    * Callback: On delete requests for selection as parameter (shows corresponding dialog)
    * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
    */
-  onDelete = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, mode, entities)
+  onDeleteSelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, mode, entities)
+
+  /**
+   * Callback: On delete selected request
+   * @param {*} entity entity of IngestShapes.RequestEntity (to include or exclude from request)
+   */
+  onDeleteRequest = (entity) => this.onDeleteSelection([entity])
 
   /**
    * Inner callback: closes dialog corresponding to request type
@@ -278,8 +290,8 @@ export class RequestManagerComponent extends React.Component {
           <TableHeaderLine>
             <HeaderActionsBarContainer
               paneType={paneType}
-              onRetry={this.onRetry}
-              onDelete={this.onDelete}
+              onRetry={this.onRetrySelection}
+              onDelete={this.onDeleteSelection}
             />
           </TableHeaderLine>
           <div style={loadingStyle}>
@@ -315,11 +327,11 @@ export class RequestManagerComponent extends React.Component {
                 .optionsColumn([
                   {
                     OptionConstructor: RequestRetryOption,
-                    optionProps: { onRetry: this.onRetry },
+                    optionProps: { onRetry: this.onRetryRequest },
                   },
                   {
                     OptionConstructor: RequestDeleteOption,
-                    optionProps: { onDelete: this.onDelete },
+                    optionProps: { onDelete: this.onDeleteRequest },
                   }])
                 .build(),
             ]}

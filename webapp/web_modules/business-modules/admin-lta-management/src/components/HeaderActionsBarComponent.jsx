@@ -85,7 +85,6 @@ class HeaderActionsBarComponent extends React.Component {
         <ResourceFlatButton
           key="deleteSelection"
           displayLogic={allMatchHateoasDisplayLogic}
-          hideDisabled
           title={formatMessage({ id: 'lta.actions.delete.title' })}
           label={formatMessage({ id: 'lta.actions.delete.label' })}
           icon={<Delete />}

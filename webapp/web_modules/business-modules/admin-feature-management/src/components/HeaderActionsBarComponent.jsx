@@ -90,7 +90,6 @@ export class HeaderActionsBarComponent extends React.Component {
           paneType === FemDomain.REQUEST_TYPES_ENUM.REFERENCES
             ? <ResourceFlatButton
                 displayLogic={allMatchHateoasDisplayLogic}
-                hideDisabled
                 key="notifySelection"
                 title={formatMessage({ id: 'feature.references.tooltip.selection.notify' })}
                 label={formatMessage({ id: 'feature.references.list.filters.buttons.notify' })}
@@ -100,7 +99,6 @@ export class HeaderActionsBarComponent extends React.Component {
             />
             : <ResourceFlatButton
                 displayLogic={allMatchHateoasDisplayLogic}
-                hideDisabled
                 key="retrySelection"
                 title={formatMessage({ id: 'feature.requests.tooltip.selection.retry' })}
                 label={formatMessage({ id: 'feature.requests.list.filters.buttons.retry' })}
@@ -112,7 +110,6 @@ export class HeaderActionsBarComponent extends React.Component {
           <ResourceFlatButton
             key="deleteSelection"
             displayLogic={allMatchHateoasDisplayLogic}
-            hideDisabled
             title={formatMessage({ id: 'feature.references.tooltip.selection.delete' })}
             label={formatMessage({ id: 'feature.references.list.filters.buttons.delete' })}
             icon={<Delete />}

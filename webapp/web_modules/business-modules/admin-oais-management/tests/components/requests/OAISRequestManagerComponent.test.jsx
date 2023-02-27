@@ -61,8 +61,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerComponent', () => {
     testSuiteHelpers.assertWrapperProperties(headerContainer, {
       paneType: props.paneType,
       onSelectVersionOption: enzymeWrapper.instance().onSelectVersionOption,
-      onDelete: enzymeWrapper.instance().onDelete,
-      onRetry: enzymeWrapper.instance().onRetry,
+      onDelete: enzymeWrapper.instance().onDeleteSelection,
+      onRetry: enzymeWrapper.instance().onRetrySelection,
       onAbort: enzymeWrapper.instance().onAbort,
     })
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)

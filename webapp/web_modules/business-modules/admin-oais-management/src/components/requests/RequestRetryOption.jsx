@@ -41,7 +41,7 @@ class RequestRetryOption extends React.Component {
    */
   onClick = () => {
     const { entity, onRetry } = this.props
-    onRetry([entity])
+    onRetry(entity)
   }
 
   render() {

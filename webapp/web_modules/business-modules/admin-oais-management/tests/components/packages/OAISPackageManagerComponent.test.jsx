@@ -54,8 +54,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerComponent', () => {
     assert.lengthOf(headerComponent, 1, 'HeaderActionsBarContainer should be set')
     testSuiteHelpers.assertWrapperProperties(headerComponent, {
       paneType: props.paneType,
-      onModify: enzymeWrapper.instance().onModify,
-      onDelete: enzymeWrapper.instance().onDelete,
+      onModify: enzymeWrapper.instance().onModifySelection,
+      onDelete: enzymeWrapper.instance().onDeleteSelection,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)

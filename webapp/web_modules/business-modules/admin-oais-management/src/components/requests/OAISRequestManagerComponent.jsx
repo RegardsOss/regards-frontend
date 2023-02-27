@@ -150,14 +150,26 @@ export class OAISRequestManagerComponent extends React.Component {
    * @param {string} mode selection mode from TableSelectionModes
    * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
    */
-  onRetry = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.RETRY_DIALOG, entities, mode)
+  onRetrySelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.RETRY_DIALOG, entities, mode)
+
+  /**
+   * Callback: On retry request
+   * @param {[*]} entity entity  of IngestShapes.RequestEntity (to include or exclude from request)
+   */
+  onRetryRequest = (entity) => this.onRetrySelection([entity])
 
   /**
    * Callback: On delete requests for selection as parameter (shows corresponding dialog)
    * @param {string} mode selection mode from TableSelectionModes
    * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
    */
-  onDelete = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
+  onDeleteSelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
+
+  /**
+   * Callback: On delete request
+   * @param {*} entity entity of IngestShapes.RequestEntity (to include or exclude from request)
+   */
+  onDeleteRequest = (entity) => this.onDeleteSelection([entity])
 
   /** Callback: On delete requests for selection as parameter (shows corresponding dialog). Mode and selection are ignored (always all selected) */
   onAbort = () => this.onOpenActionDialog(DIALOG_TYPES.ABORT_DIALOG, [], TableSelectionModes.excludeSelected)
@@ -290,8 +302,8 @@ export class OAISRequestManagerComponent extends React.Component {
             <HeaderActionsBarContainer
               paneType={paneType}
               onSelectVersionOption={this.onSelectVersionOption}
-              onDelete={this.onDelete}
-              onRetry={this.onRetry}
+              onDelete={this.onDeleteSelection}
+              onRetry={this.onRetrySelection}
               onAbort={this.onAbort}
             />
           </TableHeaderLine>
@@ -338,11 +350,11 @@ export class OAISRequestManagerComponent extends React.Component {
                 .optionsColumn([
                   {
                     OptionConstructor: RequestRetryOption,
-                    optionProps: { onRetry: this.onRetry },
+                    optionProps: { onRetry: this.onRetryRequest },
                   },
                   {
                     OptionConstructor: RequestDeleteOption,
-                    optionProps: { onDelete: this.onDelete },
+                    optionProps: { onDelete: this.onDeleteRequest },
                   }])
                 .build(),
             ]}

@@ -42,7 +42,7 @@ class ReferenceNotifyOption extends React.Component {
    */
   onClick = () => {
     const { entity, onNotify } = this.props
-    onNotify([entity])
+    onNotify(entity)
   }
 
   isDisabled = () => {

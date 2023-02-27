@@ -60,8 +60,8 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
     assert.lengthOf(headerContainer, 1, 'There should be 1 HeaderActionsBarContainer')
     testSuiteHelpers.assertWrapperProperties(headerContainer, {
       paneType: props.paneType,
-      onRetry: enzymeWrapper.instance().onRetry,
-      onDelete: enzymeWrapper.instance().onDelete,
+      onRetry: enzymeWrapper.instance().onRetrySelection,
+      onDelete: enzymeWrapper.instance().onDeleteSelection,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
@@ -85,8 +85,8 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
     assert.lengthOf(headerContainer, 1, 'There should be 1 HeaderActionsBarContainer')
     testSuiteHelpers.assertWrapperProperties(headerContainer, {
       paneType: props.paneType,
-      onRetry: enzymeWrapper.instance().onRetry,
-      onDelete: enzymeWrapper.instance().onDelete,
+      onRetry: enzymeWrapper.instance().onRetrySelection,
+      onDelete: enzymeWrapper.instance().onDeleteSelection,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
@@ -110,8 +110,8 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
     assert.lengthOf(headerContainer, 1, 'There should be 1 HeaderActionsBarContainer')
     testSuiteHelpers.assertWrapperProperties(headerContainer, {
       paneType: props.paneType,
-      onRetry: enzymeWrapper.instance().onRetry,
-      onDelete: enzymeWrapper.instance().onDelete,
+      onRetry: enzymeWrapper.instance().onRetrySelection,
+      onDelete: enzymeWrapper.instance().onDeleteSelection,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
@@ -135,8 +135,8 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
     assert.lengthOf(headerContainer, 1, 'There should be 1 HeaderActionsBarContainer')
     testSuiteHelpers.assertWrapperProperties(headerContainer, {
       paneType: props.paneType,
-      onRetry: enzymeWrapper.instance().onRetry,
-      onDelete: enzymeWrapper.instance().onDelete,
+      onRetry: enzymeWrapper.instance().onRetrySelection,
+      onDelete: enzymeWrapper.instance().onDeleteSelection,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
@@ -160,8 +160,8 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
     assert.lengthOf(headerContainer, 1, 'There should be 1 HeaderActionsBarContainer')
     testSuiteHelpers.assertWrapperProperties(headerContainer, {
       paneType: props.paneType,
-      onRetry: enzymeWrapper.instance().onRetry,
-      onDelete: enzymeWrapper.instance().onDelete,
+      onRetry: enzymeWrapper.instance().onRetrySelection,
+      onDelete: enzymeWrapper.instance().onDeleteSelection,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)

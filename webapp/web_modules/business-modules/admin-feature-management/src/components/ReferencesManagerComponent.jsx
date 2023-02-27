@@ -125,19 +125,31 @@ export class ReferencesManagerComponent extends React.Component {
   * Callback: On view detail reference
   * @param {[*]} entities entities as an array of FemShapes.Reference
   */
-  onDetail = (entities) => this.onOpenActionDialog(DIALOG_TYPES.DETAIL_DIALOG, entities)
+  onDetailFeature = (entity) => this.onOpenActionDialog(DIALOG_TYPES.DETAIL_DIALOG, [entity])
 
   /**
   * Callback: On delete requests for selection as parameter (shows corresponding dialog)
   * @param {[*]} entities entities as an array of FemShapes.Reference
   */
-  onDelete = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
+  onDeleteSelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
+
+  /**
+  * Callback: On delete one request selected
+  * @param {*} entity entity to delete
+  */
+  onDeleteFeature = (entity) => this.onDeleteSelection([entity])
 
   /**
   * Callback: On notify requests for selection as parameter (shows corresponding dialog)
   * @param {[*]} entities entities as an array of FemShapes.Reference
   */
-  onNotify = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.NOTIFY_DIALOG, entities, mode)
+  onNotifySelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.NOTIFY_DIALOG, entities, mode)
+
+  /**
+  * Callback: On notify selected feature
+  * @param {*} entity entities as an array of FemShapes.Reference
+  */
+  onNotifyFeature = (entity) => this.onNotifySelection([entity])
 
   /**
   * Inner callback: closes dialog corresponding to request type
@@ -254,14 +266,14 @@ export class ReferencesManagerComponent extends React.Component {
         .optionsColumn([{
           OptionConstructor: ReferenceDetailOption,
           optionProps: {
-            onReferenceDetail: this.onDetail,
+            onReferenceDetail: this.onDetailFeature,
           },
         }, {
           OptionConstructor: ReferenceDeleteOption,
-          optionProps: { onDelete: this.onDelete },
+          optionProps: { onDelete: this.onDeleteFeature },
         }, {
           OptionConstructor: ReferenceNotifyOption,
-          optionProps: { onNotify: this.onNotify },
+          optionProps: { onNotify: this.onNotifyFeature },
         }])
         .build(),
     ]
@@ -271,8 +283,8 @@ export class ReferencesManagerComponent extends React.Component {
           <TableHeaderLine>
             <HeaderActionsBarContainer
               paneType={paneType}
-              onNotify={this.onNotify}
-              onDelete={this.onDelete}
+              onNotify={this.onNotifySelection}
+              onDelete={this.onDeleteSelection}
             />
           </TableHeaderLine>
           <div style={loadingStyle}>

@@ -64,7 +64,7 @@ describe('[ADMIN LTA MANAGEMENT] Testing LTAManagerTableComponent', () => {
     assert.lengthOf(headerActionsBarWrapper, 1, 'There should be a HeaderActionsBar')
     testSuiteHelpers.assertWrapperProperties(headerActionsBarWrapper, {
       onChangeColumnsVisibility: props.onChangeColumnsVisibility,
-      onDelete: enzymeWrapper.instance().onDelete,
+      onDeleteSelection: enzymeWrapper.instance().onDelete,
     }, 'Component should define the expected properties')
 
     const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)

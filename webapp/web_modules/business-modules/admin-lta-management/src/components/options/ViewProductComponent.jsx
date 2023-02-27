@@ -38,7 +38,7 @@ class ViewProductComponent extends React.Component {
 
   onClick = () => {
     const { entity, onViewProduct } = this.props
-    onViewProduct([entity])
+    onViewProduct(entity)
   }
 
   render() {

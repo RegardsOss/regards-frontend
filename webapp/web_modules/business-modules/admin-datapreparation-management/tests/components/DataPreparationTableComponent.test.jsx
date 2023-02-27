@@ -65,8 +65,8 @@ describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing DataPreparationTableCompone
     assert.lengthOf(headerActionsBarWrapper, 1, 'There should be a HeaderActionsBar')
     testSuiteHelpers.assertWrapperProperties(headerActionsBarWrapper, {
       onChangeColumnsVisibility: props.onChangeColumnsVisibility,
-      onDelete: enzymeWrapper.instance().onDelete,
-      onRetry: enzymeWrapper.instance().onRetry,
+      onDelete: enzymeWrapper.instance().onDeleteSelection,
+      onRetry: enzymeWrapper.instance().onRetrySelection,
     }, 'Component should define the expected properties')
 
     const tableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)

@@ -132,9 +132,13 @@ class DataPreparationTableComponent extends React.Component {
    */
   onViewRequestErrors = (entity) => this.onOpenActionDialog(DIALOG_TYPES.ERRORS_DIALOG, [entity], TableSelectionModes.includeSelected)
 
-  onRetry = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.RETRY_DIALOG, entities, mode)
+  onRetrySelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.RETRY_DIALOG, entities, mode)
 
-  onDelete = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
+  onRetryRequest = (entity) => this.onOpenActionDialog(DIALOG_TYPES.RETRY_DIALOG, [entity])
+
+  onDeleteSelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
+
+  onDeleteRequest = (entity) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, [entity])
 
   onConfirmActionDialog = (dialogRequestType) => {
     const { bodyParameters } = this.props
@@ -259,10 +263,10 @@ class DataPreparationTableComponent extends React.Component {
         .label(formatMessage({ id: 'datapreparation.table.header.actions' }))
         .optionsColumn([{
           OptionConstructor: RetryRequestComponent,
-          optionProps: { isLoading, onRetry: this.onRetry },
+          optionProps: { isLoading, onRetry: this.onRetryRequest },
         }, {
           OptionConstructor: DeleteRequestComponent,
-          optionProps: { isLoading, onDelete: this.onDelete },
+          optionProps: { isLoading, onDelete: this.onDeleteRequest },
         }])
         .build(),
     ]
@@ -277,8 +281,8 @@ class DataPreparationTableComponent extends React.Component {
             <HeaderActionsBarContainer
               columns={columns}
               onChangeColumnsVisibility={onChangeColumnsVisibility}
-              onDelete={this.onDelete}
-              onRetry={this.onRetry}
+              onDelete={this.onDeleteSelection}
+              onRetry={this.onRetrySelection}
             />
           </TableHeaderOptionsArea>
         </TableHeaderLine>

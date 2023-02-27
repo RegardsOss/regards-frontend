@@ -145,13 +145,17 @@ export class OAISPackageManagerComponent extends React.Component {
     },
   })
 
-  onViewAIPDetail = (entities) => this.onOpenActionDialog(DIALOG_TYPES.AIP_DETAIL_DIALOG, entities)
+  onViewAIPDetail = (entity) => this.onOpenActionDialog(DIALOG_TYPES.AIP_DETAIL_DIALOG, [entity])
 
-  onViewSIPDetail = (entities) => this.onOpenActionDialog(DIALOG_TYPES.SIP_DETAIL_DIALOG, entities)
+  onViewSIPDetail = (entity) => this.onOpenActionDialog(DIALOG_TYPES.SIP_DETAIL_DIALOG, [entity])
 
-  onDelete = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
+  onDeleteSelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.DELETE_DIALOG, entities, mode)
 
-  onModify = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.MODIFY_DIALOG, entities, mode)
+  onDeleteProduct = (entity) => this.onDeleteSelection([entity])
+
+  onModifySelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.MODIFY_DIALOG, entities, mode)
+
+  onModifyProduct = (entity) => this.onModifySelection([entity])
 
   updatePostDialogState = (actionResult) => {
     if (actionResult.error) {
@@ -300,10 +304,10 @@ export class OAISPackageManagerComponent extends React.Component {
           },
         }, {
           OptionConstructor: AIPModifyOption,
-          optionProps: { onModify: this.onModify },
+          optionProps: { onModify: this.onModifyProduct },
         }, {
           OptionConstructor: AIPDeleteOption,
-          optionProps: { onDelete: this.onDelete },
+          optionProps: { onDelete: this.onDeleteProduct },
         }])
         .build(),
     ]
@@ -316,8 +320,8 @@ export class OAISPackageManagerComponent extends React.Component {
             </div>
             <HeaderActionsBarContainer
               paneType={paneType}
-              onModify={this.onModify}
-              onDelete={this.onDelete}
+              onModify={this.onModifySelection}
+              onDelete={this.onDeleteSelection}
             />
           </TableHeaderLine>
           <PageableInfiniteTableContainer
