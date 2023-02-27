@@ -5,12 +5,14 @@ const nodeExternals = require('webpack-node-externals')
 const WebpackBar = require('webpackbar')
 const getCommonConfig = require('./webpack.common.config')
 const addTestConfig = require('../utils/addTestConfig')
+const fixBlobBeforeNodeJS18DuringTests = require('../utils/fixBlobBeforeNodeJS18DuringTests')
 
 // load the static configuration variables
 require('../conf/staticConfiguration')
 
 module.exports = function (projectContextPath) {
   const config = addTestConfig(getCommonConfig(projectContextPath, 'test'), 'test')
+  fixBlobBeforeNodeJS18DuringTests()
 
   return merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.

@@ -24,7 +24,6 @@ import { AceEditorAdapter } from '@regardsoss/adapters'
 import { MIME_TYPES } from '@regardsoss/mime-types'
 import CodeFileDisplayer from '../../../src/content/preview/CodeFileDisplayer'
 import styles from '../../../src/content/styles/styles'
-import { TestBlob } from './TestBlob'
 import { TestFileReader } from './TestFileReader'
 
 const context = buildTestContext(styles)
@@ -36,12 +35,10 @@ const context = buildTestContext(styles)
 describe('[Components] Testing CodeFileDisplayer', () => {
   before(() => {
     testSuiteHelpers.before()
-    root.Blob = TestBlob
     root.FileReader = TestFileReader
   })
   after(() => {
     testSuiteHelpers.after()
-    delete root.Blob
     delete root.FileReader
   })
 

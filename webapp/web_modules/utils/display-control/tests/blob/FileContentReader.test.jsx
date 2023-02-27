@@ -21,7 +21,6 @@ import { assert } from 'chai'
 import root from 'window-or-global'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import FileContentReader from '../../src/blob/FileContentReader'
-import { TestBlob } from './TestBlob'
 import { TestFileReader } from './TestFileReader'
 
 /**
@@ -31,12 +30,10 @@ import { TestFileReader } from './TestFileReader'
 describe('[DISPLAY CONTROL] Testing FileContentReader', () => {
   before(() => {
     testSuiteHelpers.before()
-    root.Blob = TestBlob
     root.FileReader = TestFileReader
   })
   after(() => {
     testSuiteHelpers.after()
-    delete root.Blob
     delete root.FileReader
   })
 
@@ -46,7 +43,7 @@ describe('[DISPLAY CONTROL] Testing FileContentReader', () => {
   // eslint-disable-next-line mocha/no-skipped-tests
   xit('should render correctly, providing content read to children', (done) => {
     const props = {
-      blob: new TestBlob('blablabus'),
+      blob: new Blob(),
       targetPropertyName: 'readBlobValue',
       // eslint-disable-next-line react/no-unused-prop-types
       children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]),

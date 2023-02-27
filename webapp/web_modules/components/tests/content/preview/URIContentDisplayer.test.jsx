@@ -22,7 +22,6 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { URIContentDisplayer } from '../../../src/content/preview/URIContentDisplayer'
 import { FileContentDisplayer } from '../../../src/content/preview/FileContentDisplayer'
 import styles from '../../../src/content/styles'
-import { TestBlob } from './TestBlob'
 
 const context = buildTestContext(styles)
 
@@ -116,7 +115,7 @@ describe('[Components] Testing URIContentDisplayer', () => {
     }, '(2a) File displayer properties should be correctly reported')
     // 2.a - simulate a download succesful end
     const testResolvedFile = {
-      content: new TestBlob('any'),
+      content: new Blob(),
       contentType: 'application/unknown',
     }
     enzymeWrapper.instance().onDownloadSuccess(props2.uri, testResolvedFile)

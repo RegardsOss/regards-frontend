@@ -30,7 +30,7 @@ class FileContentReader extends React.Component {
   static propTypes = {
     /** File content as blob to read */
     // eslint-disable-next-line react/no-unused-prop-types
-    blob: PropTypes.instanceOf(root.Blob || Object).isRequired,
+    blob: PropTypes.instanceOf(Blob).isRequired,
     /** Name of the property to add into children */
     // eslint-disable-next-line react/no-unused-prop-types
     targetPropertyName: PropTypes.string,

@@ -21,7 +21,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import LocalURLProvider from '../../src/blob/LocalURLProvider'
-import { TestBlob } from './TestBlob'
 
 /**
  * Test LocalURLProvider
@@ -31,8 +30,8 @@ describe('[DISPLAY CONTROL] Testing LocalURLProvider', () => {
   before(() => {
     testSuiteHelpers.before()
     root.URL = {
-      createObjectURL: (testBlob) => `myTestFolder/${testBlob.text}`,
-      revokeObjectURL: () => {},
+      createObjectURL: (testBlob) => testBlob,
+      revokeObjectURL: () => { },
     }
   })
   after(() => {
@@ -45,8 +44,9 @@ describe('[DISPLAY CONTROL] Testing LocalURLProvider', () => {
   })
   it('should render correctly, providing an URL to children for each blob it receives as property', () => {
     // 1. Test with an initial blob
+    const blob1 = new Blob()
     const props = {
-      blob: new TestBlob('test1'),
+      blob: blob1,
       targetPropertyName: 'myBlobURL',
     }
     const TestComponent = () => <div />
@@ -58,18 +58,19 @@ describe('[DISPLAY CONTROL] Testing LocalURLProvider', () => {
     assert.lengthOf(testComp, 1, '(1) There should be test component')
     testSuiteHelpers.assertWrapperProperties(testComp, {
       myProp: 'abc',
-      myBlobURL: 'myTestFolder/test1',
+      myBlobURL: blob1,
     }, '(1) Children self properties should be preserved and URL target property should be added')
     // 2. Change blob and check URL is correctly updated
+    const blob2 = new Blob()
     enzymeWrapper.setProps({
       ...props,
-      blob: new TestBlob('test2'),
+      blob: blob2,
     })
     testComp = enzymeWrapper.find(TestComponent)
     assert.lengthOf(testComp, 1, '(2) There should be test component')
     testSuiteHelpers.assertWrapperProperties(testComp, {
       myProp: 'abc',
-      myBlobURL: 'myTestFolder/test2',
+      myBlobURL: blob2,
     }, '(2) Children self properties should be preserved and URL target property should be added')
   })
 })

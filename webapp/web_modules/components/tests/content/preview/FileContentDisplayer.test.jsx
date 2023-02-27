@@ -28,7 +28,6 @@ import { MarkdownFileContentDisplayer } from '../../../src/content/preview/Markd
 import { NoContentComponent } from '../../../src/content/feedback/NoContentComponent'
 import { ContentLoadingComponent } from '../../../src/content/feedback/ContentLoadingComponent'
 import styles from '../../../src/content/styles/styles'
-import { TestBlob } from './TestBlob'
 import { TestFileReader } from './TestFileReader'
 
 const context = buildTestContext(styles)
@@ -40,7 +39,6 @@ const context = buildTestContext(styles)
 describe('[Components] Testing FileContentDisplayer', () => {
   before(() => {
     testSuiteHelpers.before()
-    root.Blob = TestBlob
     root.FileReader = TestFileReader
     root.URL = {
       createObjectURL: (blob) => blob.text,
@@ -49,7 +47,6 @@ describe('[Components] Testing FileContentDisplayer', () => {
   })
   after(() => {
     testSuiteHelpers.after()
-    delete root.Blob
     delete root.FileReader
     delete root.URL
   })
@@ -84,7 +81,7 @@ describe('[Components] Testing FileContentDisplayer', () => {
       loading: false,
       error: false,
       file: {
-        content: new TestBlob('local'),
+        content: new Blob(),
         contentType: 'invalid/mimeType',
       },
       noPreviewComponent: <NoContentComponent titleKey="some.example" />,
@@ -119,7 +116,7 @@ describe('[Components] Testing FileContentDisplayer', () => {
       loading: false,
       error: false,
       file: {
-        content: new TestBlob('local'),
+        content: new Blob(),
         contentType: mimeType,
       },
     }

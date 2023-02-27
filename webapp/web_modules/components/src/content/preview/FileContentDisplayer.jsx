@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import root from 'window-or-global'
 import compose from 'lodash/fp/compose'
 import DownloadErrorIcon from 'mdi-material-ui/EmoticonSadOutline'
 import NoPreviewIcon from 'mdi-material-ui/MonitorOff'
@@ -66,8 +65,7 @@ export class FileContentDisplayer extends React.Component {
     error: PropTypes.bool,
     // file, required when loading and error are false
     file: PropTypes.shape({
-      // For tests: Blob is not necessary present when loading the class
-      content: PropTypes.instanceOf(root.Blob || Object).isRequired,
+      content: PropTypes.instanceOf(Blob).isRequired,
       contentType: PropTypes.string.isRequired,
     }),
     fileURI: PropTypes.string, // corresponding URI for MIME types that require initial URI context (like HTML)
