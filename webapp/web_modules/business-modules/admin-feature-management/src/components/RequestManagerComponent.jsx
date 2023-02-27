@@ -22,8 +22,8 @@ import NoContentIcon from 'mdi-material-ui/CropFree'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
-  DateValueRender, NoContentComponent, TableHeaderLine, TableSelectionModes, ConfirmDialogComponent,
-  ConfirmDialogComponentTypes, TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
+  DateValueRender, NoContentComponent, TableHeaderLine, TableSelectionModes, InformationDialogComponent,
+  TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -199,7 +199,7 @@ export class RequestManagerComponent extends React.Component {
         functionToCall = onDeleteRequests
     }
     this.onOpenActionDialog(confirmDialogType)
-    functionToCall(payload, paneType, () => {}).then((actionResult) => {
+    functionToCall(payload, paneType, () => { }).then((actionResult) => {
       if (!actionResult.error) {
         this.setState({
           [confirmDialogType]: {
@@ -222,13 +222,11 @@ export class RequestManagerComponent extends React.Component {
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
         >
-          <ConfirmDialogComponent
-            dialogType={ConfirmDialogComponentTypes.CONFIRM}
+          <InformationDialogComponent
             title={formatMessage({ id: `feature.requests.${dialogType}.title` })}
             message={totalHandled === totalRequested
               ? formatMessage({ id: `feature.requests.${dialogType}.message.ok` })
               : formatMessage({ id: `feature.requests.${dialogType}.message.not-ok` }, { totalHandled })}
-            onConfirm={() => this.onCloseActionDialog(dialogType)}
             onClose={() => this.onCloseActionDialog(dialogType)}
           />
         </LoadableContentDisplayDecorator>

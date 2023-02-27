@@ -20,6 +20,7 @@ const messages = {
   'confirm.dialog.delete': 'Remove',
   'confirm.dialog.refuse': 'Refuse',
   'confirm.dialog.confirm': 'Confirm',
+  'confirm.dialog.close': 'Close',
   'confirm.dialog.cancel': 'Cancel',
   'confirm.dialog.unknown.error': 'An unknown error occurs during requested action.',
   'browser.check.fail.title': 'Unsupported browser',

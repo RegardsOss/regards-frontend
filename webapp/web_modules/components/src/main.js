@@ -61,6 +61,7 @@ export { default as SubSectionCard } from './content/SubSectionCard'
 
 export { default as BrowserCheckerDialog } from './dialogs/BrowserCheckerDialog'
 export { default as ConfirmDialogComponent, ConfirmDialogComponentTypes } from './dialogs/ConfirmDialogComponent'
+export { default as InformationDialogComponent } from './dialogs/InformationDialogComponent'
 export { default as PositionedDialog } from './dialogs/PositionedDialog'
 export { default as FitContentDialog } from './dialogs/FitContentDialog'
 export { default as LoadableContentDialogContainer } from './dialogs/LoadableContentDialogContainer'
