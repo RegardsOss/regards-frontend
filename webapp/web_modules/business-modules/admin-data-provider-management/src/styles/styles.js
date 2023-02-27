@@ -390,6 +390,9 @@ const styles = (theme) => ({
     },
   },
   chainForm: {
+    fileInfoDirStyle: {
+      width: '95%',
+    },
     errorIcon: {
       color: theme.formsExtensions.validation.errorColor,
       marginRight: 10,

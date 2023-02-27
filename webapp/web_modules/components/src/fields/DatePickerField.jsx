@@ -19,16 +19,15 @@
 import isDate from 'lodash/isDate'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
-import isNaN from 'lodash/isNaN'
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
 import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
 import TimeIcon from 'mdi-material-ui/ClockOutline'
 import ActionDateRange from 'mdi-material-ui/CalendarRange'
-import format from 'date-fns/format'
-import parse from 'date-fns/parse'
 import { UIDomain } from '@regardsoss/domain'
+
+const { DateUtils } = UIDomain
 
 /**
  * Overrides DatePicker from material UI to allow manual text fill and use of time picker
@@ -63,12 +62,6 @@ export default class DatePickerField extends React.Component {
     displayTime: false,
     fullWidth: false,
   }
-
-  static DATE_FORMAT_US = 'MM/DD/YYYY'
-
-  static DATE_FORMAT = 'DD/MM/YYYY'
-
-  static TIME_FORMAT = 'HH:mm:ss'
 
   /** Default date picker style (hides text field, only shown to get the dialog box) */
   static datePickerContainerStyle = { width: '0px', height: '0px' }
@@ -108,55 +101,17 @@ export default class DatePickerField extends React.Component {
   /** Default style (not full width) */
   static DEFAULT_STYLE = { display: 'inline-flex' }
 
-  static getUsDate = (dateString) => {
-    const parts = dateString.split('/')
-    if (parts.length === 3) {
-      return `${parts[1]}/${parts[0]}/${parts[2]}`
-    }
-    return null
-  }
-
-  static formatDateWithLocale(date, locale) {
-    if (locale === 'en') {
-      return date ? format(date, DatePickerField.DATE_FORMAT_US) : ''
-    }
-    return date ? format(date, DatePickerField.DATE_FORMAT) : ''
-  }
-
-  /**
-   * Formats date for date field input
-   * @param {*} date
-   */
-  static formatDateForInput(date) {
-    return format(date, DatePickerField.DATE_FORMAT_US)
-  }
-
-  static parseDateWithLocale(dateString, locale, timeString) {
-    if (locale === 'en') {
-      if (timeString) {
-        return dateString ? parse(`${dateString} ${timeString}`, `${DatePickerField.DATE_FORMAT_US} ${DatePickerField.TIME_FORMAT}`)
-          : parse(`${timeString}`, DatePickerField.TIME_FORMAT)
-      }
-      return dateString ? parse(`${dateString}`, DatePickerField.DATE_FORMAT_US) : ''
-    }
-    const usDateString = DatePickerField.getUsDate(dateString)
-    if (timeString) {
-      return dateString ? parse(`${usDateString} ${timeString}`, `${DatePickerField.DATE_FORMAT} ${DatePickerField.TIME_FORMAT}`)
-        : parse(`${timeString}`, DatePickerField.TIME_FORMAT)
-    }
-    return dateString ? parse(usDateString, DatePickerField.DATE_FORMAT_US) : null
-  }
-
   /** Initial state (resolved on IIFE for readability sake) */
   state = (() => {
-    const date = isDate(this.props.defaultValue) ? this.props.defaultValue : this.props.value
-    const defaultDate = date
-      || parse(`${format(new Date(), DatePickerField.DATE_FORMAT_US)} ${this.props.defaultTime}`,
-        `${DatePickerField.DATE_FORMAT_US} ${DatePickerField.TIME_FORMAT}`)
+    const {
+      locale, defaultValue, value,
+    } = this.props
+    const initDate = isDate(defaultValue) ? defaultValue : value
+
     return {
-      dateText: date ? DatePickerField.formatDateWithLocale(date, this.props.locale) : '',
-      timeText: date ? format(date, DatePickerField.TIME_FORMAT) : '',
-      defaultDate,
+      dateText: DateUtils.computeDisplayedDateText(initDate, locale),
+      timeText: DateUtils.computeDisplayedTimeText(initDate),
+      initDate,
       style: {}, // initialized on properties init detection
     }
   })()
@@ -186,11 +141,11 @@ export default class DatePickerField extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const nextState = { ...this.state }
     const {
-      value, displayTime, fullWidth, style,
+      value, displayTime, fullWidth, style, locale,
     } = newProps
     if (oldProps.value !== value) {
-      nextState.dateText = value ? DatePickerField.formatDateWithLocale(value, this.props.locale) : ''
-      nextState.timeText = value ? format(value, DatePickerField.TIME_FORMAT) : ''
+      nextState.dateText = DateUtils.computeDisplayedDateText(value, locale)
+      nextState.timeText = DateUtils.computeDisplayedTimeText(value)
     }
     if (oldProps.displayTime !== displayTime
       || oldProps.fullWidth !== fullWidth
@@ -205,46 +160,69 @@ export default class DatePickerField extends React.Component {
     }
   }
 
+  /**
+   * Callback from DatePicker when a date is selected
+   *
+   * HACK : The selected date needs a transformation as DatePicker returns a date in the browser timeZone and we need a date
+   * in UTC TimeZone (GMT+00)
+   *
+   * @param {*} event propagated on change
+   * @param {*} date Selected date from DatePicker with browser timezone
+   */
   handleChangeDatePicker = (event, date) => {
-    if (!date) {
-      this.setState({ dateText: '', timeText: '' })
+    const { value } = this.props
+    if (value) {
+      // value -> contains previous selected date+time.
+      // date  -> contains selected date from DatePicker with browser timezone
+      // When date is selected from date Picker we need to override this date with the previous selected time.
+      const newDateWithPreviousSelectedTime = DateUtils.createDateAndOverrideTime(date, value)
+      // Do not transform this new calculated date to UTC as value has already been transformed as UTC
+      this.handleDateChange(newDateWithPreviousSelectedTime, false)
     } else {
-      const { dateText, timeText, defaultDate } = this.state
-      const { value } = this.props
-      if (!value) {
-        date.setHours(defaultDate.getHours())
-        date.setMinutes(defaultDate.getMinutes())
-        date.setSeconds(defaultDate.getSeconds())
-      } else {
-        date.setHours(value.getHours())
-        date.setMinutes(value.getMinutes())
-        date.setSeconds(value.getSeconds())
-      }
-      const newDateText = DatePickerField.formatDateWithLocale(date, this.props.locale)
-      const newTimeText = format(date, DatePickerField.TIME_FORMAT)
-      if (dateText !== newDateText || timeText !== newTimeText) {
-        this.setState({ dateText: newDateText, timeText: newTimeText },
-          () => this.props.onChange(date))
-      }
+      // Else date is the date returnd by DatePicker with browser timezone. We need to tranform to UTC
+      this.handleDateChange(date, true)
     }
   }
 
+  /**
+   * Callback from TimePicker when a DateTime is selected.
+   *
+   * HACK : The selected date needs a transformation as TimePicker returns a date in the browser timeZone and we need a date
+   * in UTC TimeZone (GMT+00)
+   *
+   * @param {*} event propagated on change
+   * @param {*} date Selected date from DatePicker with browser timezone
+   */
   handleChangeTimePicker = (event, date) => {
-    if (!date) {
-      this.setState({ dateText: '', timeText: '' })
+    const { value } = this.props
+    if (value) {
+      // value -> contains previous selected date+time.
+      // date  -> contains selected date from TimePicker with browser timezone
+      // When date is selected from date Picker we need to override this date with the previous selected time.
+      const newDateTimeWithPreviousSelectedDate = DateUtils.createDateAndOverrideDateValues(date, value)
+      // Do not transform this new calculated date to UTC as value has already been transformed as UTC
+      this.handleDateChange(newDateTimeWithPreviousSelectedDate, true)
     } else {
-      const { dateText, defaultDate } = this.state
-      if (!dateText) {
-        date.setFullYear(defaultDate.getFullYear())
-        date.setMonth(defaultDate.getMonth())
-        date.setDate(defaultDate.getDate())
-      }
-      const newTimeText = format(date, DatePickerField.TIME_FORMAT)
-      const newDateText = DatePickerField.formatDateWithLocale(date, this.props.locale)
-      if (this.state.dateText !== newDateText || this.state.timeText !== newTimeText) {
-        this.setState({ dateText: newDateText, timeText: newTimeText },
-          () => this.props.onChange(date))
-      }
+      // Else date is the date returnd by DatePicker with browser timezone. We need to tranform to UTC
+      this.handleDateChange(date, true)
+    }
+  }
+
+  /**
+   * This method, set the selected date by transformin (or not) to a UTC timeZone and calculate the associated two text fields
+   * dateText and timeText.
+   * @param {Date} newDate Date selected
+   * @param {boolean} tranformToUTC Wehter to transform given date by removing timezone and set UTC timeZone (GMT+00)
+   */
+  handleDateChange = (newDate, tranformToUTC) => {
+    const { onChange, locale } = this.props
+    const { dateText, timeText } = this.state
+    const parsedDate = tranformToUTC ? DateUtils.parseDateToUTC(newDate) : newDate
+    const newDateText = DateUtils.computeDisplayedDateText(parsedDate, locale)
+    const newTimeText = DateUtils.computeDisplayedTimeText(parsedDate)
+    if (dateText !== newDateText || timeText !== newTimeText) {
+      this.setState({ dateText: newDateText, timeText: newTimeText },
+        () => onChange(parsedDate))
     }
   }
 
@@ -256,16 +234,6 @@ export default class DatePickerField extends React.Component {
     this.setState({ timeText: value })
   }
 
-  isADate = (maybeDate) => {
-    if (Object.prototype.toString.call(maybeDate) === '[object Date]') {
-      if (isNaN(maybeDate.getTime())) {
-        return false
-      }
-      return true
-    }
-    return false
-  }
-
   /**
    * Save the Date set manually by the user (e.g. YYYY:MM:DD) when the user unblur the TextField
    * @param {*} event propagated on change
@@ -275,21 +243,12 @@ export default class DatePickerField extends React.Component {
     const {
       value, locale, onChange, defaultTime,
     } = this.props
+    const { timeText } = this.state
     if (!isEmpty(dateText)) {
-      const { timeText } = this.state
-      let parsedDate
-      if (this.state.timeText) {
-        parsedDate = DatePickerField.parseDateWithLocale(dateText, locale, timeText)
-      } else {
-        parsedDate = DatePickerField.parseDateWithLocale(dateText, locale, defaultTime)
-      }
-      if (this.isADate(parsedDate)) {
-        // the date is valid, let's save it
-        onChange(parsedDate)
-      } else {
-        // the date is invalid, let's rollback
-        this.setState({ dateText: DatePickerField.formatDateWithLocale(value, locale) })
-      }
+      const currentTimeText = timeText || defaultTime
+      const parsedDate = DateUtils.createUTCDateTimeFromString(dateText, locale, currentTimeText)
+      const currentDateText = DateUtils.formatDateWithLocale(value, locale)
+      this.handleInputDateChange(parsedDate, currentDateText, currentTimeText)
     } else {
       // the user wants to remove the date
       onChange()
@@ -302,27 +261,32 @@ export default class DatePickerField extends React.Component {
    */
   handleTimeInputBlur = (event) => {
     const timeText = event.currentTarget.value
-    let parsedDate
-    const { value, onChange, locale } = this.props
+    const {
+      value, onChange, locale,
+    } = this.props
     const { dateText } = this.state
-    let newDateText
     if (!isEmpty(timeText)) {
-      if (dateText) {
-        parsedDate = DatePickerField.parseDateWithLocale(dateText, locale, timeText)
-      } else {
-        newDateText = DatePickerField.formatDateWithLocale(new Date(), locale)
-        parsedDate = DatePickerField.parseDateWithLocale(newDateText, locale, timeText)
-      }
-      if (this.isADate(parsedDate)) {
-        // the date is valid, let's save it
-        onChange(parsedDate)
-      } else {
-        // the date is invalid, let's rollback
-        this.setState({ timeText: format(value, DatePickerField.TIME_FORMAT) })
-      }
+      const currentDateText = dateText || DateUtils.formatDateWithLocale(new Date(), locale)
+      const parsedDate = DateUtils.createUTCDateTimeFromString(currentDateText, locale, timeText)
+      const currentTimeText = DateUtils.computeDisplayedTimeText(value)
+      this.handleInputDateChange(parsedDate, currentDateText, currentTimeText)
     } else {
       // the user wants to remove the time
       onChange()
+    }
+  }
+
+  handleInputDateChange = (newDate, rollBackDateText, rollBackTimeText) => {
+    const { onChange } = this.props
+    if (isDate(newDate)) {
+      // the date is valid, let's save it
+      onChange(newDate)
+    } else {
+      // the date is invalid, let's rollback
+      this.setState({
+        dateText: rollBackDateText,
+        timeText: rollBackTimeText,
+      })
     }
   }
 
@@ -334,13 +298,21 @@ export default class DatePickerField extends React.Component {
 
   /**
    * Renders time picker components
+   *
+   * HACK : As TimePicker works with date in browser TimeZone, we need to transform
+   * the previous selected date to the browser TimeZone.
+   *
    * @return {[React.Component]} built components array
    */
   renderTimePicker() {
     const {
-      id, fullWidth, errorText,
+      id, fullWidth, errorText, value,
       timeHintText, disabled, tooltip,
     } = this.props
+
+    // If date is defined, the date was selected in UTC GMT+00 but saved in local timeZone.
+    // So to tranform this date, substract the timeZone from the given date before pass it to TimePicker.
+    const dateValue = DateUtils.substractUTCOffset(value)
 
     return [
       // 1 - hidden time picker (just for it to show the dialog)
@@ -348,7 +320,7 @@ export default class DatePickerField extends React.Component {
         <TimePicker
           id={`${id}-timePicker`}
           floatingLabelText=""
-          value={this.props.value}
+          value={dateValue}
           errorText=""
           container="inline"
           onChange={this.handleChangeTimePicker}
@@ -401,7 +373,6 @@ export default class DatePickerField extends React.Component {
           floatingLabelText=""
           value={this.props.value}
           errorText=""
-          formatDate={DatePickerField.formatDateForInput}
           autoOk={this.props.autoOk}
           okLabel={this.props.okLabel}
           cancelLabel={this.props.cancelLabel}

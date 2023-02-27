@@ -18,13 +18,14 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
-import isDate from 'lodash/isDate'
 import IconButton from 'material-ui/IconButton'
 import Clear from 'mdi-material-ui/Backspace'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { DatePickerField } from '@regardsoss/components'
+import { UIDomain } from '@regardsoss/domain'
 import styles from '../../styles'
 
+const { DateUtils } = UIDomain
 /**
  * Search form criteria plugin allowing the user to configure the temporal value of the passed attribute with a comparator.
  *
@@ -88,21 +89,6 @@ export class RenderDateTimeField extends React.Component {
     }
   }
 
-  /**
-   * Return a usable date or null (which is correct for the subcomponent DatePicker & TimePicker)
-   * @param value
-   * @returns {*}
-   */
-  getDateForComponent = (value) => {
-    if (isDate(value)) {
-      return value
-    }
-    if (Date.parse(value) > 0) {
-      return new Date(value)
-    }
-    return null
-  }
-
   render() {
     const {
       intl, input, label, displayTime, fullWidth,
@@ -110,7 +96,7 @@ export class RenderDateTimeField extends React.Component {
     const { moduleTheme: { fieldsLine, dateFieldStyles } } = this.context
     const clearButtonDisplayed = !!input.value
     // At first the value is an empty string
-    const dateValue = this.getDateForComponent(input.value)
+    const dateValue = DateUtils.getDateForComponent(input.value)
     return (
       <div style={fieldsLine}>
         <DatePickerField

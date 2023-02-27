@@ -20,8 +20,9 @@ import {
   Field, RenderTextField, RenderDateTimeField, ValidationHelpers,
 } from '@regardsoss/form-utils'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import messages from '../../i18n'
+import styles from '../../styles'
 
 export class AcquisitionFileInfoScanDirComponent extends React.Component {
   static propTypes = {
@@ -35,28 +36,30 @@ export class AcquisitionFileInfoScanDirComponent extends React.Component {
 
   render() {
     const { name } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { chainForm: { fileInfoDirStyle } } } = this.context
 
-    return [
-      <Field
-        key="scannedDirectory"
-        name={`${name}.scannedDirectory`}
-        fullWidth
-        component={RenderTextField}
-        type="text"
-        label={formatMessage({ id: 'acquisition-chain.form.fileInfo.scanDir.scannedDirectory' })}
-        validate={ValidationHelpers.isValidAbsolutePath}
-      />,
-      <br key="separator" />,
-      <Field
-        key="lastModificationDate"
-        name={`${name}.lastModificationDate`}
-        fullWidth
-        component={RenderDateTimeField}
-        label={formatMessage({ id: 'acquisition-chain.form.fileInfo.scanDir.lastModificationDate' })}
-      />,
-    ]
+    return (
+      <div style={fileInfoDirStyle}>
+        <Field
+          key="scannedDirectory"
+          name={`${name}.scannedDirectory`}
+          fullWidth
+          component={RenderTextField}
+          type="text"
+          label={formatMessage({ id: 'acquisition-chain.form.fileInfo.scanDir.scannedDirectory' })}
+          validate={ValidationHelpers.isValidAbsolutePath}
+        />
+        <br key="separator" />
+        <Field
+          key="lastModificationDate"
+          name={`${name}.lastModificationDate`}
+          fullWidth
+          component={RenderDateTimeField}
+          label={formatMessage({ id: 'acquisition-chain.form.fileInfo.scanDir.lastModificationDate' })}
+        />
+      </div>
+    )
   }
 }
 
-export default withI18n(messages)(AcquisitionFileInfoScanDirComponent)
+export default withModuleStyle(styles)(withI18n(messages)(AcquisitionFileInfoScanDirComponent))
