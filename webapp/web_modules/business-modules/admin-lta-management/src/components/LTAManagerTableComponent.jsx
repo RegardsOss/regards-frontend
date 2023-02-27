@@ -71,7 +71,8 @@ class LTAManagerTableComponent extends React.Component {
   }
 
   static COLUMN_KEYS = {
-    REQUEST_ID: 'correlationId',
+    REQUEST_ID: 'id',
+    CORRELATION_ID: 'correlationId',
     OWNER: 'owner',
     STATUS: 'status',
     SESSION: 'session',
@@ -135,7 +136,12 @@ class LTAManagerTableComponent extends React.Component {
 
   onViewMessage = (entities) => this.onOpenActionDialog(DIALOG_TYPES.VIEW_MESSAGE, entities)
 
-  getEntityCorrelationId = (entity) => get(entity, `content.${LTAManagerTableComponent.COLUMN_KEYS.REQUEST_ID}`, '')
+  getEntityId = (entity) => {
+    const id = get(entity, `content.${LTAManagerTableComponent.COLUMN_KEYS.REQUEST_ID}`, null)
+    if (!id) {
+      throw new Error('Invalid entitiy. Cannot retrieve id.', entity)
+    }
+  }
 
   onConfirmActionDialog = (dialogRequestType) => {
     const { bodyParameters } = this.props
@@ -143,7 +149,7 @@ class LTAManagerTableComponent extends React.Component {
     const payload = {
       ...bodyParameters,
       [FILTER_PARAMS.IDS]: {
-        [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => this.getEntityCorrelationId(e)),
+        [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => this.getEntityId(e)),
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
       },
     }
@@ -211,12 +217,12 @@ class LTAManagerTableComponent extends React.Component {
       new TableColumnBuilder()
         .selectionColumn(true, requestSelectors, tableActions, tableSelectors)
         .build(),
-      new TableColumnBuilder(LTAManagerTableComponent.COLUMN_KEYS.REQUEST_ID)
+      new TableColumnBuilder(LTAManagerTableComponent.COLUMN_KEYS.CORRELATION_ID)
         .titleHeaderCell()
-        .propertyRenderCell(`content.${LTAManagerTableComponent.COLUMN_KEYS.REQUEST_ID}`)
+        .propertyRenderCell(`content.${LTAManagerTableComponent.COLUMN_KEYS.CORRELATION_ID}`)
         .label(formatMessage({ id: 'lta.table.header.requestId' }))
-        .visible(get(columnsVisibility, LTAManagerTableComponent.COLUMN_KEYS.REQUEST_ID, false))
-        .sortableHeaderCell(...getColumnSortingData(LTAManagerTableComponent.COLUMN_KEYS.REQUEST_ID), onSort)
+        .visible(get(columnsVisibility, LTAManagerTableComponent.COLUMN_KEYS.CORRELATION_ID, false))
+        .sortableHeaderCell(...getColumnSortingData(LTAManagerTableComponent.COLUMN_KEYS.CORRELATION_ID), onSort)
         .build(),
       new TableColumnBuilder(LTAManagerTableComponent.COLUMN_KEYS.OWNER)
         .titleHeaderCell()

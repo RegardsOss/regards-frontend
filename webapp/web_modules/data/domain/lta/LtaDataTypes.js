@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -15,10 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+**/
+import values from 'lodash/values'
+import { DATA_TYPES_ENUM } from '../common/DataTypes'
 
 /**
- * @author Théo Lasserre
+ * @author Sébastien Binda
+ *
+ * Possible data types
  */
-export { REQUEST_STATUS_ENUM, REQUEST_STATUS } from './RequestStatus'
-export { LTA_DATA_TYPES } from './LtaDataTypes'
+export const LTA_DATA_TYPES_ENUM = {
+  ...DATA_TYPES_ENUM,
+  ZIP: 'ZIP',
+}
+
+export const LTA_DATA_TYPES = values(LTA_DATA_TYPES_ENUM)

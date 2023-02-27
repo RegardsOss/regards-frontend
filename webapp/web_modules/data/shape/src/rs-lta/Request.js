@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
-import { LTADomain, CommonDomain } from '@regardsoss/domain'
+import { LTADomain } from '@regardsoss/domain'
 import EntityGeoProperties from '../rs-catalog/entity/EntityGeoProperties'
 
 const LTAFileShape = PropTypes.shape({
   checksumMd5: PropTypes.string.isRequired,
   filename: PropTypes.string.isRequired,
   mimeType: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(CommonDomain.DATA_TYPES).isRequired,
+  type: PropTypes.oneOf(LTADomain.LTA_DATA_TYPES).isRequired,
   url: PropTypes.string.isRequired,
 })
 
@@ -37,7 +37,6 @@ const ProductShape = PropTypes.shape({
   originUrn: PropTypes.string,
   // eslint-disable-next-line react/forbid-prop-types
   properties: PropTypes.object,
-  owner: PropTypes.string.isRequired,
   replaceMode: PropTypes.bool.isRequired,
   session: PropTypes.string,
   storePath: PropTypes.string,
