@@ -65,7 +65,7 @@ export class StorageLocationListContainer extends React.Component {
       upPriority: (name, conf) => dispatch(storageLocationPriorityUpActions.upPriority(name, conf)),
       downPriority: (name, conf) => dispatch(storageLocationPriorityDownActions.downPriority(name, conf)),
       retryErrors: (id, type) => dispatch(storageLocationErrorsRetryActions.retryErrors(id, type)),
-      deleteErrors: (storage, type) => dispatch(storageRequestActions.deleteEntity(null, { storage, type })),
+      deleteErrors: (storage, type) => dispatch(storageRequestActions.deleteEntity(null, { storage, type }, { status: 'ERROR' })),
       fetchErrors: (storage, type) => dispatch(storageRequestActions.fetchPagedEntityList(0, 100, { storage, type }, { status: 'ERROR' })),
       relaunchMonitoring: (reset) => dispatch(storageLocationMonitoringActions.relaunchMonitoring(reset)),
       onStop: () => dispatch(storageRequestStopActions.stop()),
