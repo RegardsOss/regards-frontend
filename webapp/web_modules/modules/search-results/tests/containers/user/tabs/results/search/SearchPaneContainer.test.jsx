@@ -244,6 +244,7 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
     const currentState = enzymeWrapper.state()
     enzymeWrapper.setState({
       ...currentState,
+      searchDisabled: false,
       groups: [{
         ...currentState.groups[0],
         criteria: [{

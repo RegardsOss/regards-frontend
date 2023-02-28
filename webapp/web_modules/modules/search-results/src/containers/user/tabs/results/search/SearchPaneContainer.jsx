@@ -272,6 +272,10 @@ export class SearchPaneContainer extends React.Component {
    * User callback: on search called. Publish current criteria status
    */
   onSearch = () => {
+    if (this.state.searchDisabled) {
+      // Don't update result if disabled
+      return
+    }
     const {
       moduleId, tabType, updateResultsContext,
     } = this.props
