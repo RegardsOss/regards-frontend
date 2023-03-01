@@ -49,7 +49,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     filtersSelectors: PropTypes.instanceOf(BasicSelector).isRequired,
     // eslint-disable-next-line react/forbid-prop-types
-    filtersI18n: UIShapes.FiltersI18nList.isRequired,
+    filtersI18n: UIShapes.FiltersI18nList,
     // from mapStateToProps
     pageMeta: PropTypes.shape({
       number: PropTypes.number,
