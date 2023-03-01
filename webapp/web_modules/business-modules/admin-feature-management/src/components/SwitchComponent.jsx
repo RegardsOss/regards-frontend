@@ -20,7 +20,7 @@ import isEqual from 'lodash/isEqual'
 import Alert from 'mdi-material-ui/AlertCircleOutline'
 import Chip from 'material-ui/Chip'
 import FlatButton from 'material-ui/FlatButton'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { RefreshIndicatorComponent } from '@regardsoss/components'
 import { FemDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -154,7 +154,7 @@ class SwitchComponent extends React.Component {
           disabled={paneType === pane}
         />
         <div style={loadingVisible ? displayIndicator : displayNone}>
-          <RefreshIndicator
+          <RefreshIndicatorComponent
             left={0}
             top={2}
             status="loading"

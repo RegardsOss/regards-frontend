@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import RefreshIndicator from 'material-ui/RefreshIndicator'
+import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
 import EyeIcon from 'mdi-material-ui/Eye'
+import Dialog from 'material-ui/Dialog'
+import RaisedButton from 'material-ui/RaisedButton'
+import { ListItem } from 'material-ui/List'
 import IconButton from 'material-ui/IconButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
-import map from 'lodash/map'
-import isEmpty from 'lodash/isEmpty'
-import Dialog from 'material-ui/Dialog'
-import RaisedButton from 'material-ui/RaisedButton'
-import { ListItem } from 'material-ui/List'
+import { RefreshIndicatorComponent } from '@regardsoss/components'
 
 /**
 * Component to render the activity indicator for ne chain into the chain  list
@@ -121,7 +121,7 @@ class AcquisitionProcessingChainActivityRenderer extends React.Component {
     const { intl: { formatMessage, formatDate }, moduleTheme: { chains: { stateStyle } } } = this.context
     if (active) {
       return [
-        <RefreshIndicator
+        <RefreshIndicatorComponent
           key="refresh"
           size={25}
           left={0}

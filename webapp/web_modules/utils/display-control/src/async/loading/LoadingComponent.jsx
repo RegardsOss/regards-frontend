@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
 
-import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { RefreshIndicatorComponent } from '@regardsoss/components'
 
 const style = { position: 'relative' }
 const wrapperStyle = {
@@ -29,10 +29,9 @@ const wrapperStyle = {
 }
 const LoadingComponent = () => (
   <div
-    className="selenium-content-loading"
     style={wrapperStyle}
   >
-    <RefreshIndicator
+    <RefreshIndicatorComponent
       left={0}
       top={0}
       status="loading"

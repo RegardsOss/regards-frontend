@@ -92,6 +92,7 @@ export { default as SelectableList } from './list/SelectableList'
 
 export { default as LoadingPaneComponent } from './loading/LoadingPaneComponent'
 export { default as LoadingFilterComponent } from './loading/LoadingFilterComponent'
+export { default as RefreshIndicatorComponent } from './loading/RefreshIndicatorComponent'
 
 export { default as DynamicModulePane } from './module/DynamicModulePane'
 export { default as HorizontalAreasSeparator } from './module/HorizontalAreasSeparator'

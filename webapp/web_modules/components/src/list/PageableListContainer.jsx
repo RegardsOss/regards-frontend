@@ -24,11 +24,11 @@ import concat from 'lodash/concat'
 import some from 'lodash/some'
 import isString from 'lodash/isString'
 import debounce from 'lodash/debounce'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
 import TextField from 'material-ui/TextField'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import { ShowableAtRender } from '@regardsoss/display-control'
+import { RefreshIndicatorComponent } from '@regardsoss/components'
 import LineComponent from './LineComponent'
 import ListHeaderComponent from './ListHeaderComponent'
 
@@ -178,7 +178,7 @@ class PageableListContainer extends React.Component {
     }
     return (
       <div className="infinite-list-item" style={style.container}>
-        <RefreshIndicator
+        <RefreshIndicatorComponent
           size={40}
           left={10}
           top={0}

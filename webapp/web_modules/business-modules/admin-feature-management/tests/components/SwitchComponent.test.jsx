@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { FemDomain } from '@regardsoss/domain'
 import FlatButton from 'material-ui/FlatButton'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { RefreshIndicatorComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SwitchComponent from '../../src/components/SwitchComponent'
 import styles from '../../src/styles'
@@ -53,7 +53,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing SwitchComponent', () => {
     const buttonWrapper = enzymeWrapper.find(FlatButton)
     assert.lengthOf(buttonWrapper, 1, 'There should be a FlatButton')
 
-    const indicatorWrapper = enzymeWrapper.find(RefreshIndicator)
-    assert.lengthOf(indicatorWrapper, 1, 'There should a be RefreshIndicator')
+    const indicatorWrapper = enzymeWrapper.find(RefreshIndicatorComponent)
+    assert.lengthOf(indicatorWrapper, 1, 'There should a be RefreshIndicatorComponent')
   })
 })

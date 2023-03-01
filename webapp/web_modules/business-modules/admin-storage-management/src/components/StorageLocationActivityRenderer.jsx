@@ -20,7 +20,8 @@ import get from 'lodash/get'
 import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { RefreshIndicatorComponent } from '@regardsoss/components'
+
 /**
  * Show Deletion Errors and a button to relauch
  * @author Sébastien Binda
@@ -57,8 +58,8 @@ class StorageLocationActivityRender extends React.Component {
 
     return (
       <div style={container}>
-        { storageRunning
-          ? <RefreshIndicator
+        {storageRunning
+          ? <RefreshIndicatorComponent
               size={20}
               left={10}
               top={0}
@@ -66,9 +67,9 @@ class StorageLocationActivityRender extends React.Component {
               title={formatMessage({ id: 'storage.location.list.activity.storing' })}
               style={style.refresh}
           />
-          : null }
-        { deletionRunning
-          ? <RefreshIndicator
+          : null}
+        {deletionRunning
+          ? <RefreshIndicatorComponent
               size={20}
               left={10}
               top={0}
@@ -77,9 +78,9 @@ class StorageLocationActivityRender extends React.Component {
               title={formatMessage({ id: 'storage.location.list.activity.deleting' })}
               style={style.refresh}
           />
-          : null }
-        { copyRunning
-          ? <RefreshIndicator
+          : null}
+        {copyRunning
+          ? <RefreshIndicatorComponent
               size={20}
               left={10}
               top={0}
@@ -88,8 +89,8 @@ class StorageLocationActivityRender extends React.Component {
               title={formatMessage({ id: 'storage.location.list.activity.copying' })}
               style={style.refresh}
           />
-          : null }
-        { noActivity ? formatMessage({ id: 'storage.location.list.activity.none' }) : null}
+          : null}
+        {noActivity ? formatMessage({ id: 'storage.location.list.activity.none' }) : null}
       </div>
     )
   }
