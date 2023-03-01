@@ -29,22 +29,28 @@ import { VERSION_OPTIONS } from './versionOptions'
  * Possible filters parameters
  * values are properties names sent to backend
  */
-export const FILTER_PARAMS = {
+export const AIP_FILTER_PARAMS = {
+  AIP_STATE: 'aipStates',
+  AIP_IP_TYPE: 'aipIpTypes',
+  LAST_UPDATE: 'lastUpdate',
+  PROVIDER_IDS: 'providerIds',
   SOURCE: 'sessionOwner',
   SESSION: 'session',
-  PROVIDER_IDS: 'providerIds',
-  LAST_UPDATE: 'lastUpdate',
-  CREATION_DATE: 'creationDate',
-  FROM: 'from',
-  TO: 'to',
-  AIP_STATE: 'aipStates',
-  REQUEST_STATE: 'requestStates',
   STORAGES: 'storages',
-  AIP_IP_TYPE: 'aipIpTypes',
-  REQUEST_ID_TYPE: 'requestIdType',
+  CATEGORIES: 'categories',
+  TAGS: 'tags',
   LAST: 'last',
   AIP_IDS: 'aipIds',
+}
+
+export const REQUEST_FILTER_PARAMS = {
   REQUEST_IDS: 'requestIds',
+  PROVIDER_IDS: 'providerIds',
+  SOURCE: 'sessionOwner',
+  SESSION: 'session',
+  CREATION_DATE: 'creationDate',
+  REQUEST_STATE: 'requestStates',
+  REQUEST_TYPE: 'requestTypes',
 }
 
 /**
@@ -52,31 +58,8 @@ export const FILTER_PARAMS = {
  * (required) labelKey is the internationalized name of a filter
  * (optional) chipValueKeys are the internationalized possible values of a SelectField type filter.
  */
-export const FILTERS_I18N = {
-  [FILTER_PARAMS.LAST_UPDATE]: {
-    labelKey: 'oais.list.filters.lastUpdate.label',
-  },
-  [FILTER_PARAMS.SOURCE]: {
-    labelKey: 'oais.list.filters.sessionOwner.label',
-    hintTextKey: 'oais.list.filters.sessionOwner.label',
-  },
-  [FILTER_PARAMS.SESSION]: {
-    labelKey: 'oais.list.filters.session.label',
-    hintTextKey: 'oais.list.filters.session.label',
-  },
-  [FILTER_PARAMS.PROVIDER_IDS]: {
-    labelKey: 'oais.list.filters.providerIds.label',
-    hintTextKey: 'oais.list.filters.providerIds.label',
-  },
-  [FILTER_PARAMS.AIP_IP_TYPE]: {
-    labelKey: 'oais.list.filters.aipIdType.label',
-    hintTextKey: 'oais.list.filters.aipIdType.label',
-    chipValueKeys: reduce(DamDomain.ENTITY_TYPES, (acc, value) => ({
-      ...acc,
-      [value]: `oais.list.filters.aipIdType.${value}`,
-    }), {}),
-  },
-  [FILTER_PARAMS.AIP_STATE]: {
+export const AIP_FILTERS_I18N = {
+  [AIP_FILTER_PARAMS.AIP_STATE]: {
     labelKey: 'oais.list.filters.aipState.label',
     hintTextKey: 'oais.list.filters.aipState.label',
     chipValueKeys: reduce(IngestDomain.AIP_STATUS, (acc, value) => ({
@@ -84,27 +67,72 @@ export const FILTERS_I18N = {
       [value]: `oais.list.filters.aipState.${value}`,
     }), {}),
   },
-  [FILTER_PARAMS.STORAGES]: {
+  [AIP_FILTER_PARAMS.AIP_IP_TYPE]: {
+    labelKey: 'oais.list.filters.aipIdType.label',
+    hintTextKey: 'oais.list.filters.aipIdType.label',
+    chipValueKeys: reduce(DamDomain.ENTITY_TYPES, (acc, value) => ({
+      ...acc,
+      [value]: `oais.list.filters.aipIdType.${value}`,
+    }), {}),
+  },
+  [AIP_FILTER_PARAMS.LAST_UPDATE]: {
+    labelKey: 'oais.list.filters.lastUpdate.label',
+  },
+  [AIP_FILTER_PARAMS.PROVIDER_IDS]: {
+    labelKey: 'oais.list.filters.providerIds.label',
+    hintTextKey: 'oais.list.filters.providerIds.label',
+  },
+  [AIP_FILTER_PARAMS.SOURCE]: {
+    labelKey: 'oais.list.filters.sessionOwner.label',
+    hintTextKey: 'oais.list.filters.sessionOwner.label',
+  },
+  [AIP_FILTER_PARAMS.SESSION]: {
+    labelKey: 'oais.list.filters.session.label',
+    hintTextKey: 'oais.list.filters.session.label',
+  },
+  [AIP_FILTER_PARAMS.STORAGES]: {
     labelKey: 'oais.list.filters.storages.label',
     hintTextKey: 'oais.list.filters.storages.label',
     // chipValueKeys is not needed since we display raw selected value
   },
-  [FILTER_PARAMS.LAST]: {
+  [AIP_FILTER_PARAMS.LAST]: {
     labelKey: 'oais.list.filters.last.label',
     chipValueKeys: reduce(VERSION_OPTIONS, (acc, value) => ({
       ...acc,
       [value]: `oais.list.filters.last.${value}`,
     }), {}),
   },
-  [FILTER_PARAMS.REQUEST_ID_TYPE]: {
-    labelKey: 'oais.list.filters.requestIdType.label',
-    hintTextKey: 'oais.list.filters.requestIdType.label',
+}
+/**
+ * i18n filters keys used in filters pane and in filters chip
+ * (required) labelKey is the internationalized name of a filter
+ * (optional) chipValueKeys are the internationalized possible values of a SelectField type filter.
+ */
+export const REQUEST_FILTERS_I18N = {
+  [REQUEST_FILTER_PARAMS.PROVIDER_IDS]: {
+    labelKey: 'oais.list.filters.providerIds.label',
+    hintTextKey: 'oais.list.filters.providerIds.label',
+  },
+  [REQUEST_FILTER_PARAMS.CREATION_DATE]: {
+    labelKey: 'oais.requests.list.filters.creationDate.label',
+  },
+  [REQUEST_FILTER_PARAMS.SOURCE]: {
+    labelKey: 'oais.list.filters.sessionOwner.label',
+    hintTextKey: 'oais.list.filters.sessionOwner.label',
+  },
+  [REQUEST_FILTER_PARAMS.SESSION]: {
+    labelKey: 'oais.list.filters.session.label',
+    hintTextKey: 'oais.list.filters.session.label',
+  },
+  [REQUEST_FILTER_PARAMS.REQUEST_TYPE]: {
+    labelKey: 'oais.requests.list.filters.requestType.label',
+    hintTextKey: 'oais.requests.list.filters.requestType.label',
     chipValueKeys: reduce(IngestDomain.AIP_REQUEST_TYPES, (acc, value) => ({
       ...acc,
-      [value]: `oais.list.filters.requestIdType.${value}`,
+      [value]: `oais.requests.list.filters.requestType.${value}`,
     }), {}),
   },
-  [FILTER_PARAMS.REQUEST_STATE]: {
+  [REQUEST_FILTER_PARAMS.REQUEST_STATE]: {
     labelKey: 'oais.list.filters.requestState.label',
     hintTextKey: 'oais.list.filters.requestState.label',
     chipValueKeys: reduce(IngestDomain.AIP_REQUEST_STATUS, (acc, value) => ({

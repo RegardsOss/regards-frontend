@@ -27,16 +27,16 @@ import {
   FilterPaneAutoCompleteField, withFiltersPane, TableFilterSortingAndVisibilityContainer, FiltersPaneMainComponent,
   FilterPaneDatePickerField, FilterPaneSelectFieldLegacy, FilterPaneTextFieldValues, FilterPaneSelectField,
 } from '@regardsoss/components'
-import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
-import { searchSessionsActions, searchSessionsSelectors } from '../clients/SearchSessionsClient'
-import { VERSION_OPTIONS } from '../domain/versionOptions'
-import { FILTER_PARAMS } from '../domain/filters'
+import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
+import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
+import { VERSION_OPTIONS } from '../../domain/versionOptions'
+import { AIP_FILTER_PARAMS } from '../../domain/filters'
 
 /**
  * AIP Feature manager filters component.
  * @author Théo Lasserre
  */
-export class AIPFeatureManagerFiltersComponent extends React.Component {
+export class AIPFiltersComponent extends React.Component {
   static propTypes = {
     updateFilter: PropTypes.func.isRequired,
     updateValuesFilter: PropTypes.func.isRequired,
@@ -56,14 +56,14 @@ export class AIPFeatureManagerFiltersComponent extends React.Component {
    * AIP tab default form state used in filters pane
    */
   static DEFAULT_FILTERS_STATE = {
-    [FILTER_PARAMS.SOURCE]: '',
-    [FILTER_PARAMS.SESSION]: '',
-    [FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-    [FILTER_PARAMS.AIP_IP_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [FILTER_PARAMS.AIP_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [FILTER_PARAMS.STORAGES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [FILTER_PARAMS.LAST]: null,
+    [AIP_FILTER_PARAMS.SOURCE]: '',
+    [AIP_FILTER_PARAMS.SESSION]: '',
+    [AIP_FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [AIP_FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+    [AIP_FILTER_PARAMS.AIP_IP_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [AIP_FILTER_PARAMS.AIP_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [AIP_FILTER_PARAMS.STORAGES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [AIP_FILTER_PARAMS.LAST]: null,
   }
 
   render() {
@@ -81,46 +81,46 @@ export class AIPFeatureManagerFiltersComponent extends React.Component {
         filtersI18n={filtersI18n}
       >
         <FilterPaneDatePickerField
-          filterKey={FILTER_PARAMS.LAST_UPDATE}
+          filterKey={AIP_FILTER_PARAMS.LAST_UPDATE}
           multiline
           displayTime
         />
         <FilterPaneAutoCompleteField
-          filterKey={FILTER_PARAMS.SOURCE}
+          filterKey={AIP_FILTER_PARAMS.SOURCE}
           arrayActions={searchSourcesActions}
           arraySelectors={searchSourcesSelectors}
         />
         <FilterPaneAutoCompleteField
-          filterKey={FILTER_PARAMS.SESSION}
+          filterKey={AIP_FILTER_PARAMS.SESSION}
           arrayActions={searchSessionsActions}
           arraySelectors={searchSessionsSelectors}
         />
         <FilterPaneTextFieldValues
-          filterKey={FILTER_PARAMS.PROVIDER_IDS}
+          filterKey={AIP_FILTER_PARAMS.PROVIDER_IDS}
           title={formatMessage({ id: 'oais.packages.tooltip.providerId' })}
           matchMode={CommonDomain.MATCH_MODE_ENUM.CONTAINS}
         />
         <FilterPaneSelectField
-          filterKey={FILTER_PARAMS.AIP_IP_TYPE}
+          filterKey={AIP_FILTER_PARAMS.AIP_IP_TYPE}
           title={formatMessage({ id: 'oais.packages.tooltip.type' })}
         >
           {map(DamDomain.ENTITY_TYPES, (type) => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.list.filters.aipIdType.${type}` })} />)}
         </FilterPaneSelectField>
         <FilterPaneSelectField
-          filterKey={FILTER_PARAMS.AIP_STATE}
+          filterKey={AIP_FILTER_PARAMS.AIP_STATE}
           title={formatMessage({ id: 'oais.packages.tooltip.state' })}
         >
           {map(IngestDomain.AIP_STATUS, (state) => <MenuItem key={state} value={state} primaryText={formatMessage({ id: `oais.list.filters.aipState.${state}` })} />)}
         </FilterPaneSelectField>
         <FilterPaneSelectField
-          filterKey={FILTER_PARAMS.STORAGES}
+          filterKey={AIP_FILTER_PARAMS.STORAGES}
           disabled={isEmpty(storages)}
           title={formatMessage({ id: 'oais.packages.tooltip.storage' })}
         >
           {map(storages, (storage) => <MenuItem key={storage} value={storage} primaryText={storage} />)}
         </FilterPaneSelectField>
         <FilterPaneSelectFieldLegacy
-          filterKey={FILTER_PARAMS.LAST}
+          filterKey={AIP_FILTER_PARAMS.LAST}
           allValuesOption
           title={formatMessage({ id: 'oais.packages.tooltip.version' })}
         >
@@ -131,4 +131,4 @@ export class AIPFeatureManagerFiltersComponent extends React.Component {
   }
 }
 
-export default withFiltersPane(AIPFeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE)(AIPFeatureManagerFiltersComponent)
+export default withFiltersPane(AIPFiltersComponent.DEFAULT_FILTERS_STATE)(AIPFiltersComponent)

@@ -23,34 +23,34 @@ import {
   FiltersPaneMainComponent, FilterPaneDatePickerField, FilterPaneTextFieldValues, FilterPaneSelectFieldLegacy, FilterPaneAutoCompleteField,
   FilterPaneSelectField,
 } from '@regardsoss/components'
-import { FILTERS_I18N } from '../../src/domain/filters'
-import { AIPFeatureManagerFiltersComponent } from '../../src/components/AIPFeatureManagerFiltersComponent'
+import { AIP_FILTERS_I18N } from '../../src/domain/filters'
+import { AIPFiltersComponent } from '../../src/components/packages/AIPFiltersComponent'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test AIPFeatureManagerFiltersComponent
+ * Test AIPFiltersComponent
  * @author Théo Lasserre
  */
-describe('[ADMIN FEATURE MANAGEMENT] Testing AIPFeatureManagerFiltersComponent', () => {
+describe('[ADMIN FEATURE MANAGEMENT] Testing AIPFiltersComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AIPFeatureManagerFiltersComponent)
+    assert.isDefined(AIPFiltersComponent)
   })
   it('should render correctly', () => {
     const props = {
-      inputValues: AIPFeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE,
+      inputValues: AIPFiltersComponent.DEFAULT_FILTERS_STATE,
       updateFilter: () => { },
       updateValuesFilter: () => { },
       updateDatesFilter: () => { },
       isPaneOpened: true,
       onCloseFiltersPane: () => { },
-      filtersI18n: FILTERS_I18N,
+      filtersI18n: AIP_FILTERS_I18N,
     }
-    const enzymeWrapper = shallow(<AIPFeatureManagerFiltersComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<AIPFiltersComponent {...props} />, { context })
     const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
     assert.lengthOf(mainComponent, 1, 'FiltersPaneMainComponent should be set')
     testSuiteHelpers.assertWrapperProperties(mainComponent, {

@@ -23,34 +23,34 @@ import {
   FiltersPaneMainComponent, FilterPaneDatePickerField, FilterPaneTextFieldValues, FilterPaneAutoCompleteField,
   FilterPaneSelectField,
 } from '@regardsoss/components'
-import { FILTERS_I18N } from '../../src/domain/filters'
-import { RequestsFeatureManagerFiltersComponent } from '../../src/components/RequestsFeatureManagerFiltersComponent'
+import { REQUEST_FILTERS_I18N } from '../../src/domain/filters'
+import { RequestsFiltersComponent } from '../../src/components/requests/RequestsFiltersComponent'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test RequestsFeatureManagerFiltersComponent
+ * Test RequestsFiltersComponent
  * @author Théo Lasserre
  */
-describe('[ADMIN FEATURE MANAGEMENT] Testing RequestsFeatureManagerFiltersComponent', () => {
+describe('[ADMIN FEATURE MANAGEMENT] Testing RequestsFiltersComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(RequestsFeatureManagerFiltersComponent)
+    assert.isDefined(RequestsFiltersComponent)
   })
   it('should render correctly', () => {
     const props = {
-      inputValues: RequestsFeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE,
+      inputValues: RequestsFiltersComponent.DEFAULT_FILTERS_STATE,
       updateFilter: () => { },
       updateValuesFilter: () => { },
       updateDatesFilter: () => { },
       isPaneOpened: true,
       onCloseFiltersPane: () => { },
-      filtersI18n: FILTERS_I18N,
+      filtersI18n: REQUEST_FILTERS_I18N,
     }
-    const enzymeWrapper = shallow(<RequestsFeatureManagerFiltersComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<RequestsFiltersComponent {...props} />, { context })
     const mainComponent = enzymeWrapper.find(FiltersPaneMainComponent)
     assert.lengthOf(mainComponent, 1, 'FiltersPaneMainComponent should be set')
     testSuiteHelpers.assertWrapperProperties(mainComponent, {

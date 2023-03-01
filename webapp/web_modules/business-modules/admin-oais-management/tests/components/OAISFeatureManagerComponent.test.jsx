@@ -23,14 +23,14 @@ import { IngestDomain } from '@regardsoss/domain'
 import { TableFilterSortingAndVisibilityContainer, FiltersChipsContainer, CardHeaderActions } from '@regardsoss/components'
 import OAISFeatureManagerComponent from '../../src/components/OAISFeatureManagerComponent'
 import OAISRequestManagerComponent from '../../src/components/requests/OAISRequestManagerComponent'
-import RequestsFeatureManagerFiltersComponent from '../../src/components/RequestsFeatureManagerFiltersComponent'
+import RequestsFiltersComponent from '../../src/components/requests/RequestsFiltersComponent'
 import OAISPackageManagerComponent from '../../src/components/packages/OAISPackageManagerComponent'
-import AIPFeatureManagerFiltersComponent from '../../src/components/AIPFeatureManagerFiltersComponent'
+import AIPFiltersComponent from '../../src/components/packages/AIPFiltersComponent'
 import { aipSelectors, aipActions } from '../../src/clients/AIPClient'
 import { filtersActions, filtersSelectors } from '../../src/clients/FiltersClient'
 import { requestSelectors, requestActions } from '../../src/clients/RequestClient'
 import OAISSwitchTables from '../../src/components/OAISSwitchTables'
-import { FILTERS_I18N } from '../../src/domain/filters'
+import { REQUEST_FILTERS_I18N, AIP_FILTERS_I18N } from '../../src/domain/filters'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -78,7 +78,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
     testSuiteHelpers.assertWrapperProperties(chipsContainer, {
       filtersActions,
       filtersSelectors,
-      filtersI18n: FILTERS_I18N,
+      filtersI18n: { ...AIP_FILTERS_I18N, ...REQUEST_FILTERS_I18N },
     })
     const switchComponent = enzymeWrapper.find(OAISSwitchTables)
     assert.lengthOf(switchComponent, 1, 'OAISSwitchTables should be set')
@@ -104,15 +104,15 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
       onModifyAip: props.onModifyAip,
       filtersActions,
       filtersSelectors,
-      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties and callbacks')
 
-    let aipFiltersComponent = enzymeWrapper.find(AIPFeatureManagerFiltersComponent)
-    assert.lengthOf(aipFiltersComponent, 1, 'AIPFeatureManagerFiltersComponent should be set')
+    let aipFiltersComponent = enzymeWrapper.find(AIPFiltersComponent)
+    assert.lengthOf(aipFiltersComponent, 1, 'AIPFiltersComponent should be set')
     testSuiteHelpers.assertWrapperProperties(aipFiltersComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isFilterPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
       storages: props.storages,
+      filtersI18n: AIP_FILTERS_I18N,
     })
     let packageComponent = enzymeWrapper.find(OAISPackageManagerComponent)
     assert.lengthOf(packageComponent, 1, 'OAISPackageManagerComponent should be set')
@@ -120,8 +120,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
       isLoading: props.isLoading,
       paneType: IngestDomain.REQUEST_TYPES_ENUM.AIP,
     })
-    let requestFiltersComponent = enzymeWrapper.find(RequestsFeatureManagerFiltersComponent)
-    assert.lengthOf(requestFiltersComponent, 0, 'RequestsFeatureManagerFiltersComponent should not be set')
+    let requestFiltersComponent = enzymeWrapper.find(RequestsFiltersComponent)
+    assert.lengthOf(requestFiltersComponent, 0, 'RequestsFiltersComponent should not be set')
     let requestComponent = enzymeWrapper.find(OAISRequestManagerComponent)
     assert.lengthOf(requestComponent, 0, 'OAISRequestManagerComponent should not be set')
 
@@ -145,18 +145,18 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
       onModifyAip: props.onModifyAip,
       filtersActions,
       filtersSelectors,
-      filtersI18n: FILTERS_I18N,
     }, 'Component should define the expected properties and callbacks')
 
-    aipFiltersComponent = enzymeWrapper.find(AIPFeatureManagerFiltersComponent)
-    assert.lengthOf(aipFiltersComponent, 0, 'AIPFeatureManagerFiltersComponent should not be set')
+    aipFiltersComponent = enzymeWrapper.find(AIPFiltersComponent)
+    assert.lengthOf(aipFiltersComponent, 0, 'AIPFiltersComponent should not be set')
     packageComponent = enzymeWrapper.find(OAISPackageManagerComponent)
     assert.lengthOf(packageComponent, 0, 'OAISPackageManagerComponent should not be set')
-    requestFiltersComponent = enzymeWrapper.find(RequestsFeatureManagerFiltersComponent)
-    assert.lengthOf(requestFiltersComponent, 1, 'RequestsFeatureManagerFiltersComponent should be set')
+    requestFiltersComponent = enzymeWrapper.find(RequestsFiltersComponent)
+    assert.lengthOf(requestFiltersComponent, 1, 'RequestsFiltersComponent should be set')
     testSuiteHelpers.assertWrapperProperties(requestFiltersComponent, {
       isPaneOpened: enzymeWrapper.instance().state.isFilterPaneOpened,
       onCloseFiltersPane: enzymeWrapper.instance().handleFiltersPane,
+      filtersI18n: REQUEST_FILTERS_I18N,
     })
     requestComponent = enzymeWrapper.find(OAISRequestManagerComponent)
     assert.lengthOf(requestComponent, 1, 'OAISRequestManagerComponent should be set')

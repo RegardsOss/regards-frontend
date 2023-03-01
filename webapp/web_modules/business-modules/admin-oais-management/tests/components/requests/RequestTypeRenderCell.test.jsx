@@ -44,6 +44,6 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestTypeRenderCell', () => {
     const enzymeWrapper = shallow(<RequestTypeRenderCell {...props} />, { context })
     const delegateRender = enzymeWrapper.find(StringValueRender)
     assert.lengthOf(delegateRender, 1, 'There should be delegate render')
-    assert.equal(delegateRender.props().value, `oais.list.filters.requestIdType.${type}`, 'Type should be internationalized')
+    assert.equal(delegateRender.props().value, `oais.requests.list.filters.requestType.${type}`, 'Type should be internationalized')
   }))
 })

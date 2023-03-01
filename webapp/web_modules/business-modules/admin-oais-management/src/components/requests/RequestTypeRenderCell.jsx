@@ -36,7 +36,7 @@ class RequestTypeRenderCell extends React.Component {
   render() {
     const { value: type } = this.props
     const { intl: { formatMessage } } = this.context
-    return <StringValueRender value={formatMessage({ id: `oais.list.filters.requestIdType.${type}` })} />
+    return <StringValueRender value={formatMessage({ id: `oais.requests.list.filters.requestType.${type}` })} />
   }
 }
 

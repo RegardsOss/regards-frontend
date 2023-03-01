@@ -42,7 +42,7 @@ import AIPPostRequestDialog from './AIPPostRequestDialog'
 import AIPTypeRender from './AIPTypeRender'
 import AIPStatusRender from './AIPStatusRender'
 import { DIALOG_TYPES } from '../../domain/dialogTypes'
-import { FILTER_PARAMS } from '../../domain/filters'
+import { AIP_FILTERS_I18N } from '../../domain/filters'
 import clientByPane from '../../domain/ClientByPane'
 import messages from '../../i18n'
 import styles from '../../styles'
@@ -200,7 +200,7 @@ export class OAISPackageManagerComponent extends React.Component {
   }
 
   getActionPayload = (entities, mode) => ({
-    [FILTER_PARAMS.AIP_IDS]: {
+    [AIP_FILTERS_I18N.AIP_IDS]: {
       [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => get(e, 'content.aipId', '')),
       [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
     },

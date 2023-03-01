@@ -41,7 +41,7 @@ import HeaderActionsBarContainer from '../../containers/HeaderActionsBarContaine
 import AbortAllRequestsDialog from './AbortAllRequestsDialog'
 import { DIALOG_TYPES } from '../../domain/dialogTypes'
 import clientByPane from '../../domain/ClientByPane'
-import { FILTER_PARAMS } from '../../domain/filters'
+import { REQUEST_FILTER_PARAMS } from '../../domain/filters'
 import messages from '../../i18n'
 import styles from '../../styles'
 
@@ -199,7 +199,7 @@ export class OAISRequestManagerComponent extends React.Component {
     this.onCloseActionDialog(dialogRequestType)
     return {
       ...bodyParameters,
-      [FILTER_PARAMS.REQUEST_IDS]: {
+      [REQUEST_FILTER_PARAMS.REQUEST_IDS]: {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => get(e, 'content.id', '')),
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
       },
@@ -326,7 +326,7 @@ export class OAISRequestManagerComponent extends React.Component {
                 .build(),
               new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.TYPE).titleHeaderCell()
                 .propertyRenderCell('content.dtype', RequestTypeRenderCell)
-                .label(formatMessage({ id: 'oais.list.filters.requestIdType.label' }))
+                .label(formatMessage({ id: 'oais.requests.list.filters.requestType.label' }))
                 .sortableHeaderCell(...getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.TYPE), onSort)
                 .build(),
               new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.STATE).titleHeaderCell()

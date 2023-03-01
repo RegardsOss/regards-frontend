@@ -244,11 +244,11 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
           })
         } if (child.key === CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER) {
           return React.cloneElement(child, {
-            ...child.props,
             updateRequestParameters: this.updateRequestParameters,
             filtersActions,
             filtersSelectors,
             filtersI18n,
+            ...child.props,
           })
         }
         return null

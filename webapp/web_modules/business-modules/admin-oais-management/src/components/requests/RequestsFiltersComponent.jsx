@@ -26,15 +26,15 @@ import {
   FilterPaneDatePickerField, FilterPaneAutoCompleteField, FilterPaneTextFieldValues,
   withFiltersPane, TableFilterSortingAndVisibilityContainer, FiltersPaneMainComponent, FilterPaneSelectField,
 } from '@regardsoss/components'
-import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
-import { searchSessionsActions, searchSessionsSelectors } from '../clients/SearchSessionsClient'
-import { FILTER_PARAMS } from '../domain/filters'
+import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
+import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
+import { REQUEST_FILTER_PARAMS } from '../../domain/filters'
 
 /**
   * Requests Feature manager filters component.
   * @author Théo Lasserre
   */
-export class RequestsFeatureManagerFiltersComponent extends React.Component {
+export class RequestsFiltersComponent extends React.Component {
   static propTypes = {
     updateFilter: PropTypes.func.isRequired,
     updateValuesFilter: PropTypes.func.isRequired,
@@ -53,12 +53,12 @@ export class RequestsFeatureManagerFiltersComponent extends React.Component {
    * Requests tab default form state used in filters pane
    */
   static DEFAULT_FILTERS_STATE = {
-    [FILTER_PARAMS.SOURCE]: '',
-    [FILTER_PARAMS.SESSION]: '',
-    [FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-    [FILTER_PARAMS.REQUEST_ID_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [FILTER_PARAMS.REQUEST_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [REQUEST_FILTER_PARAMS.SOURCE]: '',
+    [REQUEST_FILTER_PARAMS.SESSION]: '',
+    [REQUEST_FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [REQUEST_FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+    [REQUEST_FILTER_PARAMS.REQUEST_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+    [REQUEST_FILTER_PARAMS.REQUEST_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
   }
 
   render() {
@@ -75,34 +75,34 @@ export class RequestsFeatureManagerFiltersComponent extends React.Component {
         updateValuesFilter={updateValuesFilter}
       >
         <FilterPaneDatePickerField
-          filterKey={FILTER_PARAMS.LAST_UPDATE}
+          filterKey={REQUEST_FILTER_PARAMS.CREATION_DATE}
           multiline
           displayTime
         />
         <FilterPaneAutoCompleteField
-          filterKey={FILTER_PARAMS.SOURCE}
+          filterKey={REQUEST_FILTER_PARAMS.SOURCE}
           arrayActions={searchSourcesActions}
           arraySelectors={searchSourcesSelectors}
         />
         <FilterPaneAutoCompleteField
-          filterKey={FILTER_PARAMS.SESSION}
+          filterKey={REQUEST_FILTER_PARAMS.SESSION}
           arrayActions={searchSessionsActions}
           arraySelectors={searchSessionsSelectors}
         />
         <FilterPaneTextFieldValues
-          filterKey={FILTER_PARAMS.PROVIDER_IDS}
+          filterKey={REQUEST_FILTER_PARAMS.PROVIDER_IDS}
           title={formatMessage({ id: 'oais.packages.tooltip.providerId' })}
           matchMode={CommonDomain.MATCH_MODE_ENUM.CONTAINS}
         />
         <FilterPaneSelectField
-          filterKey={FILTER_PARAMS.REQUEST_ID_TYPE}
+          filterKey={REQUEST_FILTER_PARAMS.REQUEST_TYPE}
           title={formatMessage({ id: 'oais.packages.tooltip.type' })}
 
         >
-          {map(IngestDomain.AIP_REQUEST_TYPES, (type) => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.list.filters.requestIdType.${type}` })} />)}
+          {map(IngestDomain.AIP_REQUEST_TYPES, (type) => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.requests.list.filters.requestType.${type}` })} />)}
         </FilterPaneSelectField>
         <FilterPaneSelectField
-          filterKey={FILTER_PARAMS.REQUEST_STATE}
+          filterKey={REQUEST_FILTER_PARAMS.REQUEST_STATE}
           title={formatMessage({ id: 'oais.packages.tooltip.type' })}
         >
           {map(IngestDomain.AIP_REQUEST_STATUS, (state) => <MenuItem key={state} value={state} primaryText={formatMessage({ id: `oais.list.filters.requestState.${state}` })} />)}
@@ -112,4 +112,4 @@ export class RequestsFeatureManagerFiltersComponent extends React.Component {
   }
 }
 
-export default withFiltersPane(RequestsFeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE)(RequestsFeatureManagerFiltersComponent)
+export default withFiltersPane(RequestsFiltersComponent.DEFAULT_FILTERS_STATE)(RequestsFiltersComponent)

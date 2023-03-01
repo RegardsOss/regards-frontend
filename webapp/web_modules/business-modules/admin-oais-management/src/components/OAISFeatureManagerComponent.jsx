@@ -31,12 +31,12 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import clientByPane from '../domain/ClientByPane'
 import OAISSwitchTables from './OAISSwitchTables'
-import AIPFeatureManagerFiltersComponent from './AIPFeatureManagerFiltersComponent'
-import RequestsFeatureManagerFiltersComponent from './RequestsFeatureManagerFiltersComponent'
+import AIPFiltersComponent from './packages/AIPFiltersComponent'
+import RequestsFiltersComponent from './requests/RequestsFiltersComponent'
 import OAISRequestManagerComponent from './requests/OAISRequestManagerComponent'
 import OAISPackageManagerComponent from './packages/OAISPackageManagerComponent'
 import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
-import { FILTERS_I18N } from '../domain/filters'
+import { AIP_FILTERS_I18N, REQUEST_FILTERS_I18N } from '../domain/filters'
 
 /**
  * OAIS Feature manager component.
@@ -137,11 +137,12 @@ class OAISFeatureManagerComponent extends React.Component {
     const { isFilterPaneOpened } = this.state
     if (paneType === IngestDomain.REQUEST_TYPES_ENUM.AIP) {
       return [
-        <AIPFeatureManagerFiltersComponent
+        <AIPFiltersComponent
           key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
           isPaneOpened={isFilterPaneOpened}
           onCloseFiltersPane={this.handleFiltersPane}
           storages={storages}
+          filtersI18n={AIP_FILTERS_I18N}
         />,
         <OAISPackageManagerComponent
           key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
@@ -151,10 +152,11 @@ class OAISFeatureManagerComponent extends React.Component {
       ]
     }
     return [
-      <RequestsFeatureManagerFiltersComponent
+      <RequestsFiltersComponent
         key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
         isPaneOpened={isFilterPaneOpened}
         onCloseFiltersPane={this.handleFiltersPane}
+        filtersI18n={REQUEST_FILTERS_I18N}
       />,
       <OAISRequestManagerComponent
         key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
@@ -189,7 +191,7 @@ class OAISFeatureManagerComponent extends React.Component {
             <FiltersChipsContainer
               filtersActions={filtersActions}
               filtersSelectors={filtersSelectors}
-              filtersI18n={FILTERS_I18N}
+              filtersI18n={{ ...AIP_FILTERS_I18N, ...REQUEST_FILTERS_I18N }}
             />
             <TableLayout>
               <TableHeaderLine>
@@ -213,7 +215,6 @@ class OAISFeatureManagerComponent extends React.Component {
               onModifyAip={onModifyAip}
               filtersActions={filtersActions}
               filtersSelectors={filtersSelectors}
-              filtersI18n={FILTERS_I18N}
             >
               {this.getDisplayComponents(paneType)}
             </TableFilterSortingAndVisibilityContainer>
