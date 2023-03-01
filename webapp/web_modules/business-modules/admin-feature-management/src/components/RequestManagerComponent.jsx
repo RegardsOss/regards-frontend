@@ -24,6 +24,7 @@ import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   DateValueRender, NoContentComponent, TableHeaderLine, TableSelectionModes, InformationDialogComponent,
   TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
+  withSortTables,
 } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -46,6 +47,13 @@ import styles from '../styles'
   * Displays the list of request
   * @author Théo Lasserre
   */
+
+export const REQUESTS_COLUMN_KEYS = {
+  PROVIDER_ID: 'providerId',
+  REGISTRATION_DATE: 'registrationDate',
+  STATE: 'state',
+  ACTIONS: 'actions',
+}
 export class RequestManagerComponent extends React.Component {
   static propTypes = {
     onDeleteRequests: PropTypes.func.isRequired,
@@ -79,13 +87,6 @@ export class RequestManagerComponent extends React.Component {
   static SELECTION_MODE = {
     INCLUDE: 'INCLUDE',
     EXCLUDE: 'EXCLUDE',
-  }
-
-  static COLUMN_KEYS = {
-    PROVIDER_ID: 'providerId',
-    REGISTRATION_DATE: 'registrationDate',
-    STATE: 'state',
-    ACTIONS: 'actions',
   }
 
   state = {
@@ -310,19 +311,21 @@ export class RequestManagerComponent extends React.Component {
               new TableColumnBuilder()
                 .selectionColumn(true, clientByPane[paneType].selectors, clientByPane[paneType].tableActions, clientByPane[paneType].tableSelectors)
                 .build(),
-              new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.PROVIDER_ID).titleHeaderCell().propertyRenderCell(paneType === FemDomain.REQUEST_TYPES_ENUM.EXTRACTION ? 'content.id' : 'content.providerId')
-                .label(formatMessage(paneType === FemDomain.REQUEST_TYPES_ENUM.EXTRACTION ? { id: 'feature.requests.list.filters.id' } : { id: 'feature.requests.list.filters.providerId' }))
+              new TableColumnBuilder(REQUESTS_COLUMN_KEYS.PROVIDER_ID).titleHeaderCell()
+                .propertyRenderCell('content.providerId')
+                .label(formatMessage({ id: 'feature.requests.list.filters.providerId' }))
                 .build(),
-              new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.REGISTRATION_DATE).titleHeaderCell().propertyRenderCell('content.registrationDate', DateValueRender)
+              new TableColumnBuilder(REQUESTS_COLUMN_KEYS.REGISTRATION_DATE).titleHeaderCell()
+                .propertyRenderCell('content.registrationDate', DateValueRender)
                 .label(formatMessage({ id: 'feature.requests.list.filters.lastSubmission' }))
-                .sortableHeaderCell(...getColumnSortingData(RequestManagerComponent.COLUMN_KEYS.REGISTRATION_DATE), onSort)
+                .sortableHeaderCell(...getColumnSortingData(REQUESTS_COLUMN_KEYS.REGISTRATION_DATE), onSort)
                 .build(),
-              new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.STATE)
+              new TableColumnBuilder(REQUESTS_COLUMN_KEYS.STATE)
                 .label(formatMessage({ id: 'feature.list.filters.state.label' }))
-                .sortableHeaderCell(...getColumnSortingData(RequestManagerComponent.COLUMN_KEYS.STATE), onSort)
+                .sortableHeaderCell(...getColumnSortingData(REQUESTS_COLUMN_KEYS.STATE), onSort)
                 .rowCellDefinition({ Constructor: StatusRender, props: { onViewRequestErrors: this.onViewRequestErrors } })
                 .build(),
-              new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.ACTIONS).titleHeaderCell()
+              new TableColumnBuilder(REQUESTS_COLUMN_KEYS.ACTIONS).titleHeaderCell()
                 .label(formatMessage({ id: 'feature.requests.list.filters.actions' }))
                 .optionsColumn([
                   {
@@ -352,4 +355,4 @@ export class RequestManagerComponent extends React.Component {
   }
 }
 
-export default withModuleStyle(styles)(withI18n(messages)(RequestManagerComponent))
+export default withSortTables(REQUESTS_COLUMN_KEYS)(withModuleStyle(styles)(withI18n(messages)(RequestManagerComponent)))

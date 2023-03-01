@@ -42,6 +42,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISSwitchTables', () => {
       onSwitchToPane: () => {},
       fetchAIPPage: () => {},
       fetchRequestsPage: () => {},
+      isAipsFetching: false,
+      isRequestsFetching: false,
     }
     const enzymeWrapper = shallow(<OAISSwitchTables {...props} />, { context })
     const flatButtonWrapper = enzymeWrapper.find(FlatButton)

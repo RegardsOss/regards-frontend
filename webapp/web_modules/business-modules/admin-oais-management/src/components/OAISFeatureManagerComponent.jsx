@@ -199,7 +199,7 @@ class OAISFeatureManagerComponent extends React.Component {
                   params={params}
                   onSwitchToPane={this.onSwitchToPane}
                   openedPane={paneType}
-                  bodyParameters={currentRequestParameters}
+                  oaisFilters={currentRequestParameters}
                 />
               </TableHeaderLine>
             </TableLayout>

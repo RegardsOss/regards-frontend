@@ -24,6 +24,7 @@ import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableSelectionModes, DateValueRender, NoContentComponent, TableHeaderLine,
   TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
+  withSortTables,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -46,10 +47,22 @@ import { AIP_FILTERS_I18N } from '../../domain/filters'
 import clientByPane from '../../domain/ClientByPane'
 import messages from '../../i18n'
 import styles from '../../styles'
+
 /**
  * Displays the list of OAIS packages
  * @author Théo Lasserre
  */
+
+export const PACKAGE_COLUMN_KEYS = {
+  PROVIDER_ID: 'providerId',
+  STATE: 'state',
+  LASTUPDATE: 'lastUpdate',
+  VERSION: 'version',
+  STORAGES: 'storages',
+  TYPE: 'type',
+  ACTIONS: 'actions',
+}
+
 export class OAISPackageManagerComponent extends React.Component {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
@@ -79,16 +92,6 @@ export class OAISPackageManagerComponent extends React.Component {
     titleKey="oais.packages.loading.results"
     Icon={SearchIcon}
   />
-
-  static COLUMN_KEYS = {
-    PROVIDER_ID: 'providerId',
-    STATE: 'state',
-    LASTUPDATE: 'lastUpdate',
-    VERSION: 'version',
-    STORAGES: 'storages',
-    TYPE: 'type',
-    ACTIONS: 'actions',
-  }
 
   state = {
     [DIALOG_TYPES.AIP_DETAIL_DIALOG]: {
@@ -265,34 +268,34 @@ export class OAISPackageManagerComponent extends React.Component {
       new TableColumnBuilder()
         .selectionColumn(true, clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].selectors, clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].tableActions, clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].tableSelectors)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.PROVIDER_ID).titleHeaderCell().propertyRenderCell('content.aip.providerId')
+      new TableColumnBuilder(PACKAGE_COLUMN_KEYS.PROVIDER_ID).titleHeaderCell().propertyRenderCell('content.aip.providerId')
         .label(formatMessage({ id: 'oais.aips.list.table.headers.providerId' }))
-        .sortableHeaderCell(...getColumnSortingData(OAISPackageManagerComponent.COLUMN_KEYS.PROVIDER_ID), onSort)
+        .sortableHeaderCell(...getColumnSortingData(PACKAGE_COLUMN_KEYS.PROVIDER_ID), onSort)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.TYPE).titleHeaderCell().propertyRenderCell('content.aip.ipType', AIPTypeRender)
+      new TableColumnBuilder(PACKAGE_COLUMN_KEYS.TYPE).titleHeaderCell().propertyRenderCell('content.aip.ipType', AIPTypeRender)
         .label(formatMessage({ id: 'oais.aips.list.table.headers.type' }))
         .fixedSizing(150)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.STATE).titleHeaderCell().propertyRenderCell('content.state', AIPStatusRender)
+      new TableColumnBuilder(PACKAGE_COLUMN_KEYS.STATE).titleHeaderCell().propertyRenderCell('content.state', AIPStatusRender)
         .label(formatMessage({ id: 'oais.aips.list.table.headers.state' }))
-        .sortableHeaderCell(...getColumnSortingData(OAISPackageManagerComponent.COLUMN_KEYS.STATE), onSort)
+        .sortableHeaderCell(...getColumnSortingData(PACKAGE_COLUMN_KEYS.STATE), onSort)
         .fixedSizing(150)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.LASTUPDATE).titleHeaderCell().propertyRenderCell('content.lastUpdate', DateValueRender)
+      new TableColumnBuilder(PACKAGE_COLUMN_KEYS.LASTUPDATE).titleHeaderCell().propertyRenderCell('content.lastUpdate', DateValueRender)
         .label(formatMessage({ id: 'oais.aips.list.table.headers.lastUpdate' }))
-        .sortableHeaderCell(...getColumnSortingData(OAISPackageManagerComponent.COLUMN_KEYS.LASTUPDATE), onSort)
+        .sortableHeaderCell(...getColumnSortingData(PACKAGE_COLUMN_KEYS.LASTUPDATE), onSort)
         .fixedSizing(200)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.VERSION).titleHeaderCell().propertyRenderCell('content.version')
+      new TableColumnBuilder(PACKAGE_COLUMN_KEYS.VERSION).titleHeaderCell().propertyRenderCell('content.version')
         .label(formatMessage({ id: 'oais.aips.list.table.headers.version' }))
-        .sortableHeaderCell(...getColumnSortingData(OAISPackageManagerComponent.COLUMN_KEYS.VERSION), onSort)
+        .sortableHeaderCell(...getColumnSortingData(PACKAGE_COLUMN_KEYS.VERSION), onSort)
         .fixedSizing(100)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.STORAGES).titleHeaderCell().propertyRenderCell('content.storages', StorageArrayRender)
+      new TableColumnBuilder(PACKAGE_COLUMN_KEYS.STORAGES).titleHeaderCell().propertyRenderCell('content.storages', StorageArrayRender)
         .label(formatMessage({ id: 'oais.aips.list.table.headers.data.storages' }))
         .fixedSizing(300)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.ACTIONS).titleHeaderCell()
+      new TableColumnBuilder(PACKAGE_COLUMN_KEYS.ACTIONS).titleHeaderCell()
         .label(formatMessage({ id: 'oais.packages.list.filters.actions' }))
         .optionsColumn([{
           OptionConstructor: AIPHistoryOptionContainer,
@@ -349,4 +352,4 @@ export class OAISPackageManagerComponent extends React.Component {
   }
 }
 
-export default withModuleStyle(styles)(withI18n(messages)(OAISPackageManagerComponent))
+export default withSortTables(PACKAGE_COLUMN_KEYS)(withModuleStyle(styles)(withI18n(messages)(OAISPackageManagerComponent)))

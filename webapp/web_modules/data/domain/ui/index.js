@@ -44,6 +44,7 @@ export { RESULTS_VIEW_MODES_ENUM, RESULTS_VIEW_MODES } from './ResultsViewModeEn
 export { RESULTS_TABS, RESULTS_LIST_TABS, RESULTS_TABS_ENUM } from './ResultsTabs'
 export { ThumbnailHelper } from './ThumbnailHelper'
 export { FiltersPaneHelper } from './FiltersPaneHelper'
+export { SortingHelper } from './SortingHelper'
 export { UISettingsConstants } from './UISettingsConstants'
 export { getAdminURL, getModuleURL, getModuleDefaultIconURL } from './URLHelper'
 export { CRITERIA_TYPES, CRITERIA_TYPES_ENUM } from './CriteriaTypesEnum'

@@ -66,7 +66,7 @@ export class ProjectUserQuotaFiltersComponent extends React.Component {
         <FilterPaneTextField filterKey={AdminDomain.FILTER_PARAMS.EMAIL} />
         <FilterPaneTextField filterKey={AdminDomain.FILTER_PARAMS.LASTNAME} />
         <FilterPaneTextField filterKey={AdminDomain.FILTER_PARAMS.FIRSTNAME} />
-        <FilterPaneCheckboxField filterKey={AdminDomain.FILTER_PARAMS.USE_QUOTA_LIMITATION} uiValue={uiSettings.quotaWarningCount} />
+        <FilterPaneCheckboxField filterKey={AdminDomain.FILTER_PARAMS.USE_QUOTA_LIMITATION} uiValue={`${uiSettings.quotaWarningCount}`} />
       </FiltersPaneMainComponent>
     )
   }

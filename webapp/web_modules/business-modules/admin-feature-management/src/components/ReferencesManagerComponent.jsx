@@ -25,6 +25,7 @@ import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableSelectionModes, DateValueRender, NoContentComponent, TableHeaderLine,
   TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
+  withSortTables,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -47,6 +48,14 @@ import { FILTER_PARAMS } from '../domain/filters'
 * Displays the list of references
 * @author Théo Lasserre
 */
+
+export const REFERENCES_COLUMN_KEYS = {
+  PROVIDER_ID: 'providerId',
+  LASTUPDATE: 'lastUpdate',
+  VERSION: 'version',
+  DISSEMINATION: 'dissemination',
+  ACTIONS: 'actions',
+}
 export class ReferencesManagerComponent extends React.Component {
   static propTypes = {
     onDeleteRequests: PropTypes.func.isRequired,
@@ -80,14 +89,6 @@ export class ReferencesManagerComponent extends React.Component {
   static SELECTION_MODE = {
     INCLUDE: 'INCLUDE',
     EXCLUDE: 'EXCLUDE',
-  }
-
-  static COLUMN_KEYS = {
-    PROVIDER_ID: 'providerId',
-    LASTUPDATE: 'lastUpdate',
-    VERSION: 'version',
-    DISSEMINATION: 'dissemination',
-    ACTIONS: 'actions',
   }
 
   state = {
@@ -240,28 +241,28 @@ export class ReferencesManagerComponent extends React.Component {
       new TableColumnBuilder()
         .selectionColumn(true, referencesSelectors, referencesTableActions, referencesTableSelectors)
         .build(),
-      new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.PROVIDER_ID).titleHeaderCell().propertyRenderCell('content.providerId')
+      new TableColumnBuilder(REFERENCES_COLUMN_KEYS.PROVIDER_ID).titleHeaderCell().propertyRenderCell('content.providerId')
         .label(formatMessage({ id: 'feature.references.list.table.headers.providerId' }))
-        .sortableHeaderCell(...getColumnSortingData(ReferencesManagerComponent.COLUMN_KEYS.PROVIDER_ID), onSort)
+        .sortableHeaderCell(...getColumnSortingData(REFERENCES_COLUMN_KEYS.PROVIDER_ID), onSort)
         .build(),
-      new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.LASTUPDATE).titleHeaderCell().propertyRenderCell('content.lastUpdate', DateValueRender)
+      new TableColumnBuilder(REFERENCES_COLUMN_KEYS.LASTUPDATE).titleHeaderCell().propertyRenderCell('content.lastUpdate', DateValueRender)
         .label(formatMessage({ id: 'feature.references.list.table.headers.lastUpdate' }))
-        .sortableHeaderCell(...getColumnSortingData(ReferencesManagerComponent.COLUMN_KEYS.LASTUPDATE), onSort)
+        .sortableHeaderCell(...getColumnSortingData(REFERENCES_COLUMN_KEYS.LASTUPDATE), onSort)
         .fixedSizing(200)
         .build(),
-      new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.VERSION).titleHeaderCell().propertyRenderCell('content.version')
+      new TableColumnBuilder(REFERENCES_COLUMN_KEYS.VERSION).titleHeaderCell().propertyRenderCell('content.version')
         .label(formatMessage({ id: 'feature.references.list.table.headers.version' }))
-        .sortableHeaderCell(...getColumnSortingData(ReferencesManagerComponent.COLUMN_KEYS.VERSION), onSort)
+        .sortableHeaderCell(...getColumnSortingData(REFERENCES_COLUMN_KEYS.VERSION), onSort)
         .fixedSizing(100)
         .build(),
-      new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.DISSEMINATION).titleHeaderCell()
+      new TableColumnBuilder(REFERENCES_COLUMN_KEYS.DISSEMINATION).titleHeaderCell()
         .label(formatMessage({ id: 'feature.references.list.table.headers.dissemination' }))
         .rowCellDefinition({
           Constructor: DisseminationTableCustomCellRender,
         })
         // .fixedSizing(300)
         .build(),
-      new TableColumnBuilder(ReferencesManagerComponent.COLUMN_KEYS.ACTIONS).titleHeaderCell()
+      new TableColumnBuilder(REFERENCES_COLUMN_KEYS.ACTIONS).titleHeaderCell()
         .label(formatMessage({ id: 'feature.references.list.filters.actions' }))
         .optionsColumn([{
           OptionConstructor: ReferenceDetailOption,
@@ -313,4 +314,4 @@ export class ReferencesManagerComponent extends React.Component {
   }
 }
 
-export default withModuleStyle(styles)(withI18n(messages)(ReferencesManagerComponent))
+export default withSortTables(REFERENCES_COLUMN_KEYS)(withModuleStyle(styles)(withI18n(messages)(ReferencesManagerComponent)))

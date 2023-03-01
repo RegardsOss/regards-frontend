@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import reduce from 'lodash/reduce'
-import { DamDomain, IngestDomain } from '@regardsoss/domain'
+import { DamDomain, IngestDomain, CommonDomain } from '@regardsoss/domain'
 import { VERSION_OPTIONS } from './versionOptions'
 
 /**
@@ -51,6 +51,32 @@ export const REQUEST_FILTER_PARAMS = {
   CREATION_DATE: 'creationDate',
   REQUEST_STATE: 'requestStates',
   REQUEST_TYPE: 'requestTypes',
+}
+
+/**
+ * AIP tab default form state used in filters pane
+ */
+export const AIP_DEFAULT_FILTERS_STATE = {
+  [AIP_FILTER_PARAMS.SOURCE]: '',
+  [AIP_FILTER_PARAMS.SESSION]: '',
+  [AIP_FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [AIP_FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+  [AIP_FILTER_PARAMS.AIP_IP_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [AIP_FILTER_PARAMS.AIP_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [AIP_FILTER_PARAMS.STORAGES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [AIP_FILTER_PARAMS.LAST]: null,
+}
+
+/**
+   * Requests tab default form state used in filters pane
+   */
+export const REQUESTS_DEFAULT_FILTERS_STATE = {
+  [REQUEST_FILTER_PARAMS.SOURCE]: '',
+  [REQUEST_FILTER_PARAMS.SESSION]: '',
+  [REQUEST_FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [REQUEST_FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+  [REQUEST_FILTER_PARAMS.REQUEST_ID_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [REQUEST_FILTER_PARAMS.REQUEST_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
 }
 
 /**

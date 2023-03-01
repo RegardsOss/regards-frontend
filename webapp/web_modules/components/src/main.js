@@ -117,6 +117,7 @@ export { default as AutoRefreshPageableTableHOC } from './table/options/AutoRefr
 export { default as CheckBoxCell } from './table/content/cells/CheckBoxCell'
 export { default as TableSelectionCell } from './table/content/cells/TableSelectionCell'
 export { default as InfiniteTableContainer } from './table/InfiniteTableContainer'
+export { default as withSortTables } from './table/withSortTables'
 export { default as getTableReducer } from './table/model/TableReducer'
 export { default as getTableSelectors } from './table/model/TableSelectors'
 export { default as PageableInfiniteTableContainer } from './table/PageableInfiniteTableContainer'

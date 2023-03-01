@@ -24,6 +24,7 @@ import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   DateValueRender, TableSelectionModes, NoContentComponent, TableHeaderLine,
   TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
+  withSortTables,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -47,8 +48,17 @@ import styles from '../../styles'
 
 /**
  * Displays the list of OAIS packages
- * @author Simon MILHAU
+ * @author Théo Lasserre
  */
+
+export const REQUESTS_COLUMN_KEYS = {
+  ID: 'providerId',
+  TYPE: 'dtype',
+  STATE: 'state',
+  LASTSUBMITTED: 'creationDate',
+  ACTIONS: 'actions',
+}
+
 export class OAISRequestManagerComponent extends React.Component {
   static propTypes = {
     isLoading: PropTypes.bool.isRequired,
@@ -81,14 +91,6 @@ export class OAISRequestManagerComponent extends React.Component {
     titleKey="oais.requests.loading.results"
     Icon={SearchIcon}
   />
-
-  static COLUMN_KEYS = {
-    ID: 'providerId',
-    TYPE: 'dtype',
-    STATE: 'state',
-    LASTSUBMITTED: 'creationDate',
-    ACTIONS: 'actions',
-  }
 
   state = {
     [DIALOG_TYPES.ERRORS_DIALOG]: {
@@ -320,16 +322,16 @@ export class OAISRequestManagerComponent extends React.Component {
               new TableColumnBuilder()
                 .selectionColumn(true, clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].selectors, clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].tableActions, clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].tableSelectors)
                 .build(),
-              new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.ID).titleHeaderCell().propertyRenderCell('content.providerId')
+              new TableColumnBuilder(REQUESTS_COLUMN_KEYS.ID).titleHeaderCell().propertyRenderCell('content.providerId')
                 .label(formatMessage({ id: 'oais.requests.list.filters.providerId' }))
-                .sortableHeaderCell(...getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.ID), onSort)
+                .sortableHeaderCell(...getColumnSortingData(REQUESTS_COLUMN_KEYS.ID), onSort)
                 .build(),
-              new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.TYPE).titleHeaderCell()
+              new TableColumnBuilder(REQUESTS_COLUMN_KEYS.TYPE).titleHeaderCell()
                 .propertyRenderCell('content.dtype', RequestTypeRenderCell)
                 .label(formatMessage({ id: 'oais.requests.list.filters.requestType.label' }))
-                .sortableHeaderCell(...getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.TYPE), onSort)
+                .sortableHeaderCell(...getColumnSortingData(REQUESTS_COLUMN_KEYS.TYPE), onSort)
                 .build(),
-              new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.STATE).titleHeaderCell()
+              new TableColumnBuilder(REQUESTS_COLUMN_KEYS.STATE).titleHeaderCell()
                 .rowCellDefinition({
                   Constructor: RequestStatusRenderCell,
                   props: {
@@ -339,13 +341,13 @@ export class OAISRequestManagerComponent extends React.Component {
                   },
                 })
                 .label(formatMessage({ id: 'oais.list.filters.requestState.label' }))
-                .sortableHeaderCell(...getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.STATE), onSort)
+                .sortableHeaderCell(...getColumnSortingData(REQUESTS_COLUMN_KEYS.STATE), onSort)
                 .build(),
-              new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.LASTSUBMITTED).titleHeaderCell().propertyRenderCell('content.creationDate', DateValueRender)
+              new TableColumnBuilder(REQUESTS_COLUMN_KEYS.LASTSUBMITTED).titleHeaderCell().propertyRenderCell('content.creationDate', DateValueRender)
                 .label(formatMessage({ id: 'oais.requests.list.filters.lastSubmission' }))
-                .sortableHeaderCell(...getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.LASTSUBMITTED), onSort)
+                .sortableHeaderCell(...getColumnSortingData(REQUESTS_COLUMN_KEYS.LASTSUBMITTED), onSort)
                 .build(),
-              new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.ACTIONS).titleHeaderCell()
+              new TableColumnBuilder(REQUESTS_COLUMN_KEYS.ACTIONS).titleHeaderCell()
                 .label(formatMessage({ id: 'oais.requests.list.filters.actions' }))
                 .optionsColumn([
                   {
@@ -374,4 +376,4 @@ export class OAISRequestManagerComponent extends React.Component {
   }
 }
 
-export default withModuleStyle(styles)(withI18n(messages)(OAISRequestManagerComponent))
+export default withSortTables(REQUESTS_COLUMN_KEYS)(withModuleStyle(styles)(withI18n(messages)(OAISRequestManagerComponent)))

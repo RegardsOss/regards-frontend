@@ -28,7 +28,7 @@ import {
 } from '@regardsoss/components'
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
-import { FILTER_PARAMS } from '../../domain/filters'
+import { FILTER_PARAMS, REFERENCES_DEFAULT_FILTERS_STATE } from '../../domain/filters'
 import { DISSEMINATION_PENDING_VALUES } from '../../domain/DisseminationStatus'
 
 /**
@@ -48,17 +48,6 @@ export class ReferenceManagerFiltersComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  /**
-  * References default state for filters edition
-  */
-  static DEFAULT_FILTERS_STATE = {
-    [FILTER_PARAMS.SOURCE]: '',
-    [FILTER_PARAMS.SESSION]: '',
-    [FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-    [FILTER_PARAMS.DISSEMINATION_PENDING]: null,
   }
 
   render() {
@@ -101,4 +90,4 @@ export class ReferenceManagerFiltersComponent extends React.Component {
   }
 }
 
-export default withFiltersPane(ReferenceManagerFiltersComponent.DEFAULT_FILTERS_STATE)(ReferenceManagerFiltersComponent)
+export default withFiltersPane(REFERENCES_DEFAULT_FILTERS_STATE)(ReferenceManagerFiltersComponent)

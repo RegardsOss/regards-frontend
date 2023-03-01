@@ -19,29 +19,38 @@
 import map from 'lodash/map'
 import omit from 'lodash/omit'
 import pick from 'lodash/pick'
+import reduce from 'lodash/reduce'
+import keys from 'lodash/keys'
+import includes from 'lodash/includes'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
-import { FemDomain } from '@regardsoss/domain'
+import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import { FemDomain, UIDomain } from '@regardsoss/domain'
 import SwitchComponent from '../components/SwitchComponent'
 import { referencesActions, referencesSelectors } from '../clients/ReferencesClient'
 import { creationRequestActions, creationRequestSelectors } from '../clients/CreationRequestsClient'
 import { deleteRequestActions, deleteRequestSelectors } from '../clients/DeleteRequestsClient'
 import { notificationRequestActions, notificationRequestSelectors } from '../clients/NotificationRequestsClient'
 import { updateRequestActions, updateRequestSelectors } from '../clients/UpdateRequestsClient'
+import { REFERENCES_DEFAULT_FILTERS_STATE, REQUESTS_DEFAULT_FILTERS_STATE } from '../domain/filters'
+import { REFERENCES_COLUMN_KEYS } from '../components/ReferencesManagerComponent'
+import { REQUESTS_COLUMN_KEYS } from '../components/RequestManagerComponent'
 
 /**
   * Switch between tables
   * @author Théo Lasserre
   */
 export class SwitchTables extends React.Component {
-  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+  // Setting PAGE_SIZE to 1 prevent flooding network with unnecessary informations.
+  // we juste want to retrieve totalElements, we don't care about results sent by backend server.
+  static PAGE_SIZE = 1
 
   static DEFAULT_PAGE_META = {
     number: 0,
-    size: STATIC_CONF.TABLE.PAGE_SIZE || 20,
+    size: SwitchTables.PAGE_SIZE,
     totalElements: 0,
   }
 
@@ -91,8 +100,8 @@ export class SwitchTables extends React.Component {
     }),
     onSwitchToPane: PropTypes.func.isRequired,
     paneType: PropTypes.oneOf(FemDomain.REQUEST_TYPES).isRequired,
-    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
-    featureManagerFilters: PropTypes.object.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    featureManagerFilters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     // from mapStateToProps
     referencesMeta: CommonShapes.PageMetadata,
     isReferencesFetching: PropTypes.bool.isRequired,
@@ -153,18 +162,54 @@ export class SwitchTables extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
       fetchReferences, fetchCreationRequests, fetchDeleteRequests, fetchNotificationRequests, fetchUpdateRequests,
-      featureManagerFilters, paneType,
+      featureManagerFilters, isReferencesFetching, isCreationFetching, isDeleteFetching, isNotificationFetching,
+      isUpdateFetching,
     } = newProps
 
-    if (!isEqual(oldProps.featureManagerFilters, featureManagerFilters) && paneType !== oldProps.paneType) {
+    if (!isEqual(oldProps.featureManagerFilters, featureManagerFilters)) {
       const requestParameters = { ...pick(featureManagerFilters, 'sort') }
       const bodyParameters = { ...omit(featureManagerFilters, 'sort') }
-      fetchReferences(0, SwitchTables.PAGE_SIZE, {}, requestParameters, bodyParameters)
-      fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, requestParameters, bodyParameters)
-      fetchDeleteRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, requestParameters, bodyParameters)
-      fetchNotificationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION }, requestParameters, bodyParameters)
-      fetchUpdateRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.UPDATE }, requestParameters, bodyParameters)
+
+      if (!isReferencesFetching) {
+        const referencesBodyParameters = this.buildBodyParameters(bodyParameters, REFERENCES_DEFAULT_FILTERS_STATE)
+        const referencesRequestParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REFERENCES_COLUMN_KEYS)
+        fetchReferences(0, SwitchTables.PAGE_SIZE, {}, referencesRequestParameters, referencesBodyParameters)
+      }
+
+      const requestsBodyParameters = this.buildBodyParameters(bodyParameters, REQUESTS_DEFAULT_FILTERS_STATE)
+      const requestsRequestsParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REQUESTS_COLUMN_KEYS)
+      if (!isCreationFetching) {
+        fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, requestsRequestsParameters, requestsBodyParameters)
+      }
+      if (!isDeleteFetching) {
+        fetchDeleteRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, requestsRequestsParameters, requestsBodyParameters)
+      }
+      if (!isNotificationFetching) {
+        fetchNotificationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION }, requestsRequestsParameters, requestsBodyParameters)
+      }
+      if (!isUpdateFetching) {
+        fetchUpdateRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.UPDATE }, requestsRequestsParameters, requestsBodyParameters)
+      }
     }
+  }
+
+  /**
+   * Filter bodyParameters to match specified filters state
+   * Used to fetch all tabs at once when filters are updated
+   * @param {*} bodyParameters
+   * @param {*} defaultFiltersState
+   */
+  buildBodyParameters = (bodyParameters, defaultFiltersState) => {
+    const newBodyParameters = reduce(bodyParameters, (acc, value, key) => {
+      if (includes(keys(defaultFiltersState), key)) {
+        return {
+          ...acc,
+          [key]: value,
+        }
+      }
+      return acc
+    }, {})
+    return newBodyParameters
   }
 
   extractInfos = (meta, info = null) => ({

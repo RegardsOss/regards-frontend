@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import reduce from 'lodash/reduce'
-import { FemDomain } from '@regardsoss/domain'
+import { FemDomain, CommonDomain } from '@regardsoss/domain'
 import { DISSEMINATION_PENDING_VALUES } from './DisseminationStatus'
 
 /**
@@ -35,6 +35,28 @@ export const FILTER_PARAMS = {
   DISSEMINATION_PENDING: 'disseminationPending',
   IDS: 'featureIds',
   REQUEST_IDS: 'requestIds',
+}
+
+/**
+ * References default state for filters edition
+ */
+export const REFERENCES_DEFAULT_FILTERS_STATE = {
+  [FILTER_PARAMS.SOURCE]: '',
+  [FILTER_PARAMS.SESSION]: '',
+  [FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+  [FILTER_PARAMS.DISSEMINATION_PENDING]: null,
+}
+
+/**
+ * Requests default state for filters edition
+ */
+export const REQUESTS_DEFAULT_FILTERS_STATE = {
+  [FILTER_PARAMS.SOURCE]: '',
+  [FILTER_PARAMS.SESSION]: '',
+  [FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+  [FILTER_PARAMS.STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
 }
 
 /**

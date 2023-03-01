@@ -17,14 +17,22 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
+import reduce from 'lodash/reduce'
+import keys from 'lodash/keys'
+import includes from 'lodash/includes'
+import pick from 'lodash/pick'
+import omit from 'lodash/omit'
 import { connect } from '@regardsoss/redux'
-import { IngestDomain } from '@regardsoss/domain'
+import { IngestDomain, UIDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import FlatButton from 'material-ui/FlatButton'
 import clientByPane from '../domain/ClientByPane'
+import { PACKAGE_COLUMN_KEYS } from './packages/OAISPackageManagerComponent'
+import { REQUESTS_COLUMN_KEYS } from './requests/OAISRequestManagerComponent'
+import { AIP_DEFAULT_FILTERS_STATE, REQUESTS_DEFAULT_FILTERS_STATE } from '../domain/filters'
 
 /**
  * Switch between the two tables
@@ -57,7 +65,9 @@ export class OAISSwitchTables extends React.Component {
   static mapStateToProps(state) {
     return {
       aipsMeta: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].selectors.getMetaData(state),
+      isAipsFetching: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].selectors.isFetching(state),
       requestsMeta: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].selectors.getMetaData(state),
+      isRequestsFetching: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].selectors.isFetching(state),
     }
   }
 
@@ -70,7 +80,7 @@ export class OAISSwitchTables extends React.Component {
     }),
     onSwitchToPane: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    bodyParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
+    oaisFilters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     openedPane: PropTypes.string,
     // from mapDistpathToProps
     // eslint-disable-next-line react/no-unused-prop-types
@@ -80,6 +90,10 @@ export class OAISSwitchTables extends React.Component {
     // from mapStateToProps
     aipsMeta: CommonShapes.PageMetadata,
     requestsMeta: CommonShapes.PageMetadata,
+    // eslint-disable-next-line react/no-unused-prop-types
+    isAipsFetching: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    isRequestsFetching: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -95,13 +109,7 @@ export class OAISSwitchTables extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => {
-    const {
-      fetchAIPPage, fetchRequestsPage, bodyParameters,
-    } = this.props
-    fetchAIPPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, {}, bodyParameters)
-    fetchRequestsPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, {}, bodyParameters)
-  }
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
@@ -116,13 +124,44 @@ export class OAISSwitchTables extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      fetchAIPPage, fetchRequestsPage, bodyParameters, paneType,
+      fetchAIPPage, fetchRequestsPage, oaisFilters, isAipsFetching, isRequestsFetching,
     } = newProps
 
-    if (!isEqual(oldProps.bodyParameters, bodyParameters) && paneType !== oldProps.paneType) {
-      fetchAIPPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, {}, bodyParameters)
-      fetchRequestsPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, {}, bodyParameters)
+    if (!isEqual(oldProps.oaisFilters, oaisFilters)) {
+      const requestParameters = { ...pick(oaisFilters, 'sort') }
+      const bodyParameters = { ...omit(oaisFilters, 'sort') }
+
+      if (!isAipsFetching) {
+        const aipBodyParameters = this.buildBodyParameters(bodyParameters, AIP_DEFAULT_FILTERS_STATE)
+        const aipRequestParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, PACKAGE_COLUMN_KEYS)
+        fetchAIPPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, aipRequestParameters, aipBodyParameters)
+      }
+
+      if (!isRequestsFetching) {
+        const requestsBodyParameters = this.buildBodyParameters(bodyParameters, REQUESTS_DEFAULT_FILTERS_STATE)
+        const requestsRequestsParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REQUESTS_COLUMN_KEYS)
+        fetchRequestsPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, requestsRequestsParameters, requestsBodyParameters)
+      }
     }
+  }
+
+  /**
+   * Filter bodyParameters to match specified filters state
+   * Used to fetch all tabs at once when filters are updated
+   * @param {*} bodyParameters
+   * @param {*} defaultFiltersState
+   */
+  buildBodyParameters = (bodyParameters, defaultFiltersState) => {
+    const newBodyParameters = reduce(bodyParameters, (acc, value, key) => {
+      if (includes(keys(defaultFiltersState), key)) {
+        return {
+          ...acc,
+          [key]: value,
+        }
+      }
+      return acc
+    }, {})
+    return newBodyParameters
   }
 
   changeToPackages = () => {

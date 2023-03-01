@@ -86,7 +86,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
       params: props.params,
       onSwitchToPane: enzymeWrapper.instance().onSwitchToPane,
       openedPane: enzymeWrapper.instance().state.paneType,
-      bodyParameters: enzymeWrapper.instance().state.currentRequestParameters,
+      oaisFilters: enzymeWrapper.instance().state.currentRequestParameters,
     })
 
     // AIP TAB

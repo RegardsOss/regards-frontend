@@ -27,7 +27,7 @@ import {
 } from '@regardsoss/components'
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
-import { FILTER_PARAMS } from '../../domain/filters'
+import { FILTER_PARAMS, REQUESTS_DEFAULT_FILTERS_STATE } from '../../domain/filters'
 
 /**
   * Feature manager filters component.
@@ -46,14 +46,6 @@ export class RequestManagerFiltersComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  static DEFAULT_FILTERS_STATE = {
-    [FILTER_PARAMS.SOURCE]: '',
-    [FILTER_PARAMS.SESSION]: '',
-    [FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-    [FILTER_PARAMS.STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
   }
 
   render() {
@@ -93,4 +85,4 @@ export class RequestManagerFiltersComponent extends React.Component {
   }
 }
 
-export default withFiltersPane(RequestManagerFiltersComponent.DEFAULT_FILTERS_STATE)(RequestManagerFiltersComponent)
+export default withFiltersPane(REQUESTS_DEFAULT_FILTERS_STATE)(RequestManagerFiltersComponent)
