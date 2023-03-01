@@ -27,7 +27,7 @@ const webpack = require('webpack')
 // You are running a production build on PERF
 // You need to:
 //    - Build DLL
-//      npm run build:production-dll
+//      yarn build:production-dll
 
 //    - mkdir -p dist/prod/conf && cp webpack-config-front/src/conf/staticConfiguration.js dist/prod/conf/
 
@@ -39,7 +39,7 @@ const webpack = require('webpack')
 //      sed -i "s+\".\": {+\"./\": \"./Source/\",\".\": {+g" node_modules/cesium/package.json
 
 //    - Then run the command
-//      npm run start:prodvmperf
+//      yarn start:prodvmperf
 
 const conf = webpackConfigurator
   .generateConfig({

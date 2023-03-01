@@ -80,7 +80,7 @@ for rootFolder in "${buildFolders[@]}"; do
           pwd
 ##          npm prune
 ##          npm install
-          npm run lint
+          yarn lint
           cd ${home}
       fi
     fi

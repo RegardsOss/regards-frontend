@@ -2,6 +2,7 @@
 # NPM
 ######################
 **/package-lock.json
+**/yarn.lock
 
 ######################
 # SASS

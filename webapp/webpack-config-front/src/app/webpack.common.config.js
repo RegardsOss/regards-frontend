@@ -182,7 +182,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new MiniCssExtractPlugin({ filename: 'css/styles.css' }),
 
       // Using http://webpack.github.io/analyse/#hints
-      // And npm run build:stats
+      // And yarn build:stats
       // We can start to prefetch these files before they are imported
       new webpack.PrefetchPlugin('./web_modules/utils/modules/src/components/LazyModuleComponent.jsx'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-user-role-resource-access-management/src/containers/ResourceAccessFormContainer.jsx'),

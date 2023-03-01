@@ -40,103 +40,12 @@ pipeline {
             steps {
                 echo "Jenkins node name = ${env.NODE_NAME}"
                 echo "Current workspace = ${env.WORKSPACE}"
-                sh 'docker pull 172.26.46.158/regards-nginx-jenkins && chmod -R 0777 ${WORKSPACE}/webapp'
+                sh 'docker pull 172.26.46.158/regards-node-jenkins:16 && chmod -R 0777 ${WORKSPACE}/webapp'
             }
         }
         stage('Install') {
-            parallel {
-                stage('-1-') {
-                    stages {
-                        stage('Install webapp') {
-                            steps {
-                                runFrontDockerImg("install", "")
-                            }
-                        }
-                        stage('Install temporal') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "criterion/temporal")
-                            }
-                        }
-                    }
-                }
-                stage('-2-') {
-                    stages {
-                        stage('Install data-with-picture-only') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "criterion/data-with-picture-only")
-                            }
-                        }
-                        stage('Install last-version-only') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "criterion/last-version-only")
-                            }
-                        }
-                        stage('Install enumerated') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "criterion/enumerated")
-                            }
-                        }
-                        stage('Install numerical') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "criterion/numerical")
-                            }
-                        }
-                        stage('Install numerical-range-criteria') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "criterion/numerical-range-criteria")
-                            }
-                        }
-                        stage('Install string') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "criterion/string")
-                            }
-                        }
-                        stage('Install fem-notify') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "service/fem-notify")
-                            }
-                        }
-                    }
-                }
-                stage('-3-') {
-                    stages {
-                        stage('Install full-text') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "criterion/full-text")
-                            }
-                        }
-                        stage('Install example') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "service/example")
-                            }
-                        }
-                        stage('Install two-numerical') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "criterion/two-numerical")
-                            }
-                        }
-                        stage('Install two-temporal') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "criterion/two-temporal")
-                            }
-                        }
-                        stage('Install toponym') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "criterion/toponym")
-                            }
-                        }
-                        stage('Install fem-delete') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "service/fem-delete")
-                            }
-                        }
-                        stage('Install fem-edit') {
-                            steps {
-                                runFrontDockerImg("install-plugin", "service/fem-edit")
-                            }
-                        }
-                    }
-                }
+            steps {
+                runFrontDockerImg("install", "")
             }
         }
         stage('Parallel build') {
@@ -274,8 +183,8 @@ pipeline {
 // @params pluginFolder the path to the plugin folder
 @NonCPS
 runFrontDockerImg(script, pluginFolder) {
-    sh 'docker run --rm -i \
+    sh 'docker run --rm -i --tmpfs /tmp:exec \
         -v ${WORKSPACE}/webapp:/app_to_build \
-        172.26.46.158/regards-nginx-jenkins ./' + script + '.sh ' + pluginFolder
+        172.26.46.158/regards-node-jenkins:16 ./' + script + '.sh ' + pluginFolder
 }
 

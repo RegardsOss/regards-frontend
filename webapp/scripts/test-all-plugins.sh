@@ -80,7 +80,7 @@ for rootFolder in "${buildFolders[@]}"; do
           pwd
 ##          npm prune
 ##          npm install
-          npm run test:mocha
+          yarn test:mocha
           cd ${home}
       fi
     fi
