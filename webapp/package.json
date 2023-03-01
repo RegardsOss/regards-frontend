@@ -73,7 +73,7 @@
     "cron-validate": "^1.4.3",
     "crypto-js": "^4.1.1",
     "detect-browser": "^3.0.1",
-    "fixed-data-table-2": "0.8.15",
+    "fixed-data-table-2": "0.8.28",
     "geojson-bounding-box": "^0.2.0",
     "geojson-polygon-center": "0.0.0",
     "immutable": "~3.8.2",
