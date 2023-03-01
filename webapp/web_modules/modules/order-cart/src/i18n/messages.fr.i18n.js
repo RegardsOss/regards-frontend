@@ -101,7 +101,6 @@ const messages = {
   'order-cart.module.basket.table.filters.dialog.selectfield.hint': 'Sélectionner les types de fichiers',
   'order-cart.module.basket.table.filters.dialog.selectfield.fileTypes.RAWDATA': 'Rawdata',
   'order-cart.module.basket.table.filters.dialog.selectfield.fileTypes.QUICKLOOK': 'Quicklook',
-  'order-cart.module.basket.table.filters.dialog.selectfield.fileTypes.THUMBNAIL': 'Thumbnail',
   'order-cart.module.basket.table.filters.dialog.textfield.hint': 'Entrez le pattern du nom du fichier',
   'order-cart.module.basket.table.filters.dialog.remove': 'Supprimer',
   'order-cart.module.basket.table.filters.dialog.remove.tooltip': 'Supprimer les filtres',

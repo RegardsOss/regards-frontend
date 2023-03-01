@@ -115,7 +115,6 @@ const messages = {
   'datasets.list.column.fileFilters': 'Filtres',
   'datasets.list.column.fileFilters.fileTypes.RAWDATA': 'Rawdata',
   'datasets.list.column.fileFilters.fileTypes.QUICKLOOK': 'Quicklook',
-  'datasets.list.column.fileFilters.fileTypes.THUMBNAIL': 'Thumbnail',
   'datasets.list.column.fileFilters.fileTypes.label': 'Types',
   'datasets.list.column.fileFilters.fileNamePattern.label': 'Nom',
   'datasets.list.column.processing': 'Traitement',

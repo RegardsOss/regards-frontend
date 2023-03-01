@@ -93,7 +93,6 @@ const messages = {
   'order-cart.module.basket.table.filters.dialog.selectfield.hint': 'Select file types',
   'order-cart.module.basket.table.filters.dialog.selectfield.fileTypes.RAWDATA': 'Rawdata',
   'order-cart.module.basket.table.filters.dialog.selectfield.fileTypes.QUICKLOOK': 'Quicklook',
-  'order-cart.module.basket.table.filters.dialog.selectfield.fileTypes.THUMBNAIL': 'Thumbnail',
   'order-cart.module.basket.table.filters.dialog.textfield.hint': 'Enter file name pattern',
   'order-cart.module.basket.table.filters.dialog.remove': 'Remove',
   'order-cart.module.basket.table.filters.dialog.remove.tooltip': 'Remove filters',
