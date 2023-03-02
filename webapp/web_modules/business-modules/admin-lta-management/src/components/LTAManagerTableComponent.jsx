@@ -143,6 +143,7 @@ class LTAManagerTableComponent extends React.Component {
     if (!id) {
       throw new Error('Invalid entitiy. Cannot retrieve id.', entity)
     }
+    return id
   }
 
   onConfirmActionDialog = (dialogRequestType) => {
