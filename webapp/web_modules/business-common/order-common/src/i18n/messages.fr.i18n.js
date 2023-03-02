@@ -55,7 +55,7 @@ const messages = {
   'order.list.cell.status.WAITING_USER_DOWNLOAD': 'Attente téléchargement utilisateur',
   'order.list.cell.status.UNKNOWN': 'Inconnu',
   'order.list.cell.status.remainingTime': 'La commande va expirer {value}',
-  'order.list.cell.status.expired': 'La commande a expirée',
+  'order.list.cell.status.expired': 'La commande a expiré',
   'order.list.cell.status.object.files.label': '{objCount} produits - Totalisant {filesCount} fichiers',
   'order.list.option.cell.download.title': 'Télécharger...',
   'order.list.option.cell.download.zip.tooltip': 'Télécharger les fichiers disponibles de la commande en ZIP',
