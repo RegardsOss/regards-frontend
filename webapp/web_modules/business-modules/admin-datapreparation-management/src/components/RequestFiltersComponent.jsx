@@ -18,7 +18,7 @@
  **/
 import map from 'lodash/map'
 import { MenuItem } from 'material-ui/IconMenu'
-import { WorkerDomain, CommonDomain } from '@regardsoss/domain'
+import { WorkerDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { UIShapes } from '@regardsoss/shape'
@@ -53,14 +53,7 @@ export class RequestFiltersComponent extends React.Component {
   /**
  * Default form state used in filters pane
  */
-  static DEFAULT_FILTERS_STATE = {
-    [WorkerDomain.FILTER_PARAMS_ENUM.SOURCE]: '',
-    [WorkerDomain.FILTER_PARAMS_ENUM.SESSION]: '',
-    [WorkerDomain.FILTER_PARAMS_ENUM.WORKER_TYPE]: '',
-    [WorkerDomain.FILTER_PARAMS_ENUM.CONTENT_TYPES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [WorkerDomain.FILTER_PARAMS_ENUM.STATUSES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [WorkerDomain.FILTER_PARAMS_ENUM.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-  }
+  static DEFAULT_FILTERS_STATE = WorkerDomain.RequestFilters.buildDefault()
 
   render() {
     const {

@@ -20,7 +20,7 @@ import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, FemDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import {
   FilterPaneDatePickerField, FilterPaneAutoCompleteField, FilterPaneSelectFieldLegacy,
@@ -28,7 +28,6 @@ import {
 } from '@regardsoss/components'
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
-import { FILTER_PARAMS, REFERENCES_DEFAULT_FILTERS_STATE } from '../../domain/filters'
 import { DISSEMINATION_PENDING_VALUES } from '../../domain/DisseminationStatus'
 
 /**
@@ -64,23 +63,23 @@ export class ReferenceManagerFiltersComponent extends React.Component {
         inputValues={inputValues}
       >
         <FilterPaneDatePickerField
-          filterKey={FILTER_PARAMS.LAST_UPDATE}
+          filterKey={FemDomain.REFERENCE_FILTER_PARAMS.LAST_UPDATE}
           multiline
           displayTime
         />
         <FilterPaneAutoCompleteField
-          filterKey={FILTER_PARAMS.SOURCE}
+          filterKey={FemDomain.REFERENCE_FILTER_PARAMS.SOURCE}
           arrayActions={searchSourcesActions}
           arraySelectors={searchSourcesSelectors}
         />
         <FilterPaneAutoCompleteField
-          filterKey={FILTER_PARAMS.SESSION}
+          filterKey={FemDomain.REFERENCE_FILTER_PARAMS.SESSION}
           arrayActions={searchSessionsActions}
           arraySelectors={searchSessionsSelectors}
         />
-        <FilterPaneTextFieldValues filterKey={FILTER_PARAMS.PROVIDER_IDS} matchMode={CommonDomain.MATCH_MODE_ENUM.CONTAINS} />
+        <FilterPaneTextFieldValues filterKey={FemDomain.REFERENCE_FILTER_PARAMS.PROVIDER_IDS} matchMode={CommonDomain.MATCH_MODE_ENUM.CONTAINS} />
         <FilterPaneSelectFieldLegacy
-          filterKey={FILTER_PARAMS.DISSEMINATION_PENDING}
+          filterKey={FemDomain.REFERENCE_FILTER_PARAMS.DISSEMINATION_PENDING}
           allValuesOption
         >
           {map(DISSEMINATION_PENDING_VALUES, (dissemination) => <MenuItem key={dissemination} value={dissemination} primaryText={formatMessage({ id: `feature.list.filters.disseminationPending.${dissemination}` })} />)}
@@ -90,4 +89,4 @@ export class ReferenceManagerFiltersComponent extends React.Component {
   }
 }
 
-export default withFiltersPane(REFERENCES_DEFAULT_FILTERS_STATE)(ReferenceManagerFiltersComponent)
+export default withFiltersPane(FemDomain.ReferenceFilters.buildDefault())(ReferenceManagerFiltersComponent)

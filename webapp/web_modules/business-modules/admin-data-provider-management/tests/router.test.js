@@ -21,7 +21,6 @@ import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import AcquisitionProcessingChainFormContainer from '../src/containers/acquisitionChain/AcquisitionProcessingChainFormContainer'
 import AcquisitionProcessingChainListContainer from '../src/containers/acquisitionChain/AcquisitionProcessingChainListContainer'
-import SessionsMonitoringContainer from '../src/containers/session/SessionsMonitoringContainer'
 
 /**
  * Ingest processing chain module routers tests.
@@ -33,11 +32,10 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing router', () => {
 
   it('should return the correct value', () => {
     assert.isDefined(Routes)
-    expect(Routes.childRoutes).to.have.length(4)
+    expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('chains')
     expect(Routes.childRoutes[1].path).to.eq('chain/create')
     expect(Routes.childRoutes[2].path).to.eq('chain/:chainId/:mode')
-    expect(Routes.childRoutes[3].path).to.eq('sessions')
   })
   it('monitoring/chains should return AcquisitionProcessingChainListContainer for listing of existing chains', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -54,12 +52,6 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing router', () => {
   it('chain/:chainId/:mode should return AcquisitionProcessingChainFormContainer for listing of existing chains', (done) => {
     Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(AcquisitionProcessingChainFormContainer)
-      done()
-    })
-  })
-  it('sessions should return SessionsContainer for listing of existing files', (done) => {
-    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(SessionsMonitoringContainer)
       done()
     })
   })

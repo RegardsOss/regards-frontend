@@ -30,7 +30,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { MIME_TYPES } from '@regardsoss/mime-types'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { FemDomain, CommonDomain } from '@regardsoss/domain'
+import { FemDomain } from '@regardsoss/domain'
 import DeleteDialog from './options/DeleteDialog'
 import clientByPane from '../domain/ClientByPane'
 import RetryDialog from './options/RetryDialog'
@@ -39,7 +39,6 @@ import RequestRetryOption from './options/RequestRetryOption'
 import StatusRender from './render/StatusRender'
 import HeaderActionsBarContainer from '../containers/HeaderActionsBarContainer'
 import { DIALOG_TYPES } from '../domain/dialogTypes'
-import { FILTER_PARAMS } from '../domain/filters'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -184,12 +183,11 @@ export class RequestManagerComponent extends React.Component {
     const { bodyParameters } = this.props
     const { mode, entities } = this.state[dialogRequestType]
     this.onCloseActionDialog(dialogRequestType)
+    const requestIds = map(entities, (e) => get(e, 'content.id', ''))
+    const filterMode = mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE
     return {
       ...bodyParameters,
-      [FILTER_PARAMS.REQUEST_IDS]: {
-        [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => get(e, 'content.id', '')),
-        [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
-      },
+      ...FemDomain.RequestFilters.builder().withRequestIds(requestIds, filterMode).build(),
     }
   }
 

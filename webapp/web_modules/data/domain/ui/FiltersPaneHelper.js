@@ -46,11 +46,15 @@ export class FiltersPaneHelper {
         if (has(defaultFiltersState, queryKey)) {
           if (has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.VALUES)) {
             // Values Restrictiction filters type
-            const parsedQueryValue = JSON.parse(queryValue)
-            acc[queryKey] = {
-              [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(parsedQueryValue[CommonDomain.REQUEST_PARAMETERS.VALUES], ','),
-              [CommonDomain.REQUEST_PARAMETERS.MATCH_MODE]: parsedQueryValue[CommonDomain.REQUEST_PARAMETERS.MATCH_MODE],
-              [CommonDomain.REQUEST_PARAMETERS.IGNORE_CASE]: parsedQueryValue[CommonDomain.REQUEST_PARAMETERS.IGNORE_CASE],
+            try {
+              const parsedQueryValue = JSON.parse(queryValue)
+              acc[queryKey] = {
+                [CommonDomain.REQUEST_PARAMETERS.VALUES]: split(parsedQueryValue[CommonDomain.REQUEST_PARAMETERS.VALUES], ','),
+                [CommonDomain.REQUEST_PARAMETERS.MATCH_MODE]: parsedQueryValue[CommonDomain.REQUEST_PARAMETERS.MATCH_MODE],
+                [CommonDomain.REQUEST_PARAMETERS.IGNORE_CASE]: parsedQueryValue[CommonDomain.REQUEST_PARAMETERS.IGNORE_CASE],
+              }
+            } catch (err) {
+              console.error(err)
             }
           } else if (has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.BEFORE)
             && has(defaultFiltersState[queryKey], CommonDomain.REQUEST_PARAMETERS.AFTER)) {
@@ -71,15 +75,8 @@ export class FiltersPaneHelper {
     return urlFilters
   }
 
-  static updateURL = (inputValues, ignoredURLParameters = []) => {
-    const { pathname, query } = browserHistory.getCurrentLocation()
-    const previousQuery = reduce(keys(query), (acc, value) => {
-      if (includes(ignoredURLParameters, value)) {
-        acc[value] = query[value]
-      }
-      return acc
-    }, {})
-    const newQuery = reduce(keys(inputValues), (acc, value) => {
+  static buildUrlQueryParameters(inputValues) {
+    return reduce(keys(inputValues), (acc, value) => {
       if ((inputValues[value] !== null && inputValues[value] !== undefined && !isEmpty(inputValues[value])) || isBoolean(inputValues[value]) || isFinite(inputValues[value])) {
         // Values Restriction & Dates Restriction
         if (isPlainObject(inputValues[value])) {
@@ -111,8 +108,19 @@ export class FiltersPaneHelper {
       }
       return acc
     }, {})
+  }
+
+  static updateURL = (inputValues, ignoredURLParameters = [], destinationPath = null) => {
+    const { pathname, query } = browserHistory.getCurrentLocation()
+    const previousQuery = reduce(keys(query), (acc, value) => {
+      if (includes(ignoredURLParameters, value)) {
+        acc[value] = query[value]
+      }
+      return acc
+    }, {})
+    const newQuery = this.buildUrlQueryParameters(inputValues)
     browserHistory.replace({
-      pathname,
+      pathname: destinationPath || pathname,
       search: encodeURIComponent(new URLSearchParams(newQuery).toString()),
       query: { ...previousQuery, ...newQuery },
     })

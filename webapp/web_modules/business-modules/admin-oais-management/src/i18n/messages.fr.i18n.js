@@ -134,6 +134,8 @@ export default {
   'oais.requests.confirm.retry.close': 'Fermer',
   'oais.requests.confirm.retry.title': 'Relancer les requêtes sélectionnées',
   'oais.requests.confirm.retry.message': 'Voulez vous relancer les requêtes sélectionnées ?',
+  'oais.request.error.details.title': 'Détails de l\'erreur',
+  'oais.request.details.button.close': 'Fermer',
   'oais.requests.empty.results': 'Aucune requête trouvée',
   'oais.requests.loading.results': 'Chargement des requêtes ...',
   'oais.requests.retry.title': 'Relancer le traitement',

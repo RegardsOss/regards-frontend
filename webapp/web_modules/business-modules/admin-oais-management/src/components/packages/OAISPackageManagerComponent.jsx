@@ -28,7 +28,7 @@ import {
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { IngestDomain, CommonDomain } from '@regardsoss/domain'
+import { IngestDomain } from '@regardsoss/domain'
 import HeaderActionsBarContainer from '../../containers/HeaderActionsBarContainer'
 import StorageArrayRender from './StorageArrayRender'
 import AIPHistoryOptionContainer from '../../containers/packages/AIPHistoryOptionContainer'
@@ -43,7 +43,6 @@ import AIPPostRequestDialog from './AIPPostRequestDialog'
 import AIPTypeRender from './AIPTypeRender'
 import AIPStatusRender from './AIPStatusRender'
 import { DIALOG_TYPES } from '../../domain/dialogTypes'
-import { AIP_FILTER_PARAMS } from '../../domain/filters'
 import clientByPane from '../../domain/ClientByPane'
 import messages from '../../i18n'
 import styles from '../../styles'
@@ -202,12 +201,11 @@ export class OAISPackageManagerComponent extends React.Component {
     onModifyAip(finalModifyPayload, this.updatePostDialogState)
   }
 
-  getActionPayload = (entities, mode) => ({
-    [AIP_FILTER_PARAMS.AIP_IDS]: {
-      [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => get(e, 'content.aipId', '')),
-      [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
-    },
-  })
+  getActionPayload = (entities, mode) => {
+    const aipIds = map(entities, (e) => get(e, 'content.aipId', ''))
+    const selectionMode = mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE
+    return IngestDomain.AipFilters.builder().withAipIds(aipIds, selectionMode).build()
+  }
 
   renderDialog = (dialogRequestType) => {
     const { open } = this.state[dialogRequestType]

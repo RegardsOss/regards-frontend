@@ -17,13 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { browserHistory } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { IngestDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { FiltersPaneHelper } from '@regardsoss/domain/ui'
 import { ICON_TYPE_ENUM } from '../../domain/iconType'
 
 /**
@@ -45,18 +45,21 @@ class IngestActionsComponent extends React.Component {
     isRetryErrorsDialogOpen: false,
   }
 
-  getIngestURL = (status = null) => `/admin/${this.props.project}/data/acquisition/oais/featureManager/requests?sessionOwner=${encodeURIComponent(this.props.sessionStep.source)}&session=${encodeURIComponent(this.props.sessionStep.session)}${status ? `&state=${status}` : ''}`
+  onSeeErrors = () => {
+    const { project, sessionStep: { source, session } } = this.props
+    FiltersPaneHelper.updateURL(IngestDomain.RequestFilters.builder(source, session).withStatusError().build(), [],
+      `/admin/${project}/data/acquisition/oais/featureManager/requests`)
+  }
 
-  onSeeErrors = () => browserHistory.push(this.getIngestURL(IngestDomain.AIP_REQUEST_STATUS_ENUM.ERROR))
-
-  onSeeReferenced = () => browserHistory.push(`/admin/${this.props.project}/data/acquisition/oais/featureManager/aips?sessionOwner=${encodeURIComponent(this.props.sessionStep.source)}&session=${encodeURIComponent(this.props.sessionStep.session)}`)
+  onSeeReferenced = () => {
+    const { project, sessionStep: { source, session } } = this.props
+    FiltersPaneHelper.updateURL(IngestDomain.AipFilters.builder(source, session).build(), [],
+      `/admin/${project}/data/acquisition/oais/featureManager/aips`)
+  }
 
   onRetryErrors = () => {
-    const { relaunchAIP, sessionStep } = this.props
-    relaunchAIP({
-      source: sessionStep.source,
-      session: sessionStep.session,
-    })
+    const { relaunchAIP, sessionStep: { source, session } } = this.props
+    relaunchAIP(IngestDomain.RequestFilters.builder(source, session).withStatusError().build())
   }
 
   toggleRetryErrorsDialog = () => {

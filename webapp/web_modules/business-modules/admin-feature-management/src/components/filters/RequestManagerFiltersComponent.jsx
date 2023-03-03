@@ -27,7 +27,6 @@ import {
 } from '@regardsoss/components'
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
-import { FILTER_PARAMS, REQUESTS_DEFAULT_FILTERS_STATE } from '../../domain/filters'
 
 /**
   * Feature manager filters component.
@@ -62,22 +61,22 @@ export class RequestManagerFiltersComponent extends React.Component {
         updateValuesFilter={updateValuesFilter}
       >
         <FilterPaneDatePickerField
-          filterKey={FILTER_PARAMS.LAST_UPDATE}
+          filterKey={FemDomain.REQUEST_FILTER_PARAMS.LAST_UPDATE}
           multiline
           displayTime
         />
         <FilterPaneAutoCompleteField
-          filterKey={FILTER_PARAMS.SOURCE}
+          filterKey={FemDomain.REQUEST_FILTER_PARAMS.SOURCE}
           arrayActions={searchSourcesActions}
           arraySelectors={searchSourcesSelectors}
         />
         <FilterPaneAutoCompleteField
-          filterKey={FILTER_PARAMS.SESSION}
+          filterKey={FemDomain.REQUEST_FILTER_PARAMS.SESSION}
           arrayActions={searchSessionsActions}
           arraySelectors={searchSessionsSelectors}
         />
-        <FilterPaneTextFieldValues filterKey={FILTER_PARAMS.PROVIDER_IDS} matchMode={CommonDomain.MATCH_MODE_ENUM.CONTAINS} />
-        <FilterPaneSelectField filterKey={FILTER_PARAMS.STATE}>
+        <FilterPaneTextFieldValues filterKey={FemDomain.REQUEST_FILTER_PARAMS.PROVIDER_IDS} matchMode={CommonDomain.MATCH_MODE_ENUM.CONTAINS} />
+        <FilterPaneSelectField filterKey={FemDomain.REQUEST_FILTER_PARAMS.STATE}>
           {FemDomain.REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `feature.list.filters.state.${status}` })} />)}
         </FilterPaneSelectField>
       </FiltersPaneMainComponent>
@@ -85,4 +84,4 @@ export class RequestManagerFiltersComponent extends React.Component {
   }
 }
 
-export default withFiltersPane(REQUESTS_DEFAULT_FILTERS_STATE)(RequestManagerFiltersComponent)
+export default withFiltersPane(FemDomain.RequestFilters.buildDefault())(RequestManagerFiltersComponent)

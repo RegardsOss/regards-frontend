@@ -30,7 +30,7 @@ export default class SessionsRelaunchAIPActions extends BasicSignalActions {
    * Send license updated notification accepted licenses
    * @param project project
    */
-  relaunchProducts(sessionOwner, session) {
-    return this.sendSignal('POST', { sessionOwner, session })
+  relaunchProducts(payload) {
+    return this.sendSignal('POST', payload)
   }
 }

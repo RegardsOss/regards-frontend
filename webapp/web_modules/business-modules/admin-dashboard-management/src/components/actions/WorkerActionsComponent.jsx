@@ -17,13 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import { browserHistory } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
-import { ConfirmDialogComponent, ConfirmDialogComponentTypes, TableSelectionModes } from '@regardsoss/components'
+import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
-import { WorkerDomain, CommonDomain } from '@regardsoss/domain'
+import { WorkerDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { FiltersPaneHelper } from '@regardsoss/domain/ui'
 import { ICON_TYPE_ENUM } from '../../domain/iconType'
 
 /**
@@ -45,18 +45,16 @@ class WorkerActionsComponent extends React.Component {
     isRetryErrorsDialogOpen: false,
   }
 
-  getWorkerURL = (status) => `/admin/${this.props.project}/data/acquisition/datapreparation/requests?${WorkerDomain.FILTER_PARAMS_ENUM.SOURCE}=${encodeURIComponent(this.props.sessionStep.source)}&${WorkerDomain.FILTER_PARAMS_ENUM.SESSION}=${encodeURIComponent(this.props.sessionStep.session)}&${WorkerDomain.FILTER_PARAMS_ENUM.STATUSES}=${status}`
-
-  onSeeErrors = () => browserHistory.push(this.getWorkerURL(WorkerDomain.REQUEST_STATUS_ENUM.ERROR))
+  onSeeErrors = () => {
+    const { project, sessionStep: { session, source } } = this.props
+    const queryParameters = WorkerDomain.RequestFilters.builder(session, source).withStatusError().build()
+    FiltersPaneHelper.updateURL(queryParameters, [], `/admin/${project}/data/acquisition/datapreparation/requests`)
+  }
 
   onRetryErrors = () => {
-    const { retryWorkerRequests } = this.props
-    return retryWorkerRequests({
-      [WorkerDomain.FILTER_PARAMS_ENUM.STATUSES]: {
-        [CommonDomain.REQUEST_PARAMETERS.VALUES]: [WorkerDomain.REQUEST_STATUS_ENUM.ERROR],
-        [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
-      },
-    })
+    const { retryWorkerRequests, sessionStep: { session, source } } = this.props
+    const queryParameters = WorkerDomain.RequestFilters.builder(session, source).withStatusError().build()
+    return retryWorkerRequests(queryParameters)
   }
 
   toggleRetryErrorsDialog = () => {

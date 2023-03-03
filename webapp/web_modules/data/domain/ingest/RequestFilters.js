@@ -16,31 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
 import { TableSelectionModes } from '@regardsoss/components'
-import { REQUEST_STATUS_ENUM, ERROR_STATUSES } from './RequestStatus'
 import { REQUEST_PARAMETERS, TableFilterDefaultStateEnum } from '../common'
-/**
-  * Filters definitions
-  * @author Théo Lasserre
-  */
+import { AIP_REQUEST_STATUS_ENUM } from './AIPRequestStatusEnum'
 
 /**
-  * Possible filters parameters
-  * values are properties names sent to backend (ex: dispatchedWorkerType)
-  */
-export const FILTER_PARAMS_ENUM = {
-  SOURCE: 'source',
+ * @author Sébastien Binda
+ */
+
+/** Possible filter params */
+export const REQUEST_FILTER_PARAMS = {
+  REQUEST_IDS: 'requestIds',
+  PROVIDER_IDS: 'providerIds',
+  SOURCE: 'sessionOwner',
   SESSION: 'session',
-  WORKER_TYPE: 'dispatchedWorkerType',
-  CONTENT_TYPES: 'contentTypes',
-  STATUSES: 'statuses',
   CREATION_DATE: 'creationDate',
-  IDS: 'ids',
+  REQUEST_STATE: 'requestStates',
+  REQUEST_TYPE: 'requestTypes',
 }
 
 /**
- * Class to construct WorkerManager request search body parameters
+ * Class to construct Ingest request search body parameters
  */
 export class RequestFilters {
   constructor() {
@@ -52,25 +48,21 @@ export class RequestFilters {
   }
 
   withSession(session) {
-    this.filters[FILTER_PARAMS_ENUM.SESSION] = session
+    this.filters[REQUEST_FILTER_PARAMS.SESSION] = session
     return this
   }
 
   withSource(source) {
-    this.filters[FILTER_PARAMS_ENUM.SESSION] = source
+    this.filters[REQUEST_FILTER_PARAMS.SOURCE] = source
     return this
   }
 
   withStatusError() {
-    return this.withStatusIncluded(REQUEST_STATUS_ENUM.ERROR)
-  }
-
-  withAllStautsError() {
-    return this.withStatusesIncluded(ERROR_STATUSES)
+    return this.withStatusIncluded(AIP_REQUEST_STATUS_ENUM.ERROR)
   }
 
   withStatusIncluded(status) {
-    this.filters[FILTER_PARAMS_ENUM.STATUSES] = {
+    this.filters[REQUEST_FILTER_PARAMS.REQUEST_STATE] = {
       [REQUEST_PARAMETERS.VALUES]: [status],
       [REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
     }
@@ -78,7 +70,7 @@ export class RequestFilters {
   }
 
   withStatusesIncluded(statuses) {
-    this.filters[FILTER_PARAMS_ENUM.STATUSES] = {
+    this.filters[REQUEST_FILTER_PARAMS.AIP_STATE] = {
       [REQUEST_PARAMETERS.VALUES]: statuses || [],
       [REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
     }
@@ -90,15 +82,13 @@ export class RequestFilters {
   }
 
   static buildDefault() {
-    return {
-      [FILTER_PARAMS_ENUM.SOURCE]: '',
-      [FILTER_PARAMS_ENUM.SESSION]: '',
-      [FILTER_PARAMS_ENUM.WORKER_TYPE]: '',
-      [FILTER_PARAMS_ENUM.CONTENT_TYPES]: TableFilterDefaultStateEnum.VALUES,
-      [FILTER_PARAMS_ENUM.STATUSES]: TableFilterDefaultStateEnum.VALUES,
-      [FILTER_PARAMS_ENUM.CREATION_DATE]: TableFilterDefaultStateEnum.DATES,
-    }
+    const defaultFilters = {}
+    defaultFilters[REQUEST_FILTER_PARAMS.SOURCE] = ''
+    defaultFilters[REQUEST_FILTER_PARAMS.SESSION] = ''
+    defaultFilters[REQUEST_FILTER_PARAMS.PROVIDER_IDS] = TableFilterDefaultStateEnum.VALUES
+    defaultFilters[REQUEST_FILTER_PARAMS.CREATION_DATE] = TableFilterDefaultStateEnum.DATES
+    defaultFilters[REQUEST_FILTER_PARAMS.REQUEST_TYPE] = TableFilterDefaultStateEnum.VALUES
+    defaultFilters[REQUEST_FILTER_PARAMS.REQUEST_STATE] = TableFilterDefaultStateEnum.VALUES
+    return defaultFilters
   }
 }
-
-export const FILTER_PARAMS = values(FILTER_PARAMS_ENUM)

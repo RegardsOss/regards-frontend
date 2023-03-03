@@ -19,12 +19,11 @@
 import { connect } from '@regardsoss/redux'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, IngestDomain } from '@regardsoss/domain'
 import { TableSelectionModes } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'
 import ActionHistory from 'mdi-material-ui/History'
 import { filtersActions } from '../../clients/FiltersClient'
-import { AIP_FILTER_PARAMS } from '../../domain/filters'
 /**
 * Detail option cell for the infinite table used to display the contents of an aip
  * @author Simon MILHAU
@@ -54,7 +53,7 @@ class AIPHistoryOptionContainer extends React.Component {
   onClick = () => {
     const { updateFiltersStore, entity } = this.props
     updateFiltersStore({
-      [AIP_FILTER_PARAMS.PROVIDER_IDS]: {
+      [IngestDomain.AIP_FILTER_PARAMS.PROVIDER_IDS]: {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: [entity.content.providerId],
         [CommonDomain.REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
       },

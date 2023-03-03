@@ -19,12 +19,12 @@
 import reduce from 'lodash/reduce'
 import get from 'lodash/get'
 import RaisedButton from 'material-ui/RaisedButton'
-import { browserHistory } from 'react-router'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { FemDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { FiltersPaneHelper } from '@regardsoss/domain/ui'
 import { ICON_TYPE_ENUM } from '../../domain/iconType'
 
 /**
@@ -47,28 +47,22 @@ class FEMActionsComponent extends React.Component {
   }
 
   onSeeErrors = () => {
-    const { project, sessionStep } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.CREATION}?source=${encodeURIComponent(sessionStep.source)}&session=${encodeURIComponent(sessionStep.session)}&state=${FemDomain.REQUEST_STATUS_ENUM.ERROR}`)
+    const { project, sessionStep: { source, session } } = this.props
+    FiltersPaneHelper.updateURL(FemDomain.RequestFilters.builder(source, session).withStatusError().build(), [],
+      `/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.CREATION}`)
   }
 
   onSeeReferenced = () => {
-    const { project, sessionStep } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor?source=${encodeURIComponent(sessionStep.source)}&session=${encodeURIComponent(sessionStep.session)}`)
+    const { project, sessionStep: { source, session } } = this.props
+    FiltersPaneHelper.updateURL(FemDomain.ReferenceFilters.builder(source, session).build(), [],
+      `/admin/${project}/data/acquisition/featuremanager/monitor`)
   }
 
   onRetryErrors = () => {
-    const { sessionStep, retryFEMRequests } = this.props
+    const { sessionStep: { source, session }, retryFEMRequests } = this.props
     const tasks = reduce(FemDomain.REQUEST_TYPES, (acc, reqType) => {
-      if (reqType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES
-        && reqType !== FemDomain.REQUEST_TYPES_ENUM.EXTRACTION) {
-        acc.push(retryFEMRequests({
-          filters: {
-            session: sessionStep.session,
-            source: sessionStep.source,
-          },
-          requestIdSelectionMode: 'EXCLUDE',
-          requestIds: [],
-        }, reqType))
+      if (reqType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES) {
+        acc.push(retryFEMRequests(FemDomain.RequestFilters.builder(source, session).withStatusError().build(), reqType))
       }
       return acc
     }, [])

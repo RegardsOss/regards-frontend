@@ -26,57 +26,29 @@ import { VERSION_OPTIONS } from './versionOptions'
  */
 
 /**
- * Possible filters parameters
- * values are properties names sent to backend
- */
-export const AIP_FILTER_PARAMS = {
-  AIP_STATE: 'aipStates',
-  AIP_IP_TYPE: 'aipIpTypes',
-  LAST_UPDATE: 'lastUpdate',
-  PROVIDER_IDS: 'providerIds',
-  SOURCE: 'sessionOwner',
-  SESSION: 'session',
-  STORAGES: 'storages',
-  CATEGORIES: 'categories',
-  TAGS: 'tags',
-  LAST: 'last',
-  AIP_IDS: 'aipIds',
-}
-
-export const REQUEST_FILTER_PARAMS = {
-  REQUEST_IDS: 'requestIds',
-  PROVIDER_IDS: 'providerIds',
-  SOURCE: 'sessionOwner',
-  SESSION: 'session',
-  CREATION_DATE: 'creationDate',
-  REQUEST_STATE: 'requestStates',
-  REQUEST_TYPE: 'requestTypes',
-}
-
-/**
  * AIP tab default form state used in filters pane
  */
 export const AIP_DEFAULT_FILTERS_STATE = {
-  [AIP_FILTER_PARAMS.SOURCE]: '',
-  [AIP_FILTER_PARAMS.SESSION]: '',
-  [AIP_FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  [AIP_FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-  [AIP_FILTER_PARAMS.AIP_IP_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  [AIP_FILTER_PARAMS.AIP_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  [AIP_FILTER_PARAMS.STORAGES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  [AIP_FILTER_PARAMS.LAST]: null,
+  [IngestDomain.AIP_FILTER_PARAMS.SOURCE]: '',
+  [IngestDomain.AIP_FILTER_PARAMS.SESSION]: '',
+  [IngestDomain.AIP_FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [IngestDomain.AIP_FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+  [IngestDomain.AIP_FILTER_PARAMS.AIP_IP_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [IngestDomain.AIP_FILTER_PARAMS.AIP_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [IngestDomain.AIP_FILTER_PARAMS.STORAGES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [IngestDomain.AIP_FILTER_PARAMS.LAST]: null,
 }
 
 /**
    * Requests tab default form state used in filters pane
    */
 export const REQUESTS_DEFAULT_FILTERS_STATE = {
-  [REQUEST_FILTER_PARAMS.SOURCE]: '',
-  [REQUEST_FILTER_PARAMS.SESSION]: '',
-  [REQUEST_FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  [REQUEST_FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-  [REQUEST_FILTER_PARAMS.REQUEST_ID_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  [REQUEST_FILTER_PARAMS.REQUEST_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [IngestDomain.REQUEST_FILTER_PARAMS.SOURCE]: '',
+  [IngestDomain.REQUEST_FILTER_PARAMS.SESSION]: '',
+  [IngestDomain.REQUEST_FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [IngestDomain.REQUEST_FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
+  [IngestDomain.REQUEST_FILTER_PARAMS.REQUEST_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
+  [IngestDomain.REQUEST_FILTER_PARAMS.REQUEST_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
 }
 
 /**
@@ -85,7 +57,7 @@ export const REQUESTS_DEFAULT_FILTERS_STATE = {
  * (optional) chipValueKeys are the internationalized possible values of a SelectField type filter.
  */
 export const AIP_FILTERS_I18N = {
-  [AIP_FILTER_PARAMS.AIP_STATE]: {
+  [IngestDomain.AIP_FILTER_PARAMS.AIP_STATE]: {
     labelKey: 'oais.list.filters.aipState.label',
     hintTextKey: 'oais.list.filters.aipState.label',
     chipValueKeys: reduce(IngestDomain.AIP_STATUS, (acc, value) => ({
@@ -93,7 +65,7 @@ export const AIP_FILTERS_I18N = {
       [value]: `oais.list.filters.aipState.${value}`,
     }), {}),
   },
-  [AIP_FILTER_PARAMS.AIP_IP_TYPE]: {
+  [IngestDomain.AIP_FILTER_PARAMS.AIP_IP_TYPE]: {
     labelKey: 'oais.list.filters.aipIdType.label',
     hintTextKey: 'oais.list.filters.aipIdType.label',
     chipValueKeys: reduce(DamDomain.ENTITY_TYPES, (acc, value) => ({
@@ -101,27 +73,27 @@ export const AIP_FILTERS_I18N = {
       [value]: `oais.list.filters.aipIdType.${value}`,
     }), {}),
   },
-  [AIP_FILTER_PARAMS.LAST_UPDATE]: {
+  [IngestDomain.AIP_FILTER_PARAMS.LAST_UPDATE]: {
     labelKey: 'oais.list.filters.lastUpdate.label',
   },
-  [AIP_FILTER_PARAMS.PROVIDER_IDS]: {
+  [IngestDomain.AIP_FILTER_PARAMS.PROVIDER_IDS]: {
     labelKey: 'oais.list.filters.providerIds.label',
     hintTextKey: 'oais.list.filters.providerIds.label',
   },
-  [AIP_FILTER_PARAMS.SOURCE]: {
+  [IngestDomain.AIP_FILTER_PARAMS.SOURCE]: {
     labelKey: 'oais.list.filters.sessionOwner.label',
     hintTextKey: 'oais.list.filters.sessionOwner.label',
   },
-  [AIP_FILTER_PARAMS.SESSION]: {
+  [IngestDomain.AIP_FILTER_PARAMS.SESSION]: {
     labelKey: 'oais.list.filters.session.label',
     hintTextKey: 'oais.list.filters.session.label',
   },
-  [AIP_FILTER_PARAMS.STORAGES]: {
+  [IngestDomain.AIP_FILTER_PARAMS.STORAGES]: {
     labelKey: 'oais.list.filters.storages.label',
     hintTextKey: 'oais.list.filters.storages.label',
     // chipValueKeys is not needed since we display raw selected value
   },
-  [AIP_FILTER_PARAMS.LAST]: {
+  [IngestDomain.AIP_FILTER_PARAMS.LAST]: {
     labelKey: 'oais.list.filters.last.label',
     chipValueKeys: reduce(VERSION_OPTIONS, (acc, value) => ({
       ...acc,
@@ -135,22 +107,22 @@ export const AIP_FILTERS_I18N = {
  * (optional) chipValueKeys are the internationalized possible values of a SelectField type filter.
  */
 export const REQUEST_FILTERS_I18N = {
-  [REQUEST_FILTER_PARAMS.PROVIDER_IDS]: {
+  [IngestDomain.REQUEST_FILTER_PARAMS.PROVIDER_IDS]: {
     labelKey: 'oais.list.filters.providerIds.label',
     hintTextKey: 'oais.list.filters.providerIds.label',
   },
-  [REQUEST_FILTER_PARAMS.CREATION_DATE]: {
+  [IngestDomain.REQUEST_FILTER_PARAMS.CREATION_DATE]: {
     labelKey: 'oais.requests.list.filters.creationDate.label',
   },
-  [REQUEST_FILTER_PARAMS.SOURCE]: {
+  [IngestDomain.REQUEST_FILTER_PARAMS.SOURCE]: {
     labelKey: 'oais.list.filters.sessionOwner.label',
     hintTextKey: 'oais.list.filters.sessionOwner.label',
   },
-  [REQUEST_FILTER_PARAMS.SESSION]: {
+  [IngestDomain.REQUEST_FILTER_PARAMS.SESSION]: {
     labelKey: 'oais.list.filters.session.label',
     hintTextKey: 'oais.list.filters.session.label',
   },
-  [REQUEST_FILTER_PARAMS.REQUEST_TYPE]: {
+  [IngestDomain.REQUEST_FILTER_PARAMS.REQUEST_TYPE]: {
     labelKey: 'oais.requests.list.filters.requestType.label',
     hintTextKey: 'oais.requests.list.filters.requestType.label',
     chipValueKeys: reduce(IngestDomain.AIP_REQUEST_TYPES, (acc, value) => ({
@@ -158,7 +130,7 @@ export const REQUEST_FILTERS_I18N = {
       [value]: `oais.requests.list.filters.requestType.${value}`,
     }), {}),
   },
-  [REQUEST_FILTER_PARAMS.REQUEST_STATE]: {
+  [IngestDomain.REQUEST_FILTER_PARAMS.REQUEST_STATE]: {
     labelKey: 'oais.list.filters.requestState.label',
     hintTextKey: 'oais.list.filters.requestState.label',
     chipValueKeys: reduce(IngestDomain.AIP_REQUEST_STATUS, (acc, value) => ({

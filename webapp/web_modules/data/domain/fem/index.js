@@ -19,3 +19,5 @@
 
 export { REQUEST_STATUS, REQUEST_STATUS_ENUM } from './RequestStatusEnum'
 export { REQUEST_TYPES_ENUM, REQUEST_TYPES } from './RequestType'
+export { REQUEST_FILTER_PARAMS, RequestFilters } from './RequestFilters'
+export { REFERENCE_FILTER_PARAMS, ReferenceFilters } from './ReferenceFilters'

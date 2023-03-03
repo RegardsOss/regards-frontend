@@ -20,5 +20,5 @@
 /**
  * @author Théo Lasserre
  */
-export { REQUEST_STATUS_ENUM, REQUEST_STATUS } from './RequestStatus'
-export { FILTER_PARAMS, FILTER_PARAMS_ENUM } from './RequestFilters'
+export { REQUEST_STATUS_ENUM, REQUEST_STATUS, ERROR_STATUSES } from './RequestStatus'
+export { RequestFilters, FILTER_PARAMS, FILTER_PARAMS_ENUM } from './RequestFilters'

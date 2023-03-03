@@ -28,7 +28,6 @@ import {
 } from '@regardsoss/components'
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
-import { REQUEST_FILTER_PARAMS } from '../../domain/filters'
 
 /**
   * Requests Feature manager filters component.
@@ -52,14 +51,7 @@ export class RequestsFiltersComponent extends React.Component {
   /**
    * Requests tab default form state used in filters pane
    */
-  static DEFAULT_FILTERS_STATE = {
-    [REQUEST_FILTER_PARAMS.SOURCE]: '',
-    [REQUEST_FILTER_PARAMS.SESSION]: '',
-    [REQUEST_FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [REQUEST_FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-    [REQUEST_FILTER_PARAMS.REQUEST_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [REQUEST_FILTER_PARAMS.REQUEST_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  }
+  static DEFAULT_FILTERS_STATE = IngestDomain.RequestFilters.buildDefault()
 
   render() {
     const { intl: { formatMessage } } = this.context
@@ -75,34 +67,34 @@ export class RequestsFiltersComponent extends React.Component {
         updateValuesFilter={updateValuesFilter}
       >
         <FilterPaneDatePickerField
-          filterKey={REQUEST_FILTER_PARAMS.CREATION_DATE}
+          filterKey={IngestDomain.REQUEST_FILTER_PARAMS.CREATION_DATE}
           multiline
           displayTime
         />
         <FilterPaneAutoCompleteField
-          filterKey={REQUEST_FILTER_PARAMS.SOURCE}
+          filterKey={IngestDomain.REQUEST_FILTER_PARAMS.SOURCE}
           arrayActions={searchSourcesActions}
           arraySelectors={searchSourcesSelectors}
         />
         <FilterPaneAutoCompleteField
-          filterKey={REQUEST_FILTER_PARAMS.SESSION}
+          filterKey={IngestDomain.REQUEST_FILTER_PARAMS.SESSION}
           arrayActions={searchSessionsActions}
           arraySelectors={searchSessionsSelectors}
         />
         <FilterPaneTextFieldValues
-          filterKey={REQUEST_FILTER_PARAMS.PROVIDER_IDS}
+          filterKey={IngestDomain.REQUEST_FILTER_PARAMS.PROVIDER_IDS}
           title={formatMessage({ id: 'oais.packages.tooltip.providerId' })}
           matchMode={CommonDomain.MATCH_MODE_ENUM.CONTAINS}
         />
         <FilterPaneSelectField
-          filterKey={REQUEST_FILTER_PARAMS.REQUEST_TYPE}
+          filterKey={IngestDomain.REQUEST_FILTER_PARAMS.REQUEST_TYPE}
           title={formatMessage({ id: 'oais.packages.tooltip.type' })}
 
         >
           {map(IngestDomain.AIP_REQUEST_TYPES, (type) => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.requests.list.filters.requestType.${type}` })} />)}
         </FilterPaneSelectField>
         <FilterPaneSelectField
-          filterKey={REQUEST_FILTER_PARAMS.REQUEST_STATE}
+          filterKey={IngestDomain.REQUEST_FILTER_PARAMS.REQUEST_STATE}
           title={formatMessage({ id: 'oais.packages.tooltip.type' })}
         >
           {map(IngestDomain.AIP_REQUEST_STATUS, (state) => <MenuItem key={state} value={state} primaryText={formatMessage({ id: `oais.list.filters.requestState.${state}` })} />)}

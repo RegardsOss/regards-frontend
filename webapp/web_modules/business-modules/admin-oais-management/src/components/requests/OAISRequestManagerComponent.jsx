@@ -41,7 +41,6 @@ import HeaderActionsBarContainer from '../../containers/HeaderActionsBarContaine
 import AbortAllRequestsDialog from './AbortAllRequestsDialog'
 import { DIALOG_TYPES } from '../../domain/dialogTypes'
 import clientByPane from '../../domain/ClientByPane'
-import { REQUEST_FILTER_PARAMS } from '../../domain/filters'
 import messages from '../../i18n'
 import styles from '../../styles'
 
@@ -200,7 +199,7 @@ export class OAISRequestManagerComponent extends React.Component {
     this.onCloseActionDialog(dialogRequestType)
     return {
       ...bodyParameters,
-      [REQUEST_FILTER_PARAMS.REQUEST_IDS]: {
+      [IngestDomain.REQUEST_FILTER_PARAMS.REQUEST_IDS]: {
         [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => get(e, 'content.id', '')),
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
       },

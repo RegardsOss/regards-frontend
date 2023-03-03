@@ -20,7 +20,7 @@ import map from 'lodash/map'
 import get from 'lodash/get'
 import NoContentIcon from 'mdi-material-ui/CropFree'
 import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
-import { FemDomain, CommonDomain } from '@regardsoss/domain'
+import { FemDomain } from '@regardsoss/domain'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableSelectionModes, DateValueRender, NoContentComponent, TableHeaderLine,
@@ -40,7 +40,6 @@ import DeleteDialog from './options/DeleteDialog'
 import ReferenceNotifyDialog from './options/ReferenceNotifyDialog'
 import ReferenceNotifyOption from './options/ReferenceNotifyOption'
 import { DIALOG_TYPES } from '../domain/dialogTypes'
-import { FILTER_PARAMS } from '../domain/filters'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -174,13 +173,12 @@ export class ReferencesManagerComponent extends React.Component {
   onConfirmActionDialog = (dialogRequestType) => {
     const { bodyParameters } = this.props
     const { entities, mode } = this.state[dialogRequestType]
+    const referenceIds = map(entities, (e) => get(e, 'content.id', ''))
+    const filterMode = mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE
     this.onCloseActionDialog(dialogRequestType)
     return {
       ...bodyParameters,
-      [FILTER_PARAMS.IDS]: {
-        [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => get(e, 'content.id', '')),
-        [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
-      },
+      ...FemDomain.ReferenceFilters.builder().withReferenceIds(referenceIds, filterMode).build(),
     }
   }
 

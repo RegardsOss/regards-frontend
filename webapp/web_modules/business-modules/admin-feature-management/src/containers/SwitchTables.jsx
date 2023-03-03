@@ -35,7 +35,6 @@ import { creationRequestActions, creationRequestSelectors } from '../clients/Cre
 import { deleteRequestActions, deleteRequestSelectors } from '../clients/DeleteRequestsClient'
 import { notificationRequestActions, notificationRequestSelectors } from '../clients/NotificationRequestsClient'
 import { updateRequestActions, updateRequestSelectors } from '../clients/UpdateRequestsClient'
-import { REFERENCES_DEFAULT_FILTERS_STATE, REQUESTS_DEFAULT_FILTERS_STATE } from '../domain/filters'
 import { REFERENCES_COLUMN_KEYS } from '../components/ReferencesManagerComponent'
 import { REQUESTS_COLUMN_KEYS } from '../components/RequestManagerComponent'
 
@@ -171,12 +170,12 @@ export class SwitchTables extends React.Component {
       const bodyParameters = { ...omit(featureManagerFilters, 'sort') }
 
       if (!isReferencesFetching) {
-        const referencesBodyParameters = this.buildBodyParameters(bodyParameters, REFERENCES_DEFAULT_FILTERS_STATE)
+        const referencesBodyParameters = this.buildBodyParameters(bodyParameters, FemDomain.ReferenceFilters.buildDefault())
         const referencesRequestParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REFERENCES_COLUMN_KEYS)
         fetchReferences(0, SwitchTables.PAGE_SIZE, {}, referencesRequestParameters, referencesBodyParameters)
       }
 
-      const requestsBodyParameters = this.buildBodyParameters(bodyParameters, REQUESTS_DEFAULT_FILTERS_STATE)
+      const requestsBodyParameters = this.buildBodyParameters(bodyParameters, FemDomain.RequestFilters.buildDefault())
       const requestsRequestsParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REQUESTS_COLUMN_KEYS)
       if (!isCreationFetching) {
         fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, requestsRequestsParameters, requestsBodyParameters)

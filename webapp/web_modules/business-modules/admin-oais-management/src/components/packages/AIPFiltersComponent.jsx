@@ -30,7 +30,6 @@ import {
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
 import { VERSION_OPTIONS } from '../../domain/versionOptions'
-import { AIP_FILTER_PARAMS } from '../../domain/filters'
 
 /**
  * AIP Feature manager filters component.
@@ -55,16 +54,7 @@ export class AIPFiltersComponent extends React.Component {
   /**
    * AIP tab default form state used in filters pane
    */
-  static DEFAULT_FILTERS_STATE = {
-    [AIP_FILTER_PARAMS.SOURCE]: '',
-    [AIP_FILTER_PARAMS.SESSION]: '',
-    [AIP_FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [AIP_FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-    [AIP_FILTER_PARAMS.AIP_IP_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [AIP_FILTER_PARAMS.AIP_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [AIP_FILTER_PARAMS.STORAGES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [AIP_FILTER_PARAMS.LAST]: null,
-  }
+  static DEFAULT_FILTERS_STATE = IngestDomain.AipFilters.buildDefault()
 
   render() {
     const { intl: { formatMessage } } = this.context
@@ -81,46 +71,46 @@ export class AIPFiltersComponent extends React.Component {
         filtersI18n={filtersI18n}
       >
         <FilterPaneDatePickerField
-          filterKey={AIP_FILTER_PARAMS.LAST_UPDATE}
+          filterKey={IngestDomain.AIP_FILTER_PARAMS.LAST_UPDATE}
           multiline
           displayTime
         />
         <FilterPaneAutoCompleteField
-          filterKey={AIP_FILTER_PARAMS.SOURCE}
+          filterKey={IngestDomain.AIP_FILTER_PARAMS.SOURCE}
           arrayActions={searchSourcesActions}
           arraySelectors={searchSourcesSelectors}
         />
         <FilterPaneAutoCompleteField
-          filterKey={AIP_FILTER_PARAMS.SESSION}
+          filterKey={IngestDomain.AIP_FILTER_PARAMS.SESSION}
           arrayActions={searchSessionsActions}
           arraySelectors={searchSessionsSelectors}
         />
         <FilterPaneTextFieldValues
-          filterKey={AIP_FILTER_PARAMS.PROVIDER_IDS}
+          filterKey={IngestDomain.AIP_FILTER_PARAMS.PROVIDER_IDS}
           title={formatMessage({ id: 'oais.packages.tooltip.providerId' })}
           matchMode={CommonDomain.MATCH_MODE_ENUM.CONTAINS}
         />
         <FilterPaneSelectField
-          filterKey={AIP_FILTER_PARAMS.AIP_IP_TYPE}
+          filterKey={IngestDomain.AIP_FILTER_PARAMS.AIP_IP_TYPE}
           title={formatMessage({ id: 'oais.packages.tooltip.type' })}
         >
           {map(DamDomain.ENTITY_TYPES, (type) => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.list.filters.aipIdType.${type}` })} />)}
         </FilterPaneSelectField>
         <FilterPaneSelectField
-          filterKey={AIP_FILTER_PARAMS.AIP_STATE}
+          filterKey={IngestDomain.AIP_FILTER_PARAMS.AIP_STATE}
           title={formatMessage({ id: 'oais.packages.tooltip.state' })}
         >
           {map(IngestDomain.AIP_STATUS, (state) => <MenuItem key={state} value={state} primaryText={formatMessage({ id: `oais.list.filters.aipState.${state}` })} />)}
         </FilterPaneSelectField>
         <FilterPaneSelectField
-          filterKey={AIP_FILTER_PARAMS.STORAGES}
+          filterKey={IngestDomain.AIP_FILTER_PARAMS.STORAGES}
           disabled={isEmpty(storages)}
           title={formatMessage({ id: 'oais.packages.tooltip.storage' })}
         >
           {map(storages, (storage) => <MenuItem key={storage} value={storage} primaryText={storage} />)}
         </FilterPaneSelectField>
         <FilterPaneSelectFieldLegacy
-          filterKey={AIP_FILTER_PARAMS.LAST}
+          filterKey={IngestDomain.AIP_FILTER_PARAMS.LAST}
           allValuesOption
           title={formatMessage({ id: 'oais.packages.tooltip.version' })}
         >
