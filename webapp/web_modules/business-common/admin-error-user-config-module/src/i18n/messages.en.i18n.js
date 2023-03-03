@@ -24,7 +24,7 @@ const messages = {
   'error.message.module.subtitle.one': 'We list here the non-searchable attributes used in the \'search-result\' and \'search-graph\' modules of the project.',
   'error.message.module.subtitle.two': 'Two solutions allow you to solve this configuration problem(s) : either you make the attribute searchable from the attribute editing form, or you remove this attribute from the configuration of the module.',
   'error.message.module.subtitle.three': 'Any modification of the searchable part of an attribute on REGARDS must be followed by a reinitialization of the index so that these changes are taken into account by ElasticSearch.',
-  'error.message.module.subtitle.four': 'We also list all configurations that use inside Search tab some INTEGER or LONG attributes. They must not use them.',
+  'error.message.module.subtitle.four': 'We also list all configurations that use inside Filters all INTEGER or LONG attributes. You must not use them.',
   'error.message.module.name': 'Module [{value}] has the following errors :',
   'error.message.module.filters': 'Filters tab : using following attributes even though they are not searchable : [{values}]',
   'error.message.module.criteriaGroup.title': 'Search tab :',
