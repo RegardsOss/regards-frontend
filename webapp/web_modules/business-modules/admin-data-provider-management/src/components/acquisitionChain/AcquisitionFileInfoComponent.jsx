@@ -18,6 +18,8 @@
  **/
 import last from 'lodash/last'
 import split from 'lodash/split'
+import some from 'lodash/some'
+import reduce from 'lodash/reduce'
 import AutoComplete from 'material-ui/AutoComplete'
 import {
   Field, RenderTextField, RenderAutoCompleteField,
@@ -53,16 +55,32 @@ export class AcquisitionFileInfoComponent extends React.Component {
     ...themeContextType,
   }
 
+  /**
+   * Build the list of proposition with the mime type inside the proposition to help the user to pick it
+   * Only keep one time the same mime type
+   */
+  static mimeTypesPropositions = reduce(mimeTypesDefinitions, (acc, value, key) => {
+    const { label, mime } = value
+    if (!some(acc, { mime })) {
+      return acc.concat({
+        label: `${label} (${mime})`,
+        mime,
+      })
+    }
+    return acc
+  }, [])
+
+  static autocompleteMimeTypeConfig = {
+    text: 'label',
+    value: 'mime',
+  }
+
   renderScanDirInfoLabel = (item) => item.scannedDirectory ? last(split(item.scannedDirectory, '/')) : 'New directory'
 
   render() {
     const { name } = this.props
     const { intl: { formatMessage } } = this.context
 
-    const mimeTypesConfig = {
-      text: 'label',
-      value: 'mime',
-    }
     const componentProps = { changeField: this.props.changeField }
     return [
       <Field
@@ -114,8 +132,8 @@ export class AcquisitionFileInfoComponent extends React.Component {
         component={RenderAutoCompleteField}
         hintText={formatMessage({ id: 'acquisition-chain.form.fileInfo.mimeType' })}
         floatingLabelText={formatMessage({ id: 'acquisition-chain.form.fileInfo.mimeType' })}
-        dataSource={mimeTypesDefinitions}
-        dataSourceConfig={mimeTypesConfig}
+        dataSource={AcquisitionFileInfoComponent.mimeTypesPropositions}
+        dataSourceConfig={AcquisitionFileInfoComponent.autocompleteMimeTypeConfig}
         filter={AutoComplete.caseInsensitiveFilter}
         validate={requiredMimeType}
       />,
