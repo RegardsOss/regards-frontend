@@ -47,8 +47,15 @@ export class RequestFilters {
     this.filters = {}
   }
 
-  static builder(source, session) {
-    return new RequestFilters().withSession(session).withSource(source)
+  static builder(source = null, session = null) {
+    const filters = new RequestFilters()
+    if (session) {
+      filters.withSession(session)
+    }
+    if (source) {
+      filters.withSource(source)
+    }
+    return filters
   }
 
   withSession(session) {

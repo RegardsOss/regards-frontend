@@ -48,8 +48,15 @@ export class AipFilters {
     this.filters = {}
   }
 
-  static builder(source, session) {
-    return new AipFilters().withSession(session).withSource(source)
+  static builder(source = null, session = null) {
+    const filters = new AipFilters()
+    if (source) {
+      filters.withSource(source)
+    }
+    if (session) {
+      filters.withSession(session)
+    }
+    return filters
   }
 
   withSession(session) {
