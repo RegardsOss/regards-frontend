@@ -22,13 +22,14 @@ import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import { WorkerDomain, CommonDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
   PageableInfiniteTableContainer,
   TableColumnBuilder, TableLayout, TableHeaderLine, TableHeaderOptionsArea,
   TableHeaderContentBox, TableHeaderLoadingComponent,
-  TableFilterSortingAndVisibilityContainer,
+  TableFilterSortingAndVisibilityContainer, CodeDisplayDialog,
   TableSelectionModes,
 } from '@regardsoss/components'
 import DIALOG_TYPES from '../domain/dialogTypes'
@@ -36,7 +37,6 @@ import DeleteRequestComponent from './options/DeleteRequestComponent'
 import RetryRequestComponent from './options/RetryRequestComponent'
 import HeaderActionsBarContainer from '../containers/HeaderActionsBarContainer'
 import StatusRender from './render/StatusRender'
-import ErrorDetailsDialog from './dialogs/ErrorDetailsDialog'
 import { requestActions, requestSelectors } from '../clients/WorkerRequestClient'
 import { tableActions, tableSelectors } from '../clients/TableClient'
 
@@ -185,8 +185,10 @@ class DataPreparationTableComponent extends React.Component {
           title = formatMessage({ id: 'datapreparation.table.actions.delete.title' })
           break
         case DIALOG_TYPES.ERRORS_DIALOG:
-          return <ErrorDetailsDialog
-            entity={this.state[dialogType].entities[0]}
+          return <CodeDisplayDialog
+            displayedContent={get(this.state[dialogType].entities[0], 'content.error', '')}
+            title={formatMessage({ id: 'datapreparation.dialogs.errors.title' })}
+            contentType={MIME_TYPES.JSON_MIME_TYPE}
             onClose={() => this.onCloseActionDialog(dialogType)}
           />
         default:

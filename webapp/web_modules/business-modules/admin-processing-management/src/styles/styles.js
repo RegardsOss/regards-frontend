@@ -35,9 +35,6 @@ export default (theme) => ({
     selectUserRoleFieldDiv: {
       paddingLeft: '24px',
     },
-    selectUserRoleField: {
-
-    },
     helpUserRoleIcon: {
       paddingTop: '24px',
       paddingLeft: '12px',

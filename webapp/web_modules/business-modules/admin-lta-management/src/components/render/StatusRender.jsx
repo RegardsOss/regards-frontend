@@ -46,7 +46,7 @@ export class StatusRender extends React.Component {
       <StringValueRender value={formatMessage({ id: `lta.table.column.status.${status}` })} />
       {
         !isEmpty(message)
-          ? <IconButton onClick={() => onViewMessage([this.props.entity])}>
+          ? <IconButton onClick={() => onViewMessage(this.props.entity)}>
             <AlertError />
           </IconButton>
           : null

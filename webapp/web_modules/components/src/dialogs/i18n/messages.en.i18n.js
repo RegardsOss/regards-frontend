@@ -28,6 +28,8 @@ const messages = {
   'browser.check.fail.browser.too.older.message': 'Your web browser version is too old, some functionalities may not be correctly working.',
   'browser.check.fail.close': 'Close',
   'browser.check.fail.do.not.show.again': 'do not show again',
+  'code.display.dialog.close': 'Close',
+  'code.display.dialog.no.data': 'No data found',
 }
 
 export default messages

@@ -28,6 +28,8 @@ const messages = {
   'browser.check.fail.browser.too.older.message': 'Certaines fonctionnalités du site peuvent ne pas fonctionner car la version de votre navigateur est trop ancienne',
   'browser.check.fail.close': 'Fermer',
   'browser.check.fail.do.not.show.again': 'Ne plus afficher',
+  'code.display.dialog.close': 'Fermer',
+  'code.display.dialog.no.data': 'Pas de données',
 }
 
 export default messages

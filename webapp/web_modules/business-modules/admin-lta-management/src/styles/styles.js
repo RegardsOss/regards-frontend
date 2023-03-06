@@ -27,10 +27,6 @@ const ltaManagementStyles = (theme) => ({
       alignItems: 'center',
     },
   },
-  dialogStyle: {
-    height: '300px',
-    width: '100%',
-  },
   filterButtonStyle: {
     backgroundColor: theme.palette.accent1Color,
   },

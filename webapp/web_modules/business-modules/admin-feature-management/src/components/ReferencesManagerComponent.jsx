@@ -25,24 +25,24 @@ import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableSelectionModes, DateValueRender, NoContentComponent, TableHeaderLine,
   TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
-  withSortTables,
+  withSortTables, CodeDisplayDialog,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 import { referencesActions, referencesSelectors } from '../clients/ReferencesClient'
-import messages from '../i18n'
-import styles from '../styles'
 import { referencesTableSelectors, referencesTableActions } from '../clients/ReferencesTableClient'
 import HeaderActionsBarContainer from '../containers/HeaderActionsBarContainer'
 import DisseminationTableCustomCellRender from './render/DisseminationTableCustomCellRender'
 import ReferenceDetailOption from './options/ReferenceDetailOption'
 import ReferenceDeleteOption from './options/ReferenceDeleteOption'
 import DeleteDialog from './options/DeleteDialog'
-import ReferenceDetailDialog from './options/ReferenceDetailDialog'
 import ReferenceNotifyDialog from './options/ReferenceNotifyDialog'
 import ReferenceNotifyOption from './options/ReferenceNotifyOption'
 import { DIALOG_TYPES } from '../domain/dialogTypes'
 import { FILTER_PARAMS } from '../domain/filters'
+import messages from '../i18n'
+import styles from '../styles'
 
 /**
 * Displays the list of references
@@ -200,13 +200,16 @@ export class ReferencesManagerComponent extends React.Component {
   }
 
   renderDialog = (dialogRequestType) => {
+    const { intl: { formatMessage } } = this.context
     const { open } = this.state[dialogRequestType]
     if (open) {
       let component = null
       switch (dialogRequestType) {
         case DIALOG_TYPES.DETAIL_DIALOG:
-          component = <ReferenceDetailDialog
-            reference={this.state[dialogRequestType].entities[0]}
+          component = <CodeDisplayDialog
+            displayedContent={this.state[dialogRequestType].entities[0]}
+            title={formatMessage({ id: 'feature.references.detail.title' })}
+            contentType={MIME_TYPES.JSON_MIME_TYPE}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
           />
           break

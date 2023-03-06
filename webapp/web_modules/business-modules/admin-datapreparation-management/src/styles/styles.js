@@ -27,12 +27,6 @@ const dataPreparationManagementStyles = (theme) => ({
       alignItems: 'center',
     },
   },
-  dialogsStyle: {
-    errorDetailsStyle: {
-      height: '300px',
-      width: '100%',
-    },
-  },
   settings: {
     settingDiv: {
       display: 'flex',

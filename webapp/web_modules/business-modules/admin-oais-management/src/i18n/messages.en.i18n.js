@@ -134,7 +134,6 @@ export default {
   'oais.requests.confirm.retry.close': 'Close',
   'oais.requests.confirm.retry.title': 'Retry the selected request',
   'oais.requests.confirm.retry.message': 'Do you want to retry the selected request',
-  'oais.request.details.button.close': 'Close',
   'oais.requests.empty.results': 'No requests found',
   'oais.requests.loading.results': 'Requests loading ...',
   'oais.requests.retry.title': 'Retry request',

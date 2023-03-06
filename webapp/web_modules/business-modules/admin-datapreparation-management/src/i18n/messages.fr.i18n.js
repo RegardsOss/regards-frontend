@@ -78,7 +78,6 @@ const messages = {
 
   // Dialogs
   'datapreparation.dialogs.errors.title': 'Erreurs',
-  'datapreparation.dialogs.close': 'Fermer',
 
   // Settings
   'datapreparation.settings.card.title': 'Paramètres du worker manager',

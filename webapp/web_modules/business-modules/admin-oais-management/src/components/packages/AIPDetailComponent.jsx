@@ -20,7 +20,7 @@ import { IngestShapes } from '@regardsoss/shape'
 import { MIME_TYPES } from '@regardsoss/mime-types'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CardActionsComponent, CodeFileDisplayer, PositionedDialog } from '@regardsoss/components'
+import { CodeDisplayDialog } from '@regardsoss/components'
 
 /**
  * Display a modal to show the AIP as a JSON
@@ -40,43 +40,15 @@ class AIPDetailComponent extends React.Component {
   }
 
   render() {
-    const { aip } = this.props
-    const {
-      intl: { formatMessage },
-      moduleTheme: {
-        oaisDetailDialog: {
-          widthPercent,
-          heightPercent,
-          dialogBodyStyle,
-          contentStyle,
-          actionsStyle,
-          jsonContentViewerStyle,
-        },
-      },
-    } = this.context
+    const { aip, onClose } = this.props
+    const { intl: { formatMessage } } = this.context
     return (
-      <PositionedDialog
-        dialogWidthPercent={widthPercent}
-        dialogHeightPercent={heightPercent}
-        bodyStyle={dialogBodyStyle}
+      <CodeDisplayDialog
+        displayedContent={aip}
         title={formatMessage({ id: 'oais.aips.list.aip-details.title' })}
-        modal
-        open
-      >
-        <div style={contentStyle}>
-          <CodeFileDisplayer
-            content={JSON.stringify(aip, null, '\t')}
-            contentType={MIME_TYPES.JSON_MIME_TYPE}
-            style={jsonContentViewerStyle}
-          />
-        </div>
-        <div style={actionsStyle}>
-          <CardActionsComponent
-            mainButtonLabel={formatMessage({ id: 'oais.packages.close' })}
-            mainButtonClick={this.props.onClose}
-          />
-        </div>
-      </PositionedDialog>
+        onClose={onClose}
+        contentType={MIME_TYPES.JSON_MIME_TYPE}
+      />
     )
   }
 }

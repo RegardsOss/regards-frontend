@@ -27,17 +27,16 @@ import {
   PageableInfiniteTableContainer,
   TableColumnBuilder, TableLayout, TableHeaderLine, TableHeaderOptionsArea,
   TableHeaderContentBox, TableHeaderLoadingComponent,
-  TableFilterSortingAndVisibilityContainer,
+  TableFilterSortingAndVisibilityContainer, CodeDisplayDialog,
   TableSelectionModes,
 } from '@regardsoss/components'
 import { CommonDomain } from '@regardsoss/domain'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 import DIALOG_TYPES from '../domain/dialogTypes'
 import ViewProductComponent from './options/ViewProductComponent'
 import DeleteRequestComponent from './options/DeleteRequestComponent'
 import HeaderActionsBarContainer from '../containers/HeaderActionsBarContainer'
 import StatusRender from './render/StatusRender'
-import ViewProductDialog from './dialog/ViewProductDialog'
-import ViewMessageDialog from './dialog/ViewMessageDialog'
 import { requestActions, requestSelectors } from '../clients/LTAClient'
 import { tableActions, tableSelectors } from '../clients/TableClient'
 import { FILTER_PARAMS } from '../domain/filters'
@@ -188,14 +187,18 @@ class LTAManagerTableComponent extends React.Component {
           />
           break
         case DIALOG_TYPES.VIEW_PRODUCT_DIALOG:
-          component = <ViewProductDialog
-            entity={this.state[DIALOG_TYPES.VIEW_PRODUCT_DIALOG].entities[0]}
+          component = <CodeDisplayDialog
+            displayedContent={get(this.state[DIALOG_TYPES.VIEW_PRODUCT_DIALOG].entities[0], 'content.product', '')}
+            title={formatMessage({ id: 'lta.table.actions.view.product.title' })}
+            contentType={MIME_TYPES.JSON_MIME_TYPE}
             onClose={() => this.onCloseActionDialog(dialogType)}
           />
           break
         case DIALOG_TYPES.VIEW_MESSAGE:
-          component = <ViewMessageDialog
-            entity={this.state[DIALOG_TYPES.VIEW_MESSAGE].entities[0]}
+          component = <CodeDisplayDialog
+            displayedContent={get(this.state[DIALOG_TYPES.VIEW_MESSAGE].entities[0], 'content.message', '')}
+            title={formatMessage({ id: 'lta.table.actions.view.message.tooltip' })}
+            contentType={MIME_TYPES.TEXT}
             onClose={() => this.onCloseActionDialog(dialogType)}
           />
           break

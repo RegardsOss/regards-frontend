@@ -43,7 +43,7 @@ import AIPPostRequestDialog from './AIPPostRequestDialog'
 import AIPTypeRender from './AIPTypeRender'
 import AIPStatusRender from './AIPStatusRender'
 import { DIALOG_TYPES } from '../../domain/dialogTypes'
-import { AIP_FILTERS_I18N } from '../../domain/filters'
+import { AIP_FILTER_PARAMS } from '../../domain/filters'
 import clientByPane from '../../domain/ClientByPane'
 import messages from '../../i18n'
 import styles from '../../styles'
@@ -203,7 +203,7 @@ export class OAISPackageManagerComponent extends React.Component {
   }
 
   getActionPayload = (entities, mode) => ({
-    [AIP_FILTERS_I18N.AIP_IDS]: {
+    [AIP_FILTER_PARAMS.AIP_IDS]: {
       [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => get(e, 'content.aipId', '')),
       [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
     },
@@ -237,13 +237,13 @@ export class OAISPackageManagerComponent extends React.Component {
           break
         case DIALOG_TYPES.SIP_DETAIL_DIALOG:
           component = <SIPDetailContainer
-            sipId={this.state[dialogRequestType].entities.content.aip.sipId}
+            sipId={get(this.state[dialogRequestType].entities[0], 'content.aip.sipId')}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
           />
           break
         case DIALOG_TYPES.AIP_DETAIL_DIALOG:
           component = <AIPDetailComponent
-            aip={this.state[dialogRequestType].entities}
+            aip={this.state[dialogRequestType].entities[0]}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
           />
 

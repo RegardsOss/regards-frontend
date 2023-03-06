@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,36 +16,40 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FemShapes } from '@regardsoss/shape'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { MIME_TYPES } from '@regardsoss/mime-types'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
 import { CardActionsComponent, CodeFileDisplayer, PositionedDialog } from '@regardsoss/components'
+import styles from './styles'
+import messages from './i18n'
 
-/**
-  * Display a dialog to show the feature as a JSON
-  * @author Théo Lasserre
-  * @author Léo Mieulet
-  */
-class ReferenceDetailDialog extends React.Component {
+export class CodeDisplayDialog extends React.Component {
   static propTypes = {
-    reference: FemShapes.Reference,
+    // eslint-disable-next-line react/forbid-prop-types
+    displayedContent: PropTypes.any,
+    contentType: PropTypes.string,
     onClose: PropTypes.func.isRequired,
+    title: PropTypes.string,
+  }
+
+  static defaultPropTypes = {
+    contentType: MIME_TYPES.JSON_MIME_TYPE,
+    displayedContent: null,
   }
 
   static contextTypes = {
-    // enable plugin theme access through this.context
     ...themeContextType,
-    // enable i18n access trhough this.context
     ...i18nContextType,
   }
 
   render() {
-    const { reference } = this.props
+    const {
+      displayedContent, onClose, contentType, title,
+    } = this.props
     const {
       intl: { formatMessage },
       moduleTheme: {
-        featureDetailDialog: {
+        codeDisplayDialog: {
           widthPercent,
           heightPercent,
           dialogBodyStyle,
@@ -60,25 +64,26 @@ class ReferenceDetailDialog extends React.Component {
         dialogWidthPercent={widthPercent}
         dialogHeightPercent={heightPercent}
         bodyStyle={dialogBodyStyle}
-        title={formatMessage({ id: 'feature.references.detail.title' })}
+        title={title}
         modal
         open
       >
         <div style={contentStyle}>
           <CodeFileDisplayer
-            content={JSON.stringify(reference, null, '\t')}
-            contentType={MIME_TYPES.JSON_MIME_TYPE}
+            content={displayedContent ? JSON.stringify(displayedContent, null, '\t') : formatMessage({ id: 'code.display.dialog.no.data' })}
+            contentType={contentType}
             style={jsonContentViewerStyle}
           />
         </div>
         <div style={actionsStyle}>
           <CardActionsComponent
-            mainButtonLabel={formatMessage({ id: 'feature.close' })}
-            mainButtonClick={this.props.onClose}
+            mainButtonLabel={formatMessage({ id: 'code.display.dialog.close' })}
+            mainButtonClick={onClose}
           />
         </div>
       </PositionedDialog>
     )
   }
 }
-export default ReferenceDetailDialog
+
+export default withModuleStyle(styles, true)(withI18n(messages, true)(CodeDisplayDialog))

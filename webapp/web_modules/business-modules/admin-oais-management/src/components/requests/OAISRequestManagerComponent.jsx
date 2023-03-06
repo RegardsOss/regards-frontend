@@ -24,18 +24,17 @@ import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   DateValueRender, TableSelectionModes, NoContentComponent, TableHeaderLine,
   TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
-  withSortTables,
+  withSortTables, CodeDisplayDialog,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { IngestDomain, CommonDomain } from '@regardsoss/domain'
-import Dialog from 'material-ui/Dialog'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 import RequestRetryDialog from './RequestRetryDialog'
 import RequestDeleteDialog from './RequestDeleteDialog'
 import RequestDeleteOption from './RequestDeleteOption'
 import RequestRetryOption from './RequestRetryOption'
 import RequestStatusRenderCell from './RequestStatusRenderCell'
-import RequestErrorDetailsComponent from './RequestErrorDetailsComponent'
 import RequestTypeRenderCell from './RequestTypeRenderCell'
 import VersionOptionSelectionDialog from './VersionOptionSelectionDialog'
 import HeaderActionsBarContainer from '../../containers/HeaderActionsBarContainer'
@@ -242,15 +241,12 @@ export class OAISRequestManagerComponent extends React.Component {
       let component = null
       switch (dialogRequestType) {
         case DIALOG_TYPES.ERRORS_DIALOG:
-          component = <Dialog // 1. errors
-            title={formatMessage({ id: 'oais.aips.list.aip-details.title' })}
-            open={open}
-          >
-            <RequestErrorDetailsComponent
-              entity={this.state[DIALOG_TYPES.ERRORS_DIALOG].entities[0]}
-              onClose={() => this.onCloseActionDialog(dialogRequestType)}
-            />
-          </Dialog>
+          component = <CodeDisplayDialog // 1. errors
+            displayedContent={get(this.state[DIALOG_TYPES.ERRORS_DIALOG].entities[0], 'content.errors', '')}
+            title={formatMessage({ id: 'oais.aips.list.request.dialog.title' })}
+            contentType={MIME_TYPES.JSON_MIME_TYPE}
+            onClose={() => this.onCloseActionDialog(dialogRequestType)}
+          />
           break
         case DIALOG_TYPES.VERSION_OPTION_SELECTION_DIALOG:
           component = <VersionOptionSelectionDialog // 2. version option selection

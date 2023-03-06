@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
+import { CodeDisplayDialog } from '@regardsoss/components'
 import AIPDetailComponent from '../../../src/components/packages/AIPDetailComponent'
 import styles from '../../../src/styles'
 import { AIP } from '../../dumps/AIP.dump'
@@ -44,11 +44,8 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPDetailComponent', () => {
       onClose: () => {},
     }
     const enzymeWrapper = shallow(<AIPDetailComponent {...props} />, { context })
-    const jsonPreviewWrapper = enzymeWrapper.find(CodeFileDisplayer)
-    assert.lengthOf(jsonPreviewWrapper, 1, 'There should be AIP as JSON render')
-    assert.isOk(jsonPreviewWrapper.props().content, 'AIP JSON value should be found')
-    const closeButtonWrapper = enzymeWrapper.find(CardActionsComponent)
-    assert.lengthOf(closeButtonWrapper, 1, 'There should be the close button')
-    assert.equal(closeButtonWrapper.props().mainButtonClick, props.onClose, 'Close callback should be correctly reported')
+    const codeDisplayDialog = enzymeWrapper.find(CodeDisplayDialog)
+    assert.lengthOf(codeDisplayDialog, 1, 'There should be AIP as JSON render')
+    assert.isOk(codeDisplayDialog.props().displayedContent, 'AIP JSON value should be found')
   })
 })

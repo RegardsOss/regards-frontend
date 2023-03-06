@@ -18,8 +18,8 @@
  **/
 import reduce from 'lodash/reduce'
 import get from 'lodash/get'
-import { browserHistory } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
+import { browserHistory } from 'react-router'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { FemDomain } from '@regardsoss/domain'

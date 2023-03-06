@@ -16,9 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
 import { ProcessingShapes } from '@regardsoss/shape'
+import { ContentDisplayDialog } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import styles from '../../styles'
@@ -40,7 +39,7 @@ export class ProcessingMonitoringEntityInfoDialog extends React.Component {
 
   render() {
     const { processing, onClose } = this.props
-    const { intl: { formatMessage }, moduleTheme } = this.context
+    const { intl: { formatMessage } } = this.context
     if (!processing) {
       return null
     }
@@ -53,32 +52,11 @@ export class ProcessingMonitoringEntityInfoDialog extends React.Component {
     }
 
     return (
-      <Dialog
-        actions={<>
-          <FlatButton
-            key="close"
-            label={formatMessage({ id: 'processing.monitoring.list.tooltip.info.close' })}
-            primary
-            onClick={onClose}
-          />
-        </>}
+      <ContentDisplayDialog
+        displayedContent={message}
         title={formatMessage({ id: titleId }, { name: processing.content.processName })}
-        open
-        onRequestClose={onClose}
-      >
-        {
-          message !== ''
-            ? <div style={moduleTheme.rootStyle}>
-              <div style={moduleTheme.labelStyle}>
-                {formatMessage({ id: 'processing.monitoring.list.tooltip.info.message.label' })}
-              </div>
-              <div style={moduleTheme.valueStyle}>
-                {message}
-              </div>
-            </div>
-            : null
-        }
-      </Dialog>
+        onClose={onClose}
+      />
     )
   }
 }

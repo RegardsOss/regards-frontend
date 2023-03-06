@@ -24,10 +24,11 @@ import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   DateValueRender, NoContentComponent, TableHeaderLine, TableSelectionModes, InformationDialogComponent,
   TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
-  withSortTables,
+  withSortTables, CodeDisplayDialog,
 } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { MIME_TYPES } from '@regardsoss/mime-types'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { FemDomain, CommonDomain } from '@regardsoss/domain'
 import DeleteDialog from './options/DeleteDialog'
@@ -36,7 +37,6 @@ import RetryDialog from './options/RetryDialog'
 import RequestDeleteOption from './options/RequestDeleteOption'
 import RequestRetryOption from './options/RequestRetryOption'
 import StatusRender from './render/StatusRender'
-import ErrorDetailsDialog from './options/ErrorDetailsDialog'
 import HeaderActionsBarContainer from '../containers/HeaderActionsBarContainer'
 import { DIALOG_TYPES } from '../domain/dialogTypes'
 import { FILTER_PARAMS } from '../domain/filters'
@@ -249,6 +249,7 @@ export class RequestManagerComponent extends React.Component {
   }
 
   renderDialog = (dialogType) => {
+    const { intl: { formatMessage } } = this.context
     const { open } = this.state[dialogType]
     if (open) {
       let component = null
@@ -266,8 +267,10 @@ export class RequestManagerComponent extends React.Component {
           />
           break
         case DIALOG_TYPES.ERRORS_DIALOG:
-          component = <ErrorDetailsDialog
-            entity={this.state[DIALOG_TYPES.ERRORS_DIALOG].entities[0]}
+          component = <CodeDisplayDialog
+            displayedContent={get(this.state[DIALOG_TYPES.ERRORS_DIALOG].entities[0], 'content.errors', '')}
+            title={formatMessage({ id: 'feature.request.error.title' })}
+            contentType={MIME_TYPES.JSON_MIME_TYPE}
             onClose={() => this.onCloseActionDialog(dialogType)}
           />
           break

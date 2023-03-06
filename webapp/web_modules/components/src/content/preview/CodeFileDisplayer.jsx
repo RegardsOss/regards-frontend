@@ -43,6 +43,7 @@ class CodeFileDisplayer extends React.Component {
     [MIME_TYPES.JSON_MIME_TYPE]: 'json',
     [MIME_TYPES.XML_MIME_TYPE]: 'xml',
     [MIME_TYPES.XML_TEXT_MIME_TYPE]: 'xml',
+    [MIME_TYPES.TEXT]: 'text',
   }
 
   /**

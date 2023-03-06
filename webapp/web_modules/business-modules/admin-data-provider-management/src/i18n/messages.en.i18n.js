@@ -117,7 +117,6 @@ const messages = {
   'acquisition-chain.list.activity.not.running.date': 'Stopped since {date}',
   'acquisition-chain.list.activity.deletion.pending': 'Deletion pending',
   'acquisition-chain.list.activity.dialog.title': 'Activity',
-  'acquisition-chain.list.activity.dialog.close': 'Close',
   'acquisition-chain.list.activity.button.title': 'See activity',
   'acquisition-chain.list.total-nb-products': 'Products',
   'acquisition-chain.list.total-products.tooltip': 'Total number of products',

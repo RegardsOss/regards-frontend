@@ -34,7 +34,6 @@ const messages = {
   'lta.table.actions.view.message.tooltip': 'Voir le message',
   'lta.table.actions.view.product.tooltip': 'Voir le produit de la requête',
   'lta.table.actions.view.product.title': 'Produit de la requête',
-  'lta.table.actions.dialog.close': 'Fermer',
 
   // Table Header
   'lta.table.header.requestId': 'ID',

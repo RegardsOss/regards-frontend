@@ -28,13 +28,13 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import {
   CardActionsComponent, DateValueRender, DateRelativeValueRender, InfiniteTableContainer, TableColumnBuilder, TableLayout,
   TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, DurationValueRender, ShowableAtRender,
-  FitContentDialog, ConfirmDialogComponent, ConfirmDialogComponentTypes,
+  ConfirmDialogComponent, ConfirmDialogComponentTypes, ContentDisplayDialog,
 } from '@regardsoss/components'
-import messages from '../i18n'
 import DatasourceStatusTableCell from './DatasourceStatusTableCell'
 import DatasourceCountTableCell from './DatasourceCountTableCell'
 import DataSourceMonitoringDeleteOption from './DataSourceMonitoringDeleteOption'
 import DataSourceMonitoringScheduleAction from './DataSourceMonitoringScheduleAction'
+import messages from '../i18n'
 
 /**
 * DataSourceMonitoringComponent
@@ -149,25 +149,12 @@ class DataSourceMonitoringComponent extends React.Component {
     <ShowableAtRender
       show={this.state.showModal}
     >
-      <FitContentDialog
+      <ContentDisplayDialog
+        displayedContent={this.state.stacktrace}
         title={this.context.intl.formatMessage({ id: 'crawler.list.stacktrace.title' })}
-        modal
-        open={this.state.showModal}
-        onRequestClose={this.closeDialog}
-        autoScrollBodyContent
-        actions={<>
-          <FlatButton
-            key="cancel"
-            label={this.context.intl.formatMessage({ id: 'crawler.list.stacktrace.action.close' })}
-            primary
-            onClick={this.closeDialog}
-          />
-        </>}
-      >
-        <div style={DataSourceMonitoringComponent.wrapperPreserveWhitespace}>
-          {this.state.stacktrace}
-        </div>
-      </FitContentDialog>
+        onClose={this.closeDialog}
+        style={DataSourceMonitoringComponent.wrapperPreserveWhitespace}
+      />
     </ShowableAtRender>
   )
 
