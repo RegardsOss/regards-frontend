@@ -203,7 +203,7 @@ export default class DatePickerField extends React.Component {
       // Do not transform this new calculated date to UTC as value has already been transformed as UTC
       this.handleDateChange(newDateTimeWithPreviousSelectedDate, true)
     } else {
-      // Else date is the date returnd by DatePicker with browser timezone. We need to tranform to UTC
+      // Else date is the date returned by DatePicker with browser timezone. We need to tranform to UTC
       this.handleDateChange(date, true)
     }
   }
@@ -215,9 +215,14 @@ export default class DatePickerField extends React.Component {
    * @param {boolean} tranformToUTC Wehter to transform given date by removing timezone and set UTC timeZone (GMT+00)
    */
   handleDateChange = (newDate, tranformToUTC) => {
-    const { onChange, locale } = this.props
+    const { onChange, locale, displayTime } = this.props
     const { dateText, timeText } = this.state
-    const parsedDate = tranformToUTC ? DateUtils.parseDateToUTC(newDate) : newDate
+    // If no time picker is used, we need to force time values to 0 (will use current time if not)
+    const date = newDate
+    if (!displayTime) {
+      date.setHours(0, 0, 0, 0)
+    }
+    const parsedDate = tranformToUTC ? DateUtils.parseDateToUTC(date) : date
     const newDateText = DateUtils.computeDisplayedDateText(parsedDate, locale)
     const newTimeText = DateUtils.computeDisplayedTimeText(parsedDate)
     if (dateText !== newDateText || timeText !== newTimeText) {
@@ -247,7 +252,7 @@ export default class DatePickerField extends React.Component {
     if (!isEmpty(dateText)) {
       const currentTimeText = timeText || defaultTime
       const parsedDate = DateUtils.createUTCDateTimeFromString(dateText, locale, currentTimeText)
-      const currentDateText = DateUtils.formatDateWithLocale(value, locale)
+      const currentDateText = DateUtils.computeDisplayedDateText(value, locale)
       this.handleInputDateChange(parsedDate, currentDateText, currentTimeText)
     } else {
       // the user wants to remove the date
