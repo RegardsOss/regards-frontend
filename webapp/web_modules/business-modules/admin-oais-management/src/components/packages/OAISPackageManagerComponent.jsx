@@ -208,7 +208,7 @@ export class OAISPackageManagerComponent extends React.Component {
   }
 
   renderDialog = (dialogRequestType) => {
-    const { open } = this.state[dialogRequestType]
+    const { open, mode, entities } = this.state[dialogRequestType]
     const { bodyParameters } = this.props
     if (open) {
       let component = null
@@ -216,7 +216,7 @@ export class OAISPackageManagerComponent extends React.Component {
         case DIALOG_TYPES.MODIFY_DIALOG:
           component = <AIPModifyDialogContainer
             onConfirmModify={this.onConfirmModify}
-            contextRequestBodyParameters={bodyParameters}
+            contextRequestBodyParameters={{ ...bodyParameters, ...this.getActionPayload(entities, mode) }}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
           />
           break
@@ -235,13 +235,13 @@ export class OAISPackageManagerComponent extends React.Component {
           break
         case DIALOG_TYPES.SIP_DETAIL_DIALOG:
           component = <SIPDetailContainer
-            sipId={get(this.state[dialogRequestType].entities[0], 'content.aip.sipId')}
+            sipId={get(entities[0], 'content.aip.sipId')}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
           />
           break
         case DIALOG_TYPES.AIP_DETAIL_DIALOG:
           component = <AIPDetailComponent
-            aip={this.state[dialogRequestType].entities[0]}
+            aip={entities[0]}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
           />
 
