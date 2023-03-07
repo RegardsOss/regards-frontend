@@ -22,6 +22,7 @@ import { AdminShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import compose from 'lodash/fp/compose'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import { AdminDomain } from '@regardsoss/domain'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import {
@@ -32,7 +33,6 @@ import { selectedSessionActions, selectedSessionSelectors } from '../clients/Sel
 import { sourcesActions } from '../clients/SourcesClient'
 import { requestSignalsActions } from '../clients/WorkerRequestSignalsClient'
 import DashboardComponent from '../components/DashboardComponent'
-import { SOURCE_FILTER_PARAMS } from '../domain/filters'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -119,7 +119,7 @@ export class DashboardContainer extends React.Component {
     const {
       fetchSessions, fetchSources, fetchSelectedSession, params: { project }, selectedSession,
     } = this.props
-    fetchSessions(0, DashboardContainer.PAGE_SIZE, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSourceId || null, tenant: project })
+    fetchSessions(0, DashboardContainer.PAGE_SIZE, {}, { ...sessionFilters, [AdminDomain.SOURCE_FILTER_PARAMS.NAME]: selectedSourceId || null, tenant: project })
     fetchSources(0, DashboardContainer.PAGE_SIZE, {}, { ...sourceFilters, tenant: project })
     const selectedSessionId = get(selectedSession, 'content.id', null)
     if (selectedSessionId) {

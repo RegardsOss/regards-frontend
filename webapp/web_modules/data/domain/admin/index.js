@@ -25,4 +25,5 @@ export { PROJECT_USER_SETTINGS_MODE, PROJECT_USER_SETTINGS_MODE_ENUM } from './P
 export { PROJECT_USER_STATUS, PROJECT_USER_STATUS_ENUM } from './ProjectUserStatus'
 export { PROJECT_CRS, PROJECT_CRS_ENUM } from './ProjectCrsEnum'
 export { STEP_TYPE_ENUM, STEP_TYPE } from './dashboard/StepType'
+export { SESSION_FILTER_PARAMS, SOURCE_FILTER_PARAMS, DashboardFilters } from './dashboard/DashboardFilters'
 export { FILTER_PARAMS } from './ProjectUserFilters'

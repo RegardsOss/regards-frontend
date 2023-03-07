@@ -20,6 +20,7 @@ import isEmpty from 'lodash/isEmpty'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
+import { AdminDomain } from '@regardsoss/domain'
 import {
   NoContentComponent,
   TableColumnBuilder,
@@ -37,8 +38,6 @@ import { sessionsActions, sessionsSelectors } from '../clients/SessionsClient'
 import ReferencedProductsRender from './render/ReferencedProductsRender'
 import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
-import { ENTITY_ENUM } from '../domain/entityTypes'
-import { SOURCE_FILTER_PARAMS } from '../domain/filters'
 
 /**
   * SessionsComponent
@@ -98,7 +97,7 @@ class SessionsComponent extends React.Component {
           props: {
             onSelected,
             selectedEntityId: selectedSessionId,
-            entityType: ENTITY_ENUM.SESSION,
+            entityType: AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION,
           },
         }).titleHeaderCell()
         .build(),
@@ -107,7 +106,7 @@ class SessionsComponent extends React.Component {
         .label(formatMessage({ id: 'dashboard.sessions.table.column.referencedProducts' }))
         .rowCellDefinition({
           Constructor: ReferencedProductsRender,
-          props: { entityType: ENTITY_ENUM.SESSION },
+          props: { entityType: AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION },
         }).titleHeaderCell()
         .optionsSizing(2.80)
         .build(),
@@ -116,7 +115,7 @@ class SessionsComponent extends React.Component {
         .label(formatMessage({ id: 'dashboard.sessions.table.column.diffusedProducts' }))
         .rowCellDefinition({
           Constructor: DiffusedProductsRender,
-          props: { entityType: ENTITY_ENUM.SESSION },
+          props: { entityType: AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION },
         }).titleHeaderCell()
         .optionsSizing(2.75)
         .build(),
@@ -142,7 +141,7 @@ class SessionsComponent extends React.Component {
               maxRowCount={!isEmpty(selectedSessionId) ? minRowCount : maxRowCount}
               pageActions={sessionsActions}
               pageSelectors={sessionsSelectors}
-              requestParams={{ ...filters, [SOURCE_FILTER_PARAMS.NAME]: selectedSourceId || null, tenant: project }}
+              requestParams={{ ...filters, [AdminDomain.SOURCE_FILTER_PARAMS.NAME]: selectedSourceId || null, tenant: project }}
               pageSize={SessionsComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={SessionsComponent.EMPTY_COMPONENT}

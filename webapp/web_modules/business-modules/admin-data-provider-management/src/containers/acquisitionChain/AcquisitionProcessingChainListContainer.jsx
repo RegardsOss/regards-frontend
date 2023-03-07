@@ -28,6 +28,7 @@ import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import { UIDomain, AdminDomain } from '@regardsoss/domain'
 import {
   RunAcquisitionProcessingChainActions, StopAcquisitionProcessingChainActions,
   ToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainActions, AcquisitionProcessingChainEditActions,
@@ -164,8 +165,8 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
    */
   onListSessions = (source) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dashboard/monitor?sourceName=${source}`
-    browserHistory.push(url)
+    UIDomain.FiltersPaneHelper.updateURL(AdminDomain.DashboardFilters.builder(source).withSelectedSource(source).build(), [],
+      `/admin/${project}/data/acquisition/dashboard/monitor`)
   }
 
   getFetchPageSize = () => {

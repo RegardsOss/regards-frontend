@@ -22,7 +22,6 @@ import filter from 'lodash/filter'
 import { StringValueRender } from '@regardsoss/components'
 import { AdminDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
-import { ENTITY, ENTITY_ENUM } from '../../domain/entityTypes'
 
 /**
   * Table cell render for attribute
@@ -34,7 +33,7 @@ class ReferencedProductsRender extends React.Component {
       AdminShapes.Source,
       AdminShapes.Session,
     ]).isRequired,
-    entityType: PropTypes.oneOf(ENTITY),
+    entityType: PropTypes.string,
   }
 
   static getSum = (steps, property) => sum(map(steps, (step) => step[property]))
@@ -49,7 +48,7 @@ class ReferencedProductsRender extends React.Component {
     const { steps } = attributeModel.content
     const referencingSteps = filter(steps, (step) => step.type === AdminDomain.STEP_TYPE_ENUM.REFERENCING)
     if (referencingSteps) {
-      return entityType === ENTITY_ENUM.SOURCE ? ReferencedProductsRender.getSum(referencingSteps, 'totalOut') : ReferencedProductsRender.getSum(referencingSteps, 'outputRelated')
+      return entityType === AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE ? ReferencedProductsRender.getSum(referencingSteps, 'totalOut') : ReferencedProductsRender.getSum(referencingSteps, 'outputRelated')
     }
     return 0
   }

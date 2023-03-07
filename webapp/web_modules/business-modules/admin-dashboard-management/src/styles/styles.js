@@ -192,7 +192,6 @@ const dashboardManagementStyles = (theme) => ({
     cardContentStyle: {
       display: 'flex',
       flexDirection: 'column',
-      height: '430px',
     },
     extDiffusionCardContentStyle: {
       display: 'flex',

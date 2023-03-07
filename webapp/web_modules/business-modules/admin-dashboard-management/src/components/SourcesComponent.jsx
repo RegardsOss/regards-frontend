@@ -20,6 +20,7 @@ import isEmpty from 'lodash/isEmpty'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
+import { AdminDomain } from '@regardsoss/domain'
 import {
   NoContentComponent,
   TableColumnBuilder,
@@ -37,7 +38,6 @@ import { sourcesActions, sourcesSelectors } from '../clients/SourcesClient'
 import ReferencedProductsRender from './render/ReferencedProductsRender'
 import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
-import { ENTITY_ENUM } from '../domain/entityTypes'
 /**
  * SourcesComponent
  * @author Théo Lasserre
@@ -96,7 +96,7 @@ class SourcesComponent extends React.Component {
           props: {
             onSelected,
             selectedEntityId: selectedSourceId,
-            entityType: ENTITY_ENUM.SOURCE,
+            entityType: AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE,
           },
         }).titleHeaderCell()
         .build(),
@@ -105,7 +105,7 @@ class SourcesComponent extends React.Component {
         .label(formatMessage({ id: 'dashboard.sources.table.column.referencedProducts' }))
         .rowCellDefinition({
           Constructor: ReferencedProductsRender,
-          props: { entityType: ENTITY_ENUM.SOURCE },
+          props: { entityType: AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE },
         }).titleHeaderCell()
         .optionsSizing(2.75)
         .build(),
@@ -114,7 +114,7 @@ class SourcesComponent extends React.Component {
         .label(formatMessage({ id: 'dashboard.sources.table.column.diffusedProducts' }))
         .rowCellDefinition({
           Constructor: DiffusedProductsRender,
-          props: { entityType: ENTITY_ENUM.SOURCE },
+          props: { entityType: AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE },
         }).titleHeaderCell()
         .optionsSizing(2.75)
         .build(),

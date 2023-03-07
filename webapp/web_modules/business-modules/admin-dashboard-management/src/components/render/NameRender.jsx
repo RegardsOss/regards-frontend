@@ -21,7 +21,6 @@ import FlatButton from 'material-ui/FlatButton'
 import { StringValueRender } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { ENTITY } from '../../domain/entityTypes'
 import DisplayIconsComponent from '../DisplayIconsComponent'
 
 /**
@@ -35,7 +34,7 @@ class NameRender extends React.Component {
       AdminShapes.Session,
     ]).isRequired,
     selectedEntityId: PropTypes.string,
-    entityType: PropTypes.oneOf(ENTITY),
+    entityType: PropTypes.string,
     onSelected: PropTypes.func.isRequired,
   }
 

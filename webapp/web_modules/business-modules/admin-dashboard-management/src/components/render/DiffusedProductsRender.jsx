@@ -22,7 +22,6 @@ import filter from 'lodash/filter'
 import { StringValueRender } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { AdminDomain } from '@regardsoss/domain'
-import { ENTITY, ENTITY_ENUM } from '../../domain/entityTypes'
 import { DISSEMINATION_TYPE } from '../../domain/disseminationTypes'
 
 /**
@@ -35,7 +34,7 @@ class DiffusedProductsRender extends React.Component {
       AdminShapes.Source,
       AdminShapes.Session,
     ]).isRequired,
-    entityType: PropTypes.oneOf(ENTITY),
+    entityType: PropTypes.string,
   }
 
   static getSum = (steps, property) => sum(map(steps, (step) => step[property]))
@@ -50,7 +49,7 @@ class DiffusedProductsRender extends React.Component {
     const { steps } = attributeModel.content
     const diffusionSteps = filter(steps, (step) => step.type === AdminDomain.STEP_TYPE_ENUM.DISSEMINATION)
     if (diffusionSteps) {
-      if (entityType === ENTITY_ENUM.SOURCE) {
+      if (entityType === AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE) {
         return DiffusedProductsRender.getSum(diffusionSteps, 'totalOut')
       }
       const catalogSteps = filter(diffusionSteps, (step) => step.stepId === DISSEMINATION_TYPE.CATALOG)

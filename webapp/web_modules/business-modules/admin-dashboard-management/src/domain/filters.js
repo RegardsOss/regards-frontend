@@ -17,25 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import reduce from 'lodash/reduce'
+import { AdminDomain } from '@regardsoss/domain'
 import { STATUS_TYPES } from './statusTypes'
-
-/**
- * Possible filters parameters
- * values are properties names sent to backend (ex: sessionName)
- */
-export const SESSION_FILTER_PARAMS = {
-  NAME: 'sessionName',
-  STATUS: 'sessionState',
-}
-
-/**
- * Possible filters parameters
- * values are properties names sent to backend (ex: sourceName)
- */
-export const SOURCE_FILTER_PARAMS = {
-  NAME: 'sourceName',
-  STATUS: 'sourceState',
-}
 
 /**
  * i18n filters keys used in filters pane and in filters chip
@@ -43,22 +26,22 @@ export const SOURCE_FILTER_PARAMS = {
  * (optional) chipValueKeys are the internationalized possible values of a SelectField type filter.
  */
 export const FILTERS_I18N = {
-  [SOURCE_FILTER_PARAMS.NAME]: {
+  [AdminDomain.SOURCE_FILTER_PARAMS.NAME]: {
     labelKey: 'dashboard.filter.sourceName.label',
     hintTextKey: 'dashboard.filter.name',
   },
-  [SOURCE_FILTER_PARAMS.STATUS]: {
+  [AdminDomain.SOURCE_FILTER_PARAMS.STATUS]: {
     labelKey: 'dashboard.filter.sourceState.label',
     chipValueKeys: reduce(STATUS_TYPES, (acc, status) => ({
       ...acc,
       [status]: `dashboard.filter.sourceState.${status}`,
     }), {}),
   },
-  [SESSION_FILTER_PARAMS.NAME]: {
+  [AdminDomain.SESSION_FILTER_PARAMS.NAME]: {
     labelKey: 'dashboard.filter.sessionName.label',
     hintTextKey: 'dashboard.filter.name',
   },
-  [SESSION_FILTER_PARAMS.STATUS]: {
+  [AdminDomain.SESSION_FILTER_PARAMS.STATUS]: {
     labelKey: 'dashboard.filter.sessionState.label',
     chipValueKeys: reduce(STATUS_TYPES, (acc, status) => ({
       ...acc,

@@ -29,7 +29,6 @@ import AcquisitionComponent from './AcquisitionComponent'
 import ReferencingComponent from './ReferencingComponent'
 import ArchivalComponent from './ArchivalComponent'
 import DiffusionComponent from './DiffusionComponent'
-import { ENTITY_ENUM } from '../domain/entityTypes'
 
 /**
  * SelectedSessionComponent
@@ -56,7 +55,7 @@ class SelectedSessionComponent extends React.Component {
 
   handleCloseSessionSelected = () => {
     const { onSelected } = this.props
-    onSelected(null, ENTITY_ENUM.SESSION)
+    onSelected(null, AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION)
   }
 
   render() {

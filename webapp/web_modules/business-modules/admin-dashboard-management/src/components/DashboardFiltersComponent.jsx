@@ -19,6 +19,7 @@
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
+import { AdminDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { UIShapes } from '@regardsoss/shape'
 import {
@@ -32,7 +33,6 @@ import {
 import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../clients/SearchSessionsClient'
 import { STATUS_TYPES } from '../domain/statusTypes'
-import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS } from '../domain/filters'
 
 /**
  * @author Théo Lasserre
@@ -53,12 +53,7 @@ export class DashboardFiltersComponent extends React.Component {
   /**
    * Default state for filters edition
    */
-  static DEFAULT_FILTERS_STATE = {
-    [SOURCE_FILTER_PARAMS.NAME]: '',
-    [SOURCE_FILTER_PARAMS.STATUS]: null,
-    [SESSION_FILTER_PARAMS.NAME]: '',
-    [SESSION_FILTER_PARAMS.STATUS]: null,
-  }
+  static DEFAULT_FILTERS_STATE = AdminDomain.DashboardFilters.buildDefault()
 
   static contextTypes = {
     ...i18nContextType,
@@ -104,11 +99,11 @@ export class DashboardFiltersComponent extends React.Component {
           label={formatMessage({ id: 'dashboard.sources.title' })}
         />
         <FilterPaneAutoCompleteField
-          filterKey={SOURCE_FILTER_PARAMS.NAME}
+          filterKey={AdminDomain.SOURCE_FILTER_PARAMS.NAME}
           arrayActions={searchSourcesActions}
           arraySelectors={searchSourcesSelectors}
         />
-        <FilterPaneSelectFieldLegacy filterKey={SOURCE_FILTER_PARAMS.STATUS} allValuesOption>
+        <FilterPaneSelectFieldLegacy filterKey={AdminDomain.SOURCE_FILTER_PARAMS.STATUS} allValuesOption>
           {map(STATUS_TYPES, (status) => (
             <MenuItem key={status} value={status} primaryText={formatMessage({ id: `dashboard.filter.sourceState.${status}` })} />
           ))}
@@ -118,11 +113,11 @@ export class DashboardFiltersComponent extends React.Component {
           label={formatMessage({ id: 'dashboard.sessions.title' })}
         />
         <FilterPaneAutoCompleteField
-          filterKey={SESSION_FILTER_PARAMS.NAME}
+          filterKey={AdminDomain.SESSION_FILTER_PARAMS.NAME}
           arrayActions={searchSessionsActions}
           arraySelectors={searchSessionsSelectors}
         />
-        <FilterPaneSelectFieldLegacy filterKey={SESSION_FILTER_PARAMS.STATUS} allValuesOption>
+        <FilterPaneSelectFieldLegacy filterKey={AdminDomain.SESSION_FILTER_PARAMS.STATUS} allValuesOption>
           {map(STATUS_TYPES, (status) => (
             <MenuItem key={status} value={status} primaryText={formatMessage({ id: `dashboard.filter.sessionState.${status}` })} />
           ))}

@@ -22,6 +22,7 @@ import { connect } from '@regardsoss/redux'
 import { IngestShapes } from '@regardsoss/shape'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
+import { AdminDomain, UIDomain } from '@regardsoss/domain'
 import { sipImportSelectors } from '../../clients/SIPImportClient'
 import SIPsubmissionSummaryComponent from '../../components/submission/SIPSubmissionSummaryComponent'
 import messages from '../../i18n'
@@ -61,8 +62,8 @@ export class SIPSubmissionSummaryContainer extends React.Component {
 
   goToSessionMonitoring = (sessionOwner, session) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dashboard/monitor?sourceName=${sessionOwner}&sessionName=${session}`
-    browserHistory.push(url)
+    UIDomain.FiltersPaneHelper.updateURL(AdminDomain.DashboardFilters.builder(sessionOwner, session).withSelectedSource(sessionOwner).withSelectedSession(session).build(), [],
+      `/admin/${project}/data/acquisition/dashboard/monitor`)
   }
 
   goToSumissionForm = () => {

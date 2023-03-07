@@ -22,6 +22,7 @@ import omitBy from 'lodash/omitBy'
 import isEmpty from 'lodash/isEmpty'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { AdminDomain, UIDomain } from '@regardsoss/domain'
 import { CardHeaderActions, FiltersChipsContainer } from '@regardsoss/components'
 import {
   Card, CardText,
@@ -30,8 +31,7 @@ import SourcesContainer from '../containers/SourcesContainer'
 import SessionsContainer from '../containers/SessionsContainer'
 import SelectedSessionContainer from '../containers/SelectedSessionContainer'
 import DashboardFiltersComponent from './DashboardFiltersComponent'
-import { ENTITY_ENUM } from '../domain/entityTypes'
-import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS, FILTERS_I18N } from '../domain/filters'
+import { FILTERS_I18N } from '../domain/filters'
 import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
 
 /**
@@ -60,8 +60,8 @@ class DashboardComponent extends React.Component {
   state = {
     sourceFilters: {},
     sessionFilters: {},
-    [ENTITY_ENUM.SOURCE]: '', // id of the currently selected source
-    [ENTITY_ENUM.SESSION]: '', // id of the currently selected session
+    [AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE]: '', // id of the currently selected source
+    [AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION]: '', // id of the currently selected session
     isPaneOpened: false,
   }
 
@@ -72,18 +72,18 @@ class DashboardComponent extends React.Component {
     // Extract session & source parameters from url
     const { query: currentQuery } = browserHistory.getCurrentLocation()
     let newState = {}
-    const selectedSessionId = get(currentQuery, ENTITY_ENUM.SESSION, '')
-    const selectedSourceId = get(currentQuery, ENTITY_ENUM.SOURCE, '')
+    const selectedSessionId = get(currentQuery, AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION, '')
+    const selectedSourceId = get(currentQuery, AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE, '')
     if (!isEmpty(selectedSessionId)) {
       newState = {
         ...newState,
-        [ENTITY_ENUM.SESSION]: selectedSessionId,
+        [AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION]: selectedSessionId,
       }
     }
     if (!isEmpty(selectedSourceId)) {
       newState = {
         ...newState,
-        [ENTITY_ENUM.SOURCE]: selectedSourceId,
+        [AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE]: selectedSourceId,
       }
     }
     this.setState(newState)
@@ -95,7 +95,7 @@ class DashboardComponent extends React.Component {
    * @param {*} type : either source or session
    * @returns
    */
-  getEntityId = (entity, type) => type === ENTITY_ENUM.SESSION ? get(entity, 'content.name', -1).toString() : get(entity, 'content.name', '')
+  getEntityId = (entity, type) => type === AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION ? get(entity, 'content.name', -1).toString() : get(entity, 'content.name', '')
 
   /**
    * Get user selected entity id. Must be different than currently selected. If not, return empty string.
@@ -123,42 +123,42 @@ class DashboardComponent extends React.Component {
     let source = ''
 
     switch (type) {
-      case ENTITY_ENUM.SESSION:
-        source = entity ? get(entity, 'content.source') : this.state[ENTITY_ENUM.SOURCE]
+      case AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION:
+        source = entity ? get(entity, 'content.source') : this.state[AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE]
         if (!isEmpty(selectedElementId)) { // a session is selected
           newQuery = {
             ...currentQuery,
-            [ENTITY_ENUM.SESSION]: selectedElementId,
-            [ENTITY_ENUM.SOURCE]: source,
+            [AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION]: selectedElementId,
+            [AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE]: source,
           }
-        } else if (isEmpty(selectedElementId) && !isEmpty(this.state[ENTITY_ENUM.SOURCE])) { // a session is unselected and a source exist
+        } else if (isEmpty(selectedElementId) && !isEmpty(this.state[AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE])) { // a session is unselected and a source exist
           newQuery = {
-            ...omitBy(currentQuery, (value, key) => key === ENTITY_ENUM.SESSION),
-            [ENTITY_ENUM.SOURCE]: this.state[ENTITY_ENUM.SOURCE],
+            ...omitBy(currentQuery, (value, key) => key === AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION),
+            [AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE]: this.state[AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE],
           }
           flushSelectedSession()
         }
         newState = {
           ...this.state,
-          [ENTITY_ENUM.SESSION]: selectedElementId,
-          [ENTITY_ENUM.SOURCE]: source,
+          [AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION]: selectedElementId,
+          [AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE]: source,
         }
         break
-      case ENTITY_ENUM.SOURCE:
+      case AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE:
         if (!isEmpty(selectedElementId)) { // a source is selected
           newQuery = {
-            ...omitBy(currentQuery, (value, key) => key === ENTITY_ENUM.SESSION),
-            [ENTITY_ENUM.SOURCE]: selectedElementId,
+            ...omitBy(currentQuery, (value, key) => key === AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION),
+            [AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE]: selectedElementId,
           }
         } else {
           newQuery = {
-            ...omitBy(currentQuery, (value, key) => key === ENTITY_ENUM.SESSION || key === ENTITY_ENUM.SOURCE),
+            ...omitBy(currentQuery, (value, key) => key === AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION || key === AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE),
           }
         }
         newState = {
           ...this.state,
-          [ENTITY_ENUM.SOURCE]: selectedElementId,
-          [ENTITY_ENUM.SESSION]: '',
+          [AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE]: selectedElementId,
+          [AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION]: '',
         }
         flushSelectedSession()
         break
@@ -166,11 +166,7 @@ class DashboardComponent extends React.Component {
     }
 
     // Update url & state
-    browserHistory.replace({
-      pathname,
-      search: new URLSearchParams(newQuery).toString(),
-      query: newQuery,
-    })
+    UIDomain.FiltersPaneHelper.updateURL(newQuery, [], pathname)
     this.setState(newState)
   }
 
@@ -183,12 +179,12 @@ class DashboardComponent extends React.Component {
   updateRequestParameters = (requestParameters) => {
     this.setState({
       sourceFilters: {
-        [SOURCE_FILTER_PARAMS.NAME]: get(requestParameters, `${SOURCE_FILTER_PARAMS.NAME}`, ''),
-        [SOURCE_FILTER_PARAMS.STATUS]: get(requestParameters, `${SOURCE_FILTER_PARAMS.STATUS}`),
+        [AdminDomain.SOURCE_FILTER_PARAMS.NAME]: get(requestParameters, `${AdminDomain.SOURCE_FILTER_PARAMS.NAME}`, ''),
+        [AdminDomain.SOURCE_FILTER_PARAMS.STATUS]: get(requestParameters, `${AdminDomain.SOURCE_FILTER_PARAMS.STATUS}`),
       },
       sessionFilters: {
-        [SESSION_FILTER_PARAMS.NAME]: get(requestParameters, `${SESSION_FILTER_PARAMS.NAME}`, ''),
-        [SESSION_FILTER_PARAMS.STATUS]: get(requestParameters, `${SESSION_FILTER_PARAMS.STATUS}`),
+        [AdminDomain.SESSION_FILTER_PARAMS.NAME]: get(requestParameters, `${AdminDomain.SESSION_FILTER_PARAMS.NAME}`, ''),
+        [AdminDomain.SESSION_FILTER_PARAMS.STATUS]: get(requestParameters, `${AdminDomain.SESSION_FILTER_PARAMS.STATUS}`),
       },
     })
   }
@@ -213,8 +209,8 @@ class DashboardComponent extends React.Component {
     const {
       sourceFilters, sessionFilters, isPaneOpened,
     } = this.state
-    const selectedSourceId = this.state[ENTITY_ENUM.SOURCE]
-    const selectedSessionId = this.state[ENTITY_ENUM.SESSION]
+    const selectedSourceId = this.state[AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE]
+    const selectedSessionId = this.state[AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION]
     return (
       <Card>
         <CardHeaderActions
@@ -237,7 +233,7 @@ class DashboardComponent extends React.Component {
           filtersActions={filtersActions}
           filtersSelectors={filtersSelectors}
           filtersI18n={FILTERS_I18N}
-          ignoredURLParameters={[ENTITY_ENUM.SOURCE, ENTITY_ENUM.SESSION]}
+          ignoredURLParameters={[AdminDomain.SOURCE_FILTER_PARAMS.SELECTED_SOURCE, AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION]}
         />
         <CardText style={cardTextField}>
           <div style={filterDivStyle}>
