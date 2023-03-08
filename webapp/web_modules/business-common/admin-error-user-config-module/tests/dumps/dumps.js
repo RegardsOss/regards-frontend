@@ -1028,6 +1028,53 @@ export const moduleDumps1 = {
       },
     ],
   },
+  5: { // two temporal filters
+    content: {
+      id: 5,
+      type: 'search-results',
+      description: 'Catalog (default)',
+      applicationId: 'user',
+      container: 'page-content-module',
+      conf: {
+        primaryPane: 'EXPANDED_COLLAPSIBLE',
+        facets: { enabledFor: { DATA: true, DATASET: true }, initiallyEnabled: true, list: [] },
+        restrictions: { byDataset: { type: 'NONE', selection: [] }, onData: { lastVersionOnly: false } },
+        viewsGroups: {
+          DATA: {
+            enabled: true,
+            tabTitle: { en: 'Data', fr: 'Données' },
+            initialMode: 'TABLE',
+            enableDownload: true,
+            enableRefresh: true,
+            sorting: [],
+            views: {
+              TABLE: { enabled: true, attributes: [{ attributes: [{ name: 'files', renderer: 'defaultRenderer' }], label: { en: 'Thumbnail', fr: 'Thumbnail' } }, { attributes: [{ name: 'label', renderer: 'defaultRenderer' }], label: { en: 'Label', fr: 'Libellé' } }, { attributes: [{ name: 'id', renderer: 'defaultRenderer' }], label: { en: 'Internal ID', fr: 'Identifiant' } }, { attributes: [{ name: 'version', renderer: 'defaultRenderer' }], label: { en: 'Version', fr: 'Version' } }] },
+              QUICKLOOK: { enabled: true, attributes: [] },
+              MAP: {
+                enabled: true,
+                attributes: [],
+                backgroundLayer: { url: 'https://c.tile.openstreetmap.org/', type: 'OSM' },
+                initialViewMode: 'MODE_3D',
+                layers: [{
+                  enabled: true, background: true, layerViewMode: 'MODE_3D', layerName: 'osm', url: 'https://c.tile.openstreetmap.org/', type: 'OSM',
+                }],
+                mapEngine: 'CESIUM',
+              },
+            },
+            enableServices: true,
+          },
+          DATASET: {
+            enabled: true, tabTitle: { en: 'Datasets', fr: 'Jeux de données' }, initialMode: 'TABLE', enableRefresh: false, sorting: [], views: { TABLE: { enabled: true, attributes: [{ attributes: [{ name: 'label', renderer: 'defaultRenderer' }], label: { en: 'Libellé', fr: 'Label' } }] } },
+          },
+        },
+        criteriaGroups: [{ showTitle: true, title: { en: 'Defaults', fr: 'Standards' }, criteria: [{ pluginId: 6, label: { en: 'Temporal Periode', fr: 'Période temporelle' }, conf: { attributes: { firstField: 'properties.details.start_date', secondField: 'properties.details.end_date' } } }] }],
+      },
+      active: true,
+      page: { home: false, iconType: 'DEFAULT', title: { en: 'Catalog (default)', fr: 'Catalogue (default)' } },
+      confHash: '45454dsfdsfdsf',
+    },
+    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/54' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/54' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/54' }],
+  },
 }
 
 export const attrDumps1 = {
@@ -1321,6 +1368,78 @@ export const attrDumps1 = {
       {
         rel: 'update',
         href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/8',
+      },
+      {
+        rel: 'list',
+        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
+      },
+    ],
+  },
+  9: { // not indexed
+    content: {
+      id: 9,
+      name: 'start_date',
+      type: 'DATE_ISO8601',
+      unit: 'unitless',
+      fragment: {
+        id: 53,
+        name: 'details',
+        virtual: false,
+      },
+      alterable: true,
+      optional: false,
+      indexed: false,
+      label: 'start date',
+      properties: [],
+      dynamic: true,
+      internal: false,
+      jsonPath: 'properties.details.start_date',
+      virtual: false,
+    },
+    links: [
+      {
+        rel: 'self',
+        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/5',
+      },
+      {
+        rel: 'update',
+        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/5',
+      },
+      {
+        rel: 'list',
+        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
+      },
+    ],
+  },
+  10: { // not indexed
+    content: {
+      id: 10,
+      name: 'end_date',
+      type: 'DATE_ISO8601',
+      unit: 'unitless',
+      fragment: {
+        id: 53,
+        name: 'details',
+        virtual: false,
+      },
+      alterable: true,
+      optional: false,
+      indexed: false,
+      label: 'end date',
+      properties: [],
+      dynamic: true,
+      internal: false,
+      jsonPath: 'properties.details.end_date',
+      virtual: false,
+    },
+    links: [
+      {
+        rel: 'self',
+        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/5',
+      },
+      {
+        rel: 'update',
+        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/5',
       },
       {
         rel: 'list',

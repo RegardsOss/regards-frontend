@@ -54,12 +54,17 @@ const getInvalidAttrOnFacet = (attributeName, attributes) => {
 const buildFiltersErrors = (facetsConf, attributes) => map(facetsConf, (facetConf) => getInvalidAttrOnFacet(facetConf.attributes[0].name, attributes)).filter((v) => !!v)
 
 const buildCriteriasErrors = (criteriasConf, attributes) => map(criteriasConf, (criteriaConf) => {
-  const searchField = get(criteriaConf, 'conf.attributes.searchField', null)
+  const searchField = get(criteriaConf, 'conf.attributes.searchField')
   if (!searchField) {
     const lowerBound = get(criteriaConf, 'conf.attributes.lowerBound')
     const upperBound = get(criteriaConf, 'conf.attributes.upperBound')
     if (lowerBound && upperBound) {
       return [getInvalidAttr(lowerBound, attributes), getInvalidAttr(upperBound, attributes)].filter((v) => !!v)
+    }
+    const firstField = get(criteriaConf, 'conf.attributes.firstField')
+    const secondField = get(criteriaConf, 'conf.attributes.secondField')
+    if (firstField && secondField) {
+      return [getInvalidAttr(firstField, attributes), getInvalidAttr(secondField, attributes)].filter((v) => !!v)
     }
   } else {
     return getInvalidAttr(searchField, attributes)

@@ -27,7 +27,6 @@
     "build:plugins-all": "./scripts/build-all-plugins.sh prod all",
     "build:stats": "webpack --config webpack.dev.local.config.js --profile --json > reports/stats-build-dev.json",
     "prestart": "yarn lint:fix || true",
-    "install:plugins": "./scripts/install-all-plugins.sh dev services",
     "start": "yarn start:withpreprod",
     "start:local": "webpack serve --progress --config webpack.dev.local.config.js",
     "start:mock-client": "webpack serve --progress --config webpack.dev.mock.config.js",

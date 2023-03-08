@@ -100,13 +100,7 @@ for rootFolder in "${buildFolders[@]}"; do
           echo "        -------------------------------------"
           echo ""
           cd plugins/${rootFolder}/${pluginFolder}
-          if [ -d "node_modules/@regardsoss" ]; then
-            echo "> Clear previous dependencies to regards"
-            rm -rf "node_modules/@regardsoss"
-          fi
           pwd
-          npm prune
-          npm install
           # run build commands as specified by the command user
           for buildCommand in "${buildCommands[@]}"; do
             ${buildCommand}

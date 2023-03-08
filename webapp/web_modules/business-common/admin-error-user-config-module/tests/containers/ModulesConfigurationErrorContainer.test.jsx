@@ -48,7 +48,7 @@ describe('[ADMIN CONFIGURATION MODULE MANAGEMENT] Testing ModulesConfigurationEr
     const enzymeWrapper = shallow(<ModulesConfigurationErrorContainer {...props} />, { context })
     const { errorConfContent } = enzymeWrapper.instance().state
     assert.isNotEmpty(errorConfContent)
-    assert.lengthOf(errorConfContent, 3)
+    assert.lengthOf(errorConfContent, 4)
     //console.log(JSON.stringify(errorConfContent, null, 4))
     assert.lengthOf(errorConfContent[0].filters, 1)
     assert.lengthOf(errorConfContent[0].criteriasGroup, 1)

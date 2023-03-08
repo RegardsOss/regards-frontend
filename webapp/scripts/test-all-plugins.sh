@@ -74,12 +74,7 @@ for rootFolder in "${buildFolders[@]}"; do
           echo "        -------------------------------------"
           echo ""
           cd plugins/${rootFolder}/${pluginFolder}
-##          if [ -d "node_modules/@regardsoss" ]; then
-##            rm -rf "node_modules/@regardsoss"
-##          fi
           pwd
-##          npm prune
-##          npm install
           yarn test:mocha
           cd ${home}
       fi
