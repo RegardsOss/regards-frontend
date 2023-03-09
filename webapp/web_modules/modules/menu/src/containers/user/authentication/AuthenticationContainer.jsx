@@ -23,6 +23,7 @@ import {
   AuthenticationClient, AuthenticationParametersActions, routeHelpers, AuthenticateResultShape,
   AuthenticateShape,
 } from '@regardsoss/authentication-utils'
+import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes, CommonShapes } from '@regardsoss/shape'
 import get from 'lodash/get'
 import { borrowRoleActions, borrowRoleSelectors } from '../../../clients/BorrowRoleClient'
@@ -94,6 +95,10 @@ export class AuthenticationContainer extends React.Component {
     onShowProfile: PropTypes.func.isRequired,
     toggleAuthenticationDialogOpen: PropTypes.func.isRequired,
     disconnectServiceProvider: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   /**
@@ -196,6 +201,7 @@ export class AuthenticationContainer extends React.Component {
     const {
       authenticationName, currentRole, borrowableRoles, isInstance,
     } = this.props
+    const { intl: { locale } } = this.context
     if (authenticationName) {
       // user is logged
       return (
@@ -208,6 +214,7 @@ export class AuthenticationContainer extends React.Component {
           currentRole={currentRole}
           borrowableRoles={borrowableRoles}
           onBorrowRole={this.onBorrowRole}
+          locale={locale}
         />)
     }
     // user is not logged

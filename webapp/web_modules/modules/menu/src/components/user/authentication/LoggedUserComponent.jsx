@@ -27,7 +27,7 @@ import DownloadsMenuIcon from 'mdi-material-ui/ProgressDownload'
 import ActionExitToApp from 'mdi-material-ui/ExitToApp'
 import ChangeRole from 'mdi-material-ui/Run'
 import ArrowDropRight from 'mdi-material-ui/MenuRight'
-import { AdminDomain } from '@regardsoss/domain'
+import { AdminDomain, UIDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -50,6 +50,7 @@ export class LoggedUserComponent extends React.Component {
     onLogout: PropTypes.func.isRequired,
     onShowProfileEdition: PropTypes.func.isRequired,
     onShowQuotaInformation: PropTypes.func.isRequired,
+    locale: PropTypes.oneOf(UIDomain.LOCALES),
     // from withQuotaInfo HOC
     quotaInfo: QuotaInfo,
   }
@@ -66,7 +67,7 @@ export class LoggedUserComponent extends React.Component {
   shouldComponentUpdate(nextProps) {
     const {
       name, currentRole, borrowableRoles, quotaInfo, onBorrowRole, onLogout,
-      showProfileDialog, onShowProfileEdition, onShowQuotaInformation,
+      showProfileDialog, onShowProfileEdition, onShowQuotaInformation, locale,
     } = this.props
 
     return !isEqual(name, nextProps.name)
@@ -78,6 +79,7 @@ export class LoggedUserComponent extends React.Component {
       || !isEqual(showProfileDialog, nextProps.showProfileDialog)
       || !isEqual(onShowProfileEdition, nextProps.onShowProfileEdition)
       || !isEqual(onShowQuotaInformation, nextProps.onShowQuotaInformation)
+      || !isEqual(locale, nextProps.locale)
   }
 
   render() {
