@@ -61,13 +61,13 @@ const AllDynamicModuleTypes = {
 const ALL_MODULE_TYPES = values(VisibleModuleTypes)
 
 /**
- * Finds the first available module by type
+ * Finds the first available active module by type
  * @param {*} modules modules list, as provided by AccessProjectClient.getModuleSelectors().getList(state) (normalized results)
  * @param {string} moduleType searched module type, from ALL_MODULE_TYPES
  * @return {{content: {*}, links: [*]}} found module as a {} object or null if not found
  */
 function findFirstModuleByType(modules, moduleType) {
-  return find(modules, (module) => get(module, 'content.type', null) === moduleType) || null
+  return find(modules, (module) => get(module, 'content.type', null) === moduleType && get(module, 'content.active', false)) || null
 }
 
 /**
