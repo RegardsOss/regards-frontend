@@ -145,6 +145,9 @@ export class PluginServicesContainer extends React.Component {
       }
       // 3 - Find every service that match all objects in selection
       // Note 1: That operation cannot be performed when selection is exclusive.
+      //         Indeed, our catalog cannot active a service on entities from different datasets.
+      //         i.e. : Maybe there is product, matching current form criteria, related to a dataset
+      //         that does not allow the service execution. So we do not display service in such context
       // Note 2: It is useless when there is a dataset context ('MANY' services would then be in "contextSelectionServices")
       if (!hasDastasetContext && selectionMode === TableSelectionModes.includeSelected) {
         // compute first element services (pre: toggled elements cannot be empty here since we are in 'includeSelected' mode)
