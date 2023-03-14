@@ -115,9 +115,9 @@ export class EntitiesFilesFormComponent extends React.Component {
       case CommonDomain.DATA_TYPES_ENUM.THUMBNAIL:
         return '.jpg,.jpeg,.png,.gif'
       case CommonDomain.DATA_TYPES_ENUM.DESCRIPTION:
-        return '.md,.pdf,.html'
+        return '.md,.pdf,.html,.txt'
       case CommonDomain.DATA_TYPES_ENUM.DOCUMENT:
-        return '.md,.pdf,.html,.zip,.tar,.rar'
+        return '.md,.pdf,.html,.zip,.tar,.rar,.txt'
       default:
         return ''
     }
@@ -159,9 +159,9 @@ export class EntitiesFilesFormComponent extends React.Component {
       case CommonDomain.DATA_TYPES_ENUM.THUMBNAIL:
         return [CommonDomain.MimeTypes.jpg, CommonDomain.MimeTypes.png, CommonDomain.MimeTypes.gif]
       case CommonDomain.DATA_TYPES_ENUM.DESCRIPTION:
-        return [CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html]
+        return [CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html, CommonDomain.MimeTypes.txt]
       case CommonDomain.DATA_TYPES_ENUM.DOCUMENT:
-        return [CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html, CommonDomain.MimeTypes.zip, CommonDomain.MimeTypes.tar, CommonDomain.MimeTypes.rar]
+        return [CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html, CommonDomain.MimeTypes.zip, CommonDomain.MimeTypes.tar, CommonDomain.MimeTypes.rar, CommonDomain.MimeTypes.txt]
       default:
         return []
     }

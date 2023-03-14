@@ -152,6 +152,7 @@ export class FileContentDisplayer extends React.Component {
                   <MarkdownFileContentDisplayer />
                 </FileContentReader>)
             }
+            console.info('Failed to display file with content type =', contentType)
             return noPreviewComponent || null
           })()
         }

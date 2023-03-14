@@ -19,6 +19,7 @@ export default {
   svg: 'image/svg+xml',
   tar: 'application/x-tar',
   tiff: 'image/tiff',
+  txt: 'text/plain',
   webm: 'video/webm',
   webp: 'image/webp',
   xls: 'application/vnd.ms-excel',
