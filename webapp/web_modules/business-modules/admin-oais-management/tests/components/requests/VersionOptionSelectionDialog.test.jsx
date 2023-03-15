@@ -46,8 +46,9 @@ describe('[OAIS AIP MANAGEMENT] Testing VersionOptionSelectionDialog', () => {
         mode: TableSelectionModes.excludeSelected,
         entities: [],
       },
-      onClose: () => {},
-      onConfirm: () => {},
+      onClose: () => { },
+      onConfirm: () => { },
+      severalEntitiesSelected: true,
     }
     const enzymeWrapper = shallow(<VersionOptionSelectionDialog {...props} />, { context })
 
@@ -67,8 +68,9 @@ describe('[OAIS AIP MANAGEMENT] Testing VersionOptionSelectionDialog', () => {
         mode: TableSelectionModes.includeSelected,
         entities: [],
       },
-      onClose: () => {},
-      onConfirm: () => {},
+      onClose: () => { },
+      onConfirm: () => { },
+      severalEntitiesSelected: true,
     }
     const enzymeWrapper = shallow(<VersionOptionSelectionDialog {...props} />, { context })
 

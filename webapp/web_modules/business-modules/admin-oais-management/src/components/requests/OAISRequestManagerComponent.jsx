@@ -73,6 +73,11 @@ export class OAISRequestManagerComponent extends React.Component {
     bodyParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     getColumnSortingData: PropTypes.func,
     onSort: PropTypes.func,
+    pageMeta: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
   }
 
   static contextTypes = {
@@ -234,8 +239,9 @@ export class OAISRequestManagerComponent extends React.Component {
   }
 
   renderDialog = (dialogRequestType) => {
-    const { open } = this.state[dialogRequestType]
+    const { open, entities, mode } = this.state[dialogRequestType]
     const { intl: { formatMessage } } = this.context
+    const { pageMeta } = this.props
     if (open) {
       let component = null
       switch (dialogRequestType) {
@@ -252,6 +258,7 @@ export class OAISRequestManagerComponent extends React.Component {
             selection={this.state[DIALOG_TYPES.VERSION_OPTION_SELECTION_DIALOG]}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
             onConfirm={(selectedVersionModeOption) => this.onConfirm(dialogRequestType, selectedVersionModeOption)}
+            severalEntitiesSelected={CommonDomain.TableSelectionUtils.isSeveralEntitiesSelected(mode, entities, pageMeta)}
           />
           break
         case DIALOG_TYPES.RETRY_DIALOG:
@@ -259,6 +266,7 @@ export class OAISRequestManagerComponent extends React.Component {
             open={open}
             onConfirmRetry={() => this.onConfirm(dialogRequestType)}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
+            severalEntitiesSelected={CommonDomain.TableSelectionUtils.isSeveralEntitiesSelected(mode, entities, pageMeta)}
           />
           break
         case DIALOG_TYPES.DELETE_DIALOG:
@@ -266,6 +274,7 @@ export class OAISRequestManagerComponent extends React.Component {
             open={open}
             onConfirmDelete={() => this.onConfirm(dialogRequestType)}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
+            severalEntitiesSelected={CommonDomain.TableSelectionUtils.isSeveralEntitiesSelected(mode, entities, pageMeta)}
           />
           break
         case DIALOG_TYPES.ABORT_DIALOG:

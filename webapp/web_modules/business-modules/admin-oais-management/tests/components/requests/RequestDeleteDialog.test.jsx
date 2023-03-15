@@ -39,8 +39,9 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestDeleteDialog', () => {
   it('should render correctly open', () => {
     const props = {
       open: true,
-      onConfirmDelete: () => {},
-      onClose: () => {},
+      onConfirmDelete: () => { },
+      onClose: () => { },
+      severalEntitiesSelected: true,
     }
     const enzymeWrapper = shallow(<RequestDeleteDialog {...props} />, { context })
 
@@ -54,8 +55,9 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestDeleteDialog', () => {
   it('should render correctly closed', () => {
     const props = {
       open: false,
-      onConfirmDelete: () => {},
-      onClose: () => {},
+      onConfirmDelete: () => { },
+      onClose: () => { },
+      severalEntitiesSelected: true,
     }
     const enzymeWrapper = shallow(<RequestDeleteDialog {...props} />, { context })
 

@@ -45,3 +45,4 @@ export { REQUEST_PARAMETERS, MATCH_MODE_ENUM, MATCH_MODE } from './RequestParame
 
 export { default as TableFilterDefaultStateEnum } from './TableFilterDefaultStateEnum'
 export { default as TableFilterComponentType } from './TableFilterComponentType'
+export { default as TableSelectionUtils } from './TableSelectionUtils'

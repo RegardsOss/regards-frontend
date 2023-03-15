@@ -51,7 +51,7 @@
     "test": "yarn test:mocha --silent",
     "test:coverage": "node --max_old_space_size=8192 ./node_modules/.bin/nyc node --max_old_space_size=8192 ./node_modules/.bin/mochapack --timeout 30000 --webpack-config webpack.coverage.config.js \"@(tests|web_modules)/**/*.test.js{,x}\"",
     "test:mocha": "node --max_old_space_size=8192 ./node_modules/.bin/mochapack --timeout 20000 --webpack-config webpack.test.config.js \"@(tests|web_modules)/**/*.test.js{,x}\" --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend tests'",
-    "test:watch": "node --max_old_space_size=8192 ./node_modules/.bin/mochapack --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/**/*.test.js{,x}\" --inline-diffs --watch",
+    "test:watch": "wrap () { node --max_old_space_size=8192 ./node_modules/.bin/mochapack --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/$*/**/*.test.js{,x}\" --inline-diffs --watch; }; wrap",
     "esdoc": "esdoc -c esdoc.json",
     "lint": "eslint web_modules src --ext .js,.jsx",
     "lint:fix": "TIMING=1 eslint --cache --fix web_modules src --ext .js,.jsx",
