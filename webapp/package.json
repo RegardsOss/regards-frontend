@@ -1,6 +1,6 @@
 {
   "name": "frontend-webapp",
-  "version": "1.12.0-SNAPSHOT",
+  "version": "1.12.0",
   "description": "REGARDS frontend webapp",
   "packageManager": "yarn@1.22.19",
   "private": true,
