@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/admin-microservice-management",
-  "version": "1.12.0",
+  "version": "1.13.0-SNAPSHOT",
   "private": true,
   "sideEffects": false,
   "description": "",
