@@ -83,6 +83,7 @@ const messages = {
   'dashboard.selectedsession.ACQUISITION.dp.productsErrors.tooltip': '{value} product(s) in error',
   'dashboard.selectedsession.ACQUISITION.dp.generatedProducts.tooltip': '{value} product(s) generated',
   'dashboard.selectedsession.ACQUISITION.dp.productsCanceled.tooltip': '{value} product(s) canceled',
+  'dashboard.selectedsession.ACQUISITION.dp.button.see-chains': 'See chains',
   'dashboard.selectedsession.ACQUISITION.dp.button.see-errors': 'See errors',
   'dashboard.selectedsession.ACQUISITION.dp.button.retry-errors': 'Relaunch errors',
   'dashboard.selectedsession.ACQUISITION.dp.dialog.title': 'Products with errors',

@@ -19,7 +19,10 @@
 import get from 'lodash/get'
 import RaisedButton from 'material-ui/RaisedButton'
 import { AdminShapes } from '@regardsoss/shape'
-import { ConfirmDialogComponent, ConfirmDialogComponentTypes, PositionedDialog } from '@regardsoss/components'
+import { DataProviderDomain, UIDomain } from '@regardsoss/domain'
+import {
+  ConfirmDialogComponent, ConfirmDialogComponentTypes, PositionedDialog,
+} from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import DisplayProductsComponent from '../DisplayProductsComponent'
@@ -30,6 +33,7 @@ import { ICON_TYPE_ENUM } from '../../domain/iconType'
   */
 class DPActionsComponent extends React.Component {
   static propTypes = {
+    project: PropTypes.string.isRequired,
     sessionStep: AdminShapes.SessionStep,
     relaunchProducts: PropTypes.func.isRequired,
   }
@@ -42,6 +46,12 @@ class DPActionsComponent extends React.Component {
   state = {
     isRetryErrorsDialogOpen: false,
     isProductDialogOpen: false,
+  }
+
+  onSeeChains = () => {
+    const { project, sessionStep: { source } } = this.props
+    UIDomain.FiltersPaneHelper.updateURL(DataProviderDomain.AcquisitionProcessingChainFilters.builder(source).build(), [],
+      `/admin/${project}/data/acquisition/dataprovider/chains`)
   }
 
   onRetryErrors = () => {
@@ -119,6 +129,13 @@ class DPActionsComponent extends React.Component {
     } = this.context
     return (
       <div style={cardButtonStyle}>
+        <RaisedButton
+          onClick={this.onSeeChains}
+          label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.button.see-chains' })}
+          primary
+          style={raisedListStyle}
+          labelStyle={raisedListLabelStyle}
+        />
         {
           nbErrors !== 0
             ? <div style={cardButtonStyle}>
