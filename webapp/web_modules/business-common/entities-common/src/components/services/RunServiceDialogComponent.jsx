@@ -188,6 +188,7 @@ export class RunServiceDialogComponent extends React.Component {
           switch (currentStep.step) {
             // submit option when configuring parameters
             case RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION:
+            case RunServiceDialogComponent.Steps.DESCRIPTION:
               return <FlatButton
                 key="submit.button"
                 disabled={invalid}
