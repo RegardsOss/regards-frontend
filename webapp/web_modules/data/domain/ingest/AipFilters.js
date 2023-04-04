@@ -71,6 +71,7 @@ export class AipFilters {
 
   withAipIds(aipIds, mode) {
     this.filters[AIP_FILTER_PARAMS.AIP_IDS] = {
+      ...TableFilterDefaultStateEnum.VALUES,
       [REQUEST_PARAMETERS.VALUES]: aipIds || [],
       [REQUEST_PARAMETERS.MODE]: mode,
     }

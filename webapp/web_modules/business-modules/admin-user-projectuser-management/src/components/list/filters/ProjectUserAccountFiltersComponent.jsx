@@ -19,7 +19,7 @@
 import map from 'lodash/map'
 import find from 'lodash/find'
 import { MenuItem } from 'material-ui/IconMenu'
-import { AdminDomain, CommonDomain } from '@regardsoss/domain'
+import { AdminDomain } from '@regardsoss/domain'
 import { CommonShapes, AdminShapes, UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -47,20 +47,6 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  /**
-   * Default state for inputValues edition
-   */
-  static DEFAULT_FILTERS_STATE = {
-    [AdminDomain.FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-    [AdminDomain.FILTER_PARAMS.LAST_CONNECTION]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-    [AdminDomain.FILTER_PARAMS.EMAIL]: '',
-    [AdminDomain.FILTER_PARAMS.LASTNAME]: '',
-    [AdminDomain.FILTER_PARAMS.FIRSTNAME]: '',
-    [AdminDomain.FILTER_PARAMS.STATUS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [AdminDomain.FILTER_PARAMS.ORIGIN]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-    [AdminDomain.FILTER_PARAMS.ROLE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
   }
 
   getRolePrimaryText = (role) => {
@@ -111,4 +97,4 @@ export class ProjectUserAccountFiltersComponent extends React.Component {
     )
   }
 }
-export default withFiltersPane(ProjectUserAccountFiltersComponent.DEFAULT_FILTERS_STATE)(ProjectUserAccountFiltersComponent)
+export default withFiltersPane(AdminDomain.ProjectUserFilters.buildAccountDefault())(ProjectUserAccountFiltersComponent)

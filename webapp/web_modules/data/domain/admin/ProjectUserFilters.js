@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { REQUEST_PARAMETERS, TableFilterDefaultStateEnum } from '../common'
+
 /**
  * Project users filters definitions
  * @author Théo Lasserre
@@ -37,4 +39,71 @@ export const FILTER_PARAMS = {
   ROLE: 'roles',
   USE_QUOTA_LIMITATION: 'quotaWarningCount',
   GROUP: 'accessGroups',
+}
+
+/**
+ * Class to construct Ingest products search body parameters
+ */
+export class ProjectUserFilters {
+  constructor() {
+    this.filters = {}
+  }
+
+  static builder(label = null) {
+    const filters = new ProjectUserFilters()
+    return filters
+  }
+
+  build() {
+    return this.filters
+  }
+
+  withGroup(accessGroup) {
+    this.filters[FILTER_PARAMS.GROUP] = {
+      ...TableFilterDefaultStateEnum.VALUES,
+      [REQUEST_PARAMETERS.VALUES]: [accessGroup],
+    }
+    return this
+  }
+
+  /**
+   * Default account project user mode filters
+   * @returns
+   */
+  static buildAccountDefault() {
+    return {
+      [FILTER_PARAMS.CREATION_DATE]: TableFilterDefaultStateEnum.DATES,
+      [FILTER_PARAMS.LAST_CONNECTION]: TableFilterDefaultStateEnum.DATES,
+      [FILTER_PARAMS.EMAIL]: '',
+      [FILTER_PARAMS.LASTNAME]: '',
+      [FILTER_PARAMS.FIRSTNAME]: '',
+      [FILTER_PARAMS.STATUS]: TableFilterDefaultStateEnum.VALUES,
+      [FILTER_PARAMS.ORIGIN]: TableFilterDefaultStateEnum.VALUES,
+      [FILTER_PARAMS.ROLE]: TableFilterDefaultStateEnum.VALUES,
+    }
+  }
+
+  /**
+   * Default quota project user mode filters
+   */
+  static buildQuotaDefault() {
+    return {
+      [FILTER_PARAMS.EMAIL]: '',
+      [FILTER_PARAMS.LASTNAME]: '',
+      [FILTER_PARAMS.FIRSTNAME]: '',
+      [FILTER_PARAMS.USE_QUOTA_LIMITATION]: false,
+    }
+  }
+
+  /**
+   * Default access right project user mode filters
+   */
+  static buildAccessRightDefault() {
+    return {
+      [FILTER_PARAMS.EMAIL]: '',
+      [FILTER_PARAMS.LASTNAME]: '',
+      [FILTER_PARAMS.FIRSTNAME]: '',
+      [FILTER_PARAMS.GROUP]: TableFilterDefaultStateEnum.VALUES,
+    }
+  }
 }

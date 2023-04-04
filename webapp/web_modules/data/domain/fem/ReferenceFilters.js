@@ -60,6 +60,7 @@ export class ReferenceFilters {
 
   withReferenceIds(referenceIds, mode = TableSelectionModes.INCLUDE) {
     this.filters[REFERENCE_FILTER_PARAMS.IDS] = {
+      ...TableFilterDefaultStateEnum.VALUES,
       [REQUEST_PARAMETERS.VALUES]: referenceIds,
       [REQUEST_PARAMETERS.MODE]: mode,
     }
