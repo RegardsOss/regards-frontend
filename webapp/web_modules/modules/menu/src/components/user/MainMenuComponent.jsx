@@ -31,6 +31,7 @@ import CartSelectorContainer from '../../containers/user/CartSelectorContainer'
 import ProjectAboutPageLinkContainer from '../../containers/user/ProjectAboutPageLinkContainer'
 import NavigationMenuContainer from '../../containers/user/navigation/NavigationMenuContainer'
 import AppTitleComponent from './title/AppTitleComponent'
+import DateMenuComponent from './DateMenuComponent'
 import ContactComponent from './ContactComponent'
 import MenuSeparator from './MenuSeparator'
 
@@ -109,6 +110,7 @@ class MainMenuComponent extends React.Component {
         }
         {/* Right options */}
         <div style={optionsGroup}>
+          <DateMenuComponent />
           {/* Authentication access, state and options */}
           <ShowableAtRender show={displayAuthentication}>
             <AuthenticationContainer

@@ -138,6 +138,9 @@ const menuStyles = (theme) => ({
       display: 'flex',
       alignItems: 'center',
     },
+    dateStyle: {
+      color: theme.palette.textColor,
+    },
     optionsLabelStyle: {
       textTransform: undefined,
     },
