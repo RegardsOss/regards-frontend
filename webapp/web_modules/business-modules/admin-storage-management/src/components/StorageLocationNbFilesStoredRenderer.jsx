@@ -20,7 +20,7 @@ import get from 'lodash/get'
 import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import WarningIcon from 'mdi-material-ui/Alert'
+import InfoIcon from 'mdi-material-ui/Information'
 import IconButton from 'material-ui/IconButton'
 
 /**
@@ -51,7 +51,7 @@ class StorageLocationNbFilesStoredRenderer extends React.Component {
             title={formatMessage({ id: 'storage.location.list.column.nbFiles.pending' }, { value: nbFilesStoredWithPendingActionRemaining })}
             iconStyle={iconStyle}
           >
-            <WarningIcon />
+            <InfoIcon />
           </IconButton>
         }
       </div>

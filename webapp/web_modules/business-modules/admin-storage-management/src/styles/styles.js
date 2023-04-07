@@ -74,7 +74,7 @@ const storageManagementStyles = (theme) => ({
         alignItems: 'center',
       },
       iconStyle: {
-        color: theme.formsExtensions.validation.warningColor,
+        color: theme.formsExtensions.validation.validColor,
       },
     },
     percentageColumn: {
