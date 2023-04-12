@@ -38,10 +38,10 @@ describe('[ADMIN DATA CONNECTION MANAGEMENT] Testing ConnectionListComponent', (
     const props = {
       connectionList: DumpProvider.get('DataManagementClient', 'Connection'),
       handleDelete: () => {},
-      handleEdit: () => {},
       handleTestConnection: () => {},
       backUrl: '#',
       createUrl: '#',
+      project: 'test',
     }
     const enzymeWrapper = shallow(<ConnectionListComponent {...props} />, { context })
     expect(enzymeWrapper.find(TableRow)).to.have.length(2)

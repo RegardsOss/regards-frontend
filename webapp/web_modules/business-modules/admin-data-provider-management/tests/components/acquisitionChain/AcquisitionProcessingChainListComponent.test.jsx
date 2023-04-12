@@ -45,16 +45,15 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainLis
   })
   it('should render correctly', () => {
     const props = {
+      project: 'test',
       resultsCount: 10,
       entitiesLoading: false,
       onRefresh: () => new Promise(() => { }),
       onBack: () => new Promise(() => { }),
       onDelete: () => {},
-      onEdit: () => {},
-      onDuplicate: () => {},
+      createUrl: '#',
       onRunChain: () => new Promise(() => { }),
       onStopChain: () => new Promise(() => { }),
-      onListSessions: () => {},
       onCreate: () => {},
       onMultiToggleSelection: () => {},
       onToggle: () => {},
@@ -91,10 +90,9 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainLis
     const tableComponent = enzymeWrapper.find(AcquisitionProcessingChainTableComponent)
     assert.lengthOf(tableComponent, 1, 'AcquisitionProcessingChainTableComponent should be set')
     testSuiteHelpers.assertWrapperProperties(tableComponent, {
+      project: props.project,
       hasAccess: props.hasAccess,
       updateErrorMessage: enzymeWrapper.instance().updateErrorMessage,
-      onListSessions: props.onListSessions,
-      onDuplicate: props.onDuplicate,
       onEdit: props.onEdit,
       entitiesLoading: props.entitiesLoading,
       resultsCount: props.resultsCount,
@@ -102,8 +100,5 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainLis
     })
     const cardActionComponent = enzymeWrapper.find(CardActionsComponent)
     assert.lengthOf(cardActionComponent, 1, 'CardActionsComponent should be set')
-    testSuiteHelpers.assertWrapperProperties(cardActionComponent, {
-      mainButtonClick: props.onCreate,
-    })
   })
 })

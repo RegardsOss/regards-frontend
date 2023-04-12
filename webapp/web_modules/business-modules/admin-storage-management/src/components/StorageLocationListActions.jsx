@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Link } from 'react-router'
 import get from 'lodash/get'
 import DeleteFiles from 'mdi-material-ui/FileExcel'
 import Edit from 'mdi-material-ui/Pencil'
@@ -35,7 +36,7 @@ const actionsBreakpoints = [1300, 1350, 1400, 1450, 1500, 1550]
 class StorageLocationListActions extends React.Component {
   static propTypes = {
     entity: StorageShapes.StorageLocation.isRequired,
-    onEdit: PropTypes.func.isRequired,
+    project: PropTypes.string.isRequired,
     onDelete: PropTypes.func.isRequired,
     onCopyFiles: PropTypes.func.isRequired,
     onUp: PropTypes.func.isRequired,
@@ -49,9 +50,9 @@ class StorageLocationListActions extends React.Component {
     ...i18nContextType,
   }
 
-  handleEdit = () => {
-    const { onEdit, entity: { content: { configuration } } } = this.props
-    onEdit(configuration)
+  getEditUrl = () => {
+    const { project, entity: { content: { configuration } } } = this.props
+    return `/admin/${project}/data/acquisition/storage/storages/${configuration.name}/edit`
   }
 
   handleDelete = () => {
@@ -105,11 +106,12 @@ class StorageLocationListActions extends React.Component {
           key="edit"
           entityLinks={entity.links}
           hateoasKey={HateoasKeys.UPDATE}
-          onClick={this.handleEdit}
           disableInsteadOfHide
           title={intl.formatMessage({ id: 'storage.location.list.edit.button' })}
         >
-          <Edit hoverColor={style.hoverButtonEdit} />
+          <Link to={this.getEditUrl}>
+            <Edit hoverColor={style.hoverButtonEdit} />
+          </Link>
         </HateoasIconAction>
         <HateoasIconAction
           key="copy"

@@ -46,15 +46,13 @@ import DIALOG_TYPES from '../../domain/dialogTypes'
  */
 class AcquisitionProcessingChainTableComponent extends React.Component {
   static propTypes = {
+    project: PropTypes.string.isRequired,
     pageSize: PropTypes.number,
     hasAccess: PropTypes.bool.isRequired,
     onToggle: PropTypes.func,
     onDelete: PropTypes.func,
     onStopChain: PropTypes.func,
     onRunChain: PropTypes.func,
-    onListSessions: PropTypes.func.isRequired,
-    onDuplicate: PropTypes.func.isRequired,
-    onEdit: PropTypes.func.isRequired,
     onMultiToggleSelection: PropTypes.func,
     isOneCheckboxToggled: PropTypes.bool.isRequired,
     entitiesLoading: PropTypes.bool.isRequired,
@@ -208,8 +206,8 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
    */
   buildColumns = () => {
     const {
-      hasAccess, getColumnSortingData, onListSessions, onEdit, onDuplicate, onSort,
-      onStopChain,
+      hasAccess, getColumnSortingData, onSort,
+      onStopChain, project,
       onToggle,
     } = this.props
     const { intl: { formatMessage } } = this.context
@@ -244,7 +242,7 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
         .build(),
       new TableColumnBuilder().optionsColumn([{
         OptionConstructor: AcquisitionProcessingChainTableListSessionsAction,
-        optionProps: { onListSessions },
+        optionProps: { project },
       }, {
         OptionConstructor: AcquisitionProcessingChainTableRunAction,
         optionProps: { onRunChain: this.onRunSelectedChain },
@@ -253,10 +251,10 @@ class AcquisitionProcessingChainTableComponent extends React.Component {
         optionProps: { onStopChain },
       }, {
         OptionConstructor: AcquisitionProcessingChainTableEditAction,
-        optionProps: { onEdit },
+        optionProps: { project },
       }, {
         OptionConstructor: AcquisitionProcessingChainTableDuplicateAction,
-        optionProps: { onDuplicate },
+        optionProps: { project },
       }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {

@@ -42,16 +42,9 @@ export class IngestProcessingChainListContainer extends React.Component {
     fetchPage: PropTypes.func,
   }
 
-  onEdit = (chainNameToEdit) => {
+  getCreateUrl = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/chain/${chainNameToEdit}/edit`
-    browserHistory.push(url)
-  }
-
-  onCreate = () => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/chain/create`
-    browserHistory.push(url)
+    return `/admin/${project}/data/acquisition/chain/create`
   }
 
   onBack = () => {
@@ -66,10 +59,10 @@ export class IngestProcessingChainListContainer extends React.Component {
 
   render() {
     return (<IngestProcessingChainListComponent
+      project={this.props.params.project}
       fetchPage={this.props.fetchPage}
       onDelete={this.onDelete}
-      onEdit={this.onEdit}
-      onCreate={this.onCreate}
+      createUrl={this.getCreateUrl()}
       onBack={this.onBack}
       queryPageSize={IngestProcessingChainListContainer.queryPageSize}
       accessToken={this.props.accessToken}

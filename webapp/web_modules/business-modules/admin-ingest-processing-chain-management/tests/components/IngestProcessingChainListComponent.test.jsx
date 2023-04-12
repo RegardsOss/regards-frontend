@@ -42,7 +42,8 @@ describe('[ADMIN INGEST PROCESSING CHAIN MANAGEMENT] Testing IngestProcessingCha
       fetchPage: () => new Promise(() => { }),
       onDelete: () => new Promise(() => { }),
       onEdit: () => new Promise(() => { }),
-      onCreate: () => new Promise(() => { }),
+      createUrl: 'www.test.t',
+      project: 'test',
       onBack: () => new Promise(() => { }),
       queryPageSize: 100,
     }

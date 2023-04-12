@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Link } from 'react-router'
 import get from 'lodash/get'
 import RaisedButton from 'material-ui/RaisedButton'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
-import { IngestDomain } from '@regardsoss/domain'
+import { IngestDomain, UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FiltersPaneHelper } from '@regardsoss/domain/ui'
 import { ICON_TYPE_ENUM } from '../../domain/iconType'
 
 /**
@@ -45,15 +45,15 @@ class IngestActionsComponent extends React.Component {
     isRetryErrorsDialogOpen: false,
   }
 
-  onSeeErrors = () => {
+  getErrorsURL = () => {
     const { project, sessionStep: { source, session } } = this.props
-    FiltersPaneHelper.updateURL(IngestDomain.RequestFilters.builder(source, session).withStatusError().build(), [],
+    return UIDomain.FiltersPaneHelper.buildLocationDescriptorObject(IngestDomain.RequestFilters.builder(source, session).withStatusError().build(), [],
       `/admin/${project}/data/acquisition/oais/featureManager/requests`)
   }
 
-  onSeeReferenced = () => {
+  getReferencedURL = () => {
     const { project, sessionStep: { source, session } } = this.props
-    FiltersPaneHelper.updateURL(IngestDomain.AipFilters.builder(source, session).build(), [],
+    return UIDomain.FiltersPaneHelper.buildLocationDescriptorObject(IngestDomain.RequestFilters.builder(source, session).build(), [],
       `/admin/${project}/data/acquisition/oais/featureManager/aips`)
   }
 
@@ -96,23 +96,25 @@ class IngestActionsComponent extends React.Component {
     const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
 
     return (<div style={cardButtonStyle}>
-      <RaisedButton
-        onClick={this.onSeeReferenced}
-        label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.see-referenced' })}
-        primary
-        style={raisedListStyle}
-        labelStyle={raisedListLabelStyle}
-      />
+      <Link to={this.getReferencedURL}>
+        <RaisedButton
+          label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.see-referenced' })}
+          primary
+          style={raisedListStyle}
+          labelStyle={raisedListLabelStyle}
+        />
+      </Link>
       {
         nbErrors !== 0
           ? <div style={cardButtonStyle}>
-            <RaisedButton
-              onClick={this.onSeeErrors}
-              label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.see-errors' })}
-              primary
-              style={raisedListStyle}
-              labelStyle={raisedListLabelStyle}
-            />
+            <Link to={this.getErrorsURL}>
+              <RaisedButton
+                label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.see-errors' })}
+                primary
+                style={raisedListStyle}
+                labelStyle={raisedListLabelStyle}
+              />
+            </Link>
             <RaisedButton
               onClick={this.toggleRetryErrorsDialog}
               label={formatMessage({ id: 'dashboard.selectedsession.REFERENCING.ingest.button.retry-errors' })}

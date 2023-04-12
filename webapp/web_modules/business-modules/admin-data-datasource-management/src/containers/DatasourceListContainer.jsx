@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -24,7 +23,6 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { datasourceActions, datasourceSelectors } from '../clients/DatasourceClient'
 import DatasourceListComponent from '../components/DatasourceListComponent'
 import messages from '../i18n'
-import EditionHelper from '../domain/EditionHelper'
 
 /**
  * Show the datasource list
@@ -64,19 +62,6 @@ export class DatasourceListContainer extends React.Component {
     return `/admin/${project}/data/acquisition/board`
   }
 
-  /**
-   * Redirect the user to the corresponding page
-   */
-  handleEdit = (datasource) => {
-    const { params: { project } } = this.props
-    const datasourceId = datasource.content.businessId
-    const type = EditionHelper.getDatasourcePluginType(datasource)
-
-    const url = `/admin/${project}/data/acquisition/datasource/${type}/${datasourceId}/edit`
-
-    browserHistory.push(url)
-  }
-
   handleDelete = (datasourceId) => {
     this.props.deleteDatasource(datasourceId)
   }
@@ -86,16 +71,16 @@ export class DatasourceListContainer extends React.Component {
   }
 
   render() {
-    const { datasourceList, isFetching } = this.props
+    const { datasourceList, isFetching, params: { project } } = this.props
     return (
       <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
           isLoading={isFetching}
         >
           <DatasourceListComponent
+            project={project}
             datasourceList={datasourceList}
             handleDelete={this.handleDelete}
-            handleEdit={this.handleEdit}
             backUrl={this.getBackUrl()}
             createUrl={this.getCreateUrl()}
             refreshDatasourceList={this.refreshDatasourceList}

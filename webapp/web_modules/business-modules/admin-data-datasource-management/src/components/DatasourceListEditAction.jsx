@@ -16,11 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Link } from 'react-router'
 import find from 'lodash/find'
 import Edit from 'mdi-material-ui/Pencil'
 import IconButton from 'material-ui/IconButton'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import EditionHelper from '../domain/EditionHelper'
 
 /**
 * Edit table action for Datasource list
@@ -29,7 +31,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 class DatasourceListEditAction extends React.Component {
   static propTypes = {
     entity: DataManagementShapes.Datasource,
-    handleEdit: PropTypes.func.isRequired,
+    project: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -45,20 +47,30 @@ class DatasourceListEditAction extends React.Component {
     return !!find(links, (l) => l.rel === 'update')
   }
 
+  /**
+   * Redirect the user to the corresponding page
+   */
+  getEditUrl = (datasource) => {
+    const { project, entity } = this.props
+    const type = EditionHelper.getDatasourcePluginType(datasource)
+
+    return `/admin/${project}/data/acquisition/datasource/${type}/${entity.content.businessId}/edit`
+  }
+
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity, handleEdit } = this.props
     return (
-      <IconButton
-        className={`selenium-edit-${entity.content.id}`}
-        title={formatMessage({ id: 'datasource.list.action.edit' })}
-        iconStyle={DatasourceListEditAction.iconStyle}
-        style={DatasourceListEditAction.buttonStyle}
-        onClick={() => handleEdit(entity)}
-        disabled={!this.isEditable()}
-      >
-        <Edit />
-      </IconButton>
+      <Link to={this.getEditUrl}>
+        <IconButton
+          title={formatMessage({ id: 'datasource.list.action.edit' })}
+          iconStyle={DatasourceListEditAction.iconStyle}
+          style={DatasourceListEditAction.buttonStyle}
+          disabled={!this.isEditable()}
+        >
+          <Edit />
+        </IconButton>
+      </Link>
+
     )
   }
 }

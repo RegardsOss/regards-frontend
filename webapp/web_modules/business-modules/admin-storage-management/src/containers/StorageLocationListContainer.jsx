@@ -110,11 +110,6 @@ export class StorageLocationListContainer extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${priotitizedDataStorageToDuplicate.name}/copy`)
   }
 
-  onEdit = (priotitizedDataStorageToEdit) => {
-    const { project } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${priotitizedDataStorageToEdit.name}/edit`)
-  }
-
   onActivateToggle = (entity) => {
     const updatedObject = { ...entity }
     updatedObject.configuration.pluginConfiguration = { ...entity.configuration.pluginConfiguration, active: !entity.configuration.pluginConfiguration.active }
@@ -153,7 +148,7 @@ export class StorageLocationListContainer extends React.Component {
         entities={this.props.entities}
         isLoading={this.props.isLoading}
         availableDependencies={this.props.availableDependencies}
-        onEdit={this.onEdit}
+        project={this.props.project}
         onUpPriority={this.onUpPriority}
         onDownPriority={this.onDownPriority}
         onDuplicate={this.onDuplicate}

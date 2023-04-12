@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Link } from 'react-router'
 import get from 'lodash/get'
 import RaisedButton from 'material-ui/RaisedButton'
+import { UIDomain, DataProviderDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
-import { DataProviderDomain, UIDomain } from '@regardsoss/domain'
 import {
   ConfirmDialogComponent, ConfirmDialogComponentTypes, PositionedDialog,
 } from '@regardsoss/components'
@@ -48,9 +49,9 @@ class DPActionsComponent extends React.Component {
     isProductDialogOpen: false,
   }
 
-  onSeeChains = () => {
+  getSeeChainsURL = () => {
     const { project, sessionStep: { source } } = this.props
-    UIDomain.FiltersPaneHelper.updateURL(DataProviderDomain.AcquisitionProcessingChainFilters.builder(source).build(), [],
+    return UIDomain.FiltersPaneHelper.buildLocationDescriptorObject(DataProviderDomain.AcquisitionProcessingChainFilters.builder(source).build(), [],
       `/admin/${project}/data/acquisition/dataprovider/chains`)
   }
 
@@ -129,13 +130,14 @@ class DPActionsComponent extends React.Component {
     } = this.context
     return (
       <div style={cardButtonStyle}>
-        <RaisedButton
-          onClick={this.onSeeChains}
-          label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.button.see-chains' })}
-          primary
-          style={raisedListStyle}
-          labelStyle={raisedListLabelStyle}
-        />
+        <Link to={this.getSeeChainsURL}>
+          <RaisedButton
+            label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.button.see-chains' })}
+            primary
+            style={raisedListStyle}
+            labelStyle={raisedListLabelStyle}
+          />
+        </Link>
         {
           nbErrors !== 0
             ? <div style={cardButtonStyle}>

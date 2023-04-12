@@ -47,8 +47,8 @@ export class IngestProcessingChainListComponent extends React.Component {
   static propTypes = {
     fetchPage: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
-    onEdit: PropTypes.func.isRequired,
-    onCreate: PropTypes.func.isRequired,
+    createUrl: PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
     onBack: PropTypes.func.isRequired,
     queryPageSize: PropTypes.number.isRequired,
     accessToken: PropTypes.string.isRequired,
@@ -97,6 +97,7 @@ export class IngestProcessingChainListComponent extends React.Component {
   }
 
   render() {
+    const { project } = this.props
     const { intl, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
@@ -113,7 +114,7 @@ export class IngestProcessingChainListComponent extends React.Component {
         optionProps: { accessToken: this.props.accessToken },
       }, {
         OptionConstructor: IngestProcessingChainTableEditAction,
-        optionProps: { onEdit: this.props.onEdit },
+        optionProps: { project },
       }, {
         OptionConstructor: TableDeleteOption,
         optionProps: {
@@ -172,7 +173,7 @@ export class IngestProcessingChainListComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonClick={this.props.onCreate}
+            mainButtonUrl={this.props.createUrl}
             mainHateoasDependencies={dependencies.addDependencies}
             mainButtonLabel={intl.formatMessage({ id: 'processing-chain.addnew.button' })}
             secondaryButtonLabel={intl.formatMessage({ id: 'processing-chain.back.button' })}

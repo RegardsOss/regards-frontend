@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Link } from 'react-router'
 import RunIcon from 'mdi-material-ui/FormatListBulleted'
 import IconButton from 'material-ui/IconButton'
+import { UIDomain, AdminDomain } from '@regardsoss/domain'
 import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -27,11 +29,11 @@ import { i18nContextType } from '@regardsoss/i18n'
 */
 class AcquisitionProcessingChainTableListSessionsAction extends React.Component {
   static propTypes = {
+    project: PropTypes.string.isRequired,
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
       links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
-    onListSessions: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -43,18 +45,21 @@ class AcquisitionProcessingChainTableListSessionsAction extends React.Component 
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   render() {
+    const { project } = this.props
     const { intl: { formatMessage } } = this.context
     const { chain } = this.props.entity.content
+    const locationDescriptorObject = UIDomain.FiltersPaneHelper.buildLocationDescriptorObject(AdminDomain.DashboardFilters.builder(chain.label).withSelectedSource(chain.label).build(), [],
+      `/admin/${project}/data/acquisition/dashboard/monitor`)
     return (
-      <IconButton
-        className={`selenium-run-${chain.id}`}
-        title={formatMessage({ id: 'acquisition-chain.list.list.tooltip' })}
-        iconStyle={AcquisitionProcessingChainTableListSessionsAction.iconStyle}
-        style={AcquisitionProcessingChainTableListSessionsAction.buttonStyle}
-        onClick={() => this.props.onListSessions(chain.label)}
-      >
-        <RunIcon />
-      </IconButton>
+      <Link to={locationDescriptorObject}>
+        <IconButton
+          title={formatMessage({ id: 'acquisition-chain.list.list.tooltip' })}
+          iconStyle={AcquisitionProcessingChainTableListSessionsAction.iconStyle}
+          style={AcquisitionProcessingChainTableListSessionsAction.buttonStyle}
+        >
+          <RunIcon />
+        </IconButton>
+      </Link>
     )
   }
 }

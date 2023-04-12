@@ -35,7 +35,8 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceListComponent', (
     const props = {
       datasourceList: [DumpProvider.getFirstEntity('DataManagementClient', 'Datasource')],
       handleDelete: () => { },
-      handleEdit: () => { },
+      project: '#',
+      getEditUrl: () => { },
       refreshDatasourceList: () => { },
       onToggleState: () => { },
       createUrl: '#',

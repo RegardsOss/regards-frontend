@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Link } from 'react-router'
 import get from 'lodash/get'
 import RaisedButton from 'material-ui/RaisedButton'
 import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
-import { WorkerDomain } from '@regardsoss/domain'
+import { WorkerDomain, UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FiltersPaneHelper } from '@regardsoss/domain/ui'
 import { ICON_TYPE_ENUM } from '../../domain/iconType'
 
 /**
@@ -45,10 +45,10 @@ class WorkerActionsComponent extends React.Component {
     isRetryErrorsDialogOpen: false,
   }
 
-  onSeeErrors = () => {
+  getErrorsURL = () => {
     const { project, sessionStep: { session, source } } = this.props
-    const queryParameters = WorkerDomain.RequestFilters.builder(session, source).withStatusError().build()
-    FiltersPaneHelper.updateURL(queryParameters, [], `/admin/${project}/data/acquisition/datapreparation/requests`)
+    return UIDomain.FiltersPaneHelper.buildLocationDescriptorObject(WorkerDomain.RequestFilters.builder(session, source).withStatusError().build(), [],
+      `/admin/${project}/data/acquisition/datapreparation/requests`)
   }
 
   onRetryErrors = () => {
@@ -94,13 +94,14 @@ class WorkerActionsComponent extends React.Component {
         {
           nbErrors !== 0
             ? <div style={cardButtonStyle}>
-              <RaisedButton
-                onClick={this.onSeeErrors}
-                label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.workers.button.see-errors' })}
-                primary
-                style={raisedListStyle}
-                labelStyle={raisedListLabelStyle}
-              />
+              <Link to={this.getErrorsURL}>
+                <RaisedButton
+                  label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.workers.button.see-errors' })}
+                  primary
+                  style={raisedListStyle}
+                  labelStyle={raisedListLabelStyle}
+                />
+              </Link>
               <RaisedButton
                 onClick={this.toggleRetryErrorsDialog}
                 label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.workers.button.retry-errors' })}

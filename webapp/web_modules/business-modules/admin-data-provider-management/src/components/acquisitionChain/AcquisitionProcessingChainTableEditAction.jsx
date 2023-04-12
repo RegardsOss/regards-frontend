@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Link } from 'react-router'
 import find from 'lodash/find'
 import Edit from 'mdi-material-ui/Pencil'
 import { IngestShapes, CommonShapes } from '@regardsoss/shape'
@@ -29,11 +30,11 @@ import { AcquisitionProcessingChainEditActions } from '../../clients/Acquisition
 */
 class AcquisitionProcessingChainTableEditAction extends React.Component {
   static propTypes = {
+    project: PropTypes.string.isRequired,
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
       links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
-    onEdit: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -52,19 +53,20 @@ class AcquisitionProcessingChainTableEditAction extends React.Component {
   }
 
   render() {
+    const { project } = this.props
     const { intl: { formatMessage } } = this.context
     const chain = this.props.entity.content
     return (
       <ResourceIconAction
         resourceDependencies={AcquisitionProcessingChainTableEditAction.editDependency}
-        className={`selenium-edit-${chain.chainId}`}
         title={formatMessage({ id: 'acquisition-chain.list.edit.tooltip' })}
         iconStyle={AcquisitionProcessingChainTableEditAction.iconStyle}
         style={AcquisitionProcessingChainTableEditAction.buttonStyle}
-        onClick={() => this.props.onEdit(chain.chainId)}
         disabled={!this.isEditable()}
       >
-        <Edit />
+        <Link to={`/admin/${project}/data/acquisition/dataprovider/chain/${chain.chainId}/edit`}>
+          <Edit />
+        </Link>
       </ResourceIconAction>
     )
   }

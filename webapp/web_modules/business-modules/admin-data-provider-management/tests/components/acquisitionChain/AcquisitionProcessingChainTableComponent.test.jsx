@@ -41,10 +41,9 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainTab
   })
   it('should render correctly', () => {
     const props = {
+      project: 'test',
       hasAccess: true,
       onListSessions: () => { },
-      onDuplicate: () => { },
-      onEdit: () => { },
       isOneCheckboxToggled: false,
       entitiesLoading: false,
       resultsCount: 100,

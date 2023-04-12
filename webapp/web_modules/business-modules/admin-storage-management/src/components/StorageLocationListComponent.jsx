@@ -59,7 +59,7 @@ export class StorageLocationListComponent extends React.Component {
     entities: StorageShapes.StorageLocationArray,
     isLoading: PropTypes.bool.isRequired,
     availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-    onEdit: PropTypes.func.isRequired,
+    project: PropTypes.string.isRequired,
     onUpPriority: PropTypes.func.isRequired,
     onDownPriority: PropTypes.func.isRequired,
     onRetryErrors: PropTypes.func.isRequired,
@@ -435,7 +435,7 @@ export class StorageLocationListComponent extends React.Component {
   render() {
     const {
       entities, isLoading, availableDependencies,
-      onUpPriority, onDownPriority, onEdit, onRefresh,
+      onUpPriority, onDownPriority, project, onRefresh,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -544,7 +544,7 @@ export class StorageLocationListComponent extends React.Component {
                 .rowCellDefinition({
                   Constructor: StorageLocationListActions,
                   props: {
-                    onEdit,
+                    project,
                     onCopyFiles: this.onCopyFiles,
                     onUp: onUpPriority,
                     onDown: onDownPriority,

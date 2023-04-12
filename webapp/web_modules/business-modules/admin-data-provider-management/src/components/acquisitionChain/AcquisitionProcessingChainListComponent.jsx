@@ -42,17 +42,15 @@ import dependencies from '../../dependencies'
 */
 export class AcquisitionProcessingChainListComponent extends React.Component {
   static propTypes = {
+    project: PropTypes.string.isRequired,
     resultsCount: PropTypes.number.isRequired,
+    createUrl: PropTypes.string.isRequired,
     entitiesLoading: PropTypes.bool.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
-    onEdit: PropTypes.func.isRequired,
-    onDuplicate: PropTypes.func.isRequired,
     onRunChain: PropTypes.func.isRequired,
     onStopChain: PropTypes.func.isRequired,
-    onListSessions: PropTypes.func.isRequired,
-    onCreate: PropTypes.func.isRequired,
     onMultiToggleSelection: PropTypes.func.isRequired,
     onToggle: PropTypes.func.isRequired,
     isOneCheckboxToggled: PropTypes.bool.isRequired,
@@ -106,9 +104,9 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
   render() {
     const { intl: { formatMessage }, moduleTheme: { chains: { filterButtonStyle } } } = this.context
     const {
-      onBack, resultsCount, entitiesLoading, onListSessions, onEdit, onCreate,
-      onMultiToggleSelection, isOneCheckboxToggled, hasAccess, onDuplicate, onToggle,
-      onDelete, onStopChain, onRunChain,
+      onBack, resultsCount, entitiesLoading,
+      onMultiToggleSelection, isOneCheckboxToggled, hasAccess, onToggle,
+      onDelete, onStopChain, onRunChain, project, createUrl,
     } = this.props
     const { isPaneOpened } = this.state
     return (
@@ -146,12 +144,10 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
             />
             <AcquisitionProcessingChainTableComponent
               key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
+              project={project}
               pageSize={TableFilterSortingAndVisibilityContainer.PAGE_SIZE}
               hasAccess={hasAccess}
               updateErrorMessage={this.updateErrorMessage}
-              onListSessions={onListSessions}
-              onDuplicate={onDuplicate}
-              onEdit={onEdit}
               entitiesLoading={entitiesLoading}
               resultsCount={resultsCount}
               isOneCheckboxToggled={isOneCheckboxToggled}
@@ -160,7 +156,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonClick={onCreate}
+            mainButtonUrl={createUrl}
             mainHateoasDependencies={dependencies.addDependencies}
             mainButtonLabel={formatMessage({ id: 'acquisition-chain.list.addnew.button' })}
           />
