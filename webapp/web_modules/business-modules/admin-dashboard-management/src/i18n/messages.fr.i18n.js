@@ -79,7 +79,7 @@ const messages = {
   'dashboard.selectedsession.ACQUISITION.dp.filesAcquired.tooltip': '{value} fichier(s) détecté(s)',
   'dashboard.selectedsession.ACQUISITION.dp.filesInvalid.tooltip': '{value} fichier(s) invalide(s)',
   'dashboard.selectedsession.ACQUISITION.dp.incomplete.tooltip': '{value} produit(s) incomplet(s)',
-  'dashboard.selectedsession.ACQUISITION.dp.invalid.tooltip': '{value} produit(s) invalide(s)',
+  'dashboard.selectedsession.ACQUISITION.dp.invalid.tooltip': '{value} produit(s) invalide(s). Un produit invalide indique que trop de fichiers scannés ont été associé au produit',
   'dashboard.selectedsession.ACQUISITION.dp.productsErrors.tooltip': '{value} produit(s) érroné(s)',
   'dashboard.selectedsession.ACQUISITION.dp.generatedProducts.tooltip': '{value} produit(s) généré(s)',
   'dashboard.selectedsession.ACQUISITION.dp.productsCanceled.tooltip': '{value} produit(s) annulé(s)',
