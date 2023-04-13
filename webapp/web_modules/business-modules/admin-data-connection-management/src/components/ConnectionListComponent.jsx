@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Link } from 'react-router'
 import map from 'lodash/map'
-
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
@@ -46,10 +46,10 @@ export class ConnectionListComponent extends React.Component {
   static propTypes = {
     connectionList: DataManagementShapes.ConnectionList,
     handleDelete: PropTypes.func.isRequired,
-    handleEdit: PropTypes.func.isRequired,
     handleTestConnection: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
+    project: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -101,7 +101,7 @@ export class ConnectionListComponent extends React.Component {
 
   render() {
     const {
-      connectionList, handleEdit, handleTestConnection, createUrl, backUrl,
+      connectionList, handleTestConnection, createUrl, backUrl, project,
     } = this.props
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
@@ -147,18 +147,17 @@ export class ConnectionListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={connection.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onClick={() => handleEdit(connection.content.businessId)}
                         title={formatMessage({ id: 'connection.list.action.edit' })}
-                        className="selenium-editButton"
                       >
-                        <Edit hoverColor={style.hoverButtonEdit} />
+                        <Link to={`/admin/${project}/data/acquisition/connection/${connection.content.businessId}/edit`}>
+                          <Edit hoverColor={style.hoverButtonEdit} />
+                        </Link>
                       </HateoasIconAction>
                       <HateoasIconAction
                         entityLinks={connection.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onClick={() => this.openDeleteDialog(connection)}
                         title={formatMessage({ id: 'connection.list.action.delete' })}
-                        className="selenium-deleteButton"
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
                       </HateoasIconAction>

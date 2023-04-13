@@ -25,8 +25,8 @@ import {
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { DataProviderDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
-import { FILTER_PARAMS } from '../../domain/filters'
 import { RUNNING_TYPES } from '../../domain/runningTypes'
 import { MODE_TYPES } from '../../domain/modeTypes'
 
@@ -46,12 +46,6 @@ export class AcquisitionProcessingChainListFiltersComponent extends React.Compon
     ...themeContextType,
   }
 
-  static DEFAULT_FILTERS_STATE = {
-    [FILTER_PARAMS.RUNNING]: null,
-    [FILTER_PARAMS.MODE]: null,
-    [FILTER_PARAMS.LABEL]: '',
-  }
-
   render() {
     const { updateFilter, inputValues, filtersI18n } = this.props
     const {
@@ -63,20 +57,20 @@ export class AcquisitionProcessingChainListFiltersComponent extends React.Compon
         inputValues={inputValues}
         filtersI18n={filtersI18n}
       >
-        <FilterPaneSelectFieldLegacy filterKey={FILTER_PARAMS.RUNNING} allValuesOption>
+        <FilterPaneSelectFieldLegacy filterKey={DataProviderDomain.ACQUISITION_PROCESSSING_CHAIN_FILTER_PARAMS.RUNNING} allValuesOption>
           {map(RUNNING_TYPES, (type) => (
             <MenuItem key={type} value={type} primaryText={formatMessage({ id: `acquisition-chain.list.filters.running.${type}` })} />
           ))}
         </FilterPaneSelectFieldLegacy>
 
-        <FilterPaneSelectFieldLegacy filterKey={FILTER_PARAMS.MODE} allValuesOption>
+        <FilterPaneSelectFieldLegacy filterKey={DataProviderDomain.ACQUISITION_PROCESSSING_CHAIN_FILTER_PARAMS.MODE} allValuesOption>
           {map(MODE_TYPES, (type) => (
             <MenuItem key={type} value={type} primaryText={formatMessage({ id: `acquisition-chain.list.filters.mode.${type}` })} />
           ))}
         </FilterPaneSelectFieldLegacy>
-        <FilterPaneTextField filterKey={FILTER_PARAMS.LABEL} />
+        <FilterPaneTextField filterKey={DataProviderDomain.ACQUISITION_PROCESSSING_CHAIN_FILTER_PARAMS.LABEL} />
       </FiltersPaneMainComponent>
     )
   }
 }
-export default withFiltersPane(AcquisitionProcessingChainListFiltersComponent.DEFAULT_FILTERS_STATE)(AcquisitionProcessingChainListFiltersComponent)
+export default withFiltersPane(DataProviderDomain.AcquisitionProcessingChainFilters.buildDefault())(AcquisitionProcessingChainListFiltersComponent)

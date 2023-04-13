@@ -28,7 +28,6 @@ import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
-import { UIDomain, AdminDomain } from '@regardsoss/domain'
 import {
   RunAcquisitionProcessingChainActions, StopAcquisitionProcessingChainActions,
   ToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainActions, AcquisitionProcessingChainEditActions,
@@ -85,8 +84,6 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
     ...i18nContextType,
   }
 
-  // static PAGE_SIZE = 100
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -140,35 +137,6 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/board`)
   }
 
-  /**
-   * Callback to go to chain edition page
-   * @param {*} chainIdToEdit : identifier of the generation chain to edit
-   */
-  onEdit = (chainIdToEdit) => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/chain/${chainIdToEdit}/edit`
-    browserHistory.push(url)
-  }
-
-  /**
-   * Callback to go to the duplication page of the given chain.
-   * @param {*} chainIdToDuplicate : Identifier of the chain to duplicate
-   */
-  onDuplicate = (chainIdToDuplicate) => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/chain/${chainIdToDuplicate}/duplicate`
-    browserHistory.push(url)
-  }
-
-  /**
-   * Callback to go to session list associated to the given acquisition chain
-   */
-  onListSessions = (source) => {
-    const { params: { project } } = this.props
-    UIDomain.FiltersPaneHelper.updateURL(AdminDomain.DashboardFilters.builder(source).withSelectedSource(source).build(), [],
-      `/admin/${project}/data/acquisition/dashboard/monitor`)
-  }
-
   getFetchPageSize = () => {
     const { meta } = this.props
     const lastPage = (meta && meta.number) || 0
@@ -181,12 +149,9 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
     return fetchPage(0, fetchPageSize, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') })
   }
 
-  /**
-   * Callback to go to the chain creation page
-   */
-  onCreate = () => {
+  getCreateUrl = () => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/dataprovider/chain/create`)
+    return `/admin/${project}/data/acquisition/dataprovider/chain/create`
   }
 
   /**
@@ -267,12 +232,9 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
         project={project}
         onRefresh={this.onRefresh}
         onBack={this.onBack}
-        onCreate={this.onCreate}
         onDelete={this.onDelete}
-        onEdit={this.onEdit}
-        onDuplicate={this.onDuplicate}
-        onListSessions={this.onListSessions}
         onRunChain={this.onRunChain}
+        createUrl={this.getCreateUrl()}
         onStopChain={this.onStopChain}
         resultsCount={meta.totalElements}
         entitiesLoading={entitiesLoading || isFetching}

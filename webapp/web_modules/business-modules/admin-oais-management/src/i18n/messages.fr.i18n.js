@@ -122,9 +122,9 @@ export default {
   'oais.requests.list.filters.buttons.delete': 'Supprimer la sélection',
   'oais.requests.confirm.delete': 'Supprimer',
   'oais.requests.confirm.delete.close': 'Fermer',
-  'oais.requests.confirm.delete.title': 'Supprimer les requêtes sélectionnées',
-  'oais.requests.confirm.delete.message': 'Voulez vous supprimer les requêtes sélectionnées ?',
-  'oais.requests.confirm.delete.note': 'Attention, les requêtes en cours de traitement ne peuvent pas être supprimées.',
+  'oais.requests.confirm.delete.title': 'Supprimer {severalEntitiesSelected, select, true {les requêtes sélectionnées} other {la requête sélectionnée}}',
+  'oais.requests.confirm.delete.message': 'Voulez vous supprimer {severalEntitiesSelected, select, true {les requêtes sélectionnées} other {la requête sélectionnée}} ?',
+  'oais.requests.confirm.delete.note': 'Attention, le serveur pourrait être amené à ignorer certaines requêtes que vous avez sélectionnées et qui sont en cours de traitement car elles ne peuvent pas être supprimées pendant leur traitement.',
   'oais.requests.confirm.abort.title': 'Arrêter toutes les requêtes',
   'oais.requests.confirm.abort.message': 'Arrêter toutes les requêtes en cours de traitement?',
   'oais.requests.confirm.abort.warning': 'Attention, cette opération s\'applique à toutes les requêtes, pas uniquement à celles visibles ou sélectionnées.',
@@ -132,22 +132,25 @@ export default {
   'oais.requests.confirm.abort.confirm': 'Confirmer',
   'oais.requests.confirm.retry': 'Relancer',
   'oais.requests.confirm.retry.close': 'Fermer',
-  'oais.requests.confirm.retry.title': 'Relancer les requêtes sélectionnées',
-  'oais.requests.confirm.retry.message': 'Voulez vous relancer les requêtes sélectionnées ?',
+  'oais.requests.confirm.retry.title': 'Relancer  {severalEntitiesSelected, select, true {les requêtes sélectionnées} other {la requête sélectionnée}}',
+  'oais.requests.confirm.retry.message': 'Voulez vous relancer {severalEntitiesSelected, select, true {les requêtes sélectionnées} other {la requête sélectionnée}} ?',
   'oais.request.error.details.title': 'Détails de l\'erreur',
   'oais.request.details.button.close': 'Fermer',
   'oais.requests.empty.results': 'Aucune requête trouvée',
   'oais.requests.loading.results': 'Chargement des requêtes ...',
   'oais.requests.retry.title': 'Relancer le traitement',
   'oais.requests.delete.title': 'Supprimer le traitement',
-  'oais.requests.selection.version.option.title': 'Gestion {requestCount, plural, one {du produit modifié} other {des produits modifiés}}',
+  'oais.requests.selection.version.option.title': 'Gestion {severalEntitiesSelected, select, true {des produits modifiés} other {du produit modifié}}',
   'oais.requests.selection.version.option.cancel': 'Annuler',
   'oais.requests.selection.version.option.confirm': 'Confirmer',
-  'oais.requests.selection.version.option.single.message': 'Selectionner ci-dessous l\'opération à appliquer suite aux modifications du produit "{providerId}"',
-  'oais.requests.selection.version.option.many.message': 'Selectionner ci-dessous l\'opération à appliquer suite aux modifications des produits sélectionnés',
-  'oais.requests.selection.version.option.IGNORE': 'Ignorer {requestCount, plural, one {le produit modifié} other {les produits modifiés}}',
-  'oais.requests.selection.version.option.INC_VERSION': 'Créer une nouvelle version {requestCount, plural, one {du produit modifié} other {des produits modifiés}}',
-  'oais.requests.selection.version.option.REPLACE': 'Remplacer {requestCount, plural, one {le produit actuel} other {les produits actuels}} par {requestCount, plural, one {le produit modifié} other {les produits modifiés}}',
+  'oais.requests.selection.version.option.message': `{nbProviderIdKnown, plural,
+    =0 {Selectionner ci-dessous l'opération à appliquer suite aux modifications du produit}
+    one {Selectionner ci-dessous l'opération à appliquer suite aux modifications du produit "{providerId}"}
+    other {Selectionner ci-dessous l'opération à appliquer suite aux modifications des produits sélectionnés}
+  }`,
+  'oais.requests.selection.version.option.IGNORE': 'Ignorer {severalEntitiesSelected, select, true {les produits modifiés} other {le produit modifié}}',
+  'oais.requests.selection.version.option.INC_VERSION': 'Créer une nouvelle version {severalEntitiesSelected, select, true {des produits modifiés} other {du produit modifié}}',
+  'oais.requests.selection.version.option.REPLACE': 'Remplacer {severalEntitiesSelected, select, true {les produits actuels} other {le produit actuel}} par {severalEntitiesSelected, select, true {les produits modifiés} other {le produit modifié}}',
   'oais.requests.selection.version.option.async.info': 'La prise en compte de cette opération est asynchrone et nécessite un rafraîchissement',
 
   'oais.aips.list.subtitle': 'Liste des AIPS pour la session sélectionnée',
@@ -328,16 +331,16 @@ export default {
   'oais.settings.action.confirm': 'Confirmer',
   'oais.settings.action.cancel': 'Retour',
   'oais.settings.field.cron.help.message':
-  'The pattern is a list of six single space-separated fields: representing second, minute, hour, day, month, weekday. Month and weekday names can be given as the first three letters of the English names. Example patterns : ',
+    'The pattern is a list of six single space-separated fields: representing second, minute, hour, day, month, weekday. Month and weekday names can be given as the first three letters of the English names. Example patterns : ',
   'oais.settings.field.cron.help.message.example': '<ul>'
-  + '<li> "0 0 * * * *" = the top of every hour of every day.</li>'
-  + '<li> "*/10 * * * * *" = every ten seconds.</li>'
-  + '<li> "0 0 8-10 * * *" = 8, 9 and 10 o\'clock of every day.</li>'
-  + '<li> "0 0 6,19 * * *" = 6:00 AM and 7:00 PM every day.</li>'
-  + '<li> "0 0/30 8-10 * * *" = 8:00, 8:30, 9:00, 9:30, 10:00 and 10:30 every day.</li>'
-  + '<li> "0 0 9-17 * * MON-FRI" = on the hour nine-to-five weekdays.</li>'
-  + '<li> "0 0 0 25 12 ?" = every Christmas Day at midnight.</li>'
-  + '</ul>',
+    + '<li> "0 0 * * * *" = the top of every hour of every day.</li>'
+    + '<li> "*/10 * * * * *" = every ten seconds.</li>'
+    + '<li> "0 0 8-10 * * *" = 8, 9 and 10 o\'clock of every day.</li>'
+    + '<li> "0 0 6,19 * * *" = 6:00 AM and 7:00 PM every day.</li>'
+    + '<li> "0 0/30 8-10 * * *" = 8:00, 8:30, 9:00, 9:30, 10:00 and 10:30 every day.</li>'
+    + '<li> "0 0 9-17 * * MON-FRI" = on the hour nine-to-five weekdays.</li>'
+    + '<li> "0 0 0 25 12 ?" = every Christmas Day at midnight.</li>'
+    + '</ul>',
   'oais.settings.dialog.title': 'A propos de ce champs',
   'oais.settings.dialog.close': 'Fermer',
 }

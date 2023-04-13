@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Link } from 'react-router'
 import find from 'lodash/find'
 import Edit from 'mdi-material-ui/Pencil'
 import IconButton from 'material-ui/IconButton'
@@ -32,7 +33,7 @@ class IngestProcessingChainTableEditAction extends React.Component {
       content: IngestShapes.IngestProcessingChain,
       links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
-    onEdit: PropTypes.func.isRequired,
+    project: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -50,18 +51,19 @@ class IngestProcessingChainTableEditAction extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
+    const { project } = this.props
     const chain = this.props.entity.content
     return (
-      <IconButton
-        className={`selenium-edit-${chain.label}`}
-        title={formatMessage({ id: 'processing-chain.edit.tooltip' })}
-        iconStyle={IngestProcessingChainTableEditAction.iconStyle}
-        style={IngestProcessingChainTableEditAction.buttonStyle}
-        onClick={() => this.props.onEdit(chain.name)}
-        disabled={!this.isEditable()}
-      >
-        <Edit />
-      </IconButton>
+      <Link to={`/admin/${project}/data/acquisition/chain/${chain.name}/edit`}>
+        <IconButton
+          title={formatMessage({ id: 'processing-chain.edit.tooltip' })}
+          iconStyle={IngestProcessingChainTableEditAction.iconStyle}
+          style={IngestProcessingChainTableEditAction.buttonStyle}
+          disabled={!this.isEditable()}
+        >
+          <Edit />
+        </IconButton>
+      </Link>
     )
   }
 }

@@ -18,3 +18,4 @@
  **/
 
 export { AcquisitionProcessingChainModeEnum, AcquisitionProcessingChainModes } from './AcquisitionProcessingChaineModes'
+export { ACQUISITION_PROCESSSING_CHAIN_FILTER_PARAMS, AcquisitionProcessingChainFilters } from './AcquisitionProcessingChainFilters'

@@ -29,6 +29,7 @@ export class RequestRetryDialog extends React.Component {
     open: PropTypes.bool.isRequired,
     onConfirmRetry: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+    severalEntitiesSelected: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -56,17 +57,17 @@ export class RequestRetryDialog extends React.Component {
   }
 
   render() {
-    const { open } = this.props
+    const { open, severalEntitiesSelected } = this.props
     const { intl: { formatMessage } } = this.context
 
     return (
       <Dialog
-        title={formatMessage({ id: 'oais.requests.confirm.retry.title' })}
+        title={formatMessage({ id: 'oais.requests.confirm.retry.title' }, { severalEntitiesSelected })}
         actions={this.renderActions()}
         modal={false}
         open={open}
       >
-        {formatMessage({ id: 'oais.requests.confirm.retry.message' })}
+        {formatMessage({ id: 'oais.requests.confirm.retry.message' }, { severalEntitiesSelected })}
       </Dialog>
     )
   }

@@ -419,7 +419,7 @@ export default (theme) => {
         },
       },
       autocompleteStyle: {
-        paddingTop: '10px',
+        paddingTop: '2px',
       },
     },
     filtersChipsStyle: {

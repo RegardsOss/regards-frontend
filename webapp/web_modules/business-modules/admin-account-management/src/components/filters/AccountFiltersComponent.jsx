@@ -55,7 +55,7 @@ export class AccountFiltersComponent extends React.Component {
     [FILTER_PARAMS.LASTNAME]: '',
     [FILTER_PARAMS.STATUS]: null,
     [FILTER_PARAMS.ORIGIN]: null,
-    [FILTER_PARAMS.PROJECTS]: null,
+    [FILTER_PARAMS.PROJECT]: null,
   }
 
   render() {
@@ -82,7 +82,7 @@ export class AccountFiltersComponent extends React.Component {
             <MenuItem key={origin} value={origin} primaryText={origin} />
           ))}
         </FilterPaneSelectFieldLegacy>
-        <FilterPaneSelectFieldLegacy filterKey={FILTER_PARAMS.PROJECTS} allValuesOption>
+        <FilterPaneSelectFieldLegacy filterKey={FILTER_PARAMS.PROJECT} allValuesOption>
           {map(projects, (project) => (
             <MenuItem key={project.content.name} value={project.content.name} primaryText={project.content.name} />
           ))}

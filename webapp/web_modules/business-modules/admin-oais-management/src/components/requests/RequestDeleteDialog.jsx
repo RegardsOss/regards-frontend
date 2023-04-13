@@ -30,6 +30,7 @@ export class RequestDeleteDialog extends React.Component {
     open: PropTypes.bool.isRequired,
     onConfirmDelete: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+    severalEntitiesSelected: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -38,12 +39,13 @@ export class RequestDeleteDialog extends React.Component {
   }
 
   render() {
-    const { open, onConfirmDelete, onClose } = this.props
+    const {
+      open, onConfirmDelete, onClose, severalEntitiesSelected,
+    } = this.props
     const { intl: { formatMessage }, moduleTheme: { noteStyle } } = this.context
-
     return (
       <Dialog
-        title={formatMessage({ id: 'oais.requests.confirm.delete.title' })}
+        title={formatMessage({ id: 'oais.requests.confirm.delete.title' }, { severalEntitiesSelected })}
         actions={<>
           <FlatButton
             key="cancel"
@@ -63,8 +65,8 @@ export class RequestDeleteDialog extends React.Component {
         modal={false}
         open={open}
       >
-        <div>{formatMessage({ id: 'oais.requests.confirm.delete.message' })}</div>
-        <div style={noteStyle}>{formatMessage({ id: 'oais.requests.confirm.delete.note' })}</div>
+        <div>{formatMessage({ id: 'oais.requests.confirm.delete.message' }, { severalEntitiesSelected })}</div>
+        {severalEntitiesSelected && <div style={noteStyle}>{formatMessage({ id: 'oais.requests.confirm.delete.note' })}</div>}
       </Dialog>
     )
   }

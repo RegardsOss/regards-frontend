@@ -34,7 +34,7 @@ export const FILTER_PARAMS = {
   LASTNAME: 'lastName',
   STATUS: 'status',
   ORIGIN: 'origin',
-  PROJECTS: 'projects',
+  PROJECT: 'project',
 }
 
 /**
@@ -66,8 +66,8 @@ export const FILTERS_I18N = {
     labelKey: 'account.list.table.filters.origin.label',
     // chipValueKeys is not needed since we display raw selected value
   },
-  [FILTER_PARAMS.PROJECTS]: {
-    labelKey: 'account.list.table.filters.projects.label',
+  [FILTER_PARAMS.PROJECT]: {
+    labelKey: 'account.list.table.filters.project.label',
     // chipValueKeys is not needed since we display raw selected value
   },
 }

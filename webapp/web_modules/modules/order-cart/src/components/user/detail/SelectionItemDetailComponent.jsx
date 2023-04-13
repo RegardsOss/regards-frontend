@@ -50,6 +50,7 @@ class SelectionItemDetailComponent extends React.Component {
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',
+    timeZone: 'utc',
   }
 
   /** Expand all styles (used to measure available table height) */

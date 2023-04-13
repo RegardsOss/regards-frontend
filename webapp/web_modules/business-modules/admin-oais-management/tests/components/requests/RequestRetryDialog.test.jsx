@@ -39,8 +39,9 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestRetryDialog', () => {
   it('should render correctly opened', () => {
     const props = {
       open: true,
-      onConfirmRetry: () => {},
-      onClose: () => {},
+      onConfirmRetry: () => { },
+      onClose: () => { },
+      severalEntitiesSelected: true,
     }
     const enzymeWrapper = shallow(<RequestRetryDialog {...props} />, { context })
     const dialogWrapper = enzymeWrapper.find(Dialog)
@@ -51,8 +52,9 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestRetryDialog', () => {
   it('should render correctly closed', () => {
     const props = {
       open: false,
-      onConfirmRetry: () => {},
-      onClose: () => {},
+      onConfirmRetry: () => { },
+      onClose: () => { },
+      severalEntitiesSelected: true,
     }
     const enzymeWrapper = shallow(<RequestRetryDialog {...props} />, { context })
     const dialogWrapper = enzymeWrapper.find(Dialog)

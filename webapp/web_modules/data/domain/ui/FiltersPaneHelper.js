@@ -110,7 +110,7 @@ export class FiltersPaneHelper {
     }, {})
   }
 
-  static updateURL = (inputValues, ignoredURLParameters = [], destinationPath = null) => {
+  static buildLocationDescriptorObject = (inputValues, ignoredURLParameters = [], destinationPath = null) => {
     const { pathname, query } = browserHistory.getCurrentLocation()
     const previousQuery = reduce(keys(query), (acc, value) => {
       if (includes(ignoredURLParameters, value)) {
@@ -119,11 +119,15 @@ export class FiltersPaneHelper {
       return acc
     }, {})
     const newQuery = this.buildUrlQueryParameters(inputValues)
-    browserHistory.replace({
+    return {
       pathname: destinationPath || pathname,
       search: encodeURIComponent(new URLSearchParams(newQuery).toString()),
       query: { ...previousQuery, ...newQuery },
-    })
+    }
+  }
+
+  static updateURL = (inputValues, ignoredURLParameters = [], destinationPath = null) => {
+    browserHistory.replace(this.buildLocationDescriptorObject(inputValues, ignoredURLParameters, destinationPath))
   }
 
   static buildRequestParameters = (parametersObject) => (

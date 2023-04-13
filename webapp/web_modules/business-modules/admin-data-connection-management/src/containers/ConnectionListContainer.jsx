@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -66,12 +65,6 @@ export class ConnectionListContainer extends React.Component {
     return `/admin/${project}/data/acquisition/board`
   }
 
-  handleEdit = (connectionId) => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/connection/${connectionId}/edit`
-    browserHistory.push(url)
-  }
-
   handleDelete = (connectionId) => {
     this.props.deleteConnection(connectionId)
   }
@@ -80,7 +73,7 @@ export class ConnectionListContainer extends React.Component {
 
   render() {
     const { isLoading } = this.state
-    const { connectionList } = this.props
+    const { connectionList, params: { project } } = this.props
     return (
       <I18nProvider messages={messages}>
         <LoadableContentDisplayDecorator
@@ -89,7 +82,7 @@ export class ConnectionListContainer extends React.Component {
           <ConnectionListComponent
             connectionList={connectionList}
             handleDelete={this.handleDelete}
-            handleEdit={this.handleEdit}
+            project={project}
             handleTestConnection={this.handleTestConnection}
             backUrl={this.getBackUrl()}
             createUrl={this.getCreateUrl()}

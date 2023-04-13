@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { TableSelectionModes } from '@regardsoss/components'
 import { REQUEST_PARAMETERS, TableFilterDefaultStateEnum } from '../common'
 import { AIP_REQUEST_STATUS_ENUM } from './AIPRequestStatusEnum'
 
@@ -70,16 +69,16 @@ export class RequestFilters {
 
   withStatusIncluded(status) {
     this.filters[REQUEST_FILTER_PARAMS.REQUEST_STATE] = {
+      ...TableFilterDefaultStateEnum.VALUES,
       [REQUEST_PARAMETERS.VALUES]: [status],
-      [REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
     }
     return this
   }
 
   withStatusesIncluded(statuses) {
     this.filters[REQUEST_FILTER_PARAMS.AIP_STATE] = {
+      ...TableFilterDefaultStateEnum.VALUES,
       [REQUEST_PARAMETERS.VALUES]: statuses || [],
-      [REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
     }
     return this
   }

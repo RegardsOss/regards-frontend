@@ -122,9 +122,9 @@ export default {
   'oais.requests.list.filters.buttons.delete': 'Delete selection',
   'oais.requests.confirm.delete': 'Delete',
   'oais.requests.confirm.delete.close': 'Close',
-  'oais.requests.confirm.delete.title': 'Delete the selected request',
-  'oais.requests.confirm.delete.message': 'Do you want to delete the selected request',
-  'oais.requests.confirm.delete.note': 'Note, requests in running status can not be deleted.',
+  'oais.requests.confirm.delete.title': 'Delete the selected {severalEntitiesSelected, select, true {requests} other {request}}',
+  'oais.requests.confirm.delete.message': 'Do you want to delete the selected {severalEntitiesSelected, select, true {requests} other {request}}?',
+  'oais.requests.confirm.delete.note': 'Note the server may ignore some requests that you have selected and which are being processed because they cannot be deleted while they are being processed.',
   'oais.requests.confirm.abort.title': 'Abort all requests',
   'oais.requests.confirm.abort.message': 'Abort all processing requests?',
   'oais.requests.confirm.abort.warning': 'Warning, that operation applies to all requests, not only to visible or selected ones.',
@@ -132,22 +132,25 @@ export default {
   'oais.requests.confirm.abort.confirm': 'Confirm',
   'oais.requests.confirm.retry': 'Retry',
   'oais.requests.confirm.retry.close': 'Close',
-  'oais.requests.confirm.retry.title': 'Retry the selected request',
-  'oais.requests.confirm.retry.message': 'Do you want to retry the selected request',
+  'oais.requests.confirm.retry.title': 'Retry the selected {severalEntitiesSelected, select, true {requests} other {request}}',
+  'oais.requests.confirm.retry.message': 'Do you want to retry the selected {severalEntitiesSelected, select, true {requests} other {request}}?',
   'oais.request.error.details.title': 'Request error details',
   'oais.request.details.button.close': 'Close',
   'oais.requests.empty.results': 'No requests found',
   'oais.requests.loading.results': 'Requests loading ...',
   'oais.requests.retry.title': 'Retry request',
   'oais.requests.delete.title': 'Delete request',
-  'oais.requests.selection.version.option.title': 'Modified {requestCount, plural, one {product} other {products}} management',
+  'oais.requests.selection.version.option.title': 'Modified {severalEntitiesSelected, select, true {products} other {product}} management',
   'oais.requests.selection.version.option.cancel': 'Cancel',
   'oais.requests.selection.version.option.confirm': 'Confirm',
-  'oais.requests.selection.version.option.single.message': 'Select below the operation to apply for product modifications on "{providerId}"',
-  'oais.requests.selection.version.option.many.message': 'Select below the operation to apply for products modifications',
-  'oais.requests.selection.version.option.IGNORE': 'Reject modified {requestCount, plural, one {product} other {products}}',
-  'oais.requests.selection.version.option.INC_VERSION': 'Create {requestCount, plural, one {a new product version} other {new product versions}}',
-  'oais.requests.selection.version.option.REPLACE': 'Replace current {requestCount, plural, one {product} other {products}} by modified {requestCount, plural, one {product} other {products}}',
+  'oais.requests.selection.version.option.message': `{nbProviderIdKnown, plural,
+    =0 {Select below the operation to apply following the product modifications}
+    one {Select below the operation to apply following the product modifications on "{providerId}"}
+    other {Select below the operation to apply following products modifications}
+  }`,
+  'oais.requests.selection.version.option.IGNORE': 'Reject modified {severalEntitiesSelected, select, true {products} other {product}}',
+  'oais.requests.selection.version.option.INC_VERSION': 'Create {severalEntitiesSelected, select, true {new product versions} other {a new product version}}',
+  'oais.requests.selection.version.option.REPLACE': 'Replace current {severalEntitiesSelected, select, true {products} other {product}} by modified {severalEntitiesSelected, select, true {products} other {product}}',
   'oais.requests.selection.version.option.async.info': 'This operation is asynchronous and requires a refresh to see the update',
 
   'oais.aips.list.subtitle': 'List of AIPs for selected session',
@@ -328,16 +331,16 @@ export default {
   'oais.settings.action.confirm': 'Confirm',
   'oais.settings.action.cancel': 'Back',
   'oais.settings.field.cron.help.message':
-  'The pattern is a list of six single space-separated fields: representing second, minute, hour, day, month, weekday. Month and weekday names can be given as the first three letters of the English names. Example patterns : ',
+    'The pattern is a list of six single space-separated fields: representing second, minute, hour, day, month, weekday. Month and weekday names can be given as the first three letters of the English names. Example patterns : ',
   'oais.settings.field.cron.help.message.example': '<ul>'
-  + '<li> "0 0 * * * *" = the top of every hour of every day.</li>'
-  + '<li> "*/10 * * * * *" = every ten seconds.</li>'
-  + '<li> "0 0 8-10 * * *" = 8, 9 and 10 o\'clock of every day.</li>'
-  + '<li> "0 0 6,19 * * *" = 6:00 AM and 7:00 PM every day.</li>'
-  + '<li> "0 0/30 8-10 * * *" = 8:00, 8:30, 9:00, 9:30, 10:00 and 10:30 every day.</li>'
-  + '<li> "0 0 9-17 * * MON-FRI" = on the hour nine-to-five weekdays.</li>'
-  + '<li> "0 0 0 25 12 ?" = every Christmas Day at midnight.</li>'
-  + '</ul>',
+    + '<li> "0 0 * * * *" = the top of every hour of every day.</li>'
+    + '<li> "*/10 * * * * *" = every ten seconds.</li>'
+    + '<li> "0 0 8-10 * * *" = 8, 9 and 10 o\'clock of every day.</li>'
+    + '<li> "0 0 6,19 * * *" = 6:00 AM and 7:00 PM every day.</li>'
+    + '<li> "0 0/30 8-10 * * *" = 8:00, 8:30, 9:00, 9:30, 10:00 and 10:30 every day.</li>'
+    + '<li> "0 0 9-17 * * MON-FRI" = on the hour nine-to-five weekdays.</li>'
+    + '<li> "0 0 0 25 12 ?" = every Christmas Day at midnight.</li>'
+    + '</ul>',
   'oais.settings.dialog.title': 'About this field',
   'oais.settings.dialog.close': 'Close',
 }

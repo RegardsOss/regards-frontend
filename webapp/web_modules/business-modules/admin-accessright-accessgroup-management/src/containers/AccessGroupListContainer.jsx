@@ -20,6 +20,8 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
+import { AdminDomain } from '@regardsoss/domain'
+import { FiltersPaneHelper } from '@regardsoss/domain/ui'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import { groupsCountActions, groupsCountSelectors } from '../clients/GroupsCountClient'
@@ -66,8 +68,8 @@ export class AccessGroupListContainer extends React.Component {
    */
   handleShowGroupUsers = (accessgroupName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/user/project-user/list/accessRight?accessGroup=${accessgroupName}`
-    browserHistory.push(url)
+    FiltersPaneHelper.updateURL(AdminDomain.ProjectUserFilters.builder().withGroup(accessgroupName).build(), [],
+      `/admin/${project}/user/project-user/list/accessRight`)
   }
 
   handleDuplicate = (accessgroupName) => {

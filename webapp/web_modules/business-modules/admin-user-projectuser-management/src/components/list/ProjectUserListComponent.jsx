@@ -41,9 +41,9 @@ import { CommonDomain, AdminDomain } from '@regardsoss/domain'
 import { CardActionsComponent, TableFilterSortingAndVisibilityAndChipsComponent } from '@regardsoss/components'
 import dependencies from '../../dependencies'
 import { projectUserActions, projectUserSelectors } from '../../clients/ProjectUserClient'
-import ProjectUserAccountFiltersComponent, { ProjectUserAccountFiltersComponent as ProjectUserAccountFiltersComponentClass } from './filters/ProjectUserAccountFiltersComponent'
-import ProjectUserQuotaFiltersComponent, { ProjectUserQuotaFiltersComponent as ProjectUserQuotaFiltersComponentClass } from './filters/ProjectUserQuotaFiltersComponent'
-import ProjectUserAccessRightFiltersComponent, { ProjectUserAccessRightFiltersComponent as ProjectUserAccessRightFiltersComponentClass } from './filters/ProjectUserAccessRightFiltersComponent'
+import ProjectUserAccountFiltersComponent from './filters/ProjectUserAccountFiltersComponent'
+import ProjectUserQuotaFiltersComponent from './filters/ProjectUserQuotaFiltersComponent'
+import ProjectUserAccessRightFiltersComponent from './filters/ProjectUserAccessRightFiltersComponent'
 import ProjectUserAccountComponent from './ProjectUserAccountComponent'
 import ProjectUserQuotaComponent from './ProjectUserQuotaComponent'
 import ProjectUserAccessRightComponent from './ProjectUserAccessRightComponent'
@@ -83,11 +83,11 @@ class ProjectUserListComponent extends React.Component {
   static getDefaultFilters = (visualisationMode) => {
     switch (visualisationMode) {
       case VISUALISATION_MODES.ACCOUNT:
-        return ProjectUserAccountFiltersComponentClass.DEFAULT_FILTERS_STATE
+        return AdminDomain.ProjectUserFilters.buildAccountDefault()
       case VISUALISATION_MODES.QUOTA:
-        return ProjectUserQuotaFiltersComponentClass.DEFAULT_FILTERS_STATE
+        return AdminDomain.ProjectUserFilters.buildQuotaDefault()
       case VISUALISATION_MODES.ACCESS_RIGHT:
-        return ProjectUserAccessRightFiltersComponentClass.DEFAULT_FILTERS_STATE
+        return AdminDomain.ProjectUserFilters.buildAccessRightDefault()
       default:
         return null
     }

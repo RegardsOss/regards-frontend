@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
-import { TableSelectionModes } from '@regardsoss/components'
 import { REQUEST_STATUS_ENUM, ERROR_STATUSES } from './RequestStatus'
 import { REQUEST_PARAMETERS, TableFilterDefaultStateEnum } from '../common'
 /**
@@ -78,16 +77,16 @@ export class RequestFilters {
 
   withStatusIncluded(status) {
     this.filters[FILTER_PARAMS_ENUM.STATUSES] = {
+      ...TableFilterDefaultStateEnum.VALUES,
       [REQUEST_PARAMETERS.VALUES]: [status],
-      [REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
     }
     return this
   }
 
   withStatusesIncluded(statuses) {
     this.filters[FILTER_PARAMS_ENUM.STATUSES] = {
+      ...TableFilterDefaultStateEnum.VALUES,
       [REQUEST_PARAMETERS.VALUES]: statuses || [],
-      [REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
     }
     return this
   }

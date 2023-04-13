@@ -47,9 +47,9 @@ export default class DatasourceListComponent extends React.Component {
   static CREATE_DEPENDENCIES = [datasourceActions.getDependency(RequestVerbEnum.POST)]
 
   static propTypes = {
+    project: PropTypes.string.isRequired,
     datasourceList: PropTypes.arrayOf(DataManagementShapes.Datasource),
     handleDelete: PropTypes.func.isRequired,
-    handleEdit: PropTypes.func.isRequired,
     refreshDatasourceList: PropTypes.func.isRequired,
     createUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
@@ -105,7 +105,7 @@ export default class DatasourceListComponent extends React.Component {
 
   render() {
     const {
-      datasourceList, onToggleState, handleEdit, createUrl, backUrl, refreshDatasourceList,
+      datasourceList, onToggleState, project, createUrl, backUrl, refreshDatasourceList,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -127,7 +127,7 @@ export default class DatasourceListComponent extends React.Component {
         .build(),
       new TableColumnBuilder().optionsColumn([{
         OptionConstructor: DatasourceListEditAction,
-        optionProps: { handleEdit },
+        optionProps: { project },
       },
       {
         OptionConstructor: TableDeleteOption,

@@ -43,16 +43,6 @@ export class ProjectUserQuotaFiltersComponent extends React.Component {
     ...i18nContextType,
   }
 
-  /**
-   * Default state for inputValues edition
-   */
-  static DEFAULT_FILTERS_STATE = {
-    [AdminDomain.FILTER_PARAMS.EMAIL]: '',
-    [AdminDomain.FILTER_PARAMS.LASTNAME]: '',
-    [AdminDomain.FILTER_PARAMS.FIRSTNAME]: '',
-    [AdminDomain.FILTER_PARAMS.USE_QUOTA_LIMITATION]: false,
-  }
-
   render() {
     const {
       updateFilter, inputValues, uiSettings, filtersI18n,
@@ -71,4 +61,4 @@ export class ProjectUserQuotaFiltersComponent extends React.Component {
     )
   }
 }
-export default withFiltersPane(ProjectUserQuotaFiltersComponent.DEFAULT_FILTERS_STATE)(ProjectUserQuotaFiltersComponent)
+export default withFiltersPane(AdminDomain.ProjectUserFilters.buildQuotaDefault())(ProjectUserQuotaFiltersComponent)

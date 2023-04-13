@@ -52,9 +52,9 @@ class StorageLocationListComponent extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/board`)
   }
 
-  goToCreateStorageForm = () => {
+  getCreateUrl = () => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/create`)
+    return `/admin/${project}/data/acquisition/storage/storages/create`
   }
 
   render() {
@@ -98,7 +98,7 @@ class StorageLocationListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonLabel={formatMessage({ id: 'storage.location.list.add.button' })}
-            mainButtonClick={this.goToCreateStorageForm}
+            mainButtonUrl={this.getCreateUrl}
             mainHateoasDependencies={StorageLocationListComponent.addDependencies}
             secondaryButtonLabel={formatMessage({ id: 'storage.location.list.back.button' })}
             secondaryButtonClick={this.goToBoard}

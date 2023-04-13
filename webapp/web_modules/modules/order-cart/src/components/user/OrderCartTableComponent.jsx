@@ -107,6 +107,7 @@ export class OrderCartTableComponent extends React.Component {
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',
+    timeZone: 'utc',
   }
 
   /** When there is less dataset selections than this count, initially expand all rows */

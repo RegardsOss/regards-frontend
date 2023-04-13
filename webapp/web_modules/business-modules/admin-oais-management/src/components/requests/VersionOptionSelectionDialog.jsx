@@ -21,8 +21,8 @@ import Dialog from 'material-ui/Dialog'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { TableSelectionModes } from '@regardsoss/components'
 import { IngestDomain } from '@regardsoss/domain'
+import { TableSelectionModes } from '@regardsoss/components'
 import RadioButton, { RadioButtonGroup } from 'material-ui/RadioButton'
 import FlatButton from 'material-ui/FlatButton'
 
@@ -39,7 +39,9 @@ const AVAILABLE_VERSION_OPTIONS = [
  * @author Raphaël Mechali
  */
 export default function VersionOptionSelectionDialog(
-  { selection, onClose, onConfirm },
+  {
+    selection, onClose, onConfirm, severalEntitiesSelected,
+  },
   {
     intl: { formatMessage },
     moduleTheme: { requests: { selectionDialog: { headerMessage, asyncInfo } } },
@@ -48,11 +50,15 @@ export default function VersionOptionSelectionDialog(
     return null
   }
   const [selectedOption, setSelectedOption] = React.useState(IngestDomain.VERSIONING_MODES_ENUM.INC_VERSION)
-  const requestCount = selection.mode === TableSelectionModes.includeSelected
-    ? selection.entities.length // count: number of entities
-    : Number.MAX_SAFE_INTEGER // count doesn't matter, as long as it is plural
-  const isSingleElt = requestCount === 1
-
+  // As we do not have the entity when TableSelectionModes.excludeSelected, here is special case
+  let nbProviderIdKnown
+  if (severalEntitiesSelected) {
+    nbProviderIdKnown = 2
+  } else if (selection.mode === TableSelectionModes.includeSelected) {
+    nbProviderIdKnown = 1
+  } else {
+    nbProviderIdKnown = 0
+  }
   /** Callback: new radio selected */
   function onOptionSelected(evt, option) {
     setSelectedOption(option)
@@ -66,7 +72,7 @@ export default function VersionOptionSelectionDialog(
   return (
     <Dialog
       open
-      title={formatMessage({ id: 'oais.requests.selection.version.option.title' }, { requestCount })}
+      title={formatMessage({ id: 'oais.requests.selection.version.option.title' }, { severalEntitiesSelected })}
       actions={
         <>
           <FlatButton
@@ -84,9 +90,10 @@ export default function VersionOptionSelectionDialog(
       <div style={headerMessage}>
         { /* Top message */
           formatMessage({
-            id: `oais.requests.selection.version.option.${isSingleElt ? 'single' : 'many'}.message`,
+            id: 'oais.requests.selection.version.option.message',
           }, {
-            providerId: isSingleElt ? selection.entities[0].content.providerId : null,
+            nbProviderIdKnown,
+            providerId: nbProviderIdKnown === 1 ? selection.entities[0].content.providerId : null,
           })
         }
         <br />
@@ -105,7 +112,7 @@ export default function VersionOptionSelectionDialog(
               <RadioButton
                 key={opt}
                 value={opt}
-                label={formatMessage({ id: `oais.requests.selection.version.option.${opt}` }, { requestCount })}
+                label={formatMessage({ id: `oais.requests.selection.version.option.${opt}` }, { severalEntitiesSelected })}
               />
             ))
           }
@@ -123,6 +130,7 @@ VersionOptionSelectionDialog.propTypes = {
   }),
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
+  severalEntitiesSelected: PropTypes.bool.isRequired,
 }
 
 VersionOptionSelectionDialog.contextTypes = {

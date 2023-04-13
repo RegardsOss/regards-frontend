@@ -47,6 +47,7 @@ class RetryOrderSelectionModeComponent extends React.Component {
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',
+    timeZone: 'utc',
   }
 
   static MAX_ORDER_LABEL_LENGTH = 50

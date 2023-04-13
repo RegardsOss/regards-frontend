@@ -40,6 +40,7 @@ export class EntityInfoDialog extends React.Component {
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
+    timeZone: 'utc',
   }
 
   render() {

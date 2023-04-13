@@ -66,22 +66,23 @@ export class RequestFilters {
 
   withStatusIncluded(status) {
     this.filters[REQUEST_FILTER_PARAMS.STATE] = {
+      ...TableFilterDefaultStateEnum.VALUES,
       [REQUEST_PARAMETERS.VALUES]: [status],
-      [REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
     }
     return this
   }
 
   withStatusesIncluded(statuses) {
     this.filters[REQUEST_FILTER_PARAMS.STATE] = {
+      ...TableFilterDefaultStateEnum.VALUES,
       [REQUEST_PARAMETERS.VALUES]: statuses || [],
-      [REQUEST_PARAMETERS.MODE]: TableSelectionModes.INCLUDE,
     }
     return this
   }
 
   withRequestIds(requestIds, mode = TableSelectionModes.INCLUDE) {
     this.filters[REQUEST_FILTER_PARAMS.REQUEST_IDS] = {
+      ...TableFilterDefaultStateEnum.VALUES,
       [REQUEST_PARAMETERS.VALUES]: requestIds,
       [REQUEST_PARAMETERS.MODE]: mode,
     }

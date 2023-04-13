@@ -21,7 +21,7 @@ import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
 import { DataManagementShapes, UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CommonDomain, AdminDomain } from '@regardsoss/domain'
+import { AdminDomain } from '@regardsoss/domain'
 import {
   withFiltersPane, TableFilterSortingAndVisibilityContainer,
   FiltersPaneMainComponent, FilterPaneSelectField, FilterPaneTextField,
@@ -43,16 +43,6 @@ export class ProjectUserAccessRightFiltersComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  /**
-   * Default state for inputValues edition
-   */
-  static DEFAULT_FILTERS_STATE = {
-    [AdminDomain.FILTER_PARAMS.EMAIL]: '',
-    [AdminDomain.FILTER_PARAMS.LASTNAME]: '',
-    [AdminDomain.FILTER_PARAMS.FIRSTNAME]: '',
-    [AdminDomain.FILTER_PARAMS.GROUP]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
   }
 
   render() {
@@ -78,4 +68,4 @@ export class ProjectUserAccessRightFiltersComponent extends React.Component {
     )
   }
 }
-export default withFiltersPane(ProjectUserAccessRightFiltersComponent.DEFAULT_FILTERS_STATE)(ProjectUserAccessRightFiltersComponent)
+export default withFiltersPane(AdminDomain.ProjectUserFilters.buildAccessRightDefault())(ProjectUserAccessRightFiltersComponent)

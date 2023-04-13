@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { Link } from 'react-router'
 import ContentCopy from 'mdi-material-ui/ContentCopy'
 import { IngestShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -29,11 +30,11 @@ import dependencies from '../../dependencies'
 */
 class AcquisitionProcessingChainTableDuplicateAction extends React.Component {
   static propTypes = {
+    project: PropTypes.string.isRequired,
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
       links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
-    onDuplicate: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -45,19 +46,20 @@ class AcquisitionProcessingChainTableDuplicateAction extends React.Component {
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   render() {
+    const { project } = this.props
     const { intl: { formatMessage } } = this.context
     const chain = this.props.entity.content
     return (
       <ResourceIconAction
-        className={`selenium-edit-${chain.id}`}
         title={formatMessage({ id: 'acquisition-chain.list.duplicate.tooltip' })}
         iconStyle={AcquisitionProcessingChainTableDuplicateAction.iconStyle}
         style={AcquisitionProcessingChainTableDuplicateAction.buttonStyle}
-        onClick={() => this.props.onDuplicate(chain.chainId)}
         resourceDependencies={dependencies.addDependencies}
         displayLogic={allMatchHateoasDisplayLogic}
       >
-        <ContentCopy />
+        <Link to={`/admin/${project}/data/acquisition/dataprovider/chain/${chain.chainId}/duplicate`}>
+          <ContentCopy />
+        </Link>
       </ResourceIconAction>
     )
   }
