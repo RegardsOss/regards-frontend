@@ -50,9 +50,9 @@ class DatasourceListEditAction extends React.Component {
   /**
    * Redirect the user to the corresponding page
    */
-  getEditUrl = (datasource) => {
+  getEditUrl = () => {
     const { project, entity } = this.props
-    const type = EditionHelper.getDatasourcePluginType(datasource)
+    const type = EditionHelper.getDatasourcePluginType(entity)
 
     return `/admin/${project}/data/acquisition/datasource/${type}/${entity.content.businessId}/edit`
   }
