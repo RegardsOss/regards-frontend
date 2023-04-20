@@ -51,8 +51,8 @@ class StorageLocationListActions extends React.Component {
   }
 
   getEditUrl = () => {
-    const { project, entity: { content: { configuration } } } = this.props
-    return `/admin/${project}/data/acquisition/storage/storages/${configuration.name}/edit`
+    const { project, entity: { content: { name } } } = this.props
+    return `/admin/${project}/data/acquisition/storage/storages/${name}/edit`
   }
 
   handleDelete = () => {
