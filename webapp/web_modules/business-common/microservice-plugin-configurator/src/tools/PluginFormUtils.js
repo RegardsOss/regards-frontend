@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import filter from 'lodash/filter'
-import isEmpty from 'lodash/isEmpty'
 import cloneDeep from 'lodash/cloneDeep'
 import keys from 'lodash/keys'
 import find from 'lodash/find'
@@ -170,7 +169,7 @@ class PluginFormUtils {
     if (parameterConf && ((!isNil(parameterConf.value) && parameterConf.value !== parameterMetaData.defaultValue) || parameterConf.dynamic)) {
       // For both initialization && submition, if a value is specified set the parameterConf with the given value or if not, set with default value
       const formatedParamterConf = cloneDeep(parameterConf)
-      formatedParamterConf.value = PluginFormUtils.formatParameterConf(!isEmpty(parameterConf.value) ? parameterConf.value : parameterMetaData.defaultValue, parameterMetaData, forInit)
+      formatedParamterConf.value = PluginFormUtils.formatParameterConf(!isNil(parameterConf.value) ? parameterConf.value : parameterMetaData.defaultValue, parameterMetaData, forInit)
       return formatedParamterConf
     }
     if (parameterConf && !isNil(parameterConf.pluginConfiguration)) {
