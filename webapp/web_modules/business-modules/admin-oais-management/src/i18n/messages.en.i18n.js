@@ -112,6 +112,7 @@ export default {
   'oais.list.filters.requestState.ERROR': 'Error',
   'oais.list.filters.requestState.ABORTED': 'Aborted',
   'oais.list.filters.requestState.IGNORED': 'Ignored',
+  'oais.list.filters.requestState.WAITING_REMOTE_STORAGE': 'Waiting storage',
   'oais.requests.list.filters.actions': 'Actions',
   'oais.requests.list.filters.lastSubmission': 'Last submitted',
   'oais.requests.list.filters.buttons.validate': 'Validate selection',

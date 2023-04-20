@@ -112,6 +112,7 @@ export default {
   'oais.list.filters.requestState.ERROR': 'Erreur',
   'oais.list.filters.requestState.ABORTED': 'Annulé',
   'oais.list.filters.requestState.IGNORED': 'Ignoré',
+  'oais.list.filters.requestState.WAITING_REMOTE_STORAGE': 'En attente de stockage',
   'oais.requests.list.filters.actions': 'Actions',
   'oais.requests.list.filters.lastSubmission': 'Soumis le',
   'oais.requests.list.filters.buttons.validate': 'Valider la sélection',
