@@ -37,6 +37,7 @@ const commonViewFields = {
 /** Table view (also used for list) */
 export const TableViewConfiguration = PropTypes.shape({
   ...commonViewFields,
+  disableLabelDisplay: PropTypes.bool,
 })
 
 /** Quicklook view */

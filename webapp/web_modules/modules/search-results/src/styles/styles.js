@@ -455,6 +455,9 @@ const styles = (theme) => ({
           margin: '2px 0 0 0',
           width: 'auto',
         },
+        checkBoxRippleStyle: {
+          left: '0px',
+        },
         labelStyles: {
           fontSize: '1.3em',
           padding: '8px 8px',
@@ -475,13 +478,19 @@ const styles = (theme) => ({
           },
         },
       },
+      altOptionsBarStyles: {
+        display: 'flex',
+        alignItems: 'flex-start',
+        height: '100%',
+        padding: '5px 5px 5px 0px',
+      },
       attributesStyles: {
         display: 'flex',
         flexDirection: 'row',
         flexGrow: 1,
         flexShrink: 1,
         justifyContent: 'flex-start',
-        alignItems: 'stretch',
+        alignItems: 'center',
       },
       labelColumnStyles: {
         display: 'flex',

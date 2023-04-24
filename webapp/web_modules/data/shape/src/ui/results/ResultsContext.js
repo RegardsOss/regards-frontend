@@ -193,6 +193,7 @@ export const commonViewStateFields = {
  */
 const ListViewModeState = PropTypes.shape({
   ...commonViewStateFields,
+  disableLabelDisplay: PropTypes.bool.isRequired,
   presentationModels: PropTypes.arrayOf(AttributePresentationModel).isRequired,
 })
 

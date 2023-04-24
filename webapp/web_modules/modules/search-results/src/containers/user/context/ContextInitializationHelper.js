@@ -49,6 +49,9 @@ export class ContextInitializationHelper {
       }
       // specifities for by view types
       switch (mode) {
+        case UIDomain.RESULTS_VIEW_MODES_ENUM.LIST:
+          modeState.disableLabelDisplay = !!modeConfiguration.disableLabelDisplay
+          break
         case UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE:
           // store initial presentation model states
           modeState.initialPresentationModels = modeState.presentationModels

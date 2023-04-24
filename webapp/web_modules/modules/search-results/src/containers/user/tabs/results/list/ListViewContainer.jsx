@@ -134,7 +134,7 @@ export class ListViewContainer extends React.Component {
       accessToken, projectName, onAddElementToCart,
     } = this.props
     const { enableSelection, thumbnailRenderData, gridAttributesRenderData } = this.state
-    const { selectedType, selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { selectedType, selectedTypeState, selectedModeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     return (
       <ListViewComponent
@@ -148,6 +148,7 @@ export class ListViewContainer extends React.Component {
         descriptionAvailable={descriptionAvailable}
         onShowDescription={onShowDescription}
         enableDownload={selectedTypeState.enableDownload}
+        disableLabelDisplay={selectedModeState.disableLabelDisplay}
         accessToken={accessToken}
         projectName={projectName}
         onAddElementToCart={onAddElementToCart}

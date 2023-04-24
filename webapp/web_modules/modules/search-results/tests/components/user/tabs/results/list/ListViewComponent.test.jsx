@@ -49,6 +49,7 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
     descriptionAvailable: false,
     enableDownload: true,
     enableCart: true,
+    disableLabelDisplay: true,
     enableServices: true,
     enableSearchEntity: false,
   }, {
@@ -58,6 +59,7 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
     enableSelection: false,
     descriptionAvailable: true,
     enableDownload: false,
+    disableLabelDisplay: false,
     enableCart: false,
     enableServices: false,
     enableSearchEntity: true,
@@ -65,7 +67,7 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
 
   testCases.forEach(({
     type, presentationModels, tabType, enableSelection, descriptionAvailable,
-    enableDownload, enableCart, enableServices, enableSearchEntity,
+    enableDownload, enableCart, enableServices, enableSearchEntity, disableLabelDisplay,
   }) => it(`should render correctly for ${type}`, () => {
     // prepare render data
     const { th: thumbnailRenderData, gA: gridAttributesRenderData } = presentationModels.reduce(({ th, gA }, model) => {
@@ -90,6 +92,7 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
       thumbnailRenderData,
       gridAttributesRenderData,
       enableSelection,
+      disableLabelDisplay,
       descriptionAvailable,
       onShowDescription: () => {},
       enableDownload,

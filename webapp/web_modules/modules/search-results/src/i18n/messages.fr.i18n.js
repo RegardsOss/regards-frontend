@@ -147,6 +147,8 @@ const messages = {
   'search.results.form.configuration.result.TABLE.no.attribute': 'Ajouter ici les colonnes à afficher dans le tableau / champs à afficher dans la liste',
   'search.results.form.configuration.result.QUICKLOOK.configuration': 'Configuration des imagettes',
   'search.results.form.configuration.result.QUICKLOOK.no.attribute': 'Ajouter ici les champs à afficher pour chaque imagette',
+  'search.results.form.configuration.result.LIST.configuration': 'Configuration de la vue liste',
+  'search.results.form.configuration.result.LIST.disableLabelDisplay': 'Cacher les labels',
   'search.results.form.configuration.result.MAP.configuration': 'Configuration de la carte',
   'search.results.form.configuration.result.MAP.no.attribute': 'Ajouter ici les champs à afficher pour chaque imagette',
   'search.results.form.configuration.result.MAP.viewMode.title': 'Mode d\'affichage initial',

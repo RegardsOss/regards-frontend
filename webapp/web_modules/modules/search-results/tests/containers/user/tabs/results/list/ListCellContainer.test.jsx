@@ -52,6 +52,7 @@ describe('[SEARCH RESULTS] Testing ListCellContainer', () => {
     enableDownload: true,
     enableCart: true,
     enableServices: true,
+    disableLabelDisplay: false,
     enableSearchEntity: false,
   }, {
     label: 'data without service',
@@ -62,6 +63,7 @@ describe('[SEARCH RESULTS] Testing ListCellContainer', () => {
     descriptionAvailable: false,
     enableDownload: false,
     enableCart: false,
+    disableLabelDisplay: false,
     enableServices: false,
     enableSearchEntity: false,
   }, {
@@ -73,6 +75,7 @@ describe('[SEARCH RESULTS] Testing ListCellContainer', () => {
     descriptionAvailable: true,
     enableDownload: false,
     enableCart: true,
+    disableLabelDisplay: false,
     enableServices: false,
     enableSearchEntity: true,
   }]
@@ -80,7 +83,7 @@ describe('[SEARCH RESULTS] Testing ListCellContainer', () => {
   testCases.forEach(({
     tabType, label, entity, presentationModels,
     enableSelection, descriptionAvailable, enableDownload,
-    enableCart, enableServices, enableSearchEntity,
+    enableCart, enableServices, enableSearchEntity, disableLabelDisplay,
   }) => it(`It should render correctly ${label}`, () => {
     // prepare render data
     const { th: thumbnailRenderData, gA: gridAttributesRenderData } = presentationModels.reduce(({ th, gA }, model) => {
@@ -106,6 +109,7 @@ describe('[SEARCH RESULTS] Testing ListCellContainer', () => {
       descriptionAvailable,
       onShowDescription: () => { },
       enableDownload,
+      disableLabelDisplay,
       accessToken: 'abc',
       projectName: 'def',
       onAddElementToCart: enableCart ? () => { } : null,
@@ -128,6 +132,7 @@ describe('[SEARCH RESULTS] Testing ListCellContainer', () => {
       enableDownload: props.enableDownload,
       accessToken: props.accessToken,
       projectName: props.projectName,
+      disableLabelDisplay: props.disableLabelDisplay,
       onAddElementToCart: props.onAddElementToCart,
       enableServices: props.enableServices,
       enableSelection: props.enableSelection,

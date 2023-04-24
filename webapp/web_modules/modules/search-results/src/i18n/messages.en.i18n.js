@@ -143,6 +143,8 @@ const messages = {
   'search.results.form.configuration.result.TABLE.no.attribute': 'Add here table columns / list elements fields',
   'search.results.form.configuration.result.QUICKLOOK.configuration': 'Quicklook configuration',
   'search.results.form.configuration.result.QUICKLOOK.no.attribute': 'Add here quicklook elements fields',
+  'search.results.form.configuration.result.LIST.configuration': 'List configuration',
+  'search.results.form.configuration.result.LIST.disableLabelDisplay': 'Hide labels',
   'search.results.form.configuration.result.MAP.configuration': 'Map configuration',
   'search.results.form.configuration.result.MAP.no.attribute': 'Add here quicklook elements fields',
   'search.results.form.configuration.result.MAP.viewMode.title': 'Initial display mode',

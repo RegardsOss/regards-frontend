@@ -51,6 +51,7 @@ export const INITIAL_FORM_STATE = {
         [UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]: {
           enabled: true,
           attributes: [],
+          disableLabelDisplay: false,
         },
         [UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: {
           enabled: false,

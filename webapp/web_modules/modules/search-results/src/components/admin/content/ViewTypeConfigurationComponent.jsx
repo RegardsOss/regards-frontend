@@ -29,7 +29,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
   FieldsGroup, Field, RenderSelectField, ErrorTypes,
-  StringComparison, ValidationHelpers, RenderRadio, FieldArray, RenderArrayObjectField,
+  StringComparison, ValidationHelpers, RenderRadio, FieldArray, RenderArrayObjectField, RenderCheckbox,
 } from '@regardsoss/form-utils'
 import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
 import RadioButton from 'material-ui/RadioButton'
@@ -337,6 +337,21 @@ class ViewTypeConfigurationComponent extends React.Component {
             />
           </div>
         </FieldsGroup>
+        {
+          viewType === UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE ? (
+            <>
+              <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.LIST.configuration' })}>
+                <Field
+                  name={`${viewNamespace}.disableLabelDisplay`}
+                  component={RenderCheckbox}
+                  label={formatMessage({ id: 'search.results.form.configuration.result.LIST.disableLabelDisplay' })}
+                  fullWidth
+                />
+              </FieldsGroup>
+            </>
+          )
+            : null
+        }
       </div>
     )
   }

@@ -65,6 +65,7 @@ export class ListCellContainer extends React.Component {
     gridAttributesRenderData: PropTypes.arrayOf(ListAttributeRenderData).isRequired,
     // Selection management
     enableSelection: PropTypes.bool.isRequired,
+    disableLabelDisplay: PropTypes.bool.isRequired,
     // Description option management
     descriptionAvailable: PropTypes.bool.isRequired,
     onShowDescription: PropTypes.func,
@@ -112,7 +113,7 @@ export class ListCellContainer extends React.Component {
       descriptionAvailable, onShowDescription,
       enableDownload, accessToken, projectName,
       onAddElementToCart, enableServices, enableSearchEntity,
-      enableSelection, onSelect,
+      enableSelection, onSelect, disableLabelDisplay,
 
     } = this.props
     return (
@@ -129,6 +130,7 @@ export class ListCellContainer extends React.Component {
         onAddElementToCart={onAddElementToCart}
         enableServices={enableServices}
         enableSelection={enableSelection}
+        disableLabelDisplay={disableLabelDisplay}
         selected={this.isSelectedRow()}
         onSelect={onSelect}
         enableSearchEntity={enableSearchEntity}

@@ -41,6 +41,7 @@ class ListViewComponent extends React.Component {
     gridAttributesRenderData: PropTypes.arrayOf(ListAttributeRenderData).isRequired,
     // Selection management
     enableSelection: PropTypes.bool.isRequired,
+    disableLabelDisplay: PropTypes.bool.isRequired,
     // Description option management
     descriptionAvailable: PropTypes.bool.isRequired,
     onShowDescription: PropTypes.func,
@@ -70,7 +71,7 @@ class ListViewComponent extends React.Component {
       enableSelection, descriptionAvailable, onShowDescription,
       enableDownload, accessToken, projectName,
       onAddElementToCart, enableServices,
-      enableSearchEntity, onSearchEntity,
+      enableSearchEntity, onSearchEntity, disableLabelDisplay,
     } = this.props
     return [
       // build column. Note: label is ignored here as the columns button will get removed
@@ -90,6 +91,7 @@ class ListViewComponent extends React.Component {
           enableServices,
           enableSearchEntity,
           onSearchEntity,
+          disableLabelDisplay,
         },
       }).build(),
     ]

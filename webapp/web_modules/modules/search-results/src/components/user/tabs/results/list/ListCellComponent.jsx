@@ -85,6 +85,7 @@ class ListCellComponent extends React.Component {
     enableSelection: PropTypes.bool.isRequired,
     selected: PropTypes.bool.isRequired,
     onSelect: PropTypes.func.isRequired,
+    disableLabelDisplay: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -100,83 +101,105 @@ class ListCellComponent extends React.Component {
     onShowDescription(entity)
   }
 
+  renderCheckbox = () => {
+    const { onSelect, selected } = this.props
+    const { moduleTheme } = this.context
+    const {
+      checkboxStyles, checkBoxRippleStyle,
+    } = moduleTheme.user.listViewStyles.title
+    return <Checkbox
+      onCheck={onSelect}
+      checked={selected}
+      style={checkboxStyles}
+      rippleStyle={checkBoxRippleStyle}
+    />
+  }
+
+  renderOptionsBarStyles = () => {
+    const {
+      tabType, entity, enableServices, enableDownload,
+      projectName, accessToken, descriptionAvailable,
+      enableSearchEntity, onSearchEntity, onAddElementToCart,
+    } = this.props
+    const { moduleTheme } = this.context
+    const {
+      optionsBarStyles, option,
+    } = moduleTheme.user.listViewStyles.title
+    const services = get(entity, 'content.services', [])
+    return (
+      <div style={optionsBarStyles}>
+        {/* B-1. Download, when available. Like below, due to props, we can't use a showable at render */}
+        <ShowableAtRender show={enableDownload}>
+          <DownloadEntityFileComponent
+            entity={entity}
+            style={option.buttonStyles}
+            iconStyle={option.iconStyles}
+            accessToken={accessToken}
+            projectName={projectName}
+          />
+        </ShowableAtRender>
+        {/* B-2. Description  */}
+        <ShowableAtRender show={descriptionAvailable}>
+          <EntityDescriptionComponent
+            entity={entity}
+            onShowDescription={this.onShowDescription}
+            style={option.buttonStyles}
+            iconStyle={option.iconStyles}
+          />
+        </ShowableAtRender>
+        {/* B-3 Show dataset content when enabled */}
+        <ShowableAtRender show={enableSearchEntity}>
+          <SearchRelatedEntitiesComponent
+            entity={entity}
+            onSearchEntity={onSearchEntity}
+            style={option.buttonStyles}
+            iconStyle={option.iconStyles}
+          />
+        </ShowableAtRender>
+        {/* B-4. services, when enabled */}
+        <ShowableAtRender show={enableServices && !!services.length}>
+          <OneElementServicesContainer
+            entity={entity}
+            tabType={tabType}
+            style={option.buttonStyles}
+            iconStyle={option.iconStyles}
+          />
+        </ShowableAtRender>
+        {/* B-5. add to cart,  when available (ie has callback) - not showable because callback is required by the AddElementToCartContainer */}
+        {onAddElementToCart ? (
+          <AddElementToCartContainer
+            entity={entity}
+            onAddElementToCart={onAddElementToCart}
+            style={option.buttonStyles}
+            iconStyle={option.iconStyles}
+          />) : null}
+      </div>
+    )
+  }
+
   /**
    * Renders title area of the list cell (title, with checkbox if selection enabled, empty space and options)
    */
   renderTitle = () => {
     const {
-      tabType, entity, enableSelection, enableServices, enableDownload, selected,
-      projectName, accessToken, descriptionAvailable,
-      onSelect, enableSearchEntity, onSearchEntity, onAddElementToCart,
+      entity, enableSelection,
     } = this.props
     const { moduleTheme } = this.context
     const {
-      rootStyles, labelGroup, checkboxStyles, labelStyles, optionsBarStyles, option,
+      rootStyles, labelGroup, labelStyles,
     } = moduleTheme.user.listViewStyles.title
-    const services = get(entity, 'content.services', [])
-
     return (
       <div style={rootStyles}>
         {/* A. clickable title area, with checkbox when it can be selected */}
         <div style={labelGroup}>
           {enableSelection ? (
-            <Checkbox
-              onCheck={onSelect}
-              checked={selected}
-              style={checkboxStyles}
-            />) : null}
+            this.renderCheckbox()) : null}
           <h2 style={labelStyles}>
             {entity.content.label}
           </h2>
         </div>
         {/* B. Options bar */}
-        <div style={optionsBarStyles}>
-          {/* B-1. Download, when available. Like below, due to props, we can't use a showable at render */}
-          <ShowableAtRender show={enableDownload}>
-            <DownloadEntityFileComponent
-              entity={entity}
-              style={option.buttonStyles}
-              iconStyle={option.iconStyles}
-              accessToken={accessToken}
-              projectName={projectName}
-            />
-          </ShowableAtRender>
-          {/* B-2. Description  */}
-          <ShowableAtRender show={descriptionAvailable}>
-            <EntityDescriptionComponent
-              entity={entity}
-              onShowDescription={this.onShowDescription}
-              style={option.buttonStyles}
-              iconStyle={option.iconStyles}
-            />
-          </ShowableAtRender>
-          {/* B-3 Show dataset content when enabled */}
-          <ShowableAtRender show={enableSearchEntity}>
-            <SearchRelatedEntitiesComponent
-              entity={entity}
-              onSearchEntity={onSearchEntity}
-              style={option.buttonStyles}
-              iconStyle={option.iconStyles}
-            />
-          </ShowableAtRender>
-          {/* B-4. services, when enabled */}
-          <ShowableAtRender show={enableServices && !!services.length}>
-            <OneElementServicesContainer
-              entity={entity}
-              tabType={tabType}
-              style={option.buttonStyles}
-              iconStyle={option.iconStyles}
-            />
-          </ShowableAtRender>
-          {/* B-5. add to cart,  when available (ie has callback) - not showable because callback is required by the AddElementToCartContainer */}
-          {onAddElementToCart ? (
-            <AddElementToCartContainer
-              entity={entity}
-              onAddElementToCart={onAddElementToCart}
-              style={option.buttonStyles}
-              iconStyle={option.iconStyles}
-            />) : null}
-        </div>
+        {this.renderOptionsBarStyles()}
       </div>
     )
   }
@@ -246,11 +269,13 @@ class ListCellComponent extends React.Component {
    * @return {React.Element} render data
    */
   renderAttributes = () => {
-    const { thumbnailRenderData, gridAttributesRenderData } = this.props
+    const {
+      thumbnailRenderData, gridAttributesRenderData, disableLabelDisplay, enableSelection,
+    } = this.props
     const { moduleTheme } = this.context
 
     const {
-      attributesStyles, labelColumnStyles, valueColumnStyles,
+      attributesStyles, labelColumnStyles, valueColumnStyles, altOptionsBarStyles,
     } = moduleTheme.user.listViewStyles
 
     // 2 - prepare label columns and value columns
@@ -258,6 +283,10 @@ class ListCellComponent extends React.Component {
 
     return (
       <div style={attributesStyles}>
+        {
+          disableLabelDisplay && enableSelection
+            ? (this.renderCheckbox()) : null
+        }
         {/* 1. show thumbnail column if configured */
           this.renderThumbnail(thumbnailRenderData)
         }
@@ -270,6 +299,12 @@ class ListCellComponent extends React.Component {
             }
           </div>
         ))}
+        {
+          disableLabelDisplay
+            ? <div style={altOptionsBarStyles}>
+              {this.renderOptionsBarStyles()}
+            </div> : null
+        }
       </div>
     )
   }
@@ -280,11 +315,12 @@ class ListCellComponent extends React.Component {
    * @returns {XML}
    */
   render() {
+    const { disableLabelDisplay } = this.props
     const { moduleTheme: { user: { listViewStyles } } } = this.context
     return (
       <div style={listViewStyles.rootStyles}>
         {/* 1. title */
-          this.renderTitle()
+          !disableLabelDisplay && this.renderTitle()
         }
         {/* 2 . Attribute */
           this.renderAttributes()
