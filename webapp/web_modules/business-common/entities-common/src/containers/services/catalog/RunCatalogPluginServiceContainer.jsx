@@ -126,7 +126,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
         // attempt to resolve the parameters
         const resolvedParameters = resolveParametersWithTypes(pluginConfiguration, pluginMetaData)
         // initialization is now complete
-        this.onInitializationDone(resolvedParameters, pluginMetaData.content.markdown)
+        this.onInitializationDone(resolvedParameters, pluginMetaData.content.userMarkdown)
       } catch (e) {
         this.onFetchError(RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR)
       }

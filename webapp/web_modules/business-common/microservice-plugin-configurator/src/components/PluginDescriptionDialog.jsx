@@ -74,7 +74,7 @@ class PluginDescriptionDialog extends React.Component {
       >
         <MarkdownFileContentDisplayer
           style={markdownDialog.markdownView}
-          source={pluginMetaData.userMarkdown}
+          source={pluginMetaData.markdown}
         />
       </Dialog>
     )

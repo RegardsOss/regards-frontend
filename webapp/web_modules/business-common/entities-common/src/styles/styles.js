@@ -109,7 +109,7 @@ export default (theme) => ({
   description: {
     markdownView: {
       width: '100%',
-      height: '200px',
+      height: '100%',
     },
   },
 })
