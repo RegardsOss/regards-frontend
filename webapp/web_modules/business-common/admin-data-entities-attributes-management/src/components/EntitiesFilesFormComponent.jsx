@@ -20,10 +20,14 @@ import times from 'lodash/times'
 import map from 'lodash/map'
 import get from 'lodash/get'
 import includes from 'lodash/includes'
+import isEmpty from 'lodash/isEmpty'
 import size from 'lodash/size'
+import reduce from 'lodash/reduce'
+import some from 'lodash/some'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { mimeTypesDefinitions } from '@regardsoss/mime-types'
 import { CommonDomain } from '@regardsoss/domain'
 import { List, ListItem, makeSelectable } from 'material-ui/List'
 import Badge from 'material-ui/Badge'
@@ -85,6 +89,26 @@ export class EntitiesFilesFormComponent extends React.Component {
     marginBottom: '20px',
   }
 
+  static subHeaderStyle = {
+    lineHeight: '24px',
+  }
+
+  /**
+   * Build mime type list
+   * @param {Array<String>} authorisedList
+   * @returns
+   */
+  static buildMimeTypeList = (authorisedList = []) => reduce(mimeTypesDefinitions, (acc, value, key) => {
+    const { label, mime } = value
+    if ((isEmpty(authorisedList) || includes(authorisedList, mime)) && !some(acc, { mime })) {
+      return acc.concat({
+        label: `${label} (${mime})`,
+        mime,
+      })
+    }
+    return acc
+  }, [])
+
   state = {
     nbInputs: 1,
     type: get(this.props, 'allowedDataType[0]', CommonDomain.DATA_TYPES_ENUM.DESCRIPTION),
@@ -94,11 +118,11 @@ export class EntitiesFilesFormComponent extends React.Component {
   /**
    * When the form is submitted, extract refs (an array of file references) and files on the other side
    */
-  onSubmit = (values) => {
+  onSubmit = (vals) => {
     const {
       refs,
       ...files
-    } = values
+    } = vals
     const formValues = {}
     if (refs) {
       formValues.refs = refs
@@ -157,11 +181,13 @@ export class EntitiesFilesFormComponent extends React.Component {
   getMimeTypeAuthorised = () => {
     switch (this.state.type) {
       case CommonDomain.DATA_TYPES_ENUM.THUMBNAIL:
-        return [CommonDomain.MimeTypes.jpg, CommonDomain.MimeTypes.png, CommonDomain.MimeTypes.gif]
+        return EntitiesFilesFormComponent.buildMimeTypeList([CommonDomain.MimeTypes.jpg, CommonDomain.MimeTypes.png, CommonDomain.MimeTypes.gif])
       case CommonDomain.DATA_TYPES_ENUM.DESCRIPTION:
-        return [CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html, CommonDomain.MimeTypes.txt]
+        return EntitiesFilesFormComponent.buildMimeTypeList([CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html, CommonDomain.MimeTypes.txt])
       case CommonDomain.DATA_TYPES_ENUM.DOCUMENT:
-        return [CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html, CommonDomain.MimeTypes.zip, CommonDomain.MimeTypes.tar, CommonDomain.MimeTypes.rar, CommonDomain.MimeTypes.txt]
+        return EntitiesFilesFormComponent.buildMimeTypeList([CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html, CommonDomain.MimeTypes.zip, CommonDomain.MimeTypes.tar, CommonDomain.MimeTypes.rar, CommonDomain.MimeTypes.txt])
+      case CommonDomain.DATA_TYPES_ENUM.RAWDATA:
+        return EntitiesFilesFormComponent.buildMimeTypeList()
       default:
         return []
     }
@@ -294,6 +320,7 @@ export class EntitiesFilesFormComponent extends React.Component {
           />}
           primaryText={formatMessage({ id: `entities-files.form.${type}.title` })}
           secondaryText={formatMessage({ id: `entities-files.form.${type}.subtitle` })}
+          title={formatMessage({ id: `entities-files.form.${type}.subtitle` })}
           value={type}
       />) : null
   }
@@ -304,6 +331,7 @@ export class EntitiesFilesFormComponent extends React.Component {
         {this.renderType(CommonDomain.DATA_TYPES_ENUM.THUMBNAIL)}
         {this.renderType(CommonDomain.DATA_TYPES_ENUM.DOCUMENT)}
         {this.renderType(CommonDomain.DATA_TYPES_ENUM.DESCRIPTION)}
+        {this.renderType(CommonDomain.DATA_TYPES_ENUM.RAWDATA)}
       </SelectableList>
     </div>
   )
@@ -339,7 +367,12 @@ export class EntitiesFilesFormComponent extends React.Component {
     ))
     return (
       <List>
-        <Subheader>{formatMessage({ id: 'entities-files.form.file.subtitle' })}</Subheader>
+        <Subheader style={EntitiesFilesFormComponent.subHeaderStyle}>
+          {
+          this.state.type === CommonDomain.DATA_TYPES_ENUM.RAWDATA
+            ? formatMessage({ id: 'entities-files.form.file.RAWDATA.subtitle' }) : formatMessage({ id: 'entities-files.form.file.subtitle' })
+          }
+        </Subheader>
         {content}
         <div style={EntitiesFilesFormComponent.addFileWrapperStyle}>
           <RaisedButton label={formatMessage({ id: 'entities-files.form.action.add-file' })} onClick={this.handleOpenForm} />

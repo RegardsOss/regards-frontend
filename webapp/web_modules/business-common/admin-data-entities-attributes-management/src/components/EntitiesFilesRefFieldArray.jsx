@@ -16,21 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
+import AutoComplete from 'material-ui/AutoComplete'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import {
-  RenderTextField, RenderSelectField, Field, ValidationHelpers,
+  RenderTextField, Field, ValidationHelpers, RenderAutoCompleteField,
 } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
-import MenuItem from 'material-ui/MenuItem'
 import messages from '../i18n'
+
+const {
+  required, validMimeType,
+} = ValidationHelpers
+const requiredMimeType = [required, validMimeType]
 
 /**
 * Render for form for external file
 */
 export class EntitiesFilesRefFieldArray extends React.Component {
   static propTypes = {
-    mimeTypeList: PropTypes.arrayOf(PropTypes.string),
+    mimeTypeList: PropTypes.arrayOf(PropTypes.object),
     allowImage: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,
   }
@@ -40,9 +44,14 @@ export class EntitiesFilesRefFieldArray extends React.Component {
     ...i18nContextType,
   }
 
+  static autocompleteMimeTypeConfig = {
+    text: 'label',
+    value: 'mime',
+  }
+
   render() {
     const { intl: { formatMessage } } = this.context
-    const { mimeTypeList, name, allowImage } = this.props
+    const { name, allowImage, mimeTypeList } = this.props
     return (
       <div>
         <Field
@@ -55,24 +64,22 @@ export class EntitiesFilesRefFieldArray extends React.Component {
         />
         <Field
           name={`${name}.mimeType`}
+          key="mimeType"
           fullWidth
-          component={RenderSelectField}
-          type="text"
-          label={formatMessage({ id: 'entities-files.form.mimeType' })}
-        >
-          {map(mimeTypeList, (mimeType) => (
-            <MenuItem
-              key={mimeType}
-              value={mimeType}
-              primaryText={mimeType}
-            />
-          ))}
-        </Field>
+          component={RenderAutoCompleteField}
+          floatingLabelText={formatMessage({ id: 'entities-files.form.mimeType' })}
+          hintText={formatMessage({ id: 'entities-files.form.mimeType' })}
+          dataSource={mimeTypeList}
+          dataSourceConfig={EntitiesFilesRefFieldArray.autocompleteMimeTypeConfig}
+          filter={AutoComplete.caseInsensitiveFilter}
+          validate={requiredMimeType}
+        />
         <Field
           name={`${name}.filename`}
           fullWidth
           component={RenderTextField}
           type="text"
+          validate={ValidationHelpers.required}
           label={formatMessage({ id: 'entities-files.form.filename' })}
         />
         {allowImage ? [

@@ -129,7 +129,7 @@ const messages = {
   'storage.settings.subtitle': 'Configure settings',
   'storage.settings.fieldgroup.file.title': 'Storage settings for datasets and collections uploaded files',
   'storage.settings.fieldgroup.cache.title': 'Cache settings',
-  'storage.settings.field.storeFiles': 'Save files',
+  'storage.settings.field.storeFiles': 'Delegates the backup of dataset and collection files to the storage service',
   'storage.settings.field.cacheMaxSize': 'Cache max size (kB)',
   'storage.settings.field.tenantCachePath': 'Cache path',
   'storage.settings.field.storageLocation': 'Location',

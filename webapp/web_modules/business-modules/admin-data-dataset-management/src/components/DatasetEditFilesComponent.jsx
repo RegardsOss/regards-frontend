@@ -44,7 +44,7 @@ export class DatasetEditFilesComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static allowedDataTypes = [CommonDomain.DATA_TYPES_ENUM.DESCRIPTION, CommonDomain.DATA_TYPES_ENUM.THUMBNAIL]
+  static allowedDataTypes = [CommonDomain.DATA_TYPES_ENUM.DESCRIPTION, CommonDomain.DATA_TYPES_ENUM.THUMBNAIL, CommonDomain.DATA_TYPES_ENUM.RAWDATA]
 
   render() {
     const {

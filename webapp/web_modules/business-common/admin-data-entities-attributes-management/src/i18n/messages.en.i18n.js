@@ -33,6 +33,8 @@ const messages = {
   'entities-files.form.THUMBNAIL.subtitle': 'The entity thumbnail',
   'entities-files.form.DOCUMENT.title': 'Documents',
   'entities-files.form.DOCUMENT.subtitle': 'Entity documents',
+  'entities-files.form.RAWDATA.title': 'Data files',
+  'entities-files.form.RAWDATA.subtitle': 'Files embedded in the command',
   'entities-files.form.nbFile.tooltip': `{nbFile} file{nbFile, plural, 
     =0 {} 
     one {} 
@@ -40,15 +42,16 @@ const messages = {
   }`,
   'entities-files.form.no-file.title': 'No file linked',
   'entities-files.form.no-file.message': 'This entity doesn\'t have any file linked',
-  'entities-files.form.file.subtitle': 'File associated',
+  'entities-files.form.file.subtitle': 'File associated.',
+  'entities-files.form.file.RAWDATA.subtitle': 'The files will be linked to the datasets (description part) and integrated into the order when a product linked to this dataset is ordered.',
   'entities-files.form.action.add-file': 'Add files',
   'entities-files.form.upload.files.subtitle': 'Upload these files:',
-  'entities-files.form.upload.refs.subtitle': 'Create link to external files: ',
+  'entities-files.form.upload.refs.subtitle': 'Create link to URL files: ',
   'entities-files.form.upload.action.send': 'Send',
   'entities-files.form.upload.action.cancel': 'Cancel',
 
   'entities-files.form.reference': 'Reference file n°',
-  'entities-files.form.uri': 'Public URI of the file (*)',
+  'entities-files.form.uri': 'URI of the file (*)',
   'entities-files.form.mimeType': 'Media type (*)',
   'entities-files.form.filename': 'Name to display for this file (*)',
   'entities-files.form.imageWidth': 'Image width',

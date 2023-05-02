@@ -22,6 +22,7 @@ import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { CommonDomain } from '@regardsoss/domain'
 import { Field } from '@regardsoss/form-utils'
 import { EntitiesFilesRefFieldArray } from '../../src/components/EntitiesFilesRefFieldArray'
+import { EntitiesFilesFormComponent } from '../../src/components/EntitiesFilesFormComponent'
 
 const context = buildTestContext()
 
@@ -35,7 +36,7 @@ describe('[ADMIN DATA ENTITIES ATTRIBUTES MANAGEMENT] Testing EntitiesFilesRefFi
   })
   it('Render properly for pictures', () => {
     const props = {
-      mimeTypeList: [CommonDomain.MimeTypes.jpg],
+      mimeTypeList: EntitiesFilesFormComponent.buildMimeTypeList([CommonDomain.MimeTypes.jpg]),
       allowImage: true,
       name: 'refs[0]',
     }
@@ -45,7 +46,7 @@ describe('[ADMIN DATA ENTITIES ATTRIBUTES MANAGEMENT] Testing EntitiesFilesRefFi
   })
   it('Render properly for docs', () => {
     const props = {
-      mimeTypeList: [CommonDomain.MimeTypes.html],
+      mimeTypeList: EntitiesFilesFormComponent.buildMimeTypeList([CommonDomain.MimeTypes.html]),
       allowImage: false,
       name: 'refs[0]',
     }
