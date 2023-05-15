@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/eslint-config-es6-rules",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "private": true,
   "description": "Standard eslint rules for react & lodash es6 project",
   "author": "CNES (https://cnes.fr)",

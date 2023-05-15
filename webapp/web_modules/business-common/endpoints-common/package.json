@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/endpoints-common",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "private": true,
   "sideEffects": false,
   "description": "Module exposing backend's endpoints retrieval",

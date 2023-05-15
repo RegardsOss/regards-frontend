@@ -1,6 +1,6 @@
 {
   "name": "fem-notify",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "private": true,
   "description": "Renotify entities listeners using the fem",
   "author": "CNES (https://cnes.fr)",
