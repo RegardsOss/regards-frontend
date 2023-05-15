@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEmpty from 'lodash/isEmpty'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { MIME_TYPES } from '@regardsoss/mime-types'
@@ -29,12 +30,14 @@ export class CodeDisplayDialog extends React.Component {
     displayedContent: PropTypes.any,
     contentType: PropTypes.string,
     onClose: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
     title: PropTypes.string,
   }
 
   static defaultPropTypes = {
     contentType: MIME_TYPES.JSON_MIME_TYPE,
     displayedContent: null,
+    errorMessage: '',
   }
 
   static contextTypes = {
@@ -44,7 +47,7 @@ export class CodeDisplayDialog extends React.Component {
 
   render() {
     const {
-      displayedContent, onClose, contentType, title,
+      displayedContent, onClose, contentType, title, errorMessage,
     } = this.props
     const {
       intl: { formatMessage },
@@ -56,6 +59,7 @@ export class CodeDisplayDialog extends React.Component {
           contentStyle,
           actionsStyle,
           jsonContentViewerStyle,
+          errorMessageStyle,
         },
       },
     } = this.context
@@ -69,6 +73,9 @@ export class CodeDisplayDialog extends React.Component {
         open
       >
         <div style={contentStyle}>
+          {
+            !isEmpty(errorMessage) ? <div style={errorMessageStyle}>{errorMessage}</div> : null
+          }
           <CodeFileDisplayer
             content={displayedContent ? JSON.stringify(displayedContent, null, '\t') : formatMessage({ id: 'code.display.dialog.no.data' })}
             contentType={contentType}

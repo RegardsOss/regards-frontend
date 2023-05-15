@@ -74,6 +74,7 @@ export default {
   'oais.packages.empty.results': 'Aucun produit trouvé',
   'oais.packages.loading.results': 'Chargement des produits ...',
   'oais.packages.details.sip.title': 'Détails du SIP',
+  'oais.packages.details.sip.message': 'Attention : Le contenu original du sip a été purgée car il a dépassé la date de rétension maximale.',
 
   'oais.packages.tooltip.providerId': 'Saisir une partie de l\'identifiant fournisseur',
   'oais.packages.tooltip.type': 'Filtrer par le type de produits',

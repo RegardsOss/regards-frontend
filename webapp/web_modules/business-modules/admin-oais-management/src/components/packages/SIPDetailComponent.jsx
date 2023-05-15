@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { IngestShapes } from '@regardsoss/shape'
 import { MIME_TYPES } from '@regardsoss/mime-types'
 import { themeContextType } from '@regardsoss/theme'
@@ -43,8 +44,10 @@ class SIPDetailComponent extends React.Component {
   render() {
     const { sip, onClose } = this.props
     const { intl: { formatMessage } } = this.context
+    const message = get(sip, 'content.sip') ? '' : formatMessage({ id: 'oais.packages.details.sip.message' })
     return (
       <CodeDisplayDialog
+        message={message}
         displayedContent={sip}
         title={formatMessage({ id: 'oais.packages.details.sip.title' })}
         onClose={onClose}

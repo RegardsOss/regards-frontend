@@ -52,6 +52,10 @@ const styles = (theme) => ({
     widthPercent: 80,
     heightPercent: 80,
     dialogBodyStyle: { paddingBottom: 0 },
+    errorMessageStyle: {
+      paddingBottom: '15px',
+      color: 'red',
+    },
     contentStyle: {
       display: 'flex',
       flexDirection: 'column',
