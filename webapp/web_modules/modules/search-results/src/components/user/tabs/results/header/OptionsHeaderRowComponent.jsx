@@ -24,12 +24,11 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
 import TypeTabContainer from '../../../../../containers/user/tabs/results/header/options/TypeTabContainer'
 import ToggleFiltersContainer from '../../../../../containers/user/tabs/results/header/options/ToggleFiltersContainer'
 import ModeSelectorContainer from '../../../../../containers/user/tabs/results/header/options/ModeSelectorContainer'
-import SortingManagerContainer from '../../../../../containers/user/tabs/results/header/options/SortingManagerContainer'
-import EditColumnsSettingsContainer from '../../../../../containers/user/tabs/results/header/options/EditColumnsSettingsContainer'
 import SearchOptionContainer from '../../../../../containers/user/tabs/results/header/options/SearchOptionContainer'
 import SelectionServiceComponent from './options/SelectionServiceComponent'
 import AddSelectionToCartComponent from './options/AddSelectionToCartComponent'
 import RefreshTableComponent from './options/RefreshTableComponent'
+import ActionsGroupContainer from '../../../../../containers/user/tabs/results/header/ActionsGroupContainer'
 
 /**
  * Options header row: shows options available (filters, services...) and allows user browing between available view mode and types
@@ -136,27 +135,12 @@ class OptionsHeaderRowComponent extends React.Component {
           </TableHeaderOptionGroup>
           {/* 2.D - sort modal
            */}
-          <TableHeaderOptionGroup show={
-            selectedTypeState.enableSorting
-          }
-          >
-            { // 2.C - sort on single attribute
-              selectedTypeState.enableSorting
-                ? (
-                  <SortingManagerContainer
-                    moduleId={moduleId}
-                    tabType={tabType}
-                    resultsContext={resultsContext}
-                  />
-                ) : null
-            }
-          </TableHeaderOptionGroup>
-          {/* 2.E - Configure table columns (available only for table mode) */}
-          <TableHeaderOptionGroup show={selectedMode === UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE}>
-            <EditColumnsSettingsContainer
+          <TableHeaderOptionGroup>
+            <ActionsGroupContainer
               moduleId={moduleId}
               tabType={tabType}
               resultsContext={resultsContext}
+              selectedMode={selectedMode}
             />
           </TableHeaderOptionGroup>
           {/* 2.F - View mode selectors (list / table / quicklook / map), when more than 1 is available*/}

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,25 +20,25 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SortSettingsComponent from '../../../../../../../src/components/user/tabs/results/header/options/sort/SortSettingsComponent'
-import { SortingManagerContainer } from '../../../../../../../src/containers/user/tabs/results/header/options/SortingManagerContainer'
-import { dataContext } from '../../../../../../dumps/data.context.dump'
-import styles from '../../../../../../../src/styles'
+import ActionsGroupComponent from '../../../../../../src/components/user/tabs/results/header/ActionsGroupComponent'
+import { ActionsGroupContainer } from '../../../../../../src/containers/user/tabs/results/header/ActionsGroupContainer'
+import { dataContext } from '../../../../../dumps/data.context.dump'
+import styles from '../../../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SortingManagerContainer
+ * Test ActionsGroupContainer
  * @author Raphaël Mechali
  */
-describe('[SEARCH RESULTS] Testing SortingManagerContainer', () => {
+describe('[SEARCH RESULTS] Testing ActionsGroupContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SortingManagerContainer)
+    assert.isDefined(ActionsGroupContainer)
   })
-  it('should render correctly when sortable (data)', () => {
+  it('should render correctly (data)', () => {
     const props = {
       moduleId: 1,
       tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
@@ -54,26 +54,31 @@ describe('[SEARCH RESULTS] Testing SortingManagerContainer', () => {
           },
         },
       }),
+      selectedMode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
       updateResultsContext: () => { },
     }
-    const enzymeWrapper = shallow(<SortingManagerContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(SortSettingsComponent)
+    const enzymeWrapper = shallow(<ActionsGroupContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(ActionsGroupComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
 
     const {
       selectedTypeState: {
         isInInitialSorting, initialSorting, criteria: { sorting: currentSorting },
-      },
+      }, selectedModeState: { presentationModels },
     } = UIDomain.ResultsContextHelper.getViewData(props.resultsContext, props.tabType)
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       sortableAttributes: enzymeWrapper.state().sortableAttributes,
       isInInitialSorting,
       initialSorting,
       currentSorting,
-      onApply: enzymeWrapper.instance().onApply,
+      onApplySorting: enzymeWrapper.instance().onApplySorting,
+      selectedMode: props.selectedMode,
+      presentationModels,
+      onApplyPresentationModels: enzymeWrapper.instance().onApplyPresentationModels,
+      onResetPresentationModels: enzymeWrapper.instance().onResetPresentationModels,
     }, 'Component should define the expected properties')
   })
-  it('should render correctly when sortable (dataset)', () => {
+  it('should render correctly (dataset)', () => {
     const props = {
       moduleId: 1,
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
@@ -89,23 +94,28 @@ describe('[SEARCH RESULTS] Testing SortingManagerContainer', () => {
           },
         },
       }),
+      selectedMode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
       updateResultsContext: () => { },
     }
-    const enzymeWrapper = shallow(<SortingManagerContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(SortSettingsComponent)
+    const enzymeWrapper = shallow(<ActionsGroupContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(ActionsGroupComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
 
     const {
       selectedTypeState: {
         isInInitialSorting, initialSorting, criteria: { sorting: currentSorting },
-      },
+      }, selectedModeState: { presentationModels },
     } = UIDomain.ResultsContextHelper.getViewData(props.resultsContext, props.tabType)
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       sortableAttributes: enzymeWrapper.state().sortableAttributes,
       isInInitialSorting,
       initialSorting,
       currentSorting,
-      onApply: enzymeWrapper.instance().onApply,
+      onApplySorting: enzymeWrapper.instance().onApplySorting,
+      selectedMode: props.selectedMode,
+      presentationModels,
+      onApplyPresentationModels: enzymeWrapper.instance().onApplyPresentationModels,
+      onResetPresentationModels: enzymeWrapper.instance().onResetPresentationModels,
     }, 'Component should define the expected properties')
   })
 })
