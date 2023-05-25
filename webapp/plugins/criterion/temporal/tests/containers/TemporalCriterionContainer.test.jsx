@@ -92,7 +92,7 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
       expectedTime: new Date('2018-01-01T01:12:42.726Z').getTime(),
       expectedOperator: TemporalCriterionContainer.DEFAULT_STATE.operator,
       // nota date is transferred to GMT 0
-      expectedQuery: { q: `${props.attributes.searchField.jsonPath}:[* TO 2017-12-31T22:12:42.726Z]` },
+      expectedQuery: { q: `${props.attributes.searchField.jsonPath}:[* TO 2018-01-01T01:12:42.726Z]` },
     }, {
       label: 'valid operator selection',
       changeValue: () => enzymeWrapper.instance().onOperatorSelected(CommonDomain.EnumNumericalComparator.GE),
@@ -100,7 +100,7 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
       expectedTime: new Date('2018-01-01T01:12:42.726Z').getTime(),
       expectedOperator: CommonDomain.EnumNumericalComparator.GE,
       // nota date is transferred to GMT 0
-      expectedQuery: { q: `${props.attributes.searchField.jsonPath}:[2017-12-31T22:12:42.726Z TO *]` },
+      expectedQuery: { q: `${props.attributes.searchField.jsonPath}:[2018-01-01T01:12:42.726Z TO *]` },
     }, {
       label: 'invalid date selection',
       changeValue: () => enzymeWrapper.instance().onDateChanged(new Date('2025-01-01T12:40:42.726Z')),
@@ -114,7 +114,7 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
       expectedError: false,
       expectedTime: new Date('2025-01-01T12:40:42.726Z').getTime(),
       expectedOperator: CommonDomain.EnumNumericalComparator.LE,
-      expectedQuery: { q: `${props.attributes.searchField.jsonPath}:[* TO 2025-01-01T09:40:42.726Z]` },
+      expectedQuery: { q: `${props.attributes.searchField.jsonPath}:[* TO 2025-01-01T12:40:42.726Z]` },
     }]
     let spiedCount = 0
     testCases.forEach(({

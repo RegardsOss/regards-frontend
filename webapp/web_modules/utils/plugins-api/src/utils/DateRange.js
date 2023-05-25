@@ -36,8 +36,7 @@ export class DateRange extends NumberRange {
     if (isNil(localTime)) {
       return localTime
     }
-    const localDate = new Date(localTime)
-    return new Date(localDate.getTime() - (localDate.getTimezoneOffset() * 60000))
+    return new Date(localTime)
   }
 
   /**
