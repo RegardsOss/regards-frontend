@@ -43,7 +43,7 @@ class DownloadFileActions extends BasicSignalActions {
    * @param {*} bodyParam {Object|null} body parameter, when method is post
    */
   download(pathParams, queryParams, verb = 'GET', bodyParam = null) {
-    return this.sendSignal(verb, bodyParam, pathParams, queryParams)
+    return this.sendSignal(verb, bodyParam, pathParams, queryParams, true)
   }
 
   /**

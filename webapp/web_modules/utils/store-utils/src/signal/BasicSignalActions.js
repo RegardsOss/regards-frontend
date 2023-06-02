@@ -43,9 +43,9 @@ class BasicSignalActions extends BasicActions {
    * @param queryParams method,
    * @returns {{}}
    */
-  sendSignal(verb, bodyParam, pathParams, queryParams) {
+  sendSignal(verb, bodyParam, pathParams, queryParams, allowEmpty = false) {
     let body
-    if (!isEmpty(bodyParam)) {
+    if (!isEmpty(bodyParam) || allowEmpty) {
       if (verb === 'GET') {
         throw new Error('There should be no body parameter on GET method')
       }

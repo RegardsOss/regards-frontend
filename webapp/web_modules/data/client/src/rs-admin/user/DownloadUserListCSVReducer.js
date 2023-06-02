@@ -17,15 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { BasicSignalReducers } from '@regardsoss/store-utils'
-import DownloadUserMetalinkFileActions from './DownloadUserMetalinkFileActions'
+import DownloadUserListCSVActions from './DownloadUserListCSVActions'
 
-class DownloadUserMetalinkFileReducer extends BasicSignalReducers {
+class DownloadUserListCSVReducer extends BasicSignalReducers {
   constructor(namespace) {
-    super(new DownloadUserMetalinkFileActions(namespace))
+    super(new DownloadUserListCSVActions(namespace))
   }
 }
 
 export default (namespace) => {
-  const instance = new DownloadUserMetalinkFileReducer(namespace)
+  const instance = new DownloadUserListCSVReducer(namespace)
   return (state, action) => instance.reduce(state, action)
 }

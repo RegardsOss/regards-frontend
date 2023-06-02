@@ -198,9 +198,9 @@ export class ProjectUserListContainer extends React.Component {
     browserHistory.push(`/admin/${project}/user/project-user/${userId}/edit`)
   }
 
-  onDownloadCSV = (requestParameters, onRefresh) => {
+  onDownloadCSV = (requestParameters = {}) => {
     const { onDownloadCSV } = this.props
-    this.perform(onDownloadCSV(requestParameters), onRefresh)
+    return onDownloadCSV(requestParameters)
   }
 
   onDeleteAccount = (accountId, onRefresh) => {

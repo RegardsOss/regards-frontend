@@ -126,9 +126,9 @@ export { default as ProjectUserEmailConfirmationActions } from './user/ProjectUs
 export { default as getProjectUserEmailConfirmationReducer } from './user/ProjectUserEmailConfirmationReducer'
 export { default as getProjectUserEmailConfirmationSelectors } from './user/ProjectUserEmailConfirmationSelectors'
 
-export { default as DownloadUserMetalinkFileActions } from './user/DownloadUserMetalinkFileActions'
-export { default as getDownloadUserMetalinkFileReducer } from './user/DownloadUserMetalinkFileReducer'
-export { default as getDownloadUserMetalinkFileSelectors } from './user/DownloadUserMetalinkFileSelectors'
+export { default as DownloadUserListCSVActions } from './user/DownloadUserListCSVActions'
+export { default as getDownloadUserListCSVReducer } from './user/DownloadUserListCSVReducer'
+export { default as getDownloadUserListCSVSelectors } from './user/DownloadUserListCSVSelectors'
 
 export { default as GroupsCountActions } from './user/GroupsCountActions'
 export { default as getGroupsCountReducer } from './user/GroupsCountReducer'

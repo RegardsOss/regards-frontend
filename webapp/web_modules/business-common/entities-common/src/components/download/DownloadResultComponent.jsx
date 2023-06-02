@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,13 +20,13 @@ import { DownloadButton } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
-* Download result button for catalog service result
-* @author Raphaël Mechali
+* Auto Download pre fetched blob content from local URL
+* Donwload is activated at component mount
+* @author Sébastien Binda
 */
-class DownloadResultButton extends React.Component {
+class DownloadResultComponent extends React.Component {
   static propTypes = {
     localAccessURL: PropTypes.string.isRequired, // Not URL as it may be local URL (prefixed by blob)
-    forcedownload: PropTypes.bool,
     // Name of the file to download. When not provided, the names comes from local
     // access URL attachment header (if any) or defaults to URL
     fileName: PropTypes.string, // Note: when not provided, the names comes from local access URL attachment header (if any)
@@ -40,24 +40,20 @@ class DownloadResultButton extends React.Component {
   downloadButtonRef = React.createRef()
 
   componentDidMount() {
-    if (this.props.forcedownload) {
-      this.downloadButtonRef.current.forceDownload()
-    }
+    this.downloadButtonRef.current.forceDownload()
   }
 
   render() {
     const { localAccessURL, fileName } = this.props
-    const { intl: { formatMessage } } = this.context
     return (
       <DownloadButton
         ref={this.downloadButtonRef}
-        label={formatMessage({ id: 'entities.common.services.download.service.result' })}
-        tooltip={formatMessage({ id: 'entities.common.services.download.service.result' })}
         downloadURL={localAccessURL}
         downloadName={fileName}
+        hidden
         isBlank
       />)
   }
 }
 
-export default DownloadResultButton
+export default DownloadResultComponent
