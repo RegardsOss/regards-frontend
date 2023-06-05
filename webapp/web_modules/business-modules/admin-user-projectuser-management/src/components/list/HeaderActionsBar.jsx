@@ -59,6 +59,9 @@ class HeaderActionsBar extends React.Component {
   onPostDownloadDone = ({ payload = {}, error }) => {
     if (error) {
       console.error('Error downloading csv file')
+      this.setState({
+        downloading: false,
+      })
     } else {
       const resultFile = payload
       const contentDisposition = get(payload, 'contentDisposition')
