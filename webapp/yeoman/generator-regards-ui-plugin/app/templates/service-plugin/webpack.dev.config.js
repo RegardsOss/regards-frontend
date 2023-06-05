@@ -22,6 +22,12 @@ const webpack = require('webpack')
 const PLUGIN_TYPE = 'service'
 const PLUGIN_NAME = '<%= name %>'
 
+if (!process.env.GATEWAY_PLUGINS) {
+  console.log('GATEWAY_PLUGINS var must be set')
+  console.log('Syntax: GATEWAY_PLUGINS=http://validation-regards.cloud-espace.si.c-s.fr yarn build:watch')
+  process.abort()
+}
+
 const conf = webpackConfigurator
   .generateConfig({
     mode: 'pkg_build_dev',
@@ -32,7 +38,7 @@ const conf = webpackConfigurator
   .merge({
     plugins: [
       new webpack.DefinePlugin({
-        GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.107'),
+        GATEWAY_HOSTNAME: JSON.stringify(process.env.GATEWAY_PLUGINS || 'http://gateway_to_modify_in_your_plugin_webpack_config.cs'),
       }),
     ],
   })

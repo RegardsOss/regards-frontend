@@ -23,6 +23,12 @@ const webpack = require('webpack')
 const PLUGIN_TYPE = 'criterion'
 const PLUGIN_NAME = 'last-version-only'
 
+if (!process.env.GATEWAY_PLUGINS) {
+  console.log('GATEWAY_PLUGINS var must be set')
+  console.log('Syntax: GATEWAY_PLUGINS=http://validation-regards.cloud-espace.si.c-s.fr yarn build:watch')
+  process.abort()
+}
+
 const conf = webpackConfigurator
   .generateConfig({
     mode: 'pkg_build_dev',
