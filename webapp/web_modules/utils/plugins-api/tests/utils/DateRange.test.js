@@ -38,7 +38,7 @@ describe('[PLUGINS API] Testing DateRange', () => {
   it('should convert correctly a time to OpenSearch date representation', () => {
     assert.equal(DateRange.toOpenSearchDate(Number.NEGATIVE_INFINITY), '*')
     assert.equal(DateRange.toOpenSearchDate(Number.POSITIVE_INFINITY), '*')
-    assert.equal(DateRange.toOpenSearchDate(new Date('2030-01-01T06:00:00.000Z').getTime()), '2030-01-01T03:00:00.000Z')
+    assert.equal(DateRange.toOpenSearchDate(new Date('2030-01-01T03:00:00.000Z').getTime()), '2030-01-01T03:00:00.000Z')
   })
   it('should convert correctly a range into request', () => {
     assert.isNotOk(DateRange.getDateQueryParameter('attr1',
@@ -52,23 +52,23 @@ describe('[PLUGINS API] Testing DateRange', () => {
       DateRange.convertToRange(null, CommonDomain.EnumNumericalComparator.GE)).toQueryString())
 
     assert.equal(DateRange.getDateQueryParameter('attr1',
-      new DateRange(null, new Date('2030-01-01T06:00:00.000Z').getTime())).toQueryString(),
+      new DateRange(null, new Date('2030-01-01T03:00:00.000Z').getTime())).toQueryString(),
     'attr1:[* TO 2030-01-01T03:00:00.000Z]')
     assert.equal(DateRange.getDateQueryParameter('attr1',
-      new DateRange(new Date('2030-01-01T06:00:00.000Z').getTime()), null).toQueryString(),
+      new DateRange(new Date('2030-01-01T03:00:00.000Z').getTime()), null).toQueryString(),
     'attr1:[2030-01-01T03:00:00.000Z TO *]')
     assert.equal(DateRange.getDateQueryParameter('attr1',
-      new DateRange(new Date('2030-01-01T06:00:00.000Z').getTime(), new Date('2040-06-06T06:00:00.000Z').getTime())).toQueryString(),
+      new DateRange(new Date('2030-01-01T03:00:00.000Z').getTime(), new Date('2040-06-06T03:00:00.000Z').getTime())).toQueryString(),
     'attr1:[2030-01-01T03:00:00.000Z TO 2040-06-06T03:00:00.000Z]')
 
     assert.equal(DateRange.getDateQueryParameter('attr1',
-      DateRange.convertToRange(new Date('2040-06-06T00:00:00.000Z').getTime(), CommonDomain.EnumNumericalComparator.LE)).toQueryString(),
+      DateRange.convertToRange(new Date('2040-06-05T21:00:00.000Z').getTime(), CommonDomain.EnumNumericalComparator.LE)).toQueryString(),
     'attr1:[* TO 2040-06-05T21:00:00.000Z]')
     assert.equal(DateRange.getDateQueryParameter('attr1',
-      DateRange.convertToRange(new Date('2040-06-06T06:00:00.000Z').getTime(), CommonDomain.EnumNumericalComparator.EQ)).toQueryString(),
+      DateRange.convertToRange(new Date('2040-06-06T03:00:00.000Z').getTime(), CommonDomain.EnumNumericalComparator.EQ)).toQueryString(),
     'attr1:2040-06-06T03:00:00.000Z')
     assert.equal(DateRange.getDateQueryParameter('attr1',
-      DateRange.convertToRange(new Date('2040-06-06T06:00:00.000Z').getTime(), CommonDomain.EnumNumericalComparator.GE)).toQueryString(),
+      DateRange.convertToRange(new Date('2040-06-06T03:00:00.000Z').getTime(), CommonDomain.EnumNumericalComparator.GE)).toQueryString(),
     'attr1:[2040-06-06T03:00:00.000Z TO *]')
   })
 

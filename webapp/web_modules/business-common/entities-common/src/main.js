@@ -22,6 +22,7 @@ export { DescriptionHelper } from './definitions/DescriptionHelper'
 
 // Downloads
 export * from './components/download/quota/DownloadIconComponent'
+export { default as DownloadResultComponent } from './components/download/DownloadResultComponent'
 export * from './definitions/download/quota/QuotaDownloadUtils'
 export * from './definitions/download/quota/QuotaInfoConstants'
 export * from './definitions/download/quota/QuotaInfoShape'

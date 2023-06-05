@@ -25,6 +25,6 @@ import { AdminClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'user-management', 'project-user-management', 'csv']
 const REDUX_ACTION_NAMESPACE = 'admin-user-projectuser-management/csv'
 
-export const csvActions = new AdminClient.DownloadUserMetalinkFileActions(REDUX_ACTION_NAMESPACE)
-export const csvReducer = AdminClient.getDownloadUserMetalinkFileReducer(REDUX_ACTION_NAMESPACE)
-export const csvSelectors = AdminClient.getDownloadUserMetalinkFileSelectors(ENTITIES_STORE_PATH)
+export const csvActions = new AdminClient.DownloadUserListCSVActions(REDUX_ACTION_NAMESPACE)
+export const csvReducer = AdminClient.getDownloadUserListCSVReducer(REDUX_ACTION_NAMESPACE)
+export const csvSelectors = AdminClient.getDownloadUserListCSVSelectors(ENTITIES_STORE_PATH)

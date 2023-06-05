@@ -18,13 +18,16 @@
  **/
 
 import FlatButton from 'material-ui/FlatButton'
+import get from 'lodash/get'
 import DownloadCSVIcon from 'mdi-material-ui/BriefcaseDownload'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { LoadableContentDisplayDecorator, LocalURLProvider } from '@regardsoss/display-control'
 import {
   TableHeaderOptionGroup, TableColumnsVisibilityOption,
   TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
+import { DownloadResultComponent } from '@regardsoss/entities-common'
 
 /**
  * @author Théo Lasserre
@@ -44,19 +47,75 @@ class HeaderActionsBar extends React.Component {
     ...i18nContextType,
   }
 
-  render() {
+  state = {
+    downloading: false,
+    localAccessURL: null, // local file access URL
+    fileName: null,
+  }
+
+  /**
+   * Action to do when download action is done. Save csv file content in local blob.
+  */
+  onPostDownloadDone = ({ payload = {}, error }) => {
+    if (error) {
+      console.error('Error downloading csv file')
+    } else {
+      const resultFile = payload
+      const contentDisposition = get(payload, 'contentDisposition')
+      const fileName = contentDisposition ? contentDisposition.split('filename=')[1] : 'regards-users-list.csv'
+      this.setState({
+        localAccessURL: resultFile && resultFile.content ? LocalURLProvider.buildLocalAccessURL(resultFile.content) : null,
+        fileName,
+        downloading: false,
+      })
+    }
+  }
+
+  /**
+   * Force download of localAccessURL created after download click action.
+   * Force re-render component by setting key to localAccessURL. With this, if url change, component is mounted and download is started
+   */
+  forceDownload = () => {
     const {
-      columns, onChangeColumnsVisibility, bodyParameters, onDownloadCSV,
-    } = this.props
+      localAccessURL, fileName,
+    } = this.state
+    if (localAccessURL) {
+      return <DownloadResultComponent
+        key={localAccessURL}
+        localAccessURL={localAccessURL}
+        fileName={fileName}
+      />
+    }
+    return null
+  }
+
+  /**
+   * Action on click to run download request to retrieve csv file.
+   * When done, result is set in a local memory blob and set blob url in props.
+   */
+  runDownload = () => {
+    const { bodyParameters, onDownloadCSV } = this.props
+    this.setState({
+      downloading: true,
+    })
+    onDownloadCSV(bodyParameters).then(this.onPostDownloadDone)
+  }
+
+  render() {
+    const { columns, onChangeColumnsVisibility } = this.props
+    const { downloading } = this.state
     const { intl: { formatMessage } } = this.context
     return (
       <TableHeaderOptionGroup>
-        <FlatButton
-          onClick={() => onDownloadCSV(bodyParameters)}
-          icon={<DownloadCSVIcon />}
-          label={formatMessage({ id: 'projectUser.list.exportCSV.label' })}
-          title={formatMessage({ id: 'projectUser.list.exportCSV.tooltip' })}
-        />
+        <LoadableContentDisplayDecorator isLoading={downloading}>
+          <FlatButton
+            onClick={this.runDownload}
+            icon={<DownloadCSVIcon />}
+            label={formatMessage({ id: 'projectUser.list.exportCSV.label' })}
+            title={formatMessage({ id: 'projectUser.list.exportCSV.tooltip' })}
+          />
+        </LoadableContentDisplayDecorator>
+        {this.forceDownload()}
         {/* columns visibility configuration  */}
         <TableColumnsVisibilityOption
           columns={columns}

@@ -16,16 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { DownloadFileActions } from '@regardsoss/store-utils'
 
 /**
  * Pseudo actions to obtain to download summary CSV file
  */
-class DownloadUserMetalinkFileActions extends BasicSignalActions {
+class DownloadUserListCSVActions extends DownloadFileActions {
   constructor(namespace) {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/users/export`,
       namespace,
+      headers: {
+        Accept: '*/*', // Accept: all
+      },
     })
   }
 
@@ -35,8 +38,8 @@ class DownloadUserMetalinkFileActions extends BasicSignalActions {
    * @return {string} csv download URL
    */
   downloadCSV(token, requestParameters = {}) {
-    return this.sendSignal('POST', requestParameters, null, { token })
+    return this.download(null, { token }, 'POST', requestParameters)
   }
 }
 
-export default DownloadUserMetalinkFileActions
+export default DownloadUserListCSVActions

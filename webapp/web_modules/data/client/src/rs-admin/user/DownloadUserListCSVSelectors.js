@@ -18,7 +18,7 @@
  */
 import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
-class DownloadUserMetalinkFileSelectors extends BasicSignalSelectors {
+class DownloadUserListCSVSelectors extends BasicSignalSelectors {
   getCSV(state) {
     return this.uncombineStore(state).result || null
   }
@@ -27,4 +27,4 @@ class DownloadUserMetalinkFileSelectors extends BasicSignalSelectors {
 /**
  * Builds selectors on expected store path
  */
-export default (storePath) => new DownloadUserMetalinkFileSelectors(storePath)
+export default (storePath) => new DownloadUserListCSVSelectors(storePath)
