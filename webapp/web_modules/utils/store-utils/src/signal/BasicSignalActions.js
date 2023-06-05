@@ -20,6 +20,7 @@
  * @author Léo Mieulet
  */
 import { RSAA, getJSON } from 'redux-api-middleware'
+import isNull from 'lodash/isNull'
 import isEmpty from 'lodash/isEmpty'
 import BasicActions from '../BasicActions'
 
@@ -45,7 +46,9 @@ class BasicSignalActions extends BasicActions {
    */
   sendSignal(verb, bodyParam, pathParams, queryParams, allowEmpty = false) {
     let body
-    if (!isEmpty(bodyParam) || allowEmpty) {
+    // In some case we want to send an empty json body. To do so use allowEmpty parameter.
+    // In all case, body cannot be provided with GET verb.
+    if (!isNull(bodyParam) && (!isEmpty(bodyParam) || allowEmpty)) {
       if (verb === 'GET') {
         throw new Error('There should be no body parameter on GET method')
       }
