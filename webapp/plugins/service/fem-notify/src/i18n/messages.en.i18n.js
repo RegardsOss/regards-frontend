@@ -22,9 +22,13 @@
  * @author C-S
  */
 export default {
-  'plugin.title': 'Confirm notification',
-  'plugin.message': 'By clicking on the button, {nbElement} selected entities will be renotificated.',
-  'plugin.question': 'Do you want to continue?',
-  'plugin.valid': 'Notify',
-  'plugin.cancel': 'Cancel',
+  'plugin.notify.confirm.button': 'Confirm',
+  'plugin.notify.confirm.message': 'Confirm notification ?',
+  'plugin.notify.back.button': 'Cancel',
+  'plugin.list.empty.title': 'No recipients available',
+  'plugin.table.header.column.label': 'Label',
+  'plugin.table.header.column.description': 'Description',
+  'plugin.title': 'Notify selected recipients',
+  'plugin.subtitle': 'By default, the selected products will be notified to all recipients configured by the service\'s notification rules. However, you can manually choose the recipients to notify by selecting them below.',
+  'plugin.button.notify': 'Notify',
 }

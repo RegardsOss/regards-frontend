@@ -16,17 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { getRequestsReducer } from './clients/RequestsClient'
-import { getRecipientsReducer } from './clients/RecipientsClient'
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
- * Plugin reducer builder function.
- * @param {string} pluginInstanceId plugin instance ID, must be used to generate unique namespaces and store paths
- * @return {*} reducers configuration for plugin instance
- */
-export default function getReducer(pluginInstanceId) {
-  return {
-    requests: getRequestsReducer(pluginInstanceId),
-    recipients: getRecipientsReducer(pluginInstanceId),
+  * Actions to send a request to delete a refrence
+  */
+export default class RecipientsActions extends BasicSignalActions {
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/recipients`,
+      namespace,
+    })
   }
+
+  fetchRecipients = () => this.sendSignal('GET', null, null, { directNotificationEnabled: true })
 }

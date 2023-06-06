@@ -94,3 +94,7 @@ export { default as AttributesModelCacheActions } from './cache/AttributesModelC
 export { default as ProjectUserFCUDActions } from './user/ProjectUserFCUDActions'
 export { default as getProjectUserFCUDReducer } from './user/ProjectUserFCUDReducer'
 export { default as getProjectUserFCUDSelectors } from './user/ProjectUserFCUDSelectors'
+
+export { default as RecipientsActions } from './recipients/RecipientsActions'
+export { default as getRecipientsReducer } from './recipients/RecipientsReducer'
+export { default as getRecipientSelectors } from './recipients/RecipientsSelectors'

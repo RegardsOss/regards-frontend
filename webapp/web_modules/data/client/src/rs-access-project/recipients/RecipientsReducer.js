@@ -15,18 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { getRequestsReducer } from './clients/RequestsClient'
-import { getRecipientsReducer } from './clients/RecipientsClient'
-
-/**
- * Plugin reducer builder function.
- * @param {string} pluginInstanceId plugin instance ID, must be used to generate unique namespaces and store paths
- * @return {*} reducers configuration for plugin instance
  */
-export default function getReducer(pluginInstanceId) {
-  return {
-    requests: getRequestsReducer(pluginInstanceId),
-    recipients: getRecipientsReducer(pluginInstanceId),
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import RecipientsActions from './RecipientsActions'
+
+class RecipientsReducer extends BasicSignalReducers {
+  constructor(namespace) {
+    super(new RecipientsActions(namespace))
   }
+}
+
+export default (namespace) => {
+  const instance = new RecipientsReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

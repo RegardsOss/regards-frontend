@@ -16,15 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
-import { AccessShapes } from '@regardsoss/shape'
-import Subheader from 'material-ui/Subheader'
-import RaisedButton from 'material-ui/RaisedButton'
-import DeleteIcon from 'mdi-material-ui/Delete'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CatalogClient } from '@regardsoss/client'
+import { AccessShapes, NotifierShapes } from '@regardsoss/shape'
+import { CatalogClient, NotifierClient } from '@regardsoss/client'
 import { themeContextType } from '@regardsoss/theme'
 import withClient from './withClient'
+import withRecipientsClient from './withRecipientsClient'
+import NotifyComponent from '../components/NotifyComponent'
 
 /**
  * Main fem-notify plugin container
@@ -37,10 +39,11 @@ export class NotifyContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { notifyClient }) {
+  static mapStateToProps(state, { notifyClient, recipientsClient }) {
     return {
       error: notifyClient.selectors.getError(state),
       isFetching: notifyClient.selectors.isFetching(state),
+      recipientList: recipientsClient.selectors.getResult(state),
     }
   }
 
@@ -50,9 +53,10 @@ export class NotifyContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { notifyClient }) {
+  static mapDispatchToProps(dispatch, { notifyClient, recipientsClient }) {
     return {
-      renotifyFeatures: (searchContext) => dispatch(notifyClient.actions.notify(searchContext)),
+      renotifyFeatures: (searchContext, recipientList) => dispatch(notifyClient.actions.notify(searchContext, recipientList)),
+      fetchRecipients: () => dispatch(recipientsClient.actions.fetchRecipients()),
     }
   }
 
@@ -64,9 +68,15 @@ export class NotifyContainer extends React.Component {
       actions: PropTypes.instanceOf(CatalogClient.FEMFeatureRequestsActions),
       selectors: PropTypes.func.isRequired,
     }).isRequired,
+    recipientsClient: PropTypes.shape({
+      actions: PropTypes.instanceOf(NotifierClient.RecipientsActions),
+      selectors: PropTypes.func.isRequired,
+    }).isRequired,
     // From mapDispatchToProps
     renotifyFeatures: PropTypes.func.isRequired,
+    fetchRecipients: PropTypes.func.isRequired,
     // form mapStatesToprops
+    recipientList: NotifierShapes.RecipientList,
     error: PropTypes.shape({
       hasError: PropTypes.bool.isRequired,
     }).isRequired,
@@ -80,6 +90,11 @@ export class NotifyContainer extends React.Component {
     ...i18nContextType,
   }
 
+  UNSAFE_componentWillMount() {
+    const { fetchRecipients } = this.props
+    fetchRecipients()
+  }
+
   componentDidUpdate(previousProps) {
     // detect change
     if (this.props.error.hasError !== previousProps.error.hasError || this.props.isFetching !== previousProps.isFetching) {
@@ -90,43 +105,36 @@ export class NotifyContainer extends React.Component {
     }
   }
 
-  notifyFem = () => {
+  onNotifyRecipients = (recipients) => {
+    const { renotifyFeatures, onClose } = this.props
     const { searchContext } = this.props.target
-    this.props.renotifyFeatures(searchContext)
-  }
-
-  cancel = () => {
-    this.props.onClose()
+    let recipientIds = []
+    if (!isEmpty(recipients)) {
+      recipientIds = map(recipients, (recipient) => recipient.businessId)
+    }
+    renotifyFeatures(searchContext, recipientIds).then((actionResult) => {
+      if (!actionResult.error) {
+        onClose()
+      }
+    })
   }
 
   render() {
-    const { intl: { formatMessage }, moduleTheme } = this.context
-    const { entitiesCount } = this.props.target
+    const { recipientList, isFetching } = this.props
     return (
-      <div style={moduleTheme.body}>
-        <Subheader>{formatMessage({ id: 'plugin.title' })}</Subheader>
-        <div style={moduleTheme.contentWrapper}>
-          {formatMessage({ id: 'plugin.message' }, { nbElement: entitiesCount })}
-          {formatMessage({ id: 'plugin.question' })}
-          <div style={moduleTheme.buttonsWrapper}>
-            <RaisedButton
-              label={formatMessage({ id: 'plugin.cancel' })}
-              onClick={this.cancel}
-            />
-            <RaisedButton
-              label={formatMessage({ id: 'plugin.valid' })}
-              primary
-              onClick={this.notifyFem}
-              icon={<DeleteIcon />}
-            />
-          </div>
-        </div>
-      </div>
+      <LoadableContentDisplayDecorator
+        isLoading={isFetching}
+      >
+        <NotifyComponent
+          recipientList={recipientList}
+          onNotifyRecipients={this.onNotifyRecipients}
+        />
+      </LoadableContentDisplayDecorator>
     )
   }
 }
 // Connect clients and retrieve them as props
-export default withClient(
+export default withClient(withRecipientsClient(
   // REDUX connected container
   connect(NotifyContainer.mapStateToProps, NotifyContainer.mapDispatchToProps)(NotifyContainer),
-)
+))

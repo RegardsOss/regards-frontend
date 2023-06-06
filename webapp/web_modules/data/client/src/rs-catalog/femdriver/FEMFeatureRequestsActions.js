@@ -57,8 +57,8 @@ export default class FEMFeatureRequestsActions extends BasicSignalsActions {
   /**
    * Build an action that (re)notify features using the provided search context
    */
-  notify(searchContext) {
-    return this.getSubAction(FEMFeatureRequestsActions.NOTIFY).sendSignal('POST', searchContext)
+  notify(searchContext, recipientList) {
+    return this.getSubAction(FEMFeatureRequestsActions.NOTIFY).sendSignal('POST', { searchRequest: searchContext, recipients: recipientList })
   }
 
   /**

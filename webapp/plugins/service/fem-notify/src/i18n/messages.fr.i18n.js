@@ -22,9 +22,13 @@
  * @author C-S
  */
 export default {
-  'plugin.title': 'Confirmer la notification',
-  'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera renotifié} other {les # éléments sélectionnés seront renotifiés}}.',
-  'plugin.question': 'Voulez vous continuer?',
-  'plugin.valid': 'Renotifier',
-  'plugin.cancel': 'Annuler',
+  'plugin.notify.confirm.button': 'Confirmer',
+  'plugin.notify.confirm.message': 'Confirmer la notification ?',
+  'plugin.notify.back.button': 'Annuler',
+  'plugin.list.empty.title': 'Pas de destinataires disponibles',
+  'plugin.table.header.column.label': 'Label',
+  'plugin.table.header.column.description': 'Description',
+  'plugin.title': 'Notifier les produits sélectionnés',
+  'plugin.subtitle': 'Par défaut, les produits sélectionnés seront notifiés à tous les destinataires configurés par les règles de notification du service. Toutefois, vous pouvez choisir manuellement les destinataires à notifier en les sélectionnant ci-dessous.',
+  'plugin.button.notify': 'Notifier',
 }
