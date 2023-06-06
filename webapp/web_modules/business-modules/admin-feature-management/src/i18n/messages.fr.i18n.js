@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -66,13 +66,23 @@ const messages = {
   'feature.references.confirm.delete.message': 'Ce traitement est asynchrone, il sera effectif après un certain délai. Une fois effectué, ce traitement créer des requêtes suppression que vous pouvez suivre dans l\'onglet Suppression. Voulez-vous supprimer le/les produits sélectionné(s)',
   'feature.references.tooltip.selection.notify': 'Notifier les produits sélectionnés',
   'feature.references.list.filters.buttons.notify': 'Notifier la sélection',
-  'feature.references.notify.title': 'Notifier les produits sélectionnées',
+  'feature.references.notify.title': 'Notifier les produits sélectionnés',
   'feature.references.notify': 'Notifier',
-  'feature.references.notify.message': 'Voulez vous notifier les produits sélectionnées vers tous les destinataires configurés. Ces destinataires sont configurés sur le service rs-notifier dont vous pouvez récupérer la configuration depuis la fonction Microservice de cet IHM.',
-  'feature.references.detail.title': 'Détail du produit GeoJSON',
+  'feature.references.notify.message': 'Voulez vous notifier les produits sélectionnés vers tous les destinataires configurés. Ces destinataires sont configurés sur le service rs-notifier dont vous pouvez récupérer la configuration depuis la fonction Microservice de cet IHM.',
+  'feature.references.detail.title': 'Détail',
+
+  'feature.notify.confirm.button': 'Confirmer',
+  'feature.notify.confirm.message': 'Confirmer la notification ?',
+  'feature.notify.back.button': 'Annuler',
+  'feature.list.empty.title': 'Pas de destinataires disponibles',
+  'feature.table.header.column.label': 'Label',
+  'feature.table.header.column.description': 'Description',
+  'feature.title': 'Notifier les produits sélectionnés',
+  'feature.subtitle': 'Par défaut, les produits sélectionnés seront notifiés à tous les destinataires configurés par les règles de notification du service. Toutefois, vous pouvez choisir manuellement les destinataires à notifier en les sélectionnant ci-dessous.',
+  'feature.button.notify': 'Notifier',
 
   // Requests
-  'feature.requests.empty.results': 'Aucune requete trouvée',
+  'feature.requests.empty.results': 'Aucune requête trouvée',
   'feature.requests.loading.results': 'Chargement des requêtes ...',
   'feature.list.filters.state.label': 'Etat',
   'feature.list.filters.disseminationPending.label': 'Dissémination',

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -46,6 +46,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerContainer', () => {
       deleteRequests: () => { },
       retryRequests: () => { },
       notifyRequests: () => { },
+      fetchRecipients: () => { },
     }
     const enzymeWrapper = shallow(<FeatureManagerContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(FeatureManagerComponent)

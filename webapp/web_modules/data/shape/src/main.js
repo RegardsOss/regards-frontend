@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -31,6 +31,7 @@ import * as UISh from './ui'
 import * as ProcessingSh from './rs-processing/index'
 import * as WorkerSh from './rs-worker/index'
 import * as LTASh from './rs-lta/index'
+import * as NotifierSh from './rs-notifier/index'
 
 export const AccessShapes = AccessSh
 export const AdminShapes = AdminSh
@@ -47,3 +48,4 @@ export const UIShapes = UISh
 export const ProcessingShapes = ProcessingSh
 export const WorkerShapes = WorkerSh
 export const LTAShapes = LTASh
+export const NotifierShapes = NotifierSh

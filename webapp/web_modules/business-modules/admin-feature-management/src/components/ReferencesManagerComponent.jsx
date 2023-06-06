@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -29,6 +29,7 @@ import {
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { NotifierShapes } from '@regardsoss/shape'
 import { MIME_TYPES } from '@regardsoss/mime-types'
 import { referencesActions, referencesSelectors } from '../clients/ReferencesClient'
 import { referencesTableSelectors, referencesTableActions } from '../clients/ReferencesTableClient'
@@ -62,6 +63,7 @@ export class ReferencesManagerComponent extends React.Component {
     isFetching: PropTypes.bool.isRequired,
     pageSize: PropTypes.number,
     paneType: PropTypes.oneOf(FemDomain.REQUEST_TYPES).isRequired,
+    recipientList: NotifierShapes.RecipientArray,
 
     // table sorting, column visiblity & filters management
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
@@ -182,7 +184,7 @@ export class ReferencesManagerComponent extends React.Component {
     }
   }
 
-  onConfirm = (dialogRequestType) => {
+  onConfirm = (dialogRequestType, recipientIds = null) => {
     const { onDeleteRequests, onNotifyRequests, paneType } = this.props
     const payload = this.onConfirmActionDialog(dialogRequestType)
     switch (dialogRequestType) {
@@ -190,7 +192,7 @@ export class ReferencesManagerComponent extends React.Component {
         onDeleteRequests(payload, paneType)
         break
       case DIALOG_TYPES.NOTIFY_DIALOG:
-        onNotifyRequests(payload)
+        onNotifyRequests({ searchParameters: payload, recipientIds })
         break
       default:
         console.error('Invalid dialog type', dialogRequestType)
@@ -198,6 +200,7 @@ export class ReferencesManagerComponent extends React.Component {
   }
 
   renderDialog = (dialogRequestType) => {
+    const { recipientList } = this.props
     const { intl: { formatMessage } } = this.context
     const { open } = this.state[dialogRequestType]
     if (open) {
@@ -219,8 +222,9 @@ export class ReferencesManagerComponent extends React.Component {
           break
         case DIALOG_TYPES.NOTIFY_DIALOG:
           component = <ReferenceNotifyDialog
-            onConfirmNotify={() => this.onConfirm(dialogRequestType)}
+            onConfirmNotify={(recipientIds) => this.onConfirm(dialogRequestType, recipientIds)}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
+            recipientList={recipientList}
           />
           break
         default:

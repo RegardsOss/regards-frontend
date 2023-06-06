@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,55 +16,303 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Dialog from 'material-ui/Dialog'
+import { connect } from 'react-redux'
+import compose from 'lodash/fp/compose'
+import map from 'lodash/map'
 import FlatButton from 'material-ui/FlatButton'
-import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import find from 'lodash/find'
+import isEmpty from 'lodash/isEmpty'
+import size from 'lodash/size'
+import reduce from 'lodash/reduce'
+import { ScrollArea } from '@regardsoss/adapters'
+import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
+import Checkbox from 'material-ui/Checkbox'
+import { ListItem } from 'material-ui/List'
+import RaisedButton from 'material-ui/RaisedButton'
+import MultiIcon from 'mdi-material-ui/AccountGroup'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import {
+  NoContentComponent, withConfirmDialog, Title, SelectableList,
+  PositionedDialog,
+} from '@regardsoss/components'
+import { NotifierShapes } from '@regardsoss/shape'
 import messages from '../../i18n'
+import styles from '../../styles'
+
+export const ButtonWithConfirmDialog = withConfirmDialog(RaisedButton)
 
 /**
   * Confirm action dialog component.
+  * @author Théo Lasserre
   */
 export class ReferenceNotifyDialog extends React.Component {
   static propTypes = {
     onConfirmNotify: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+    recipientList: NotifierShapes.RecipientArray,
   }
 
   static contextTypes = {
+    ...themeContextType,
     ...i18nContextType,
   }
 
-  render() {
-    const { onClose, onConfirmNotify } = this.props
-    const { intl: { formatMessage } } = this.context
+  static EMPTY_COMPONENT = (
+    <NoContentComponent
+      titleKey="feature.list.empty.title"
+      Icon={AddToPhotos}
+    />)
 
+  state = {
+    selectedRecipients: {},
+    isConfirmDialogOpen: false,
+  }
+
+  /**
+   * Check if a recipient is selected
+   * @param {NotifierShapes.Recipient} recipient
+   * @returns a boolean
+   */
+  isRecipientsSelected = (recipient) => !!find(this.state.selectedRecipients, (selectedRecipient) => selectedRecipient.businessId === recipient.businessId)
+
+  /**
+   * Check if all available recipients are selected
+   * @returns a boolean
+   */
+  areAllRecipientsSelected = () => {
+    const { recipientList } = this.props
+    const { selectedRecipients } = this.state
+    return !isEmpty(recipientList) && size(recipientList) === size(selectedRecipients)
+  }
+
+  /**
+   * Select or unselect all available recipients
+   * If none or some recipients are already selected we select all recipients. Unselect all recipients otherwise.
+   */
+  onClickButtonSelectAllRecipients = () => {
+    const { recipientList } = this.props
+    let newSelectedRecipients = {}
+    if (!this.areAllRecipientsSelected()) {
+      newSelectedRecipients = recipientList
+    }
+    this.setState({
+      selectedRecipients: newSelectedRecipients,
+    })
+  }
+
+  /**
+   * Select a recipient
+   * @param {NotifierShapes.Recipient} selectedRecipient
+   */
+  selectRecipient = (selectedRecipient) => {
+    const { selectedRecipients } = this.state
+    let newSelectedRecipients = {}
+    if (!this.isRecipientsSelected(selectedRecipient)) {
+      newSelectedRecipients = {
+        ...selectedRecipients,
+        [selectedRecipient.businessId]: selectedRecipient,
+      }
+    } else {
+      newSelectedRecipients = reduce(selectedRecipients, (acc, recipient) => {
+        if (recipient.businessId !== selectedRecipient.businessId) {
+          return {
+            [recipient.businessId]: recipient,
+            ...acc,
+          }
+        }
+        return acc
+      }, {})
+    }
+    this.setState({
+      selectedRecipients: newSelectedRecipients,
+    })
+  }
+
+  toggleConfirmDialog = () => {
+    const { isConfirmDialogOpen } = this.state
+    this.setState({
+      isConfirmDialogOpen: !isConfirmDialogOpen,
+    })
+  }
+
+  /**
+   * Display a confirm message
+   * @returns
+   */
+  displayConfirmMessage = () => {
+    const { onConfirmNotify } = this.props
+    const { selectedRecipients } = this.state
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        notifyDialogStyle: {
+          messageDivStyle, messageButtonStyle, confirmTitleStyle,
+          messageIconStyle,
+        },
+      },
+    } = this.context
+    const selectedRecipientIds = map(selectedRecipients, (selectedRecipient) => selectedRecipient.businessId)
     return (
-      <Dialog
+      <div style={messageDivStyle}>
+        <Title
+          level={3}
+          label={formatMessage({ id: 'feature.notify.confirm.message' })}
+          style={confirmTitleStyle}
+        />
+        <div style={messageButtonStyle}>
+          <RaisedButton
+            label={formatMessage({ id: 'feature.notify.back.button' })}
+            onClick={this.toggleConfirmDialog}
+          />
+          <RaisedButton
+            label={formatMessage({ id: 'feature.notify.confirm.button' })}
+            primary
+            icon={<MultiIcon style={messageIconStyle} />}
+            labelPosition="before"
+            onClick={() => onConfirmNotify(selectedRecipientIds)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  /**
+   * Construct a table line with a given recipient.
+   * @param {NotifierShapes.Recipient} recipient
+   * @param {boolean} isHeaderLine : when true no recipient is needed
+   * @returns a table line or a table header line
+   */
+  buildLine = (recipient, isHeaderLine = false) => {
+    const { recipientList } = this.props
+    const {
+      intl: { formatMessage },
+      moduleTheme: {
+        notifyDialogStyle: {
+          lineDivStyle, lineCheckBoxStyle, lineLabelStyle, lineHeaderLabelStyle, lineDescriptionStyle,
+          lineHeaderDescriptionStyle,
+        },
+      },
+    } = this.context
+    return (
+      <div style={lineDivStyle}>
+        <div style={lineCheckBoxStyle}>
+          <Checkbox
+            checked={!isHeaderLine ? this.isRecipientsSelected(recipient) : this.areAllRecipientsSelected()}
+            onCheck={isHeaderLine ? this.onClickButtonSelectAllRecipients : null}
+            disabled={isHeaderLine ? isEmpty(recipientList) : false}
+          />
+        </div>
+        <div style={!isHeaderLine ? lineLabelStyle : lineHeaderLabelStyle}>
+          {!isHeaderLine ? recipient.recipientLabel : formatMessage({ id: 'feature.table.header.column.label' })}
+        </div>
+        <div style={!isHeaderLine ? lineDescriptionStyle : lineHeaderDescriptionStyle}>
+          {!isHeaderLine ? recipient.description : formatMessage({ id: 'feature.table.header.column.description' })}
+        </div>
+      </div>
+    )
+  }
+
+  renderDialogContent = () => {
+    const { recipientList } = this.props
+    const { isConfirmDialogOpen } = this.state
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        notifyDialogStyle: {
+          mainDivStyle, topBlocStyle, subTitleStyle,
+          messageIconStyle, bottomBlocStyle, headerTableStyle,
+          scrollAreaStyle, selectableListStyle, lineStyle,
+          lineAltStyle, buttonDivStyle,
+        },
+      },
+    } = this.context
+    return (
+      isConfirmDialogOpen
+        ? this.displayConfirmMessage()
+        : <div style={mainDivStyle}>
+          <div style={topBlocStyle}>
+            <div style={subTitleStyle}>
+              {formatMessage({ id: 'feature.subtitle' })}
+            </div>
+          </div>
+          <div style={bottomBlocStyle}>
+            <ListItem
+              key="header"
+              value={null}
+              style={headerTableStyle}
+              disabled
+              primaryText={this.buildLine(null, true)}
+            />
+            <ScrollArea
+              vertical
+              style={scrollAreaStyle}
+            >
+              {
+                !isEmpty(recipientList)
+                  ? <SelectableList
+                      style={selectableListStyle}
+                  >
+                    {map(recipientList, (recipient, i) => (
+                      <ListItem
+                        key={i}
+                        value={recipient}
+                        title={`${recipient.recipientLabel}`}
+                        onClick={() => this.selectRecipient(recipient)}
+                        style={i % 2 === 0 ? lineStyle : lineAltStyle}
+                        primaryText={this.buildLine(recipient)}
+                      />
+                    ))}
+                  </SelectableList>
+                  : ReferenceNotifyDialog.EMPTY_COMPONENT
+              }
+            </ScrollArea>
+            <div style={buttonDivStyle}>
+              <RaisedButton
+                label={formatMessage({ id: 'feature.button.notify' })}
+                icon={<MultiIcon style={messageIconStyle} />}
+                labelPosition="after"
+                primary
+                onClick={this.toggleConfirmDialog}
+              />
+            </div>
+          </div>
+        </div>
+    )
+  }
+
+  render() {
+    const { onClose, onConfirmNotify, recipientList } = this.props
+    const { selectedRecipients } = this.state
+    const { intl: { formatMessage } } = this.context
+    const selectedRecipientIds = !isEmpty(selectedRecipients) ? map(selectedRecipients, (recipient) => recipient.businessId) : []
+    return (
+      <PositionedDialog
         title={formatMessage({ id: 'feature.references.notify.title' })}
         actions={<>
           <FlatButton
             key="cancel"
             id="confirm.dialog.cancel"
             label={formatMessage({ id: 'feature.close' })}
-            keyboardFocused
             onClick={onClose}
           />
-          <FlatButton
-            key="deleteReference"
-            className="selenium-confirmDialogButton"
-            primary
-            keyboardFocused
-            label={formatMessage({ id: 'feature.references.notify' })}
-            onClick={onConfirmNotify}
-          />
+          {
+            isEmpty(recipientList) ? <FlatButton
+              key="deleteReference"
+              primary
+              keyboardFocused
+              label={formatMessage({ id: 'feature.references.notify' })}
+              onClick={() => onConfirmNotify(selectedRecipientIds)}
+            /> : null
+          }
         </>}
-        modal={false}
+        modal
         open
+        dialogWidthPercent={75}
+        dialogHeightPercent={63}
       >
-        {formatMessage({ id: 'feature.references.notify.message' })}
-      </Dialog>
+        {this.renderDialogContent()}
+      </PositionedDialog>
     )
   }
 }
 
-export default withI18n(messages)(ReferenceNotifyDialog)
+export default compose(connect(), withI18n(messages, true), withModuleStyle(styles, true))(ReferenceNotifyDialog)

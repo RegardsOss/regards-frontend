@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -41,6 +41,7 @@ import * as DataManagementCl from './rs-dam'
 import * as DataProviderCl from './rs-data-provider'
 import * as IngestCl from './rs-ingest'
 import * as OrderCl from './rs-order'
+import * as NotifierCl from './rs-notifier'
 import * as ProcessingCl from './rs-processing'
 import * as StorageCl from './rs-storage'
 import * as UICl from './ui'
@@ -59,6 +60,7 @@ export const DataManagementClient = DataManagementCl
 export const DataProviderClient = DataProviderCl
 export const IngestClient = IngestCl
 export const OrderClient = OrderCl
+export const NotifierClient = NotifierCl
 export const ProcessingClient = ProcessingCl
 export const StorageClient = StorageCl
 export const UIClient = UICl

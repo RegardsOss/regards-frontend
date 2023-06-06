@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,10 +22,12 @@ import { connect } from '@regardsoss/redux'
 import { FemDomain } from '@regardsoss/domain'
 import { browserHistory } from 'react-router'
 import compose from 'lodash/fp/compose'
+import { NotifierShapes } from '@regardsoss/shape'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import FeatureManagerComponent from '../components/FeatureManagerComponent'
+import { referenceRecipientsActions, referenceRecipientsSelectors } from '../clients/ReferenceRecipientsClient'
 import clientByPane from '../domain/ClientByPane'
 import messages from '../i18n'
 import styles from '../styles'
@@ -35,6 +37,10 @@ import styles from '../styles'
  * @author Théo Lasserre
  */
 export class FeatureManagerContainer extends React.Component {
+  static mapStateToProps = (state) => ({
+    recipientList: referenceRecipientsSelectors.getResult(state),
+  })
+
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -46,6 +52,7 @@ export class FeatureManagerContainer extends React.Component {
     notifyRequests: (bodyParams) => dispatch(clientByPane[FemDomain.REQUEST_TYPES_ENUM.REFERENCES].notifyActions.sendSignal('POST', bodyParams)),
     retryRequests: (bodyParams, pathParams, paneType) => dispatch(clientByPane[paneType].retryActions.sendSignal('POST', bodyParams, pathParams)),
     deleteRequests: (bodyParams, pathParams, paneType) => dispatch(clientByPane[paneType].deleteActions.sendSignal('DELETE', bodyParams, pathParams)),
+    fetchRecipients: () => dispatch(referenceRecipientsActions.fetchRecipients()),
   })
 
   static propTypes = {
@@ -54,13 +61,21 @@ export class FeatureManagerContainer extends React.Component {
       project: PropTypes.string,
       type: PropTypes.string,
     }),
+    // from mapDispatchToProps
     fetchRequests: PropTypes.func.isRequired,
     deleteRequests: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     notifyRequests: PropTypes.func.isRequired,
+    fetchRecipients: PropTypes.func.isRequired,
+    // from mapStateToProps
+    recipientList: NotifierShapes.RecipientArray,
   }
 
   state = { isFetching: true }
+
+  UNSAFE_componentWillMount = () => {
+    this.props.fetchRecipients()
+  }
 
   /**
    * Lifecycle method: component did mount. Used here to fetch user lists
@@ -128,11 +143,12 @@ export class FeatureManagerContainer extends React.Component {
         onDeleteRequests={this.onDeleteRequests}
         onRetryRequests={this.onRetryRequests}
         onNotifyRequests={this.onNotifyRequests}
+        recipientList={this.props.recipientList}
       />
     )
   }
 }
 
 export default compose(
-  connect(null, FeatureManagerContainer.mapDispatchToProps),
+  connect(FeatureManagerContainer.mapStateToProps, FeatureManagerContainer.mapDispatchToProps),
   withI18n(messages), withModuleStyle(styles, true))(FeatureManagerContainer)

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -69,7 +69,17 @@ const messages = {
   'feature.references.notify.title': 'Notify selected products',
   'feature.references.notify': 'Notify',
   'feature.references.notify.message': 'Do you want to notify the selected products to all configured recipients. These recipients are configured on the rs-notifier service, the configuration of which you can retrieve from the Microservice function of this UI.',
-  'feature.references.detail.title': 'GeoJson product detail',
+  'feature.references.detail.title': 'Detail',
+
+  'feature.notify.confirm.button': 'Confirm',
+  'feature.notify.confirm.message': 'Confirm notification ?',
+  'feature.notify.back.button': 'Cancel',
+  'feature.list.empty.title': 'No recipients available',
+  'feature.table.header.column.label': 'Label',
+  'feature.table.header.column.description': 'Description',
+  'feature.title': 'Notify selected recipients',
+  'feature.subtitle': 'By default, the selected products will be notified to all recipients configured by the service\'s notification rules. However, you can manually choose the recipients to notify by selecting them below.',
+  'feature.button.notify': 'Notify',
 
   // Requests
   'feature.requests.empty.results': 'No request found',

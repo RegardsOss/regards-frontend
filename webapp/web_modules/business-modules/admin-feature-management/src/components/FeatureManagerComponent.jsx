@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -30,6 +30,7 @@ import { FemDomain, CommonDomain } from '@regardsoss/domain'
 import PageView from 'mdi-material-ui/CardSearch'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { NotifierShapes } from '@regardsoss/shape'
 import ReferencesManagerComponent from './ReferencesManagerComponent'
 import RequestManagerComponent from './RequestManagerComponent'
 import RequestManagerFiltersComponent from './filters/RequestManagerFiltersComponent'
@@ -55,6 +56,7 @@ class FeatureManagerComponent extends React.Component {
     onDeleteRequests: PropTypes.func.isRequired,
     onRetryRequests: PropTypes.func.isRequired,
     onNotifyRequests: PropTypes.func.isRequired,
+    recipientList: NotifierShapes.RecipientArray,
   }
 
   static contextTypes = {
@@ -129,7 +131,7 @@ class FeatureManagerComponent extends React.Component {
   }
 
   getDisplayComponents = (paneType) => {
-    const { isFetching } = this.props
+    const { isFetching, recipientList } = this.props
     const { isFilterPaneOpened } = this.state
     if (paneType === FemDomain.REQUEST_TYPES_ENUM.REFERENCES) {
       return [
@@ -142,6 +144,7 @@ class FeatureManagerComponent extends React.Component {
           key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
           isFetching={isFetching}
           paneType={paneType}
+          recipientList={recipientList}
         />,
       ]
     }

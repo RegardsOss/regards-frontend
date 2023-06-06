@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import Dialog from 'material-ui/Dialog'
+import { PositionedDialog } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ReferenceNotifyDialog } from '../../../src/components/options/ReferenceNotifyDialog'
 import styles from '../../../src/styles'
@@ -42,7 +42,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing ReferenceNotifyDialog', () => {
       onClose: () => { },
     }
     const enzymeWrapper = shallow(<ReferenceNotifyDialog {...props} />, { context })
-    const dialogWrapper = enzymeWrapper.find(Dialog)
-    assert.lengthOf(dialogWrapper, 1, 'There should be a Dialog')
+    const dialogWrapper = enzymeWrapper.find(PositionedDialog)
+    assert.lengthOf(dialogWrapper, 1, 'There should be a PositionedDialog')
   })
 })

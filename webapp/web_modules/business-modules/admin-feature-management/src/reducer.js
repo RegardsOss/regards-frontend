@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -35,6 +35,7 @@ import { notificationRequestReducer } from './clients/NotificationRequestsClient
 import { notificationRequestsTableReducer } from './clients/NotificationRequestsTableClient'
 import { settingsReducer } from './clients/SettingsClient'
 import { filtersReducer } from './clients/FiltersClient'
+import { referenceRecipientsReducer } from './clients/ReferenceRecipientsClient'
 
 /**
  * @author Théo Lasserre
@@ -58,6 +59,7 @@ const featureManagementReducer = combineReducers({
   'notification-requests-table': notificationRequestsTableReducer,
   settings: settingsReducer,
   featureFilters: filtersReducer,
+  referenceRecipients: referenceRecipientsReducer,
 })
 
 export default featureManagementReducer
