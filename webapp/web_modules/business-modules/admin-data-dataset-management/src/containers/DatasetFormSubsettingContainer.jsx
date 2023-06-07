@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
+import reduce from 'lodash/reduce'
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -36,6 +39,7 @@ export class DatasetFormSubsettingContainer extends React.Component {
     handleSave: PropTypes.func.isRequired,
     isEditing: PropTypes.bool.isRequired,
     // from mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
     modelAttributeList: DataManagementShapes.ModelAttributeList,
     // from mapDispatchToProps
     fetchModelAttributeList: PropTypes.func,
@@ -44,6 +48,7 @@ export class DatasetFormSubsettingContainer extends React.Component {
 
   state = {
     isLoading: true,
+    modelAttributeList: {},
   }
 
   componentDidMount() {
@@ -56,10 +61,47 @@ export class DatasetFormSubsettingContainer extends React.Component {
       })
   }
 
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { modelAttributeList } = newProps
+    // when available values change, rebuild attribute list
+    if (!isEqual(oldProps.modelAttributeList, modelAttributeList)) {
+      const allAttributes = reduce(modelAttributeList, (acc, modelAttribute) => {
+        // filter searchable attribute
+        if (get(modelAttribute, 'content.attribute.indexed') !== false) {
+          return {
+            ...acc,
+            [modelAttribute.content.id]: modelAttribute,
+          }
+        }
+        return acc
+      }, {})
+      this.setState({
+        modelAttributeList: allAttributes,
+      })
+    }
+  }
+
   getForm = () => {
     const {
-      currentDataset, handleBack, handleSave, isEditing, modelAttributeList,
+      currentDataset, handleBack, handleSave, isEditing,
     } = this.props
+    const { modelAttributeList } = this.state
     return (<DatasetFormSubsettingComponent
       currentDataset={currentDataset}
       handleBack={handleBack}
