@@ -60,7 +60,7 @@ class RequestStatusRenderCell extends React.Component {
   }
 
   render() {
-    const { entity: { content: { state, errors } }, modeSelectionAllowed } = this.props
+    const { entity: { content: { state, errors, errorType } }, modeSelectionAllowed } = this.props
     const {
       intl: { formatMessage },
       moduleTheme: { requests: { status: { common, waitingAction, action } } },
@@ -76,6 +76,11 @@ class RequestStatusRenderCell extends React.Component {
         { /* 1. label */
           formatMessage({ id: `oais.list.filters.requestState.${state}` })
         }
+        {
+            state === IngestDomain.AIP_REQUEST_STATUS_ENUM.ERROR && errorType
+              ? ` - ${formatMessage({ id: `oais.list.filters.errorType.${errorType}` })}`
+              : null
+          }
         { /* 2. show error action if any */
          isEmpty(errors)
            ? null

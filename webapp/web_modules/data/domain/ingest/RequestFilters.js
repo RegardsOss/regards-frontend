@@ -32,6 +32,7 @@ export const REQUEST_FILTER_PARAMS = {
   CREATION_DATE: 'creationDate',
   REQUEST_STATE: 'requestStates',
   REQUEST_TYPE: 'requestTypes',
+  ERROR_TYPES: 'errorTypes',
 }
 
 /**
@@ -88,13 +89,14 @@ export class RequestFilters {
   }
 
   static buildDefault() {
-    const defaultFilters = {}
-    defaultFilters[REQUEST_FILTER_PARAMS.SOURCE] = ''
-    defaultFilters[REQUEST_FILTER_PARAMS.SESSION] = ''
-    defaultFilters[REQUEST_FILTER_PARAMS.PROVIDER_IDS] = TableFilterDefaultStateEnum.VALUES
-    defaultFilters[REQUEST_FILTER_PARAMS.CREATION_DATE] = TableFilterDefaultStateEnum.DATES
-    defaultFilters[REQUEST_FILTER_PARAMS.REQUEST_TYPE] = TableFilterDefaultStateEnum.VALUES
-    defaultFilters[REQUEST_FILTER_PARAMS.REQUEST_STATE] = TableFilterDefaultStateEnum.VALUES
-    return defaultFilters
+    return {
+      [REQUEST_FILTER_PARAMS.SOURCE]: '',
+      [REQUEST_FILTER_PARAMS.SESSION]: '',
+      [REQUEST_FILTER_PARAMS.PROVIDER_IDS]: TableFilterDefaultStateEnum.VALUES,
+      [REQUEST_FILTER_PARAMS.CREATION_DATE]: TableFilterDefaultStateEnum.DATES,
+      [REQUEST_FILTER_PARAMS.REQUEST_TYPE]: TableFilterDefaultStateEnum.VALUES,
+      [REQUEST_FILTER_PARAMS.REQUEST_STATE]: TableFilterDefaultStateEnum.VALUES,
+      [REQUEST_FILTER_PARAMS.ERROR_TYPES]: TableFilterDefaultStateEnum.VALUES,
+    }
   }
 }

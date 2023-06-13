@@ -89,15 +89,20 @@ export class RequestsFiltersComponent extends React.Component {
         <FilterPaneSelectField
           filterKey={IngestDomain.REQUEST_FILTER_PARAMS.REQUEST_TYPE}
           title={formatMessage({ id: 'oais.packages.tooltip.type' })}
-
         >
           {map(IngestDomain.AIP_REQUEST_TYPES, (type) => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.requests.list.filters.requestType.${type}` })} />)}
         </FilterPaneSelectField>
         <FilterPaneSelectField
           filterKey={IngestDomain.REQUEST_FILTER_PARAMS.REQUEST_STATE}
-          title={formatMessage({ id: 'oais.packages.tooltip.type' })}
+          title={formatMessage({ id: 'oais.packages.tooltip.state' })}
         >
           {map(IngestDomain.AIP_REQUEST_STATUS, (state) => <MenuItem key={state} value={state} primaryText={formatMessage({ id: `oais.list.filters.requestState.${state}` })} />)}
+        </FilterPaneSelectField>
+        <FilterPaneSelectField
+          filterKey={IngestDomain.REQUEST_FILTER_PARAMS.ERROR_TYPES}
+          title={formatMessage({ id: 'oais.packages.tooltip.errorType' })}
+        >
+          {map(IngestDomain.REQUEST_ERROR_CODES, (errorType) => <MenuItem key={errorType} value={errorType} primaryText={formatMessage({ id: `oais.list.filters.errorType.${errorType}` })} />)}
         </FilterPaneSelectField>
       </FiltersPaneMainComponent>
     )

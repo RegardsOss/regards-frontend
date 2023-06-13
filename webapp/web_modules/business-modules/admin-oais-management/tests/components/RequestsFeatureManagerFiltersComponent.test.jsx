@@ -63,6 +63,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestsFiltersComponent', () => {
     assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 1, 'There should be 1 FilterPaneDatePickerField')
     assert.lengthOf(enzymeWrapper.find(FilterPaneAutoCompleteField), 2, 'There should be 2 FilterPaneAutoCompleteField')
     assert.lengthOf(enzymeWrapper.find(FilterPaneTextFieldValues), 1, 'There should be 1 FilterPaneTextFieldValues')
-    assert.lengthOf(enzymeWrapper.find(FilterPaneSelectField), 2, 'There should be 2 FilterPaneSelectField')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneSelectField), 3, 'There should be 3 FilterPaneSelectField')
   })
 })

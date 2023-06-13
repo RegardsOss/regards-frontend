@@ -32,7 +32,6 @@ import FlatButton from 'material-ui/FlatButton'
 import clientByPane from '../domain/ClientByPane'
 import { PACKAGE_COLUMN_KEYS } from './packages/OAISPackageManagerComponent'
 import { REQUESTS_COLUMN_KEYS } from './requests/OAISRequestManagerComponent'
-import { AIP_DEFAULT_FILTERS_STATE, REQUESTS_DEFAULT_FILTERS_STATE } from '../domain/filters'
 
 /**
  * Switch between the two tables
@@ -132,13 +131,13 @@ export class OAISSwitchTables extends React.Component {
       const bodyParameters = { ...omit(oaisFilters, 'sort') }
 
       if (!isAipsFetching) {
-        const aipBodyParameters = this.buildBodyParameters(bodyParameters, AIP_DEFAULT_FILTERS_STATE)
+        const aipBodyParameters = this.buildBodyParameters(bodyParameters, IngestDomain.AipFilters.buildDefault())
         const aipRequestParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, PACKAGE_COLUMN_KEYS)
         fetchAIPPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, aipRequestParameters, aipBodyParameters)
       }
 
       if (!isRequestsFetching) {
-        const requestsBodyParameters = this.buildBodyParameters(bodyParameters, REQUESTS_DEFAULT_FILTERS_STATE)
+        const requestsBodyParameters = this.buildBodyParameters(bodyParameters, IngestDomain.RequestFilters.buildDefault())
         const requestsRequestsParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REQUESTS_COLUMN_KEYS)
         fetchRequestsPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, requestsRequestsParameters, requestsBodyParameters)
       }

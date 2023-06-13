@@ -17,39 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import reduce from 'lodash/reduce'
-import { DamDomain, IngestDomain, CommonDomain } from '@regardsoss/domain'
+import { DamDomain, IngestDomain } from '@regardsoss/domain'
 import { VERSION_OPTIONS } from './versionOptions'
 
 /**
  * Filters definitions
  * @author Théo Lasserre
  */
-
-/**
- * AIP tab default form state used in filters pane
- */
-export const AIP_DEFAULT_FILTERS_STATE = {
-  [IngestDomain.AIP_FILTER_PARAMS.SOURCE]: '',
-  [IngestDomain.AIP_FILTER_PARAMS.SESSION]: '',
-  [IngestDomain.AIP_FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  [IngestDomain.AIP_FILTER_PARAMS.LAST_UPDATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-  [IngestDomain.AIP_FILTER_PARAMS.AIP_IP_TYPE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  [IngestDomain.AIP_FILTER_PARAMS.AIP_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  [IngestDomain.AIP_FILTER_PARAMS.STORAGES]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  [IngestDomain.AIP_FILTER_PARAMS.LAST]: null,
-}
-
-/**
-   * Requests tab default form state used in filters pane
-   */
-export const REQUESTS_DEFAULT_FILTERS_STATE = {
-  [IngestDomain.REQUEST_FILTER_PARAMS.SOURCE]: '',
-  [IngestDomain.REQUEST_FILTER_PARAMS.SESSION]: '',
-  [IngestDomain.REQUEST_FILTER_PARAMS.PROVIDER_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  [IngestDomain.REQUEST_FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-  [IngestDomain.REQUEST_FILTER_PARAMS.REQUEST_IDS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  [IngestDomain.REQUEST_FILTER_PARAMS.REQUEST_STATE]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-}
 
 /**
  * i18n filters keys used in filters pane and in filters chip
@@ -136,6 +110,14 @@ export const REQUEST_FILTERS_I18N = {
     chipValueKeys: reduce(IngestDomain.AIP_REQUEST_STATUS, (acc, value) => ({
       ...acc,
       [value]: `oais.list.filters.requestState.${value}`,
+    }), {}),
+  },
+  [IngestDomain.REQUEST_FILTER_PARAMS.ERROR_TYPES]: {
+    labelKey: 'oais.list.filters.errorType.label',
+    hintTextKey: 'oais.list.filters.errorType.label',
+    chipValueKeys: reduce(IngestDomain.REQUEST_ERROR_CODES, (acc, value) => ({
+      ...acc,
+      [value]: `oais.list.filters.errorType.${value}`,
     }), {}),
   },
 }

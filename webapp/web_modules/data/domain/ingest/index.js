@@ -22,5 +22,6 @@ export { AIP_REQUEST_TYPES, AIP_REQUEST_TYPES_ENUM } from './AIPRequestTypesEnum
 export { AIP_STATUS, AIP_STATUS_ENUM } from './AIPStatusEnum'
 export { VERSIONING_MODES_ENUM, VERSIONING_MODES } from './VersioningModesEnum'
 export { REQUEST_TYPES_ENUM, REQUEST_TYPES } from './RequestType'
+export { REQUEST_ERROR_CODE_ENUM, REQUEST_ERROR_CODES } from './RequestErrorCode'
 export { AIP_FILTER_PARAMS, AipFilters } from './AipFilters'
 export { REQUEST_FILTER_PARAMS, RequestFilters } from './RequestFilters'
