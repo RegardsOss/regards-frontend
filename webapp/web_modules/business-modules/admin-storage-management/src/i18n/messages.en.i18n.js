@@ -47,11 +47,13 @@ const messages = {
   'storage.location.list.activity.storing': 'Storing files ...',
   'storage.location.list.activity.deleting': 'Deletion is running ...',
   'storage.location.list.activity.copying': 'Copy is running ...',
+  'storage.location.list.activity.pendingActionRunning': 'Asynchronous action running ...',
   'storage.location.list.errors.count': `{errorsCount, plural, 
     =0 {-}
     other {#}
   }`,
-  'storage.location.list.column.nbFiles.pending': '{value} waiting',
+  'storage.location.list.column.nbFiles.pending': '{storePendingCount} stored files pending',
+  'storage.location.list.column.pendingActionRemaining': 'Asynchronous action(s) pending',
   'storage.location.list.confirm.pending.actions': 'The processing of the pending actions is correctly launched in the background.',
   'storage.location.list.confirm.pending.actions.dialog.title': 'Run pending processing actions ?',
   'storage.location.list.edit.button': 'Edit configuration',

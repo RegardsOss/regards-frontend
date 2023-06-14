@@ -441,7 +441,11 @@ export class StorageLocationListComponent extends React.Component {
 
   formatType = (entity) => this.context.intl.formatMessage({ id: `storage.type.${get(entity, 'content.configuration.storageType', 'NONE')}` })
 
-  isPendingActionsExist = (entities) => find(entities, (entity) => get(entity, 'content.nbFilesStoredWithPendingActionRemaining', 0) > 0)
+  isPendingActionsExist = (entities) => find(entities, (entity) => {
+    const storePendingActionAvailable = get(entity, 'content.nbFilesStoredWithPendingActionRemaining', 0) > 0
+    const pendingActionRunning = get(entity, 'content.pendingActionRunning', false)
+    return pendingActionRunning || storePendingActionAvailable
+  })
 
   render() {
     const {
@@ -549,7 +553,7 @@ export class StorageLocationListComponent extends React.Component {
               new TableColumnBuilder('column.activity').titleHeaderCell()
                 .label(formatMessage({ id: 'storage.location.list.header.activity' }))
                 .rowCellDefinition({ Constructor: StorageLocationActivityRenderer })
-                .fixedSizing(60)
+                .fixedSizing(80)
                 .build(),
               new TableColumnBuilder('column.customActions').titleHeaderCell()
                 .rowCellDefinition({

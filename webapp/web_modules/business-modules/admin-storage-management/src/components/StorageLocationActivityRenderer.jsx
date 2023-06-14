@@ -47,7 +47,8 @@ class StorageLocationActivityRender extends React.Component {
     const storageRunning = get(entity, 'content.storageRunning', false)
     const deletionRunning = get(entity, 'content.deletionRunning', false)
     const copyRunning = get(entity, 'content.copyRunning', false)
-    const noActivity = !copyRunning && !deletionRunning && !storageRunning
+    const pendingActionRunning = get(entity, 'content.pendingActionRunning', false)
+    const noActivity = !copyRunning && !deletionRunning && !storageRunning && !pendingActionRunning
 
     const style = {
       refresh: {
@@ -87,6 +88,17 @@ class StorageLocationActivityRender extends React.Component {
               loadingColor="#FF9800"
               status="loading"
               title={formatMessage({ id: 'storage.location.list.activity.copying' })}
+              style={style.refresh}
+          />
+          : null}
+        {pendingActionRunning
+          ? <RefreshIndicatorComponent
+              size={20}
+              left={10}
+              top={0}
+              loadingColor="green"
+              status="loading"
+              title={formatMessage({ id: 'storage.location.list.activity.pendingActionRunning' })}
               style={style.refresh}
           />
           : null}

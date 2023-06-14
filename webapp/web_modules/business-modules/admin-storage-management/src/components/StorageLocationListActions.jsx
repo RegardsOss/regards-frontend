@@ -99,6 +99,8 @@ class StorageLocationListActions extends React.Component {
     const storageRunning = get(entity, 'content.storageRunning', false)
     const deletionRunning = get(entity, 'content.deletionRunning', false)
     const copyRunning = get(entity, 'content.copyRunning', false)
+    const pendingActionRunning = get(entity, 'content.pendingActionRunning', false)
+    const actionRunning = storageRunning || deletionRunning || copyRunning || pendingActionRunning
 
     return (
       <ActionsMenuCell breakpoints={actionsBreakpoints}>
@@ -118,7 +120,7 @@ class StorageLocationListActions extends React.Component {
           entityLinks={entity.links}
           hateoasKey="copy"
           disableInsteadOfHide
-          disabled={storageRunning || deletionRunning || copyRunning}
+          disabled={actionRunning}
           onClick={this.handleCopyFiles}
           title={intl.formatMessage({ id: 'storage.location.list.copy.button' })}
         >
@@ -149,7 +151,7 @@ class StorageLocationListActions extends React.Component {
           entityLinks={entity.links}
           hateoasKey="deleteFiles"
           disableInsteadOfHide
-          disabled={storageRunning || deletionRunning || copyRunning}
+          disabled={actionRunning}
           onClick={this.handleDeleteFiles}
           title={intl.formatMessage({ id: 'storage.location.list.delete-files.button' })}
         >

@@ -41,14 +41,19 @@ class StorageLocationNbFilesStoredRenderer extends React.Component {
     const { entity } = this.props
     const { intl: { formatMessage }, moduleTheme: { storageTable: { nbFilesStoredStyle: { container, iconStyle } } } } = this.context
     const nbFilesStoredWithPendingActionRemaining = get(entity, 'content.nbFilesStoredWithPendingActionRemaining', 0)
+    const pendingActionRemaining = get(entity, 'content.pendingActionRemaining', false)
     const { nbFilesStored } = entity.content
+
+    let message = nbFilesStoredWithPendingActionRemaining > 0
+      ? `${formatMessage({ id: 'storage.location.list.column.nbFiles.pending' }, { storePendingCount: nbFilesStoredWithPendingActionRemaining })}. ` : ''
+    message += pendingActionRemaining ? formatMessage({ id: 'storage.location.list.column.pendingActionRemaining' }) : ''
 
     return (
       <div style={container}>
         {nbFilesStored}
         {
-          nbFilesStoredWithPendingActionRemaining > 0 && <IconButton
-            title={formatMessage({ id: 'storage.location.list.column.nbFiles.pending' }, { value: nbFilesStoredWithPendingActionRemaining })}
+          (nbFilesStoredWithPendingActionRemaining > 0 || pendingActionRemaining) && <IconButton
+            title={message}
             iconStyle={iconStyle}
           >
             <InfoIcon />
