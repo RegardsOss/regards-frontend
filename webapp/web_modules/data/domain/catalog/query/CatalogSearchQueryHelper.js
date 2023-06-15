@@ -98,4 +98,15 @@ export default class CatalogSearchQueryHelper {
     const nonEmptyParts = (parts || []).filter((part) => !!part)
     return nonEmptyParts.length ? new OpenSearchQuery(nonEmptyParts.map((part) => new StaticParameter(part))).toQueryString() : null
   }
+
+  /**
+   * Build a polygon search
+   * @param {string} lonMin
+   * @param {string} lonMax
+   * @param {string} latMin
+   * @param {string} latMax
+   */
+  static buildPolygonSearch(lonMin, lonMax, latMin, latMax) {
+    return `POLYGON((${lonMin} ${latMin}, ${lonMin} ${latMax}, ${lonMax} ${latMax}, ${lonMax} ${latMin}, ${lonMin} ${latMin}))`
+  }
 }

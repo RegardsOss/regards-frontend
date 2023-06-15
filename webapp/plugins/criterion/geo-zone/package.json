@@ -1,0 +1,32 @@
+{
+  "name": "geo-zone",
+  "version": "1.13.0-SNAPSHOT",
+  "private": true,
+  "description": "Search data inside a geographical zone",
+  "license": "GPL-3.0",
+  "author": "CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
+  "scripts": {
+    "build:dev": "webpack --progress --config webpack.dev.config.js",
+    "build:production": "webpack --progress --config webpack.prod.config.js",
+    "build:watch": "nodemon -e js,jsx --ignore \"target\" --exec \"webpack --progress --config webpack.dev.config.js\"",
+    "esdoc": "esdoc -c esdoc.json",
+    "lint": "eslint src tests --ext .js,.jsx",
+    "lint:fix": "eslint --fix  src tests --ext .js,.jsx",
+    "test": "yarn test:mocha --silent",
+    "test:coverage": "mochapack --timeout 5000 --webpack-config webpack.coverage.config.js \"**/@(tests|web_modules)/**/*.test.js{,x}\" --recursive",
+    "test:mocha": "mochapack --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend - Plugin service example tests'",
+    "test:watch": "mochapack --timeout 5000 --webpack-config webpack.test.config.js \"tests/**/*.test.js{,x}\" --recursive --inline-diffs --watch"
+  },
+  "config": {
+    "mocha-sonar-reporter": {
+      "outputfile": "./reports/coverage/TEST-xunit.xml"
+    }
+  },
+  "engines": {
+    "node": ">=6.11.2",
+    "npm": ">=3.10.10"
+  }
+}

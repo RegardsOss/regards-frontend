@@ -144,6 +144,11 @@ pipeline {
                                 runFrontDockerImg("build_plugin", "service/fem-delete")
                             }
                         }
+                        stage('Build geo-zone') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/geo-zone")
+                            }
+                        }
                     }
                 }
             }

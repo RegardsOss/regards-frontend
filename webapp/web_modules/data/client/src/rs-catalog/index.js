@@ -56,3 +56,7 @@ export { default as getSearchEngineConfigurationsSelectors } from './search-engi
 export { default as FEMFeatureRequestsActions } from './femdriver/FEMFeatureRequestsActions'
 export { default as getFEMFeatureRequestsReducer } from './femdriver/FEMFeatureRequestsReducer'
 export { default as getFEMFeatureRequestsSelectors } from './femdriver/FEMFeatureRequestsSelectors'
+
+export { default as GeoValidateActions } from './geoValidate/GeoValidateActions'
+export { default as getGeoValidateReducer } from './geoValidate/GeoValidateReducer'
+export { default as getGeoValidateSelectors } from './geoValidate/GeoValidateSelectors'
