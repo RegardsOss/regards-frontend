@@ -48,6 +48,10 @@ import dependencies from '../dependencies'
 
 const RaisedButtonWithResourceDisplayControl = withResourceDisplayControl(RaisedButton)
 
+const STOCKAGE_ENUM = {
+  INTERNAL_CACHE: 'internal-cache',
+}
+
 /**
 * Comment Here
 * @author Sébastien Binda
@@ -341,7 +345,14 @@ export class StorageLocationListComponent extends React.Component {
             allowsPhysicalDeletion
               ? <div>
                 <div style={messageDiv}>{formatMessage({ id: 'storage.location.delete.confirm.message.option' })}</div>
-                <Checkbox onCheck={this.onCheckForceDelete} name="confirm-delete-file-force" checked={deleteFilesForce} label={formatMessage({ id: 'storage.location.delete.confirm.option' }, { name })} />
+                <Checkbox
+                  onCheck={this.onCheckForceDelete}
+                  name="confirm-delete-file-force"
+                  checked={deleteFilesForce}
+                  label={name === STOCKAGE_ENUM.INTERNAL_CACHE
+                    ? formatMessage({ id: 'storage.location.delete.confirm.force.option' })
+                    : formatMessage({ id: 'storage.location.delete.confirm.option' }, { name })}
+                />
               </div>
               : <div>
                 <span style={warning}>{formatMessage({ id: 'storage.location.delete.message.warning.option' })}</span>

@@ -74,6 +74,7 @@ const messages = {
   'storage.location.errors.relaunch.confirm.title': 'Relance des erreurs du stockage {name} ?',
   'storage.location.delete.confirm.message.option': 'Ce stockage autorise la suppression des fichiers physiques. Souhaitez-vous :',
   'storage.location.delete.confirm.option': 'Ignorer les erreurs de suppression des fichiers physiques ?',
+  'storage.location.delete.confirm.force.option': 'Forcer la suppression de tous les fichiers du cache ?',
   'storage.location.delete.message.warning.option': 'Attention : ',
   'storage.location.delete.message.option': 'ce stockage est configuré afin de ne pas supprimer les fichiers physiques. Cette action retirera uniquement les informations liées à ces fichiers de la base de données.',
   'storage.location.dialogs.confirm': 'Confirmer',
