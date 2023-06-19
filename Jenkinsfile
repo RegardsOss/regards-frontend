@@ -115,6 +115,11 @@ pipeline {
                                 runFrontDockerImg("build_plugin", "service/fem-edit")
                             }
                         }
+			            stage('Build SNR-criterion') {
+                            steps {
+                                runFrontDockerImg("build_plugin", "criterion/SNR-criterion")
+                            }
+                        }
                     }
                 }
                 stage('-4-') {
@@ -147,11 +152,6 @@ pipeline {
                         stage('Build geo-zone') {
                             steps {
                                 runFrontDockerImg("build_plugin", "criterion/geo-zone")
-                            }
-                        }
-			            stage('Build SNR-criterion') {
-                            steps {
-                                runFrontDockerImg("build_plugin", "criterion/SNR-criterion")
                             }
                         }
                     }
