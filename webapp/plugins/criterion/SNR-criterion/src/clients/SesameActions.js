@@ -48,7 +48,7 @@ export default class SesameActions {
     return spatialName.trim() ? {
       [RSAA]: {
         method: 'GET',
-        endpoint: `http://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/${options}/${service}?${spatialName}`,
+        endpoint: `https://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/${options}/${service}?${spatialName}`,
         // allowing cross origin request to external SNR
         options: { mode: 'cors' },
         types: [{ // action dispatched when fetching starts
