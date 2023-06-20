@@ -29,3 +29,11 @@ const REDUX_ACTION_NAMESPACE = 'admin-feature-management/creation-requests'
 export const creationRequestActions = new FeatureManagementClient.RequestActions(REDUX_ACTION_NAMESPACE)
 export const creationRequestReducer = FeatureManagementClient.getRequestReducer(REDUX_ACTION_NAMESPACE)
 export const creationRequestSelectors = FeatureManagementClient.getRequestSelectors(ENTITIES_STORE_PATH)
+
+// We separate count store from entities store to ensure count is always right
+const ENTITIES_STORE_PATH_COUNT = ['admin', 'acquisition', 'feature', 'creationRequestsCount']
+const REDUX_ACTION_NAMESPACE_COUNT = 'admin-feature-management/creation-requests-count'
+
+export const creationRequestActionsCount = new FeatureManagementClient.RequestActions(REDUX_ACTION_NAMESPACE_COUNT)
+export const creationRequestReducerCount = FeatureManagementClient.getRequestReducer(REDUX_ACTION_NAMESPACE_COUNT)
+export const creationRequestSelectorsCount = FeatureManagementClient.getRequestSelectors(ENTITIES_STORE_PATH_COUNT)

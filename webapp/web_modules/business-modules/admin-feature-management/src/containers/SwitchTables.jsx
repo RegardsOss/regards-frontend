@@ -30,11 +30,11 @@ import { CommonShapes } from '@regardsoss/shape'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { FemDomain, UIDomain } from '@regardsoss/domain'
 import SwitchComponent from '../components/SwitchComponent'
-import { referencesActions, referencesSelectors } from '../clients/ReferencesClient'
-import { creationRequestActions, creationRequestSelectors } from '../clients/CreationRequestsClient'
-import { deleteRequestActions, deleteRequestSelectors } from '../clients/DeleteRequestsClient'
-import { notificationRequestActions, notificationRequestSelectors } from '../clients/NotificationRequestsClient'
-import { updateRequestActions, updateRequestSelectors } from '../clients/UpdateRequestsClient'
+import { referencesActionsCount, referencesSelectorsCount } from '../clients/ReferencesClient'
+import { creationRequestActionsCount, creationRequestSelectorsCount } from '../clients/CreationRequestsClient'
+import { deleteRequestActionsCount, deleteRequestSelectorsCount } from '../clients/DeleteRequestsClient'
+import { notificationRequestActionsCount, notificationRequestSelectorsCount } from '../clients/NotificationRequestsClient'
+import { updateRequestActionsCount, updateRequestSelectorsCount } from '../clients/UpdateRequestsClient'
 import { REFERENCES_COLUMN_KEYS } from '../components/ReferencesManagerComponent'
 import { REQUESTS_COLUMN_KEYS } from '../components/RequestManagerComponent'
 
@@ -60,11 +60,11 @@ export class SwitchTables extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = (dispatch) => ({
-    fetchReferences: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(referencesActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
-    fetchCreationRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(creationRequestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
-    fetchDeleteRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(deleteRequestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
-    fetchNotificationRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(notificationRequestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
-    fetchUpdateRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(updateRequestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+    fetchReferencesCount: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(referencesActionsCount.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+    fetchCreationRequestsCount: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(creationRequestActionsCount.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+    fetchDeleteRequestsCount: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(deleteRequestActionsCount.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+    fetchNotificationRequestsCount: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(notificationRequestActionsCount.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
+    fetchUpdateRequestsCount: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(updateRequestActionsCount.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
   })
 
   /**
@@ -75,20 +75,20 @@ export class SwitchTables extends React.Component {
      */
   static mapStateToProps(state) {
     return {
-      referencesMeta: referencesSelectors.getMetaData(state),
-      isReferencesFetching: referencesSelectors.isFetching(state),
-      creationMeta: creationRequestSelectors.getMetaData(state),
-      isCreationFetching: creationRequestSelectors.isFetching(state),
-      creationInfo: creationRequestSelectors.getInfo(state),
-      updateMeta: updateRequestSelectors.getMetaData(state),
-      isUpdateFetching: updateRequestSelectors.isFetching(state),
-      updateInfo: updateRequestSelectors.getInfo(state),
-      deleteMeta: deleteRequestSelectors.getMetaData(state),
-      isDeleteFetching: deleteRequestSelectors.isFetching(state),
-      deleteInfo: deleteRequestSelectors.getInfo(state),
-      notificationMeta: notificationRequestSelectors.getMetaData(state),
-      isNotificationFetching: notificationRequestSelectors.isFetching(state),
-      notificationInfo: notificationRequestSelectors.getInfo(state),
+      referencesCountMeta: referencesSelectorsCount.getMetaData(state),
+      isReferencesCountFetching: referencesSelectorsCount.isFetching(state),
+      creationCountMeta: creationRequestSelectorsCount.getMetaData(state),
+      isCreationCountFetching: creationRequestSelectorsCount.isFetching(state),
+      creationCountInfo: creationRequestSelectorsCount.getInfo(state),
+      updateCountMeta: updateRequestSelectorsCount.getMetaData(state),
+      isUpdateCountFetching: updateRequestSelectorsCount.isFetching(state),
+      updateCountInfo: updateRequestSelectorsCount.getInfo(state),
+      deleteCountMeta: deleteRequestSelectorsCount.getMetaData(state),
+      isDeleteCountFetching: deleteRequestSelectorsCount.isFetching(state),
+      deleteCountInfo: deleteRequestSelectorsCount.getInfo(state),
+      notificationCountMeta: notificationRequestSelectorsCount.getMetaData(state),
+      isNotificationCountFetching: notificationRequestSelectorsCount.isFetching(state),
+      notificationCountInfo: notificationRequestSelectorsCount.getInfo(state),
     }
   }
 
@@ -102,31 +102,31 @@ export class SwitchTables extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     featureManagerFilters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     // from mapStateToProps
-    referencesMeta: CommonShapes.PageMetadata,
-    isReferencesFetching: PropTypes.bool.isRequired,
-    creationMeta: CommonShapes.PageMetadata,
-    isCreationFetching: PropTypes.bool.isRequired,
-    updateMeta: CommonShapes.PageMetadata,
-    isUpdateFetching: PropTypes.bool.isRequired,
-    deleteMeta: CommonShapes.PageMetadata,
-    isDeleteFetching: PropTypes.bool.isRequired,
-    notificationMeta: CommonShapes.PageMetadata,
-    isNotificationFetching: PropTypes.bool.isRequired,
-    creationInfo: CommonShapes.PageInfo,
-    updateInfo: CommonShapes.PageInfo,
-    deleteInfo: CommonShapes.PageInfo,
-    notificationInfo: CommonShapes.PageInfo,
+    referencesCountMeta: CommonShapes.PageMetadata,
+    isReferencesCountFetching: PropTypes.bool.isRequired,
+    creationCountMeta: CommonShapes.PageMetadata,
+    isCreationCountFetching: PropTypes.bool.isRequired,
+    updateCountMeta: CommonShapes.PageMetadata,
+    isUpdateCountFetching: PropTypes.bool.isRequired,
+    deleteCountMeta: CommonShapes.PageMetadata,
+    isDeleteCountFetching: PropTypes.bool.isRequired,
+    notificationCountMeta: CommonShapes.PageMetadata,
+    isNotificationCountFetching: PropTypes.bool.isRequired,
+    creationCountInfo: CommonShapes.PageInfo,
+    updateCountInfo: CommonShapes.PageInfo,
+    deleteCountInfo: CommonShapes.PageInfo,
+    notificationCountInfo: CommonShapes.PageInfo,
     //from mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchReferences: PropTypes.func.isRequired,
+    fetchReferencesCount: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchCreationRequests: PropTypes.func.isRequired,
+    fetchCreationRequestsCount: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchDeleteRequests: PropTypes.func.isRequired,
+    fetchDeleteRequestsCount: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchNotificationRequests: PropTypes.func.isRequired,
+    fetchNotificationRequestsCount: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    fetchUpdateRequests: PropTypes.func.isRequired,
+    fetchUpdateRequestsCount: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -135,11 +135,11 @@ export class SwitchTables extends React.Component {
   }
 
   static defaultProps = {
-    referencesMeta: SwitchTables.DEFAULT_PAGE_META,
-    creationMeta: SwitchTables.DEFAULT_PAGE_META,
-    updateMeta: SwitchTables.DEFAULT_PAGE_META,
-    deleteMeta: SwitchTables.DEFAULT_PAGE_META,
-    notificationMeta: SwitchTables.DEFAULT_PAGE_META,
+    referencesCountMeta: SwitchTables.DEFAULT_PAGE_META,
+    creationCountMeta: SwitchTables.DEFAULT_PAGE_META,
+    updateCountMeta: SwitchTables.DEFAULT_PAGE_META,
+    deleteCountMeta: SwitchTables.DEFAULT_PAGE_META,
+    notificationCountMeta: SwitchTables.DEFAULT_PAGE_META,
   }
 
   /**
@@ -160,34 +160,36 @@ export class SwitchTables extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      fetchReferences, fetchCreationRequests, fetchDeleteRequests, fetchNotificationRequests, fetchUpdateRequests,
-      featureManagerFilters, isReferencesFetching, isCreationFetching, isDeleteFetching, isNotificationFetching,
-      isUpdateFetching,
+      fetchReferencesCount, fetchCreationRequestsCount, fetchDeleteRequestsCount, fetchNotificationRequestsCount, fetchUpdateRequestsCount,
+      featureManagerFilters, isReferencesCountFetching, isCreationCountFetching, isDeleteCountFetching, isNotificationCountFetching,
+      isUpdateCountFetching,
+      paneType,
     } = newProps
 
-    if (!isEqual(oldProps.featureManagerFilters, featureManagerFilters)) {
+    if (!isEqual(oldProps.featureManagerFilters, featureManagerFilters) || !isEqual(oldProps.paneType, paneType)) {
       const requestParameters = { ...pick(featureManagerFilters, 'sort') }
       const bodyParameters = { ...omit(featureManagerFilters, 'sort') }
 
-      if (!isReferencesFetching) {
+      // Fetch meta to actualise requests count & errors
+      if (!isReferencesCountFetching) {
         const referencesBodyParameters = this.buildBodyParameters(bodyParameters, FemDomain.ReferenceFilters.buildDefault())
         const referencesRequestParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REFERENCES_COLUMN_KEYS)
-        fetchReferences(0, SwitchTables.PAGE_SIZE, {}, referencesRequestParameters, referencesBodyParameters)
+        fetchReferencesCount(0, SwitchTables.PAGE_SIZE, {}, referencesRequestParameters, referencesBodyParameters)
       }
 
       const requestsBodyParameters = this.buildBodyParameters(bodyParameters, FemDomain.RequestFilters.buildDefault())
       const requestsRequestsParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REQUESTS_COLUMN_KEYS)
-      if (!isCreationFetching) {
-        fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, requestsRequestsParameters, requestsBodyParameters)
+      if (!isCreationCountFetching) {
+        fetchCreationRequestsCount(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, requestsRequestsParameters, requestsBodyParameters)
       }
-      if (!isDeleteFetching) {
-        fetchDeleteRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, requestsRequestsParameters, requestsBodyParameters)
+      if (!isDeleteCountFetching) {
+        fetchDeleteRequestsCount(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, requestsRequestsParameters, requestsBodyParameters)
       }
-      if (!isNotificationFetching) {
-        fetchNotificationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION }, requestsRequestsParameters, requestsBodyParameters)
+      if (!isNotificationCountFetching) {
+        fetchNotificationRequestsCount(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION }, requestsRequestsParameters, requestsBodyParameters)
       }
-      if (!isUpdateFetching) {
-        fetchUpdateRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.UPDATE }, requestsRequestsParameters, requestsBodyParameters)
+      if (!isUpdateCountFetching) {
+        fetchUpdateRequestsCount(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.UPDATE }, requestsRequestsParameters, requestsBodyParameters)
       }
     }
   }
@@ -218,24 +220,24 @@ export class SwitchTables extends React.Component {
 
   isFetching = (pane) => {
     const {
-      isReferencesFetching, isCreationFetching, isDeleteFetching, isUpdateFetching, isNotificationFetching,
+      isReferencesCountFetching, isCreationCountFetching, isDeleteCountFetching, isUpdateCountFetching, isNotificationCountFetching,
     } = this.props
     let isFetching = true
     switch (pane) {
       case FemDomain.REQUEST_TYPES_ENUM.REFERENCES:
-        isFetching = isReferencesFetching
+        isFetching = isReferencesCountFetching
         break
       case FemDomain.REQUEST_TYPES_ENUM.CREATION:
-        isFetching = isCreationFetching
+        isFetching = isCreationCountFetching
         break
       case FemDomain.REQUEST_TYPES_ENUM.UPDATE:
-        isFetching = isUpdateFetching
+        isFetching = isUpdateCountFetching
         break
       case FemDomain.REQUEST_TYPES_ENUM.DELETE:
-        isFetching = isDeleteFetching
+        isFetching = isDeleteCountFetching
         break
       case FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION:
-        isFetching = isNotificationFetching
+        isFetching = isNotificationCountFetching
         break
       default:
     }
@@ -244,30 +246,30 @@ export class SwitchTables extends React.Component {
 
   getNbElementsInfos = (pane) => {
     const {
-      referencesMeta, creationMeta, updateMeta, deleteMeta, notificationMeta,
-      creationInfo, updateInfo, deleteInfo, notificationInfo,
+      referencesCountMeta, creationCountMeta, updateCountMeta, deleteCountMeta, notificationCountMeta,
+      creationCountInfo, updateCountInfo, deleteCountInfo, notificationCountInfo,
     } = this.props
     let meta = null
     let info = null
     switch (pane) {
       case FemDomain.REQUEST_TYPES_ENUM.REFERENCES:
-        meta = referencesMeta
+        meta = referencesCountMeta
         break
       case FemDomain.REQUEST_TYPES_ENUM.CREATION:
-        meta = creationMeta
-        info = creationInfo
+        meta = creationCountMeta
+        info = creationCountInfo
         break
       case FemDomain.REQUEST_TYPES_ENUM.UPDATE:
-        meta = updateMeta
-        info = updateInfo
+        meta = updateCountMeta
+        info = updateCountInfo
         break
       case FemDomain.REQUEST_TYPES_ENUM.DELETE:
-        meta = deleteMeta
-        info = deleteInfo
+        meta = deleteCountMeta
+        info = deleteCountInfo
         break
       case FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION:
-        meta = notificationMeta
-        info = notificationInfo
+        meta = notificationCountMeta
+        info = notificationCountInfo
         break
       default:
     }

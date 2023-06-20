@@ -30,7 +30,7 @@ const context = buildTestContext(styles)
  * Test SwitchTables
  * @author Théo Lasserre
  */
-describe('[ Module name] Testing SwitchTables', () => {
+describe('[OAIS FEATURE MANAGEMENT] Testing SwitchTables', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -54,47 +54,47 @@ describe('[ Module name] Testing SwitchTables', () => {
       },
       paneType: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
       // from mapStateToProps
-      referencesMeta: {
+      referencesCountMeta: {
         totalElements: 0,
       },
-      isReferencesFetching: false,
-      creationMeta: {
+      isReferencesCountFetching: false,
+      creationCountMeta: {
         totalElements: 0,
       },
-      isCreationFetching: false,
-      updateMeta: {
+      isCreationCountFetching: false,
+      updateCountMeta: {
         totalElements: 0,
       },
-      isUpdateFetching: false,
-      deleteMeta: {
+      isUpdateCountFetching: false,
+      deleteCountMeta: {
         totalElements: 0,
       },
-      isDeleteFetching: false,
-      notificationMeta: {
+      isDeleteCountFetching: false,
+      notificationCountMeta: {
         totalElements: 0,
       },
-      isNotificationFetching: false,
-      extractionInfo: {
+      isNotificationCountFetching: false,
+      extractionCountInfo: {
         totalElements: 0,
       },
-      creationInfo: {
+      creationCountInfo: {
         totalElements: 0,
       },
-      updateInfo: {
+      updateCountInfo: {
         totalElements: 0,
       },
-      deleteInfo: {
+      deleteCountInfo: {
         totalElements: 0,
       },
-      notificationInfo: {
+      notificationCountInfo: {
         totalElements: 0,
       },
       //from mapDispatchToProps
-      fetchReferences: () => { },
-      fetchCreationRequests: () => { },
-      fetchDeleteRequests: () => { },
-      fetchNotificationRequests: () => { },
-      fetchUpdateRequests: () => { },
+      fetchReferencesCount: () => { },
+      fetchCreationRequestsCount: () => { },
+      fetchDeleteRequestsCount: () => { },
+      fetchNotificationRequestsCount: () => { },
+      fetchUpdateRequestsCount: () => { },
     }
     const enzymeWrapper = shallow(<SwitchTables {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(SwitchComponent)

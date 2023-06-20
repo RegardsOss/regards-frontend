@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { combineReducers } from 'redux'
-import { referencesReducer } from './clients/ReferencesClient'
+import { referencesReducer, referencesReducerCount } from './clients/ReferencesClient'
 import { searchSessionsReducer } from './clients/SearchSessionsClient'
 import { searchSourcesReducer } from './clients/SearchSourcesClient'
 import { referencesTableReducer } from './clients/ReferencesTableClient'
@@ -25,13 +25,13 @@ import { referenceDeleteReducer } from './clients/ReferencesDeleteClient'
 import { requestDeleteReducer } from './clients/RequestDeleteClient'
 import { requestRetryReducer } from './clients/RequestRetryClient'
 import { referenceNotifyReducer } from './clients/ReferencesNotifyClient'
-import { creationRequestReducer } from './clients/CreationRequestsClient'
+import { creationRequestReducer, creationRequestReducerCount } from './clients/CreationRequestsClient'
 import { creationRequestsTableReducer } from './clients/CreationRequestsTableClient'
-import { updateRequestReducer } from './clients/UpdateRequestsClient'
+import { updateRequestReducer, updateRequestReducerCount } from './clients/UpdateRequestsClient'
 import { updateRequestsTableReducer } from './clients/UpdateRequestsTableClient'
-import { deleteRequestReducer } from './clients/DeleteRequestsClient'
+import { deleteRequestReducer, deleteRequestReducerCount } from './clients/DeleteRequestsClient'
 import { deleteRequestsTableReducer } from './clients/DeleteRequestsTableClient'
-import { notificationRequestReducer } from './clients/NotificationRequestsClient'
+import { notificationRequestReducer, notificationRequestReducerCount } from './clients/NotificationRequestsClient'
 import { notificationRequestsTableReducer } from './clients/NotificationRequestsTableClient'
 import { settingsReducer } from './clients/SettingsClient'
 import { filtersReducer } from './clients/FiltersClient'
@@ -42,6 +42,7 @@ import { referenceRecipientsReducer } from './clients/ReferenceRecipientsClient'
  */
 const featureManagementReducer = combineReducers({
   references: referencesReducer,
+  referencesCount: referencesReducerCount,
   searchSessions: searchSessionsReducer,
   searchSources: searchSourcesReducer,
   referencesTable: referencesTableReducer,
@@ -50,12 +51,16 @@ const featureManagementReducer = combineReducers({
   requestDelete: requestDeleteReducer,
   requestRetry: requestRetryReducer,
   creationRequests: creationRequestReducer,
+  creationRequestsCount: creationRequestReducerCount,
   'creation-requests-table': creationRequestsTableReducer,
   updateRequests: updateRequestReducer,
+  updateRequestsCount: updateRequestReducerCount,
   'update-requests-table': updateRequestsTableReducer,
   deleteRequests: deleteRequestReducer,
+  deleteRequestsCount: deleteRequestReducerCount,
   'delete-requests-table': deleteRequestsTableReducer,
   notificationRequests: notificationRequestReducer,
+  notificationRequestsCount: notificationRequestReducerCount,
   'notification-requests-table': notificationRequestsTableReducer,
   settings: settingsReducer,
   featureFilters: filtersReducer,

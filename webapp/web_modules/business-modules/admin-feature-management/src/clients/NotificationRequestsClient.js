@@ -29,3 +29,11 @@ const REDUX_ACTION_NAMESPACE = 'admin-feature-management/notification-requests'
 export const notificationRequestActions = new FeatureManagementClient.RequestActions(REDUX_ACTION_NAMESPACE)
 export const notificationRequestReducer = FeatureManagementClient.getRequestReducer(REDUX_ACTION_NAMESPACE)
 export const notificationRequestSelectors = FeatureManagementClient.getRequestSelectors(ENTITIES_STORE_PATH)
+
+// We separate count store from entities store to ensure count is always right
+const ENTITIES_STORE_PATH_COUNT = ['admin', 'acquisition', 'feature', 'notificationRequestsCount']
+const REDUX_ACTION_NAMESPACE_COUNT = 'admin-feature-management/notification-requests-count'
+
+export const notificationRequestActionsCount = new FeatureManagementClient.RequestActions(REDUX_ACTION_NAMESPACE_COUNT)
+export const notificationRequestReducerCount = FeatureManagementClient.getRequestReducer(REDUX_ACTION_NAMESPACE_COUNT)
+export const notificationRequestSelectorsCount = FeatureManagementClient.getRequestSelectors(ENTITIES_STORE_PATH_COUNT)
