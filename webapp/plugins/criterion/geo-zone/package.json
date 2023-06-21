@@ -1,6 +1,6 @@
 {
   "name": "geo-zone",
-  "version": "1.13.1",
+  "version": "1.14.0-SNAPSHOT",
   "private": true,
   "description": "Search data inside a geographical zone",
   "license": "GPL-3.0",
