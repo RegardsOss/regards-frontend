@@ -108,7 +108,15 @@ export class OAISSwitchTables extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => {
+    const { openedPane } = this.props
+    let defaultFilterState = IngestDomain.AipFilters.buildDefault()
+    if (openedPane === IngestDomain.REQUEST_TYPES_ENUM.REQUEST) {
+      defaultFilterState = IngestDomain.RequestFilters.buildDefault()
+    }
+    const oaisFilters = UIDomain.FiltersPaneHelper.extractFiltersFromURL(defaultFilterState)
+    this.onPropertiesUpdated({}, { ...this.props, oaisFilters })
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state

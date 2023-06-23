@@ -145,7 +145,15 @@ export class SwitchTables extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => {
+    const { paneType } = this.props
+    let defaultFilterState = FemDomain.ReferenceFilters.buildDefault()
+    if (paneType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES) {
+      defaultFilterState = FemDomain.RequestFilters.buildDefault()
+    }
+    const featureManagerFilters = UIDomain.FiltersPaneHelper.extractFiltersFromURL(defaultFilterState)
+    this.onPropertiesUpdated({}, { ...this.props, featureManagerFilters })
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
