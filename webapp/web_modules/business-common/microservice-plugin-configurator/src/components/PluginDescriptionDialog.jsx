@@ -20,6 +20,7 @@ import Dialog from 'material-ui/Dialog'
 import RaisedButton from 'material-ui/RaisedButton/RaisedButton'
 import { MarkdownFileContentDisplayer } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { UIDomain } from '@regardsoss/domain'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import styles from '../styles'
@@ -34,9 +35,12 @@ class PluginDescriptionDialog extends React.Component {
     opened: PropTypes.bool.isRequired,
     pluginMetaData: CommonShapes.PluginMetaDataContent.isRequired,
     onClose: PropTypes.func.isRequired,
+    application: PropTypes.oneOf(UIDomain.APPLICATIONS),
   }
 
-  static defaultProps = {}
+  static defaultProps = {
+    application: UIDomain.APPLICATIONS_ENUM.ADMIN,
+  }
 
   static contextTypes = {
     ...themeContextType,
@@ -44,7 +48,9 @@ class PluginDescriptionDialog extends React.Component {
   }
 
   render() {
-    const { pluginMetaData, onClose, opened } = this.props
+    const {
+      pluginMetaData, onClose, opened, application,
+    } = this.props
 
     const {
       moduleTheme: { markdownDialog },
@@ -74,7 +80,7 @@ class PluginDescriptionDialog extends React.Component {
       >
         <MarkdownFileContentDisplayer
           style={markdownDialog.markdownView}
-          source={pluginMetaData.markdown}
+          source={application === UIDomain.APPLICATIONS_ENUM.USER ? pluginMetaData.userMarkdown : pluginMetaData.markdown}
         />
       </Dialog>
     )

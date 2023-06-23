@@ -22,6 +22,7 @@ import { ShowableAtRender, PositionedDialog, withConfirmDialog } from '@regardso
 import { PluginDescriptionDialog } from '@regardsoss/microservice-plugin-configurator'
 import { OrderShapes } from '@regardsoss/shape'
 import { reduxForm } from '@regardsoss/form-utils'
+import { UIDomain } from '@regardsoss/domain'
 import WarningIcon from 'mdi-material-ui/AlertOutline'
 import RemoveIcon from 'mdi-material-ui/Delete'
 import IconButton from 'material-ui/IconButton'
@@ -108,6 +109,7 @@ export class ManageDatasetProcessingComponent extends React.Component {
             opened={isDescriptionDialogOpened}
             onClose={() => this.toggleDescriptionDialog(selectedPluginMetadata)}
             pluginMetaData={selectedPluginMetadata.content}
+            application={UIDomain.APPLICATIONS_ENUM.USER}
         /> : null)
   }
 
