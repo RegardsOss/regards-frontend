@@ -246,6 +246,10 @@ export default (theme) => {
       flexShrink: 1,
       flexBasis: 0,
       maxWidth: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     checkButton: {
       styles: {

@@ -23,6 +23,7 @@ export default (theme) => ({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     minHeight: '1em',
+    height: '33%',
   },
   // no specific style for multiline text
   multilineTextRenderCell: {
