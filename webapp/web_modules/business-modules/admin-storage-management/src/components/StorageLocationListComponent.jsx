@@ -344,7 +344,10 @@ export class StorageLocationListComponent extends React.Component {
           {
             allowsPhysicalDeletion
               ? <div>
-                <div style={messageDiv}>{formatMessage({ id: 'storage.location.delete.confirm.message.option' })}</div>
+                <div style={messageDiv}>
+                  {name === STOCKAGE_ENUM.INTERNAL_CACHE ? formatMessage({ id: 'storage.location.delete.confirm.message.force.option' })
+                    : formatMessage({ id: 'storage.location.delete.confirm.message.option' })}
+                </div>
                 <Checkbox
                   onCheck={this.onCheckForceDelete}
                   name="confirm-delete-file-force"
