@@ -48,6 +48,8 @@ export class AccessGroupListContainer extends React.Component {
     fetchGroupsCount: PropTypes.func,
   }
 
+  static PAGE_SIZE = 2000
+
   UNSAFE_componentWillMount() {
     this.props.fetchAccessGroupList()
     this.props.fetchGroupsCount()
@@ -125,7 +127,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchAccessGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList(0, 100)),
+  fetchAccessGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList(0, AccessGroupListContainer.PAGE_SIZE)),
   deleteAccessGroup: (id) => dispatch(accessGroupActions.deleteEntity(id)),
   fetchGroupsCount: () => dispatch(groupsCountActions.fetchGroupsCount()),
 })
