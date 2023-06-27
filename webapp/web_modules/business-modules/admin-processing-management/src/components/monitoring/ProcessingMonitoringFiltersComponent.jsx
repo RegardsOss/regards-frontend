@@ -22,7 +22,7 @@ import {
   FiltersPaneMainComponent,
   TableFilterSortingAndVisibilityContainer,
   FilterPaneDatePickerField,
-  FilterPaneTextField,
+  FilterPaneTextFieldValues,
   FilterPaneSelectFieldLegacy,
   FilterPaneSelectField,
 } from '@regardsoss/components'
@@ -61,7 +61,7 @@ export class ProcessingMonitoringFiltersComponent extends React.Component {
  */
   static DEFAULT_FILTERS_STATE = {
     [FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
-    [FILTER_PARAMS.USERNAME]: '',
+    [FILTER_PARAMS.USERNAME]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
     [FILTER_PARAMS.PROCESS_BID]: null,
     [FILTER_PARAMS.STATUS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
   }
@@ -81,7 +81,7 @@ export class ProcessingMonitoringFiltersComponent extends React.Component {
         updateValuesFilter={updateValuesFilter}
       >
         <FilterPaneDatePickerField filterKey={FILTER_PARAMS.CREATION_DATE} />
-        <FilterPaneTextField filterKey={FILTER_PARAMS.USERNAME} />
+        <FilterPaneTextFieldValues filterKey={FILTER_PARAMS.USERNAME} matchMode={CommonDomain.MATCH_MODE_ENUM.CONTAINS} />
         <FilterPaneSelectFieldLegacy
           filterKey={FILTER_PARAMS.PROCESS_BID}
           allValuesOption

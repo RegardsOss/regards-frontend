@@ -109,9 +109,9 @@ export class ProcessingMonitoringContainer extends React.Component {
   }
 
   onRefresh = (requestParameters) => {
-    const { fetchProcessingMonitorList } = this.props
+    const { fetchProcessingMonitorList, params: { project } } = this.props
     const fetchPageSize = this.getFetchPageSize()
-    fetchProcessingMonitorList(0, fetchPageSize, {}, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') })
+    fetchProcessingMonitorList(0, fetchPageSize, { }, { ...pick(requestParameters, 'sort'), tenant: project }, { ...omit(requestParameters, 'sort') })
   }
 
   onBack = () => {

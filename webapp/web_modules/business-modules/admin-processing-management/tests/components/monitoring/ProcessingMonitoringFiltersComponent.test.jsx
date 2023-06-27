@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
-  FiltersPaneMainComponent, FilterPaneDatePickerField, FilterPaneSelectFieldLegacy, FilterPaneTextField,
+  FiltersPaneMainComponent, FilterPaneDatePickerField, FilterPaneSelectFieldLegacy, FilterPaneTextFieldValues,
   FilterPaneSelectField,
 } from '@regardsoss/components'
 import { FILTERS_I18N } from '../../../src/domain/filters'
@@ -62,7 +62,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing ProcessingMonitoringFiltersComponen
       filtersI18n: props.filtersI18n,
     }, 'Component should define the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 1, 'There should be 1 FilterPaneDatePickerField')
-    assert.lengthOf(enzymeWrapper.find(FilterPaneTextField), 1, 'There should be 1 FilterPaneTextField')
+    assert.lengthOf(enzymeWrapper.find(FilterPaneTextFieldValues), 1, 'There should be 1 FilterPaneTextFieldValues')
     assert.lengthOf(enzymeWrapper.find(FilterPaneSelectFieldLegacy), 1, 'There should be 1 FilterPaneSelectFieldLegacy')
     assert.lengthOf(enzymeWrapper.find(FilterPaneSelectField), 1, 'There should be 1 FilterPaneSelectField')
   })
