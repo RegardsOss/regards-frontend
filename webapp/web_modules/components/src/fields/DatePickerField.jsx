@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import split from 'lodash/split'
 import isDate from 'lodash/isDate'
+import parseInt from 'lodash/parseInt'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import DatePicker from 'material-ui/DatePicker'
@@ -62,6 +64,8 @@ export default class DatePickerField extends React.Component {
     displayTime: false,
     fullWidth: false,
   }
+
+  static DEFAULT_TIME_REGEX = /^\d{2}:\d{2}:\d{2}/
 
   /** Default date picker style (hides text field, only shown to get the dialog box) */
   static datePickerContainerStyle = { width: '0px', height: '0px' }
@@ -170,14 +174,15 @@ export default class DatePickerField extends React.Component {
    * @param {*} date Selected date from DatePicker with browser timezone
    */
   handleChangeDatePicker = (event, date) => {
-    const { value } = this.props
+    const { value, displayTime } = this.props
     if (value) {
       // value -> contains previous selected date+time.
       // date  -> contains selected date from DatePicker with browser timezone
       // When date is selected from date Picker we need to override this date with the previous selected time.
       const newDateWithPreviousSelectedTime = DateUtils.createDateAndOverrideTime(date, value)
-      // Do not transform this new calculated date to UTC as value has already been transformed as UTC
-      this.handleDateChange(newDateWithPreviousSelectedTime, false)
+      // Do not transform this new calculated date to UTC if user can handle time modification as value has already been transformed as UTC
+      // Tranform to UTC otherwise.
+      this.handleDateChange(newDateWithPreviousSelectedTime, !displayTime)
     } else {
       // Else date is the date returnd by DatePicker with browser timezone. We need to tranform to UTC
       this.handleDateChange(date, true)
@@ -215,12 +220,18 @@ export default class DatePickerField extends React.Component {
    * @param {boolean} tranformToUTC Wehter to transform given date by removing timezone and set UTC timeZone (GMT+00)
    */
   handleDateChange = (newDate, tranformToUTC) => {
-    const { onChange, locale, displayTime } = this.props
+    const {
+      onChange, locale, displayTime, defaultTime,
+    } = this.props
     const { dateText, timeText } = this.state
-    // If no time picker is used, we need to force time values to 0 (will use current time if not)
+    // If no time picker is used, we need to force time values either to 0 (will use current time if not) either to default time if specified
     const date = newDate
     if (!displayTime) {
       date.setHours(0, 0, 0, 0)
+      if (defaultTime && DatePickerField.DEFAULT_TIME_REGEX.test(defaultTime)) {
+        const defaultTimeSplit = split(defaultTime, ':')
+        date.setHours(parseInt(defaultTimeSplit[0]), parseInt(defaultTimeSplit[1]), parseInt(defaultTimeSplit[2]), 0)
+      }
     }
     const parsedDate = tranformToUTC ? DateUtils.parseDateToUTC(date) : date
     const newDateText = DateUtils.computeDisplayedDateText(parsedDate, locale)
