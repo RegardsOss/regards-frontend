@@ -60,9 +60,10 @@ describe('[Description] Testing FileLinkComponent', () => {
     }],
     expectations: {
       link: {
-        disabled: true,
+        previewAllowed: false,
       },
       option: {
+        disabled: true,
         visible: false,
       },
     },
@@ -76,7 +77,7 @@ describe('[Description] Testing FileLinkComponent', () => {
     }],
     expectations: {
       link: {
-        disabled: true,
+        previewAllowed: false,
       },
       option: {
         visible: false,
@@ -116,7 +117,7 @@ describe('[Description] Testing FileLinkComponent', () => {
     ],
     expectations: {
       link: {
-        disabled: false,
+        previewAllowed: false,
       },
       option: {
         visible: true,
@@ -134,7 +135,7 @@ describe('[Description] Testing FileLinkComponent', () => {
     }],
     expectations: {
       link: {
-        disabled: false,
+        previewAllowed: false,
       },
       option: {
         visible: true,
@@ -143,7 +144,7 @@ describe('[Description] Testing FileLinkComponent', () => {
       },
     },
   }, {
-    label: 'disabled when file is available, internal raw data, user logged and quota is consumed',
+    label: 'enabled when file is available, internal raw data, user logged and quota is consumed',
     testSpecs: [{
       specLabel: 'internal raw data',
       file: { type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: false, available: true },
@@ -152,7 +153,99 @@ describe('[Description] Testing FileLinkComponent', () => {
     }],
     expectations: {
       link: {
+        previewAllowed: false,
+      },
+      option: {
+        visible: true,
         disabled: true,
+        displayQuotaWarnings: true,
+      },
+    },
+  }, {
+    label: 'enabled preview when mimeType is one of the CODE_FILE_SUPPORTED_MIME_TYPES',
+    testSpecs: [{
+      specLabel: 'internal raw data',
+      file: {
+        type: CommonDomain.DATA_TYPES_ENUM.RAWDATA,
+        reference: false,
+        available: true,
+        mimeType: UIDomain.CODE_FILE_SUPPORTED_MIME_TYPES[1],
+      },
+      quotaInfo: { downloadDisabled: true },
+      accessToken: 'testToken',
+    }],
+    expectations: {
+      link: {
+        previewAllowed: true,
+      },
+      option: {
+        visible: true,
+        disabled: true,
+        displayQuotaWarnings: true,
+      },
+    },
+  }, {
+    label: 'enabled preview when mimeType is one of the IMAGE_FILE_SUPPORTED_MIME_TYPES',
+    testSpecs: [{
+      specLabel: 'internal raw data',
+      file: {
+        type: CommonDomain.DATA_TYPES_ENUM.RAWDATA,
+        reference: false,
+        available: true,
+        mimeType: UIDomain.IMAGE_FILE_SUPPORTED_MIME_TYPES[3],
+      },
+      quotaInfo: { downloadDisabled: true },
+      accessToken: 'testToken',
+    }],
+    expectations: {
+      link: {
+        previewAllowed: true,
+      },
+      option: {
+        visible: true,
+        disabled: true,
+        displayQuotaWarnings: true,
+      },
+    },
+  }, {
+    label: 'enabled preview when mimeType is one of the IFRAME_CONTENT_SUPPORTED_MIME_TYPES',
+    testSpecs: [{
+      specLabel: 'internal raw data',
+      file: {
+        type: CommonDomain.DATA_TYPES_ENUM.RAWDATA,
+        reference: false,
+        available: true,
+        mimeType: UIDomain.IFRAME_CONTENT_SUPPORTED_MIME_TYPES[0],
+      },
+      quotaInfo: { downloadDisabled: true },
+      accessToken: 'testToken',
+    }],
+    expectations: {
+      link: {
+        previewAllowed: true,
+      },
+      option: {
+        visible: true,
+        disabled: true,
+        displayQuotaWarnings: true,
+      },
+    },
+  }, {
+    label: 'enabled preview when mimeType is one of the MARKDOWN_FILE_SUPPORTED_MIME_TYPES',
+    testSpecs: [{
+      specLabel: 'internal raw data',
+      file: {
+        type: CommonDomain.DATA_TYPES_ENUM.RAWDATA,
+        reference: false,
+        available: true,
+        mimeType: UIDomain.MARKDOWN_FILE_SUPPORTED_MIME_TYPES[0],
+      },
+      quotaInfo: { downloadDisabled: true },
+      accessToken: 'testToken',
+    }],
+    expectations: {
+      link: {
+        previewAllowed: true,
       },
       option: {
         visible: true,
@@ -201,9 +294,9 @@ describe('[Description] Testing FileLinkComponent', () => {
       const link = enzymeWrapper.find(PageLinkCellComponent)
       testSuiteHelpers.assertWrapperProperties(link, {
         text: props.file.label,
-        tooltip: expectations.link.disabled ? null : 'module.description.common.file.preview.tooltip',
+        tooltip: expectations.link.previewAllowed ? 'module.description.common.file.preview.tooltip' : null,
         LinkIconConstructor: FileIcon,
-        disabled: expectations.link.disabled,
+        disabled: !expectations.link.previewAllowed,
         onClick: enzymeWrapper.instance().onFileLinkClicked,
       }, `${specLabel} | Link properties should be correctly set and it should be enabled as file is available`)
       // 2 - when enabled, check callback

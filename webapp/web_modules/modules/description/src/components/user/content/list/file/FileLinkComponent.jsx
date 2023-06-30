@@ -67,14 +67,15 @@ export class FileLinkComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     const openInNewTab = STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(mimeType)
     const isDownloadable = QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)
+    const isPreviewAllowed = UIDomain.DisplayHelpers.isFileMimeType(mimeType)
     return (
       <PageElement>
         <PageLinkCellComponent
           text={label}
-          tooltip={isDownloadable ? formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label }) : null}
+          tooltip={isPreviewAllowed ? formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label }) : null}
           LinkIconConstructor={FileIcon}
           // disabled when file is not available, or when file is an internal raw data and quota is consumed
-          disabled={!isDownloadable}
+          disabled={!isPreviewAllowed}
           onClick={this.onFileLinkClicked}
         />
         { // Download button when file is available AND is not constrained by quota OR user has a quota (=> not public)

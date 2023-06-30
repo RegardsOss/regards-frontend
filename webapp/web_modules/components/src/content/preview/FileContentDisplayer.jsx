@@ -20,6 +20,7 @@ import compose from 'lodash/fp/compose'
 import DownloadErrorIcon from 'mdi-material-ui/EmoticonSadOutline'
 import NoPreviewIcon from 'mdi-material-ui/MonitorOff'
 import { withI18n } from '@regardsoss/i18n'
+import { UIDomain } from '@regardsoss/domain'
 import { withModuleStyle } from '@regardsoss/theme'
 import { FileContentReader, LocalURLProvider } from '@regardsoss/display-control'
 import { NoContentComponent } from '../feedback/NoContentComponent'
@@ -45,10 +46,7 @@ export class FileContentDisplayer extends React.Component {
    * @return {boolean} true when content type is supported
    */
   static isSupportedContentType(contentType) {
-    return CodeFileDisplayer.isSupportedContentType(contentType)
-      || ImageFileDisplayer.isSupportedContentType(contentType)
-      || IFrameURLContentDisplayer.isSupportedContentType(contentType)
-      || MarkdownFileContentDisplayer.isSupportedContentType(contentType)
+    return UIDomain.DisplayHelpers.isFileMimeType(contentType)
   }
 
   /**
@@ -120,21 +118,21 @@ export class FileContentDisplayer extends React.Component {
               return errorComponent || null
             }
             const { content, contentType } = file
-            if (CodeFileDisplayer.isSupportedContentType(contentType)) {
+            if (UIDomain.DisplayHelpers.isCodeMimeType(contentType)) {
               return (
                 <FileContentReader blob={content}>
                   <CodeFileDisplayer contentType={contentType} />
                 </FileContentReader>)
             }
             // 2 - Render through image view for corresponding MIME types, using access URL
-            if (ImageFileDisplayer.isSupportedContentType(contentType)) {
+            if (UIDomain.DisplayHelpers.isImageMimeType(contentType)) {
               return (
                 <LocalURLProvider blob={content} targetPropertyName="source">
                   <ImageFileDisplayer />
                 </LocalURLProvider>)
             }
             // 3 - render through an iFrame, using access URL
-            if (IFrameURLContentDisplayer.isSupportedContentType(contentType)) {
+            if (UIDomain.DisplayHelpers.isIFrameMimeType(contentType)) {
               // 3.1 - HTML content, that must support relative links, is rendered by
               // downloading again from server (using browser cache normally)
               if (IFrameURLContentDisplayer.isContentTypeWithRelativeLinks(contentType)) {
@@ -146,7 +144,7 @@ export class FileContentDisplayer extends React.Component {
                   <IFrameURLContentDisplayer />
                 </LocalURLProvider>)
             }
-            if (MarkdownFileContentDisplayer.isSupportedContentType(contentType)) {
+            if (UIDomain.DisplayHelpers.isMarkdownMimeType(contentType)) {
               return (
                 <FileContentReader blob={content} targetPropertyName="source">
                   <MarkdownFileContentDisplayer />

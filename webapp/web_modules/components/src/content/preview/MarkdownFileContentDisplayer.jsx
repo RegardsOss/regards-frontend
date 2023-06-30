@@ -19,7 +19,7 @@
 import { ScrollArea } from '@regardsoss/adapters'
 import ReactMarkdown from 'react-remarkable'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { MIME_TYPES } from '@regardsoss/mime-types'
+import { UIDomain } from '@regardsoss/domain'
 import '../styles/github-markdown-styles.css'
 import { MeasureResultProvider } from '@regardsoss/display-control'
 import styles from '../styles'
@@ -46,14 +46,6 @@ export class MarkdownFileContentDisplayer extends React.Component {
     ...themeContextType,
   }
 
-  /**
-   * Maps MIME type to editor mode
-   */
-  static SUPPORTED_MIME_TYPES = [
-    MIME_TYPES.MARKDOWN_MIME_TYPE,
-    'text/x-markdown', // XXX This is a workaround for the wrong description MIME types provided at collections / dataset level
-  ]
-
   /** Default options for the viewer */
   static DEFAULT_MD_VIEWER_OPTIONS = {
     html: true,
@@ -70,8 +62,7 @@ export class MarkdownFileContentDisplayer extends React.Component {
    * @return {boolean} true if content type is supported, false otherwise
    */
   static isSupportedContentType(contentType) {
-    const lowerContentType = contentType.toLowerCase()
-    return MarkdownFileContentDisplayer.SUPPORTED_MIME_TYPES.some((mimeType) => lowerContentType.includes(mimeType))
+    return UIDomain.DisplayHelpers.isMarkdownMimeType(contentType)
   }
 
   render() {

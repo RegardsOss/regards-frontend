@@ -18,29 +18,20 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { MIME_TYPES } from '@regardsoss/mime-types'
+import { UIDomain } from '@regardsoss/domain'
 
 /**
 * Displays picture files
 * @author Raphaël Mechali
 */
 class ImageFileDisplayer extends React.Component {
-  /** Supported MIME types */
-  static SUPPORTED_MIME_TYPES = [
-    MIME_TYPES.JPEG_MIME_TYPE,
-    MIME_TYPES.GIF_MIME_TYPE,
-    MIME_TYPES.PNG_MIME_TYPE,
-    MIME_TYPES.TIF_MIME_TYPE,
-  ]
-
   /**
    * Is supported content type for this component?
    * @param {string} contentType to test
    * @return {boolean} true if content type is supported, false otherwise
    */
   static isSupportedContentType(contentType) {
-    const lowerContentType = contentType.toLowerCase()
-    return ImageFileDisplayer.SUPPORTED_MIME_TYPES.some((mimeType) => lowerContentType.includes(mimeType))
+    return UIDomain.DisplayHelpers.isImageMimeType(contentType)
   }
 
   static propTypes = {

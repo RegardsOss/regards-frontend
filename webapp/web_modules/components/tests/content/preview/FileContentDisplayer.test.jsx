@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import root from 'window-or-global'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { UIDomain } from '@regardsoss/domain'
 import { FileContentDisplayer } from '../../../src/content/preview/FileContentDisplayer'
 import CodeFileDisplayer from '../../../src/content/preview/CodeFileDisplayer'
 import ImageFileDisplayer from '../../../src/content/preview/ImageFileDisplayer'
@@ -94,19 +95,19 @@ describe('[Components] Testing FileContentDisplayer', () => {
 
   // MIME types tests
   const testCases = [{
-    contentTypes: CodeFileDisplayer.SUPPORTED_MIME_TYPES,
+    contentTypes: UIDomain.CODE_FILE_SUPPORTED_MIME_TYPES,
     expectedComponent: CodeFileDisplayer,
     message: 'should render code MIME types through code file displayer for type',
   }, {
-    contentTypes: ImageFileDisplayer.SUPPORTED_MIME_TYPES,
+    contentTypes: UIDomain.IMAGE_FILE_SUPPORTED_MIME_TYPES,
     expectedComponent: ImageFileDisplayer,
     message: 'should render image MIME types through image file displayer for type',
   }, {
-    contentTypes: IFrameURLContentDisplayer.SUPPORTED_MIME_TYPES,
+    contentTypes: UIDomain.IFRAME_CONTENT_SUPPORTED_MIME_TYPES,
     expectedComponent: IFrameURLContentDisplayer,
     message: 'should render pdf and html MIME type through IFrame URL content displayer for type',
   }, {
-    contentTypes: MarkdownFileContentDisplayer.SUPPORTED_MIME_TYPES,
+    contentTypes: UIDomain.MARKDOWN_FILE_SUPPORTED_MIME_TYPES,
     expectedComponent: MarkdownFileContentDisplayer,
     message: 'should render markdown MIME type through Markdown file displayer for type',
   }]

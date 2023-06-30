@@ -50,3 +50,7 @@ export { getAdminURL, getModuleURL, getModuleDefaultIconURL } from './URLHelper'
 export { CRITERIA_TYPES, CRITERIA_TYPES_ENUM } from './CriteriaTypesEnum'
 export { DESCRIPTION_BROWSING_SECTIONS, DESCRIPTION_BROWSING_SECTIONS_ENUM } from './DescriptionBrowsingSections'
 export { default as DateUtils } from './DateUtils'
+export {
+  ALL_SUPPORTED_MIME_TYPES, CODE_FILE_SUPPORTED_MIME_TYPES, IMAGE_FILE_SUPPORTED_MIME_TYPES, IFRAME_CONTENT_SUPPORTED_MIME_TYPES, MARKDOWN_FILE_SUPPORTED_MIME_TYPES,
+} from './DisplaySupportedMimeTypes'
+export { DisplayHelpers } from './DisplayHelpers'

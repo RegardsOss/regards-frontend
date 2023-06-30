@@ -18,6 +18,7 @@
  **/
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { MIME_TYPES } from '@regardsoss/mime-types'
+import { UIDomain } from '@regardsoss/domain'
 import isEqual from 'lodash/isEqual'
 import styles from '../styles'
 
@@ -26,16 +27,6 @@ import styles from '../styles'
  * You can use all accepted dialog properties
  */
 export class IFrameURLContentDisplayer extends React.Component {
-  /**
-   * Supported MIME types
-   */
-  static SUPPORTED_MIME_TYPES = [
-    MIME_TYPES.TEXT,
-    MIME_TYPES.HTML_MIME_TYPE,
-    MIME_TYPES.PDF_MIME_TYPE,
-    MIME_TYPES.XHTML_MIME_TYPE,
-  ]
-
   /**
    * MIME types that support relative links
    */
@@ -54,8 +45,7 @@ export class IFrameURLContentDisplayer extends React.Component {
    * @return {boolean} true if content type is supported, false otherwise
    */
   static isSupportedContentType(contentType) {
-    const lowerContentType = contentType.toLowerCase()
-    return IFrameURLContentDisplayer.SUPPORTED_MIME_TYPES.some((mimeType) => lowerContentType.includes(mimeType))
+    return UIDomain.DisplayHelpers.isIFrameMimeType(contentType)
   }
 
   /**
@@ -157,7 +147,6 @@ export class IFrameURLContentDisplayer extends React.Component {
 
 // Export for external consumers with style context and static methods
 const WithContext = withModuleStyle(styles)(IFrameURLContentDisplayer)
-WithContext.SUPPORTED_MIME_TYPES = IFrameURLContentDisplayer.SUPPORTED_MIME_TYPES
 WithContext.getSupportedMIMETypes = IFrameURLContentDisplayer.getSupportedMIMETypes
 WithContext.isSupportedContentType = IFrameURLContentDisplayer.isSupportedContentType
 WithContext.isContentTypeWithRelativeLinks = IFrameURLContentDisplayer.isContentTypeWithRelativeLinks

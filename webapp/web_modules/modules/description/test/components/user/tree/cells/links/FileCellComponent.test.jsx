@@ -40,7 +40,7 @@ describe('[Description] Testing FileCellComponent', () => {
   })
 
   const testCases = [{
-    label: 'disabled when file is not available',
+    label: 'disabled when file preview is not available',
     // all files types, not available, as reference or internally stored, with / without token, quota consumed or not
     testSpecs: [
       ...CommonDomain.DATA_TYPES
@@ -60,18 +60,18 @@ describe('[Description] Testing FileCellComponent', () => {
           ], []),
         ], []),
     ],
-    expectedDisabled: true,
+    isPreviewAllowed: false,
   }, {
-    label: 'disabled when file is internally stored raw data and user is not logged',
+    label: 'disabled when file preview is not available and file is internally stored raw data and user is not logged',
     testSpecs: [{
       specLabel: 'internal raw data',
       file: { type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: false, available: true },
       quotaInfo: { downloadDisabled: false },
       accessToken: null,
     }],
-    expectedDisabled: true,
+    isPreviewAllowed: false,
   }, {
-    label: 'enabled when file is available and not internal raw data',
+    label: 'enabled when file is preview is available and not internal raw data',
     testSpecs: [
       // all files types but raw data, as reference or internally stored, with / without token, quota consumed or not
       ...CommonDomain.DATA_TYPES
@@ -84,7 +84,9 @@ describe('[Description] Testing FileCellComponent', () => {
               ...acc3,
               ...[true, false].map((downloadDisabled) => ({
                 specLabel: `type: ${type} / reference: ${reference} / with token: ${!!accessToken} / quota consumed: ${downloadDisabled}`,
-                file: { type, reference, available: true },
+                file: {
+                  type, reference, available: true, mimeType: UIDomain.IFRAME_CONTENT_SUPPORTED_MIME_TYPES[1],
+                },
                 quotaInfo: { downloadDisabled },
                 accessToken,
               })),
@@ -96,34 +98,38 @@ describe('[Description] Testing FileCellComponent', () => {
         ...acc,
         ...[true, false].map((downloadDisabled) => ({
           specLabel: `type: external raw data / with token: ${!!accessToken} / quota consumed: ${downloadDisabled}`,
-          file: { type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: true, available: true },
+          file: {
+            type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: true, available: true, mimeType: UIDomain.IFRAME_CONTENT_SUPPORTED_MIME_TYPES[1],
+          },
           quotaInfo: { downloadDisabled },
           accessToken,
         })),
       ], []),
     ],
-    expectedDisabled: false,
+    isPreviewAllowed: true,
   }, {
-    label: 'enabled when file is available, internal raw data, user logged and quota is not consumed',
+    label: 'enabled when file preview is available, internal raw data, user logged and quota is not consumed',
     testSpecs: [{
       specLabel: 'internal raw data',
-      file: { type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: false, available: true },
+      file: {
+        type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: false, available: true, mimeType: UIDomain.IFRAME_CONTENT_SUPPORTED_MIME_TYPES[1],
+      },
       quotaInfo: { downloadDisabled: false },
       accessToken: 'testToken',
     }],
-    expectedDisabled: false,
+    isPreviewAllowed: true,
   }, {
-    label: 'disabled when file is available, internal raw data, user logged and quota is consumed',
+    label: 'disabled when file preview is not available, internal raw data, user logged and quota is consumed',
     testSpecs: [{
       specLabel: 'internal raw data',
       file: { type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: false, available: true },
       quotaInfo: { downloadDisabled: true },
       accessToken: 'testToken',
     }],
-    expectedDisabled: true,
+    isPreviewAllowed: false,
   }]
 
-  testCases.forEach(({ label, testSpecs, expectedDisabled }) => it(`should render ${label}`, () => {
+  testCases.forEach(({ label, testSpecs, isPreviewAllowed }) => it(`should render ${label}`, () => {
     // play each spec and check expectations
     testSpecs.forEach(({
       specLabel, file, quotaInfo, accessToken,
@@ -161,13 +167,13 @@ describe('[Description] Testing FileCellComponent', () => {
       const enzymeWrapper = shallow(<FileCellComponent {...props} />, { context })
       const linkWrapper = testSuiteHelpers.assertCompWithProps(enzymeWrapper, TreeLinkComponent, {
         text: props.file.label,
-        tooltip: expectedDisabled ? null : 'module.description.common.file.preview.tooltip',
+        tooltip: isPreviewAllowed ? 'module.description.common.file.preview.tooltip' : null,
         selected: false,
         section: false,
         onClick: enzymeWrapper.instance().onLinkClicked,
-        disabled: expectedDisabled,
+        disabled: !isPreviewAllowed,
       }, `${specLabel} | link should define the expected properties`)
-      if (!expectedDisabled) {
+      if (!isPreviewAllowed) {
         // test callback when enabled
         assert.deepEqual(spyOnSelectInnerLink, {}, `${specLabel} | On select callback should not have been invoked yet`)
         linkWrapper.props().onClick()

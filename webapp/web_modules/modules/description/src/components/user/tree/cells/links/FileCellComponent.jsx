@@ -19,10 +19,6 @@
 import { UIDomain } from '@regardsoss/domain'
 import FileIcon from 'mdi-material-ui/FileImage'
 import { i18nContextType } from '@regardsoss/i18n'
-import {
-  QuotaDownloadUtils, QuotaInfo, withQuotaInfo,
-} from '@regardsoss/entities-common'
-import { withAuthInfo } from '@regardsoss/authentication-utils'
 import { FileData } from '../../../../../shapes/DescriptionState'
 import TreeLinkComponent from './TreeLinkComponent'
 
@@ -38,10 +34,6 @@ export class FileCellComponent extends React.Component {
     selected: PropTypes.bool.isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
     onSelectInnerLink: PropTypes.func.isRequired,
-    // from withAuthInfo
-    accessToken: PropTypes.string,
-    // from with quota info
-    quotaInfo: QuotaInfo,
   }
 
   static contextTypes = {
@@ -58,24 +50,26 @@ export class FileCellComponent extends React.Component {
 
   render() {
     const {
-      selected, quotaInfo, accessToken, file: {
-        label, type, reference, available,
+      selected, file: {
+        label, mimeType,
       },
     } = this.props
     const { intl: { formatMessage } } = this.context
-    const isDownloadable = QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)
+    const isPreviewAllowed = UIDomain.DisplayHelpers.isFileMimeType(mimeType)
     return (
       <TreeLinkComponent
         text={label}
-        // when available, show action tooltip, otherwise, show file name
-        tooltip={isDownloadable ? formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label }) : null}
+        // when preview available, show action tooltip, otherwise, show file name
+        tooltip={isPreviewAllowed
+          ? formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label })
+          : null}
         selected={selected}
         IconConstructor={FileIcon}
         section={false}
         onClick={this.onLinkClicked}
-        // disabled when file is not available, or when file is an internal raw data and quota is consumed
-        disabled={!isDownloadable}
+        // disabled when file preview is not available, or when file is an internal raw data and quota is consumed
+        disabled={!isPreviewAllowed}
       />)
   }
 }
-export default withAuthInfo(withQuotaInfo(FileCellComponent))
+export default FileCellComponent
