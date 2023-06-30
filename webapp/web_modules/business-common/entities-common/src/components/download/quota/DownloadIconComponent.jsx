@@ -34,10 +34,12 @@ export class InnerDownloadIconComponent extends React.Component {
     quotaInfo: QuotaInfo.isRequired,
     // From MUI, report to main icon
     style: PropTypes.objectOf(PropTypes.any),
+    activeRootContainerInitial: PropTypes.bool,
   }
 
   static defaultProps = {
     style: {},
+    activeRootContainerInitial: false,
   }
 
   static contextTypes = {
@@ -49,14 +51,23 @@ export class InnerDownloadIconComponent extends React.Component {
     position: 'relative',
   }
 
+  /** Root container initial style, to handle overlay icon */
+  static ROOT_CONTAINER_INITIAL_STYLE = {
+    position: 'initial',
+  }
+
+  getContainerStyle = () => {
+    const { activeRootContainerInitial } = this.props
+    return activeRootContainerInitial ? InnerDownloadIconComponent.ROOT_CONTAINER_INITIAL_STYLE : InnerDownloadIconComponent.ROOT_CONTAINER_STYLE
+  }
+
   render() {
-    const { constrainedByQuota, quotaInfo: { quotaState, rateState }, style } = this.props
+    const {
+      constrainedByQuota, quotaInfo: { quotaState, rateState }, style,
+    } = this.props
     const { moduleTheme: { downloadIcon: { backgroundIcon, foregroundWarningIcon, foregroundConsumedIcon } } } = this.context
     return (
-      <div style={{
-        ...InnerDownloadIconComponent.ROOT_CONTAINER_STYLE,
-      }}
-      >
+      <div style={this.getContainerStyle()}>
         {/* Background icon (merge with computed MUI styles) */}
         <DownloadIcon style={{ ...backgroundIcon, ...style }} />
         {/* Foregroud warning icon: only when WARN / CONSUMED are relevant for data */

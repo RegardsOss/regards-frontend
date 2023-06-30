@@ -331,6 +331,11 @@ const styles = (theme) => ({
       flexDirection: 'column',
     },
     tabContent: {
+      downloadButtonStyle: {
+        popoverStyle: {
+          maxWidth: '800px',
+        },
+      },
       borderDisplayer: {
         flexGrow: 1,
         flexShrink: 1,

@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
+import { themeContextType } from '@regardsoss/theme'
 import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -58,17 +59,13 @@ export class DownloadEntityFileComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   static defaultProps = {
     style: {
       padding: '12px 12px 12px',
     },
-  }
-
-  static resetLinkStyle = {
-    color: 'inherit',
-    textDecoration: 'none',
   }
 
   /** File types available through download option */
@@ -129,7 +126,7 @@ export class DownloadEntityFileComponent extends React.Component {
 
   render() {
     // in resolved attributes, get the first data, if any
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { user: { tabContent: { downloadButtonStyle } } } } = this.context
     const {
       style, accessToken, projectName, quotaInfo,
     } = this.props
@@ -177,24 +174,26 @@ export class DownloadEntityFileComponent extends React.Component {
         disabled={onlyConstrainedByQuota && quotaInfo.downloadDisabled} // disable button when all files are disabled
         title={formatMessage({ id: 'download.tooltip' })}
         style={style}
+        popoverStyle={downloadButtonStyle.popoverStyle}
         // for icon graphics (see wrapper)
         constrainedByQuota={onlyConstrainedByQuota}
         quotaInfo={quotaInfo}
       >
         { /* Map all files  */
-              files.map((file) => (
-                <DownloadButton
-                  key={file.uri}
-                  ButtonConstructor={MenuItem}
-                  ButtonIcon={null}
-                  tooltip={formatMessage({ id: QuotaDownloadUtils.canDownloadFile(file, quotaInfo, accessToken) ? 'download.tooltip' : 'download.quota.consumed.tooltip' })}
-                  disabled={!QuotaDownloadUtils.canDownloadFile(file, quotaInfo, accessToken)}
-                  downloadURL={DamDomain.DataFileController.getFileURI(file, accessToken, projectName)}
-                  downloadName={file.filename}
-                  primaryText={file.filename}
-                  leftIcon={<DownloadIconComponent constrainedByQuota={QuotaDownloadUtils.isConstrainedByQuota(file.dataType, file.reference)} quotaInfo={quotaInfo} />}
-                />))
-            }
+          files.map((file) => (
+            <DownloadButton
+              key={file.uri}
+              ButtonConstructor={MenuItem}
+              ButtonIcon={null}
+              tooltip={formatMessage({ id: QuotaDownloadUtils.canDownloadFile(file, quotaInfo, accessToken) ? 'download.tooltip' : 'download.quota.consumed.tooltip' })}
+              disabled={!QuotaDownloadUtils.canDownloadFile(file, quotaInfo, accessToken)}
+              downloadURL={DamDomain.DataFileController.getFileURI(file, accessToken, projectName)}
+              downloadName={file.filename}
+              primaryText={file.filename}
+              leftIcon={<DownloadIconComponent constrainedByQuota={QuotaDownloadUtils.isConstrainedByQuota(file.dataType, file.reference)} quotaInfo={quotaInfo} activeRootContainerInitial />}
+            />
+          ))
+        }
       </DropDownButton>
     )
   }

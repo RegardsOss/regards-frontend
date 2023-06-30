@@ -44,6 +44,8 @@ class DropDownButton extends React.Component {
     value: PropTypes.any,
     // set up explicitly to true to use the sub menus problem fix (not compatible with a value menu)
     hasSubMenus: PropTypes.bool,
+    // eslint-disable-next-line react/forbid-prop-types
+    popoverStyle: PropTypes.object,
     // properties to be reported to menu (optional)
     // eslint-disable-next-line react/forbid-prop-types
     menuProps: PropTypes.object,
@@ -56,6 +58,7 @@ class DropDownButton extends React.Component {
     hasSubMenus: false,
     menuProps: {},
     getLabel: noLabelStubFunction,
+    popoverStyle: {},
   }
 
   static ICON_ANCHOR = { horizontal: 'left', vertical: 'bottom' }
@@ -159,7 +162,7 @@ class DropDownButton extends React.Component {
 
   render() {
     const {
-      ButtonConstructor, getLabel, children, disabled, hasSubMenus, menuProps, ...otherButtonProperties
+      ButtonConstructor, getLabel, children, disabled, hasSubMenus, menuProps, popoverStyle, ...otherButtonProperties
     } = this.props
     const { value, menuVisibleOn } = this.state
     return (
@@ -177,6 +180,7 @@ class DropDownButton extends React.Component {
           anchorOrigin={DropDownButton.ICON_ANCHOR}
           targetOrigin={DropDownButton.ICON_TARGET}
           onRequestClose={this.onCloseMenu}
+          style={popoverStyle}
         >
           <Menu onChange={hasSubMenus ? undefined : this.onMenuItemSelected} {...menuProps}>
             { // Children, null, or wrapped children when workarounding the sub menus problem
