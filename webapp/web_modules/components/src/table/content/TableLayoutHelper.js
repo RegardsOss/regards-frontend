@@ -3,7 +3,7 @@ import { OptionsColumnSize } from './columns/size/OptionColumnSize'
 import { FixedColumnSize } from './columns/size/FixedColumnSize'
 import { DynamicColumnSize } from './columns/size/DynamicColumnSize'
 /**
- * Copyright 2017-2022 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
