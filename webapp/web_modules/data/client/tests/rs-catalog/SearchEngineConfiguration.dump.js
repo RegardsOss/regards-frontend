@@ -56,7 +56,7 @@ export default {
         },
         {
           rel: 'search',
-          href: 'http://172.26.47.52/api/v1/rs-catalog/engines/opensearch/entities/search',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-catalog/engines/opensearch/entities/search',
         },
       ],
     },
@@ -187,7 +187,7 @@ export default {
         },
         {
           rel: 'search',
-          href: 'http://172.26.47.52/api/v1/rs-catalog/engines/opensearch/datasets/URN:AIP:DATASET:project1:27de606c-a6cd-411f-a5ba-bd1b2f29c965:V1/dataobjects/search',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-catalog/engines/opensearch/datasets/URN:AIP:DATASET:project1:27de606c-a6cd-411f-a5ba-bd1b2f29c965:V1/dataobjects/search',
         },
       ],
     },

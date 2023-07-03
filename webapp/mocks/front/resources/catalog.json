@@ -105,7 +105,7 @@
       "label": "Demeter",
       "tags": [],
       "descriptionFile": {
-        "url": "http://172.26.47.52:4000/"
+        "url": "http://vm-perf.cloud-espace.si.c-s.fr:4000/"
       },
       "properties": {
         "size": "4.3 Go",
@@ -254,7 +254,7 @@
         }
       },
       "descriptionFile": {
-        "url": "http://172.26.47.52:4000/"
+        "url": "http://vm-perf.cloud-espace.si.c-s.fr:4000/"
       }
     },
     {

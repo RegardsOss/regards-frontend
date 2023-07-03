@@ -1,4 +1,4 @@
 const { start } = require('./server-main')
 
-const proxyURL = 'http://172.26.47.52'
+const proxyURL = 'http://vm-perf.cloud-espace.si.c-s.fr'
 start(proxyURL)

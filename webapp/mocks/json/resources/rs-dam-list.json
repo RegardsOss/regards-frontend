@@ -659,7 +659,7 @@
         {
           "id": 1854,
           "name": "url",
-          "value": "jdbc:postgresql://172.26.47.52:5432/rs_testdb_cmertz",
+          "value": "jdbc:postgresql://vm-perf.cloud-espace.si.c-s.fr:5432/rs_testdb_cmertz",
           "dynamic": false
         },
         {

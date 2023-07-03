@@ -36,7 +36,7 @@ export default {
       currentQuota: 0,
       currentRate: 0,
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/users/1' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/users/1' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/users/1' }, { rel: 'list', href: 'http://172.26.47.52/api/v1/rs-access-project/users' }, { rel: 'inactive', href: 'http://172.26.47.52/api/v1/rs-access-project/accesses/1/inactive' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/1' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/1' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/1' }, { rel: 'list', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users' }, { rel: 'inactive', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/accesses/1/inactive' }],
   }, {
     content: {
       id: 2,
@@ -53,7 +53,7 @@ export default {
       currentQuota: 4,
       currentRate: 0,
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/users/2' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/users/2' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/users/2' }, { rel: 'list', href: 'http://172.26.47.52/api/v1/rs-access-project/users' }, { rel: 'inactive', href: 'http://172.26.47.52/api/v1/rs-access-project/accesses/2/inactive' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/2' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/2' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/2' }, { rel: 'list', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users' }, { rel: 'inactive', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/accesses/2/inactive' }],
   }, {
     content: {
       id: 52,
@@ -70,7 +70,7 @@ export default {
       currentQuota: 0,
       currentRate: 0,
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/users/52' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/users/52' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/users/52' }, { rel: 'list', href: 'http://172.26.47.52/api/v1/rs-access-project/users' }, { rel: 'inactive', href: 'http://172.26.47.52/api/v1/rs-access-project/accesses/52/inactive' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/52' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/52' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/52' }, { rel: 'list', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users' }, { rel: 'inactive', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/accesses/52/inactive' }],
   }, {
     content: {
       id: 102,
@@ -94,7 +94,7 @@ export default {
       currentQuota: 73,
       currentRate: 0,
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/users/102' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/users/102' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/users/102' }, { rel: 'list', href: 'http://172.26.47.52/api/v1/rs-access-project/users' }, { rel: 'inactive', href: 'http://172.26.47.52/api/v1/rs-access-project/accesses/102/inactive' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/102' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/102' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/102' }, { rel: 'list', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users' }, { rel: 'inactive', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/accesses/102/inactive' }],
   }, {
     content: {
       id: 152,
@@ -118,7 +118,7 @@ export default {
       currentQuota: 0,
       currentRate: 0,
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/users/152' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/users/152' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/users/152' }, { rel: 'list', href: 'http://172.26.47.52/api/v1/rs-access-project/users' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/152' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/152' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/152' }, { rel: 'list', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users' }],
   }, {
     content: {
       id: 202,
@@ -135,7 +135,7 @@ export default {
       currentQuota: 1,
       currentRate: 0,
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/users/202' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/users/202' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/users/202' }, { rel: 'list', href: 'http://172.26.47.52/api/v1/rs-access-project/users' }, { rel: 'inactive', href: 'http://172.26.47.52/api/v1/rs-access-project/accesses/202/inactive' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/202' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/202' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/202' }, { rel: 'list', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users' }, { rel: 'inactive', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/accesses/202/inactive' }],
   }, {
     content: {
       id: 203,
@@ -159,7 +159,7 @@ export default {
       currentQuota: 0,
       currentRate: 0,
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/users/203' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/users/203' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/users/203' }, { rel: 'list', href: 'http://172.26.47.52/api/v1/rs-access-project/users' }, { rel: 'inactive', href: 'http://172.26.47.52/api/v1/rs-access-project/accesses/203/inactive' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/203' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/203' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users/203' }, { rel: 'list', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users' }, { rel: 'inactive', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/accesses/203/inactive' }],
   }],
-  links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/users?page\u003d0\u0026size\u003d1000\u0026sort\u003did,asc' }],
+  links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/users?page\u003d0\u0026size\u003d1000\u0026sort\u003did,asc' }],
 }

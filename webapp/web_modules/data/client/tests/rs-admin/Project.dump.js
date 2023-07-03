@@ -37,39 +37,39 @@ export default {
     },
     links: [{
       rel: 'self',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/projects/project1',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects/project1',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/projects/project1',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects/project1',
       },
     }, {
       rel: 'delete',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/projects/project1',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects/project1',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/projects/project1',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects/project1',
       },
     }, {
       rel: 'update',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/projects/project1',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects/project1',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/projects/project1',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects/project1',
       },
     }, {
       rel: 'create',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/projects',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/projects',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects',
       },
     }],
   }, {
@@ -86,50 +86,50 @@ export default {
     },
     links: [{
       rel: 'self',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/projects/projet2',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects/projet2',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/projects/projet2',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects/projet2',
       },
     }, {
       rel: 'delete',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/projects/projet2',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects/projet2',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/projects/projet2',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects/projet2',
       },
     }, {
       rel: 'update',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/projects/projet2',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects/projet2',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/projects/projet2',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects/projet2',
       },
     }, {
       rel: 'create',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/projects',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/projects',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects',
       },
     }],
   }],
   links: [{
     rel: 'self',
-    href: 'http://172.26.47.52:9000/api/v1/rs-admin/projects',
+    href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects',
     template: {
       variables: {
         variables: [],
       },
-      baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/projects',
+      baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/projects',
     },
   }],
 }

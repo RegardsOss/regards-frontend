@@ -269,15 +269,15 @@ export const moduleDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/2',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/2',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/2',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/2',
       },
       {
         rel: 'delete',
-        href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/2',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/2',
       },
     ],
   },
@@ -500,15 +500,15 @@ export const moduleDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/4',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/4',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/4',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/4',
       },
       {
         rel: 'delete',
-        href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/4',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/4',
       },
     ],
   },
@@ -726,15 +726,15 @@ export const moduleDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/7',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/7',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/7',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/7',
       },
       {
         rel: 'delete',
-        href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/7',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/7',
       },
     ],
   },
@@ -1016,15 +1016,15 @@ export const moduleDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/52',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/52',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/52',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/52',
       },
       {
         rel: 'delete',
-        href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/52',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/52',
       },
     ],
   },
@@ -1073,7 +1073,7 @@ export const moduleDumps1 = {
       page: { home: false, iconType: 'DEFAULT', title: { en: 'Catalog (default)', fr: 'Catalogue (default)' } },
       confHash: '45454dsfdsfdsf',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/54' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/54' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/54' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/54' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/54' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/54' }],
   },
 }
 
@@ -1103,15 +1103,15 @@ export const attrDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/1',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/1',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/1',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/1',
       },
       {
         rel: 'list',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
       },
     ],
   },
@@ -1141,15 +1141,15 @@ export const attrDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/2',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/2',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/2',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/2',
       },
       {
         rel: 'list',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
       },
     ],
   },
@@ -1178,15 +1178,15 @@ export const attrDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/3',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/3',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/3',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/3',
       },
       {
         rel: 'list',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
       },
     ],
   },
@@ -1215,15 +1215,15 @@ export const attrDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/4',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/4',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/4',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/4',
       },
       {
         rel: 'list',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
       },
     ],
   },
@@ -1252,15 +1252,15 @@ export const attrDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/5',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/5',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/5',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/5',
       },
       {
         rel: 'list',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
       },
     ],
   },
@@ -1289,15 +1289,15 @@ export const attrDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/6',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/6',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/6',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/6',
       },
       {
         rel: 'list',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
       },
     ],
   },
@@ -1326,15 +1326,15 @@ export const attrDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/7',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/7',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/7',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/7',
       },
       {
         rel: 'list',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
       },
     ],
   },
@@ -1363,15 +1363,15 @@ export const attrDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/8',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/8',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/8',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/8',
       },
       {
         rel: 'list',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
       },
     ],
   },
@@ -1399,15 +1399,15 @@ export const attrDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/5',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/5',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/5',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/5',
       },
       {
         rel: 'list',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
       },
     ],
   },
@@ -1435,15 +1435,15 @@ export const attrDumps1 = {
     links: [
       {
         rel: 'self',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/5',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/5',
       },
       {
         rel: 'update',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes/5',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes/5',
       },
       {
         rel: 'list',
-        href: 'http://172.26.47.52/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
+        href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dam-public/models/attributes{?type,fragmentName,modelNames,noLink}',
       },
     ],
   },

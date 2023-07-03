@@ -35,15 +35,15 @@ export default {
       links: [
         {
           rel: 'self',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/2',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/2',
         },
         {
           rel: 'update',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/2',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/2',
         },
         {
           rel: 'delete',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/2',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/2',
         },
       ],
     },
@@ -57,15 +57,15 @@ export default {
       links: [
         {
           rel: 'self',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/4',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/4',
         },
         {
           rel: 'update',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/4',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/4',
         },
         {
           rel: 'delete',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/4',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/4',
         },
       ],
     },
@@ -79,15 +79,15 @@ export default {
       links: [
         {
           rel: 'self',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/3',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/3',
         },
         {
           rel: 'update',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/3',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/3',
         },
         {
           rel: 'delete',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/3',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/3',
         },
       ],
     },
@@ -101,15 +101,15 @@ export default {
       links: [
         {
           rel: 'self',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/52',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/52',
         },
         {
           rel: 'update',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/52',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/52',
         },
         {
           rel: 'delete',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/52',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/52',
         },
       ],
     },
@@ -123,15 +123,15 @@ export default {
       links: [
         {
           rel: 'self',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/102',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/102',
         },
         {
           rel: 'update',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/102',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/102',
         },
         {
           rel: 'delete',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/102',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/102',
         },
       ],
     },
@@ -145,15 +145,15 @@ export default {
       links: [
         {
           rel: 'self',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/1',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/1',
         },
         {
           rel: 'update',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/1',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/1',
         },
         {
           rel: 'delete',
-          href: 'http://172.26.47.52/api/v1/rs-access-project/themes/1',
+          href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes/1',
         },
       ],
     },
@@ -161,7 +161,7 @@ export default {
   links: [
     {
       rel: 'self',
-      href: 'http://172.26.47.52/api/v1/rs-access-project/themes?page\u003d0\u0026size\u003d100',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/themes?page\u003d0\u0026size\u003d100',
     },
   ],
 }

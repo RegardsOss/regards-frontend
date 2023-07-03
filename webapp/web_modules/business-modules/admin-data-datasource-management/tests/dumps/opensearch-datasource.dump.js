@@ -74,5 +74,5 @@ export const datasourceDump = {
       onlyDynamic: false,
     }],
   },
-  links: [{ rel: 'self', href: 'http://172.26.47.107:9030/api/v1/rs-dam/datasources/102' }, { rel: 'update', href: 'http://172.26.47.107:9030/api/v1/rs-dam/datasources/102' }, { rel: 'list', href: 'http://172.26.47.107:9030/api/v1/rs-dam/datasources' }],
+  links: [{ rel: 'self', href: 'http://vm-pre-prod.cloud-espace.si.c-s.fr:9030/api/v1/rs-dam/datasources/102' }, { rel: 'update', href: 'http://vm-pre-prod.cloud-espace.si.c-s.fr:9030/api/v1/rs-dam/datasources/102' }, { rel: 'list', href: 'http://vm-pre-prod.cloud-espace.si.c-s.fr:9030/api/v1/rs-dam/datasources' }],
 }

@@ -49,16 +49,16 @@ function getFakeEntity(ipID, type, providerId = 'PROVIDER ID #1', model = 'VALID
       entityType: type,
       files: {
         QUICKLOOK_MD: [{
-          dataType: 'QUICKLOOK_MD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/bacb2b82421c116728e03566188e2ff3', mimeType: 'image/jpeg', imageWidth: 700, imageHeight: 584, online: true, checksum: 'bacb2b82421c116728e03566188e2ff3', digestAlgorithm: 'MD5', filesize: 348631, filename: 'Toulouse_France_node_full_image_2.jpg',
+          dataType: 'QUICKLOOK_MD', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/bacb2b82421c116728e03566188e2ff3', mimeType: 'image/jpeg', imageWidth: 700, imageHeight: 584, online: true, checksum: 'bacb2b82421c116728e03566188e2ff3', digestAlgorithm: 'MD5', filesize: 348631, filename: 'Toulouse_France_node_full_image_2.jpg',
         }],
         QUICKLOOK_HD: [{
-          dataType: 'QUICKLOOK_HD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/7b9aa3a7288e5d3cca2623139617cc75', mimeType: 'image/jpeg', imageWidth: 1920, imageHeight: 1601, online: true, checksum: '7b9aa3a7288e5d3cca2623139617cc75', digestAlgorithm: 'MD5', filesize: 5844791, filename: 'Toulouse_France.jpg',
+          dataType: 'QUICKLOOK_HD', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/7b9aa3a7288e5d3cca2623139617cc75', mimeType: 'image/jpeg', imageWidth: 1920, imageHeight: 1601, online: true, checksum: '7b9aa3a7288e5d3cca2623139617cc75', digestAlgorithm: 'MD5', filesize: 5844791, filename: 'Toulouse_France.jpg',
         }],
         QUICKLOOK_SD: [{
-          dataType: 'QUICKLOOK_SD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/8432df3b3928ba7601cda6d3254c3f02', mimeType: 'image/jpeg', imageWidth: 105, imageHeight: 88, online: true, checksum: '8432df3b3928ba7601cda6d3254c3f02', digestAlgorithm: 'MD5', filesize: 13453, filename: 'Toulouse_France_small.jpg',
+          dataType: 'QUICKLOOK_SD', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/8432df3b3928ba7601cda6d3254c3f02', mimeType: 'image/jpeg', imageWidth: 105, imageHeight: 88, online: true, checksum: '8432df3b3928ba7601cda6d3254c3f02', digestAlgorithm: 'MD5', filesize: 13453, filename: 'Toulouse_France_small.jpg',
         }],
         RAWDATA: [{
-          dataType: 'RAWDATA', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/aef21e8c5d28de881f2d39f4b36f4199', mimeType: 'application/octet-stream', online: true, checksum: 'aef21e8c5d28de881f2d39f4b36f4199', digestAlgorithm: 'MD5', filesize: 100000, filename: 'simple_sip_01.dat',
+          dataType: 'RAWDATA', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/aef21e8c5d28de881f2d39f4b36f4199', mimeType: 'application/octet-stream', online: true, checksum: 'aef21e8c5d28de881f2d39f4b36f4199', digestAlgorithm: 'MD5', filesize: 100000, filename: 'simple_sip_01.dat',
         }],
       },
       tags: ['HELLO_REGARDS', 'DATASET_CHRIS_2', 'QUICKLOOKS', 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1'],

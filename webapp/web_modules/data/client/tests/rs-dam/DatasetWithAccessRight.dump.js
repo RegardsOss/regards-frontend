@@ -70,10 +70,10 @@ export default {
           model: 'CDPP_DATASET_MODEL',
           files: {
             THUMBNAIL: [{
-              dataType: 'THUMBNAIL', reference: false, uri: 'http://172.26.47.52:9030/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:7cb64c2a-a866-4c18-9cf7-08fef9dfcc6c:V1/files/10bd6450f2c7bf97f5e1b8233f85181f', mimeType: 'image/jpeg', online: true, checksum: '10bd6450f2c7bf97f5e1b8233f85181f', digestAlgorithm: 'MD5', filesize: 184425, filename: 'ff7-1.jpg',
+              dataType: 'THUMBNAIL', reference: false, uri: 'http://vm-perf.cloud-espace.si.c-s.fr:9030/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:7cb64c2a-a866-4c18-9cf7-08fef9dfcc6c:V1/files/10bd6450f2c7bf97f5e1b8233f85181f', mimeType: 'image/jpeg', online: true, checksum: '10bd6450f2c7bf97f5e1b8233f85181f', digestAlgorithm: 'MD5', filesize: 184425, filename: 'ff7-1.jpg',
             }],
             DESCRIPTION: [{
-              dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.52:9030/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:7cb64c2a-a866-4c18-9cf7-08fef9dfcc6c:V1/files/86326cfd9c6d62785987e639e038aa46', mimeType: 'text/markdown', online: true, checksum: '86326cfd9c6d62785987e639e038aa46', digestAlgorithm: 'MD5', filesize: 4159, filename: 'cassini-rpws-native-l1-data-description.md',
+              dataType: 'DESCRIPTION', reference: false, uri: 'http://vm-perf.cloud-espace.si.c-s.fr:9030/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:7cb64c2a-a866-4c18-9cf7-08fef9dfcc6c:V1/files/86326cfd9c6d62785987e639e038aa46', mimeType: 'text/markdown', online: true, checksum: '86326cfd9c6d62785987e639e038aa46', digestAlgorithm: 'MD5', filesize: 4159, filename: 'cassini-rpws-native-l1-data-description.md',
             }],
           },
           tags: [],
@@ -340,9 +340,9 @@ export default {
             }, {
               name: 'label', type: 'STRING', nameDS: 'description', namespace: '', attributeType: 'STATIC',
             }, {
-              name: 'thumbnail', type: 'STRING', nameDS: '\u0027http://172.26.47.52/img/gb_flag.png\u0027', namespace: '', attributeType: 'STATIC',
+              name: 'thumbnail', type: 'STRING', nameDS: '\u0027http://vm-perf.cloud-espace.si.c-s.fr/img/gb_flag.png\u0027', namespace: '', attributeType: 'STATIC',
             }, {
-              name: 'rawdata', type: 'STRING', nameDS: '\u0027http://172.26.47.52/img/fr_flag.png\u0027', namespace: '', attributeType: 'STATIC',
+              name: 'rawdata', type: 'STRING', nameDS: '\u0027http://vm-perf.cloud-espace.si.c-s.fr/img/fr_flag.png\u0027', namespace: '', attributeType: 'STATIC',
             }, {
               name: 'weight', type: 'INTEGER', nameDS: 'weight', namespace: '', attributeType: 'DYNAMIC',
             }, {
@@ -384,9 +384,9 @@ export default {
           model: 'DATASET_MODEL_REGARDS_2044',
           files: {
             DESCRIPTION: [{
-              dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.52:9030/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:873b8085-e4f7-400a-ba4c-dc3f5cf88b7b:V1/files/6e9cf885fbb3c63632c68cbaa2f20f2a', mimeType: 'application/pdf', online: true, checksum: '6e9cf885fbb3c63632c68cbaa2f20f2a', digestAlgorithm: 'MD5', filesize: 23913, filename: 'description.pdf',
+              dataType: 'DESCRIPTION', reference: false, uri: 'http://vm-perf.cloud-espace.si.c-s.fr:9030/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:873b8085-e4f7-400a-ba4c-dc3f5cf88b7b:V1/files/6e9cf885fbb3c63632c68cbaa2f20f2a', mimeType: 'application/pdf', online: true, checksum: '6e9cf885fbb3c63632c68cbaa2f20f2a', digestAlgorithm: 'MD5', filesize: 23913, filename: 'description.pdf',
             }, {
-              dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.52:9030/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:873b8085-e4f7-400a-ba4c-dc3f5cf88b7b:V1/files/8a4e58755d4ce01d0d5a6ff6b9e14142', mimeType: 'text/x-markdown', online: true, checksum: '8a4e58755d4ce01d0d5a6ff6b9e14142', digestAlgorithm: 'MD5', filesize: 107, filename: 'description.md',
+              dataType: 'DESCRIPTION', reference: false, uri: 'http://vm-perf.cloud-espace.si.c-s.fr:9030/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:873b8085-e4f7-400a-ba4c-dc3f5cf88b7b:V1/files/8a4e58755d4ce01d0d5a6ff6b9e14142', mimeType: 'text/x-markdown', online: true, checksum: '8a4e58755d4ce01d0d5a6ff6b9e14142', digestAlgorithm: 'MD5', filesize: 107, filename: 'description.md',
             }],
           },
           tags: [],
@@ -440,9 +440,9 @@ export default {
               }, {
                 name: 'label', type: 'STRING', nameDS: 'description', namespace: '', attributeType: 'STATIC',
               }, {
-                name: 'thumbnail', type: 'STRING', nameDS: '\u0027http://172.26.47.52/img/gb_flag.png\u0027', namespace: '', attributeType: 'STATIC',
+                name: 'thumbnail', type: 'STRING', nameDS: '\u0027http://vm-perf.cloud-espace.si.c-s.fr/img/gb_flag.png\u0027', namespace: '', attributeType: 'STATIC',
               }, {
-                name: 'rawdata', type: 'STRING', nameDS: '\u0027http://172.26.47.52/img/fr_flag.png\u0027', namespace: '', attributeType: 'STATIC',
+                name: 'rawdata', type: 'STRING', nameDS: '\u0027http://vm-perf.cloud-espace.si.c-s.fr/img/fr_flag.png\u0027', namespace: '', attributeType: 'STATIC',
               }, {
                 name: 'weight', type: 'INTEGER', nameDS: 'weight', namespace: '', attributeType: 'DYNAMIC',
               }, {
@@ -484,9 +484,9 @@ export default {
             model: 'DATASET_MODEL_REGARDS_2044',
             files: {
               DESCRIPTION: [{
-                dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.52:9030/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:873b8085-e4f7-400a-ba4c-dc3f5cf88b7b:V1/files/6e9cf885fbb3c63632c68cbaa2f20f2a', mimeType: 'application/pdf', online: true, checksum: '6e9cf885fbb3c63632c68cbaa2f20f2a', digestAlgorithm: 'MD5', filesize: 23913, filename: 'description.pdf',
+                dataType: 'DESCRIPTION', reference: false, uri: 'http://vm-perf.cloud-espace.si.c-s.fr:9030/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:873b8085-e4f7-400a-ba4c-dc3f5cf88b7b:V1/files/6e9cf885fbb3c63632c68cbaa2f20f2a', mimeType: 'application/pdf', online: true, checksum: '6e9cf885fbb3c63632c68cbaa2f20f2a', digestAlgorithm: 'MD5', filesize: 23913, filename: 'description.pdf',
               }, {
-                dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.52:9030/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:873b8085-e4f7-400a-ba4c-dc3f5cf88b7b:V1/files/8a4e58755d4ce01d0d5a6ff6b9e14142', mimeType: 'text/x-markdown', online: true, checksum: '8a4e58755d4ce01d0d5a6ff6b9e14142', digestAlgorithm: 'MD5', filesize: 107, filename: 'description.md',
+                dataType: 'DESCRIPTION', reference: false, uri: 'http://vm-perf.cloud-espace.si.c-s.fr:9030/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:873b8085-e4f7-400a-ba4c-dc3f5cf88b7b:V1/files/8a4e58755d4ce01d0d5a6ff6b9e14142', mimeType: 'text/x-markdown', online: true, checksum: '8a4e58755d4ce01d0d5a6ff6b9e14142', digestAlgorithm: 'MD5', filesize: 107, filename: 'description.md',
               }],
             },
             tags: [],
@@ -502,5 +502,5 @@ export default {
     },
     links: [],
   }],
-  links: [{ rel: 'self', href: 'http://172.26.47.52:9030/api/v1/rs-dam/datasets/access-rights/group/Group1?offset\u003d0\u0026page\u003d0\u0026size\u003d20\u0026sort\u003did,asc' }],
+  links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr:9030/api/v1/rs-dam/datasets/access-rights/group/Group1?offset\u003d0\u0026page\u003d0\u0026size\u003d20\u0026sort\u003did,asc' }],
 }

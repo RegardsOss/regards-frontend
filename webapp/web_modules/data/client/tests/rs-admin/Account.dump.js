@@ -61,30 +61,30 @@ export default {
     },
     links: [{
       rel: 'self',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/1',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/1',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/1',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/1',
       },
     }, {
       rel: 'update',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/1',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/1',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/1',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/1',
       },
     }, {
       rel: 'inactive',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/regards-admin@c-s.fr/inactive',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/regards-admin@c-s.fr/inactive',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/regards-admin@c-s.fr/inactive',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/regards-admin@c-s.fr/inactive',
       },
     }],
   }, {
@@ -125,50 +125,50 @@ export default {
     },
     links: [{
       rel: 'self',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/2',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/2',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/2',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/2',
       },
     }, {
       rel: 'update',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/2',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/2',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/2',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/2',
       },
     }, {
       rel: 'delete',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/2',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/2',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/2',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/2',
       },
     }, {
       rel: 'inactive',
-      href: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/claire.wozniak@c-s.fr/inactive',
+      href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/claire.wozniak@c-s.fr/inactive',
       template: {
         variables: {
           variables: [],
         },
-        baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts/claire.wozniak@c-s.fr/inactive',
+        baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts/claire.wozniak@c-s.fr/inactive',
       },
     }],
   }],
   links: [{
     rel: 'self',
-    href: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts',
+    href: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts',
     template: {
       variables: {
         variables: [],
       },
-      baseUri: 'http://172.26.47.52:9000/api/v1/rs-admin/accounts',
+      baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr:9000/api/v1/rs-admin/accounts',
     },
   }],
 }

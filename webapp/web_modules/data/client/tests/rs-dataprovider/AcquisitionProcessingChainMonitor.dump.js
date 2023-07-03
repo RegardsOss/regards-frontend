@@ -190,7 +190,7 @@ export default {
         nbSIPGenerationJobs: 0,
         active: false,
       },
-      links: [{ rel: 'start', href: 'http://172.26.47.52/api/v1/rs-dataprovider/chains/1/start', template: { variables: { variables: [] }, baseUri: 'http://172.26.47.52/api/v1/rs-dataprovider/chains/1/start' } }],
+      links: [{ rel: 'start', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dataprovider/chains/1/start', template: { variables: { variables: [] }, baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dataprovider/chains/1/start' } }],
     }],
-  links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-dataprovider/chain-monitoring?page\u003d0\u0026size\u003d100', template: { variables: { variables: [] }, baseUri: 'http://172.26.47.52/api/v1/rs-dataprovider/chain-monitoring?page\u003d0\u0026size\u003d100' } }],
+  links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dataprovider/chain-monitoring?page\u003d0\u0026size\u003d100', template: { variables: { variables: [] }, baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-dataprovider/chain-monitoring?page\u003d0\u0026size\u003d100' } }],
 }

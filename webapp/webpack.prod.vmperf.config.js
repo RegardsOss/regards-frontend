@@ -33,7 +33,7 @@ const webpack = require('webpack')
 
 //    - Fix the content of the file dist/prod/conf/staticConfiguration.js
 //      echo "API_URL = 'api/v1'" >> dist/prod/conf/staticConfiguration.js
-//      sed -i s@\$\{regards\.config\.cloud\.gateway\.url}@http://172.26.47.52@g dist/prod/conf/staticConfiguration.js
+//      sed -i s@\$\{regards\.config\.cloud\.gateway\.url}@http://vm-perf.cloud-espace.si.c-s.fr@g dist/prod/conf/staticConfiguration.js
 
 //    - Fix Cesium
 //      sed -i "s+\".\": {+\"./\": \"./Source/\",\".\": {+g" node_modules/cesium/package.json
@@ -49,7 +49,7 @@ const conf = webpackConfigurator
   .merge({
     plugins: [
       new webpack.DefinePlugin({
-        GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.52'),
+        GATEWAY_HOSTNAME: JSON.stringify('http://vm-perf.cloud-espace.si.c-s.fr'),
       }),
     ],
   })

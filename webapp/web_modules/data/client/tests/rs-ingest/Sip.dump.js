@@ -57,7 +57,7 @@ export default {
         id: 'session 12', lastActivationDate: '2018-02-19T14:06:45.045Z', sipsCount: 0, indexedSipsCount: 0, storedSipsCount: 0, generatedSipsCount: 0, errorSipsCount: 0,
       },
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:ab8cc77c-dab7-393e-911c-dd6d3cc69492:V1', template: { variables: { variables: [] }, baseUri: 'http://172.26.47.52/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:ab8cc77c-dab7-393e-911c-dd6d3cc69492:V1' } }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:ab8cc77c-dab7-393e-911c-dd6d3cc69492:V1', template: { variables: { variables: [] }, baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:ab8cc77c-dab7-393e-911c-dd6d3cc69492:V1' } }],
   }, {
     content: {
       id: 96,
@@ -95,7 +95,7 @@ export default {
         id: 'session 12', lastActivationDate: '2018-02-19T14:06:45.045Z', sipsCount: 0, indexedSipsCount: 0, storedSipsCount: 0, generatedSipsCount: 0, errorSipsCount: 0,
       },
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:c001cb4d-2cf9-33cc-997b-0599c843dc9f:V2', template: { variables: { variables: [] }, baseUri: 'http://172.26.47.52/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:c001cb4d-2cf9-33cc-997b-0599c843dc9f:V2' } }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:c001cb4d-2cf9-33cc-997b-0599c843dc9f:V2', template: { variables: { variables: [] }, baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:c001cb4d-2cf9-33cc-997b-0599c843dc9f:V2' } }],
   }, {
     content: {
       id: 95,
@@ -132,7 +132,7 @@ export default {
         id: 'session 12', lastActivationDate: '2018-02-19T14:06:45.045Z', sipsCount: 0, indexedSipsCount: 0, storedSipsCount: 0, generatedSipsCount: 0, errorSipsCount: 0,
       },
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:c001cb4d-2cf9-33cc-997b-0599c843dc9f:V1', template: { variables: { variables: [] }, baseUri: 'http://172.26.47.52/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:c001cb4d-2cf9-33cc-997b-0599c843dc9f:V1' } }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:c001cb4d-2cf9-33cc-997b-0599c843dc9f:V1', template: { variables: { variables: [] }, baseUri: 'http://172.26.47.52/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:c001cb4d-2cf9-33cc-997b-0599c843dc9f:V1' } }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:c001cb4d-2cf9-33cc-997b-0599c843dc9f:V1', template: { variables: { variables: [] }, baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:c001cb4d-2cf9-33cc-997b-0599c843dc9f:V1' } }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:c001cb4d-2cf9-33cc-997b-0599c843dc9f:V1', template: { variables: { variables: [] }, baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-ingest/sips/URN:SIP:DATA:project1:c001cb4d-2cf9-33cc-997b-0599c843dc9f:V1' } }],
   }],
-  links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-ingest/sips?page\u003d0\u0026size\u003d20', template: { variables: { variables: [] }, baseUri: 'http://172.26.47.52/api/v1/rs-ingest/sips?page\u003d0\u0026size\u003d20' } }],
+  links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-ingest/sips?page\u003d0\u0026size\u003d20', template: { variables: { variables: [] }, baseUri: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-ingest/sips?page\u003d0\u0026size\u003d20' } }],
 }

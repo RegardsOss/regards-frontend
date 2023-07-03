@@ -12,7 +12,7 @@ export default {
       active: true,
       confHash: '0eacc58ab1bb7983b394c30a72252d9d855724ba7190ac6913c50f457fc5ad1c',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/1' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/1' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/1' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/1' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/1' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/1' }],
   },
   2: {
     content: {
@@ -50,7 +50,7 @@ export default {
       page: { home: false, iconType: 'DEFAULT', title: { en: 'Catalog', fr: 'Catalogue' } },
       confHash: '73ee6f7c93f001efae4488c7f8035b02d72de65ee9fa5bf50025e614fa935a60',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/2' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/2' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/2' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/2' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/2' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/2' }],
   },
   3: {
     content: {
@@ -77,19 +77,19 @@ export default {
       active: false,
       confHash: '29c36c5057b828e181f81d1d218720e0adb4f6c6a0bfa935409420f7d318a004',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/3' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/3' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/3' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/3' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/3' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/3' }],
   },
   4: {
     content: {
       id: 4, type: 'order-cart', description: 'Cart', applicationId: 'user', container: 'page-content-module', conf: { showDatasets: true, primaryPane: 'EXPANDED_COLLAPSIBLE' }, active: true, page: { home: false, iconType: 'DEFAULT', title: { en: 'cart', fr: 'panier' } }, confHash: '6c5c09cee81521d8744562f6a4593d962ecd5e5aba331d2c723de98175e3ec62',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/4' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/4' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/4' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/4' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/4' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/4' }],
   },
   5: {
     content: {
       id: 5, type: 'order-history', description: 'history', applicationId: 'user', container: 'page-content-module', conf: { primaryPane: 'EXPANDED_COLLAPSIBLE' }, active: true, page: { home: false, iconType: 'DEFAULT', title: { en: 'history', fr: 'history' } }, confHash: '541039ed223b0b4988c92fc30dc51d09c06ee573810ba2eb85db538668986479',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/5' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/5' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/5' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/5' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/5' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/5' }],
   },
   6: {
     content: {
@@ -133,7 +133,7 @@ export default {
       page: { home: false, iconType: 'DEFAULT', title: { fr: 'Départements en A', en: 'Departements starting with A' } },
       confHash: '8408ec207816c567ae438c1a85c131c13deb9dd930c58b2363fc8fcc9de2b811',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/6' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/6' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/6' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/6' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/6' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/6' }],
   },
   7: {
     content: {
@@ -178,7 +178,7 @@ export default {
       page: { home: false, iconType: 'DEFAULT', title: { en: 'Search Test', fr: 'Search Test' } },
       confHash: '9dd1c595c77a23ce6c86fdccf730cea8361a48b718899e3f95b2e4572cc8a365',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/7' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/7' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/7' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/7' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/7' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/7' }],
   },
   52: {
     content: {
@@ -207,7 +207,7 @@ export default {
       page: { home: false, title: {} },
       confHash: 'f6bbd8d96e357707a3e44d62f719c9015b43b311ce0c47e4352f8ace11a3381a',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/52' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/52' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/52' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/52' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/52' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/52' }],
   },
   53: {
     content: {
@@ -251,7 +251,7 @@ export default {
       page: { home: false, iconType: 'DEFAULT', title: { en: 'Renderer test', fr: 'Test de rendu' } },
       confHash: '76f9624e3d23a110bf3db88dee233b99ef28b13a5ada9ef62657534432a50f9f',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/53' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/53' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/53' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/53' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/53' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/53' }],
   },
   54: {
     content: {
@@ -298,18 +298,18 @@ export default {
       page: { home: false, iconType: 'DEFAULT', title: { en: 'Catalog (default)', fr: 'Catalogue (default)' } },
       confHash: '2735688648c24bd18f5b24c9f91f4d4791bcb91a426f1b5e1605940a5e44559a',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/54' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/54' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/54' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/54' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/54' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/54' }],
   },
   55: {
     content: {
       id: 55, type: 'order-cart', description: 'Cart (default)', applicationId: 'user', container: 'page-content-module', conf: { showDatasets: true, primaryPane: 'ALWAYS_EXPANDED' }, active: true, page: { home: false, iconType: 'DEFAULT', title: { en: 'Cart', fr: 'Panier' } }, confHash: '8210c92d833a3d4d6266f7c52b690cf292fded81d50180fa2b6c58388cb15dc1',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/55' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/55' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/55' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/55' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/55' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/55' }],
   },
   56: {
     content: {
       id: 56, type: 'order-history', description: 'Orders (default)', applicationId: 'user', container: 'page-content-module', conf: { primaryPane: 'ALWAYS_EXPANDED' }, active: true, page: { home: false, iconType: 'DEFAULT', title: { en: 'Orders', fr: 'Commandes' } }, confHash: '659a822a17bc1cf9710fd3defd7a4f27de7aebc7f9483e34b7b1513dabc4e1bd',
     },
-    links: [{ rel: 'self', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/56' }, { rel: 'update', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/56' }, { rel: 'delete', href: 'http://172.26.47.52/api/v1/rs-access-project/applications/user/modules/56' }],
+    links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/56' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/56' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/56' }],
   },
 }

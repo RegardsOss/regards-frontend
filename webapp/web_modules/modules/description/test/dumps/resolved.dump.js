@@ -34,16 +34,16 @@ export const resolvedDataEntity = {
         model: 'VALIDATION_DATA_MODEL_1',
         files: {
           QUICKLOOK_MD: [{
-            dataType: 'QUICKLOOK_MD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/bacb2b82421c116728e03566188e2ff3', mimeType: 'image/jpeg', imageWidth: 700, imageHeight: 584, online: true, checksum: 'bacb2b82421c116728e03566188e2ff3', digestAlgorithm: 'MD5', filesize: 348631, filename: 'Toulouse_France_node_full_image_2.jpg',
+            dataType: 'QUICKLOOK_MD', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/bacb2b82421c116728e03566188e2ff3', mimeType: 'image/jpeg', imageWidth: 700, imageHeight: 584, online: true, checksum: 'bacb2b82421c116728e03566188e2ff3', digestAlgorithm: 'MD5', filesize: 348631, filename: 'Toulouse_France_node_full_image_2.jpg',
           }],
           QUICKLOOK_HD: [{
-            dataType: 'QUICKLOOK_HD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/7b9aa3a7288e5d3cca2623139617cc75', mimeType: 'image/jpeg', imageWidth: 1920, imageHeight: 1601, online: true, checksum: '7b9aa3a7288e5d3cca2623139617cc75', digestAlgorithm: 'MD5', filesize: 5844791, filename: 'Toulouse_France.jpg',
+            dataType: 'QUICKLOOK_HD', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/7b9aa3a7288e5d3cca2623139617cc75', mimeType: 'image/jpeg', imageWidth: 1920, imageHeight: 1601, online: true, checksum: '7b9aa3a7288e5d3cca2623139617cc75', digestAlgorithm: 'MD5', filesize: 5844791, filename: 'Toulouse_France.jpg',
           }],
           QUICKLOOK_SD: [{
-            dataType: 'QUICKLOOK_SD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/8432df3b3928ba7601cda6d3254c3f02', mimeType: 'image/jpeg', imageWidth: 105, imageHeight: 88, online: true, checksum: '8432df3b3928ba7601cda6d3254c3f02', digestAlgorithm: 'MD5', filesize: 13453, filename: 'Toulouse_France_small.jpg',
+            dataType: 'QUICKLOOK_SD', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/8432df3b3928ba7601cda6d3254c3f02', mimeType: 'image/jpeg', imageWidth: 105, imageHeight: 88, online: true, checksum: '8432df3b3928ba7601cda6d3254c3f02', digestAlgorithm: 'MD5', filesize: 13453, filename: 'Toulouse_France_small.jpg',
           }],
           RAWDATA: [{
-            dataType: 'RAWDATA', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/aef21e8c5d28de881f2d39f4b36f4199', mimeType: 'application/octet-stream', online: true, checksum: 'aef21e8c5d28de881f2d39f4b36f4199', digestAlgorithm: 'MD5', filesize: 100000, filename: 'simple_sip_01.dat',
+            dataType: 'RAWDATA', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/aef21e8c5d28de881f2d39f4b36f4199', mimeType: 'application/octet-stream', online: true, checksum: 'aef21e8c5d28de881f2d39f4b36f4199', digestAlgorithm: 'MD5', filesize: 100000, filename: 'simple_sip_01.dat',
           }],
         },
         tags: ['HELLO_REGARDS', 'DATASET_CHRIS_2', 'QUICKLOOKS', 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1'],
@@ -292,17 +292,17 @@ export const resolvedDataEntity = {
       label: 'main',
       primary: true,
       QUICKLOOK_SD: {
-        dataType: 'QUICKLOOK_SD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/8432df3b3928ba7601cda6d3254c3f02?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4', mimeType: 'image/jpeg', imageWidth: 105, imageHeight: 88, online: true, checksum: '8432df3b3928ba7601cda6d3254c3f02', digestAlgorithm: 'MD5', filesize: 13453, filename: 'Toulouse_France_small.jpg',
+        dataType: 'QUICKLOOK_SD', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/8432df3b3928ba7601cda6d3254c3f02?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4', mimeType: 'image/jpeg', imageWidth: 105, imageHeight: 88, online: true, checksum: '8432df3b3928ba7601cda6d3254c3f02', digestAlgorithm: 'MD5', filesize: 13453, filename: 'Toulouse_France_small.jpg',
       },
       QUICKLOOK_MD: {
-        dataType: 'QUICKLOOK_MD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/bacb2b82421c116728e03566188e2ff3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4', mimeType: 'image/jpeg', imageWidth: 700, imageHeight: 584, online: true, checksum: 'bacb2b82421c116728e03566188e2ff3', digestAlgorithm: 'MD5', filesize: 348631, filename: 'Toulouse_France_node_full_image_2.jpg',
+        dataType: 'QUICKLOOK_MD', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/bacb2b82421c116728e03566188e2ff3?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4', mimeType: 'image/jpeg', imageWidth: 700, imageHeight: 584, online: true, checksum: 'bacb2b82421c116728e03566188e2ff3', digestAlgorithm: 'MD5', filesize: 348631, filename: 'Toulouse_France_node_full_image_2.jpg',
       },
       QUICKLOOK_HD: {
-        dataType: 'QUICKLOOK_HD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/7b9aa3a7288e5d3cca2623139617cc75?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4', mimeType: 'image/jpeg', imageWidth: 1920, imageHeight: 1601, online: true, checksum: '7b9aa3a7288e5d3cca2623139617cc75', digestAlgorithm: 'MD5', filesize: 5844791, filename: 'Toulouse_France.jpg',
+        dataType: 'QUICKLOOK_HD', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/7b9aa3a7288e5d3cca2623139617cc75?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4', mimeType: 'image/jpeg', imageWidth: 1920, imageHeight: 1601, online: true, checksum: '7b9aa3a7288e5d3cca2623139617cc75', digestAlgorithm: 'MD5', filesize: 5844791, filename: 'Toulouse_France.jpg',
       },
     }],
     otherFiles: [{
-      label: 'simple_sip_01.dat', available: true, type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/aef21e8c5d28de881f2d39f4b36f4199?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333',
+      label: 'simple_sip_01.dat', available: true, type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/aef21e8c5d28de881f2d39f4b36f4199?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333',
     }],
     wordTags: ['DATASET_CHRIS_2', 'HELLO_REGARDS', 'QUICKLOOKS'],
     couplingTags: ['coupling:ref1:Couple 1', 'coupling:ref1:Couple 2'],
@@ -353,7 +353,7 @@ export const resolvedDataEntity = {
           DESCRIPTION: [{
             dataType: 'DESCRIPTION',
             reference: false,
-            uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/0c82a0bf189e2db9ba5985dbd73bbc4a',
+            uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/0c82a0bf189e2db9ba5985dbd73bbc4a',
             mimeType: 'text/markdown',
             online: true,
             checksum: '0c82a0bf189e2db9ba5985dbd73bbc4a',
@@ -363,7 +363,7 @@ export const resolvedDataEntity = {
           }, {
             dataType: 'DESCRIPTION',
             reference: false,
-            uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/c3d9eb51ab4f64433827a34caf57af5f',
+            uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/c3d9eb51ab4f64433827a34caf57af5f',
             mimeType: 'application/pdf',
             online: true,
             checksum: 'c3d9eb51ab4f64433827a34caf57af5f',
@@ -373,7 +373,7 @@ export const resolvedDataEntity = {
           }, {
             dataType: 'DESCRIPTION',
             reference: false,
-            uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/734d7be763a369e8a8d939e1848238b6',
+            uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/734d7be763a369e8a8d939e1848238b6',
             mimeType: 'application/pdf',
             online: true,
             checksum: '734d7be763a369e8a8d939e1848238b6',
@@ -388,7 +388,7 @@ export const resolvedDataEntity = {
         last: true,
         properties: {
           // eslint-disable-next-line camelcase
-          name: 'DATASET_CHRIS_2', Missions: ['None'], TestDescFile1: 'http://172.26.47.107/public/MD-TEST.md', TestDescFile2: 'http://172.26.47.107/public/PDF-TEST.pdf', count: 12, values_l1_sum: 1350000, // eslint wont fix: mimics server format
+          name: 'DATASET_CHRIS_2', Missions: ['None'], TestDescFile1: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/public/MD-TEST.md', TestDescFile2: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/public/PDF-TEST.pdf', count: 12, values_l1_sum: 1350000, // eslint wont fix: mimics server format
         },
         type: 'Feature',
       },
@@ -409,11 +409,11 @@ export const resolvedDatasetEntity = {
         model: 'VALIDATION_DATASET_MODEL_1',
         files: {
           DESCRIPTION: [{
-            dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/0c82a0bf189e2db9ba5985dbd73bbc4a', mimeType: 'text/markdown', online: true, checksum: '0c82a0bf189e2db9ba5985dbd73bbc4a', digestAlgorithm: 'MD5', filesize: 11804, filename: 'dynamic-modules.md',
+            dataType: 'DESCRIPTION', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/0c82a0bf189e2db9ba5985dbd73bbc4a', mimeType: 'text/markdown', online: true, checksum: '0c82a0bf189e2db9ba5985dbd73bbc4a', digestAlgorithm: 'MD5', filesize: 11804, filename: 'dynamic-modules.md',
           }, {
-            dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/c3d9eb51ab4f64433827a34caf57af5f', mimeType: 'application/pdf', online: true, checksum: 'c3d9eb51ab4f64433827a34caf57af5f', digestAlgorithm: 'MD5', filesize: 277486, filename: 'S1.pdf',
+            dataType: 'DESCRIPTION', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/c3d9eb51ab4f64433827a34caf57af5f', mimeType: 'application/pdf', online: true, checksum: 'c3d9eb51ab4f64433827a34caf57af5f', digestAlgorithm: 'MD5', filesize: 277486, filename: 'S1.pdf',
           }, {
-            dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/734d7be763a369e8a8d939e1848238b6', mimeType: 'application/pdf', online: true, checksum: '734d7be763a369e8a8d939e1848238b6', digestAlgorithm: 'MD5', filesize: 776825, filename: '06-042_OpenGIS_Web_Map_Service_WMS_Implementation_Specification.pdf',
+            dataType: 'DESCRIPTION', reference: false, uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/734d7be763a369e8a8d939e1848238b6', mimeType: 'application/pdf', online: true, checksum: '734d7be763a369e8a8d939e1848238b6', digestAlgorithm: 'MD5', filesize: 776825, filename: '06-042_OpenGIS_Web_Map_Service_WMS_Implementation_Specification.pdf',
           }],
         },
         tags: ['URN:AIP:COLLECTION:project1:ab6e382f-c66a-454a-8861-1e5c027f151f:V1', 'URN:AIP:COLLECTION:project1:1b539b9e-f0c6-4578-b702-3fe492532600:V1', 'URN:AIP:DATA:project1:dc834647-5392-3521-8442-c4f681d9d7bd:V1'],
@@ -423,8 +423,8 @@ export const resolvedDatasetEntity = {
         properties: {
           name: 'DATASET_CHRIS_2',
           Missions: ['None'],
-          TestDescFile1: 'http://172.26.47.107/public/MD-TEST.md',
-          TestDescFile2: 'http://172.26.47.107/public/PDF-TEST.pdf',
+          TestDescFile1: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/public/MD-TEST.md',
+          TestDescFile2: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/public/PDF-TEST.pdf',
           count: 12,
           // eslint-disable-next-line camelcase
           values_l1_sum: 1350000, // eslint wont fix: mimics server format
@@ -458,33 +458,33 @@ export const resolvedDatasetEntity = {
       }],
     }],
     descriptionFiles: [{
-      label: 'http://172.26.47.107/public/MD-TEST.md',
+      label: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/public/MD-TEST.md',
       available: true,
-      uri: 'http://172.26.47.107/public/MD-TEST.md',
+      uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/public/MD-TEST.md',
       type: CommonDomain.DATA_TYPES_ENUM.DESCRIPTION,
       reference: false,
     }, {
-      label: 'http://172.26.47.107/public/PDF-TEST.pdf',
+      label: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/public/PDF-TEST.pdf',
       available: true,
-      uri: 'http://172.26.47.107/public/PDF-TEST.pdf',
+      uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/public/PDF-TEST.pdf',
       type: CommonDomain.DATA_TYPES_ENUM.DESCRIPTION,
       reference: false,
     }, {
       label: 'dynamic-modules.md',
       available: true,
-      uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/0c82a0bf189e2db9ba5985dbd73bbc4a?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333',
+      uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/0c82a0bf189e2db9ba5985dbd73bbc4a?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333',
       type: CommonDomain.DATA_TYPES_ENUM.DESCRIPTION,
       reference: false,
     }, {
       label: 'S1.pdf',
       available: true,
-      uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/c3d9eb51ab4f64433827a34caf57af5f?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333',
+      uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/c3d9eb51ab4f64433827a34caf57af5f?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333',
       type: CommonDomain.DATA_TYPES_ENUM.DESCRIPTION,
       reference: false,
     }, {
       label: '06-042_OpenGIS_Web_Map_Service_WMS_Implementation_Specification.pdf',
       available: true,
-      uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/734d7be763a369e8a8d939e1848238b6?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333',
+      uri: 'http://vm-pre-prod.cloud-espace.si.c-s.fr/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/734d7be763a369e8a8d939e1848238b6?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333',
       type: CommonDomain.DATA_TYPES_ENUM.DESCRIPTION,
       reference: false,
     }],
