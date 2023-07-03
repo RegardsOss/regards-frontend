@@ -45,9 +45,14 @@ const settingsDependencies = [
   new StorageClient.SettingsActions().getDependency(RequestVerbEnum.GET_LIST),
 ]
 
+const waitingActionsDependencies = [
+  new StorageClient.StorageLocationRunPendingActions().getDependency(RequestVerbEnum.POST),
+]
+
 export default {
   stopDependencies,
   listDependencies,
   addDependencies,
   settingsDependencies,
+  waitingActionsDependencies,
 }

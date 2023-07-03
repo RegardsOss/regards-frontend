@@ -503,7 +503,8 @@ export class StorageLocationListComponent extends React.Component {
                   primary
                   style={StorageLocationListComponent.ICON_STYLE}
                 />
-                <RaisedButton
+                <RaisedButtonWithResourceDisplayControl
+                  resourceDependencies={dependencies.waitingActionsDependencies}
                   label={formatMessage({ id: 'storage.data-storage.waiting.actions.button' })}
                   onClick={this.onSwitchConfirmPendingActionsDialog}
                   primary
