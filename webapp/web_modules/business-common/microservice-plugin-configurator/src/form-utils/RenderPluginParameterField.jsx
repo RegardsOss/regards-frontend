@@ -78,6 +78,19 @@ export class RenderPluginParameterField extends React.Component {
     width: '100%',
   }
 
+  /**
+   * Parse value parameter into integer
+   * Bypass 0 as falsy value
+   * @param {*} value
+   * @returns
+   */
+  static parseInteger(value) {
+    if (value || value === '0') {
+      return parseInt(value, 10)
+    }
+    return null
+  }
+
   static getFieldValidators(pluginParameterType) {
     const validators = []
     // 1 - By type validator
@@ -267,8 +280,8 @@ export class RenderPluginParameterField extends React.Component {
     const primitiveParameters = getPrimitiveJavaTypeRenderParameters(pluginParameterType.type)
     const parameters = {
       type: pluginParameterType.sensitive ? 'password' : primitiveParameters.type,
-      normalize: primitiveParameters.type === 'number' ? (val) => val ? parseInt(val, 10) : '' : null,
-      format: primitiveParameters.type === 'number' ? (val) => val ? parseInt(val, 10) : '' : null,
+      normalize: primitiveParameters.type === 'number' ? (val) => RenderPluginParameterField.parseInteger(val) : null,
+      format: primitiveParameters.type === 'number' ? (val) => RenderPluginParameterField.parseInteger(val) : null,
       floatingLabelText: this.props.hideDynamicParameterConf ? label : null,
       hintText: label,
       label: this.props.hideDynamicParameterConf ? label : null,
