@@ -31,15 +31,19 @@ export default (theme) => ({
   processingForm: {
     selectUserRoleDiv: {
       display: 'flex',
+      flexDirection: 'column',
     },
     selectUserRoleFieldDiv: {
       paddingLeft: '24px',
-    },
-    helpUserRoleIcon: {
-      paddingTop: '24px',
-      paddingLeft: '12px',
       display: 'flex',
       alignItems: 'center',
+    },
+    helpUserRoleIcon: {
+      paddingLeft: '12px',
+      paddingTop: '15px',
+    },
+    linkFieldDiv: {
+      paddingLeft: '24px',
     },
   },
   iconStyle: {

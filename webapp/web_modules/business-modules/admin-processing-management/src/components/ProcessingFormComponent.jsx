@@ -101,7 +101,11 @@ export class ProcessingFormComponent extends React.Component {
     const { mode, processing, roleList } = this.props
     const {
       intl: { formatMessage },
-      moduleTheme: { processingForm: { selectUserRoleDiv, selectUserRoleFieldDiv, helpUserRoleIcon }, iconStyle, buttonStyle },
+      moduleTheme: {
+        processingForm: {
+          selectUserRoleDiv, selectUserRoleFieldDiv, linkFieldDiv, helpUserRoleIcon,
+        }, iconStyle, buttonStyle,
+      },
     } = this.context
     if (mode === FORM_MODE.EDIT && !processing) {
       return (
@@ -138,22 +142,24 @@ export class ProcessingFormComponent extends React.Component {
                 />
               ))}
             </Field>
+            <div style={helpUserRoleIcon}>
+              <IconButton
+                className="selenium-edit-detail-role-field"
+                title={formatMessage({ id: 'processing.form.list.tooltip.info.button' })}
+                iconStyle={iconStyle}
+                style={buttonStyle}
+                onClick={this.showOrCloseHelpUserRoleDialog}
+              >
+                <DetailIcon />
+              </IconButton>
+            </div>
+          </div>
+          <div style={linkFieldDiv}>
             <Field
               name="isLinkedToAllDatasets"
               component={RenderCheckbox}
               label={formatMessage({ id: 'processing.form.select.isLinkedToAllDatasets' })}
             />
-          </div>
-          <div style={helpUserRoleIcon}>
-            <IconButton
-              className="selenium-edit-detail-role-field"
-              title={formatMessage({ id: 'processing.form.list.tooltip.info.button' })}
-              iconStyle={iconStyle}
-              style={buttonStyle}
-              onClick={this.showOrCloseHelpUserRoleDialog}
-            >
-              <DetailIcon />
-            </IconButton>
           </div>
         </div>]
     )

@@ -23,12 +23,18 @@ import {
 
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import StorageLocationListContainer from '../containers/StorageLocationListContainer'
 import { storageLocationActions } from '../clients/StorageLocationClient'
+import PendingActionsLabelComponent from './PendingActionsLabelComponent'
+import dependencies from '../dependencies'
 import messages from '../i18n'
 import styles from '../styles'
+
+const PendingActionLabelWithDisplayControl = withResourceDisplayControl(PendingActionsLabelComponent)
+
 /**
  * Storage plugin list component
  * @author Kévin Picart
@@ -87,10 +93,9 @@ class StorageLocationListComponent extends React.Component {
               </li>
             </ul>
           </div>
-          <hr />
-          <span style={typeStyle}>{formatMessage({ id: 'storage.location.type.pending.name' })}</span>
-          {formatMessage({ id: 'storage.location.type.pending.description' })}
-          <hr />
+          <PendingActionLabelWithDisplayControl
+            resourceDependencies={dependencies.waitingActionsDependencies}
+          />
           <StorageLocationListContainer
             project={project}
           />

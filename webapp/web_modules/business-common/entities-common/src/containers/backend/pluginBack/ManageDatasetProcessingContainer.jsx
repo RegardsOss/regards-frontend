@@ -184,7 +184,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
       newState.isProcessingConfSelectedConfigurable = !!newState.processingConfParametersSelected && this.isParametersConfigurationNeeded(newState.processingConfParametersSelected)
     }
     // update when there is a state change
-    if (!isEqual(oldState, newState)) {
+    if (!isEqual(oldState, newState) || this.state.isLoading !== newState.isLoading) {
       this.setState(newState)
     }
   }

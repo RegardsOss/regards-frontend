@@ -53,7 +53,7 @@ const messages = {
     other {#}
   }`,
   'storage.location.list.column.nbFiles.pending': '{storePendingCount} fichiers stockés en attente',
-  'storage.location.list.column.pendingActionRemaining': 'Action(s) asycnhrone en attente',
+  'storage.location.list.column.pendingActionRemaining': 'Action(s) asynchrone en attente',
   'storage.location.list.confirm.pending.actions': 'Le traitement des actions en attente est correctement lancé en tâche de fond.',
   'storage.location.list.confirm.pending.actions.dialog.title': 'Voulez-vous lancer le traitement des actions en attente ?',
   'storage.location.list.edit.button': 'Éditer la configuration',
