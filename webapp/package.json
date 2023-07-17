@@ -39,6 +39,7 @@
     "start:withmock-proxy-vm-perf": "npm-run-all --parallel start:mock-client start:mock-proxy-server-vm-perf",
     "start:withpreprod": "webpack serve --progress --config webpack.dev.preprod.config.js",
     "start:withgeode": "webpack serve --progress --config webpack.dev.geode.config.js",
+    "start:withit": "webpack serve --progress --config webpack.dev.vm.it.config.js",
     "start:withvmperf": "webpack serve --progress --config webpack.dev.vmperf.config.js",
     "start:withcnespp": "webpack serve --https --port 443 --progress --config webpack.dev.cnesp.config.js",
     "start:withcnesprod": "webpack serve --https --port 443 --progress --config webpack.dev.cnesprod.config.js",
