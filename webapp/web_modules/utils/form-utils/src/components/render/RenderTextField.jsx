@@ -48,6 +48,7 @@ class renderTextField extends React.Component {
         hintText={hintText || label}
         floatingLabelText={floatingLabelText || label}
         errorText={errorMessage}
+        onWheel={(event) => event.currentTarget.blur()}
         {...input}
         type={type}
         {...rest}
