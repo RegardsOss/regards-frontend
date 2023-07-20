@@ -446,7 +446,7 @@ export class StorageLocationListComponent extends React.Component {
 
   isPendingActionsExist = (entities) => find(entities, (entity) => {
     const storePendingActionAvailable = get(entity, 'content.nbFilesStoredWithPendingActionRemaining', 0) > 0
-    const pendingActionRunning = get(entity, 'content.pendingActionRunning', false)
+    const pendingActionRunning = get(entity, 'content.pendingActionRemaining', false)
     return pendingActionRunning || storePendingActionAvailable
   })
 
