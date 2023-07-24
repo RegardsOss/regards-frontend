@@ -85,7 +85,7 @@ export class RenderPluginParameterField extends React.Component {
    * @returns
    */
   static parseInteger(value) {
-    if (value || value === '0') {
+    if (value || value === '0' || value === 0) {
       return parseInt(value, 10)
     }
     return null
