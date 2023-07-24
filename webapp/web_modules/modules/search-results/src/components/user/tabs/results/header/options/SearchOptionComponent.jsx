@@ -17,8 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import { i18nContextType } from '@regardsoss/i18n'
 import SearchIcon from 'mdi-material-ui/Magnify'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Search option switch display
@@ -32,11 +33,12 @@ class SearchOptionComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   render() {
     const { open, onToggleOpen } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { user: { searchButton } } } = this.context
     return (
       <FlatButton
         // label from configuration when provided, default otherwise
@@ -45,6 +47,7 @@ class SearchOptionComponent extends React.Component {
         onClick={onToggleOpen}
         icon={<SearchIcon />}
         secondary={open}
+        style={searchButton}
       />
     )
   }

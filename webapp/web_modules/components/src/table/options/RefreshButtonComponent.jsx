@@ -44,15 +44,6 @@ class RefreshButtonComponent extends React.Component {
         title={formatMessage({ id: 'table.option.refresh.tooltip' })}
         disabled={!canFetch}
         onClick={onRefresh}
-        style={{
-          backgroundColor: 'rgb(255, 109, 0)',
-          borderRadius: '2px',
-          border: 'none',
-          marginTop: '2px',
-          height: '32px',
-          display: 'flex',
-          alignItems: 'center',
-        }}
       />
     )
   }

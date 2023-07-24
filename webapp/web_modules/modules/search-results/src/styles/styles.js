@@ -376,6 +376,16 @@ const styles = (theme) => ({
     viewModeButton: {
       minWidth: theme.button.iconButtonSize,
     },
+    searchButton: {
+      backgroundColor: theme.palette.accent1Color,
+      borderRadius: '3px',
+      border: 'none',
+      marginTop: '2px',
+      marginRight: '5px',
+      height: '32px',
+      display: 'flex',
+      alignItems: 'center',
+    },
     columnsDialog: {
       widthPercent: 50,
       heightPercent: 80,
