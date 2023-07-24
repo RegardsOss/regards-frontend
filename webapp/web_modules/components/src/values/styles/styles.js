@@ -22,8 +22,10 @@ export default (theme) => ({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    minHeight: '1em',
-    height: '33%',
+    height: '100%',
+    position: 'relative',
+    top: '50%',
+    marginTop: '-1em',
   },
   // no specific style for multiline text
   multilineTextRenderCell: {
