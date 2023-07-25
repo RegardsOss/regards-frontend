@@ -35,10 +35,10 @@ module.exports = function (projectContextPath, mode = 'dev') {
         'node_modules',
       ],
       fallback: {
-        "http": false,
-        "zlib": false,
-        "https": false,
-        "url": false,
+        http: false,
+        zlib: false,
+        https: false,
+        url: false,
       },
       alias: alias(projectContextPath),
     },
@@ -167,7 +167,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
           coreHash,
           coreossHash,
           staticConfigurationHash,
-        }
+        },
       }),
       // Allow to define React as a global variable for JSX.
       new webpack.ProvidePlugin({

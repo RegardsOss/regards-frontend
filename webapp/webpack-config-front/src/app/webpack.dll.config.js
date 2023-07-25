@@ -88,6 +88,9 @@ module.exports = function (projectContextPath, mode) {
         },
       ],
     },
+    externals: {
+      cesium: "Cesium",
+    },
     plugins: [
       // Allow to define React as a global variable for JSX.
       new webpack.ProvidePlugin({
