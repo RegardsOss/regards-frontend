@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEmpty from 'lodash/isEmpty'
+import { converter } from '@regardsoss/units'
 
 /**
  * Shares right ascension checking method
@@ -29,14 +30,36 @@ export default class RightAscensionHelper {
   /** Inclusive maximum search right ascension value */
   static MAX_RIGHT_ASCENSION = 360
 
+  /** Inclusive minimum search radian right ascension value */
+  static MIN_RADIAN_RIGHT_ASCENSION = 0
+
+  /** Inclusive maximum search radian right ascension value */
+  static MAX_RADIAN_RIGHT_ASCENSION = 6.28319
+
+  /** Inclusive minimum search arc sec right ascension value */
+  static MIN_ARC_SEC_RIGHT_ASCENSION = 0
+
+  /** Inclusive maximum search arc sec right ascension value */
+  static MAX_ARC_SEC_RIGHT_ASCENSION = 1296000
+
   /**
    * Computes if right ascension text is valid and is in [0;360]
    * @param {string} rightAscensionText right ascension text
+   * @param {string} unitSelected unit selected
    * @return {boolean} true if right ascension is valid
    */
-  static isValidRightAscension = (rightAscensionText) => {
+  static isValidRightAscension = (rightAscensionText, unitSelected) => {
+    let minAngle = RightAscensionHelper.MIN_RIGHT_ASCENSION
+    let maxAngle = RightAscensionHelper.MAX_RIGHT_ASCENSION
+    if (unitSelected === converter.UNITS_ENUM.RAD) {
+      minAngle = RightAscensionHelper.MIN_RADIAN_RIGHT_ASCENSION
+      maxAngle = RightAscensionHelper.MAX_RADIAN_RIGHT_ASCENSION
+    } else if (unitSelected === converter.UNITS_ENUM.ARCSEC) {
+      minAngle = RightAscensionHelper.MIN_ARC_SEC_RIGHT_ASCENSION
+      maxAngle = RightAscensionHelper.MAX_ARC_SEC_RIGHT_ASCENSION
+    }
     const rightAscension = parseFloat(rightAscensionText)
-    return isEmpty(rightAscensionText) || (rightAscension >= RightAscensionHelper.MIN_RIGHT_ASCENSION && rightAscension <= RightAscensionHelper.MAX_RIGHT_ASCENSION)
+    return isEmpty(rightAscensionText) || (rightAscension >= minAngle && rightAscension <= maxAngle)
   }
 
   /**
@@ -46,8 +69,9 @@ export default class RightAscensionHelper {
    * @param {string} declinaisonText declinaison text
    * @param {string} rightAscensionText right ascension text
    * @param {string} angleText angle text
+   * @param {string} unitSelected unit selected
    * @return {boolean} true if right ascension field is in error
    */
-  static isRightAscensionInError = (declinaisonText, rightAscensionText, angleText) => (isEmpty(rightAscensionText) && (!isEmpty(declinaisonText) || !isEmpty(angleText)))
-    || !RightAscensionHelper.isValidRightAscension(rightAscensionText)
+  static isRightAscensionInError = (declinaisonText, rightAscensionText, angleText, unitSelected) => (isEmpty(rightAscensionText) && (!isEmpty(declinaisonText) || !isEmpty(angleText)))
+    || !RightAscensionHelper.isValidRightAscension(rightAscensionText, unitSelected)
 }

@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { RadioButtonGroup } from 'material-ui/RadioButton'
 import TextField from 'material-ui/TextField'
+import { converter } from '@regardsoss/units'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import CriterionComponent from '../../src/components/CriterionComponent'
 import { OPTIONS_ENUM } from '../../src/domain/Options'
@@ -56,10 +57,12 @@ describe('[SNR-criterion] Testing CriterionComponent', () => {
       onDeclinaisonInput: () => {},
       optionSelected: OPTIONS_ENUM.SNR,
       onChangeOption: () => {},
+      unitSelected: converter.UNITS_ENUM.DEG,
+      onChangeUnit: () => {},
     }
     const enzymeWrapper = shallow(<CriterionComponent {...props} />, { context })
     const radioGroupWrapper = enzymeWrapper.find(RadioButtonGroup)
-    assert.lengthOf(radioGroupWrapper, 1, 'There should be one RadioButtonGroup')
+    assert.lengthOf(radioGroupWrapper, 2, 'There should be two RadioButtonGroup')
     const textfieldWrappers = enzymeWrapper.find(TextField)
     assert.lengthOf(textfieldWrappers, 2, 'There should be two field (name and angle)')
     testSuiteHelpers.assertWrapperProperties(textfieldWrappers.at(0), {
@@ -96,6 +99,8 @@ describe('[SNR-criterion] Testing CriterionComponent', () => {
       onDeclinaisonInput: () => {},
       optionSelected: OPTIONS_ENUM.SNR,
       onChangeOption: () => {},
+      unitSelected: converter.UNITS_ENUM.DEG,
+      onChangeUnit: () => {},
     }
     const enzymeWrapper = shallow(<CriterionComponent {...props} />, { context })
     const textfieldWrappers = enzymeWrapper.find(TextField)
@@ -119,10 +124,12 @@ describe('[SNR-criterion] Testing CriterionComponent', () => {
       onDeclinaisonInput: () => {},
       optionSelected: OPTIONS_ENUM.SNR,
       onChangeOption: () => {},
+      unitSelected: converter.UNITS_ENUM.DEG,
+      onChangeUnit: () => {},
     }
     const enzymeWrapper = shallow(<CriterionComponent {...props} />, { context })
     const textfieldWrappers = enzymeWrapper.find(TextField)
     assert.lengthOf(textfieldWrappers, 2, 'There should be two field (name and angle)')
-    assert.equal(textfieldWrappers.at(1).props().errorText, 'snr-criterion.cone.angle.error.message', 'Angle error should be displayed')
+    assert.equal(textfieldWrappers.at(1).props().errorText, 'snr-criterion.cone.angle.deg.error.message', 'Angle error should be displayed')
   })
 })

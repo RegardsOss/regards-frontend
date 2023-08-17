@@ -41,5 +41,21 @@ export default function buildCriterionStyles(theme) {
       justifyContent: 'space-between',
       marginBottom: '20px',
     },
+    fieldLineStyleAlt: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: '20px',
+      marginTop: '15px',
+    },
+    unitIconStyle: {
+      marginRight: '5px',
+    },
+    unitLabelSyle: {
+      width: '100%',
+    },
+    errorTextStyle: {
+      width: '175px',
+    },
   }
 }

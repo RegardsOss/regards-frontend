@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEmpty from 'lodash/isEmpty'
+import { converter } from '@regardsoss/units'
 
 /**
  * Shares declaison checking method
@@ -29,14 +30,36 @@ export default class DeclinaisonHelper {
   /** Inclusive maximum search declinaison value */
   static MAX_DECLINAISON = 90
 
+  /** Inclusive minimum search radian declinaison value */
+  static MIN_RADIAN_DECLINAISON = -1.5708
+
+  /** Inclusive maximum search radian declinaison value */
+  static MAX_RADIAN_DECLINAISON = 1.5708
+
+  /** Inclusive minimum search arc sec declinaison value */
+  static MIN_ARC_SEC_DECLINAISON = -324000
+
+  /** Inclusive maximum search arc sec declinaison value */
+  static MAX_ARC_SEC_DECLINAISON = 324000
+
   /**
    * Computes if declinaison text is valid and is in [-90;90]
    * @param {string} declinaisonText declinaison text
+   * @param {string} unitSelected unit selected
    * @return {boolean} true if declinaison is valid
    */
-  static isValidDeclinaison = (declinaisonText) => {
+  static isValidDeclinaison = (declinaisonText, unitSelected) => {
     const declinaison = parseFloat(declinaisonText)
-    return isEmpty(declinaisonText) || (declinaison >= DeclinaisonHelper.MIN_DECLINAISON && declinaison <= DeclinaisonHelper.MAX_DECLINAISON)
+    let minAngle = DeclinaisonHelper.MIN_DECLINAISON
+    let maxAngle = DeclinaisonHelper.MAX_DECLINAISON
+    if (unitSelected === converter.UNITS_ENUM.RAD) {
+      minAngle = DeclinaisonHelper.MIN_RADIAN_DECLINAISON
+      maxAngle = DeclinaisonHelper.MAX_RADIAN_DECLINAISON
+    } else if (unitSelected === converter.UNITS_ENUM.ARCSEC) {
+      minAngle = DeclinaisonHelper.MIN_ARC_SEC_DECLINAISON
+      maxAngle = DeclinaisonHelper.MAX_ARC_SEC_DECLINAISON
+    }
+    return isEmpty(declinaisonText) || (declinaison >= minAngle && declinaison <= maxAngle)
   }
 
   /**
@@ -46,8 +69,9 @@ export default class DeclinaisonHelper {
    * @param {string} declinaisonText declinaison text
    * @param {string} rightAscensionText right ascension text
    * @param {string} angleText angle text
+   * @param {string} unitSelected unit selected
    * @return {boolean} true if declinaison field is in error
    */
-  static isDeclinaisonInError = (declinaisonText, rightAscensionText, angleText) => (isEmpty(declinaisonText) && (!isEmpty(rightAscensionText) || !isEmpty(angleText)))
-    || !DeclinaisonHelper.isValidDeclinaison(declinaisonText)
+  static isDeclinaisonInError = (declinaisonText, rightAscensionText, angleText, unitSelected) => (isEmpty(declinaisonText) && (!isEmpty(rightAscensionText) || !isEmpty(angleText)))
+    || !DeclinaisonHelper.isValidDeclinaison(declinaisonText, unitSelected)
 }

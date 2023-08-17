@@ -17,12 +17,4 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-/**
- * Module exports
- * @author Raphaël Mechali
- */
-import * as stor from './storage'
-import * as convert from './converter'
-
-export const storage = stor
-export const converter = convert
+export { convertValue, UNITS, UNITS_ENUM } from './Converter'

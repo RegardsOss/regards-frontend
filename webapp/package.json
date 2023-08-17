@@ -70,6 +70,7 @@
     "buffer": "^6.0.3",
     "cesium": "^1.107.2",
     "chart.js": "^2.7.3",
+    "convert-units": "^2.3.4",
     "cron-validate": "^1.4.3",
     "crypto-js": "^4.1.1",
     "detect-browser": "^3.0.1",

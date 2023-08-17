@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { converter } from '@regardsoss/units'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CriterionContainer } from '../../src/containers/CriterionContainer'
 import CriterionComponent from '../../src/components/CriterionComponent'
@@ -80,6 +81,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
         rightAscension: '',
         declinaison: '',
         optionSelected: OPTIONS_ENUM.SNR,
+        unitSelected: converter.UNITS_ENUM.DEG,
       },
       snrState,
       attributes: {},
@@ -102,6 +104,8 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       onDeclinaisonInput: enzymeWrapper.instance().onDeclinaisonInput,
       optionSelected: props.state.optionSelected,
       onChangeOption: enzymeWrapper.instance().onChangeOption,
+      unitSelected: props.state.unitSelected,
+      onChangeUnit: enzymeWrapper.instance().onChangeUnit,
     }, 'Component properties should be correctly set')
   }))
 
@@ -121,6 +125,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
         rightAscension: '',
         declinaison: '',
         optionSelected: OPTIONS_ENUM.SNR,
+        unitSelected: converter.UNITS_ENUM.DEG,
       },
       snrState: {
         error: false,
@@ -161,6 +166,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
         rightAscension: '',
         declinaison: '',
         optionSelected: OPTIONS_ENUM.SNR,
+        unitSelected: converter.UNITS_ENUM.DEG,
       },
       snrState: {
         error: false,
@@ -185,6 +191,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '',
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
+      unitSelected: converter.UNITS_ENUM.DEG,
     },
     'Previously resolved coordinates should have been reset in state')
   })
@@ -205,6 +212,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
         declinaison: '',
         error: true,
         optionSelected: OPTIONS_ENUM.SNR,
+        unitSelected: converter.UNITS_ENUM.DEG,
       },
       snrState: {
         error: false,
@@ -229,6 +237,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       error: false,
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
+      unitSelected: converter.UNITS_ENUM.DEG,
     },
     'Only cone angle should be updated in state')
   })
@@ -249,6 +258,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
         declinaison: '',
         error: true,
         optionSelected: OPTIONS_ENUM.SNR,
+        unitSelected: converter.UNITS_ENUM.DEG,
       },
       snrState: {
         error: false,
@@ -273,6 +283,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       error: true,
       declinaison: '',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+      unitSelected: converter.UNITS_ENUM.DEG,
     },
     'Only optionSelected should be updated in state')
   })
@@ -293,6 +304,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
         declinaison: '',
         error: true,
         optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+        unitSelected: converter.UNITS_ENUM.DEG,
       },
       snrState: {
         error: false,
@@ -317,6 +329,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       error: true,
       declinaison: '',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+      unitSelected: converter.UNITS_ENUM.DEG,
     },
     'Only rightAscension should be updated in state')
   })
@@ -337,6 +350,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
         declinaison: '',
         error: true,
         optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+        unitSelected: converter.UNITS_ENUM.DEG,
       },
       snrState: {
         error: false,
@@ -361,8 +375,55 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       error: false,
       declinaison: '42',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+      unitSelected: converter.UNITS_ENUM.DEG,
     },
     'Only rightAscension should be updated in state')
+  })
+  it('should publish state on unit change but leave other fields unchanged', () => {
+    let spiedPublishedState = null
+    const props = {
+      // parent callbacks (required)
+      pluginInstanceId: 'any',
+      label: {
+        fr: 'test',
+        en: 'test',
+      },
+      state: {
+        spatialName: 'any',
+        coneAngle: '5.2',
+        resolved: { latitude: 12, longitude: 12 },
+        rightAscension: '5',
+        declinaison: '',
+        error: true,
+        optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+        unitSelected: converter.UNITS_ENUM.DEG,
+      },
+      snrState: {
+        error: false,
+        spatialName: 'any',
+        resolvedCoordinates: { latitude: 12, longitude: 12 },
+      },
+      attributes: {},
+      publishState: (state) => {
+        spiedPublishedState = state
+      },
+      resolveSpatialName: () => {},
+    }
+    const enzymeWrapper = shallow(<CriterionContainer {...props} />, { context })
+    assert.isNotOk(spiedPublishedState)
+
+    enzymeWrapper.instance().onChangeUnit(null, converter.UNITS_ENUM.RAD)
+    assert.deepEqual(spiedPublishedState, {
+      spatialName: 'any',
+      coneAngle: '5.2',
+      resolved: { latitude: 12, longitude: 12 },
+      rightAscension: '5',
+      error: true,
+      declinaison: '',
+      optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+      unitSelected: converter.UNITS_ENUM.RAD,
+    },
+    'Only unitSelected should be updated in state')
   })
   it('should convert correctly to open search parameters', () => {
     // Not convertable: wrong angles or no resolved coordinates with SNR option
@@ -374,6 +435,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '',
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }),
     'State without resolved coordinates should not be converted into request parameters')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
@@ -384,6 +446,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       error: true,
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }),
     'State without spatial name should not be converted into request parameters')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
@@ -394,6 +457,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '',
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }),
     'State without cone angle should not be converted into request parameters')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
@@ -404,6 +468,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '',
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }),
     'State with an invalid cone angle should not be converted into request parameters (not parsable)')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
@@ -414,6 +479,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '',
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }),
     'State with an invalid cone angle should not be converted into request parameters (<= 0)')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
@@ -424,6 +490,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '',
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }),
     'State with an invalid cone angle should not be converted into request parameters (>= 180)')
     // Convertable state with SNR option
@@ -435,6 +502,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '',
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }), {
       lat: '5',
       lon: '10',
@@ -449,6 +517,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '-5',
       declinaison: '',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }),
     'State with a wrong right ascension should not be converted into request parameters (< 0)')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
@@ -459,6 +528,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '366',
       declinaison: '',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }),
     'State with a wrong right ascension should not be converted into request parameters (> 360)')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
@@ -469,6 +539,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '',
       declinaison: '-788',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }),
     'State with a wrong declinaison should not be converted into request parameters (< -90)')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
@@ -479,6 +550,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '',
       declinaison: '1002',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }),
     'State with a wrong declinaison should not be converted into request parameters (> 90)')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
@@ -489,6 +561,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '4',
       declinaison: '',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }),
     'State with a valid right ascension and an empty declinaison should not be converted into request parameters')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
@@ -499,6 +572,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '',
       declinaison: '66',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }),
     'State with a valid declaison and an empty rigth ascension should not be converted into request parameters')
     // Convertable state with DIRECT_VALUES option
@@ -510,6 +584,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       rightAscension: '5',
       declinaison: '46',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
+      unitSelected: converter.UNITS_ENUM.DEG,
     }), {
       lat: '46',
       lon: '5',

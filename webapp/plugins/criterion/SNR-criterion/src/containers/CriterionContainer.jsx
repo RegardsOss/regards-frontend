@@ -20,6 +20,7 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import { connect } from '@regardsoss/redux'
+import { converter } from '@regardsoss/units'
 import { PluginsClientsMap } from '@regardsoss/plugins-api'
 import { StabilityDelayer } from '@regardsoss/display-control'
 import { UIShapes } from '@regardsoss/shape'
@@ -46,6 +47,7 @@ export class CriterionContainer extends React.Component {
     resolved: null,
     optionSelected: OPTIONS_ENUM.SNR,
     error: false,
+    unitSelected: converter.UNITS_ENUM.DEG,
   }
 
   static CLIENTS_MAP = new PluginsClientsMap()
@@ -93,6 +95,7 @@ export class CriterionContainer extends React.Component {
       rightAscension: PropTypes.string,
       declinaison: PropTypes.string,
       optionSelected: PropTypes.oneOf(OPTIONS).isRequired,
+      unitSelected: PropTypes.oneOf(converter.UNITS).isRequired,
     }),
     // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
@@ -122,17 +125,31 @@ export class CriterionContainer extends React.Component {
    */
   static isInError(state) {
     const {
-      spatialName, coneAngle, optionSelected, rightAscension, declinaison, resolved,
+      spatialName, coneAngle, optionSelected, rightAscension, declinaison, resolved, unitSelected,
     } = state
     if (optionSelected === OPTIONS_ENUM.SNR) {
-      return SpatialNameHelper.isSpatialNameInError(spatialName, coneAngle, !resolved) || ConeAngleHelper.isAngleSNRInError(spatialName, coneAngle)
+      return SpatialNameHelper.isSpatialNameInError(spatialName, coneAngle, !resolved) || ConeAngleHelper.isAngleSNRInError(spatialName, coneAngle, unitSelected)
     }
     if (optionSelected === OPTIONS_ENUM.DIRECT_VALUES) {
-      return RightAscensionHelper.isRightAscensionInError(declinaison, rightAscension, coneAngle)
-        || DeclinaisonHelper.isDeclinaisonInError(declinaison, rightAscension, coneAngle)
-        || ConeAngleHelper.isAngleDirectValuesInError(declinaison, rightAscension, coneAngle)
+      return RightAscensionHelper.isRightAscensionInError(declinaison, rightAscension, coneAngle, unitSelected)
+        || DeclinaisonHelper.isDeclinaisonInError(declinaison, rightAscension, coneAngle, unitSelected)
+        || ConeAngleHelper.isAngleDirectValuesInError(declinaison, rightAscension, coneAngle, unitSelected)
     }
     return false
+  }
+
+  /**
+   * Convert input value into selected unit
+   * @param {*} value
+   * @param {string} unitSelected
+   * @returns converted value
+   */
+  static convertValueToUnit(value, unitSelected) {
+    let convertedValue = value
+    if (unitSelected !== converter.UNITS_ENUM.DEG) {
+      convertedValue = converter.convertValue(value, unitSelected, converter.UNITS_ENUM.DEG)
+    }
+    return convertedValue
   }
 
   /**
@@ -141,23 +158,27 @@ export class CriterionContainer extends React.Component {
    * @return {*} corresponding OpenSearch request parameters
    */
   static convertToRequestParameters({
-    coneAngle, resolved, optionSelected, rightAscension, declinaison, error,
+    coneAngle, resolved, optionSelected, rightAscension, declinaison, error, unitSelected,
   }) {
     if (optionSelected === OPTIONS_ENUM.SNR
       && resolved && !isEmpty(coneAngle) && !error) {
+      const convertedConeAngle = CriterionContainer.convertValueToUnit(coneAngle, unitSelected)
       return {
         lat: resolved.latitude.toString(),
         lon: resolved.longitude.toString(),
-        r: (parseFloat(coneAngle) / 2).toString(), // server expects half angle
+        r: (parseFloat(convertedConeAngle) / 2).toString(), // server expects half angle
       }
     }
     if (optionSelected === OPTIONS_ENUM.DIRECT_VALUES
       && !isEmpty(declinaison) && !isEmpty(rightAscension)
       && !isEmpty(coneAngle) && !error) {
+      const convertedDeclinaison = CriterionContainer.convertValueToUnit(declinaison, unitSelected)
+      const convertedRightAscension = CriterionContainer.convertValueToUnit(rightAscension, unitSelected)
+      const convertedConeAngle = CriterionContainer.convertValueToUnit(coneAngle, unitSelected)
       return {
-        lat: declinaison,
-        lon: SesameHelper.convertRightAscsencionToLongitude(rightAscension),
-        r: (parseFloat(coneAngle) / 2).toString(), // server expects half angle
+        lat: convertedDeclinaison,
+        lon: SesameHelper.convertRightAscsencionToLongitude(convertedRightAscension),
+        r: (parseFloat(convertedConeAngle) / 2).toString(), // server expects half angle
       }
     }
     // emit no request when there are errors
@@ -279,10 +300,24 @@ export class CriterionContainer extends React.Component {
     publishState(nextState, CriterionContainer.convertToRequestParameters(nextState))
   }
 
+  /**
+   * User callback: change unit input
+   * @param {*} event -
+   * @param {oneOf(UNITS)} unitSelected option selected by user
+   */
+  onChangeUnit = (event, unitSelected) => {
+    const { publishState, state } = this.props
+    const nextState = {
+      ...state,
+      unitSelected,
+    }
+    publishState(nextState, CriterionContainer.convertToRequestParameters(nextState))
+  }
+
   render() {
     const {
       state: {
-        spatialName, coneAngle, rightAscension, declinaison, optionSelected,
+        spatialName, coneAngle, rightAscension, declinaison, optionSelected, unitSelected,
       }, snrState: { error }, label,
     } = this.props
     return (
@@ -299,6 +334,8 @@ export class CriterionContainer extends React.Component {
         onDeclinaisonInput={this.onDeclinaisonInput}
         optionSelected={optionSelected}
         onChangeOption={this.onChangeOption}
+        unitSelected={unitSelected}
+        onChangeUnit={this.onChangeUnit}
       />
     )
   }

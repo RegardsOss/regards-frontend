@@ -19,6 +19,7 @@
 import TextField from 'material-ui/TextField'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import { i18nContextType } from '@regardsoss/i18n'
+import { converter } from '@regardsoss/units'
 import { UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import ConeAngleHelper from '../utils/ConeAngleHelper'
@@ -32,6 +33,7 @@ const FIELDS_ENUM = {
   ANGLE: 'ANGLE',
   RIGHT_ASCENSION: 'RIGHT_ASCENSION',
   DECLINAISON: 'DECLINAISON',
+  UNIT_SELECTED: 'UNIT_SELECTED',
 }
 
 /**
@@ -52,6 +54,8 @@ class CriterionComponent extends React.Component {
     onDeclinaisonInput: PropTypes.func.isRequired,
     optionSelected: PropTypes.oneOf(OPTIONS).isRequired,
     onChangeOption: PropTypes.func.isRequired,
+    unitSelected: PropTypes.oneOf(converter.UNITS).isRequired,
+    onChangeUnit: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -67,25 +71,25 @@ class CriterionComponent extends React.Component {
    */
   computeErrorText = (fieldType) => {
     const {
-      optionSelected, spatialName, invalidSNR, angle, rightAscension, declinaison,
+      optionSelected, spatialName, invalidSNR, angle, rightAscension, declinaison, unitSelected,
     } = this.props
     const { intl: { formatMessage } } = this.context
     if (optionSelected === OPTIONS_ENUM.SNR) {
       if (fieldType === FIELDS_ENUM.SPATIAL_NAME && SpatialNameHelper.isSpatialNameInError(spatialName, angle, invalidSNR)) {
         return formatMessage({ id: 'snr-criterion.resolution.error.message' })
       }
-      if (fieldType === FIELDS_ENUM.ANGLE && ConeAngleHelper.isAngleSNRInError(spatialName, angle)) {
-        return formatMessage({ id: 'snr-criterion.cone.angle.error.message' })
+      if (fieldType === FIELDS_ENUM.ANGLE && ConeAngleHelper.isAngleSNRInError(spatialName, angle, unitSelected)) {
+        return formatMessage({ id: `snr-criterion.cone.angle.${unitSelected}.error.message` })
       }
     } else if (optionSelected === OPTIONS_ENUM.DIRECT_VALUES) {
-      if (fieldType === FIELDS_ENUM.RIGHT_ASCENSION && RightAscensionHelper.isRightAscensionInError(declinaison, rightAscension, angle)) {
-        return formatMessage({ id: 'snr-criterion.right.ascension.error.message' })
+      if (fieldType === FIELDS_ENUM.RIGHT_ASCENSION && RightAscensionHelper.isRightAscensionInError(declinaison, rightAscension, angle, unitSelected)) {
+        return formatMessage({ id: `snr-criterion.right.ascension.${unitSelected}.error.message` })
       }
-      if (fieldType === FIELDS_ENUM.DECLINAISON && DeclinaisonHelper.isDeclinaisonInError(declinaison, rightAscension, angle)) {
-        return formatMessage({ id: 'snr-criterion.declinaison.error.message' })
+      if (fieldType === FIELDS_ENUM.DECLINAISON && DeclinaisonHelper.isDeclinaisonInError(declinaison, rightAscension, angle, unitSelected)) {
+        return formatMessage({ id: `snr-criterion.declinaison.${unitSelected}.error.message` })
       }
-      if (fieldType === FIELDS_ENUM.ANGLE && ConeAngleHelper.isAngleDirectValuesInError(declinaison, rightAscension, angle)) {
-        return formatMessage({ id: 'snr-criterion.cone.angle.error.message' })
+      if (fieldType === FIELDS_ENUM.ANGLE && ConeAngleHelper.isAngleDirectValuesInError(declinaison, rightAscension, angle, unitSelected)) {
+        return formatMessage({ id: `snr-criterion.cone.angle.${unitSelected}.error.message` })
       }
     }
     return null
@@ -96,12 +100,13 @@ class CriterionComponent extends React.Component {
       spatialName, onSpatialNameInput,
       angle, onAngleInput, label, rightAscension, declinaison,
       onRightAscensionInput, onDeclinaisonInput, optionSelected,
-      onChangeOption,
+      onChangeOption, unitSelected, onChangeUnit,
     } = this.props
     const {
       intl: { formatMessage, locale },
       moduleTheme: {
         radioButtonGroupStyle, fieldLineStyle, labelDivStyle, textFieldDivStyle,
+        unitIconStyle, unitLabelSyle, fieldLineStyleAlt, errorTextStyle,
       }, muiTheme,
     } = this.context
     return (
@@ -149,9 +154,9 @@ class CriterionComponent extends React.Component {
                       onChange={onSpatialNameInput}
                       fullWidth
                       errorText={this.computeErrorText(FIELDS_ENUM.SPATIAL_NAME)}
+                      errorStyle={errorTextStyle}
                     />
                   </div>
-
                 </div>
               ) : (
                 <>
@@ -168,9 +173,9 @@ class CriterionComponent extends React.Component {
                         fullWidth
                         onChange={onRightAscensionInput}
                         errorText={this.computeErrorText(FIELDS_ENUM.RIGHT_ASCENSION)}
+                        errorStyle={errorTextStyle}
                       />
                     </div>
-
                   </div>
                   <div style={fieldLineStyle}>
                     <div style={labelDivStyle}>
@@ -185,9 +190,9 @@ class CriterionComponent extends React.Component {
                         fullWidth
                         onChange={onDeclinaisonInput}
                         errorText={this.computeErrorText(FIELDS_ENUM.DECLINAISON)}
+                        errorStyle={errorTextStyle}
                       />
                     </div>
-
                   </div>
                 </>
               )
@@ -212,9 +217,48 @@ class CriterionComponent extends React.Component {
                   fullWidth
                   onChange={onAngleInput}
                   errorText={this.computeErrorText(FIELDS_ENUM.ANGLE)}
+                  errorStyle={errorTextStyle}
                 />
               </div>
-
+            </div>
+          </td>
+        </tr>
+        <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
+          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell} />
+          <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell} />
+          <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+            {/* Unit selection */}
+            <div style={fieldLineStyleAlt}>
+              <div style={labelDivStyle}>
+                {formatMessage({ id: 'snr-criterion.unit.name.field' })}
+              </div>
+              <div style={textFieldDivStyle}>
+                <RadioButtonGroup
+                  name="unit-selector"
+                  defaultSelected={unitSelected}
+                  onChange={onChangeUnit}
+                  style={radioButtonGroupStyle}
+                >
+                  <RadioButton
+                    value={converter.UNITS_ENUM.DEG}
+                    label={formatMessage({ id: 'snr-criterion.unit.deg' })}
+                    iconStyle={unitIconStyle}
+                    labelStyle={unitLabelSyle}
+                  />
+                  <RadioButton
+                    value={converter.UNITS_ENUM.RAD}
+                    label={formatMessage({ id: 'snr-criterion.unit.rad' })}
+                    iconStyle={unitIconStyle}
+                    labelStyle={unitLabelSyle}
+                  />
+                  <RadioButton
+                    value={converter.UNITS_ENUM.ARCSEC}
+                    label={formatMessage({ id: 'snr-criterion.unit.arcsec' })}
+                    iconStyle={unitIconStyle}
+                    labelStyle={unitLabelSyle}
+                  />
+                </RadioButtonGroup>
+              </div>
             </div>
           </td>
         </tr>
