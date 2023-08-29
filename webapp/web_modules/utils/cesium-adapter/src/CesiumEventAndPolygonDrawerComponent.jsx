@@ -101,7 +101,6 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
   onPropertiesUpdated = (oldProps, newProps) => {
     // reset to default when drawingSelection changes
     if (!isEqual(oldProps.drawingSelection, newProps.drawingSelection)) {
-      this.currentDrawingInitPoint = null
       this.currentInteractionState = INTERACTION_DRAW.UNSTARTED
       this.rectangle = new Rectangle()
     }
@@ -141,7 +140,7 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
       onDrawingSelectionDone,
     } = this.props
     const endPoint = this.getLatLongFromPosition(movement.position)
-    if (endPoint) {
+    if (endPoint && this.currentDrawingInitPoint) {
       onDrawingSelectionDone(this.currentDrawingInitPoint, endPoint)
       this.currentInteractionState = INTERACTION_DRAW.UNSTARTED
     }
@@ -154,10 +153,10 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
     if (!isEmpty(pickedObjects)) {
       // Iterate over picked entites from Cesium and remove all objects not coming from REGARDS catalog
       selectedEntities = compact(map(pickedObjects, (entity) => {
-        if (has(entity, 'id') && CatalogDomain.TagsHelper.isURNTag(entity.id.id)) {
+        if (has(entity, 'id') && CatalogDomain.TagsHelper.isURNTag(entity.id)) {
           // sometimes entity selected only have id stored, when need to do this to get its label everytime
           // we need to use includes & not strict egal here because multipolygons have particular ids, each polygons ids contains product id plus _X (where X is a number)
-          return find(featuresCollection.features, (feature) => entity.id.id.includes(feature.id))
+          return find(featuresCollection.features, (feature) => entity.id.includes(feature.id))
         }
         return null
       }))

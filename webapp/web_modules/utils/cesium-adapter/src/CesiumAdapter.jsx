@@ -22,13 +22,17 @@ import { UIDomain } from '@regardsoss/domain'
 import { Measure } from '@regardsoss/adapters'
 import { createRef } from 'react'
 import isEqual from 'lodash/isEqual'
-import filter from 'lodash/filter'
 import find from 'lodash/find'
+import get from 'lodash/get'
+import filter from 'lodash/filter'
 import map from 'lodash/map'
+import includes from 'lodash/includes'
+import size from 'lodash/size'
 import has from 'lodash/has'
+import forEach from 'lodash/forEach'
 import isEmpty from 'lodash/isEmpty'
 import {
-  Viewer, GeoJsonDataSource, SkyBox, SkyAtmosphere, Sun, Moon, ImageryLayer, CameraFlyTo, Scene,
+  Viewer, SkyBox, SkyAtmosphere, Sun, Moon, ImageryLayer, CameraFlyTo, Scene,
 } from 'resium'
 import {
   ScreenSpaceEventType, Color, SceneMode, Rectangle, Cartesian3,
@@ -38,6 +42,10 @@ import CesiumEventAndPolygonDrawerComponent from './CesiumEventAndPolygonDrawerC
 import CesiumCursorPosition from './CesiumCursorPosition'
 import { getImageryProvider } from './CesiumHelper'
 import BackgroundLayerComponent from './BackgroundLayerComponent'
+import PrimitiveDataSource from './PrimitiveDataSource'
+import { withPagedFeaturesHOC } from './withPagedFeaturesHOC'
+
+export const PagedPrimitiveDataSource = withPagedFeaturesHOC(PrimitiveDataSource)
 
 /**
  * Cesium Adapter
@@ -88,14 +96,14 @@ export default class CesiumAdapter extends React.Component {
   state = {
     greyBackgroundProvider: null, // background layer
     customLayerProviders: null, // custom layers
-    selectedProducts: null,
+    selectedProductsCollection: null,
     cameraDestinationTime: null,
     cameraDestination: null,
     cesiumDrawColor: null, // Cesium.Color objet for draw zone
     cesiumFeaturesColor: null, // Cesium.Color objet for features
+    nearlyTransparentColor: null, // Transparent is unclickable, so we use our version of a transparent color
     selectedFeatureColor: null,
     selectedColorOutlineWidth: null,
-    nearlyTransparentColor: null, // Transparent is unclickable, so we use our version of a transparent color
     height: undefined, // leave undefined to use a default value
   }
 
@@ -154,19 +162,11 @@ export default class CesiumAdapter extends React.Component {
   }
 
   componentDidMount() {
-    if (has(this.ref, 'current.cesiumElement')) {
+    if (has(this.ref, 'current.cesiumElement.screenSpaceEventHandler')) {
       // Remove the default event handler that zoom and track feature on double click
       this.ref.current.cesiumElement.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_DOUBLE_CLICK)
     }
   }
-
-  // componentDidUpdate() {
-  //   // Manage to set correct position in layer collection for visibleBackgroungLayer since he moves to the end of the collection after a drawn area update
-  //   if (has(this.ref, 'current.cesiumElement') && has(this.backgroundVisibleImageryRef, 'current.cesiumElement')) {
-  //     this.ref.current.cesiumElement.imageryLayers.lowerToBottom(this.backgroundVisibleImageryRef.current.cesiumElement)
-  //     this.ref.current.cesiumElement.imageryLayers.raise(this.backgroundVisibleImageryRef.current.cesiumElement)
-  //   }
-  // }
 
   /**
     * Lifecycle method: component receive props. Used here to detect properties change and update local state
@@ -188,10 +188,28 @@ export default class CesiumAdapter extends React.Component {
 
     // Manage selected features
     if (!isEqual(oldProps.featuresCollection, featuresCollection) || !isEqual(oldProps.selectedProducts, selectedProducts)) {
-      const selectedFeatures = this.getSelectedFeatures(featuresCollection, selectedProducts)
-      newState.selectedProducts = {
+      let storedSelectedProducts = get(oldState, 'selectedProductsCollection.features', [])
+      const storedSelectedProductsIds = !isEmpty(storedSelectedProducts) ? map(storedSelectedProducts, (currentSelectedFeature) => currentSelectedFeature.id) : []
+      // add new selected features
+      if (size(selectedProducts) > storedSelectedProducts.length) {
+        // force new selected products to be added in feature collection one at a time (needed by withPagedFeaturesHOC)
+        forEach(selectedProducts, (selectedProduct) => {
+          const selectedProductId = get(selectedProduct, 'content.id')
+          if (selectedProductId && !includes(storedSelectedProductsIds, selectedProductId)) {
+            const selectedFeature = this.getSelectedFeature(featuresCollection, selectedProductId)
+            if (selectedFeature) {
+              storedSelectedProducts.push(selectedFeature)
+            }
+          }
+        })
+      } else if (size(selectedProducts) < storedSelectedProducts.length) {
+        // remove selected features
+        const selectedProductsIds = map(selectedProducts, (selectedProduct) => selectedProduct.content.id)
+        storedSelectedProducts = filter(storedSelectedProducts, (currentSelectedFeature) => includes(selectedProductsIds, currentSelectedFeature.id))
+      }
+      newState.selectedProductsCollection = {
         type: 'FeatureCollection',
-        features: !isEmpty(selectedFeatures) ? selectedFeatures : [],
+        features: !isEmpty(storedSelectedProducts) ? storedSelectedProducts : [],
       }
     }
     // Manage camera destination
@@ -218,7 +236,7 @@ export default class CesiumAdapter extends React.Component {
     }
   }
 
-  getSelectedFeatures = (featuresCollection, selectedProducts) => filter(featuresCollection.features, (feature) => find(selectedProducts, (selectedProduct) => feature.id === selectedProduct.content.id))
+  getSelectedFeature = (featuresCollection, selectedProductId) => find(featuresCollection.features, (feature) => feature.id === selectedProductId)
 
   getZoomToFeature = (featuresCollection, zoomToFeature) => find(featuresCollection.features, (feature) => feature.id === zoomToFeature.id)
 
@@ -269,10 +287,8 @@ export default class CesiumAdapter extends React.Component {
     } = this.props
     const {
       greyBackgroundProvider, customLayerProviders, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
-      selectedProducts, selectedFeatureColor, selectedColorOutlineWidth, cameraDestination, cameraDestinationTime,
-      height,
+      cameraDestination, cameraDestinationTime, height, selectedProductsCollection, selectedFeatureColor, selectedColorOutlineWidth,
     } = this.state
-
     return (
       <Measure bounds onMeasure={this.onComponentResized}>
         {/* Workaround to resolve bug in 2D mode. Force initial render to re-render */}
@@ -327,32 +343,33 @@ export default class CesiumAdapter extends React.Component {
                 ))
               }
               {/* Display props features */}
-              <GeoJsonDataSource
+              <PagedPrimitiveDataSource
                 name="catalog-features"
                 data={featuresCollection}
-                fill={nearlyTransparentColor}
                 stroke={cesiumFeaturesColor}
                 strokeWidth={1}
+                fill={nearlyTransparentColor}
+                pageSize={STATIC_CONF.MAP.PAGE_SIZE_MAP}
               />
-              <GeoJsonDataSource
+              <PagedPrimitiveDataSource
                 name="shapefile-features"
                 data={featureShapefile}
-                fill={nearlyTransparentColor}
                 stroke={cesiumFeaturesColor}
+                fill={nearlyTransparentColor}
                 strokeWidth={1}
               />
-              <GeoJsonDataSource
+              <PagedPrimitiveDataSource
                 name="selected-features"
-                data={selectedProducts}
-                fill={nearlyTransparentColor}
+                data={selectedProductsCollection}
                 stroke={selectedFeatureColor}
+                fill={nearlyTransparentColor}
                 strokeWidth={selectedColorOutlineWidth}
               />
-              <GeoJsonDataSource
+              <PagedPrimitiveDataSource
                 name="selected-toponyms"
                 data={selectedToponyms}
-                fill={nearlyTransparentColor}
                 stroke={selectedFeatureColor}
+                fill={nearlyTransparentColor}
                 strokeWidth={selectedColorOutlineWidth}
               />
               <CesiumCursorPosition cesiumContext={this.ref} />
