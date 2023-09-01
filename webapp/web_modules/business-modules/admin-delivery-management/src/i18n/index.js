@@ -16,26 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import en from './messages.en.i18n'
+import fr from './messages.fr.i18n'
 
 /**
- * Card components styles
- * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
-export default function getStyles(theme) {
-  return {
-    settingDiv: {
-      display: 'flex',
-    },
-    settingDivAlt: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingArrayDiv: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingsGroup: {
-      width: '100%',
-    },
-  }
+export default {
+  en,
+  fr,
 }

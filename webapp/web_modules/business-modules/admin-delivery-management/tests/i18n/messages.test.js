@@ -16,26 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MessagesFr from '../../src/i18n/messages.fr.i18n'
+import MessagesEn from '../../src/i18n/messages.en.i18n'
 
 /**
- * Card components styles
- * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
-export default function getStyles(theme) {
-  return {
-    settingDiv: {
-      display: 'flex',
-    },
-    settingDivAlt: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingArrayDiv: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingsGroup: {
-      width: '100%',
-    },
-  }
-}
+describe('[ADMIN DATAPREPARATION MANAGEMENT] Testing i18n', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
+
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  })
+})

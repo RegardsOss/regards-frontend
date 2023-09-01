@@ -46,11 +46,22 @@ export const processingManagementRouter = {
   },
 }
 
+const deliveryManagementRouter = {
+  path: 'delivery',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const deliveryManagement = require('@regardsoss/admin-delivery-management')
+      cb(null, [deliveryManagement.deliveryManagementRouter])
+    })
+  },
+}
+
 const commandsRouter = {
   childRoutes: [
     boardRoute,
     commandsManagementRouter,
     processingManagementRouter,
+    deliveryManagementRouter,
   ],
 }
 

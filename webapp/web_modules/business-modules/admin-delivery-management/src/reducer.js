@@ -16,26 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { combineReducers } from 'redux'
+import { settingsReducer } from './clients/SettingsClient'
 
 /**
- * Card components styles
- * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
-export default function getStyles(theme) {
-  return {
-    settingDiv: {
-      display: 'flex',
-    },
-    settingDivAlt: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingArrayDiv: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingsGroup: {
-      width: '100%',
-    },
-  }
-}
+const reducer = combineReducers({
+  settings: settingsReducer,
+})
+
+export default reducer

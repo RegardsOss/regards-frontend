@@ -15,27 +15,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { SETTINGS, SETTINGS_ARRAY } from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
- * Card components styles
- * @author Raphaël Mechali
+ * Actions to get Settings
+ * @author Théo Lasserre
  */
-export default function getStyles(theme) {
-  return {
-    settingDiv: {
-      display: 'flex',
-    },
-    settingDivAlt: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingArrayDiv: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingsGroup: {
-      width: '100%',
-    },
+class SettingsActions extends BasicListActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DELIVERY}/settings`,
+      entityPathVariable: 'name',
+      schemaTypes: {
+        ENTITY: SETTINGS,
+        ENTITY_ARRAY: SETTINGS_ARRAY,
+      },
+    })
   }
 }
+
+export default SettingsActions

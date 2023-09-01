@@ -21,6 +21,7 @@ import AddIcon from 'mdi-material-ui/PlusCircle'
 import PageView from 'mdi-material-ui/CardSearch'
 import SettingsIcon from 'mdi-material-ui/Cog'
 import { orderDependencies } from '@regardsoss/admin-order-management'
+import { deliveryManagementDependencies } from '@regardsoss/admin-delivery-management'
 import { processingDependencies } from '@regardsoss/admin-processing-management'
 
 /**
@@ -67,6 +68,18 @@ const items = (project, intl) => [
       icon: <AddIcon />,
       tooltipMsg: intl.formatMessage({ id: 'commands.board.processing.tooltip.add' }),
       hateoasDependencies: processingDependencies.addProcessingDependencies,
+    }],
+  },
+  // delivery card
+  {
+    title: intl.formatMessage({ id: 'commands.board.delivery.title' }),
+    description: intl.formatMessage({ id: 'commands.board.delivery.description' }),
+    advanced: false,
+    actions: [{
+      path: `/admin/${project}/commands/delivery/settings`,
+      icon: <SettingsIcon />,
+      tooltipMsg: intl.formatMessage({ id: 'commands.board.delivery.settings' }),
+      hateoasDependencies: deliveryManagementDependencies.settingDependencies,
     }],
   },
 ]

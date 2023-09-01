@@ -16,26 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { DeliveryClient } from '@regardsoss/client'
 
 /**
- * Card components styles
- * @author Raphaël Mechali
+ * Module hateoas depencies
+ * @author Théo Lasserre
  */
-export default function getStyles(theme) {
-  return {
-    settingDiv: {
-      display: 'flex',
-    },
-    settingDivAlt: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingArrayDiv: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingsGroup: {
-      width: '100%',
-    },
-  }
+
+const settingDependencies = [
+  new DeliveryClient.SettingsActions().getDependency(RequestVerbEnum.GET_LIST),
+]
+
+export default {
+  settingDependencies,
 }

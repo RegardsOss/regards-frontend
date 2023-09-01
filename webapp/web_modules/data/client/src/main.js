@@ -39,6 +39,7 @@ import * as CommonCl from './rs-common'
 import * as FeatureManagementCl from './rs-fem'
 import * as DataManagementCl from './rs-dam'
 import * as DataProviderCl from './rs-data-provider'
+import * as DeliveryCl from './rs-delivery'
 import * as IngestCl from './rs-ingest'
 import * as OrderCl from './rs-order'
 import * as NotifierCl from './rs-notifier'
@@ -58,6 +59,7 @@ export const CommonClient = CommonCl
 export const FeatureManagementClient = FeatureManagementCl
 export const DataManagementClient = DataManagementCl
 export const DataProviderClient = DataProviderCl
+export const DeliveryClient = DeliveryCl
 export const IngestClient = IngestCl
 export const OrderClient = OrderCl
 export const NotifierClient = NotifierCl

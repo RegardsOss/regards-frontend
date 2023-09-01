@@ -20,6 +20,7 @@ import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { orderRouter } from '@regardsoss/admin-order-management'
 import { processingRouter } from '@regardsoss/admin-processing-management'
+import { deliveryManagementRouter } from '@regardsoss/admin-delivery-management'
 import Routes from '../src/router'
 import ModuleContainer from '../src/components/ModuleContainer'
 
@@ -29,10 +30,11 @@ describe('[ADMIN BOARD COMMANDS] Testing acquisition board router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(3)
+    expect(Routes.childRoutes).to.have.length(4)
     expect(Routes.childRoutes[0].path).to.eq('board')
     expect(Routes.childRoutes[1].path).to.eq('history')
     expect(Routes.childRoutes[2].path).to.eq('processing')
+    expect(Routes.childRoutes[3].path).to.eq('delivery')
   })
 
   it('should return BoardContainer', (done) => {
@@ -50,6 +52,12 @@ describe('[ADMIN BOARD COMMANDS] Testing acquisition board router', () => {
   it('should return processingRouter', (done) => {
     Routes.childRoutes[2].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(processingRouter)
+      done()
+    })
+  })
+  it('should return deliveryManagementRouter', (done) => {
+    Routes.childRoutes[3].getChildRoutes(undefined, (smth, component) => {
+      expect(component[0]).to.eq(deliveryManagementRouter)
       done()
     })
   })

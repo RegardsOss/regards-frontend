@@ -15,27 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 /**
- * Card components styles
- * @author Raphaël Mechali
+ * Index for all data provider microservice clients.
+ * @author Sébastien Binda
  */
-export default function getStyles(theme) {
-  return {
-    settingDiv: {
-      display: 'flex',
-    },
-    settingDivAlt: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingArrayDiv: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingsGroup: {
-      width: '100%',
-    },
-  }
-}
+export { default as SettingsActions } from './settings/SettingsActions'
+export { default as getSettingsReducer } from './settings/SettingsReducer'
+export { default as getSettingsSelectors } from './settings/SettingsSelectors'

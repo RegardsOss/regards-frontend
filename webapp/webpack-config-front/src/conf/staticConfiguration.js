@@ -40,6 +40,7 @@ STATIC_CONF = {
     CATALOG: 'rs-catalog',
     DAM: 'rs-dam',
     DATA_PROVIDER: 'rs-dataprovider',
+    DELIVERY: 'rs-delivery',
     ORDER: 'rs-order',
     STORAGE: 'rs-storage',
     INGEST: 'rs-ingest',

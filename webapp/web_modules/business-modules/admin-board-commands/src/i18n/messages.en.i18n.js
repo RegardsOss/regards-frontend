@@ -26,6 +26,9 @@ const messages = {
   'commands.board.processing.tooltip.monitoring': 'Monitor ongoing processing',
   'commands.board.processing.tooltip.list': 'Processing configurations list',
   'commands.board.processing.tooltip.add': 'Create a processing configuration',
+  'commands.board.delivery.title': 'Delivery',
+  'commands.board.delivery.description': 'Delivery system for product orders',
+  'commands.board.delivery.settings': 'Settings',
 }
 
 export default messages

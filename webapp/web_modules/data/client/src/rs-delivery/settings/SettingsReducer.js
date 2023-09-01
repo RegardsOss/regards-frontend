@@ -16,26 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { SettingsConfiguration } from '@regardsoss/api'
+import SettingsActions from './SettingsActions'
 
 /**
- * Card components styles
- * @author Raphaël Mechali
+ * settings fetch reducer
+ * @author Théo Lasserre
  */
-export default function getStyles(theme) {
-  return {
-    settingDiv: {
-      display: 'flex',
-    },
-    settingDivAlt: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingArrayDiv: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingsGroup: {
-      width: '100%',
-    },
+class SettingsReducer extends BasicListReducers {
+  constructor(namespace) {
+    super(SettingsConfiguration, new SettingsActions(namespace))
   }
+}
+
+/**
+ * Exports the reducer builder on namespace
+ * @param {string} namespace namespace
+ * @returns {function} reduce function
+ */
+export default (namespace) => {
+  const instance = new SettingsReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

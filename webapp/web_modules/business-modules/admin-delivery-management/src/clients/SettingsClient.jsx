@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,27 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { DeliveryClient } from '@regardsoss/client'
 
 /**
- * Card components styles
- * @author Raphaël Mechali
+ * Worker settings client.
+ *
+ * @author Théo Lasserre
  */
-export default function getStyles(theme) {
-  return {
-    settingDiv: {
-      display: 'flex',
-    },
-    settingDivAlt: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingArrayDiv: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingsGroup: {
-      width: '100%',
-    },
-  }
-}
+const ENTITIES_STORE_PATH = ['admin', 'commands', 'delivery', 'settings']
+const REDUX_ACTION_NAMESPACE = 'admin-delivery-management/settings'
+
+export const settingsActions = new DeliveryClient.SettingsActions(REDUX_ACTION_NAMESPACE)
+export const settingsReducer = DeliveryClient.getSettingsReducer(REDUX_ACTION_NAMESPACE)
+export const settingsSelectors = DeliveryClient.getSettingsSelectors(ENTITIES_STORE_PATH)

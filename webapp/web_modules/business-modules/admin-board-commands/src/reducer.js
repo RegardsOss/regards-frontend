@@ -18,9 +18,11 @@
  **/
 import { combineReducers } from 'redux'
 import { orderReducer } from '@regardsoss/admin-order-management'
+import { deliveryManagementReducer } from '@regardsoss/admin-delivery-management'
 
 const commandsReducers = combineReducers({
   commands: orderReducer,
+  delivery: deliveryManagementReducer,
 })
 
 export default commandsReducers

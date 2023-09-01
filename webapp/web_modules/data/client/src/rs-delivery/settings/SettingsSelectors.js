@@ -15,27 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
 /**
- * Card components styles
- * @author Raphaël Mechali
+ * Export selectors builder on store path.
+ * @param storePath redux store path to access reduced data
+ * @return selectors instance
  */
-export default function getStyles(theme) {
-  return {
-    settingDiv: {
-      display: 'flex',
-    },
-    settingDivAlt: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingArrayDiv: {
-      display: 'flex',
-      marginTop: '20px',
-    },
-    settingsGroup: {
-      width: '100%',
-    },
-  }
-}
+export default (storePath) => new BasicListSelectors(storePath)

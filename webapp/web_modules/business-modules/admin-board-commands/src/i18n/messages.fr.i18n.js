@@ -26,6 +26,9 @@ const messages = {
   'commands.board.processing.tooltip.monitoring': 'Monitoring des traitements en cours',
   'commands.board.processing.tooltip.list': 'Liste des configurations de traitements',
   'commands.board.processing.tooltip.add': 'Créer une configuration de traitement',
+  'commands.board.delivery.title': 'Livraisons',
+  'commands.board.delivery.description': 'Système de livraison automatique des commandes de produits',
+  'commands.board.delivery.settings': 'Paramètres',
 }
 
 export default messages
