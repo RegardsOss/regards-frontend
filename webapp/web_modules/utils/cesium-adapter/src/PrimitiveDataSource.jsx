@@ -115,7 +115,6 @@ class PrimitiveDataSource extends React.Component {
 
   render() {
     const { primitives } = this.state
-    console.error('ddd : ', this.props.features, primitives)
     return primitives
   }
 }

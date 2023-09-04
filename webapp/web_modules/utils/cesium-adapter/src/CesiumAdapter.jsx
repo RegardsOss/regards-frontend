@@ -143,7 +143,7 @@ export default class CesiumAdapter extends React.Component {
 
     const cesiumFeaturesColor = Color.fromCssColorString(this.props.featuresColor)
     const cesiumDrawColor = Color.fromCssColorString(this.props.drawColor)
-    const nearlyTransparentColor = new Color(0, 0, 0, 0.01)
+    const nearlyTransparentColor = new Color(0, 0, 0, 0.0001)
 
     const selectedFeatureColor = Color.fromCssColorString(this.props.selectedFeatureColor)
 
