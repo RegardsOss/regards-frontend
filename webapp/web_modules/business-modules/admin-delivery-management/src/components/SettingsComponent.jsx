@@ -146,6 +146,14 @@ export class SettingsComponent extends React.Component {
                 editedSetting={editedS3Server}
               >
                 <Field
+                  key={`${SETTINGS.S3_SERVER}.${S3_SERVER_SETTINGS.SCHEME}`}
+                  name={`${SETTINGS.S3_SERVER}.${S3_SERVER_SETTINGS.SCHEME}`}
+                  label={formatMessage({ id: 'delivery.settings.field.s3_server.scheme' })}
+                  component={RenderTextField}
+                  validate={ValidationHelpers.required}
+                  fullWidth
+                />
+                <Field
                   key={`${SETTINGS.S3_SERVER}.${S3_SERVER_SETTINGS.HOST}`}
                   name={`${SETTINGS.S3_SERVER}.${S3_SERVER_SETTINGS.HOST}`}
                   label={formatMessage({ id: 'delivery.settings.field.s3_server.host' })}
@@ -181,14 +189,6 @@ export class SettingsComponent extends React.Component {
                 <Field
                   key={`${SETTINGS.S3_SERVER}.${S3_SERVER_SETTINGS.REGION}`}
                   name={`${SETTINGS.S3_SERVER}.${S3_SERVER_SETTINGS.REGION}`}
-                  label={formatMessage({ id: 'delivery.settings.field.s3_server.region' })}
-                  component={RenderTextField}
-                  validate={ValidationHelpers.required}
-                  fullWidth
-                />
-                <Field
-                  key={`${SETTINGS.S3_SERVER}.${S3_SERVER_SETTINGS.SCHEME}`}
-                  name={`${SETTINGS.S3_SERVER}.${S3_SERVER_SETTINGS.SCHEME}`}
                   label={formatMessage({ id: 'delivery.settings.field.s3_server.region' })}
                   component={RenderTextField}
                   validate={ValidationHelpers.required}
