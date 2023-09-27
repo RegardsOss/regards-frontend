@@ -20,11 +20,10 @@
 import isEmpty from 'lodash/isEmpty'
 import { StringValueRender } from '@regardsoss/components'
 import { WorkerShapes } from '@regardsoss/shape'
-import { WorkerDomain } from '@regardsoss/domain'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import AlertError from 'mdi-material-ui/AlertCircle'
+import AlertInfo from 'mdi-material-ui/Information'
 
 /**
  * Table cell render for status
@@ -47,9 +46,9 @@ class StatusRender extends React.Component {
     return <div style={statusStyle}>
       <StringValueRender value={formatMessage({ id: `datapreparation.filters.statuses.${status}` })} />
       {
-        (status === WorkerDomain.REQUEST_STATUS_ENUM.ERROR || status === WorkerDomain.REQUEST_STATUS_ENUM.INVALID_CONTENT) && !isEmpty(error)
+        !isEmpty(error)
           ? <IconButton onClick={() => onViewRequestErrors(this.props.entity)}>
-            <AlertError />
+            <AlertInfo />
           </IconButton>
           : null
       }
