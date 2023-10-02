@@ -34,11 +34,10 @@ class DownloadUserListCSVActions extends DownloadFileActions {
 
   /**
    * Download csv file
-   * @param {string} token logged user token (required for order files)
    * @return {string} csv download URL
    */
-  downloadCSV(token, requestParameters = {}) {
-    return this.download(null, { token }, 'POST', requestParameters)
+  downloadCSV(requestParameters = {}) {
+    return this.download(null, null, 'POST', requestParameters)
   }
 }
 

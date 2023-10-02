@@ -16,14 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import omit from 'lodash/omit'
 import pick from 'lodash/pick'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
-import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import {
   AdminShapes, CommonShapes, UIShapes, DataManagementShapes,
 } from '@regardsoss/shape'
@@ -64,8 +62,6 @@ export class ProjectUserListContainer extends React.Component {
     isFetchingActions: PropTypes.bool.isRequired,
     roleList: AdminShapes.RoleList.isRequired,
     uiSettings: UIShapes.UISettings.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    authentication: AuthenticateShape.isRequired, // used only in onPropertiesUpdated
     // from mapDispatchToProps
     onDownloadCSV: PropTypes.func.isRequired,
     fetchUsers: PropTypes.func.isRequired,
@@ -94,7 +90,6 @@ export class ProjectUserListContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       pageMeta: projectUserSelectors.getMetaData(state),
-      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
       origins: originSelectors.getList(state),
       isFetchingViewData: projectUserSelectors.isFetching(state),
       isFetchingActions: projectUserSignalSelectors.isFetching(state),
@@ -110,7 +105,7 @@ export class ProjectUserListContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { authentication }) {
+  static mapDispatchToProps(dispatch) {
     return {
       fetchUsers: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(projectUserActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
       onDeleteAccount: (userId) => dispatch(projectUserFCUDActions.deleteEntity(userId)),
@@ -125,7 +120,7 @@ export class ProjectUserListContainer extends React.Component {
       onUpdateAccount: (userId, updatedAccount) => dispatch(projectUserFCUDActions.updateEntity(userId, updatedAccount)),
       fetchUISettings: () => dispatch(uiSettingsActions.getSettings()),
       fetchGroups: () => dispatch(accessGroupActions.fetchPagedEntityList()),
-      onDownloadCSV: (requestParameters) => dispatch(csvActions.downloadCSV(get(authentication, 'result.access_token'), requestParameters)),
+      onDownloadCSV: (requestParameters) => dispatch(csvActions.downloadCSV(requestParameters)),
     }
   }
 

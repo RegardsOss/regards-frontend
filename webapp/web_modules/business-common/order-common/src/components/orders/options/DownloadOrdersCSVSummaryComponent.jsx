@@ -19,7 +19,6 @@
 import FlatButton from 'material-ui/FlatButton'
 import DownloadCSVIcon from 'mdi-material-ui/BriefcaseDownload'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DownloadButton } from '@regardsoss/components'
 
 /**
  * Download orders CSV summary option
@@ -27,7 +26,7 @@ import { DownloadButton } from '@regardsoss/components'
  */
 class DownloadOrdersCSVSummaryComponent extends React.Component {
   static propTypes = {
-    link: PropTypes.string.isRequired,
+    onDownloadCSV: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -35,16 +34,16 @@ class DownloadOrdersCSVSummaryComponent extends React.Component {
   }
 
   render() {
-    const { link } = this.props
+    const { onDownloadCSV } = this.props
     const { intl: { formatMessage } } = this.context
     return (
-      <DownloadButton
-        ButtonConstructor={FlatButton}
+      <FlatButton
+        onClick={onDownloadCSV}
         icon={<DownloadCSVIcon />}
         label={formatMessage({ id: 'order.list.download.summary.csv.label' })}
-        downloadURL={link}
         title={formatMessage({ id: 'order.list.download.summary.csv.tooltip' })}
-      />)
+      />
+    )
   }
 }
 export default DownloadOrdersCSVSummaryComponent

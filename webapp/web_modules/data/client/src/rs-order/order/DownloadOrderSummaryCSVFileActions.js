@@ -16,25 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicActions } from '@regardsoss/store-utils'
+import { DownloadFileActions } from '@regardsoss/store-utils'
 
 /**
  * Pseudo actions to obtain the link to orders list summary CSV file
  */
-class DownloadOrderMetalinkFileAtions extends BasicActions {
-  constructor() {
+class DownloadOrderMetalinkFileAtions extends DownloadFileActions {
+  constructor(namespace) {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders/csv`,
+      namespace,
+      headers: {
+        Accept: '*/*', // Accept: all
+      },
     })
   }
 
   /**
-   * Returns file download link
-   * @param {string} token logged user token (required for order files)
+   * Download csv file
+   * @param {object} optional request parameters needed to filter results
    * @return {string} csv download URL
    */
-  getFileDownloadLink(token) {
-    return BasicActions.buildURL(this.entityEndpoint, null, { token })
+  downloadCSV(requestParameters = {}) {
+    return this.download(null, null, 'POST', requestParameters)
   }
 }
 

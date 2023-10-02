@@ -51,12 +51,14 @@ describe('[Order Common] Testing DownloadOrdersCSVSummaryContainer', () => {
           jti: 'fb0f95b1-4b4c-4881-a13d-344dc580ae09',
         },
       },
+      downloadCSV: () => { },
+      throwError: () => { },
     }
     const enzymeWrapper = shallow(<DownloadOrdersCSVSummaryContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(DownloadOrdersCSVSummaryComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
-    const reportedLink = componentWrapper.props().link
-    assert.isDefined(reportedLink)
-    assert.include(reportedLink, props.authentication.result.access_token)
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      onDownloadCSV: enzymeWrapper.instance().onDownloadCSV,
+    }, 'Component properties should be correctly reported')
   })
 })

@@ -379,7 +379,7 @@ class OrderListComponent extends React.Component {
               />
               {/* downlaod summary (when admin) */
                 displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? (
-                  <DownloadOrdersCSVSummaryContainer />
+                  <DownloadOrdersCSVSummaryContainer ordersRequestParameters={ordersRequestParameters} />
                 ) : null
               }
               {/* columns visibility configuration  */}

@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { DownloadButton } from '@regardsoss/components'
+import FlatButton from 'material-ui/FlatButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import DownloadOrdersCSVSummaryComponent from '../../../../src/components/orders/options/DownloadOrdersCSVSummaryComponent'
 import styles from '../../../../src/styles'
@@ -38,11 +38,10 @@ describe('[Order Common] Testing DownloadOrdersCSVSummaryComponent', () => {
   })
   it('should render correctly', () => {
     const props = {
-      link: 'http://myLink',
+      onDownloadCSV: () => { },
     }
     const enzymeWrapper = shallow(<DownloadOrdersCSVSummaryComponent {...props} />, { context })
-    const downloadButton = enzymeWrapper.find(DownloadButton)
+    const downloadButton = enzymeWrapper.find(FlatButton)
     assert.lengthOf(downloadButton, 1)
-    assert.equal(downloadButton.props().downloadURL, props.link)
   })
 })
