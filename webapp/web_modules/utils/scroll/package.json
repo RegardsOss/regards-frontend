@@ -1,0 +1,13 @@
+{
+  "name": "@regardsoss/scroll",
+  "version": "1.14.0-SNAPSHOT",
+  "private": true,
+  "sideEffects": false,
+  "description": "",
+  "main": "src/main.js",
+  "author": "CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
+  "license": "GPL-3.0"
+}

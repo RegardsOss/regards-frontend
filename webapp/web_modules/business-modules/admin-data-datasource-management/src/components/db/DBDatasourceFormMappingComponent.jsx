@@ -17,13 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
+import includes from 'lodash/includes'
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
 import get from 'lodash/get'
+import reduce from 'lodash/reduce'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
+import { ScrollHelper } from '@regardsoss/scroll'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { ErrorTypes, reduxForm } from '@regardsoss/form-utils'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent, ShowableAtRender, PositionedDialog } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
@@ -31,7 +35,10 @@ import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import DBDatasourceStepperComponent from './DBDatasourceStepperComponent'
 import ConnectionViewerComponent from '../ConnectionViewerComponent'
 import StaticAttributeListDB from '../../domain/db/StaticAttributeListDB'
+import DynamicAttributeListDB from '../../domain/db/DynamicAttributeListDB'
+import { PARAMETER_ATTRIBUTE_KEY_ENUM } from '../../domain/db/ParameterAttributeKeyEnum'
 import DBDatasourceFormMappingFromTableComponent from './DBDatasourceFormMappingFromTableComponent'
+import AspirationModeComponent, { ASPIRATION_MODE_ENUM, SELECTED_PLUGIN_PARAMETER_ENUM } from './AspirationModeComponent'
 import DBDatasourceFormMappingCustomComponent from './DBDatasourceFormMappingCustomComponent'
 import states from '../../domain/db/FormMappingStates'
 
@@ -74,6 +81,12 @@ export class DBDatasourceFormMappingComponent extends React.Component {
       fullname: '', // ex: schema.table
       name: '', // ex: table
     },
+    selectedAspirationMode: ASPIRATION_MODE_ENUM.NONE,
+    confirmDialog: {
+      open: false,
+      submitCallback: null,
+      message: '',
+    },
   }
 
   /**
@@ -86,17 +99,18 @@ export class DBDatasourceFormMappingComponent extends React.Component {
     // Initialize forms inputs
     if (isEditing) {
       const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MAPPING), 'value', [])
+      // Manage uniqueId attribute.
+      // if uniqueId parameter is not set in currentDatasource then whe need to have checkbox checked.
+      const uniqueIdAttribute = findParam(currentDatasource, PARAMETER_ATTRIBUTE_KEY_ENUM.UNIQUE_ID)
+      let attributes = {}
+      if (!uniqueIdAttribute) {
+        attributes = {
+          [PARAMETER_ATTRIBUTE_KEY_ENUM.UNIQUE_ID]: true,
+        }
+      }
+      let newState = { ...this.state }
       if (isSingleTable) {
         const { tableAttributeList } = this.props
-        // Initialise state
-        const tableFullName = findParam(currentDatasource, IDBDatasourceParamsEnum.TABLE).value || ''
-        this.setState({
-          currentTableSelected: {
-            fullname: tableFullName,
-            name: tableFullName.split('.')[1],
-          },
-        })
-        const attributes = {}
         forEach(attributesMapping, (attributeMapping) => {
           // Check if the value provided by attributeMapping.nameDs exists in table attributes
           const existingTable = find(tableAttributeList, (tableAttribute) => tableAttribute.name === attributeMapping.nameDS)
@@ -105,6 +119,16 @@ export class DBDatasourceFormMappingComponent extends React.Component {
             sql: existingTable ? '' : attributeMapping.nameDS,
           }
         })
+        // Initialise state
+        const tableFullName = findParam(currentDatasource, IDBDatasourceParamsEnum.TABLE).value || ''
+        newState = {
+          ...newState,
+          currentTableSelected: {
+            fullname: tableFullName,
+            name: includes(tableFullName, '.') ? tableFullName.split('.')[1] : tableFullName,
+          },
+          selectedAspirationMode: this.getSelectedAspirationMode(attributesMapping),
+        }
         const obj = {
           [states.FROM_TABLE]: {
             table: tableFullName,
@@ -114,12 +138,16 @@ export class DBDatasourceFormMappingComponent extends React.Component {
         initialize(obj)
       } else {
         const fromClause = get(findParam(currentDatasource, IDBDatasourceParamsEnum.FROM_CLAUSE), 'value')
-        const attributes = {}
         forEach(attributesMapping, (attributeMapping) => {
           attributes[attributeMapping.name] = {
             sql: attributeMapping.nameDS,
           }
         })
+        // Initialise state
+        newState = {
+          ...newState,
+          selectedAspirationMode: this.getSelectedAspirationMode(attributesMapping),
+        }
         const obj = {
           [states.CUSTOM_FROM]: {
             fromClause,
@@ -128,7 +156,20 @@ export class DBDatasourceFormMappingComponent extends React.Component {
         }
         initialize(obj)
       }
+      this.setState(newState)
     }
+  }
+
+  getSelectedAspirationMode = (attributesMapping) => {
+    let selectedAspirationMode = ASPIRATION_MODE_ENUM.NONE
+    forEach(attributesMapping, (attributeMapping) => {
+      if (attributeMapping.name === SELECTED_PLUGIN_PARAMETER_ENUM[ASPIRATION_MODE_ENUM.BY_DATE]) {
+        selectedAspirationMode = ASPIRATION_MODE_ENUM.BY_DATE
+      } else if (attributeMapping.name === SELECTED_PLUGIN_PARAMETER_ENUM[ASPIRATION_MODE_ENUM.BY_ID]) {
+        selectedAspirationMode = ASPIRATION_MODE_ENUM.BY_ID
+      }
+    })
+    return selectedAspirationMode
   }
 
   /**
@@ -166,113 +207,207 @@ export class DBDatasourceFormMappingComponent extends React.Component {
     }
   }
 
-  handleSave = (values) => {
+  handleSave = (values, e, reduxProps) => {
     const { onSubmit, modelAttributeList, isSingleTable } = this.props
+    const { intl: { formatMessage } } = this.context
+    const registeredFieldsKeys = keys(reduxProps.registeredFields).toString()
     let formValuesSubset
     if (isSingleTable) {
       formValuesSubset = values[states.FROM_TABLE]
     } else {
       formValuesSubset = values[states.CUSTOM_FROM]
     }
+
+    // Filter values with registered fields. Only registered fields values are sent to backend.
+    const formAttributes = get(formValuesSubset, 'attributes')
+    const filtertedFormValuesSubset = {
+      ...formValuesSubset,
+      attributes: formAttributes ? reduce(formAttributes, (acc, value, key) => {
+        if (includes(registeredFieldsKeys, key)) {
+          return {
+            ...acc,
+            [key]: value,
+          }
+        }
+        return acc
+      }, {}) : null,
+    }
+
+    // Display a warning dialog if :
+    // - no selected aspiration mode
+    // - selected apiration mode but field values are empty
+    let selectedAspirationMode = ASPIRATION_MODE_ENUM.NONE
+    if (includes(registeredFieldsKeys, SELECTED_PLUGIN_PARAMETER_ENUM[ASPIRATION_MODE_ENUM.BY_DATE])) {
+      selectedAspirationMode = ASPIRATION_MODE_ENUM.BY_DATE
+    } else if (includes(registeredFieldsKeys, SELECTED_PLUGIN_PARAMETER_ENUM[ASPIRATION_MODE_ENUM.BY_ID])) {
+      selectedAspirationMode = ASPIRATION_MODE_ENUM.BY_ID
+    }
+    const fieldValues = get(filtertedFormValuesSubset, `attributes.${SELECTED_PLUGIN_PARAMETER_ENUM[selectedAspirationMode]}`)
+    const noValues = !(get(fieldValues, 'tableAttribute')) && !(get(fieldValues, 'sql'))
+
     const modelAttributeDynAndStaticList = {
       ...modelAttributeList,
+      ...DynamicAttributeListDB,
       ...StaticAttributeListDB,
     }
-    onSubmit(formValuesSubset, modelAttributeDynAndStaticList)
+    // Save submit call back to be used by dialog confirm action
+    const onSubmitCallback = () => onSubmit(filtertedFormValuesSubset, modelAttributeDynAndStaticList)
+
+    if (selectedAspirationMode === ASPIRATION_MODE_ENUM.NONE || noValues) {
+      const message = selectedAspirationMode === ASPIRATION_MODE_ENUM.NONE ? formatMessage({ id: 'datasource.form.mapping.dialog.message.no.aspiration' }) : formatMessage({ id: 'datasource.form.mapping.dialog.message.no.aspiration.value' })
+      this.openDialog(onSubmitCallback, message)
+    } else {
+      onSubmitCallback()
+    }
+  }
+
+  openDialog = (submitCallback, message) => {
+    const { confirmDialog: { open } } = this.state
+    this.setState({
+      confirmDialog: {
+        open: !open,
+        submitCallback,
+        message,
+      },
+    })
+  }
+
+  closeDialog = () => {
+    this.setState({
+      confirmDialog: {
+        open: false,
+        submitCallback: null,
+        message: '',
+      },
+    }, () => ScrollHelper.scrollTo(0, 200))
+  }
+
+  renderConfirmDialog = () => {
+    const { intl: { formatMessage } } = this.context
+    const { confirmDialog: { open, message, submitCallback } } = this.state
+    if (open) {
+      return (
+        <PositionedDialog
+          title={formatMessage({ id: 'datasource.form.mapping.dialog.title' })}
+          actions={<>
+            <FlatButton
+              key="cancel"
+              id="confirm.dialog.cancel"
+              label={formatMessage({ id: 'datasource.form.mapping.dialog.action.close' })}
+              onClick={this.closeDialog}
+            />
+            <FlatButton
+              key="confirm"
+              id="confirm.dialog.confirm"
+              label={formatMessage({ id: 'datasource.form.mapping.dialog.action.confirm' })}
+              onClick={submitCallback}
+            />
+          </>}
+          modal
+          open
+          dialogWidthPercent={40}
+          dialogHeightPercent={1}
+        >
+          <div>
+            {message}
+          </div>
+        </PositionedDialog>
+      )
+    }
+    return null
   }
 
   render() {
     const {
       isSingleTable, handleBack, tableList, tableAttributeList, modelAttributeList, change, currentDatasource, isEditing, submitting, invalid,
     } = this.props
-    const { currentTableSelected } = this.state
-    const cardEspaced = {
-      marginTop: '20px',
-    }
+    const { currentTableSelected, selectedAspirationMode } = this.state
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        db: {
+          formMapping: {
+            mainDivStyle, connextionViewerDivStyle, dbFormDivStyle, aspirationModeCardStyle, cardActionsDivStyle,
+          },
+        },
+      },
+    } = this.context
+
     return (
       <form>
         <Card>
           <CardTitle
-            title={this.context.intl.formatMessage({ id: 'datasource.form.mapping.title' })}
-            subtitle={this.context.intl.formatMessage({ id: 'datasource.form.mapping.subtitle' })}
+            title={formatMessage({ id: 'datasource.form.mapping.title' })}
+            subtitle={formatMessage({ id: 'datasource.form.mapping.subtitle' })}
           />
           <DBDatasourceStepperComponent stepIndex={2} />
         </Card>
-        <div style={cardEspaced} className="row">
-          <ShowableAtRender
-            show={isSingleTable}
-          >
-            <div>
-              <div className="col-sm-30">
-                <Card>
-                  <ConnectionViewerComponent
-                    tableAttributeList={tableAttributeList}
-                    tableList={tableList}
-                    onTableSelected={this.handleTableSelected}
-                    initialTableOpen={currentTableSelected.name}
-                    displayTableAsSelected
-                  />
-                </Card>
-              </div>
-              <div className="col-sm-68 col-sm-offset-2">
-                <ShowableAtRender
-                  show={currentTableSelected.name.length > 0}
-                >
-                  <Card>
-                    <div>
-                      <DBDatasourceFormMappingFromTableComponent
-                        table={tableList[currentTableSelected.name]}
-                        tableAttributeList={tableAttributeList}
-                        modelAttributeList={modelAttributeList}
-                        currentDatasource={currentDatasource}
-                        change={change}
-                        isEditing={isEditing}
-                      />
-                    </div>
-                  </Card>
-                </ShowableAtRender>
-              </div>
-            </div>
-          </ShowableAtRender>
-          <ShowableAtRender
-            show={!isSingleTable}
-          >
-            <div className="row">
-              <div className="col-sm-30">
-                <Card>
-                  <ConnectionViewerComponent
-                    tableAttributeList={tableAttributeList}
-                    tableList={tableList}
-                    onTableSelected={this.handleTableSelected}
-                  />
-                </Card>
-              </div>
-              <div className="col-sm-68 col-sm-offset-2">
-                <Card>
-                  <div>
-                    <DBDatasourceFormMappingCustomComponent
-                      tableAttributeList={tableAttributeList}
-                      modelAttributeList={modelAttributeList}
-                      change={change}
-                      isEditing={isEditing}
-                    />
-                  </div>
-                </Card>
-              </div>
-            </div>
-          </ShowableAtRender>
+        <div style={mainDivStyle}>
+          <div style={connextionViewerDivStyle}>
+            <Card>
+              <ConnectionViewerComponent
+                tableAttributeList={tableAttributeList}
+                tableList={tableList}
+                onTableSelected={this.handleTableSelected}
+                initialTableOpen={isSingleTable ? currentTableSelected.name : null}
+                displayTableAsSelected={isSingleTable}
+              />
+            </Card>
+          </div>
+          <div style={dbFormDivStyle}>
+            <ShowableAtRender
+              show={(isSingleTable && currentTableSelected.name.length > 0) || !isSingleTable}
+            >
+              <Card style={aspirationModeCardStyle}>
+                <AspirationModeComponent
+                  tableAttributeList={tableAttributeList}
+                  currentDatasource={currentDatasource}
+                  change={change}
+                  isEditing={isEditing}
+                  onlyAdvancedConfiguration={!isSingleTable}
+                  selectedAspirationMode={selectedAspirationMode}
+                />
+              </Card>
+            </ShowableAtRender>
+            <ShowableAtRender
+              show={isSingleTable && currentTableSelected.name.length > 0}
+            >
+              <Card>
+                <DBDatasourceFormMappingFromTableComponent
+                  table={tableList[currentTableSelected.name]}
+                  tableAttributeList={tableAttributeList}
+                  modelAttributeList={modelAttributeList}
+                  currentDatasource={currentDatasource}
+                  change={change}
+                  isEditing={isEditing}
+                />
+              </Card>
+            </ShowableAtRender>
+            <ShowableAtRender
+              show={!isSingleTable}
+            >
+              <Card>
+                <DBDatasourceFormMappingCustomComponent
+                  tableAttributeList={tableAttributeList}
+                  modelAttributeList={modelAttributeList}
+                  change={change}
+                  isEditing={isEditing}
+                />
+              </Card>
+            </ShowableAtRender>
+          </div>
         </div>
-        <Card style={cardEspaced}>
+        <Card style={cardActionsDivStyle}>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.mapping.action.save' })}
+              mainButtonLabel={formatMessage({ id: 'datasource.form.mapping.action.save' })}
               mainButtonClick={this.props.handleSubmit(this.handleSave)}
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.mapping.action.cancel' })}
+              secondaryButtonLabel={formatMessage({ id: 'datasource.form.mapping.action.cancel' })}
               secondaryButtonClick={handleBack}
             />
           </CardActions>
         </Card>
+        {this.renderConfirmDialog()}
       </form>
     )
   }

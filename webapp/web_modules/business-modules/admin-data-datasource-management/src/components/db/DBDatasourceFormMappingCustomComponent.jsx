@@ -108,17 +108,23 @@ export class DBDatasourceFormMappingCustomComponent extends React.Component {
             preScanRows={false}
             showRowHover
           >
-            {map(StaticAttributeListDB, (staticAttribute) => (
-              <DBDatasourceFormMappingLineComponent
-                key={staticAttribute.content.attribute.name}
-                tableAttributeList={tableAttributeList}
-                modelAttribute={staticAttribute}
-                isStaticAttribute
-                onlyAdvancedConfiguration
-                table={table}
-                change={change}
-              />
-            ))}
+            {map(StaticAttributeListDB, (staticAttribute) => {
+              // lastUpdate is a static attribute but we do not want it to be displayed there.
+              if (staticAttribute.content.attribute.name !== 'lastUpdate') {
+                return (
+                  <DBDatasourceFormMappingLineComponent
+                    key={staticAttribute.content.attribute.name}
+                    tableAttributeList={tableAttributeList}
+                    modelAttribute={staticAttribute}
+                    isStaticAttribute
+                    onlyAdvancedConfiguration
+                    table={table}
+                    change={change}
+                  />
+                )
+              }
+              return null
+            })}
           </TableBody>
         </Table>
         <Table

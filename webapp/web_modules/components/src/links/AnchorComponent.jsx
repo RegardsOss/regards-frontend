@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FloatingActionButton from 'material-ui/FloatingActionButton'
+import { ScrollHelper } from '@regardsoss/scroll'
 import Up from 'mdi-material-ui/ArrowUpBold'
-import isNumber from 'lodash/isNumber'
 import throttle from 'lodash/throttle'
 import root from 'window-or-global'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -95,52 +95,10 @@ export class AnchorComponent extends React.Component {
   }
 
   /**
-   * Scroll the browser to the destination
-   */
-  scrollTo = (destination, duration = 200, callback) => {
-    const easeInOutQuint = function (t) {
-      // eslint-disable-next-line
-      return t < 0.5 ? 16 * t * t * t * t * t : 1 + (16 * (--t) * t * t * t * t)
-    }
-
-    const start = root.pageYOffset
-    const startTime = 'now' in root.performance ? performance.now() : new Date().getTime()
-
-    const documentHeight = Math.max(root.document.body.scrollHeight, root.document.body.offsetHeight, root.document.documentElement.clientHeight, root.document.documentElement.scrollHeight, root.document.documentElement.offsetHeight)
-    const windowHeight = root.innerHeight || root.document.documentElement.clientHeight || root.document.getElementsByTagName('body')[0].clientHeight
-    const destinationOffset = isNumber(destination) ? destination : destination.offsetTop
-    const destinationOffsetToScroll = Math.round(documentHeight - destinationOffset < windowHeight ? documentHeight - windowHeight : destinationOffset)
-
-    if ('requestAnimationFrame' in root === false) {
-      window.scroll(0, destinationOffsetToScroll)
-      if (callback) {
-        callback()
-      }
-    }
-
-    function scroll() {
-      const now = 'now' in root.performance ? performance.now() : new Date().getTime()
-      const time = Math.min(1, ((now - startTime) / duration))
-      const timeFunction = easeInOutQuint(time)
-      root.scroll(0, Math.ceil((timeFunction * (destinationOffsetToScroll - start)) + start))
-
-      if (root.pageYOffset === destinationOffsetToScroll) {
-        if (callback) {
-          callback()
-        }
-        return
-      }
-
-      requestAnimationFrame(scroll)
-    }
-    scroll()
-  }
-
-  /**
    * Handle click event on the button
    */
   handleScroll = () => {
-    this.scrollTo(root.document.body, 200)
+    ScrollHelper.scrollTo(root.document.body, 200)
   }
 
   render() {

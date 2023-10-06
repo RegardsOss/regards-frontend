@@ -16,11 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import some from 'lodash/some'
-import find from 'lodash/find'
 import flow from 'lodash/flow'
 import map from 'lodash/map'
-import get from 'lodash/get'
 import fpmap from 'lodash/fp/map'
 import fpsortBy from 'lodash/fp/sortBy'
 import { CardTitle, CardText } from 'material-ui/Card'
@@ -32,13 +29,10 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
-import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import DBDatasourceFormMappingLineComponent from './DBDatasourceFormMappingLineComponent'
 import StaticAttributeListDB from '../../domain/db/StaticAttributeListDB'
 import states from '../../domain/db/FormMappingStates'
-
-const { findParam } = PluginConfParamsUtils
+import DBDatasourceHelpers from '../../utils/DBDatasourceHelpers'
 
 export class DBDatasourceFormMappingFromTableComponent extends React.Component {
   static propTypes = {
@@ -63,36 +57,16 @@ export class DBDatasourceFormMappingFromTableComponent extends React.Component {
     ...i18nContextType,
   }
 
-  /**
-   * Returns
-   * - false if we are not editing a datasource
-   * - false if the AttributeMapping.nameDS match a TableAttribute name
-   * - true otherwise, which means that AttributeMapping.nameDS is a query SQL and not a TableAttribute name
-   * @param modelAttribute
-   * @returns {boolean}
-   */
-  getIsEditingSQL = (modelAttribute) => {
-    const { currentDatasource, tableAttributeList, isEditing } = this.props
-    if (isEditing) {
-      const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MAPPING), 'value', [])
-      const currentAttributeMapping = find(attributesMapping, (attributeMapping) => attributeMapping.name === modelAttribute.content.attribute.name)
-      if (currentAttributeMapping) {
-        return !some(tableAttributeList, (tableAttribute) => currentAttributeMapping.nameDS === tableAttribute.name)
-      }
-    }
-    return false
-  }
-
   render() {
     const {
-      modelAttributeList, table, tableAttributeList, change,
+      modelAttributeList, table, tableAttributeList, change, currentDatasource, isEditing,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
     const mappingLines = flow(
       fpsortBy('content.attribute.optional'),
       fpmap((modelAttribute) => {
-        const isEditingSQL = this.getIsEditingSQL(modelAttribute)
+        const isEditingSQL = DBDatasourceHelpers.getIsEditingSQL(modelAttribute.content.attribute.name, currentDatasource, tableAttributeList, isEditing)
         return (
           <DBDatasourceFormMappingLineComponent
             key={modelAttribute.content.id}
@@ -140,18 +114,22 @@ export class DBDatasourceFormMappingFromTableComponent extends React.Component {
             showRowHover
           >
             {map(StaticAttributeListDB, (staticAttribute) => {
-              const isEditingSQL = this.getIsEditingSQL(staticAttribute)
-              return (
-                <DBDatasourceFormMappingLineComponent
-                  key={staticAttribute.content.attribute.name}
-                  tableAttributeList={tableAttributeList}
-                  modelAttribute={staticAttribute}
-                  isStaticAttribute
-                  isEditingSQL={isEditingSQL}
-                  table={table}
-                  change={change}
-                />
-              )
+              // lastUpdate is a static attribute but we do not want it to be displayed there.
+              if (staticAttribute.content.attribute.name !== 'lastUpdate') {
+                const isEditingSQL = DBDatasourceHelpers.getIsEditingSQL(staticAttribute.content.attribute.name, currentDatasource, tableAttributeList, isEditing)
+                return (
+                  <DBDatasourceFormMappingLineComponent
+                    key={staticAttribute.content.attribute.name}
+                    tableAttributeList={tableAttributeList}
+                    modelAttribute={staticAttribute}
+                    isStaticAttribute
+                    isEditingSQL={isEditingSQL}
+                    table={table}
+                    change={change}
+                  />
+                )
+              }
+              return null
             })}
           </TableBody>
         </Table>

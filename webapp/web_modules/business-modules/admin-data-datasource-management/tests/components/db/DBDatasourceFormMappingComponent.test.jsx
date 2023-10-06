@@ -22,8 +22,9 @@ import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/te
 import { DBDatasourceFormMappingComponent } from '../../../src/components/db/DBDatasourceFormMappingComponent'
 import DBDatasourceFormMappingFromTableComponent from '../../../src/components/db/DBDatasourceFormMappingFromTableComponent'
 import DBDatasourceFormMappingCustomComponent from '../../../src/components/db/DBDatasourceFormMappingCustomComponent'
+import styles from '../../../src/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormMappingComponent', () => {
   before(testSuiteHelpers.before)

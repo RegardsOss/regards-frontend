@@ -18,7 +18,7 @@
  **/
 import { DamDomain } from '@regardsoss/domain'
 
-export default { // XXX seem like mock code. Leo Mieulet?
+export default {
   providerId: {
     content: {
       mode: '',
@@ -30,26 +30,6 @@ export default { // XXX seem like mock code. Leo Mieulet?
       attribute: {
         name: 'providerId',
         label: 'Provider identifier',
-        type: DamDomain.MODEL_ATTR_TYPES.STRING,
-        optional: false,
-        fragment: {
-          id: -1,
-          name: '',
-        },
-      },
-    },
-  },
-  label: {
-    content: {
-      mode: '',
-      model: {
-        type: '',
-        description: '',
-        name: '',
-      },
-      attribute: {
-        name: 'label',
-        label: 'label',
         type: DamDomain.MODEL_ATTR_TYPES.STRING,
         optional: false,
         fragment: {
@@ -72,6 +52,26 @@ export default { // XXX seem like mock code. Leo Mieulet?
         label: 'lastUpdate',
         type: DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601,
         optional: true,
+        fragment: {
+          id: -1,
+          name: '',
+        },
+      },
+    },
+  },
+  label: {
+    content: {
+      mode: '',
+      model: {
+        type: '',
+        description: '',
+        name: '',
+      },
+      attribute: {
+        name: 'label',
+        label: 'label',
+        type: DamDomain.MODEL_ATTR_TYPES.STRING,
+        optional: false,
         fragment: {
           id: -1,
           name: '',

@@ -87,6 +87,12 @@ const messages = {
   'datasource.form.mapping.emptyDatabase.title': 'Votre base de données est vide',
   'datasource.form.mapping.emptyDatabase.message': 'Associez des attributs du modèle à une datasource qui a au moins 1 table',
 
+  'datasource.form.mapping.dialog.title': 'Confirmer les valeurs du formulaire',
+  'datasource.form.mapping.dialog.action.close': 'Annuler',
+  'datasource.form.mapping.dialog.action.confirm': 'Confirmer',
+  'datasource.form.mapping.dialog.message.no.aspiration': 'Vous n\'avez pas choisi de mode d\'aspiration, souhaitez-vous tout de même continuer ?',
+  'datasource.form.mapping.dialog.message.no.aspiration.value': 'Vous n\'avez pas rempli les champs du mode d\'aspiration, souhaitez-vous tout de même continuer ?',
+
   'datasource.form.mapping.table.fragment': 'Fragment',
   'datasource.form.mapping.table.attrName': 'Nom de l\'attribut',
   'datasource.form.mapping.table.attribute': 'Attribut du modèle',
@@ -112,6 +118,19 @@ const messages = {
   'datasource.form.mapping.custom.title': 'Liaison entre attributs du modèle et la connexion',
   'datasource.form.mapping.custom.subtitle': 'Dans un premier temps, écrivez une clause FROM, WHERE pour récupérer les données en fonction des tables disponibles dans la connexion. Ensuite, précisez la clause SELECT en SQL pour récupérer la valeur de l\'attribut du modèle',
   'datasource.form.mapping.custom.fromClause': 'Clause FROM, WHERE, [GROUP BY et HAVING]',
+
+  'datasource.form.mapping.aspiration.mode.title': 'Mode d\'aspiration incrémentale',
+  'datasource.form.mapping.aspiration.mode.subtitle': 'Sélectionnez le mode d\'aspiration des entitiés',
+  'datasource.form.mapping.aspiration.mode.none': 'Pas d\'aspiration incrémentale',
+  'datasource.form.mapping.aspiration.mode.none.subtitle': 'A chaque passage de l\'aspirateur l\'ensemble des données seront réaspirées. Cette option n\'est pas recommandée car très couteuse en temps.',
+  'datasource.form.mapping.aspiration.mode.byDate': 'Aspiration par date',
+  'datasource.form.mapping.aspiration.mode.byDate.subtitle': 'L\'apirateur n\'aspirera que les données dont la date est supérieure à la date de la dernière entité aspirée.',
+  'datasource.form.mapping.aspiration.mode.byDate.info': 'La date d\'une entitié sera lue par l\'aspirateur dans la champ indiqué ci dessous.',
+  'datasource.form.mapping.aspiration.mode.byId': 'Aspiration par identifiant',
+  'datasource.form.mapping.aspiration.mode.byId.subtitle': 'L\'aspirateur n\'aspirera que les données dont l\'identifiant est supérieur aux données déjà aspirées.',
+  'datasource.form.mapping.aspiration.mode.byId.info': 'L\'identifiant d\'une entitié sera lu par l\'aspirateur dans la champ indiqué ci dessous.',
+  'datasource.form.mapping.aspiration.mode.byId.non.uniq': 'Identifiant non unique',
+  'datasource.form.mapping.aspiration.mode.byId.non.uniq.warning': 'Si cette case est cochée le nombre d\'entités aspirées sera potentiellement supérieur au nombre réel d\'entités.',
 
   'invalid.one_pk_required': 'Choisissez un champ comme clé primaire',
   'invalid.only_one_pk_allowed': 'Utilisez une seule clé primaire',

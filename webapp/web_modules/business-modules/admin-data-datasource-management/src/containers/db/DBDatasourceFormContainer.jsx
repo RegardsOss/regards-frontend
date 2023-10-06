@@ -18,9 +18,12 @@
  **/
 import { browserHistory } from 'react-router'
 import find from 'lodash/find'
+import includes from 'lodash/includes'
+import isEmpty from 'lodash/isEmpty'
 import reject from 'lodash/reject'
 import get from 'lodash/get'
 import forEach from 'lodash/forEach'
+import reduce from 'lodash/reduce'
 import cloneDeep from 'lodash/cloneDeep'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
@@ -35,6 +38,7 @@ import { datasourceSelectors, datasourceActions } from '../../clients/Datasource
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetaDataClient'
 import DBDatasourceFormAttributesContainer from './DBDatasourceFormAttributesContainer'
 import DBDatasourceFormMappingContainer from './DBDatasourceFormMappingContainer'
+import { PARAMETER_ATTRIBUTE_KEY_ENUM } from '../../domain/db/ParameterAttributeKeyEnum'
 import messages from '../../i18n'
 
 const { findParam } = PluginConfParamsUtils
@@ -123,8 +127,45 @@ export class DBDatasourceFormContainer extends React.Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if ((this.state.currentDatasource == null || this.props.currentDatasource == null) && nextProps.currentDatasource != null) {
+      let newCurrentDatasource = cloneDeep(nextProps.currentDatasource)
+      const columnIdAttribute = findParam(nextProps.currentDatasource, PARAMETER_ATTRIBUTE_KEY_ENUM.COLUMN_ID)
+      // Add columnId parameter to attributes mapping if exist
+      if (columnIdAttribute) {
+        // Get mapping parameter from current datasource and add columnId parameter
+        let attributesMapping = findParam(newCurrentDatasource, IDBDatasourceParamsEnum.MAPPING)
+        const columnIdMapping = {
+          attributeType: !columnIdAttribute.dynamic ? 'STATIC' : 'DYNAMIC',
+          name: columnIdAttribute.name,
+          nameDS: columnIdAttribute.value,
+          namespace: '',
+          type: columnIdAttribute.type,
+        }
+        attributesMapping = {
+          ...attributesMapping,
+          value: [
+            ...attributesMapping.value,
+            columnIdMapping,
+          ],
+        }
+        // Remove existing mapping parameter from datasource and add new one
+        const newDatasourceParameters = reduce(newCurrentDatasource.content.parameters, (acc, parameter) => {
+          if (parameter.name === IDBDatasourceParamsEnum.MAPPING) {
+            acc.push(attributesMapping)
+          } else {
+            acc.push(parameter)
+          }
+          return acc
+        }, [])
+        newCurrentDatasource = {
+          ...newCurrentDatasource,
+          content: {
+            ...newCurrentDatasource.content,
+            parameters: newDatasourceParameters,
+          },
+        }
+      }
       this.setState({
-        currentDatasource: cloneDeep(nextProps.currentDatasource),
+        currentDatasource: newCurrentDatasource,
       })
     }
   }
@@ -272,7 +313,49 @@ export class DBDatasourceFormContainer extends React.Component {
     newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.REFRESH_RATE))
     newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.TAGS))
     newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL))
+
+    let extractedAttributes = {} // Extract attributes that need to be parameters
+    let formValuesAttributes = {} // Form attributes without extracted ones
     forEach(formValuesSubset.attributes, (attribute, attributeName) => {
+      if (includes(Object.values(PARAMETER_ATTRIBUTE_KEY_ENUM), `${attributeName}`)) {
+        extractedAttributes = {
+          ...extractedAttributes,
+          [attributeName]: attribute,
+        }
+      } else {
+        formValuesAttributes = {
+          ...formValuesAttributes,
+          [attributeName]: attribute,
+        }
+      }
+    })
+
+    // Manage extracted attributes that need to be parameters
+    if (!isEmpty(extractedAttributes)) {
+      // If uniqueId parameter is not present in form values then we set its value to true
+      if (!get(extractedAttributes, PARAMETER_ATTRIBUTE_KEY_ENUM.UNIQUE_ID)) {
+        newParameters.push({
+          name: PARAMETER_ATTRIBUTE_KEY_ENUM.UNIQUE_ID,
+          type: CommonDomain.PluginParameterTypes.BOOLEAN,
+          value: true,
+        })
+      }
+      // columnId parameter
+      const columnIdAttribute = get(extractedAttributes, PARAMETER_ATTRIBUTE_KEY_ENUM.COLUMN_ID)
+      if (columnIdAttribute) {
+        let columnIdValue = get(columnIdAttribute, 'sql', '')
+        if (isEmpty(columnIdValue)) {
+          columnIdValue = get(columnIdAttribute, 'tableAttribute', '')
+        }
+        newParameters.push({
+          name: PARAMETER_ATTRIBUTE_KEY_ENUM.COLUMN_ID,
+          type: CommonDomain.PluginParameterTypes.STRING,
+          value: columnIdValue,
+        })
+      }
+    }
+
+    forEach(formValuesAttributes, (attribute, attributeName) => {
       const modelAttr = find(modelAttributeList, (modelAttribute) => modelAttribute.content.attribute.name === attributeName)
       // Is this a static attribute ?
       const modelAttrStatic = find(StaticAttributeListDB, (modelAttribute) => modelAttribute.content.attribute.name === attributeName)

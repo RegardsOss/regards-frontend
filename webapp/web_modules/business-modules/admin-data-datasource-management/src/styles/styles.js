@@ -132,5 +132,71 @@ export default (theme) => ({
       textAlign: 'center',
     },
   },
-
+  db: {
+    aspirationMode: {
+      primaryTextStyle: {
+        width: '100%',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      },
+      selectItemStyle: {
+        color: theme.palette.accent1Color,
+      },
+      subtitleStyle: {
+        height: '80px',
+        maxWidth: '425px',
+        whiteSpace: 'normal',
+      },
+      iconStyle: {
+        top: '3px',
+      },
+      rightElementStyle: {
+        width: '50%',
+        padding: '25px',
+      },
+      rightElementStyleAlt: {
+        width: '50%',
+      },
+      mainDivStyle: {
+        height: '530px',
+      },
+      cardTextStyle: {
+        display: 'flex',
+      },
+      leftElementStyle: {
+        width: '50%',
+      },
+      alertIconStyle: {
+        top: '3px',
+        fill: theme.palette.accent1Color,
+      },
+      rightElementDivStyle: {
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      rightElementInfoStyle: {
+        marginBottom: '20px',
+      },
+    },
+    formMapping: {
+      mainDivStyle: {
+        marginTop: '20px',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      },
+      connextionViewerDivStyle: {
+        width: '30%',
+      },
+      dbFormDivStyle: {
+        width: '68%',
+      },
+      aspirationModeCardStyle: {
+        marginBottom: '20px',
+      },
+      cardActionsDivStyle: {
+        marginTop: '20px',
+      },
+    },
+  },
 })

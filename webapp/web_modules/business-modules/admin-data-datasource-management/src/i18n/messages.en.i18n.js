@@ -87,6 +87,12 @@ const messages = {
   'datasource.form.mapping.emptyDatabase.title': 'Your database is empty',
   'datasource.form.mapping.emptyDatabase.message': 'Associate model attributes to a datasource with at least 1 table',
 
+  'datasource.form.mapping.dialog.title': 'Confirm form values',
+  'datasource.form.mapping.dialog.action.close': 'Close',
+  'datasource.form.mapping.dialog.action.confirm': 'Confirm',
+  'datasource.form.mapping.dialog.message.no.aspiration': 'No selected aspiration mode, continue anyway ?',
+  'datasource.form.mapping.dialog.message.no.aspiration.value': 'Fields are empty for this aspiration mode, continue anyway ?',
+
   'datasource.form.mapping.table.fragment': 'Fragment',
   'datasource.form.mapping.table.attrName': 'Attribute name',
   'datasource.form.mapping.table.attribute': 'Model attribute',
@@ -112,6 +118,19 @@ const messages = {
   'datasource.form.mapping.custom.title': 'Links between model attributes and the connection',
   'datasource.form.mapping.custom.subtitle': 'In the first place, write an SQL request FROM, WHERE in order to retrieve data. Then specify the SELECT clause (in SQL) to retrieve the model attribute value',
   'datasource.form.mapping.custom.fromClause': 'Clause FROM, WHERE, [GROUP BY and HAVING]',
+
+  'datasource.form.mapping.aspiration.mode.title': 'Incremental aspiration mode',
+  'datasource.form.mapping.aspiration.mode.subtitle': 'Select aspiration mode for entities',
+  'datasource.form.mapping.aspiration.mode.none': 'No incremental aspiration',
+  'datasource.form.mapping.aspiration.mode.none.subtitle': 'Each time the crawler passes, all the data will be processed. This option is not recommended because it is very time consuming.',
+  'datasource.form.mapping.aspiration.mode.byDate': 'Aspiration by date',
+  'datasource.form.mapping.aspiration.mode.byDate.subtitle': 'The crawler will only process data with a date greater than the date of the last processed entity.',
+  'datasource.form.mapping.aspiration.mode.byDate.info': 'The date of an entity will be read by the crawler in the field indicated below.',
+  'datasource.form.mapping.aspiration.mode.byId': 'Aspiration by id',
+  'datasource.form.mapping.aspiration.mode.byId.subtitle': 'The crawler will only process data whose identifier is greater than the data already processed.',
+  'datasource.form.mapping.aspiration.mode.byId.info': 'The identifier of an entity will be read by the crawler in the field indicated below.',
+  'datasource.form.mapping.aspiration.mode.byId.non.uniq': 'Not unique id',
+  'datasource.form.mapping.aspiration.mode.byId.non.uniq.warning': 'If this box is checked the number of processed entities will potentially be greater than the actual number of entities.',
 
   'invalid.one_pk_required': 'Choose a field as primary key',
   'invalid.only_one_pk_allowed': 'Use only one primary key',

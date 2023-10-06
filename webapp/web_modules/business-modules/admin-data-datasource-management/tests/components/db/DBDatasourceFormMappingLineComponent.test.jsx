@@ -22,6 +22,7 @@ import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/te
 import { TableRow } from 'material-ui/Table'
 import { Field } from '@regardsoss/form-utils'
 import DBDatasourceFormMappingLineComponent from '../../../src/components/db/DBDatasourceFormMappingLineComponent'
+import DBDatasourceFormMappingInputComponent from '../../../src/components/db/DBDatasourceFormMappingInputComponent'
 
 const context = buildTestContext()
 
@@ -46,6 +47,6 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DatasourceFormMappingLineCo
 
     const enzymeWrapper = shallow(<DBDatasourceFormMappingLineComponent {...props} />, { context })
     expect(enzymeWrapper.find(TableRow)).to.have.length(1)
-    expect(enzymeWrapper.find(Field)).to.have.length(2)
+    expect(enzymeWrapper.find(DBDatasourceFormMappingInputComponent)).to.have.length(1)
   })
 })

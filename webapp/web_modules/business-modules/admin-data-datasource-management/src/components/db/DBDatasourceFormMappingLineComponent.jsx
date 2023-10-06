@@ -16,20 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import flow from 'lodash/flow'
-import fpsortBy from 'lodash/fp/sortBy'
-import fpmap from 'lodash/fp/map'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
-
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderTextField, RenderSelectField, Field } from '@regardsoss/form-utils'
-import { ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import MenuItem from 'material-ui/MenuItem'
-import Checkbox from 'material-ui/Checkbox'
 import { DamDomain } from '@regardsoss/domain'
-import states from '../../domain/db/FormMappingStates'
+import DBDatasourceFormMappingInputComponent from './DBDatasourceFormMappingInputComponent'
 
 export class DBDatasourceFormMappingLineComponent extends React.Component {
   static propTypes = {
@@ -50,12 +42,6 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    // Only used when onlyAdvancedConfiguration === false
-    showAdvanced: this.props.isEditingSQL || false,
-    prefix: this.props.onlyAdvancedConfiguration ? states.CUSTOM_FROM : states.FROM_TABLE,
-  }
-
   showIfOptional = (value) => {
     const { intl: { formatMessage } } = this.context
 
@@ -63,90 +49,6 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
       return formatMessage({ id: 'datasource.form.mapping.table.optional.true' })
     }
     return formatMessage({ id: 'datasource.form.mapping.table.optional.false' })
-  }
-
-  handleToggleAdvanced = () => {
-    const { modelAttribute } = this.props
-    const { showAdvanced, prefix } = this.state
-    const fieldSuffix = showAdvanced ? 'sql' : 'tableAttribute'
-    this.props.change(`${prefix}.attributes.${modelAttribute.content.attribute.name}.${fieldSuffix}`, '')
-    this.setState({
-      showAdvanced: !showAdvanced,
-    })
-  }
-
-  renderInputs = () => {
-    const { intl: { formatMessage } } = this.context
-
-    const { modelAttribute, tableAttributeList, onlyAdvancedConfiguration } = this.props
-    const { showAdvanced, prefix } = this.state
-    if (onlyAdvancedConfiguration) {
-      return (
-        <div>
-          <Field
-            name={`${prefix}.attributes.${modelAttribute.content.attribute.name}.sql`}
-            fullWidth
-            component={RenderTextField}
-            type="text"
-            label={formatMessage({ id: 'datasource.form.mapping.table.input' })}
-            multiLine
-          />
-        </div>)
-    }
-
-    const items = [
-      // Add a no value item
-      (<MenuItem
-        value=""
-        key="no_value"
-        primaryText=""
-      />),
-      ...flow(
-        fpsortBy(['name']),
-        fpmap((tableAttribute) => (
-          <MenuItem
-            value={tableAttribute.name}
-            className={`selenium-pickMapping-${tableAttribute.name}`}
-            key={tableAttribute.name}
-            primaryText={`${tableAttribute.name}: ${tableAttribute.javaSqlType}`}
-          />
-        )),
-      )(tableAttributeList),
-    ]
-    return (
-      <div>
-        <Checkbox
-          label={formatMessage({ id: 'datasource.form.mapping.table.showAdvancedConfiguration' })}
-          checked={showAdvanced}
-          onClick={this.handleToggleAdvanced}
-          className={`selenium-useSQL-${modelAttribute.content.attribute.name}`}
-        />
-        <ShowableAtRender
-          show={showAdvanced}
-        >
-          <Field
-            name={`${prefix}.attributes.${modelAttribute.content.attribute.name}.sql`}
-            fullWidth
-            component={RenderTextField}
-            type="text"
-            label={formatMessage({ id: 'datasource.form.mapping.table.input' })}
-            multiLine
-          />
-        </ShowableAtRender>
-        <ShowableAtRender
-          show={!showAdvanced}
-        >
-          <Field
-            name={`${prefix}.attributes.${modelAttribute.content.attribute.name}.tableAttribute`}
-            fullWidth
-            component={RenderSelectField}
-            type="text"
-            label={formatMessage({ id: 'datasource.form.mapping.table.select' })}
-          >
-            {items}
-          </Field>
-        </ShowableAtRender>
-      </div>)
   }
 
   renderFragmentName = () => {
@@ -186,7 +88,9 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
   render() {
     const { intl: { formatMessage } } = this.context
 
-    const { modelAttribute } = this.props
+    const {
+      modelAttribute, tableAttributeList, onlyAdvancedConfiguration, isEditingSQL, change,
+    } = this.props
 
     return (
       <TableRow>
@@ -200,7 +104,13 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
           {this.showIfOptional(modelAttribute.content.attribute.optional)}
         </TableRowColumn>
         <TableRowColumn>
-          {this.renderInputs()}
+          <DBDatasourceFormMappingInputComponent
+            modelAttributeName={modelAttribute.content.attribute.name}
+            tableAttributeList={tableAttributeList}
+            onlyAdvancedConfiguration={onlyAdvancedConfiguration}
+            isEditingSQL={isEditingSQL}
+            change={change}
+          />
         </TableRowColumn>
       </TableRow>
     )

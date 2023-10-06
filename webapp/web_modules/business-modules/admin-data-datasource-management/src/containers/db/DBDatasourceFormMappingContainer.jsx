@@ -21,6 +21,7 @@ import { connect } from '@regardsoss/redux'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import { modelAttributesActions, modelAttributesSelectors } from '../../clients/ModelAttributesClient'
@@ -29,6 +30,7 @@ import { connectionTableActions, connectionTableSelectors } from '../../clients/
 import DBDatasourceFormMappingComponent from '../../components/db/DBDatasourceFormMappingComponent'
 import DBDatasourceFormMappingEmptyDatabaseComponent from '../../components/db/DBDatasourceFormMappingEmptyDatabaseComponent'
 import messages from '../../i18n'
+import styles from '../../styles'
 
 const { findParam, hasParam } = PluginConfParamsUtils
 
@@ -163,13 +165,15 @@ export class DBDatasourceFormMappingContainer extends React.Component {
     />)
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={isLoading}
-          isEmpty={tableList.length === 0}
-          emptyComponent={emptyComponent}
-        >
-          {this.getForm}
-        </LoadableContentDisplayDecorator>
+        <ModuleStyleProvider module={styles}>
+          <LoadableContentDisplayDecorator
+            isLoading={isLoading}
+            isEmpty={tableList.length === 0}
+            emptyComponent={emptyComponent}
+          >
+            {this.getForm}
+          </LoadableContentDisplayDecorator>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }
