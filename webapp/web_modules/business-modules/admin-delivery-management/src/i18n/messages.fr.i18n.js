@@ -26,7 +26,7 @@ const messages = {
   // Settings
   'delivery.settings.card.title': 'Paramètres des livraisons',
   'delivery.settings.card.subtitle': 'Gérer les paramètres de configuration des livraisons',
-  'delivery.settings.field.request_ttl': 'Durée en secondes avant expiration d\'une demande de livraison',
+  'delivery.settings.field.request_ttl': 'Durée en heures avant expiration d\'une demande de livraison',
   'delivery.settings.field.build_bucket': 'Bucket sur lequel seront déposés les fichiers pendant la construction de la commande',
   'delivery.settings.field.delivery_bucket': 'Bucket sur lequel seront déposés les archives ZIP de livraison une fois les commandes terminées',
   'delivery.settings.field.order_size_limit': 'Taille maximale en octets autorisée pour une commande. Cette valeur ne doit pas être supérieure à la taille d\'une sous-commande définie dans le microservice order. Le microservice delivery ne permet pas d\'effectuer plusieurs sous-commandes',
