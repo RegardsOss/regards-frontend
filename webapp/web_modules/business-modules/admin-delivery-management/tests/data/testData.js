@@ -69,4 +69,13 @@ export const settingsData = {
     },
     links: [],
   },
+  4: {
+    content: {
+      name: 'order_size_limit_bytes',
+      description: 'Maximum size in octets allowed for a delivery order. This value should not be greater than a suborder size in order microservice as delivery does not allow order with multiple suborders.',
+      value: 0,
+      defaultValue: 0,
+    },
+    links: [],
+  },
 }

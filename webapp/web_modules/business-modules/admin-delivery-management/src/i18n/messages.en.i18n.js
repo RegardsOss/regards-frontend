@@ -29,6 +29,7 @@ const messages = {
   'delivery.settings.field.request_ttl': 'Maximum retention time of a delivery request in hours',
   'delivery.settings.field.build_bucket': 'Temporary bucket on which available files will be transferred before building final zips',
   'delivery.settings.field.delivery_bucket': 'Bucket on which the ZIP archives will be dropped once orders have been completed',
+  'delivery.settings.field.order_size_limit': 'Maximum size in octets allowed for a delivery order. This value should not be greater than a suborder size in order microservice as delivery does not allow order with multiple suborders',
   'delivery.settings.field.s3_server': 'S3 Server',
   'delivery.settings.field.s3_server.host': 'S3 server to place orders',
   'delivery.settings.field.s3_server.port': 'S3 server access port',

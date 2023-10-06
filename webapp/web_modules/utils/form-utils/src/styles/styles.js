@@ -219,5 +219,13 @@ export default function styles(theme) {
         margin: '8px 20px 8px 0',
       },
     },
+    textField: {
+      floatingStyle: {
+        maxWidth: '1000px',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+      },
+    },
   }
 }

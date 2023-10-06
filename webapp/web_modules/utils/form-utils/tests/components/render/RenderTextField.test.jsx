@@ -17,10 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import TextField from 'material-ui/TextField'
-import { testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import RenderTextField from '../../../src/components/render/RenderTextField'
+import styles from '../../../src/styles'
+
+const context = buildTestContext(styles)
 
 // Test a components rendering
 describe('[FORM UTILS] Testing RenderTextField', () => {
@@ -42,8 +44,6 @@ describe('[FORM UTILS] Testing RenderTextField', () => {
         formatMessage: () => { },
       },
     }
-    const enzymeWrapper = shallow(<RenderTextField {...props} />)
-    const subComponent = enzymeWrapper.find(TextField)
-    expect(subComponent).to.have.length(1)
+    shallow(<RenderTextField {...props} />, { context })
   })
 })

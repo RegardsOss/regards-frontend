@@ -61,6 +61,7 @@ describe('[ADMIN DELIVERY MANAGEMENT] Testing SettingsComponent', () => {
       [SETTINGS.DELIVERY_BUCKET]: getValue(props.settings, SETTINGS.DELIVERY_BUCKET),
       [SETTINGS.REQUEST_TTL]: getValue(props.settings, SETTINGS.REQUEST_TTL),
       [SETTINGS.BUILD_BUCKET]: getValue(props.settings, SETTINGS.BUILD_BUCKET),
+      [SETTINGS.ORDER_SIZE_LIMIT]: getValue(props.settings, SETTINGS.ORDER_SIZE_LIMIT),
     })
 
     // check actions

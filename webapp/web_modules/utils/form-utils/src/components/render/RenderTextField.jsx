@@ -17,8 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import TextField from 'material-ui/TextField'
 import RenderHelper from './RenderHelper'
+import styles from '../../styles'
 
 class renderTextField extends React.Component {
   static propTypes = {
@@ -37,17 +39,25 @@ class renderTextField extends React.Component {
     floatingLabelText: PropTypes.string,
   }
 
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   render() {
     const {
       input, label, hintText, floatingLabelText, type, meta: { touched, error }, intl, ...rest
     } = this.props
+    const { moduleTheme: { textField: { floatingStyle } } } = this.context
     const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
-
+    const labelTextFloating = floatingLabelText || label
     return (
       <TextField
         hintText={hintText || label}
-        floatingLabelText={floatingLabelText || label}
+        title={labelTextFloating}
+        floatingLabelText={labelTextFloating}
         errorText={errorMessage}
+        // mandatory since material ui doesn't manage long labels. If label too long it will be displayed over field value
+        floatingLabelStyle={floatingStyle}
         onWheel={(event) => event.currentTarget.blur()}
         {...input}
         type={type}
@@ -57,4 +67,4 @@ class renderTextField extends React.Component {
   }
 }
 
-export default renderTextField
+export default withModuleStyle(styles)(renderTextField)

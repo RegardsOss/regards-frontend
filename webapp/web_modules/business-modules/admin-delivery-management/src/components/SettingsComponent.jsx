@@ -41,6 +41,7 @@ export const SETTINGS = {
   DELIVERY_BUCKET: 'delivery_bucket',
   REQUEST_TTL: 'request_ttl',
   BUILD_BUCKET: 'build_bucket',
+  ORDER_SIZE_LIMIT: 'order_size_limit_bytes',
 }
 
 export const S3_SERVER_SETTINGS = {
@@ -68,6 +69,7 @@ export class SettingsComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     change: PropTypes.func,
     editedRequestTtl: PropTypes.number,
+    editedOrderSizeLimit: PropTypes.number,
     editedBuildBucket: PropTypes.string,
     editedDeliveryBucket: PropTypes.string,
     // eslint-disable-next-line react/forbid-prop-types
@@ -85,6 +87,7 @@ export class SettingsComponent extends React.Component {
       [SETTINGS.S3_SERVER]: getValue(settings, SETTINGS.S3_SERVER) || {},
       [SETTINGS.DELIVERY_BUCKET]: getValue(settings, SETTINGS.DELIVERY_BUCKET) || '',
       [SETTINGS.REQUEST_TTL]: getValue(settings, SETTINGS.REQUEST_TTL) || 0,
+      [SETTINGS.ORDER_SIZE_LIMIT]: getValue(settings, SETTINGS.ORDER_SIZE_LIMIT) || 0,
       [SETTINGS.BUILD_BUCKET]: getValue(settings, SETTINGS.BUILD_BUCKET) || '',
     })
   }
@@ -99,13 +102,14 @@ export class SettingsComponent extends React.Component {
       [SETTINGS.S3_SERVER]: getUpdatedSettingValue(settings, SETTINGS.S3_SERVER, values[SETTINGS.S3_SERVER]),
       [SETTINGS.DELIVERY_BUCKET]: getUpdatedSettingValue(settings, SETTINGS.DELIVERY_BUCKET, values[SETTINGS.DELIVERY_BUCKET]),
       [SETTINGS.REQUEST_TTL]: getUpdatedSettingValue(settings, SETTINGS.REQUEST_TTL, values[SETTINGS.REQUEST_TTL]),
+      [SETTINGS.ORDER_SIZE_LIMIT]: getUpdatedSettingValue(settings, SETTINGS.ORDER_SIZE_LIMIT, values[SETTINGS.ORDER_SIZE_LIMIT]),
       [SETTINGS.BUILD_BUCKET]: getUpdatedSettingValue(settings, SETTINGS.BUILD_BUCKET, values[SETTINGS.BUILD_BUCKET]),
     })
   }
 
   render() {
     const {
-      submitting, pristine, invalid, change,
+      submitting, pristine, invalid, change, editedOrderSizeLimit,
       handleSubmit, onBack, settings, editedS3Server,
       editedRequestTtl, editedBuildBucket, editedDeliveryBucket,
     } = this.props
@@ -138,6 +142,12 @@ export class SettingsComponent extends React.Component {
                 label={formatMessage({ id: 'delivery.settings.field.delivery_bucket' })}
                 settingKey={SETTINGS.DELIVERY_BUCKET}
                 editedSetting={editedDeliveryBucket}
+                addAlternateStyle
+              />
+              <SettingsTextField
+                label={formatMessage({ id: 'delivery.settings.field.order_size_limit' })}
+                settingKey={SETTINGS.ORDER_SIZE_LIMIT}
+                editedSetting={editedOrderSizeLimit}
                 addAlternateStyle
               />
               <SettingsFieldsGroup
@@ -222,6 +232,7 @@ const formValuesSelector = formValueSelector(formID)
 function selectedSetting(state) {
   return {
     editedRequestTtl: parseInt(formValuesSelector(state, [SETTINGS.REQUEST_TTL]), 10),
+    editedOrderSizeLimit: parseInt(formValuesSelector(state, [SETTINGS.ORDER_SIZE_LIMIT]), 10),
     editedBuildBucket: formValuesSelector(state, [SETTINGS.BUILD_BUCKET]),
     editedDeliveryBucket: formValuesSelector(state, [SETTINGS.DELIVERY_BUCKET]),
     editedS3Server: formValuesSelector(state, [SETTINGS.S3_SERVER]),
