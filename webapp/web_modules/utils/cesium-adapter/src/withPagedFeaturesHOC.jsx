@@ -41,7 +41,6 @@ export const withPagedFeaturesHOC = (DecoratedComponent) => {
       // eslint-disable-next-line react/forbid-prop-types
       stroke: PropTypes.object.isRequired, // Cesium Color
       // eslint-disable-next-line react/forbid-prop-types
-      fill: PropTypes.object.isRequired, // Cesium Color
       strokeWidth: PropTypes.number.isRequired,
       pageSize: PropTypes.number,
     }

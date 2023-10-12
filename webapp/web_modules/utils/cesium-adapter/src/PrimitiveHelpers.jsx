@@ -18,11 +18,12 @@
  **/
 import flattenDeep from 'lodash/flattenDeep'
 import get from 'lodash/get'
-import map from 'lodash/map'
+import forEach from 'lodash/forEach'
+import isEmpty from 'lodash/isEmpty'
 import { Primitive, PointPrimitive, PointPrimitiveCollection } from 'resium'
 import {
-  Cartesian3, GeometryInstance, PolylineGeometry, PolygonHierarchy,
-  ArcType, PolylineMaterialAppearance, Material, PolygonGeometry, MaterialAppearance,
+  Cartesian3, GeometryInstance, PolylineGeometry,
+  ArcType, PolylineMaterialAppearance, Material,
 } from 'cesium'
 
 /**
@@ -31,107 +32,82 @@ import {
  */
 class PrimitiveHelpers {
   /**
-   * Builds Resium's polygon & polyline primitive components from a feature.
-   * It is necessary to build polygon & outline separated since primitives are lowest level entities.
-   * @param {GeoJsonFeature} feature
-   * @param {Color} fill
-   * @param {Color} outlineColor
-   * @param {number} outlineWidth
-   * @param {string} dataSourceName used for primitive unique key
-   * @param {number} index used for primitive unique key
-   * @returns a polygon & polyline primitive components or null if feature's coordinates are unprocessable
-   */
-  static buildPolygonPrimitives(feature, fill, outlineColor, outlineWidth = 1, dataSourceName = 'default', index = 0) {
-    const coordinates = get(feature, 'geometry.coordinates')
-    if (coordinates) {
-      const polylineAppearance = new PolylineMaterialAppearance({
-        material: Material.fromType('Color', {
-          color: outlineColor,
-        }),
-      })
-      const polygonAppearance = new MaterialAppearance({
-        material: Material.fromType('Color', {
-          color: fill,
-        }),
-      })
-      return map(coordinates, (coord, coordIndex) => {
-        const positions = flattenDeep(coord)
-        const polylineGeometryInstance = new GeometryInstance({
-          id: feature.id,
-          geometry: new PolylineGeometry({
-            positions: Cartesian3.fromDegreesArray(positions),
-            arcType: ArcType.GEODESIC,
-            width: outlineWidth,
-          }),
-        })
-        const polygonGeometryInstance = new GeometryInstance({
-          id: feature.id,
-          geometry: new PolygonGeometry({
-            polygonHierarchy: new PolygonHierarchy(Cartesian3.fromDegreesArray(positions)),
-          }),
-        })
-        return ([<Primitive key={`polygon-outline-${dataSourceName}-${index}-${coordIndex}-${feature.id}`} id={feature.id} geometryInstances={polylineGeometryInstance} appearance={polylineAppearance} />,
-          <Primitive key={`polygon-${dataSourceName}-${index}-${coordIndex}-${feature.id}`} id={feature.id} geometryInstances={polygonGeometryInstance} appearance={polygonAppearance} />])
-      })
-    }
-    return null
-  }
-
-  /**
    * Builds a Resium's Polyline Primitive component from a feature.
-   * @param {GeoJsonFeature} feature
+   * @param {GeoJsonFeature} features
    * @param {Color} outlineColor
    * @param {number} outlineWidth
    * @param {string} dataSourceName used for primitive unique key
    * @param {number} index used for primitive unique key
    * @returns a polyline primitive component or null if feature's coordinates are unprocessable
    */
-  static buildPolylinePrimitive(feature, outlineColor, outlineWidth = 1, dataSourceName = 'default', index = 0) {
-    const coordinates = get(feature, 'geometry.coordinates')
-    if (coordinates) {
+  static buildPolylinePrimitive(features, outlineColor, outlineWidth = 1, dataSourceName = 'default') {
+    const polylineGeometryInstances = []
+    forEach(features, (feature) => {
+      const geometryType = get(feature, 'geometry.type')
+      const coordinates = get(feature, 'geometry.coordinates')
+      // feature must have a geometry type and coordinates
+      if (geometryType && coordinates) {
+        forEach(coordinates, (coord) => {
+          const positions = flattenDeep(coord)
+          const polylineGeometryInstance = new GeometryInstance({
+            id: feature.id,
+            geometry: new PolylineGeometry({
+              positions: Cartesian3.fromDegreesArray(positions),
+              arcType: ArcType.GEODESIC,
+              width: outlineWidth,
+            }),
+          })
+          polylineGeometryInstances.push(polylineGeometryInstance)
+        })
+      }
+    })
+    if (!isEmpty(polylineGeometryInstances)) {
       const polylineAppearance = new PolylineMaterialAppearance({
         material: Material.fromType('Color', {
           color: outlineColor,
         }),
       })
-      const flatCoords = flattenDeep(coordinates)
-      const polylineGeometryInstance = new GeometryInstance({
-        id: feature.id,
-        geometry: new PolylineGeometry({
-          positions: Cartesian3.fromDegreesArray(flatCoords),
-          width: outlineWidth,
-        }),
-      })
-      return (<Primitive key={`polyline-${dataSourceName}-${index}-${feature.id}`} id={feature.id} geometryInstances={polylineGeometryInstance} appearance={polylineAppearance} />)
+      return (<Primitive key={`polyline-${dataSourceName}`} id={dataSourceName} geometryInstances={polylineGeometryInstances} appearance={polylineAppearance} />)
     }
     return null
   }
 
   /**
    * Builds a Resium's Point Primitive component from a feature.
-   * @param {GeoJsonFeature} feature
+   * @param {GeoJsonFeature} features
    * @param {Color} outlineColor
    * @param {number} outlineWidth
    * @param {string} dataSourceName used for primitive unique key
    * @param {number} index used for primitive unique key
    * @returns a point primitive component or null if feature's coordinates are unprocessable
    */
-  static buildPointPrimitive(feature, outlineColor, outlineWidth = 1, dataSourceName = 'default', index = 0) {
-    const coordinates = get(feature, 'geometry.coordinates')
-    if (coordinates) {
-      // we use Cartesian3.fromDegreesArray instead of Cartesian3.fromArray because Cartesian3.fromArray doesn't compile z value.
-      const positions = Cartesian3.fromDegreesArray(coordinates)
-      return (positions.length > 0
-        ? <PointPrimitiveCollection key={`point-${dataSourceName}-${index}-${feature.id}`}>
-          <PointPrimitive
-            id={feature.id}
-            color={outlineColor}
-            outlineColor={outlineColor}
-            outlineWidth={outlineWidth}
-            position={positions[0]}
-          />
+  static buildPointPrimitive(features, outlineColor, outlineWidth = 1, dataSourceName = 'default') {
+    const pointPrimitives = []
+    forEach(features, (feature) => {
+      const coordinates = get(feature, 'geometry.coordinates')
+      if (coordinates) {
+        // we use Cartesian3.fromDegreesArray instead of Cartesian3.fromArray because Cartesian3.fromArray doesn't compile z value.
+        const positions = Cartesian3.fromDegreesArray(coordinates)
+        if (positions.length > 0) {
+          pointPrimitives.push(
+            <PointPrimitive
+              id={feature.id}
+              key={feature.id}
+              color={outlineColor}
+              outlineColor={outlineColor}
+              outlineWidth={outlineWidth}
+              position={positions[0]}
+            />,
+          )
+        }
+      }
+    })
+    if (!isEmpty(pointPrimitives)) {
+      return (
+        <PointPrimitiveCollection key={`point-${dataSourceName}`}>
+          {pointPrimitives}
         </PointPrimitiveCollection>
-        : null)
+      )
     }
     return null
   }

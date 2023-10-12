@@ -22,6 +22,10 @@ import {
 } from 'cesium'
 import { UIDomain } from '@regardsoss/domain'
 
+// When drawing, limit latitude render cause it cause crash.
+const POSITIV_LIMIT_DRAW_AUTHORIZED_LATITUDE = 85
+const NEGATIV_LIMIT_DRAW_AUTHORIZED_LATITUDE = -85
+
 export function getImageryProvider(layerInfo, rectangle = null, maximumLevel = 19) {
   const imageryProviderParameters = {
     ...layerInfo,
@@ -45,14 +49,26 @@ export function getImageryProvider(layerInfo, rectangle = null, maximumLevel = 1
   return new OpenStreetMapImageryProvider()
 }
 
+function computeLatitude(latValue) {
+  let computedLatitude = latValue
+  if (computedLatitude > POSITIV_LIMIT_DRAW_AUTHORIZED_LATITUDE) {
+    computedLatitude = POSITIV_LIMIT_DRAW_AUTHORIZED_LATITUDE
+  } else if (computedLatitude < NEGATIV_LIMIT_DRAW_AUTHORIZED_LATITUDE) {
+    computedLatitude = NEGATIV_LIMIT_DRAW_AUTHORIZED_LATITUDE
+  }
+  return computedLatitude
+}
+
 export function buildRectangleFromGeometry(geometry) {
+  const lat1 = computeLatitude(geometry.coordinates[0][0][1])
+  const lat2 = computeLatitude(geometry.coordinates[0][2][1])
   return Rectangle.fromCartographicArray([
     Cartographic.fromDegrees(
       geometry.coordinates[0][0][0],
-      geometry.coordinates[0][0][1]),
+      lat1),
     Cartographic.fromDegrees(
       geometry.coordinates[0][2][0],
-      geometry.coordinates[0][2][1],
+      lat2,
     )])
 }
 

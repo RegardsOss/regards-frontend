@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import reduce from 'lodash/reduce'
 import get from 'lodash/get'
+import filter from 'lodash/filter'
+import includes from 'lodash/includes'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import { GeoJsonFeature } from '@regardsoss/mizar-adapter'
@@ -33,8 +34,6 @@ class PrimitiveDataSource extends React.Component {
     features: PropTypes.arrayOf(GeoJsonFeature),
     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     stroke: PropTypes.object.isRequired, // Cesium Color
-    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
-    fill: PropTypes.object.isRequired, // Cesium Color
     // eslint-disable-next-line react/no-unused-prop-types
     strokeWidth: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -74,12 +73,12 @@ class PrimitiveDataSource extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      features, stroke, strokeWidth, fill, name,
+      features, stroke, strokeWidth, name,
     } = newProps
     // when available values change, rebuild the hints datasource (avoids consuming time and memory at render)
     if (!isEqual(oldProps.features, features)) {
       this.setState({
-        primitives: features && !isEmpty(features) ? this.buildPrimitives(features, fill, stroke, strokeWidth, name) : null,
+        primitives: features && !isEmpty(features) ? this.buildPrimitives(features, stroke, strokeWidth, name) : null,
       })
     }
   }
@@ -87,31 +86,36 @@ class PrimitiveDataSource extends React.Component {
   /**
    * Builds Resium's Primitives components from features.
    * @param {Array<GeoJsonFeature>} features
-   * @param {Color} fill
    * @param {Color} outlineColor
    * @param {number} outlineWidth
    * @param {string} dataSourceName used for primitive unique key
    * @returns a primitive component for each features
    */
-  buildPrimitives = (features, fill, outlineColor, outlineWidth = 1, dataSourceName = 'default') => reduce(features, (acc, feature, index) => {
-    const geometryType = get(feature, 'geometry.type')
-    const coordinates = get(feature, 'geometry.coordinates')
-    // feature must have a geometry type and coordinates
-    if (geometryType && coordinates) {
-      let newPrimitive = null
-      if (geometryType === PrimitiveDataSource.GEOJSON_TYPES.POLYGON || geometryType === PrimitiveDataSource.GEOJSON_TYPES.MULTI_POLYGON) {
-        newPrimitive = PrimitiveHelpers.buildPolygonPrimitives(feature, fill, outlineColor, outlineWidth, dataSourceName, index)
-      } else if (geometryType === PrimitiveDataSource.GEOJSON_TYPES.LINE_STRING) {
-        newPrimitive = PrimitiveHelpers.buildPolylinePrimitive(feature, outlineColor, outlineWidth, dataSourceName, index)
-      } else if (geometryType === PrimitiveDataSource.GEOJSON_TYPES.POINT) {
-        newPrimitive = PrimitiveHelpers.buildPointPrimitive(feature, outlineColor, outlineWidth, dataSourceName, index)
-      }
-      if (newPrimitive) {
-        acc.push(newPrimitive)
-      }
+  buildPrimitives = (features, outlineColor, outlineWidth = 1, dataSourceName = 'default') => {
+    const polygonAndPolylineFeatures = this.getFeatures(features, [PrimitiveDataSource.GEOJSON_TYPES.POLYGON, PrimitiveDataSource.GEOJSON_TYPES.MULTI_POLYGON, PrimitiveDataSource.GEOJSON_TYPES.LINE_STRING])
+    let pointFeatures = []
+    const primitives = []
+    if (polygonAndPolylineFeatures.length < features.length) {
+      pointFeatures = this.getFeatures(features, [PrimitiveDataSource.GEOJSON_TYPES.POINT])
     }
-    return acc
-  }, [])
+    if (!isEmpty(polygonAndPolylineFeatures)) {
+      const polygonPolylinePrimitive = PrimitiveHelpers.buildPolylinePrimitive(polygonAndPolylineFeatures, outlineColor, outlineWidth, dataSourceName)
+      primitives.push(polygonPolylinePrimitive)
+    }
+    if (!isEmpty(pointFeatures)) {
+      const pointPrimitive = PrimitiveHelpers.buildPointPrimitive(pointFeatures, outlineColor, outlineWidth, dataSourceName)
+      primitives.push(pointPrimitive)
+    }
+    return primitives
+  }
+
+  /**
+   * Retrieve list of features depending on their type
+   * @param {Array<GeoJsonFeature>} features
+   * @param {Array<PrimitiveDataSource.GEOJSON_TYPES>} featureTypes
+   * @returns
+   */
+  getFeatures = (features, featureTypes) => filter(features, (feature) => includes(featureTypes, get(feature, 'geometry.type')))
 
   render() {
     const { primitives } = this.state

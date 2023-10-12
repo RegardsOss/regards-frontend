@@ -96,12 +96,14 @@ export default class CesiumAdapter extends React.Component {
   state = {
     greyBackgroundProvider: null, // background layer
     customLayerProviders: null, // custom layers
-    selectedProductsCollection: null,
+    selectedProductsCollection: {
+      type: 'FeatureCollection',
+      features: [],
+    },
     cameraDestinationTime: null,
     cameraDestination: null,
     cesiumDrawColor: null, // Cesium.Color objet for draw zone
     cesiumFeaturesColor: null, // Cesium.Color objet for features
-    nearlyTransparentColor: null, // Transparent is unclickable, so we use our version of a transparent color
     selectedFeatureColor: null,
     selectedColorOutlineWidth: null,
     height: undefined, // leave undefined to use a default value
@@ -143,7 +145,6 @@ export default class CesiumAdapter extends React.Component {
 
     const cesiumFeaturesColor = Color.fromCssColorString(this.props.featuresColor)
     const cesiumDrawColor = Color.fromCssColorString(this.props.drawColor)
-    const nearlyTransparentColor = new Color(0, 0, 0, 0.0001)
 
     const selectedFeatureColor = Color.fromCssColorString(this.props.selectedFeatureColor)
 
@@ -153,7 +154,6 @@ export default class CesiumAdapter extends React.Component {
       customLayerProviders,
       cesiumFeaturesColor,
       cesiumDrawColor,
-      nearlyTransparentColor,
       selectedFeatureColor,
       selectedColorOutlineWidth,
       cameraDestination,
@@ -209,7 +209,7 @@ export default class CesiumAdapter extends React.Component {
       }
       newState.selectedProductsCollection = {
         type: 'FeatureCollection',
-        features: !isEmpty(storedSelectedProducts) ? storedSelectedProducts : [],
+        features: storedSelectedProducts,
       }
     }
     // Manage camera destination
@@ -286,7 +286,7 @@ export default class CesiumAdapter extends React.Component {
       viewMode, onProductSelected, selectedToponyms, featureShapefile, layers,
     } = this.props
     const {
-      greyBackgroundProvider, customLayerProviders, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
+      greyBackgroundProvider, customLayerProviders, cesiumFeaturesColor, cesiumDrawColor,
       cameraDestination, cameraDestinationTime, height, selectedProductsCollection, selectedFeatureColor, selectedColorOutlineWidth,
     } = this.state
     return (
@@ -348,28 +348,24 @@ export default class CesiumAdapter extends React.Component {
                 data={featuresCollection}
                 stroke={cesiumFeaturesColor}
                 strokeWidth={1}
-                fill={nearlyTransparentColor}
                 pageSize={STATIC_CONF.MAP.PAGE_SIZE_MAP}
               />
               <PagedPrimitiveDataSource
                 name="shapefile-features"
                 data={featureShapefile}
                 stroke={cesiumFeaturesColor}
-                fill={nearlyTransparentColor}
                 strokeWidth={1}
               />
               <PagedPrimitiveDataSource
                 name="selected-features"
                 data={selectedProductsCollection}
                 stroke={selectedFeatureColor}
-                fill={nearlyTransparentColor}
                 strokeWidth={selectedColorOutlineWidth}
               />
               <PagedPrimitiveDataSource
                 name="selected-toponyms"
                 data={selectedToponyms}
                 stroke={selectedFeatureColor}
-                fill={nearlyTransparentColor}
                 strokeWidth={selectedColorOutlineWidth}
               />
               <CesiumCursorPosition cesiumContext={this.ref} />
