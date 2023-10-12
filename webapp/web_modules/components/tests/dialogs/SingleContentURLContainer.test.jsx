@@ -40,6 +40,10 @@ describe('[COMPONENTS] Testing SingleContentURLDialogContainer', () => {
       dialogHeightPercent: 50,
       dialogWidthPercent: 50,
       open: true,
+      title: {
+        en: 'testEN',
+        fr: 'testFR',
+      },
     }
     const enzymeWrapper = shallow(<SingleContentURLDialogContainer {...props} />, { context })
 

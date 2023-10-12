@@ -54,6 +54,8 @@ const messages = {
   'user.menu.form.options.title': 'Configuration',
   'menu.form.contacts': 'Contacts',
   'menu.form.projectpage': 'Page "à propos" du projet',
+  'menu.form.projectpage.title.fr': 'Titre de la page "à propos" en français',
+  'menu.form.projectpage.title.en': 'Titre de la page "à propos" en anglais',
   'menu.form.displayauthentication': 'Afficher l\'option d\'authentification',
   'menu.form.displaynotifications': 'Afficher le centre de notifications',
   'menu.form.displaycart': 'Afficher le lien vers le panier',

@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonShapes } from '@regardsoss/shape'
+import { CommonShapes, UIShapes } from '@regardsoss/shape'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import PositionedDialog from './PositionedDialog'
 import URIContentDisplayer from '../content/preview/URIContentDisplayer'
 import styles from './styles'
@@ -31,20 +32,24 @@ export class SingleContentURLDialogContainer extends React.Component {
     open: PropTypes.bool.isRequired,
     dialogHeightPercent: CommonShapes.Percent.isRequired,
     dialogWidthPercent: CommonShapes.Percent.isRequired,
+    title: UIShapes.OptionalIntlMessage,
+    titleStyle: PropTypes.objectOf(PropTypes.any),
   }
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
     const {
-      contentURL, open, dialogWidthPercent, dialogHeightPercent, ...otherDialogProps
+      contentURL, open, dialogWidthPercent, dialogHeightPercent, title, ...otherDialogProps
     } = this.props
-    const { moduleTheme: { urlContentDialog } } = this.context
+    const { intl, moduleTheme: { urlContentDialog } } = this.context
 
     return (
       <PositionedDialog
+        title={title[intl.locale] || null}
         open={open}
         dialogHeightPercent={dialogHeightPercent}
         dialogWidthPercent={dialogWidthPercent}

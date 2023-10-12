@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { UIDomain } from '@regardsoss/domain'
-import { CommonShapes } from '@regardsoss/shape'
+import { CommonShapes, UIShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/components'
 import ProjectAboutPageLinkComponent from '../../components/user/ProjectAboutPageLinkComponent'
 
@@ -35,11 +35,14 @@ export class ProjectAboutPageLinkContainer extends React.Component {
     projectAboutPage: CommonShapes.URL,
     // display mode, to hide page window when in preview mode
     displayMode: PropTypes.oneOf(UIDomain.MENU_DISPLAY_MODES).isRequired,
+    // Custom titles for the page
+    title: UIShapes.OptionalIntlMessage,
   }
 
   render() {
     const {
       projectAboutPage, appName, project, displayMode,
+      title,
     } = this.props
     return (
       <ShowableAtRender show={!!projectAboutPage}>
@@ -48,6 +51,7 @@ export class ProjectAboutPageLinkContainer extends React.Component {
           project={project}
           projectAboutPage={projectAboutPage}
           hidePage={displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW}
+          title={title}
         />
       </ShowableAtRender>
     )

@@ -22,7 +22,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import HomeIcone from 'mdi-material-ui/Home'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { SingleContentURLDialogContainer } from '@regardsoss/components'
 
@@ -41,6 +41,7 @@ class ProjectAboutPageContainer extends React.Component {
     moduleConf: PropTypes.shape({
       htmlPath: PropTypes.string.isRequired,
       buttonComponent: PropTypes.node,
+      title: UIShapes.OptionalIntlMessage,
     }).isRequired,
   }
 
@@ -89,12 +90,16 @@ class ProjectAboutPageContainer extends React.Component {
   }
 
   render() {
-    const { moduleConf: { htmlPath, buttonComponent } } = this.props
+    const {
+      moduleConf: {
+        htmlPath, buttonComponent, title,
+      },
+    } = this.props
     const { dialogOpen } = this.state
     const {
       moduleTheme: {
         dialog: {
-          heightPercent, widthPercent, button,
+          heightPercent, widthPercent, button, titleStyle,
         },
       }, intl: { formatMessage },
     } = this.context
@@ -143,6 +148,8 @@ class ProjectAboutPageContainer extends React.Component {
           dialogWidthPercent={widthPercent}
           onRequestClose={this.onClose}
           actions={actions}
+          title={title}
+          titleStyle={titleStyle}
         />
       </div>
     )

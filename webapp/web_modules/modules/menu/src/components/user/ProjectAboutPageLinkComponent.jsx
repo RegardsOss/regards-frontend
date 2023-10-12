@@ -18,7 +18,7 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import AboutIcon from 'mdi-material-ui/LightbulbOutline'
-import { CommonShapes } from '@regardsoss/shape'
+import { CommonShapes, UIShapes } from '@regardsoss/shape'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -37,6 +37,8 @@ class ProjectAboutPageLinkComponent extends React.Component {
     projectAboutPage: CommonShapes.URL,
     // When true, do not show the about page on click (used in PREVIEW mode)
     hidePage: PropTypes.bool.isRequired,
+    // Custom title for the page
+    title: UIShapes.OptionalIntlMessage,
   }
 
   static contextTypes = {
@@ -46,13 +48,13 @@ class ProjectAboutPageLinkComponent extends React.Component {
 
   render() {
     const {
-      appName, project, projectAboutPage, hidePage,
+      appName, project, projectAboutPage, hidePage, title,
     } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl } = this.context
 
     // prepare button that will trigger about page displaying
     const buttonComponent = (
-      <IconButton title={formatMessage({ id: 'AboutPageTooltip' })}>
+      <IconButton title={title[intl.locale] || intl.formatMessage({ id: 'AboutPageTooltip' })}>
         <AboutIcon />
       </IconButton>)
 
@@ -70,6 +72,7 @@ class ProjectAboutPageLinkComponent extends React.Component {
       conf: {
         htmlPath: projectAboutPage,
         buttonComponent,
+        title,
       },
     }
     return (

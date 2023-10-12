@@ -91,6 +91,8 @@ export const ModuleConfiguration = PropTypes.shape({
   displayLocaleSelector: PropTypes.bool,
   displayThemeSelector: PropTypes.bool,
   projectAboutPage: CommonShapes.URL,
+  projectAboutPageTitleFr: PropTypes.string,
+  projectAboutPageTitleEn: PropTypes.string,
   home: HomeConfigurationShape,
   navigation: PropTypes.arrayOf(NavigationEditionItem),
   previewRole: PropTypes.string,

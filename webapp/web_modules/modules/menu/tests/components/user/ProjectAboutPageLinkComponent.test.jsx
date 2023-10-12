@@ -43,6 +43,10 @@ describe('[Menu] Testing ProjectAboutPageLinkComponent', () => {
       project: 'hello-world',
       projectAboutPage: 'gg.com',
       hidePage: false,
+      title: {
+        en: 'testEN',
+        fr: 'testFR',
+      },
     }
     const enzymeWrapper = shallow(<ProjectAboutPageLinkComponent {...props} />, { context })
     const moduleWrapper = enzymeWrapper.find(LazyModuleComponent)
@@ -64,6 +68,10 @@ describe('[Menu] Testing ProjectAboutPageLinkComponent', () => {
       project: 'hello-world',
       projectAboutPage: 'gg.com',
       hidePage: true,
+      title: {
+        en: 'testEN',
+        fr: 'testFR',
+      },
     }
     const enzymeWrapper = shallow(<ProjectAboutPageLinkComponent {...props} />, { context })
     const moduleWrapper = enzymeWrapper.find(LazyModuleComponent)

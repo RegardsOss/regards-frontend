@@ -19,12 +19,18 @@
 const projectAboutPageStyles = (theme) => ({
   dialog: {
     heightPercent: 80,
-    widthPercent: 55,
+    widthPercent: 65,
     button: {
       position: 'fixed',
       bottom: 10,
       right: 15,
       zIndex: 5000,
+    },
+    titleStyle: {
+      height: '20px',
+      fontSize: '1em',
+      display: 'flex',
+      alignItems: 'center',
     },
   },
   iFrameWrapper: {

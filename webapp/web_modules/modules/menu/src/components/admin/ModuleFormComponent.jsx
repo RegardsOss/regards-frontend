@@ -57,6 +57,8 @@ class ModuleFormComponent extends React.Component {
     const { currentNamespace } = props.adminForm
     this.CONF_CONTACTS = `${currentNamespace}.contacts`
     this.CONF_ABOUT_PAGE = `${currentNamespace}.projectAboutPage`
+    this.CONF_ABOUT_PAGE_TITLE_FR = `${currentNamespace}.projectAboutPageTitleFr`
+    this.CONF_ABOUT_PAGE_TITLE_EN = `${currentNamespace}.projectAboutPageTitleEn`
     this.CONF_AUTH = `${currentNamespace}.displayAuthentication`
     this.CONF_CART = `${currentNamespace}.displayCartSelector`
     this.CONF_NOTIF = `${currentNamespace}.displayNotificationsSelector`
@@ -133,6 +135,18 @@ class ModuleFormComponent extends React.Component {
           component={RenderTextField}
           label={formatMessage({ id: 'menu.form.projectpage' })}
           validate={ModuleFormComponent.validateOptionalUrl}
+        />
+        <Field
+          name={this.CONF_ABOUT_PAGE_TITLE_EN}
+          fullWidth
+          component={RenderTextField}
+          label={formatMessage({ id: 'menu.form.projectpage.title.en' })}
+        />
+        <Field
+          name={this.CONF_ABOUT_PAGE_TITLE_FR}
+          fullWidth
+          component={RenderTextField}
+          label={formatMessage({ id: 'menu.form.projectpage.title.fr' })}
         />
         { /** Authentication, basket and notifications: any but portal */
           portal ? null : (

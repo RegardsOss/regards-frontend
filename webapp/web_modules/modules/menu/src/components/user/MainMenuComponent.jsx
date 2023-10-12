@@ -78,6 +78,8 @@ class MainMenuComponent extends React.Component {
         displayLocaleSelector,
         displayThemeSelector,
         projectAboutPage,
+        projectAboutPageTitleFr,
+        projectAboutPageTitleEn,
         contacts,
         home,
         navigation,
@@ -141,6 +143,12 @@ class MainMenuComponent extends React.Component {
             appName={appName}
             project={project}
             displayMode={displayMode}
+            title={{
+              fr: projectAboutPageTitleFr,
+              en: projectAboutPageTitleEn,
+            }}
+            projectAboutPageTitleFr={projectAboutPageTitleFr}
+            projectAboutPageTitleEn={projectAboutPageTitleEn}
           />
           {/* UI Options: theme  */}
           <ShowableAtRender show={displayThemeSelector}>

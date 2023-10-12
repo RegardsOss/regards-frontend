@@ -174,7 +174,8 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const enzymeWrapper = shallow(<ModuleFormComponent {...props} />, { context })
     // check presence of each field by its name
     const instance = enzymeWrapper.instance()
-    const expectedPortalConfigurationFields = [instance.CONF_CONTACTS, instance.CONF_ABOUT_PAGE, instance.CONF_LOCALE, instance.CONF_THEME]
+    const expectedPortalConfigurationFields = [instance.CONF_CONTACTS, instance.CONF_ABOUT_PAGE, instance.CONF_LOCALE, instance.CONF_THEME,
+      instance.CONF_ABOUT_PAGE_TITLE_FR, instance.CONF_ABOUT_PAGE_TITLE_EN]
     const fields = enzymeWrapper.find(Field)
     assert.lengthOf(fields, expectedPortalConfigurationFields.length, 'There should be exactly one field for each expected field name')
     assert.isEmpty(enzymeWrapper.find(FieldArray), 'No field array expected for portal')
