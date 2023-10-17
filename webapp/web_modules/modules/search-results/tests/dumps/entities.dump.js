@@ -50,6 +50,30 @@ export const anotherDatasetEntity = {
   },
 }
 
+export const datasetEntityWithOrderableLink = {
+  content: {
+    entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+    id: 'URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V3',
+    version: 1,
+    last: false,
+    providerId: 'Provider2dataset',
+    label: 'my dataset3',
+    model: '1',
+    files: {},
+    tags: [],
+  },
+  links: [
+    {
+      rel: 'self',
+      href: 'http://test/engines/legacy/datasets/URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V3',
+    },
+    {
+      rel: 'dataobjects',
+      href: 'http://test/engines/legacy/datasets/URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V3/dataobjects/search',
+    },
+  ],
+}
+
 export const dataEntity = {
   content: {
     entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,

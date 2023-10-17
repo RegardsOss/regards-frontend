@@ -23,7 +23,7 @@ import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import AddElementToCartComponent from '../../../../../../../src/components/user/tabs/results/common/options/AddElementToCartComponent'
 import { AddElementToCartContainer } from '../../../../../../../src/containers/user/tabs/results/common/options/AddElementToCartContainer'
 import styles from '../../../../../../../src/styles/styles'
-import { dataEntity, datasetEntity } from '../../../../../../dumps/entities.dump'
+import { dataEntity, datasetEntity, datasetEntityWithOrderableLink } from '../../../../../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
@@ -112,7 +112,7 @@ describe('[SEARCH RESULTS] Testing AddElementToCartContainer', () => {
   })
   it('should render correctly and enable action for dataset, no matter the files', () => {
     const props = {
-      entity: datasetEntity,
+      entity: datasetEntityWithOrderableLink,
       onAddElementToCart: () => { },
     }
     const enzymeWrapper = shallow(<AddElementToCartContainer {...props} />, { context })
@@ -122,6 +122,19 @@ describe('[SEARCH RESULTS] Testing AddElementToCartContainer', () => {
       canAddToCart: true,
       onAddElementToCart: enzymeWrapper.instance().onAddElementToCart,
     }, 'Add to cart should be enabled for a DATASET')
+  })
+  it('should render correctly and disable action for dataset, no matter the files', () => {
+    const props = {
+      entity: datasetEntity,
+      onAddElementToCart: () => { },
+    }
+    const enzymeWrapper = shallow(<AddElementToCartContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(AddElementToCartComponent)
+    assert.lengthOf(componentWrapper, 1, 'Sub component should be rendered')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      canAddToCart: false,
+      onAddElementToCart: enzymeWrapper.instance().onAddElementToCart,
+    }, 'Add to cart should be disabled for a DATASET')
   })
   it('should render correctly and disable action for type that is not a DATASET nor a DATA', () => {
     const props = {

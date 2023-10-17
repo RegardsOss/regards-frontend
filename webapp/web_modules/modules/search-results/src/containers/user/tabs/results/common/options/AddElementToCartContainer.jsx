@@ -17,10 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import some from 'lodash/some'
 import omit from 'lodash/omit'
 import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import AddElementToCartComponent from '../../../../../../components/user/tabs/results/common/options/AddElementToCartComponent'
+
+const DATA_ACCESS_GRANTED_LINK = 'dataobjects'
 
 /**
  * Add element to cart option container
@@ -74,6 +77,8 @@ export class AddElementToCartContainer extends React.Component {
     }
   }
 
+  canOrderDatasetData = (links) => some(links, (link) => link.rel === DATA_ACCESS_GRANTED_LINK)
+
   /**
    * Is add to cart possible with current entity ?
    * @return {boolean} true when add to cart is possible for entity
@@ -86,12 +91,12 @@ export class AddElementToCartContainer extends React.Component {
       content: {
         entityType,
       },
+      links,
     } = entity
-
     // add to cart is allowed when:
-    // the object is a dataset (A)
+    // the object is a dataset and has dataobjects link (A)
     // Or : the object is a data object and has an orderable file (any quicklook or any raw data)
-    return entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET // (A)
+    return (entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET && this.canOrderDatasetData(links)) // (A)
       || (entityType === DamDomain.ENTITY_TYPES_ENUM.DATA
         && AddElementToCartContainer.canOrderDataObject(entity))// (B)
   }
