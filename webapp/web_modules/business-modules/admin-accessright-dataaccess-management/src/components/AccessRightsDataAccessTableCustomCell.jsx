@@ -38,10 +38,10 @@ class AccessRightsDataAccessTableCustomCell extends React.Component {
   render() {
     const { entity: { content: { accessRight } } } = this.props
     const { intl: { formatMessage } } = this.context
-    const metaAccessLevel = get(accessRight, 'accessLevel', AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS)
+    const metaAccessLevel = get(accessRight, 'metadataAccessLevel', AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS)
     let accessLevel = AccessRightsDataAccessTableCustomCell.NOT_APPLICABLE
     if (metaAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS || metaAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS) {
-      accessLevel = get(accessRight, 'dataAccessLevel', AccessRightsEnum.DATA_ACCESS_ENUM.NO_ACCESS)
+      accessLevel = get(accessRight, 'fileAccessLevel', AccessRightsEnum.DATA_ACCESS_ENUM.NO_ACCESS)
     }
     return (
       <span>{formatMessage({ id: `accessright.form.data.accessLevel.${accessLevel}` })}</span>

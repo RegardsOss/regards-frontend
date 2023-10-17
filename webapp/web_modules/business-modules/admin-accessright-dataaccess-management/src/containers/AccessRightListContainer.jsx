@@ -68,8 +68,8 @@ export class AccessRightListContainer extends React.Component {
       },
       dataAccessPlugin: formValues.dataAccessPlugin,
       accessGroup: accessGroup.content,
-      accessLevel: formValues.access,
-      dataAccessLevel: formValues.dataAccess,
+      metadataAccessLevel: formValues.access,
+      fileAccessLevel: formValues.dataAccess,
       dataset: {
         id: get(datasetWithAR, 'content.dataset.id', null),
         type: get(datasetWithAR, 'content.dataset.type', null),

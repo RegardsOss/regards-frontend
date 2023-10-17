@@ -34,7 +34,7 @@ class AccessRightsMetadataAccessTableCustomCell extends React.Component {
   }
 
   render() {
-    const accessLevel = get(this.props.entity, 'content.accessRight.accessLevel', AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS)
+    const accessLevel = get(this.props.entity, 'content.accessRight.metadataAccessLevel', AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS)
     return (
       <span>{this.context.intl.formatMessage({ id: `accessright.form.meta.accessLevel.${accessLevel}` })}</span>
     )

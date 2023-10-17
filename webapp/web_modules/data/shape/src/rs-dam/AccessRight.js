@@ -20,8 +20,8 @@ import { DatasetContent } from './Dataset'
 
 export const AccessRightContent = PropTypes.shape({
   id: PropTypes.number,
-  accessLevel: PropTypes.string,
-  dataAccessLevel: PropTypes.string,
+  metadataAccessLevel: PropTypes.string,
+  fileAccessLevel: PropTypes.string,
   dataset: DatasetContent,
   qualityFilter: PropTypes.shape({
     maxScore: PropTypes.number,

@@ -57,8 +57,8 @@ export class AccessRightFormComponent extends React.Component {
   }
 
   static DEFAULT_RIGHTS = {
-    accessLevel: AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS,
-    dataAccessLevel: AccessRightsEnum.DATA_ACCESS_ENUM.REFUSED,
+    metadataAccessLevel: AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS,
+    fileAccessLevel: AccessRightsEnum.DATA_ACCESS_ENUM.REFUSED,
   }
 
   /**
@@ -68,8 +68,8 @@ export class AccessRightFormComponent extends React.Component {
    */
   static toFormValues(accessRight = AccessRightFormComponent.DEFAULT_RIGHTS) {
     return {
-      access: accessRight.accessLevel,
-      dataAccess: accessRight.dataAccessLevel,
+      access: accessRight.metadataAccessLevel,
+      dataAccess: accessRight.fileAccessLevel,
       dataAccessPlugin: accessRight.dataAccessPlugin,
     }
   }

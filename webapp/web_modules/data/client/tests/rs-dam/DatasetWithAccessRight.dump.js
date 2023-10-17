@@ -143,8 +143,8 @@ export default {
       accessRight: {
         id: 108,
         qualityFilter: { maxScore: 0, minScore: 0 },
-        accessLevel: 'RESTRICTED_ACCESS',
-        dataAccessLevel: 'NO_ACCESS',
+        metadataAccessLevel: 'RESTRICTED_ACCESS',
+        fileAccessLevel: 'NO_ACCESS',
         dataset: {
           type: 'DATASET',
           plgConfDataSource: {
@@ -246,7 +246,7 @@ export default {
       accessRight: {
         id: 106,
         qualityFilter: { maxScore: 0, minScore: 0 },
-        accessLevel: 'CUSTOM_ACCESS',
+        metadataAccessLevel: 'CUSTOM_ACCESS',
         dataAccessPlugin: {
           id: 358,
           pluginId: 'CustomDataObjectsAccessPlugin',
@@ -259,7 +259,7 @@ export default {
             name: 'openSearchFilter', type: 'STRING', value: 'prit*', dynamic: false,
           }],
         },
-        dataAccessLevel: 'INHERITED_ACCESS',
+        fileAccessLevel: 'INHERITED_ACCESS',
         dataset: {
           type: 'DATASET',
           plgConfDataSource: {
@@ -398,7 +398,7 @@ export default {
       accessRight: {
         id: 53,
         qualityFilter: { maxScore: 10, minScore: 0, qualityLevel: 'ACCEPTED' },
-        accessLevel: 'FULL_ACCESS',
+        metadataAccessLevel: 'FULL_ACCESS',
         dataAccessPlugin: {
           id: 302,
           pluginId: 'CustomDataObjectsAccessPlugin',
@@ -411,7 +411,7 @@ export default {
             name: 'openSearchFilter', type: 'STRING', value: 'prout*', dynamic: false,
           }],
         },
-        dataAccessLevel: 'INHERITED_ACCESS',
+        fileAccessLevel: 'INHERITED_ACCESS',
         dataset: {
           type: 'DATASET',
           plgConfDataSource: {

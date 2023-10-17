@@ -618,8 +618,8 @@
         "minScore": "0",
         "qualityLevel": "ACCEPTED"
       },
-      "dataAccessLevel": "INHERITED_ACCESS",
-      "accessLevel": "FULL_ACCESS",
+      "fileAccessLevel": "INHERITED_ACCESS",
+      "metadataAccessLevel": "FULL_ACCESS",
       "accessgroup": "AG1",
       "accessGroup": {
         "id": 1,
@@ -645,8 +645,8 @@
         "minScore": "0",
         "qualityLevel": "ACCEPTED"
       },
-      "dataAccessLevel": "INHERITED_ACCESS",
-      "accessLevel": "FULL_ACCESS",
+      "fileAccessLevel": "INHERITED_ACCESS",
+      "metadataAccessLevel": "FULL_ACCESS",
       "accessgroup": "AG1",
       "accessGroup": {
         "id": 1,
@@ -672,8 +672,8 @@
         "minScore": "0",
         "qualityLevel": "ACCEPTED"
       },
-      "dataAccessLevel": "INHERITED_ACCESS",
-      "accessLevel": "FULL_ACCESS",
+      "fileAccessLevel": "INHERITED_ACCESS",
+      "metadataAccessLevel": "FULL_ACCESS",
       "accessgroup": "AG1",
       "accessGroup": {
         "id": 1,
@@ -700,8 +700,8 @@
         "qualityLevel": "REJECTED"
       },
       "pluginConfiguration": 40,
-      "dataAccessLevel": "CUSTOM_ACCESS",
-      "accessLevel": "NO_ACCESS",
+      "fileAccessLevel": "CUSTOM_ACCESS",
+      "metadataAccessLevel": "NO_ACCESS",
       "accessgroup": "AG1",
       "accessGroup": {
         "id": 1,
@@ -727,9 +727,9 @@
         "minScore": "4",
         "qualityLevel": "REJECTED"
       },
-      "dataAccessLevel": "CUSTOM_ACCESS",
+      "fileAccessLevel": "CUSTOM_ACCESS",
       "pluginConfiguration": 40,
-      "accessLevel": "NO_ACCESS",
+      "metadataAccessLevel": "NO_ACCESS",
       "accessgroup": "AG2",
       "accessGroup": {
         "id": 2,
