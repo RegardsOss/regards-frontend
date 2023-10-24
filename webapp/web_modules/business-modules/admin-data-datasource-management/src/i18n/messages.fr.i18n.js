@@ -122,7 +122,7 @@ const messages = {
   'datasource.form.mapping.aspiration.mode.title': 'Mode d\'aspiration incrémentale',
   'datasource.form.mapping.aspiration.mode.subtitle': 'Sélectionnez le mode d\'aspiration des entitiés',
   'datasource.form.mapping.aspiration.mode.none': 'Pas d\'aspiration incrémentale',
-  'datasource.form.mapping.aspiration.mode.none.subtitle': 'A chaque passage de l\'aspirateur l\'ensemble des données seront réaspirées. Cette option n\'est pas recommandée car très couteuse en temps.',
+  'datasource.form.mapping.aspiration.mode.none.subtitle': 'A chaque passage de l\'aspirateur, l\'ensemble des données seront réaspirées. Cette option n\'est pas recommandée car très couteuse en temps.',
   'datasource.form.mapping.aspiration.mode.byDate': 'Aspiration par date',
   'datasource.form.mapping.aspiration.mode.byDate.subtitle': 'L\'apirateur n\'aspirera que les données dont la date est supérieure à la date de la dernière entité aspirée.',
   'datasource.form.mapping.aspiration.mode.byDate.info': 'La date d\'une entitié sera lue par l\'aspirateur dans la champ indiqué ci dessous.',
@@ -130,7 +130,7 @@ const messages = {
   'datasource.form.mapping.aspiration.mode.byId.subtitle': 'L\'aspirateur n\'aspirera que les données dont l\'identifiant est supérieur aux données déjà aspirées.',
   'datasource.form.mapping.aspiration.mode.byId.info': 'L\'identifiant d\'une entitié sera lu par l\'aspirateur dans la champ indiqué ci dessous.',
   'datasource.form.mapping.aspiration.mode.byId.non.uniq': 'Identifiant non unique',
-  'datasource.form.mapping.aspiration.mode.byId.non.uniq.warning': 'Si cette case est cochée le nombre d\'entités aspirées sera potentiellement supérieur au nombre réel d\'entités.',
+  'datasource.form.mapping.aspiration.mode.byId.non.uniq.warning': 'Si cette case est cochée, le nombre d\'entités aspirées affiché dans le Tableau de bord sera supérieur au nombre réel d\'entités dans le catalogue.',
 
   'invalid.one_pk_required': 'Choisissez un champ comme clé primaire',
   'invalid.only_one_pk_allowed': 'Utilisez une seule clé primaire',
