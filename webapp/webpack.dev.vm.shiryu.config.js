@@ -19,7 +19,7 @@
 
 /**
  * Webpack configuration file
- * Override the default dev configuration in order to run the app with the Regards continuous integration backend on VM perf.
+ * Override the default dev configuration in order to run the app with the Regards continuous integration backend on VM SHIRYU.
  */
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
 const webpack = require('webpack')
@@ -32,7 +32,7 @@ const conf = webpackConfigurator
   .merge({
     plugins: [
       new webpack.DefinePlugin({
-        GATEWAY_HOSTNAME: JSON.stringify('http://vm-perf.cloud-espace.si.c-s.fr'),
+        GATEWAY_HOSTNAME: JSON.stringify('http://regards-dev-shiryu-1.cloud-espace.si.c-s.fr/'),
       }),
     ],
   })
