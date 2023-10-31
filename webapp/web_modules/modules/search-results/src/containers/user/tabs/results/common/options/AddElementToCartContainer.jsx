@@ -23,7 +23,7 @@ import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import AddElementToCartComponent from '../../../../../../components/user/tabs/results/common/options/AddElementToCartComponent'
 
-const DATA_ACCESS_GRANTED_LINK = 'dataobjects'
+const DATA_ACCESS_GRANTED_LINK = 'dataobjects-files'
 
 /**
  * Add element to cart option container

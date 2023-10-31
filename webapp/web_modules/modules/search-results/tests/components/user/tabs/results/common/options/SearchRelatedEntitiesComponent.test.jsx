@@ -22,7 +22,7 @@ import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SearchRelatedEntitiesComponent from '../../../../../../../src/components/user/tabs/results/common/options/SearchRelatedEntitiesComponent'
 import styles from '../../../../../../../src/styles'
-import { datasetEntity } from '../../../../../../dumps/entities.dump'
+import { datasetEntity, datasetEntityWithFilterLink } from '../../../../../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
@@ -37,7 +37,30 @@ describe('[SEARCH RESULTS] Testing SearchRelatedEntitiesComponent', () => {
   it('should exists', () => {
     assert.isDefined(SearchRelatedEntitiesComponent)
   })
-  it('should render correctly', () => {
+  it('should render correctly, button must be enabled', () => {
+    const spiedOnSearchEntity = {
+      entity: null,
+    }
+    const props = {
+      entity: datasetEntityWithFilterLink,
+      onSearchEntity: (entity) => {
+        spiedOnSearchEntity.entity = entity
+      },
+    }
+    const enzymeWrapper = shallow(<SearchRelatedEntitiesComponent {...props} />, { context })
+    const button = enzymeWrapper.find(IconButton)
+    assert.lengthOf(button, 1)
+    testSuiteHelpers.assertWrapperProperties(button, {
+      onClick: enzymeWrapper.instance().onSearchEntity,
+      disabled: false,
+    })
+
+    // check parent callback is invoked with the right parament
+    assert.isNull(spiedOnSearchEntity.entity, 'Parent callback should not have been invoked yet')
+    button.props().onClick()
+    assert.equal(spiedOnSearchEntity.entity, props.entity, 'Parent callback should have been invoked')
+  })
+  it('should render correctly, button must be disabled', () => {
     const spiedOnSearchEntity = {
       entity: null,
     }
@@ -51,12 +74,7 @@ describe('[SEARCH RESULTS] Testing SearchRelatedEntitiesComponent', () => {
     const button = enzymeWrapper.find(IconButton)
     assert.lengthOf(button, 1)
     testSuiteHelpers.assertWrapperProperties(button, {
-      onClick: enzymeWrapper.instance().onSearchEntity,
+      disabled: true,
     })
-
-    // check parent callback is invoked with the right parament
-    assert.isNull(spiedOnSearchEntity.entity, 'Parent callback should not have been invoked yet')
-    button.props().onClick()
-    assert.equal(spiedOnSearchEntity.entity, props.entity, 'Parent callback should have been invoked')
   })
 })

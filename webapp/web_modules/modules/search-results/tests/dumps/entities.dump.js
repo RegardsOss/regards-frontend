@@ -36,6 +36,30 @@ export const datasetEntity = {
   },
 }
 
+export const datasetEntityWithFilterLink = {
+  content: {
+    entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+    id: 'URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1',
+    version: 1,
+    last: false,
+    providerId: 'Provider1dataset',
+    label: 'my dataset',
+    model: '1',
+    files: {},
+    tags: [],
+  },
+  links: [
+    {
+      rel: 'self',
+      href: 'http://test/engines/legacy/datasets/URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V3',
+    },
+    {
+      rel: 'dataobjects',
+      href: 'http://test/engines/legacy/datasets/URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V3/dataobjects/search',
+    },
+  ],
+}
+
 export const anotherDatasetEntity = {
   content: {
     entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
@@ -68,7 +92,7 @@ export const datasetEntityWithOrderableLink = {
       href: 'http://test/engines/legacy/datasets/URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V3',
     },
     {
-      rel: 'dataobjects',
+      rel: 'dataobjects-files',
       href: 'http://test/engines/legacy/datasets/URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V3/dataobjects/search',
     },
   ],

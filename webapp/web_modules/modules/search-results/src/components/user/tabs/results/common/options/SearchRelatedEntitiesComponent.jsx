@@ -17,10 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import omit from 'lodash/omit'
+import some from 'lodash/some'
 import IconButton from 'material-ui/IconButton/IconButton'
 import FilterIcon from 'mdi-material-ui/Filter'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+
+const SEARCH_DATASET_DATA_LINK = 'dataobjects'
 
 /**
  * Displays the option to search related entities: when triggered, entity filter is added
@@ -41,6 +44,8 @@ class SearchRelatedEntitiesComponent extends React.Component {
     ...i18nContextType,
   }
 
+  canSearchDatasetData = (links) => some(links, (link) => link.rel === SEARCH_DATASET_DATA_LINK)
+
   /**
    * Callback proxy for search entity
    */
@@ -50,6 +55,12 @@ class SearchRelatedEntitiesComponent extends React.Component {
   }
 
   render() {
+    const {
+      entity,
+    } = this.props
+    const {
+      links,
+    } = entity
     const { intl: { formatMessage } } = this.context
     // compute the properties that should be reported to sub component
     const buttonProperties = omit(this.props, SearchRelatedEntitiesComponent.NON_REPORTED_PROPS)
@@ -57,6 +68,7 @@ class SearchRelatedEntitiesComponent extends React.Component {
       <IconButton
         onClick={this.onSearchEntity}
         title={formatMessage({ id: 'filter.related.data' })}
+        disabled={!this.canSearchDatasetData(links)}
         {...buttonProperties}
       >
         <FilterIcon />
