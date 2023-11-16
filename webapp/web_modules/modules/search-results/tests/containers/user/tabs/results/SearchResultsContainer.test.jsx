@@ -53,6 +53,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       resultsContext: dataContext,
       updateResultsContext: () => {},
       fetchToponym: () => { },
+      flushSelection: () => { },
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
 
@@ -105,6 +106,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       resultsContext: dataContext,
       updateResultsContext: () => {},
       fetchToponym: () => { },
+      flushSelection: () => { },
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
     // nota: we do not want to compute here applyingCriteria field, as it is used only for inner management

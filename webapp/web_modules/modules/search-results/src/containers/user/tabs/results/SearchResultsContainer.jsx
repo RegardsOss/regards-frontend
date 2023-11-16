@@ -25,6 +25,7 @@ import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { resultsContextActions } from '../../../../clients/ResultsContextClient'
 import { toponymActions } from '../../../../clients/ToponymClient'
 import { getSearchCatalogClient } from '../../../../clients/SearchEntitiesClient'
+import { getSelectionClient } from '../../../../clients/SelectionClient'
 import { CriterionBuilder } from '../../../../definitions/CriterionBuilder'
 import PluginServicesContainer from './PluginServicesContainer'
 import DescriptionLinkContainer from './DescriptionLinkContainer'
@@ -61,10 +62,12 @@ export class SearchResultsContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch) {
+  static mapDispatchToProps(dispatch, { tabType }) {
+    const { tableActions } = getSelectionClient(tabType)
     return {
       updateResultsContext: (moduleId, stateDiff) => dispatch(resultsContextActions.updateResultsContext(moduleId, stateDiff)),
       fetchToponym: (businessId) => dispatch(toponymActions.fetchEntity(businessId)),
+      flushSelection: () => dispatch(tableActions.unselectAll()),
     }
   }
 
@@ -79,6 +82,7 @@ export class SearchResultsContainer extends React.Component {
     updateResultsContext: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     fetchToponym: PropTypes.func.isRequired,
+    flushSelection: PropTypes.func.isRequired,
   }
 
   state = {
@@ -159,6 +163,12 @@ export class SearchResultsContainer extends React.Component {
     if (!isEqual(this.state, newState)) {
       this.setState(newState)
     }
+  }
+
+  componentWillUnmount = () => {
+    const { flushSelection } = this.props
+    // Clear table selection when unmount
+    flushSelection()
   }
 
   /**
