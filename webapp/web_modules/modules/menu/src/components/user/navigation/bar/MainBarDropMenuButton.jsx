@@ -117,7 +117,7 @@ class MainBarDropMenuButton extends React.Component {
     const {
       icon, items, buildLinkURL,
     } = this.props
-    const { moduleTheme: { user: { navigationItem } } } = this.context
+    const { moduleTheme: { user: { navigationItem, popoverStyle } } } = this.context
     return (
       <DropDownButton
         ButtonConstructor={FlatButton}
@@ -127,6 +127,7 @@ class MainBarDropMenuButton extends React.Component {
         icon={icon || null}
         hasSubMenus
         secondary={!!items.find((item) => item.selected)}
+        popoverStyle={popoverStyle}
       >
 
         {/* Render menu items */

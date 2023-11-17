@@ -129,6 +129,9 @@ const menuStyles = (theme) => ({
         textTransform: theme.module.menu.navigationItemTextTransform,
       },
     },
+    popoverStyle: {
+      overflowY: 'auto',
+    },
     selectedNavigationMenuItem: {
       color: theme.flatButton.secondaryTextColor,
     },
