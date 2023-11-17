@@ -63,7 +63,7 @@ const messages = {
   'feature.references.loading.results': 'Chargement des produits ...',
   'feature.references.delete.title': 'Supprimer les produits sélectionnés et leurs fichiers sur le stockage',
   'feature.references.delete': 'Supprimer',
-  'feature.references.confirm.delete.message': 'Ce traitement est asynchrone, il sera effectif après un certain délai. Une fois effectué, ce traitement créer des requêtes suppression que vous pouvez suivre dans l\'onglet Suppression. Voulez-vous supprimer le/les produits sélectionné(s)',
+  'feature.references.confirm.delete.message': 'Ce traitement est asynchrone, il sera effectif après un certain délai. Une fois démarré, ce traitement créera des requêtes de suppression que vous pourrez suivre dans l\'onglet Suppression. Voulez-vous supprimer le/les produits sélectionné(s)',
   'feature.references.tooltip.selection.notify': 'Notifier les produits sélectionnés',
   'feature.references.list.filters.buttons.notify': 'Notifier la sélection',
   'feature.references.notify.title': 'Notifier les produits sélectionnés',
@@ -143,16 +143,16 @@ const messages = {
   'feature.settings.action.confirm': 'Confirmer',
   'feature.settings.action.cancel': 'Retour',
   'feature.settings.field.cron.help.message':
-  'The pattern is a list of six single space-separated fields: representing second, minute, hour, day, month, weekday. Month and weekday names can be given as the first three letters of the English names. Example patterns : ',
+    'Le pattern est une liste de six champs séparés par des espaces : représentant la seconde, la minute, l\'heure, le jour, le mois et le jour de la semaine. Les noms de mois et de jours de la semaine peuvent être donnés par les trois premières lettres des noms anglais. Exemples de patterns :',
   'feature.settings.field.cron.help.message.example': '<ul>'
-  + '<li> "0 0 * * * *" = the top of every hour of every day.</li>'
-  + '<li> "*/10 * * * * *" = every ten seconds.</li>'
-  + '<li> "0 0 8-10 * * *" = 8, 9 and 10 o\'clock of every day.</li>'
-  + '<li> "0 0 6,19 * * *" = 6:00 AM and 7:00 PM every day.</li>'
-  + '<li> "0 0/30 8-10 * * *" = 8:00, 8:30, 9:00, 9:30, 10:00 and 10:30 every day.</li>'
-  + '<li> "0 0 9-17 * * MON-FRI" = on the hour nine-to-five weekdays.</li>'
-  + '<li> "0 0 0 25 12 ?" = every Christmas Day at midnight.</li>'
-  + '</ul>',
+    + '<li> "0 0 * * * *" = le top de chaque heure de chaque jour.</li>'
+    + '<li> "*/10 * * * * *" = toutes les 10 secondes.</li>'
+    + '<li> "0 0 8-10 * * *" = 8, 9 et 10 heures tous les jours.</li>'
+    + '<li> "0 0 6,19 * * *" = 6h00 et 19h00 tous les jours.</li>'
+    + '<li> "0 0/30 8-10 * * *" = 8h00, 8h30, 9h00, 9h30, 10h00 and 10h30 tous les jours.</li>'
+    + '<li> "0 0 9-17 * * MON-FRI" = de 9h à 17h les jours ouvrés.</li>'
+    + '<li> "0 0 0 25 12 ?" = tous les Noël à minuit.</li>'
+    + '</ul>',
   'feature.settings.dialog.title': 'A propros de ce champ',
   'feature.settings.dialog.close': 'Fermer',
 
