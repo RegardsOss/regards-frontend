@@ -49,6 +49,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerContainer', () => {
       selectVersionOption: () => {},
       fetchStorages: () => {},
       modifyAips: () => {},
+      dispatchUnselectAll: () => {},
     }
     const enzymeWrapper = shallow(<OAISFeatureManagerContainer {...props} />, { context })
     const instance = enzymeWrapper.instance()

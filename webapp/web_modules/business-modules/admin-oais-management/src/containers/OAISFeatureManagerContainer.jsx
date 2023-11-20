@@ -70,6 +70,7 @@ export class OAISFeatureManagerContainer extends React.Component {
     selectVersionOption: (versionBodyParams) => dispatch(clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].selectVersionActions.sendSignal('PUT', versionBodyParams)),
     fetchStorages: (bodyParams, pathParams) => dispatch(clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].storageActions.fetchEntityListByPost(pathParams, null, bodyParams)),
     modifyAips: (bodyParams) => dispatch(clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].updateActions.sendSignal('POST', bodyParams)),
+    dispatchUnselectAll: (paneType) => dispatch(clientByPane[paneType].tableActions.unselectAll()),
   })
 
   static propTypes = {
@@ -92,6 +93,7 @@ export class OAISFeatureManagerContainer extends React.Component {
     storages: PropTypes.arrayOf(PropTypes.string),
     isFetching: PropTypes.bool,
     availableDependencies: PropTypes.arrayOf(PropTypes.string),
+    dispatchUnselectAll: PropTypes.func.isRequired,
   }
 
   state = {
@@ -159,14 +161,19 @@ export class OAISFeatureManagerContainer extends React.Component {
     fetchPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') }, paneType)
   }
 
+  unselectAll = (actionResult, paneType) => {
+    const { dispatchUnselectAll } = this.props
+    return !actionResult.error && dispatchUnselectAll(paneType)
+  }
+
   onDeleteRequests = (bodyParams, paneType, updatePostDialogState, onRefresh) => {
     const { deleteRequests } = this.props
-    this.perform(deleteRequests(bodyParams, paneType).then(updatePostDialogState), onRefresh)
+    this.perform(deleteRequests(bodyParams, paneType).then(updatePostDialogState).then((actionResult) => this.unselectAll(actionResult, paneType)), onRefresh)
   }
 
   onRetryRequests = (bodyParams, onRefresh) => {
     const { retryRequests } = this.props
-    this.perform(retryRequests(bodyParams), onRefresh)
+    this.perform(retryRequests(bodyParams).then((actionResult) => this.unselectAll(actionResult, IngestDomain.REQUEST_TYPES_ENUM.REQUEST)), onRefresh)
   }
 
   onAbortRequests = (onRefresh) => {
@@ -176,12 +183,12 @@ export class OAISFeatureManagerContainer extends React.Component {
 
   onSelectVersionOption = (bodyParams, onRefresh) => {
     const { selectVersionOption } = this.props
-    this.perform(selectVersionOption(bodyParams), onRefresh)
+    this.perform(selectVersionOption(bodyParams).then((actionResult) => this.unselectAll(actionResult, IngestDomain.REQUEST_TYPES_ENUM.REQUEST)), onRefresh)
   }
 
   onModifyAip = (bodyParams, updatePostDialogState, onRefresh) => {
     const { modifyAips } = this.props
-    this.perform(modifyAips(bodyParams).then(updatePostDialogState), onRefresh)
+    this.perform(modifyAips(bodyParams).then(updatePostDialogState).then((actionResult) => this.unselectAll(actionResult, IngestDomain.REQUEST_TYPES_ENUM.AIP)), onRefresh)
   }
 
   render() {

@@ -168,6 +168,7 @@ export class OAISPackageManagerComponent extends React.Component {
         },
       })
     }
+    return actionResult
   }
 
   onConfirmDelete = (deletionMode) => {

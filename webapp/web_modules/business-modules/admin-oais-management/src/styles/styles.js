@@ -32,7 +32,7 @@ const aipManagementStyles = (theme) => ({
     loadingStyle: {
       display: 'flex',
       justifyContent: 'flex-end',
-      width: '100%',
+      width: '80%',
     },
   },
   displayBlock: {
