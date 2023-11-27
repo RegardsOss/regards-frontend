@@ -61,6 +61,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
         currentNamespace: 'conf',
         form: {},
       },
+      serviceProviderList: {},
     }
     const enzymeWrapper = shallow(<ModuleFormComponent {...props} />, { context })
     // check presence of each field by its name
@@ -95,6 +96,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
           },
         },
       },
+      serviceProviderList: {},
     }
     const enzymeWrapper = shallow(<ModuleFormComponent {...props} />, { context })
     // check the field is disabled DEFAULT_HOME_ICON
@@ -137,6 +139,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
           conf: aModuleCompleteConfiguration,
         },
       },
+      serviceProviderList: {},
     }
 
     const enzymeWrapper = shallow(<ModuleFormComponent {...props} />, { context })
@@ -170,6 +173,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
         currentNamespace: 'conf',
         form: {},
       },
+      serviceProviderList: {},
     }
     const enzymeWrapper = shallow(<ModuleFormComponent {...props} />, { context })
     // check presence of each field by its name

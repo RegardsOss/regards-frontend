@@ -31,6 +31,7 @@ import { adminModuleReducer } from './clients/ModulesListClient'
 import { roleReducer } from './clients/RoleClient'
 import profileDialogReducer from './model/ProfileDialogReducer'
 import { tableReducer } from './clients/TableClient'
+import { serviceProviderReducer } from './clients/ServiceProviderClient'
 
 export default {
   // admin reducers
@@ -57,4 +58,5 @@ export default {
   profileDialog: profileDialogReducer,
   notificationSettings: notificationSettingsReducer,
   table: tableReducer,
+  serviceProviders: serviceProviderReducer,
 }

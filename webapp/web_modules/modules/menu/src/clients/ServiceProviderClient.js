@@ -23,6 +23,9 @@ import { AuthenticationClient } from '@regardsoss/client'
  *
  * @author Théo Lasserre
  */
-const ENTITIES_STORE_PATH = ['modules.authentication', 'service-providers']
+const ENTITIES_STORE_PATH = ['modules.menu', 'serviceProviders']
+const REDUX_ACTION_NAMESPACE = 'menu/service-providers'
 
-export const serviceProviderSelectors = AuthenticationClient.getServiceProviderPublicSelectors(ENTITIES_STORE_PATH)
+export const serviceProviderReducer = AuthenticationClient.getServiceProviderReducer(REDUX_ACTION_NAMESPACE)
+export const serviceProviderActions = new AuthenticationClient.ServiceProviderActions(REDUX_ACTION_NAMESPACE)
+export const serviceProviderSelectors = AuthenticationClient.getServiceProviderSelectors(ENTITIES_STORE_PATH)

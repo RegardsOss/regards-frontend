@@ -18,10 +18,11 @@
  **/
 import isEmpty from 'lodash/isEmpty'
 import { UIDomain } from '@regardsoss/domain'
-import { AccessShapes, AdminShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes, CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { adminModuleActions, adminModuleSelectors } from '../../clients/ModulesListClient'
 import { adminLayoutActions, adminLayoutSelectors } from '../../clients/LayoutListClient'
+import { serviceProviderActions, serviceProviderSelectors } from '../../clients/ServiceProviderClient'
 import { roleActions, roleSelectors } from '../../clients/RoleClient'
 import DynamicModulesProviderContainer from '../common/DynamicModulesProviderContainer'
 import ModuleFormComponent from '../../components/admin/ModuleFormComponent'
@@ -29,6 +30,7 @@ import ModuleFormComponent from '../../components/admin/ModuleFormComponent'
 /**
  * Admin root container for menu module
  * @author Sébastien binda
+ * @author Théo Lasserre
  */
 export class AdminContainer extends React.Component {
   /**
@@ -40,6 +42,7 @@ export class AdminContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       roleList: roleSelectors.getList(state),
+      serviceProviderList: serviceProviderSelectors.getList(state),
     }
   }
 
@@ -54,12 +57,14 @@ export class AdminContainer extends React.Component {
       fetchLayout: () => dispatch(adminLayoutActions.fetchEntity(props.appName)),
       fetchModules: () => dispatch(adminModuleActions.fetchPagedEntityList(0, null, { applicationId: props.appName }, { sort: 'id,ASC' })),
       fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
+      fetchServiceProviders: () => dispatch(serviceProviderActions.fetchPagedEntityList()),
     }
   }
 
   static propTypes = {
     project: PropTypes.string,
     roleList: AdminShapes.RoleList,
+    serviceProviderList: CommonShapes.ServiceProviderList.isRequired,
     // default module properties
     ...AccessShapes.runtimeConfigurationModuleFields,
     // from map dispatch to props
@@ -72,13 +77,14 @@ export class AdminContainer extends React.Component {
    */
   componentDidMount = () => {
     const {
-      fetchLayout, fetchModules, fetchRoleList, appName,
+      fetchLayout, fetchModules, fetchRoleList, appName, fetchServiceProviders,
     } = this.props
     // fetch corresponding user application layout, modules and roles, except when editing portal menu as it doesn't use
     // related functionnalities
     if (appName !== UIDomain.APPLICATIONS_ENUM.PORTAL) {
       fetchLayout()
       fetchModules()
+      fetchServiceProviders()
       // fetch role list for form edition
       fetchRoleList()
     }
@@ -86,7 +92,7 @@ export class AdminContainer extends React.Component {
 
   render() {
     const {
-      appName, project, adminForm, roleList,
+      appName, project, adminForm, roleList, serviceProviderList,
     } = this.props
     if (isEmpty(roleList) && appName !== UIDomain.APPLICATIONS_ENUM.PORTAL) {
       // prevent displayed before roles were fetched, except if portal (as portal doesn't show that option)
@@ -103,6 +109,7 @@ export class AdminContainer extends React.Component {
           project={project}
           adminForm={adminForm}
           roleList={roleList}
+          serviceProviderList={serviceProviderList}
         />
       </DynamicModulesProviderContainer>)
   }

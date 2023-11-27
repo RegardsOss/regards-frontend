@@ -97,4 +97,5 @@ export const ModuleConfiguration = PropTypes.shape({
   navigation: PropTypes.arrayOf(NavigationEditionItem),
   previewRole: PropTypes.string,
   roleList: AdminShapes.RoleList, // pre-fetched available role list for preview mode
+  selectedMainServiceId: PropTypes.string, // name of the selected main service provider to be used by users in priority
 })

@@ -57,6 +57,7 @@ const messages = {
   'menu.form.projectpage.title.fr': 'Page title in french',
   'menu.form.projectpage.title.en': 'Page title in english',
   'menu.form.displayauthentication': 'Display authentication option',
+  'menu.form.selectMainService': 'Main connection service',
   'menu.form.displaynotifications': 'Display notification center',
   'menu.form.displaycart': 'Display cart link',
   'menu.form.displaylocale': 'Display Locale selector',

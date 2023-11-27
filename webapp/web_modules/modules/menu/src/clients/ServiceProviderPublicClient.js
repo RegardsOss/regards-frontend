@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,27 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { AuthenticationClient } from '@regardsoss/client'
 
 /**
- * Webpack configuration file
- * Override the default dev configuration in order to run the app with the Regards continuous integration backend on VM perf.
+ * Service Provider entities client.
+ *
+ * @author Théo Lasserre
  */
-const webpackConfigurator = require('@regardsoss/webpack-config-front')
-const webpack = require('webpack')
+const ENTITIES_STORE_PATH = ['modules.authentication', 'service-providers']
 
-const conf = webpackConfigurator
-  .generateConfig({
-    mode: 'dev',
-    projectContextPath: __dirname,
-  })
-  .merge({
-    plugins: [
-      new webpack.DefinePlugin({
-        GATEWAY_HOSTNAME: JSON.stringify('https://validation-regards.cloud-espace.si.c-s.fr'),
-      }),
-    ],
-  })
-  .get()
-
-module.exports = conf
+export const serviceProviderPublicSelectors = AuthenticationClient.getServiceProviderPublicSelectors(ENTITIES_STORE_PATH)

@@ -17,13 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import map from 'lodash/map'
 import RadioButton from 'material-ui/RadioButton'
+import MenuItem from 'material-ui/MenuItem'
 import Subheader from 'material-ui/Subheader'
-import { AccessShapes, AdminShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
-  RenderTextField, RenderCheckbox, RenderRadio, Field, FieldArray, ValidationHelpers,
+  RenderTextField, RenderCheckbox, RenderRadio, Field, FieldArray, ValidationHelpers, RenderSelectField,
 } from '@regardsoss/form-utils'
 import { UIDomain } from '@regardsoss/domain'
 import { HOME_ICON_TYPES_ENUM } from '../../domain/HomeIconType'
@@ -41,6 +43,7 @@ class ModuleFormComponent extends React.Component {
     adminForm: AccessShapes.moduleAdminForm,
     dynamicModules: AccessShapes.ModuleArray,
     roleList: AdminShapes.RoleList.isRequired,
+    serviceProviderList: CommonShapes.ServiceProviderList.isRequired,
   }
 
   static contextTypes = {
@@ -70,6 +73,7 @@ class ModuleFormComponent extends React.Component {
     this.CONF_HOME_TITLE_EN = `${this.HOME_CONFIGURATION_ROOT}.title.en`
     this.CONF_HOME_TITLE_FR = `${this.HOME_CONFIGURATION_ROOT}.title.fr`
     this.CONF_NAVIGATION = `${currentNamespace}.navigation`
+    this.CONF_SELECTED_MAIN_SERVICE = `${currentNamespace}.selectedMainServiceId`
   }
 
   /**
@@ -109,11 +113,10 @@ class ModuleFormComponent extends React.Component {
 
   render() {
     const {
-      appName, project, adminForm, dynamicModules, roleList,
+      appName, project, adminForm, dynamicModules, roleList, serviceProviderList,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { admin: { subheaderStyle, firstSubheaderStyle, radioButtonGroupLabelStyle } } } = this.context
     const portal = appName === UIDomain.APPLICATIONS_ENUM.PORTAL
-
     return (
       <div>
         <Subheader style={firstSubheaderStyle}>
@@ -156,6 +159,27 @@ class ModuleFormComponent extends React.Component {
                 component={RenderCheckbox}
                 label={formatMessage({ id: 'menu.form.displayauthentication' })}
               />
+              <Field
+                name={this.CONF_SELECTED_MAIN_SERVICE}
+                component={RenderSelectField}
+                label={formatMessage({ id: 'menu.form.selectMainService' })}
+                fullWidth
+              >
+                <MenuItem
+                  value=""
+                  key="undefined-service"
+                  primaryText=""
+                />
+                {
+                  map(serviceProviderList, (serviceProvider, index) => (
+                    <MenuItem
+                      key={index}
+                      value={serviceProvider.content.name}
+                      primaryText={serviceProvider.content.name}
+                    />
+                  ))
+                }
+              </Field>
               <Field
                 name={this.CONF_CART}
                 component={RenderCheckbox}

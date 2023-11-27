@@ -47,6 +47,8 @@ describe('[Menu] Testing AdminContainer', () => {
       fetchLayout: () => { },
       fetchModules: () => { },
       fetchRoleList: () => { },
+      fetchServiceProviders: () => { },
+      serviceProviderList: {},
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(ModuleFormComponent)
@@ -73,6 +75,8 @@ describe('[Menu] Testing AdminContainer', () => {
       fetchLayout: () => { },
       fetchModules: () => { },
       fetchRoleList: () => { },
+      fetchServiceProviders: () => { },
+      serviceProviderList: {},
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(ModuleFormComponent)

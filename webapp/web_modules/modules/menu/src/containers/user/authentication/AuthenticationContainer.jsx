@@ -28,7 +28,7 @@ import { AdminShapes, CommonShapes } from '@regardsoss/shape'
 import get from 'lodash/get'
 import { borrowRoleActions, borrowRoleSelectors } from '../../../clients/BorrowRoleClient'
 import { authenticationDialogActions } from '../../../clients/AuthenticationDialogUIClient'
-import { serviceProviderSelectors } from '../../../clients/ServiceProviderClient'
+import { serviceProviderPublicSelectors } from '../../../clients/ServiceProviderPublicClient'
 import { disconnectServiceProviderAction } from '../../../clients/ServiceProviderDisconnect'
 import profileDialogActions from '../../../model/ProfileDialogActions'
 import LoggedUserComponent from '../../../components/user/authentication/LoggedUserComponent'
@@ -54,7 +54,7 @@ export class AuthenticationContainer extends React.Component {
       isSendingBorrowRole: borrowRoleSelectors.isFetching(state),
       borrowRoleResult: borrowRoleSelectors.getResult(state),
       authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
-      serviceProviderList: serviceProviderSelectors.getList(state),
+      serviceProviderList: serviceProviderPublicSelectors.getList(state),
     }
   }
 
