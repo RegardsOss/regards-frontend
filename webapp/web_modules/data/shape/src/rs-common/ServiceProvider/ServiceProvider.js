@@ -23,6 +23,8 @@ export const ServiceProviderContent = PropTypes.shape({
   name: PropTypes.string.isRequired,
   authUrl: PropTypes.string.isRequired,
   pluginConfiguration: PluginConfigurationContent,
+  descriptionFr: PropTypes.string,
+  descriptionEn: PropTypes.string,
 })
 
 export const ServiceProvider = PropTypes.shape({

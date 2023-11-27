@@ -43,7 +43,7 @@ export const FORM_MODE = {
 * Component to create/edit a processing plugin configuration
 * @author Théo Lasserre
 */
-export class ProcessingFormComponent extends React.Component {
+export class ServiceProviderFormComponent extends React.Component {
   static propTypes = {
     mode: PropTypes.string.isRequired,
     serviceProvider: CommonShapes.ServiceProvider,
@@ -73,6 +73,8 @@ export class ProcessingFormComponent extends React.Component {
         serviceProviderName: get(serviceProvider, 'content.name', ''),
         serviceProviderUrl: get(serviceProvider, 'content.authUrl', ''),
         serviceProviderLogoutUrl: get(serviceProvider, 'content.logoutUrl', ''),
+        serviceProviderDescriptionFr: get(serviceProvider, 'content.descriptionFr', ''),
+        serviceProviderDescriptionEn: get(serviceProvider, 'content.descriptionEn', ''),
       })
     }
   }
@@ -110,6 +112,18 @@ export class ProcessingFormComponent extends React.Component {
           name="serviceProviderLogoutUrl"
           component={RenderTextField}
           label={formatMessage({ id: 'user.authentication.external.plugins.form.create.field.logout.url' })}
+          fullWidth
+        />
+        <Field
+          name="serviceProviderDescriptionFr"
+          component={RenderTextField}
+          label={formatMessage({ id: 'user.authentication.external.plugins.form.create.field.description.fr' })}
+          fullWidth
+        />
+        <Field
+          name="serviceProviderDescriptionEn"
+          component={RenderTextField}
+          label={formatMessage({ id: 'user.authentication.external.plugins.form.create.field.description.en' })}
           fullWidth
         />
       </div>, <div key="serviceProviderPlugin" style={serviceprovider.serviceProviderPlugin}>
@@ -174,5 +188,5 @@ export class ProcessingFormComponent extends React.Component {
 
 const connectedReduxForm = reduxForm({
   form: 'service-provider-form',
-})(ProcessingFormComponent)
+})(ServiceProviderFormComponent)
 export default withModuleStyle(styles)(withI18n(messages)(connectedReduxForm))

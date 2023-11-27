@@ -106,6 +106,8 @@ export class ServiceProviderFormContainer extends React.Component {
       name: get(fields, 'serviceProviderName'),
       authUrl: get(fields, 'serviceProviderUrl'),
       logoutUrl: get(fields, 'serviceProviderLogoutUrl'),
+      descriptionFr: get(fields, 'serviceProviderDescriptionFr'),
+      descriptionEn: get(fields, 'serviceProviderDescriptionEn'),
       pluginConfiguration,
     }
 

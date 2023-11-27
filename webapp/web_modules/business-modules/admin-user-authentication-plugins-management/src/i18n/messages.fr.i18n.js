@@ -50,6 +50,8 @@ const messages = {
   'user.authentication.external.plugins.form.create.field.name': 'Nom',
   'user.authentication.external.plugins.form.create.field.url': 'Authentication URL',
   'user.authentication.external.plugins.form.create.field.logout.url': 'Logout URL',
+  'user.authentication.external.plugins.form.create.field.description.fr': 'Description en français',
+  'user.authentication.external.plugins.form.create.field.description.en': 'Description en anglais',
   'user.authentication.external.plugins.form.create.field.pluginConfiguration': 'Plugin',
   'user.authentication.external.plugins.form.submit.edit.button': 'Modifier',
   'user.authentication.external.plugins.form.submit.create.button': 'Créer',
