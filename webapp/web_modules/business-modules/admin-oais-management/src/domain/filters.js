@@ -19,6 +19,7 @@
 import reduce from 'lodash/reduce'
 import { DamDomain, IngestDomain } from '@regardsoss/domain'
 import { VERSION_OPTIONS } from './versionOptions'
+import { DISSEMINATION_PENDING_ENUM } from './DisseminationStatus'
 
 /**
  * Filters definitions
@@ -50,6 +51,9 @@ export const AIP_FILTERS_I18N = {
   [IngestDomain.AIP_FILTER_PARAMS.LAST_UPDATE]: {
     labelKey: 'oais.list.filters.lastUpdate.label',
   },
+  [IngestDomain.AIP_FILTER_PARAMS.CREATION_DATE]: {
+    labelKey: 'oais.list.filters.creationDate.label',
+  },
   [IngestDomain.AIP_FILTER_PARAMS.PROVIDER_IDS]: {
     labelKey: 'oais.list.filters.providerIds.label',
     hintTextKey: 'oais.list.filters.providerIds.label',
@@ -72,6 +76,13 @@ export const AIP_FILTERS_I18N = {
     chipValueKeys: reduce(VERSION_OPTIONS, (acc, value) => ({
       ...acc,
       [value]: `oais.list.filters.last.${value}`,
+    }), {}),
+  },
+  [IngestDomain.AIP_FILTER_PARAMS.DISSEMINATION_STATE]: {
+    labelKey: 'oais.list.filters.dissemination.label',
+    chipValueKeys: reduce(DISSEMINATION_PENDING_ENUM, (acc, value) => ({
+      ...acc,
+      [value]: `oais.list.filters.dissemination.${value}`,
     }), {}),
   },
 }

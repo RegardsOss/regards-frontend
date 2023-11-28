@@ -29,6 +29,7 @@ import { requestDeleteActions } from '../clients/RequestDeleteClient'
 import { requestRetryActions } from '../clients/RequestRetryClient'
 import { requestAbortActions } from '../clients/RequestAbortClient'
 import { requestSelectVersionModeActions } from '../clients/RequestSelectVersionModeClient'
+import { aipNotifyActions } from '../clients/AIPNotifyClient'
 
 export default {
   [IngestDomain.REQUEST_TYPES_ENUM.AIP]: {
@@ -38,6 +39,7 @@ export default {
     tableSelectors: aipTableSelectors,
     deleteActions: aipDeleteActions,
     updateActions: aipUpdateActions,
+    notifyActions: aipNotifyActions,
     storageActions: aipStorageSearchActions,
     storageSelectors: aipStorageSearchSelectors,
   },

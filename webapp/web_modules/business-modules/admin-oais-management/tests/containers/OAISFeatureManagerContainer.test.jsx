@@ -49,6 +49,9 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerContainer', () => {
       selectVersionOption: () => {},
       fetchStorages: () => {},
       modifyAips: () => {},
+      fetchRecipients: () => {},
+      notifyAips: () => {},
+      recipientList: [],
       dispatchUnselectAll: () => {},
     }
     const enzymeWrapper = shallow(<OAISFeatureManagerContainer {...props} />, { context })
@@ -65,6 +68,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerContainer', () => {
       onModifyAip: instance.onModifyAip,
       modeSelectionAllowed: false,
       onBack: instance.onBack,
+      recipientList: props.recipientList,
+      onNotifyAip: instance.onNotifyAip,
     }, 'Component should define the expected properties and callbacks')
   })
 })

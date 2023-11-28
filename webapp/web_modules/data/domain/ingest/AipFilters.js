@@ -38,6 +38,8 @@ export const AIP_FILTER_PARAMS = {
   TAGS: 'tags',
   LAST: 'last',
   AIP_IDS: 'aipIds',
+  CREATION_DATE: 'creationDate',
+  DISSEMINATION_STATE: 'disseminationStatus',
 }
 
 /**
@@ -92,6 +94,8 @@ export class AipFilters {
       [AIP_FILTER_PARAMS.AIP_STATE]: TableFilterDefaultStateEnum.VALUES,
       [AIP_FILTER_PARAMS.STORAGES]: TableFilterDefaultStateEnum.VALUES,
       [AIP_FILTER_PARAMS.LAST]: null,
+      [AIP_FILTER_PARAMS.CREATION_DATE]: TableFilterDefaultStateEnum.DATES,
+      [AIP_FILTER_PARAMS.DISSEMINATION_STATE]: null,
     }
   }
 }

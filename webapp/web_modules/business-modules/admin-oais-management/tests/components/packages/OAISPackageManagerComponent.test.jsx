@@ -47,6 +47,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerComponent', () => {
       onModifyAip: () => {},
       paneType: IngestDomain.REQUEST_TYPES_ENUM.AIP,
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
+      recipientList: [],
+      onNotifyAip: () => {},
     }
     const enzymeWrapper = shallow(<OAISPackageManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')

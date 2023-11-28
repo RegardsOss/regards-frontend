@@ -30,6 +30,7 @@ import {
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
 import { VERSION_OPTIONS } from '../../domain/versionOptions'
+import { DISSEMINATION_PENDING_ENUM } from '../../domain/DisseminationStatus'
 
 /**
  * AIP Feature manager filters component.
@@ -75,6 +76,11 @@ export class AIPFiltersComponent extends React.Component {
           multiline
           displayTime
         />
+        <FilterPaneDatePickerField
+          filterKey={IngestDomain.AIP_FILTER_PARAMS.CREATION_DATE}
+          multiline
+          displayTime
+        />
         <FilterPaneAutoCompleteField
           filterKey={IngestDomain.AIP_FILTER_PARAMS.SOURCE}
           arrayActions={searchSourcesActions}
@@ -115,6 +121,12 @@ export class AIPFiltersComponent extends React.Component {
           title={formatMessage({ id: 'oais.packages.tooltip.version' })}
         >
           {map(VERSION_OPTIONS, (option) => <MenuItem key={option} value={option} primaryText={formatMessage({ id: `oais.list.filters.last.${option}` })} />)}
+        </FilterPaneSelectFieldLegacy>
+        <FilterPaneSelectFieldLegacy
+          filterKey={IngestDomain.AIP_FILTER_PARAMS.DISSEMINATION_STATE}
+          allValuesOption
+        >
+          {map(DISSEMINATION_PENDING_ENUM, (dissemination) => <MenuItem key={dissemination} value={dissemination} primaryText={formatMessage({ id: `oais.list.filters.dissemination.${dissemination}` })} />)}
         </FilterPaneSelectFieldLegacy>
       </FiltersPaneMainComponent>
     )

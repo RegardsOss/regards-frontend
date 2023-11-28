@@ -30,6 +30,17 @@ const messages = {
   'browser.check.fail.do.not.show.again': 'do not show again',
   'code.display.dialog.close': 'Close',
   'code.display.dialog.no.data': 'No data found',
+  'feature.list.empty.title': 'No recipients available',
+  'feature.notify.confirm.message': 'Confirm notification ?',
+  'feature.notify.back.button': 'Cancel',
+  'feature.notify.confirm.button': 'Confirm',
+  'feature.table.header.column.label': 'Label',
+  'feature.table.header.column.description': 'Description',
+  'feature.subtitle': 'By default, the selected products will be notified to all recipients configured by the service\'s notification rules. However, you can manually choose the recipients to notify by selecting them below.',
+  'feature.button.notify': 'Notify',
+  'feature.references.notify.title': 'Notify selected products',
+  'feature.close': 'Close',
+  'feature.references.notify': 'Notify',
 }
 
 export default messages

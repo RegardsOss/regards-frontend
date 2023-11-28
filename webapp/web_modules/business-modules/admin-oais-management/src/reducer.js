@@ -38,6 +38,7 @@ import { requestRetryReducer } from './clients/RequestRetryClient'
 import { requestDeleteReducer } from './clients/RequestDeleteClient'
 import { settingsReducer } from './clients/SettingsClient'
 import { filtersReducer } from './clients/FiltersClient'
+import { aipRecipientsReducer } from './clients/AIPRecipientsClient'
 
 const oaisManagementReducer = combineReducers({
   aip: aipReducer,
@@ -61,6 +62,7 @@ const oaisManagementReducer = combineReducers({
   searchSources: searchSourcesReducer,
   settings: settingsReducer,
   aipFilters: filtersReducer,
+  aipRecipients: aipRecipientsReducer,
 })
 
 export default oaisManagementReducer

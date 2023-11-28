@@ -32,6 +32,8 @@ export default class AIPSignalActions extends BasicSignalsActions {
 
   static RETRY_SESSION_GENERATION_ACTIONS = 'retryAllGenerationEndpoint'
 
+  static NOTIFY_AIP_ACTIONS = 'notifyEndpoint'
+
   /**
    * Construtor
    * @param namespace
@@ -45,6 +47,10 @@ export default class AIPSignalActions extends BasicSignalsActions {
       [AIPSignalActions.RETRY_SESSION_GENERATION_ACTIONS]: {
         entityEndpoint: `${AIPSignalActions.ROOT_ENDPOINT}/sessions/{id}/retry/generation`,
         namespace: `${namespace}/resume`,
+      },
+      [AIPSignalActions.NOTIFY_AIP_ACTIONS]: {
+        entityEndpoint: `${AIPSignalActions.ROOT_ENDPOINT}/dissemination`,
+        namespace: `${namespace}/dissemination`,
       },
     })
   }
@@ -61,5 +67,14 @@ export default class AIPSignalActions extends BasicSignalsActions {
    */
   retrySessionGeneration(sessionId) {
     return this.getSubAction(AIPSignalActions.RETRY_SESSION_GENERATION_ACTIONS).sendSignal('PUT', null, { id: sessionId })
+  }
+
+  /**
+   * Notify aips matching filters to selected recipients
+   * @param {*} filters
+   * @param {*} recipients
+   */
+  notifyAip(filters, recipients) {
+    return this.getSubAction(AIPSignalActions.NOTIFY_AIP_ACTIONS).sendSignal('POST', { filters, recipients })
   }
 }

@@ -24,8 +24,9 @@ import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableSelectionModes, DateValueRender, NoContentComponent, TableHeaderLine,
   TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
-  withSortTables,
+  withSortTables, NotifyDialog,
 } from '@regardsoss/components'
+import { NotifierShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { IngestDomain } from '@regardsoss/domain'
@@ -35,6 +36,7 @@ import AIPHistoryOptionContainer from '../../containers/packages/AIPHistoryOptio
 import AIPDetailOption from './AIPDetailOption'
 import AIPModifyOption from './AIPModifyOption'
 import AIPDeleteOption from './AIPDeleteOption'
+import AIPNotifyOption from './AIPNotifyOption'
 import AIPDetailComponent from './AIPDetailComponent'
 import AIPModifyDialogContainer from '../../containers/packages/AIPModifyDialogContainer'
 import AIPDeleteDialog from './AIPDeleteDialog'
@@ -69,6 +71,8 @@ export class OAISPackageManagerComponent extends React.Component {
     onDeleteRequests: PropTypes.func.isRequired,
     onModifyAip: PropTypes.func.isRequired,
     paneType: PropTypes.oneOf(IngestDomain.REQUEST_TYPES).isRequired,
+    recipientList: NotifierShapes.RecipientArray,
+    onNotifyAip: PropTypes.func.isRequired,
 
     // table sorting, column visiblity & filters management
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
@@ -120,6 +124,11 @@ export class OAISPackageManagerComponent extends React.Component {
       deletionErrors: [],
       modifyErrors: [],
     },
+    [DIALOG_TYPES.NOTIFY_DIALOG]: {
+      open: false,
+      mode: TableSelectionModes.includeSelected,
+      entities: [],
+    },
   }
 
   /**
@@ -158,6 +167,10 @@ export class OAISPackageManagerComponent extends React.Component {
   onModifySelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.MODIFY_DIALOG, entities, mode)
 
   onModifyProduct = (entity) => this.onModifySelection([entity])
+
+  onNotifySelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.NOTIFY_DIALOG, entities, mode)
+
+  onNotifyProduct = (entity) => this.onNotifySelection([entity])
 
   updatePostDialogState = (actionResult) => {
     if (actionResult.error) {
@@ -202,6 +215,16 @@ export class OAISPackageManagerComponent extends React.Component {
     onModifyAip(finalModifyPayload, this.updatePostDialogState)
   }
 
+  onConfirmNotify = (recipientIds) => {
+    const { onNotifyAip, bodyParameters } = this.props
+    const { entities, mode } = this.state[DIALOG_TYPES.NOTIFY_DIALOG]
+    const payload = {
+      ...bodyParameters,
+      ...this.getActionPayload(entities, mode),
+    }
+    onNotifyAip(payload, recipientIds)
+  }
+
   getActionPayload = (entities, mode) => {
     const aipIds = map(entities, (e) => get(e, 'content.aipId', ''))
     const selectionMode = mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE
@@ -210,7 +233,7 @@ export class OAISPackageManagerComponent extends React.Component {
 
   renderDialog = (dialogRequestType) => {
     const { open, mode, entities } = this.state[dialogRequestType]
-    const { bodyParameters } = this.props
+    const { bodyParameters, recipientList } = this.props
     if (open) {
       let component = null
       switch (dialogRequestType) {
@@ -245,7 +268,13 @@ export class OAISPackageManagerComponent extends React.Component {
             aip={entities[0]}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
           />
-
+          break
+        case DIALOG_TYPES.NOTIFY_DIALOG:
+          component = <NotifyDialog
+            onConfirmNotify={(recipientIds) => this.onConfirmNotify(recipientIds)}
+            onClose={() => this.onCloseActionDialog(dialogRequestType)}
+            recipientList={recipientList}
+          />
           break
         default:
       }
@@ -310,6 +339,9 @@ export class OAISPackageManagerComponent extends React.Component {
         }, {
           OptionConstructor: AIPDeleteOption,
           optionProps: { onDelete: this.onDeleteProduct },
+        }, {
+          OptionConstructor: AIPNotifyOption,
+          optionProps: { onNotify: this.onNotifyProduct },
         }])
         .build(),
     ]
@@ -324,6 +356,7 @@ export class OAISPackageManagerComponent extends React.Component {
               paneType={paneType}
               onModify={this.onModifySelection}
               onDelete={this.onDeleteSelection}
+              onNotify={this.onNotifySelection}
             />
           </TableHeaderLine>
           <PageableInfiniteTableContainer
@@ -346,6 +379,7 @@ export class OAISPackageManagerComponent extends React.Component {
         {this.renderDialog(DIALOG_TYPES.DELETE_DIALOG)}
         {this.renderDialog(DIALOG_TYPES.MODIFY_DIALOG)}
         {this.renderDialog(DIALOG_TYPES.POST_REQUEST_DIALOG)}
+        {this.renderDialog(DIALOG_TYPES.NOTIFY_DIALOG)}
       </div>
     )
   }

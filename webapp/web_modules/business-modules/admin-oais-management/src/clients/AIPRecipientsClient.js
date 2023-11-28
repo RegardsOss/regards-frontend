@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,21 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { NotifierClient } from '@regardsoss/client'
 
 /**
+ * Model attributes entities client.
+ *
  * @author Théo Lasserre
  */
-/** Possible dialog types */
-export const DIALOG_TYPES = {
-  AIP_DETAIL_DIALOG: 'aipDetailDialog',
-  SIP_DETAIL_DIALOG: 'sipDetailDialog',
-  DELETE_DIALOG: 'deleteDialog',
-  MODIFY_DIALOG: 'modifyDialog',
-  POST_REQUEST_DIALOG: 'postRequestDialog',
-  ERRORS_DIALOG: 'errorsDialog',
-  RETRY_DIALOG: 'retryDialog',
-  VERSION_OPTION_SELECTION_DIALOG: 'versionOptionSelectionDialog',
-  ABORT_DIALOG: 'abortDialog',
-  NOTIFY_DIALOG: 'notifyDialog',
-}
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'aipRecipients']
+const REDUX_ACTION_NAMESPACE = 'admin-oais-management/aip-recipients'
+
+export const aipRecipientsActions = new NotifierClient.RecipientsActions(REDUX_ACTION_NAMESPACE)
+export const aipRecipientsReducer = NotifierClient.getRecipientsReducer(REDUX_ACTION_NAMESPACE)
+export const aipRecipientsSelectors = NotifierClient.getRecipientSelectors(ENTITIES_STORE_PATH)

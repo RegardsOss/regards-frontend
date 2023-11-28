@@ -18,31 +18,37 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { PositionedDialog } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ReferenceNotifyDialog } from '../../../src/components/options/ReferenceNotifyDialog'
+import AIPNotifyOption from '../../../src/components/packages/AIPNotifyOption'
 import styles from '../../../src/styles'
+import { AIP } from '../../dumps/AIP.dump'
 
 const context = buildTestContext(styles)
 
 /**
-  * Test ReferenceNotifyDialog
-  * @author Théo Lasserre
-  */
-describe('[ADMIN FEATURE MANAGEMENT] Testing ReferenceNotifyDialog', () => {
+ * Test AIPNotifyOption
+ * @author Simon MILHAU
+ */
+describe('[OAIS AIP MANAGEMENT] Testing AIPNotifyOption', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ReferenceNotifyDialog)
+    assert.isDefined(AIPNotifyOption)
   })
-  it('should render correctly', () => {
-    const props = {
-      onConfirmNotify: () => { },
-      onClose: () => { },
+  it('should render and invoke callback correctly', () => {
+    const spiedCallbackData = {
+      count: 0,
+      parameterValue: AIP,
     }
-    const enzymeWrapper = shallow(<ReferenceNotifyDialog {...props} />, { context })
-    const dialogWrapper = enzymeWrapper.find(PositionedDialog)
-    assert.lengthOf(dialogWrapper, 1, 'There should be a PositionedDialog')
+    const props = {
+      entity: AIP,
+      onNotify: () => { spiedCallbackData.count += 1 },
+    }
+    const enzymeWrapper = shallow(<AIPNotifyOption {...props} />, { context })
+
+    enzymeWrapper.instance().onClick()
+    assert.equal(spiedCallbackData.count, 1, 'Callback should have been invoked once')
+    assert.equal(spiedCallbackData.parameterValue, props.entity, 'Callback parameter should be valid')
   })
 })

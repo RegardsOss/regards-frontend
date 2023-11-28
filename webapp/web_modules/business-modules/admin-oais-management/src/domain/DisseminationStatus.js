@@ -16,20 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
 /**
+ * dissemination possible status
  * @author Théo Lasserre
  */
-/** Possible dialog types */
-export const DIALOG_TYPES = {
-  AIP_DETAIL_DIALOG: 'aipDetailDialog',
-  SIP_DETAIL_DIALOG: 'sipDetailDialog',
-  DELETE_DIALOG: 'deleteDialog',
-  MODIFY_DIALOG: 'modifyDialog',
-  POST_REQUEST_DIALOG: 'postRequestDialog',
-  ERRORS_DIALOG: 'errorsDialog',
-  RETRY_DIALOG: 'retryDialog',
-  VERSION_OPTION_SELECTION_DIALOG: 'versionOptionSelectionDialog',
-  ABORT_DIALOG: 'abortDialog',
-  NOTIFY_DIALOG: 'notifyDialog',
+export const DISSEMINATION_PENDING_ENUM = {
+  NONE: 'NONE',
+  DONE: 'DONE',
+  PENDING: 'PENDING',
 }
+
+export const DISSEMINATION_PENDING_VALUES = values(DISSEMINATION_PENDING_ENUM)

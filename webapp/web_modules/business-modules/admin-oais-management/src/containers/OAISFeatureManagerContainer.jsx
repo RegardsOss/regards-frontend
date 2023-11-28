@@ -22,6 +22,7 @@ import pick from 'lodash/pick'
 import omit from 'lodash/omit'
 import isEqual from 'lodash/isEqual'
 import compose from 'lodash/fp/compose'
+import { NotifierShapes } from '@regardsoss/shape'
 import { IngestDomain } from '@regardsoss/domain'
 import { withI18n } from '@regardsoss/i18n'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
@@ -31,6 +32,7 @@ import { withModuleStyle } from '@regardsoss/theme'
 import messages from '../i18n'
 import styles from '../styles'
 import { processingChainActions } from '../clients/ProcessingChainClient'
+import { aipRecipientsActions, aipRecipientsSelectors } from '../clients/AIPRecipientsClient'
 import OAISFeatureManagerComponent from '../components/OAISFeatureManagerComponent'
 import clientByPane from '../domain/ClientByPane'
 import dependencies from '../dependencies'
@@ -53,6 +55,7 @@ export class OAISFeatureManagerContainer extends React.Component {
     isFetching: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].selectors.isFetching(state) || clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].selectors.isFetching(state),
     storages: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].storageSelectors.getArray(state),
     availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+    recipientList: aipRecipientsSelectors.getResult(state),
   })
 
   /**
@@ -71,6 +74,8 @@ export class OAISFeatureManagerContainer extends React.Component {
     fetchStorages: (bodyParams, pathParams) => dispatch(clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].storageActions.fetchEntityListByPost(pathParams, null, bodyParams)),
     modifyAips: (bodyParams) => dispatch(clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].updateActions.sendSignal('POST', bodyParams)),
     dispatchUnselectAll: (paneType) => dispatch(clientByPane[paneType].tableActions.unselectAll()),
+    fetchRecipients: () => dispatch(aipRecipientsActions.fetchRecipients()),
+    notifyAips: (filters, recipients) => dispatch(clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].notifyActions.notifyAip(filters, recipients)),
   })
 
   static propTypes = {
@@ -89,11 +94,14 @@ export class OAISFeatureManagerContainer extends React.Component {
     selectVersionOption: PropTypes.func.isRequired,
     fetchStorages: PropTypes.func.isRequired,
     modifyAips: PropTypes.func.isRequired,
+    fetchRecipients: PropTypes.func.isRequired,
+    notifyAips: PropTypes.func.isRequired,
     // from mapStateToProps
     storages: PropTypes.arrayOf(PropTypes.string),
     isFetching: PropTypes.bool,
     availableDependencies: PropTypes.arrayOf(PropTypes.string),
     dispatchUnselectAll: PropTypes.func.isRequired,
+    recipientList: NotifierShapes.RecipientArray,
   }
 
   state = {
@@ -107,6 +115,7 @@ export class OAISFeatureManagerContainer extends React.Component {
   componentDidMount = () => {
     this.props.fetchProcessingChains()
     this.props.fetchStorages({}, {})
+    this.props.fetchRecipients()
     this.setState({ isLoading: false })
   }
 
@@ -191,8 +200,15 @@ export class OAISFeatureManagerContainer extends React.Component {
     this.perform(modifyAips(bodyParams).then(updatePostDialogState).then((actionResult) => this.unselectAll(actionResult, IngestDomain.REQUEST_TYPES_ENUM.AIP)), onRefresh)
   }
 
+  onNotifyAip = (filters, recipients, onRefresh) => {
+    const { notifyAips } = this.props
+    this.perform(notifyAips(filters, recipients).then((actionResult) => this.unselectAll(actionResult, IngestDomain.REQUEST_TYPES_ENUM.REQUEST)), onRefresh)
+  }
+
   render() {
-    const { params, isFetching, storages } = this.props
+    const {
+      params, isFetching, storages, recipientList,
+    } = this.props
     const { isLoading, modeSelectionAllowed } = this.state
     return (
       <OAISFeatureManagerComponent
@@ -207,6 +223,8 @@ export class OAISFeatureManagerContainer extends React.Component {
         onModifyAip={this.onModifyAip}
         modeSelectionAllowed={modeSelectionAllowed}
         onBack={this.onBack}
+        recipientList={recipientList}
+        onNotifyAip={this.onNotifyAip}
       />
     )
   }

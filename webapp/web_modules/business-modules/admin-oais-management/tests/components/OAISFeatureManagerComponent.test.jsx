@@ -65,6 +65,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
       onModifyAip: () => { },
       onBack: () => { },
       storages: [],
+      recipientList: [],
+      onNotifyAip: () => {},
     }
     const enzymeWrapper = shallow(<OAISFeatureManagerComponent {...props} />, { context })
     const headerComponent = enzymeWrapper.find(CardHeaderActions)
@@ -119,6 +121,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
     testSuiteHelpers.assertWrapperProperties(packageComponent, {
       isLoading: props.isLoading,
       paneType: IngestDomain.REQUEST_TYPES_ENUM.AIP,
+      recipientList: props.recipientList,
+      onNotifyAip: props.onNotifyAip,
     })
     let requestFiltersComponent = enzymeWrapper.find(RequestsFiltersComponent)
     assert.lengthOf(requestFiltersComponent, 0, 'RequestsFiltersComponent should not be set')

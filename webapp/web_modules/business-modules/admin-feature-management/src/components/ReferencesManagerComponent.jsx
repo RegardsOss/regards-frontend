@@ -25,7 +25,7 @@ import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableSelectionModes, DateValueRender, NoContentComponent, TableHeaderLine,
   TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
-  withSortTables, CodeDisplayDialog,
+  withSortTables, CodeDisplayDialog, NotifyDialog,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -38,7 +38,6 @@ import DisseminationTableCustomCellRender from './render/DisseminationTableCusto
 import ReferenceDetailOption from './options/ReferenceDetailOption'
 import ReferenceDeleteOption from './options/ReferenceDeleteOption'
 import DeleteDialog from './options/DeleteDialog'
-import ReferenceNotifyDialog from './options/ReferenceNotifyDialog'
 import ReferenceNotifyOption from './options/ReferenceNotifyOption'
 import { DIALOG_TYPES } from '../domain/dialogTypes'
 import messages from '../i18n'
@@ -221,7 +220,7 @@ export class ReferencesManagerComponent extends React.Component {
           />
           break
         case DIALOG_TYPES.NOTIFY_DIALOG:
-          component = <ReferenceNotifyDialog
+          component = <NotifyDialog
             onConfirmNotify={(recipientIds) => this.onConfirm(dialogRequestType, recipientIds)}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
             recipientList={recipientList}

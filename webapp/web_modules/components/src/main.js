@@ -70,6 +70,7 @@ export { default as LoadableContentDialogContainer } from './dialogs/LoadableCon
 export { default as SingleContentURLDialogContainer } from './dialogs/SingleContentURLDialogContainer'
 export { default as withConfirmDialog } from './dialogs/withConfirmDialog'
 export { default as HelpDialogComponent } from './dialogs/HelpDialogComponent'
+export { default as NotifyDialog } from './dialogs/NotifyDialog'
 
 export { default as ErrorCardComponent } from './error/ErrorCardComponent'
 export { default as PageNotFoundComponent } from './error/PageNotFoundProvider'

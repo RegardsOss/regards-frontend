@@ -17,49 +17,51 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  import IconButton from 'material-ui/IconButton'
  **/
-import DeleteOnAllIcon from 'mdi-material-ui/DeleteForever'
+import find from 'lodash/find'
+import SendIcon from 'mdi-material-ui/Send'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { ResourceIconAction } from '@regardsoss/components'
-import { aipDeleteActions } from '../../clients/AIPDeleteClient'
 
 /**
- * Table option to delete AIP files on every local storage
- * @author Simon MILHAU
- */
-class AIPDeleteOption extends React.Component {
+  * Table option to notify oais product
+  * @author Théo Lasserre
+  */
+class AIPNotifyOption extends React.Component {
   static propTypes = {
     entity: IngestShapes.AIPEntity.isRequired,
-    onDelete: PropTypes.func.isRequired,
+    onNotify: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
-  static DELETE_DEPENDENCIES = aipDeleteActions.getDependency(RequestVerbEnum.POST)
-
   /**
    * On button clicked callback
    */
   onClick = () => {
-    const { entity, onDelete } = this.props
-    onDelete(entity)
+    const { entity, onNotify } = this.props
+    onNotify(entity)
+  }
+
+  isDisabled = () => {
+    const { entity } = this.props
+    return !find(entity.links, (l) => l.rel === 'notify')
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
     return (
       <ResourceIconAction
-        title={formatMessage({ id: 'oais.packages.tooltip.delete' })}
-        resourceDependencies={AIPDeleteOption.DELETE_DEPENDENCIES}
+        title={formatMessage({ id: 'oais.packages.tooltip.notify' })}
+        disabled={this.isDisabled()}
         onClick={this.onClick}
       >
-        <DeleteOnAllIcon />
+        <SendIcon />
       </ResourceIconAction>
     )
   }
 }
 
-export default AIPDeleteOption
+export default AIPNotifyOption

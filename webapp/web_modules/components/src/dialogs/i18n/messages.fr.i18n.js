@@ -30,6 +30,17 @@ const messages = {
   'browser.check.fail.do.not.show.again': 'Ne plus afficher',
   'code.display.dialog.close': 'Fermer',
   'code.display.dialog.no.data': 'Pas de données',
+  'feature.list.empty.title': 'Pas de destinataires disponibles',
+  'feature.notify.confirm.message': 'Confirmer la notification ?',
+  'feature.notify.back.button': 'Annuler',
+  'feature.notify.confirm.button': 'Confirmer',
+  'feature.table.header.column.label': 'Label',
+  'feature.table.header.column.description': 'Description',
+  'feature.subtitle': 'Par défaut, les produits sélectionnés seront notifiés à tous les destinataires configurés par les règles de notification du service. Toutefois, vous pouvez choisir manuellement les destinataires à notifier en les sélectionnant ci-dessous.',
+  'feature.button.notify': 'Notifier',
+  'feature.references.notify.title': 'Notifier les produits sélectionnés',
+  'feature.close': 'Fermer',
+  'feature.references.notify': 'Notifier',
 }
 
 export default messages

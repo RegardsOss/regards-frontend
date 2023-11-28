@@ -26,6 +26,7 @@ import {
   TableLayout, FiltersChipsContainer,
 } from '@regardsoss/components'
 import { IngestDomain, CommonDomain } from '@regardsoss/domain'
+import { NotifierShapes } from '@regardsoss/shape'
 import PageView from 'mdi-material-ui/CardSearch'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -59,6 +60,8 @@ class OAISFeatureManagerComponent extends React.Component {
     onSelectVersionOption: PropTypes.func.isRequired,
     onModifyAip: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
+    recipientList: NotifierShapes.RecipientArray,
+    onNotifyAip: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -133,7 +136,10 @@ class OAISFeatureManagerComponent extends React.Component {
   }
 
   getDisplayComponents = (paneType) => {
-    const { isLoading, storages, modeSelectionAllowed } = this.props
+    const {
+      isLoading, storages, modeSelectionAllowed, recipientList,
+      onNotifyAip,
+    } = this.props
     const { isFilterPaneOpened } = this.state
     if (paneType === IngestDomain.REQUEST_TYPES_ENUM.AIP) {
       return [
@@ -148,6 +154,8 @@ class OAISFeatureManagerComponent extends React.Component {
           key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
           isLoading={isLoading}
           paneType={paneType}
+          recipientList={recipientList}
+          onNotifyAip={onNotifyAip}
         />,
       ]
     }

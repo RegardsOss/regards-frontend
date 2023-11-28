@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from 'react-redux'
-import compose from 'lodash/fp/compose'
 import map from 'lodash/map'
 import FlatButton from 'material-ui/FlatButton'
 import find from 'lodash/find'
@@ -37,8 +35,8 @@ import {
   PositionedDialog,
 } from '@regardsoss/components'
 import { NotifierShapes } from '@regardsoss/shape'
-import messages from '../../i18n'
-import styles from '../../styles'
+import messages from './i18n'
+import styles from './styles'
 
 export const ButtonWithConfirmDialog = withConfirmDialog(RaisedButton)
 
@@ -46,7 +44,7 @@ export const ButtonWithConfirmDialog = withConfirmDialog(RaisedButton)
   * Confirm action dialog component.
   * @author Théo Lasserre
   */
-export class ReferenceNotifyDialog extends React.Component {
+export class NotifyDialog extends React.Component {
   static propTypes = {
     onConfirmNotify: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -262,7 +260,7 @@ export class ReferenceNotifyDialog extends React.Component {
                       />
                     ))}
                   </SelectableList>
-                  : ReferenceNotifyDialog.EMPTY_COMPONENT
+                  : NotifyDialog.EMPTY_COMPONENT
               }
             </ScrollArea>
             <div style={buttonDivStyle}>
@@ -315,4 +313,4 @@ export class ReferenceNotifyDialog extends React.Component {
   }
 }
 
-export default compose(connect(), withI18n(messages, true), withModuleStyle(styles, true))(ReferenceNotifyDialog)
+export default withModuleStyle(styles, true)(withI18n(messages, true)(NotifyDialog))
