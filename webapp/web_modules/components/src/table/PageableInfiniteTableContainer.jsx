@@ -40,6 +40,8 @@ export class PageableInfiniteTableContainer extends React.Component {
     // optional table selection actions: when provided, the table will be able to flush selection on entities re-fetch
     // eslint-disable-next-line react/no-unused-prop-types
     tableActions: PropTypes.instanceOf(TableActions), // Table actions instance, used in mapDispatchToProps
+    // style for cell element
+    cellWrapperStyle: PropTypes.objectOf(PropTypes.any),
 
     // see InfiniteTableContainer for the other properties required (note that the fetch / flush method are
     // already provided by this component, just fill in the other ones =)

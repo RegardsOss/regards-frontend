@@ -23,12 +23,15 @@ import isNil from 'lodash/isNil'
 import isString from 'lodash/isString'
 import omit from 'lodash/omit'
 import reduce from 'lodash/reduce'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import isEmpty from 'lodash/isEmpty'
 import { StabilityDelayer } from '@regardsoss/display-control'
+import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { resultsContextActions } from '../../../../../clients/ResultsContextClient'
+import { searchHistorySelectors, searchHistoryActions } from '../../../../../clients/SearchHistoryClient'
 import SearchPaneComponent from '../../../../../components/user/tabs/results/search/SearchPaneComponent'
 
 /**
@@ -37,6 +40,11 @@ import SearchPaneComponent from '../../../../../components/user/tabs/results/sea
  * @author Théo Lasserre
  */
 export class SearchPaneContainer extends React.Component {
+  static EMPTY_SELECTED_SEARCH_HISTORY = {
+    name: '',
+    id: '',
+  }
+
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -46,6 +54,24 @@ export class SearchPaneContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       updateResultsContext: (moduleId, newState) => dispatch(resultsContextActions.updateResultsContext(moduleId, newState)),
+      addSearchHistory: (moduleId, accountEmail, name, configuration) => dispatch(searchHistoryActions.createEntity({ name, configuration }, null, { moduleId, accountEmail })),
+      deleteSearchHistory: (searchHistoryId) => dispatch(searchHistoryActions.deleteEntity(searchHistoryId)),
+      fetchSearchHistory: (moduleId, accountEmail) => dispatch(searchHistoryActions.fetchPagedEntityList(0, 20, null, { moduleId, accountEmail })),
+      updateSearchHistory: (searchHistoryId, searchHistoryConfig) => dispatch(searchHistoryActions.updateEntity(searchHistoryId, searchHistoryConfig)),
+      throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
+    }
+  }
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      isUserSearchHistoryFetching: searchHistorySelectors.isFetching(state),
+      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
     }
   }
 
@@ -54,8 +80,16 @@ export class SearchPaneContainer extends React.Component {
     resultsContext: UIShapes.ResultsContext.isRequired,
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
     flushSelection: PropTypes.func.isRequired,
+    // from mapStateToProps
+    authentication: AuthenticateShape.isRequired,
+    isUserSearchHistoryFetching: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     updateResultsContext: PropTypes.func.isRequired,
+    addSearchHistory: PropTypes.func.isRequired,
+    deleteSearchHistory: PropTypes.func.isRequired,
+    fetchSearchHistory: PropTypes.func.isRequired,
+    updateSearchHistory: PropTypes.func.isRequired,
+    throwError: PropTypes.func.isRequired,
   }
 
   /**
@@ -162,6 +196,7 @@ export class SearchPaneContainer extends React.Component {
     groups: [],
     rootContextCriteria: [],
     searchDisabled: true,
+    selectedSearchHistory: SearchPaneContainer.EMPTY_SELECTED_SEARCH_HISTORY,
   }
 
   /** Instance stability delayer, used to avoid publishing to much context updates while user inputs */
@@ -329,9 +364,88 @@ export class SearchPaneContainer extends React.Component {
     })
   }
 
+  /**
+   * Update groups and rootContextCriteria with search history configuration
+   * @param {*} searchHistoryConfig
+   */
+  onSelectUserSearchHistory = (searchHistoryId, searchHistoryName, searchHistoryConfig) => {
+    const searchHistoryObj = JSON.parse(searchHistoryConfig)
+    this.onStateChange({
+      groups: get(searchHistoryObj, 'groups', []),
+      rootContextCriteria: get(searchHistoryObj, 'rootContextCriteria', []),
+      selectedSearchHistory: {
+        name: searchHistoryName,
+        id: searchHistoryId,
+      },
+    })
+  }
+
+  /**
+   * Add a new search history element
+   * @param {string} name
+   * @param {string} searchHistory
+   */
+  onAddUserSearchHistory = (name, searchHistoryConfig) => {
+    const {
+      addSearchHistory, moduleId, authentication,
+    } = this.props
+    return addSearchHistory(moduleId, get(authentication, 'result.sub'), name, searchHistoryConfig)
+  }
+
+  /**
+   * Delete a search history element using its id
+   * @param {number} searchHistoryId
+   */
+  onDeleteUserSearchHistory = (searchHistoryId) => {
+    const {
+      fetchSearchHistory, deleteSearchHistory, moduleId, authentication, throwError,
+    } = this.props
+    deleteSearchHistory(searchHistoryId).then((actionResult) => {
+      if (!actionResult.error) {
+        // Refresh search history list when delete is done
+        fetchSearchHistory(moduleId, get(authentication, 'result.sub'))
+      } else {
+        throwError('Unable to delete element')
+      }
+    })
+  }
+
+  /**
+   * Update a search history element using its id and a new config
+   * @param {number} searchHistoryId
+   * @param {string} searchHistoryConfig
+   */
+  onUpdateUserSearchHistory = (searchHistoryId, searchHistoryConfig) => {
+    const { updateSearchHistory, throwError } = this.props
+    updateSearchHistory(searchHistoryId, searchHistoryConfig).then((actionResult) => {
+      if (actionResult.error) {
+        throwError('Unable to update element')
+      }
+    })
+  }
+
+  /**
+   * Enable de clear selected search history and reset to initial form
+   */
+  onRemoveSelectedSearchHistory = () => {
+    // Initialize from configuration and pack with runtime data
+    const { resultsContext, tabType } = this.props
+    const { tab: { criteria, search: { groups } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    this.onStateChange({
+      groups: SearchPaneContainer.packGroupModels(groups, criteria.searchCriteria), // when mounting, restore values from applying criteria
+      rootContextCriteria: UIDomain.ResultsContextHelper.getCriteriaMapAsArray(
+        omit(criteria, ['searchCriteria', 'requestFacets', 'staticParameters'])),
+      selectedSearchHistory: SearchPaneContainer.EMPTY_SELECTED_SEARCH_HISTORY,
+    })
+  }
+
   render() {
-    const { tabType, resultsContext } = this.props
-    const { groups, rootContextCriteria, searchDisabled } = this.state
+    const {
+      tabType, resultsContext, moduleId, authentication, isUserSearchHistoryFetching, throwError,
+    } = this.props
+    const {
+      groups, rootContextCriteria, searchDisabled, selectedSearchHistory,
+    } = this.state
     const { tab: { search: { open } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <SearchPaneComponent
@@ -343,6 +457,16 @@ export class SearchPaneContainer extends React.Component {
         onResetPluginsStates={this.onResetPluginsStates}
         onSearch={this.onSearch}
         onClose={this.onClose}
+        moduleId={moduleId}
+        accountEmail={get(authentication, 'result.sub')}
+        onSelectUserSearchHistory={this.onSelectUserSearchHistory}
+        onAddUserSearchHistory={this.onAddUserSearchHistory}
+        onDeleteUserSearchHistory={this.onDeleteUserSearchHistory}
+        isUserSearchHistoryFetching={isUserSearchHistoryFetching}
+        throwError={throwError}
+        selectedSearchHistory={selectedSearchHistory}
+        onRemoveSelectedSearchHistory={this.onRemoveSelectedSearchHistory}
+        onUpdateUserSearchHistory={this.onUpdateUserSearchHistory}
       />
     )
   }

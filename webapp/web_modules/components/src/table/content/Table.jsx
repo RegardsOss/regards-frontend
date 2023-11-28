@@ -64,6 +64,9 @@ class Table extends React.Component {
     // required runtime width for columns size adjustements
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
+
+    // style for cell element
+    cellWrapperStyle: PropTypes.objectOf(PropTypes.any),
   }
 
   static defaultProps = {
@@ -186,7 +189,7 @@ class Table extends React.Component {
       return null
     }
     const {
-      entities, width, height, lineHeight,
+      entities, width, height, lineHeight, cellWrapperStyle,
       stripeRows, displayColumnsHeader, onScrollEnd,
     } = this.props
     const { runtimeColumns } = this.state
@@ -222,6 +225,7 @@ class Table extends React.Component {
                   isLastColumn={index === runtimeColumns.length - 1}
                   getEntity={this.getEntity}
                   rowCellDefinition={column.rowCellDefinition}
+                  cellWrapperStyle={cellWrapperStyle}
                 />
               }
               width={column.runtimeWidth}

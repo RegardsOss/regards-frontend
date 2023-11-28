@@ -37,6 +37,7 @@ class CellWrapper extends React.Component {
     isLastColumn: PropTypes.bool.isRequired,
     getEntity: PropTypes.func,
     rowCellDefinition: CellDefinition.isRequired,
+    cellWrapperStyle: PropTypes.objectOf(PropTypes.any),
   }
 
   /** List of prop types that should not be reported to child */
@@ -85,7 +86,7 @@ class CellWrapper extends React.Component {
     }
     // merge styles with line height and cell wrapperStyle if any (those take precedence)
     // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
-    const completeCellStyle = { height: lineHeight, ...basicCellStyle, ...(props.wrapperStyle || {}) } // eslint wont fix: runtime data merged with context..
+    const completeCellStyle = { height: lineHeight, ...basicCellStyle, ...(this.props.cellWrapperStyle || {}) } // eslint wont fix: runtime data merged with context..
 
     // 2 - prepare table cell properties
     const cellProperties = omit(this.props, CellWrapper.NON_REPORTED_PROPS)

@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEmpty from 'lodash/isEmpty'
+import Chip from 'material-ui/Chip'
 import { UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { MeasureResultProvider } from '@regardsoss/display-control'
@@ -34,10 +36,29 @@ class CriteriaListComponent extends React.Component {
     groups: PropTypes.arrayOf(SearchCriteriaGroupRuntime).isRequired,
     rootContextCriteria: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired,
     onUpdatePluginState: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    selectedSearchHistory: PropTypes.object,
+    onRemoveSelectedSearchHistory: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
+  }
+
+  /**
+   * Render a chip when a search history element is selected.
+   * Enable to reset to initial form   */
+  renderSelectedSearchHistory = () => {
+    const { selectedSearchHistory, onRemoveSelectedSearchHistory } = this.props
+    const { moduleTheme: { user: { searchPane: { chipDivStyle, chipLabelColor, chipLabelStyle } } } } = this.context
+    return !isEmpty(selectedSearchHistory.name)
+      ? (
+        <div style={chipDivStyle}>
+          <Chip onRequestDelete={onRemoveSelectedSearchHistory} labelColor={chipLabelColor} labelStyle={chipLabelStyle}>
+            { selectedSearchHistory.name }
+          </Chip>
+        </div>)
+      : null
   }
 
   render() {
@@ -50,6 +71,7 @@ class CriteriaListComponent extends React.Component {
       <MeasureResultProvider style={criteria.container} targetPropertyName="style">
         {/* show criteria list in scrollable area */}
         <ScrollArea contentStyle={criteria.scrollableContent} vertical>
+          {this.renderSelectedSearchHistory()}
           {/* show groups title and criteria in plugins render table (used as a layout) */}
           <table style={criteria.table}>
             <tbody>

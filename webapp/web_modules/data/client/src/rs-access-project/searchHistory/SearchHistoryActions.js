@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,12 +15,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-export { IntlMessage, OptionalIntlMessage } from './IntlMessage'
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { LayerDefinition } from './LayerDefinition'
-export { UISettings } from './UISettings'
-export { EntityWithTreeEntry, DescriptionTreeEntry } from './EntityWithTreeEntry'
-export { FiltersI18nList } from './FiltersI18n'
-export { SearchHistory } from './SearchHistory'
+ */
+import { SEARCH_HISTORY, SEARCH_HISTORY_ARRAY } from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
+
+/**
+ * Redux actions to handle search history entities from backend server.
+ *
+ * @author Théo Lasserre
+ */
+export default class SearchHistoryActions extends BasicPageableActions {
+  /**
+   * Construtor
+   * @param namespace
+   */
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/history`,
+      schemaTypes: {
+        ENTITY: SEARCH_HISTORY,
+        ENTITY_ARRAY: SEARCH_HISTORY_ARRAY,
+      },
+    })
+  }
+}

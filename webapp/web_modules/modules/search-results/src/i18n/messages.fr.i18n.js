@@ -221,10 +221,16 @@ const messages = {
   'search.results.refresh.title': 'Rafraîchir les données affichées',
   'search.results.search.pane.title': 'Rechercher dans les résultats',
   'search.results.search.pane.close.tooltip': 'Fermer le volet',
+  'search.results.search.pane.history.label': 'Historique',
+  'search.results.search.pane.history.title': 'Historique de recherche',
+  'search.results.search.pane.plugins.label': 'Plugins',
+  'search.results.search.pane.plugins.title': 'Liste des plugins',
   'search.results.search.pane.reset.label': 'Effacer',
   'search.results.search.pane.reset.title': 'Effacer toute saisie dans les critères',
   'search.results.search.pane.search.label': 'Rechercher',
   'search.results.search.pane.search.title': 'Appliquer les critères de recherches définis',
+  'search.results.search.pane.save.label': 'Enregistrer',
+  'search.results.search.pane.save.title': 'Enregistrer les critères de recherches',
   'download.tooltip': 'Télécharger',
   'no.download.tooltip': 'Aucun fichier téléchargeable',
   'download.quota.consumed.tooltip': 'Fonctionnalité de téléchargement désactivée',
@@ -300,6 +306,17 @@ const messages = {
   'results.map.help.upload.title': 'Emprise personnalisée',
   'results.map.help.upload.first_sentence': 'Vous pouvez glisser-déposer sur la carte votre fichier contenant un polygone.',
   'results.map.help.upload.snd_sentence': 'Formats autorisées: shapefile zip, KML, KMZ et GeoJSON - Doit contenir un seul polygone ou un multi polygone.',
+
+  // Search history tab
+  'search.history.loading.content.title': 'Chargement...',
+  'search.history.no.content.title': 'Rien à afficher',
+  'search.history.no.content.message': 'Pas d\'historique de recherche',
+
+  // Save search history tab
+  'search.history.save.title': 'Entrer un label pour votre recherche',
+  'search.history.update.title': 'Confirmer la mise à jour de l\'élément',
+  'search.history.save.cancel': 'Annuler',
+  'search.history.save.confirm': 'Confirmer',
 }
 
 export default messages

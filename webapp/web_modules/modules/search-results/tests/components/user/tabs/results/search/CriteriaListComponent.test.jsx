@@ -99,6 +99,9 @@ describe('[SEARCH RESULTS] Testing CriteriaListComponent', () => {
       }],
       rootContextCriteria: [{ requestParameters: { miniParam1: 'myMiniVal1', q: 'osef:true' } }, { requestParameters: { plop: 'plouf' } }],
       onUpdatePluginState: () => {},
+      selectedSearchHistoryName: '',
+      onRemoveSelectedSearchHistory: () => { },
+      selectedSearchHistory: { name: '', id: '' },
     }
     const enzymeWrapper = shallow(<CriteriaListComponent {...props} />, { context })
     const scrollArea = enzymeWrapper.find(ScrollArea)

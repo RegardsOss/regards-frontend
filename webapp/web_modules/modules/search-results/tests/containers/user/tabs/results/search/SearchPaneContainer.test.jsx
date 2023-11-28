@@ -93,6 +93,28 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
         tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
         updateResultsContext: () => { },
         flushSelection: () => { },
+        authentication: {
+          isFetching: false,
+          authenticateDate: 68545,
+          authenticateExpirationDate: 68725,
+          sessionLocked: false,
+          result: {
+            project: 'any',
+            scope: 'any',
+            sub: 'user1',
+            role: 'myRole',
+            access_token: 'xxx',
+            token_type: 'yyy',
+            expires_in: 56879,
+            jti: 'JTIYOURSELF',
+          },
+        },
+        isUserSearchHistoryFetching: false,
+        addSearchHistory: () => { },
+        deleteSearchHistory: () => { },
+        fetchSearchHistory: () => { },
+        throwError: () => { },
+        updateSearchHistory: () => { },
       }
       const enzymeWrapper = shallow(<SearchPaneContainer {...props} />, { context })
       let componentWrapper = enzymeWrapper.find(SearchPaneComponent)
@@ -143,6 +165,16 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
         onResetPluginsStates: enzymeWrapper.instance().onResetPluginsStates,
         onSearch: enzymeWrapper.instance().onSearch,
         onClose: enzymeWrapper.instance().onClose,
+        moduleId: props.moduleId,
+        accountEmail: props.authentication.result.sub,
+        onSelectUserSearchHistory: enzymeWrapper.instance().onSelectUserSearchHistory,
+        onAddUserSearchHistory: enzymeWrapper.instance().onAddUserSearchHistory,
+        onDeleteUserSearchHistory: enzymeWrapper.instance().onDeleteUserSearchHistory,
+        isUserSearchHistoryFetching: props.isUserSearchHistoryFetching,
+        throwError: props.throwError,
+        selectedSearchHistoryName: enzymeWrapper.state().selectedSearchHistoryName,
+        onRemoveSelectedSearchHistory: enzymeWrapper.instance().onRemoveSelectedSearchHistory,
+        onUpdateUserSearchHistory: enzymeWrapper.instance().onUpdateUserSearchHistory,
       })
       // Change context and check it is correctly recomputed
       enzymeWrapper.setProps({
@@ -240,6 +272,28 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
         spiedResultsContextDiff = resultsContextDiff
       },
       flushSelection: () => { },
+      authentication: {
+        isFetching: false,
+        authenticateDate: 68545,
+        authenticateExpirationDate: 68725,
+        sessionLocked: false,
+        result: {
+          project: 'any',
+          scope: 'any',
+          sub: 'user1',
+          role: 'myRole',
+          access_token: 'xxx',
+          token_type: 'yyy',
+          expires_in: 56879,
+          jti: 'JTIYOURSELF',
+        },
+      },
+      isUserSearchHistoryFetching: false,
+      addSearchHistory: () => { },
+      deleteSearchHistory: () => { },
+      fetchSearchHistory: () => { },
+      throwError: () => { },
+      updateSearchHistory: () => { },
     }
     const enzymeWrapper = shallow(<SearchPaneContainer {...props} />, { context })
     // simulate edition on criterion 0:0 and 1:0 performed a while ago (timer already ended)
@@ -324,6 +378,28 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
         spiedResultsContextDiff = resultsContextDiff
       },
       flushSelection: () => { },
+      authentication: {
+        isFetching: false,
+        authenticateDate: 68545,
+        authenticateExpirationDate: 68725,
+        sessionLocked: false,
+        result: {
+          project: 'any',
+          scope: 'any',
+          sub: 'user1',
+          role: 'myRole',
+          access_token: 'xxx',
+          token_type: 'yyy',
+          expires_in: 56879,
+          jti: 'JTIYOURSELF',
+        },
+      },
+      isUserSearchHistoryFetching: false,
+      addSearchHistory: () => { },
+      deleteSearchHistory: () => { },
+      fetchSearchHistory: () => { },
+      throwError: () => { },
+      updateSearchHistory: () => { },
     }
     const enzymeWrapper = shallow(<SearchPaneContainer {...props} />, { context })
     enzymeWrapper.instance().onClose()
@@ -344,6 +420,28 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       updateResultsContext: () => { },
       flushSelection: () => { },
+      authentication: {
+        isFetching: false,
+        authenticateDate: 68545,
+        authenticateExpirationDate: 68725,
+        sessionLocked: false,
+        result: {
+          project: 'any',
+          scope: 'any',
+          sub: 'user1',
+          role: 'myRole',
+          access_token: 'xxx',
+          token_type: 'yyy',
+          expires_in: 56879,
+          jti: 'JTIYOURSELF',
+        },
+      },
+      isUserSearchHistoryFetching: false,
+      addSearchHistory: () => { },
+      deleteSearchHistory: () => { },
+      fetchSearchHistory: () => { },
+      throwError: () => { },
+      updateSearchHistory: () => { },
     }
 
     const enzymeWrapper = shallow(<SearchPaneContainer {...props} />, { context })
@@ -413,6 +511,28 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       updateResultsContext: () => { },
       flushSelection: () => { },
+      authentication: {
+        isFetching: false,
+        authenticateDate: 68545,
+        authenticateExpirationDate: 68725,
+        sessionLocked: false,
+        result: {
+          project: 'any',
+          scope: 'any',
+          sub: 'user1',
+          role: 'myRole',
+          access_token: 'xxx',
+          token_type: 'yyy',
+          expires_in: 56879,
+          jti: 'JTIYOURSELF',
+        },
+      },
+      isUserSearchHistoryFetching: false,
+      addSearchHistory: () => { },
+      deleteSearchHistory: () => { },
+      fetchSearchHistory: () => { },
+      throwError: () => { },
+      updateSearchHistory: () => { },
     }
     const enzymeWrapper = shallow(<SearchPaneContainer {...props} />, { context })
     const initState = enzymeWrapper.state()
@@ -482,6 +602,28 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
       tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
       updateResultsContext: () => { },
       flushSelection: () => { },
+      authentication: {
+        isFetching: false,
+        authenticateDate: 68545,
+        authenticateExpirationDate: 68725,
+        sessionLocked: false,
+        result: {
+          project: 'any',
+          scope: 'any',
+          sub: 'user1',
+          role: 'myRole',
+          access_token: 'xxx',
+          token_type: 'yyy',
+          expires_in: 56879,
+          jti: 'JTIYOURSELF',
+        },
+      },
+      isUserSearchHistoryFetching: false,
+      addSearchHistory: () => { },
+      deleteSearchHistory: () => { },
+      fetchSearchHistory: () => { },
+      throwError: () => { },
+      updateSearchHistory: () => { },
     }
     // 0 - Currently open
     const enzymeWrapper = shallow(<SearchPaneContainer {...props} />, { context })

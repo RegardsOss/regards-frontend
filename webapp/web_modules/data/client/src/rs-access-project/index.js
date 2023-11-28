@@ -98,3 +98,7 @@ export { default as getProjectUserFCUDSelectors } from './user/ProjectUserFCUDSe
 export { default as RecipientsActions } from './recipients/RecipientsActions'
 export { default as getRecipientsReducer } from './recipients/RecipientsReducer'
 export { default as getRecipientSelectors } from './recipients/RecipientsSelectors'
+
+export { default as SearchHistoryActions } from './searchHistory/SearchHistoryActions'
+export { default as getSearchHistoryReducer } from './searchHistory/SearchHistoryReducer'
+export { default as getSearchHistorySelectors } from './searchHistory/SearchHistorySelectors'

@@ -321,7 +321,84 @@ const styles = (theme) => ({
           borderWidth: theme.module.searchResults.searchPane.buttonsBar.borderWidth,
           borderStyle: theme.module.searchResults.searchPane.buttonsBar.borderStyle,
           padding: theme.module.searchResults.searchPane.buttonsBar.padding,
+          width: '100%',
         },
+        historyButton: {
+          width: '25%',
+        },
+        clearButton: {
+          width: '22%',
+        },
+        searchButton: {
+          width: '26%',
+        },
+        saveButton: {
+          width: '27%',
+        },
+      },
+      chipDivStyle: {
+        position: 'fixed',
+        display: 'flex',
+        width: '97%',
+        justifyContent: 'end',
+      },
+      chipLabelColor: theme.palette.accent1Color,
+      chipLabelStyle: {
+        fontWeight: 'bold',
+      },
+    },
+    searchHistoryPane: {
+      cellWrapperStyle: {
+        borderBottom: 'none',
+        marginTop: '10px',
+      },
+      raisedButtonStyle: {
+        width: '95%',
+        height: '56px',
+      },
+      raisedButtonOverlayStyle: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row-reverse',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      raisedLabelStyle: {
+        width: '85%',
+        textTransform: 'none',
+      },
+      iconStyle: {
+        color: theme.formsExtensions.validation.errorColor,
+      },
+    },
+    saveHistoryPane: {
+      mainDivStyle: {
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingTop: '60px',
+      },
+      buttonsDivStyle: {
+        display: 'flex',
+        width: '40%',
+        justifyContent: 'space-evenly',
+      },
+      textFieldStyle: {
+        marginTop: '5px',
+        marginBottom: '5px',
+      },
+      updateElementStyle: {
+        width: '256px',
+        height: '48px',
+        fontSize: '16px',
+        marginTop: '5px',
+        marginBottom: '5px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontWeight: 'bold',
+        color: theme.palette.accent1Color,
       },
     },
     rootModuleContainer: {

@@ -99,6 +99,9 @@ class InfiniteTableContainer extends React.Component {
 
     // eslint-disable-next-line react/no-unused-prop-types
     authentication: AuthenticateShape, // authentication data, used to refetch on authentication change
+
+    // style for cell element
+    cellWrapperStyle: PropTypes.objectOf(PropTypes.any),
   }
 
   static contextTypes = {
@@ -285,7 +288,7 @@ class InfiniteTableContainer extends React.Component {
   render() {
     const {
       displayColumnsHeader, stripeRows, columns,
-      emptyComponent, entitiesCount,
+      emptyComponent, entitiesCount, cellWrapperStyle,
     } = this.props
     const { tableHeight, tableWidth = 0, entities } = this.state // cached render entities
     const { moduleTheme: { containerStyle } } = this.context
@@ -309,6 +312,7 @@ class InfiniteTableContainer extends React.Component {
                   columns={columns}
                   height={tableHeight}
                   width={tableWidth}
+                  cellWrapperStyle={cellWrapperStyle}
                 />
               </LoadableContentDisplayDecorator>
             </div>)

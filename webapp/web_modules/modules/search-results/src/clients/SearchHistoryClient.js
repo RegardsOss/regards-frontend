@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,12 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-export { IntlMessage, OptionalIntlMessage } from './IntlMessage'
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { LayerDefinition } from './LayerDefinition'
-export { UISettings } from './UISettings'
-export { EntityWithTreeEntry, DescriptionTreeEntry } from './EntityWithTreeEntry'
-export { FiltersI18nList } from './FiltersI18n'
-export { SearchHistory } from './SearchHistory'
+ */
+import { AccessProjectClient } from '@regardsoss/client'
+
+/**
+ * search history client.
+ *
+ * @author Théo Lasserre
+ */
+const ENTITIES_STORE_PATH = ['modules.search-results', 'searchHistory']
+const REDUX_ACTION_NAMESPACE = 'search-results/search-history'
+
+export const searchHistoryActions = new AccessProjectClient.SearchHistoryActions(REDUX_ACTION_NAMESPACE)
+export const searchHistoryReducer = AccessProjectClient.getSearchHistoryReducer(REDUX_ACTION_NAMESPACE)
+export const searchHistorySelectors = AccessProjectClient.getSearchHistorySelectors(ENTITIES_STORE_PATH)

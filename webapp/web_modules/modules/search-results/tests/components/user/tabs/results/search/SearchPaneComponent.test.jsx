@@ -18,6 +18,8 @@
  **/
 import root from 'window-or-global'
 import Drawer from 'material-ui/Drawer'
+import HistoryIcon from 'mdi-material-ui/History'
+import SaveIcon from 'mdi-material-ui/ContentSaveOutline'
 import FlatButton from 'material-ui/FlatButton'
 import IconButton from 'material-ui/IconButton'
 import CloseIcon from 'mdi-material-ui/Close'
@@ -116,6 +118,16 @@ describe('[SEARCH RESULTS] Testing SearchPaneComponent', () => {
     onResetPluginsStates: () => {},
     onSearch: () => {},
     onClose: () => {},
+    moduleId: 54,
+    accountEmail: 'test@test.test',
+    onSelectUserSearchHistory: () => { },
+    onAddUserSearchHistory: () => { },
+    onDeleteUserSearchHistory: () => { },
+    isUserSearchHistoryFetching: false,
+    throwError: () => { },
+    onRemoveSelectedSearchHistory: () => { },
+    selectedSearchHistory: { name: '', id: '' },
+    onUpdateUserSearchHistory: () => { },
   }
   it('should render correctly opened, with search enabled', () => {
     const props = {
@@ -148,20 +160,30 @@ describe('[SEARCH RESULTS] Testing SearchPaneComponent', () => {
     }, 'Criteria list properties should be correctly reported')
     // 4 - Check reset and search options
     const buttonsWrapper = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(buttonsWrapper, 2, 'There should be two buttons')
+    assert.lengthOf(buttonsWrapper, 4, 'There should be four buttons')
     testSuiteHelpers.assertWrapperProperties(buttonsWrapper.at(0), {
+      icon: <HistoryIcon />,
+      label: 'search.results.search.pane.history.label',
+      title: 'search.results.search.pane.history.title',
+    }, 'History button properties should be correctly set')
+    testSuiteHelpers.assertWrapperProperties(buttonsWrapper.at(1), {
       icon: <ClearIcon />,
       label: 'search.results.search.pane.reset.label',
       title: 'search.results.search.pane.reset.title',
       onClick: props.onResetPluginsStates,
     }, 'Reset button properties should be correctly set')
-    testSuiteHelpers.assertWrapperProperties(buttonsWrapper.at(1), {
+    testSuiteHelpers.assertWrapperProperties(buttonsWrapper.at(2), {
       icon: <SearchIcon />,
       disabled: props.searchDisabled,
       label: 'search.results.search.pane.search.label',
       title: 'search.results.search.pane.search.title',
       onClick: props.onSearch,
     }, 'Search button properties should be correctly set (enabled)')
+    testSuiteHelpers.assertWrapperProperties(buttonsWrapper.at(3), {
+      icon: <SaveIcon />,
+      label: 'search.results.search.pane.save.label',
+      title: 'search.results.search.pane.save.title',
+    }, 'Save button properties should be correctly set (enabled)')
   })
   it('should render correctly closed, with search disabled', () => {
     const props = {
@@ -174,8 +196,8 @@ describe('[SEARCH RESULTS] Testing SearchPaneComponent', () => {
     assert.lengthOf(drawer, 1, 'There should be the drawer')
     assert.isFalse(drawer.props().open, 'Drawer should be closed')
     const buttonsWrapper = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(buttonsWrapper, 2, 'There should be two buttons')
-    testSuiteHelpers.assertWrapperProperties(buttonsWrapper.at(1), {
+    assert.lengthOf(buttonsWrapper, 4, 'There should be four buttons')
+    testSuiteHelpers.assertWrapperProperties(buttonsWrapper.at(2), {
       icon: <SearchIcon />,
       disabled: props.searchDisabled,
       label: 'search.results.search.pane.search.label',

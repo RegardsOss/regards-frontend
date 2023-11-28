@@ -54,7 +54,7 @@ if [ "$runningMode" = "dev" ]; then
   if [ -z "$GATEWAY_PLUGINS" ]; then
     echo -e "[\033[0;31mERROR$(tput sgr0)] In dev environnment, $(tput bold)GATEWAY_PLUGINS$(tput sgr0) var must be set"
     echo "Syntax:"
-    echo "GATEWAY_PLUGINS=http://validation-regards.cloud-espace.si.c-s.fr yarn build:plugins"
+    echo "GATEWAY_PLUGINS=https://validation-regards.cloud-espace.si.c-s.fr yarn build:plugins"
     exit 1
   fi
   buildCommands=('yarn build:dev')

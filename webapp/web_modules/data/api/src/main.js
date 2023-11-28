@@ -46,6 +46,7 @@ export { UI_PLUGIN_CONFIGURATION, UI_PLUGIN_CONFIGURATION_ARRAY, UIPluginConfCon
 export {
   SEARCH_TOPONYM, SEARCH_TOPONYM_ARRAY, TOPONYM, TOPONYM_ARRAY, ToponymConfiguration,
 } from './access/Toponym'
+export { SEARCH_HISTORY, SEARCH_HISTORY_ARRAY, SearchHistoryConfiguration } from './access/SearchHistory'
 // DAM
 export { FragmentConfiguration, FRAGMENT, FRAGMENT_ARRAY } from './dam/Fragment'
 export { DatasetConfiguration, DATASET, DATASET_ARRAY } from './dam/Dataset'

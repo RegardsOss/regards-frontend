@@ -217,10 +217,16 @@ const messages = {
   'search.results.refresh.title': 'Refresh display data',
   'search.results.search.pane.title': 'Search in results',
   'search.results.search.pane.close.tooltip': 'Close pane',
+  'search.results.search.pane.history.label': 'History',
+  'search.results.search.pane.history.title': 'Search history',
+  'search.results.search.pane.plugins.label': 'Plugins',
+  'search.results.search.pane.plugins.title': 'Plugins list',
   'search.results.search.pane.reset.label': 'Clear',
   'search.results.search.pane.reset.title': 'Clear any criteria input',
   'search.results.search.pane.search.label': 'Search',
   'search.results.search.pane.search.title': 'Apply current search filters',
+  'search.results.search.pane.save.label': 'Save',
+  'search.results.search.pane.save.title': 'Save criterion',
   'download.tooltip': 'Download',
   'no.download.tooltip': 'No downloadable file',
   'download.quota.consumed.tooltip': 'Download functionality disabled',
@@ -296,6 +302,17 @@ const messages = {
   'results.map.help.upload.title': 'Custom geographical restriction',
   'results.map.help.upload.first_sentence': 'You can drag and drop on the map your own polygon file.',
   'results.map.help.upload.snd_sentence': 'Allowed format: shapefile zip, KML, KMZ or GeoJSON - Must contains one polygon or one multi polygon.',
+
+  // Search history tab
+  'search.history.loading.content.title': 'Loading...',
+  'search.history.no.content.title': 'Nothing to show',
+  'search.history.no.content.message': 'No search history',
+
+  // Save search history tab
+  'search.history.save.title': 'Enter a label for your search',
+  'search.history.update.title': 'Confirm element update',
+  'search.history.save.cancel': 'Cancel',
+  'search.history.save.confirm': 'Confirm',
 }
 
 export default messages
