@@ -184,5 +184,9 @@
     "mocha-sonar-reporter": {
       "outputfile": "./reports/coverage/TEST-xunit.xml"
     }
+  },
+  "volta": {
+    "node": "16.20.2",
+    "yarn": "3.7.0"
   }
 }

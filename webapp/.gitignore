@@ -6,3 +6,12 @@ reports/
 .nyc_output/
 package-lock.json.*
 .eslintcache
+
+# yarn ignore
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
