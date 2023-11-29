@@ -136,7 +136,7 @@ const messages = {
   'storage.settings.field.storeFiles': 'Délègue la sauvegarde des fichiers des jeux de données et des collections au service de stockage',
   'storage.settings.field.cacheMaxSize': 'Taille maximale du cache (en ko)',
   'storage.settings.field.tenantCachePath': 'Chemin du cache',
-  'storage.settings.field.storageLocation': 'Location',
+  'storage.settings.field.storageLocation': 'Nom de l\'espace de stockage à utiliser pour stocker les fichiers de collections et jeux de données',
   'storage.settings.field.storageSubdirectory': 'Sous répertoire à utiliser dans l\'espace de stockage',
   'storage.settings.action.confirm': 'Confirmer',
   'storage.settings.action.cancel': 'Annuler',
