@@ -45,6 +45,8 @@ const messages = {
   'authentication.goto.reset.password': 'Lost password?',
   'authentication.goto.ask.access': 'New user?',
   'authentication.goto.unlock.account': 'Account locked?',
+  'authentication.goto.main.service': 'Suggested service',
+  'authentication.goto.standard.connexion': 'Standard connection',
 
   // common to account requests forms (reset password and unlock account
   'account.request.form.mail': 'E-mail address',
@@ -149,6 +151,10 @@ const messages = {
   'session.locked.password': 'Password',
   'session.locked.button': 'Unlock',
   'session.locked.error': 'Invalid identifiers',
+
+  // selected service provider authentication form
+  'session.selected.auth.service.subtitle': 'The following login service is suggested in order to connect to the project',
+  'session.selected.auth.service.name': 'Connection with {value}',
 
   ...Locales.en,
   ...MetadataLocales.en,

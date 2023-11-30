@@ -31,6 +31,14 @@ export class AuthenticationDialogSelectors extends BasicSelector {
   isAuthDialogOpen(state) {
     return this.uncombineStore(state).show
   }
+
+  /**
+   * Returns current selected main service provider name
+   * @returns {string}
+   */
+  getMainService(state) {
+    return this.uncombineStore(state).selectedMainServiceId
+  }
 }
 
 /**

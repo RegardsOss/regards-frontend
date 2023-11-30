@@ -156,4 +156,5 @@ export const aModuleCompleteConfiguration = {
   projectAboutPage: 'http://www.my-project.com/about.html',
   home: anHomeConfiguration,
   navigation: aNavigationConfiguration,
+  selectedMainServiceId: '',
 }

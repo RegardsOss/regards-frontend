@@ -83,6 +83,7 @@ class MainMenuComponent extends React.Component {
         contacts,
         home,
         navigation,
+        selectedMainServiceId,
       },
     } = this.props
     const { moduleTheme: { user: { rootStyle, optionsGroup } } } = this.context
@@ -122,6 +123,7 @@ class MainMenuComponent extends React.Component {
               currentRole={currentRole}
               borrowableRoles={borrowableRoles}
               isInstance={isInstance}
+              selectedMainServiceId={selectedMainServiceId}
             />
           </ShowableAtRender>
           {/* Notifications */}

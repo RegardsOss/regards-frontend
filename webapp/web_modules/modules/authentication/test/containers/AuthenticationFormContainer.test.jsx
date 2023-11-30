@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import AuthenticationFormComponent from '../../src/components/AuthenticationFormComponent'
+import AuthenticationMainFormComponent from '../../src/components/AuthenticationMainFormComponent'
 import { AuthenticationFormContainer } from '../../src/containers/AuthenticationFormContainer'
 
 describe('[AUTHENTICATION] Testing AuthenticationFormContainer', () => {
@@ -47,9 +47,10 @@ describe('[AUTHENTICATION] Testing AuthenticationFormContainer', () => {
       onGotoUnlockAccount: () => { },
       serviceProviderList: {},
       fetchServiceProviders: () => { },
+      selectedMainServiceId: '',
     }
     // very small tests for component rendering
     const enzymeWrapper = shallow(<AuthenticationFormContainer {...props} />, { context })
-    assert.equal(enzymeWrapper.find(AuthenticationFormComponent).length, 1, 'There should be the rendered component!')
+    assert.equal(enzymeWrapper.find(AuthenticationMainFormComponent).length, 1, 'There should be the rendered component!')
   })
 })

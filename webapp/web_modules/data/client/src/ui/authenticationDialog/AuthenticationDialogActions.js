@@ -28,6 +28,7 @@ export default class AuthenticationDialogActions {
    */
   constructor(namespace) {
     this.TOGGLE_AUTH_DIALOG_DISPLAY = `${namespace}/toggle-auth-dialog-display`
+    this.SET_MAIN_SERVICE = `${namespace}/set-main-service`
   }
 
   /**
@@ -38,5 +39,15 @@ export default class AuthenticationDialogActions {
   toggleDialogDisplay = (show) => ({
     type: this.TOGGLE_AUTH_DIALOG_DISPLAY,
     show,
+  })
+
+  /**
+   * Set main service provider to be used in priority by users
+   * @param {string} selectedMainServiceId service provider name
+   * @return action to dispatch
+   */
+  setMainService = (selectedMainServiceId) => ({
+    type: this.SET_MAIN_SERVICE,
+    selectedMainServiceId,
   })
 }

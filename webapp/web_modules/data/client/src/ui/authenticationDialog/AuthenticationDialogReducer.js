@@ -26,6 +26,7 @@ export class AuthenticationDialogReducer {
   /** Reducer default state */
   static DEFAULT_STATE = {
     show: false,
+    selectedMainServiceId: null,
   }
 
   /**
@@ -42,7 +43,9 @@ export class AuthenticationDialogReducer {
   reduce = (state = AuthenticationDialogReducer.DEFAULT_STATE, action) => {
     switch (action.type) {
       case this.actions.TOGGLE_AUTH_DIALOG_DISPLAY:
-        return { show: action.show }
+        return { ...state, show: action.show }
+      case this.actions.SET_MAIN_SERVICE:
+        return { ...state, selectedMainServiceId: action.selectedMainServiceId }
       default:
         return state
     }

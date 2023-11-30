@@ -25,6 +25,7 @@ import {
 import { formValueSelector } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import UnlockAccountIcon from 'mdi-material-ui/Lock'
+import StarIcon from 'mdi-material-ui/Star'
 import ResetPasswordIcon from 'mdi-material-ui/FileRestore'
 import ProjectAccessIcon from 'mdi-material-ui/ClipboardAccount'
 import { connect } from '@regardsoss/redux'
@@ -46,7 +47,6 @@ const mailFieldId = 'username'
  */
 export class AuthenticationFormComponent extends React.Component {
   static propTypes = {
-
     // initial mail value
     initialMail: PropTypes.string,
     // form title
@@ -76,6 +76,10 @@ export class AuthenticationFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
     // service provider list
     serviceProviderList: CommonShapes.ServiceProviderList.isRequired,
+    // selected main auth service provider name
+    selectedMainServiceId: PropTypes.string,
+    // enable to switch to selected main auth service provider if there is one
+    setSelectedServiceForm: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -108,7 +112,7 @@ export class AuthenticationFormComponent extends React.Component {
   }
 
   renderServiceProviders = () => {
-    const { serviceProviderList } = this.props
+    const { serviceProviderList, selectedMainServiceId, setSelectedServiceForm } = this.props
     const { moduleTheme } = this.context
     return (
       <Card style={moduleTheme.cardProviderStyle}>
@@ -130,6 +134,15 @@ export class AuthenticationFormComponent extends React.Component {
               ))
             }
           </ScrollArea>
+          <div style={moduleTheme.mainServiceDivStyle}>
+            <PictureLinkComponent
+              IconComponent={StarIcon}
+              text={this.context.intl.formatMessage({ id: 'authentication.goto.main.service' })}
+              onAction={setSelectedServiceForm}
+              disabled={!selectedMainServiceId}
+              defaultImageColor={moduleTheme.mainServiceIconColor}
+            />
+          </div>
         </CardActions>
       </Card>)
   }
@@ -150,14 +163,12 @@ export class AuthenticationFormComponent extends React.Component {
           overlayStyle={moduleTheme.overlayStyle}
           labelStyle={moduleTheme.labelStyle}
           onClick={onCancelAction}
-          primary
         />
       )
     }
     return (
       <div style={moduleTheme.layout}>
         <form
-          className="selenium-authenticationForm"
           onSubmit={handleSubmit(onLogin)}
         >
           <div style={!isEmpty(serviceProviderList) ? moduleTheme.addServiceProviderCard : null}>
@@ -214,20 +225,17 @@ export class AuthenticationFormComponent extends React.Component {
               </CardActions>
               <div style={moduleTheme.linksBar}>
                 <PictureLinkComponent
-                  className="selenium-projectAccessButton"
                   disabled={!showAskProjectAccess}
                   IconComponent={ProjectAccessIcon}
                   text={this.context.intl.formatMessage({ id: 'authentication.goto.ask.access' })}
                   onAction={this.onGotoCreateAccount}
                 />
                 <PictureLinkComponent
-                  className="selenium-resetPasswordButton"
                   IconComponent={ResetPasswordIcon}
                   text={this.context.intl.formatMessage({ id: 'authentication.goto.reset.password' })}
                   onAction={this.onGotoResetPassword}
                 />
                 <PictureLinkComponent
-                  className="selenium-unlockAccountButton"
                   IconComponent={UnlockAccountIcon}
                   text={this.context.intl.formatMessage({ id: 'authentication.goto.unlock.account' })}
                   onAction={this.onGotoUnlockAccount}

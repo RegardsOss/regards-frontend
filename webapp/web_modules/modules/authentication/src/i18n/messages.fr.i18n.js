@@ -45,6 +45,8 @@ const messages = {
   'authentication.goto.reset.password': 'Mot de passe oublié ?',
   'authentication.goto.ask.access': 'Nouvel utilisateur ?',
   'authentication.goto.unlock.account': 'Compte bloqué ?',
+  'authentication.goto.main.service': 'Service suggéré',
+  'authentication.goto.standard.connexion': 'Connexion standard',
 
   // common to account requests forms (reset password and unlock account
   'account.request.form.mail': 'Adresse e-mail',
@@ -148,6 +150,10 @@ const messages = {
   'session.locked.password': 'Mot de passe',
   'session.locked.button': 'Déverrouiller',
   'session.locked.error': 'Identifiants invalides',
+
+  // selected service provider authentication form
+  'session.selected.auth.service.subtitle': 'Le service de connexion suivant est suggéré afin de vous connecter au projet',
+  'session.selected.auth.service.name': 'Connexion avec {value}',
 
   ...Locales.fr,
   ...MetadataLocales.fr,

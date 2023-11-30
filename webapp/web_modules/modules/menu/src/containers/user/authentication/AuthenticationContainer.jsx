@@ -71,6 +71,7 @@ export class AuthenticationContainer extends React.Component {
       dispatchRoleBorrowed: (authResult) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authResult)),
       onShowProfile: (initialView) => dispatch(profileDialogActions.showDialog(initialView)),
       toggleAuthenticationDialogOpen: (opened) => dispatch(authenticationDialogActions.toggleDialogDisplay(opened)),
+      setMainServiceProvider: (selectedMainServiceId) => dispatch(authenticationDialogActions.setMainService(selectedMainServiceId)),
       disconnectServiceProvider: (serviceProviderName) => dispatch(disconnectServiceProviderAction.disconnectServiceProvider(serviceProviderName)),
     }
   }
@@ -83,6 +84,8 @@ export class AuthenticationContainer extends React.Component {
     authenticationName: PropTypes.string.isRequired,
     currentRole: PropTypes.string.isRequired,
     isInstance: PropTypes.bool.isRequired,
+    // selected main auth service provider name
+    selectedMainServiceId: PropTypes.string,
     // from mapStateToProps
     isSendingBorrowRole: PropTypes.bool.isRequired,
     borrowRoleResult: AuthenticateResultShape,
@@ -94,6 +97,7 @@ export class AuthenticationContainer extends React.Component {
     dispatchRoleBorrowed: PropTypes.func.isRequired,
     onShowProfile: PropTypes.func.isRequired,
     toggleAuthenticationDialogOpen: PropTypes.func.isRequired,
+    setMainServiceProvider: PropTypes.func.isRequired,
     disconnectServiceProvider: PropTypes.func.isRequired,
   }
 
@@ -167,7 +171,9 @@ export class AuthenticationContainer extends React.Component {
    * @param authenticationVisible is visible in next state?
    */
   onToggleAuthenticationVisible = (authenticationVisible) => {
-    this.props.toggleAuthenticationDialogOpen(authenticationVisible)
+    const { selectedMainServiceId, setMainServiceProvider, toggleAuthenticationDialogOpen } = this.props
+    toggleAuthenticationDialogOpen(authenticationVisible)
+    setMainServiceProvider(selectedMainServiceId)
   }
 
   onGoToHomePage = () => {

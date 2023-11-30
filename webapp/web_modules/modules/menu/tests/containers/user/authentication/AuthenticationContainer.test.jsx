@@ -55,6 +55,8 @@ describe('[Menu] Testing AuthenticationContainer', () => {
       onShowProfile: () => { },
       toggleAuthenticationDialogOpen: () => { },
       disconnectServiceProvider: () => { },
+      setMainServiceProvider: () => { },
+      selectedMainServiceId: '',
     }
 
     const enzymeWrapper = shallow(<AuthenticationContainer {...props} />, { context })
@@ -82,6 +84,8 @@ describe('[Menu] Testing AuthenticationContainer', () => {
       onShowProfile: () => { },
       toggleAuthenticationDialogOpen: () => { },
       disconnectServiceProvider: () => { },
+      setMainServiceProvider: () => { },
+      selectedMainServiceId: '',
     }
     const enzymeWrapper = shallow(<AuthenticationContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(LoginButton), 0, 'The login button should be hidden')

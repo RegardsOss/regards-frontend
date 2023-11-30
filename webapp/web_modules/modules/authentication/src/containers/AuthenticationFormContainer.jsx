@@ -22,7 +22,7 @@ import {
   AuthenticationClient, AuthenticationErrorShape, AuthenticationRouteParameters, AuthenticationRouteHelper,
 } from '@regardsoss/authentication-utils'
 import { CommonShapes } from '@regardsoss/shape'
-import AuthenticationFormComponent from '../components/AuthenticationFormComponent'
+import AuthenticationMainFormComponent from '../components/AuthenticationMainFormComponent'
 import ChangePasswordFormContainer from './ChangePasswordFormContainer'
 import { serviceProviderActions, serviceProviderSelectors } from '../clients/ServiceProviderClient'
 
@@ -45,6 +45,8 @@ export class AuthenticationFormContainer extends React.Component {
     showCancel: PropTypes.bool.isRequired,
     // on cancel button callback, or none if behavior not available
     onCancelAction: PropTypes.func,
+    // selected main service provider to be used in priority by users
+    selectedMainServiceId: PropTypes.string,
     // other authentication forms links
     onGotoCreateAccount: PropTypes.func.isRequired,
     onGotoResetPassword: PropTypes.func.isRequired,
@@ -96,6 +98,7 @@ export class AuthenticationFormContainer extends React.Component {
     const {
       initialMail, title, showAskProjectAccess, showCancel, serviceProviderList,
       loginError, onGotoCreateAccount, onGotoResetPassword, onGotoUnlockAccount,
+      selectedMainServiceId,
     } = this.props
     const { intl } = this.context
     if (loginError === 'ACCOUNT_INACTIVE_PASSWORD') {
@@ -109,7 +112,7 @@ export class AuthenticationFormContainer extends React.Component {
       )
     }
     return (
-      <AuthenticationFormComponent
+      <AuthenticationMainFormComponent
         title={title}
         onLogin={this.onLoginRequest}
         loading={this.state.loading}
@@ -122,6 +125,7 @@ export class AuthenticationFormContainer extends React.Component {
         onGotoResetPassword={onGotoResetPassword}
         onGotoUnlockAccount={onGotoUnlockAccount}
         serviceProviderList={serviceProviderList}
+        selectedMainServiceId={selectedMainServiceId}
       />
     )
   }

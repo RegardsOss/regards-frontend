@@ -51,6 +51,8 @@ describe('[AUTHENTICATION] Testing AuthenticationFormComponent', () => {
       onCancelAction: () => { },
       initialize: () => { },
       serviceProviderList: {},
+      selectedMainServiceId: '',
+      setSelectedServiceForm: () => { },
     }
     const enzymeShallow = shallow(<AuthenticationFormComponent {...props} />, { context })
     assert(enzymeShallow.find(Card).length, 1, 'There should be one and only material-ui Card in component')

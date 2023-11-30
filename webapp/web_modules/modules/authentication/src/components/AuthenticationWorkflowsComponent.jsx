@@ -91,6 +91,8 @@ export default class AuthenticationStatesContainer extends React.Component {
     onCancelAction: PropTypes.func,
     // extern access mode (from email): mail back entry point in authentication
     initialMode: PropTypes.oneOf(values(initialModes)).isRequired,
+    // selected main service provider to be used in priority by users
+    selectedMainServiceId: PropTypes.string,
   }
 
   UNSAFE_componentWillMount = () => {
@@ -148,7 +150,7 @@ export default class AuthenticationStatesContainer extends React.Component {
     const { currentView, currentMail } = this.state
     const {
       project, actionToken, loginTitle, showAskProjectAccess, showCancel, onCancelAction,
-      enableServiceProviders,
+      enableServiceProviders, selectedMainServiceId,
     } = this.props
 
     // 1 - render messages states first (to write a bit less code in switch!)
@@ -173,6 +175,7 @@ export default class AuthenticationStatesContainer extends React.Component {
             onGotoCreateAccount={this.onGoto(viewStates.askProjectAccessFormView, true)}
             onGotoResetPassword={this.onGoto(viewStates.askResetPasswordFormView, true)}
             onGotoUnlockAccount={this.onGoto(viewStates.askUnlockAccountFormView, true)}
+            selectedMainServiceId={selectedMainServiceId}
           />
         )
       case viewStates.askResetPasswordFormView:
