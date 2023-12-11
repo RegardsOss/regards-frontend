@@ -49,6 +49,11 @@ export class NotifyDialog extends React.Component {
     onConfirmNotify: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     recipientList: NotifierShapes.RecipientArray,
+    numberOfSelectedProducts: PropTypes.number,
+  }
+
+  static defaultProps = {
+    numberOfSelectedProducts: 0,
   }
 
   static contextTypes = {
@@ -263,28 +268,37 @@ export class NotifyDialog extends React.Component {
                   : NotifyDialog.EMPTY_COMPONENT
               }
             </ScrollArea>
-            <div style={buttonDivStyle}>
-              <RaisedButton
-                label={formatMessage({ id: 'feature.button.notify' })}
-                icon={<MultiIcon style={messageIconStyle} />}
-                labelPosition="after"
-                primary
-                onClick={this.toggleConfirmDialog}
-              />
-            </div>
+          </div>
+          <div style={buttonDivStyle}>
+            <RaisedButton
+              label={formatMessage({ id: 'feature.button.notify' })}
+              icon={<MultiIcon style={messageIconStyle} />}
+              labelPosition="after"
+              primary
+              onClick={this.toggleConfirmDialog}
+            />
           </div>
         </div>
     )
   }
 
-  render() {
-    const { onClose, onConfirmNotify, recipientList } = this.props
-    const { selectedRecipients } = this.state
+  /**
+   * Build title with number of selected elements
+   */
+  renderTitle = () => {
+    const { numberOfSelectedProducts } = this.props
     const { intl: { formatMessage } } = this.context
-    const selectedRecipientIds = !isEmpty(selectedRecipients) ? map(selectedRecipients, (recipient) => recipient.businessId) : []
+    return (
+      `${formatMessage({ id: 'feature.references.notify.title' })} - ${formatMessage({ id: 'feature.references.notify.title.count' }, { value: numberOfSelectedProducts })}`
+    )
+  }
+
+  render() {
+    const { onClose } = this.props
+    const { intl: { formatMessage } } = this.context
     return (
       <PositionedDialog
-        title={formatMessage({ id: 'feature.references.notify.title' })}
+        title={this.renderTitle()}
         actions={<>
           <FlatButton
             key="cancel"
@@ -292,15 +306,6 @@ export class NotifyDialog extends React.Component {
             label={formatMessage({ id: 'feature.close' })}
             onClick={onClose}
           />
-          {
-            isEmpty(recipientList) ? <FlatButton
-              key="deleteReference"
-              primary
-              keyboardFocused
-              label={formatMessage({ id: 'feature.references.notify' })}
-              onClick={() => onConfirmNotify(selectedRecipientIds)}
-            /> : null
-          }
         </>}
         modal
         open

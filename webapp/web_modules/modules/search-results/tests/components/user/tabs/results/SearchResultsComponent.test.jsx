@@ -61,6 +61,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsComponent', () => {
       accessToken: 'mememe',
       projectName: 'DaProject',
       onSearchEntity: () => { },
+      flushSelection: () => { },
     }
     const enzymeWrapper = shallow(<SearchResultsComponent {...props} />, { context })
     // 1- check common components

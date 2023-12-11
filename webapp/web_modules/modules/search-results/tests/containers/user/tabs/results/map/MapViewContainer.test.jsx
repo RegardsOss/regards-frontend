@@ -69,6 +69,7 @@ describe('[SEARCH RESULTS] Testing MapViewContainer', () => {
         onAddElementToCart: enableCart ? () => { } : null,
         updateResultsContext: () => { },
         dispatchSelectAll: () => { },
+        flushSelection: () => { },
       }
       const enzymeWrapper = shallow(<MapViewContainer {...props} />, { context })
       const componentWrapper = enzymeWrapper.find(MapViewCompoWithEntitiesCache)
@@ -85,6 +86,7 @@ describe('[SEARCH RESULTS] Testing MapViewContainer', () => {
         projectName: props.projectName,
         onAddElementToCart: props.onAddElementToCart,
         onSplitDropped: enzymeWrapper.instance().onSplitDropped,
+        flushSelection: props.flushSelection,
       }, 'Component should define the expected properties')
     }))
 })

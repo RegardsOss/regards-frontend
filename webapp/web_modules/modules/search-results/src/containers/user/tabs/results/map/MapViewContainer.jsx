@@ -48,6 +48,8 @@ export class MapViewContainer extends React.Component {
     resultsContext: UIShapes.ResultsContext.isRequired,
     requestParameters: CommonShapes.RequestParameters.isRequired,
     searchActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // BasicPageableActions to retrieve entities from server
+    // flush table selection
+    flushSelection: PropTypes.func.isRequired,
     // Description management
     descriptionAvailable: PropTypes.bool.isRequired,
     onShowDescription: PropTypes.func,
@@ -158,7 +160,7 @@ export class MapViewContainer extends React.Component {
     const {
       moduleId, tabType, resultsContext, requestParameters, searchActions,
       descriptionAvailable, onShowDescription,
-      accessToken, projectName, onAddElementToCart,
+      accessToken, projectName, onAddElementToCart, flushSelection,
     } = this.props
     const {
       itemOfInterestPicked,
@@ -180,6 +182,7 @@ export class MapViewContainer extends React.Component {
         onSplitDropped={this.onSplitDropped}
         itemOfInterestPicked={itemOfInterestPicked}
         onZoomToFeature={this.onZoomToFeature}
+        flushSelection={flushSelection}
       />)
   }
 }

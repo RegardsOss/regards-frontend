@@ -69,6 +69,7 @@ describe('[SEARCH RESULTS] Testing MapViewComponent', () => {
       onZoomToFeature: () => { },
       onSplitDropped: () => { },
       onNewItemOfInterestPicked: () => { },
+      flushSelection: () => { },
     }
     shallow(<MapViewComponent {...props} />, { context })
     // cannot test further due to Measure HOC

@@ -94,6 +94,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       accessToken: props.accessToken,
       projectName: props.project,
       onSearchEntity: enzymeWrapper.instance().onSearchEntity,
+      flushSelection: props.flushSelection,
     }, 'Results component properties should be correctly set')
   })
   it('should update request parameters, actions and restricted dataset as context changes', () => {

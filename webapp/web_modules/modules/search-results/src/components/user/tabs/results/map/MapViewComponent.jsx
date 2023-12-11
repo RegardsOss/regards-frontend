@@ -58,6 +58,8 @@ class MapViewComponent extends React.Component {
     // product selection management
     onNewItemOfInterestPicked: PropTypes.func.isRequired,
     itemOfInterestPicked: PropTypes.number,
+    // flush table selection
+    flushSelection: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -140,7 +142,7 @@ class MapViewComponent extends React.Component {
   render() {
     const {
       moduleId, tabType, resultsContext, requestParameters, searchActions,
-      descriptionAvailable, onShowDescription, onZoomToFeature, loadedEntities,
+      descriptionAvailable, onShowDescription, onZoomToFeature, loadedEntities, flushSelection,
       accessToken, projectName, onAddElementToCart, onNewItemOfInterestPicked, itemOfInterestPicked,
     } = this.props
     const { width, height = 0 } = this.state
@@ -189,6 +191,7 @@ class MapViewComponent extends React.Component {
                   onNewItemOfInterestPicked={onNewItemOfInterestPicked}
                   onZoomToFeature={onZoomToFeature}
                   loadedEntities={loadedEntities}
+                  flushSelection={flushSelection}
                 />
               </div>
               { /* Right: qiuicklooks container */}

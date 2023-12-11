@@ -44,6 +44,7 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowContainer', () => {
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       resultsContext: dataContext,
       updateResultsContext: () => {},
+      flushSelection: () => { },
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(ApplyingCriteriaHeaderRowComponent)

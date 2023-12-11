@@ -53,6 +53,7 @@ export class SearchPaneContainer extends React.Component {
     moduleId: PropTypes.number.isRequired,
     resultsContext: UIShapes.ResultsContext.isRequired,
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
+    flushSelection: PropTypes.func.isRequired,
     // from mapDispatchToProps
     updateResultsContext: PropTypes.func.isRequired,
   }
@@ -75,7 +76,7 @@ export class SearchPaneContainer extends React.Component {
         const { state, requestParameters } = storedApplyingCriteria.find((c) => c.pluginInstanceId === criterion.pluginInstanceId) || {}
         // B - with the current configuration
         return {
-        // report configuration
+          // report configuration
           ...criterion,
           // report state and request parameters when found
           state,
@@ -272,6 +273,7 @@ export class SearchPaneContainer extends React.Component {
    * User callback: on search called. Publish current criteria status
    */
   onSearch = () => {
+    const { flushSelection } = this.props
     if (this.state.searchDisabled) {
       // Don't update result if disabled
       return
@@ -287,6 +289,7 @@ export class SearchPaneContainer extends React.Component {
     const newToponymCriteria = SearchPaneContainer.collectToponymCriteria(groups)
     // 3 - If there is any parameter, start search
     if (newSearchCriteria.length || newToponymCriteria.length) {
+      flushSelection() // flush table selection when searching products
       let criteria = {
         searchCriteria: newSearchCriteria,
       }

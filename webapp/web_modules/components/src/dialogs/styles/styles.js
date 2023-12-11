@@ -193,7 +193,7 @@ const styles = (theme) => ({
     },
     scrollAreaStyle: {
       maxHeight: '285px',
-      height: '100%',
+      height: '800px',
       width: '100%',
       marginBottom: '5px',
     },

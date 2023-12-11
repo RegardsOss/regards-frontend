@@ -177,11 +177,11 @@ export class SearchResultsContainer extends React.Component {
    */
   onSearchEntity = (entity) => {
     const {
-      moduleId, resultsContext, tabType, updateResultsContext,
+      moduleId, resultsContext, tabType, updateResultsContext, flushSelection,
     } = this.props
 
     const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-
+    flushSelection()
     updateResultsContext(moduleId, {
       tabs: {
         [tabType]: {
@@ -199,7 +199,7 @@ export class SearchResultsContainer extends React.Component {
   render() {
     const {
       moduleId, resultsContext, tabType,
-      accessToken, project,
+      accessToken, project, flushSelection,
     } = this.props
     const { restrictedDatasetsIds, requestParameters, searchActions } = this.state
     const { selectedType, selectedMode } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
@@ -232,6 +232,7 @@ export class SearchResultsContainer extends React.Component {
                 accessToken={accessToken}
                 projectName={project}
                 onSearchEntity={this.onSearchEntity}
+                flushSelection={flushSelection}
               />
             </OrderCartContainer>
           </PluginServicesContainer>

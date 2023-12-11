@@ -44,6 +44,11 @@ export class NotifyComponent extends React.Component {
   static propTypes = {
     recipientList: NotifierShapes.RecipientArray,
     onNotifyRecipients: PropTypes.func.isRequired,
+    numberOfSelectedProducts: PropTypes.number,
+  }
+
+  static defaultProps = {
+    numberOfSelectedProducts: 0,
   }
 
   static contextTypes = {
@@ -200,6 +205,17 @@ export class NotifyComponent extends React.Component {
     )
   }
 
+  /**
+   * Build title with number of selected elements
+   */
+  renderTitle = () => {
+    const { numberOfSelectedProducts } = this.props
+    const { intl: { formatMessage } } = this.context
+    return (
+      `${formatMessage({ id: 'plugin.title' })} - ${formatMessage({ id: 'plugin.title.count' }, { value: numberOfSelectedProducts })}`
+    )
+  }
+
   render() {
     const { recipientList } = this.props
     const { isConfirmDialogOpen } = this.state
@@ -217,7 +233,7 @@ export class NotifyComponent extends React.Component {
         : <div style={mainDivStyle}>
           <div style={topBlocStyle}>
             <Title
-              label={formatMessage({ id: 'plugin.title' })}
+              label={this.renderTitle()}
               level={2}
               style={titleStyle}
             />

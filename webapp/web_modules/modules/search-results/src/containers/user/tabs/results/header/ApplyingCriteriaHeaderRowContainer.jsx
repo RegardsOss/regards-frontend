@@ -45,6 +45,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
     moduleId: PropTypes.number.isRequired,
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
     resultsContext: UIShapes.ResultsContext.isRequired,
+    flushSelection: PropTypes.func.isRequired,
     // from mapDispatchToProps
     updateResultsContext: PropTypes.func.isRequired,
   }
@@ -55,8 +56,9 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
    */
   onUnselectTagFilter = (tagCriterion) => {
     const {
-      moduleId, updateResultsContext, resultsContext, tabType,
+      moduleId, updateResultsContext, resultsContext, tabType, flushSelection,
     } = this.props
+    flushSelection()
     const { tab: { criteria: { tagsFiltering } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     updateResultsContext(moduleId, { // update results context by diff
       tabs: {
@@ -76,9 +78,10 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
    */
   onUnselectFacetValue = (facetValueCriterion) => {
     const {
-      moduleId, updateResultsContext, resultsContext, tabType,
+      moduleId, updateResultsContext, resultsContext, tabType, flushSelection,
     } = this.props
     const { tab: { criteria: { appliedFacets } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    flushSelection()
     updateResultsContext(moduleId, { // update results context by diff
       tabs: {
         [tabType]: {
@@ -96,8 +99,9 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
    */
   onUnselectGeometry = (geometryCriterion) => {
     const {
-      moduleId, updateResultsContext, resultsContext, tabType,
+      moduleId, updateResultsContext, resultsContext, tabType, flushSelection,
     } = this.props
+    flushSelection()
     const { tab: { criteria: { geometry } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     updateResultsContext(moduleId, { // update results context by diff
       tabs: {
@@ -116,8 +120,9 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
    */
   onUnselectEntitiesSelection = (entitiesSelectionCriterion) => {
     const {
-      moduleId, updateResultsContext, resultsContext, tabType,
+      moduleId, updateResultsContext, resultsContext, tabType, flushSelection,
     } = this.props
+    flushSelection()
     const { tab: { criteria: { entitiesSelection } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     updateResultsContext(moduleId, { // update results context by diff
       tabs: {
@@ -135,8 +140,9 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
    */
   onUnselectSearchCriteria = () => {
     const {
-      moduleId, updateResultsContext, tabType,
+      moduleId, updateResultsContext, tabType, flushSelection,
     } = this.props
+    flushSelection()
     updateResultsContext(moduleId, { // update results context by diff
       tabs: {
         [tabType]: {
@@ -153,8 +159,9 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
    */
   onUnselectToponymCriteria = () => {
     const {
-      moduleId, updateResultsContext, tabType,
+      moduleId, updateResultsContext, tabType, flushSelection,
     } = this.props
+    flushSelection()
     updateResultsContext(moduleId, { // update results context by diff
       tabs: {
         [tabType]: {
@@ -171,10 +178,10 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
    */
   onToggleStaticParameter = (selectedStaticParameter) => {
     const {
-      moduleId, updateResultsContext, tabType, resultsContext,
+      moduleId, updateResultsContext, tabType, resultsContext, flushSelection,
     } = this.props
     const { tab: { criteria: { staticParameters } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-
+    flushSelection()
     updateResultsContext(moduleId, { // update results context by diff
       tabs: {
         [tabType]: {

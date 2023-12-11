@@ -120,7 +120,7 @@ export class NotifyContainer extends React.Component {
   }
 
   render() {
-    const { recipientList, isFetching } = this.props
+    const { recipientList, isFetching, target: { entitiesCount } } = this.props
     return (
       <LoadableContentDisplayDecorator
         isLoading={isFetching}
@@ -128,6 +128,7 @@ export class NotifyContainer extends React.Component {
         <NotifyComponent
           recipientList={recipientList}
           onNotifyRecipients={this.onNotifyRecipients}
+          numberOfSelectedProducts={entitiesCount}
         />
       </LoadableContentDisplayDecorator>
     )

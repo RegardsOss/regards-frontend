@@ -274,6 +274,7 @@ export class OAISPackageManagerComponent extends React.Component {
             onConfirmNotify={(recipientIds) => this.onConfirmNotify(recipientIds)}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
             recipientList={recipientList}
+            numberOfSelectedProducts={entities.length}
           />
           break
         default:

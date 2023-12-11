@@ -224,6 +224,7 @@ export class ReferencesManagerComponent extends React.Component {
             onConfirmNotify={(recipientIds) => this.onConfirm(dialogRequestType, recipientIds)}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
             recipientList={recipientList}
+            numberOfSelectedProducts={this.state[dialogRequestType].entities.length}
           />
           break
         default:

@@ -28,7 +28,8 @@ export default {
   'plugin.list.empty.title': 'Pas de destinataires disponibles',
   'plugin.table.header.column.label': 'Label',
   'plugin.table.header.column.description': 'Description',
-  'plugin.title': 'Notifier les produits sélectionnés',
+  'plugin.title': 'Notifier les produits',
+  'plugin.title.count': '{value} produit(s) sélectionné(s)',
   'plugin.subtitle': 'Par défaut, les produits sélectionnés seront notifiés à tous les destinataires configurés par les règles de notification du service. Toutefois, vous pouvez choisir manuellement les destinataires à notifier en les sélectionnant ci-dessous.',
   'plugin.button.notify': 'Notifier',
 }

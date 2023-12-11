@@ -66,6 +66,7 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
       ],
       updateResultsContext: () => { },
       uploadToponym: () => { },
+      flushSelection: () => { },
     }
     const enzymeWrapper = shallow(<MapContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(MapComponentWithSelection)

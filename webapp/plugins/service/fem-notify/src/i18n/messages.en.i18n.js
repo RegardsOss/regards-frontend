@@ -28,7 +28,8 @@ export default {
   'plugin.list.empty.title': 'No recipients available',
   'plugin.table.header.column.label': 'Label',
   'plugin.table.header.column.description': 'Description',
-  'plugin.title': 'Notify selected recipients',
+  'plugin.title': 'Notify products',
+  'plugin.title.count': '{value} selected product(s)',
   'plugin.subtitle': 'By default, the selected products will be notified to all recipients configured by the service\'s notification rules. However, you can manually choose the recipients to notify by selecting them below.',
   'plugin.button.notify': 'Notify',
 }

@@ -51,6 +51,8 @@ export class MapContainer extends React.Component {
     onZoomToFeature: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     loadedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired, // Entities cached
+    // flush table selection
+    flushSelection: PropTypes.func.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     toponymList: AccessShapes.ToponymList,
@@ -277,7 +279,7 @@ export class MapContainer extends React.Component {
    */
   onDrawingSelectionDone = (point1, point2) => {
     const {
-      moduleId, tabType, updateResultsContext, resultsContext,
+      moduleId, tabType, updateResultsContext, resultsContext, flushSelection,
     } = this.props
     const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
@@ -287,6 +289,7 @@ export class MapContainer extends React.Component {
 
     // check area is not empty (empty area cannot be applied as criterion)
     if (!empty) {
+      flushSelection()
       // update in results context, by diff
       updateResultsContext(moduleId, {
         tabs: {
@@ -344,8 +347,9 @@ export class MapContainer extends React.Component {
       return
     }
     const {
-      moduleId, tabType, updateResultsContext,
+      moduleId, tabType, updateResultsContext, flushSelection,
     } = this.props
+    flushSelection()
     updateResultsContext(moduleId, {
       tabs: {
         [tabType]: {

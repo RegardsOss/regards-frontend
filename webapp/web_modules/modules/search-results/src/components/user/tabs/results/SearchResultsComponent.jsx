@@ -59,6 +59,8 @@ class SearchResultsComponent extends React.Component {
     projectName: PropTypes.string.isRequired,
     // Search management
     onSearchEntity: PropTypes.func.isRequired,
+    // Flush table
+    flushSelection: PropTypes.func.isRequired,
   }
 
   render() {
@@ -67,7 +69,7 @@ class SearchResultsComponent extends React.Component {
       onSearchEntity, onAddElementToCart, onAddSelectionToCart,
       onShowDescription, isDescAvailableFor,
       selectionServices, onStartSelectionService,
-      accessToken, projectName,
+      accessToken, projectName, flushSelection,
     } = this.props
     const { tab } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
@@ -77,6 +79,7 @@ class SearchResultsComponent extends React.Component {
           moduleId={moduleId}
           tabType={tabType}
           resultsContext={resultsContext}
+          flushSelection={flushSelection}
         />
         {/* First header row : switch view type and mode, other view options */}
         <OptionsHeaderRowComponent
@@ -100,6 +103,7 @@ class SearchResultsComponent extends React.Component {
           moduleId={moduleId}
           tabType={tabType}
           resultsContext={resultsContext}
+          flushSelection={flushSelection}
         />
         {/* Render the view according with current view mode (or description if opened) */
           (() => {
@@ -163,6 +167,7 @@ class SearchResultsComponent extends React.Component {
                     accessToken={accessToken}
                     projectName={projectName}
                     onAddElementToCart={onAddElementToCart}
+                    flushSelection={flushSelection}
                   />)
               default:
                 throw new Error(`Unknown view mode: ${selectedMode}`)

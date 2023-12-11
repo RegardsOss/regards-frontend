@@ -92,6 +92,7 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
         }),
         tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
         updateResultsContext: () => { },
+        flushSelection: () => { },
       }
       const enzymeWrapper = shallow(<SearchPaneContainer {...props} />, { context })
       let componentWrapper = enzymeWrapper.find(SearchPaneComponent)
@@ -238,6 +239,7 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
         assert.equal(moduleId, props.moduleId, 'Module ID should be the right one')
         spiedResultsContextDiff = resultsContextDiff
       },
+      flushSelection: () => { },
     }
     const enzymeWrapper = shallow(<SearchPaneContainer {...props} />, { context })
     // simulate edition on criterion 0:0 and 1:0 performed a while ago (timer already ended)
@@ -321,6 +323,7 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
         assert.equal(moduleId, props.moduleId, 'Module ID should be the right one')
         spiedResultsContextDiff = resultsContextDiff
       },
+      flushSelection: () => { },
     }
     const enzymeWrapper = shallow(<SearchPaneContainer {...props} />, { context })
     enzymeWrapper.instance().onClose()
@@ -340,6 +343,7 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
       resultsContext: dataContext,
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       updateResultsContext: () => { },
+      flushSelection: () => { },
     }
 
     const enzymeWrapper = shallow(<SearchPaneContainer {...props} />, { context })
@@ -408,6 +412,7 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
       resultsContext: dataContext,
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       updateResultsContext: () => { },
+      flushSelection: () => { },
     }
     const enzymeWrapper = shallow(<SearchPaneContainer {...props} />, { context })
     const initState = enzymeWrapper.state()
@@ -476,6 +481,7 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
       }),
       tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
       updateResultsContext: () => { },
+      flushSelection: () => { },
     }
     // 0 - Currently open
     const enzymeWrapper = shallow(<SearchPaneContainer {...props} />, { context })

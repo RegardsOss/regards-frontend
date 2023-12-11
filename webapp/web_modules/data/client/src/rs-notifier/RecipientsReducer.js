@@ -27,21 +27,5 @@ class RecipientsReducer extends BasicSignalReducers {
 
 export default (namespace) => {
   const instance = new RecipientsReducer(namespace)
-  // return (state, action) => instance.reduce(state, action)
-  return (state, action) => {
-    const newState = {
-      ...state,
-      items: [],
-      result: {
-        content: {
-          id: 0,
-          businessId: 'fakeBusinessId1',
-          recipientLabel: 'fakeLabel1',
-          description: 'fakeDescription1',
-        },
-        links: [],
-      },
-    }
-    return instance.reduce(newState, action)
-  }
+  return (state, action) => instance.reduce(state, action)
 }
