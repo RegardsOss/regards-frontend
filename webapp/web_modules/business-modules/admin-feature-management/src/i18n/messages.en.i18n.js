@@ -120,6 +120,7 @@ const messages = {
   'feature.request.step.REMOTE_CREATION_REQUESTED': 'Creation requested',
   'feature.request.step.REMOTE_CREATION_ERROR': 'Creation error',
   'feature.request.step.REMOTE_STORAGE_ERROR': 'Storage error',
+  'feature.request.step.WAITING_BLOCKING_DISSEMINATION': 'Blocked by a pending dissemination',
 
   // Settings
   'feature.settings.title': 'GeoJson product manager settings',

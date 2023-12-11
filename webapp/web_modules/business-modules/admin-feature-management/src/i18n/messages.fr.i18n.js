@@ -120,6 +120,7 @@ const messages = {
   'feature.request.step.REMOTE_CREATION_REQUESTED': 'Requête de création soumise',
   'feature.request.step.REMOTE_CREATION_ERROR': 'Erreur de création',
   'feature.request.step.REMOTE_STORAGE_ERROR': 'Erreur de stockage',
+  'feature.request.step.WAITING_BLOCKING_DISSEMINATION': 'Bloqué par une diffusion en cours',
 
   // Settings
   'feature.settings.title': 'Paramètres du gestionnaire de produit GeoJson',
