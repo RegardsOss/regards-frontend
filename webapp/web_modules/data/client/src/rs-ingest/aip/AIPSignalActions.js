@@ -49,8 +49,8 @@ export default class AIPSignalActions extends BasicSignalsActions {
         namespace: `${namespace}/resume`,
       },
       [AIPSignalActions.NOTIFY_AIP_ACTIONS]: {
-        entityEndpoint: `${AIPSignalActions.ROOT_ENDPOINT}/dissemination`,
-        namespace: `${namespace}/dissemination`,
+        entityEndpoint: `${AIPSignalActions.ROOT_ENDPOINT}/aips/dissemination`,
+        namespace: `${namespace}/aips//dissemination`,
       },
     })
   }
