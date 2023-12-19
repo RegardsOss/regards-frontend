@@ -301,6 +301,7 @@ export class SearchPaneContainer extends React.Component {
     // reset all states by packing groups grom configuration (no initial value for criteria)
     this.onStateChange({
       groups: SearchPaneContainer.packGroupModels(groups),
+      selectedSearchHistory: SearchPaneContainer.EMPTY_SELECTED_SEARCH_HISTORY,
     })
   }
 

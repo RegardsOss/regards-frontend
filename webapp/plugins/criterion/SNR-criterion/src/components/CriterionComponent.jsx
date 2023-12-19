@@ -106,7 +106,7 @@ class CriterionComponent extends React.Component {
       intl: { formatMessage, locale },
       moduleTheme: {
         radioButtonGroupStyle, fieldLineStyle, labelDivStyle, textFieldDivStyle,
-        unitIconStyle, unitLabelSyle, fieldLineStyleAlt, errorTextStyle,
+        unitIconStyle, unitLabelSyle, fieldLineStyleAlt, errorTextStyle, radioButtonGroupDivStyle,
       }, muiTheme,
     } = this.context
     return (
@@ -120,7 +120,7 @@ class CriterionComponent extends React.Component {
           <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
             <RadioButtonGroup
               name="option-selector"
-              defaultSelected={optionSelected}
+              valueSelected={optionSelected}
               onChange={onChangeOption}
               style={radioButtonGroupStyle}
             >
@@ -232,7 +232,7 @@ class CriterionComponent extends React.Component {
               <div style={labelDivStyle}>
                 {formatMessage({ id: 'snr-criterion.unit.name.field' })}
               </div>
-              <div style={textFieldDivStyle}>
+              <div style={radioButtonGroupDivStyle}>
                 <RadioButtonGroup
                   name="unit-selector"
                   defaultSelected={unitSelected}

@@ -31,6 +31,11 @@ export default function buildCriterionStyles(theme) {
     textFieldDivStyle: {
       width: '50%',
     },
+    radioButtonGroupDivStyle: {
+      width: '50%',
+      position: 'absolute',
+      marginLeft: '135px',
+    },
     radioButtonGroupStyle: {
       display: 'flex',
       fontSize: '14px',
