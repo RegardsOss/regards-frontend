@@ -25,7 +25,7 @@ export default {
 
   'oais.button.back': 'Retour',
 
-  'oais.packages.close': 'Close',
+  'oais.packages.close': 'Fermer',
   'oais.packages.switch-to.requests.label': 'Traitements ({nbElements})',
   'oais.packages.switch-to.requests.label.loading': 'Traitements',
   'oais.packages.switch-to.requests.title': 'Voir les traitements',
