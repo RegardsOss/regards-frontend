@@ -28,7 +28,7 @@ import {
 } from '@regardsoss/components'
 import { searchSourcesActions, searchSourcesSelectors } from '../../clients/SearchSourcesClient'
 import { searchSessionsActions, searchSessionsSelectors } from '../../clients/SearchSessionsClient'
-import { DISSEMINATION_PENDING_VALUES } from '../../domain/DisseminationStatus'
+import { DISSEMINATION_PENDING_ENUM } from '../../domain/DisseminationStatus'
 
 /**
   * Feature manager filters component.
@@ -82,7 +82,7 @@ export class ReferenceManagerFiltersComponent extends React.Component {
           filterKey={FemDomain.REFERENCE_FILTER_PARAMS.DISSEMINATION_PENDING}
           allValuesOption
         >
-          {map(DISSEMINATION_PENDING_VALUES, (dissemination) => <MenuItem key={dissemination} value={dissemination} primaryText={formatMessage({ id: `feature.list.filters.disseminationPending.${dissemination}` })} />)}
+          {map(DISSEMINATION_PENDING_ENUM, (dissemination) => <MenuItem key={dissemination} value={dissemination} primaryText={formatMessage({ id: `feature.list.filters.disseminationPending.${dissemination}` })} />)}
         </FilterPaneSelectFieldLegacy>
       </FiltersPaneMainComponent>
     )

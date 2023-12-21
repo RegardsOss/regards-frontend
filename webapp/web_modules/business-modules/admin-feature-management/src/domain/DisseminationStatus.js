@@ -23,8 +23,9 @@ import values from 'lodash/values'
  * @author Théo Lasserre
  */
 export const DISSEMINATION_PENDING_ENUM = {
-  DONE: '0',
-  PENDING: '1',
+  NONE: 'NONE',
+  DONE: 'DONE',
+  PENDING: 'PENDING',
 }
 
 export const DISSEMINATION_PENDING_VALUES = values(DISSEMINATION_PENDING_ENUM)

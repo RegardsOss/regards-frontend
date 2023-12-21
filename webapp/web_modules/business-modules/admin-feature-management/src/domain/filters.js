@@ -18,7 +18,7 @@
  **/
 import reduce from 'lodash/reduce'
 import { FemDomain } from '@regardsoss/domain'
-import { DISSEMINATION_PENDING_VALUES } from './DisseminationStatus'
+import { DISSEMINATION_PENDING_ENUM } from './DisseminationStatus'
 
 /**
  * Filter params
@@ -48,7 +48,7 @@ export const FILTERS_I18N = {
   },
   [FemDomain.REQUEST_FILTER_PARAMS.DISSEMINATION_PENDING]: {
     labelKey: 'feature.list.filters.disseminationPending.label',
-    chipValueKeys: reduce(DISSEMINATION_PENDING_VALUES, (acc, value) => ({
+    chipValueKeys: reduce(DISSEMINATION_PENDING_ENUM, (acc, value) => ({
       ...acc,
       [value]: `feature.list.filters.disseminationPending.${value}`,
     }), {}),
