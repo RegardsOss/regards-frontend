@@ -25,15 +25,19 @@ export default class DeleteNotificationActions extends BasicSignalActions {
   /**
    * We use a static namespace to allow another reducer to catch actions from this actionner
    */
-  static NAMESPACE = 'menu/delete-read-notifications'
+  static NAMESPACE = 'menu/delete-notifications'
 
   constructor(namespace, instance = false) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.MSERVICES_PUBLIC.ADMIN_INSTANCE : STATIC_CONF.MSERVICES_PUBLIC.ADMIN}/notifications/read/delete`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.MSERVICES_PUBLIC.ADMIN_INSTANCE : STATIC_CONF.MSERVICES_PUBLIC.ADMIN}/notifications/delete`,
       // Resource endpoint is not the accessed one. it is the secured one, not the public one.
-      resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.MSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN}/notifications/read/delete`,
+      resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.MSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN}/notifications/delete`,
       namespace,
       bypassErrorMiddleware: false,
     })
+  }
+
+  deleteNotifications(bodyParams) {
+    return this.sendSignal('DELETE', bodyParams)
   }
 }

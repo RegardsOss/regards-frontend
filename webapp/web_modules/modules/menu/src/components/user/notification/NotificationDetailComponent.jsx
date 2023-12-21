@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { CardHeader, CardText } from 'material-ui/Card'
+import CloseIcon from 'mdi-material-ui/Close'
+import IconButton from 'material-ui/IconButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
@@ -32,6 +34,7 @@ import '../../../styles/styles.css'
 class NotificationDetailComponent extends React.Component {
   static propTypes = {
     notification: AdminShapes.Notification.isRequired,
+    onCloseNotification: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -40,18 +43,24 @@ class NotificationDetailComponent extends React.Component {
   }
 
   render() {
-    const { notification } = this.props
+    const { notification, onCloseNotification } = this.props
     const { intl: { formatMessage }, moduleTheme: { notifications: { dialog: { details } } } } = this.context
+    const notificationWithContent = { content: notification }
     return (
-      <>
+      <div style={details.header.main}>
         <div style={details.header.style}>
           <CardHeader
             title={notification.title}
             subtitle={formatMessage({ id: 'user.menu.notification.details.sentby' }, { sender: notification.sender })}
-            avatar={<NotificationIcon notification={notification} headerIcon />}
+            avatar={<NotificationIcon entity={notificationWithContent} />}
           />
           <div style={details.date.style}>
             <FormattedNotificationDate notification={notification} />
+            <IconButton
+              onClick={onCloseNotification}
+            >
+              <CloseIcon />
+            </IconButton>
           </div>
         </div>
         <CardText style={details.message.style}>
@@ -73,7 +82,7 @@ class NotificationDetailComponent extends React.Component {
           }
 
         </CardText>
-      </>)
+      </div>)
   }
 }
 

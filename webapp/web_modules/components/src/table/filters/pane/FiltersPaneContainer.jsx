@@ -28,7 +28,7 @@ import FiltersPaneComponent from './FiltersPaneComponent'
 export class FiltersPaneContainer extends React.Component {
   static propTypes = {
     isPaneOpened: PropTypes.bool.isRequired,
-    onCloseFiltersPane: PropTypes.func.isRequired,
+    onCloseFiltersPane: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
     defaultFiltersState: PropTypes.object,
     ignoredURLParameters: PropTypes.arrayOf(PropTypes.string),
@@ -37,16 +37,17 @@ export class FiltersPaneContainer extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     filtersComponentProps: PropTypes.object,
     // eslint-disable-next-line react/no-unused-prop-types
-    filtersActions: PropTypes.instanceOf(FiltersActions).isRequired,
+    filtersActions: PropTypes.instanceOf(FiltersActions),
     // eslint-disable-next-line react/no-unused-prop-types
-    filtersSelectors: PropTypes.instanceOf(BasicSelector).isRequired,
+    filtersSelectors: PropTypes.instanceOf(BasicSelector),
     filtersI18n: UIShapes.FiltersI18nList.isRequired,
     // from mapDispatchToProps
-    updateFiltersStore: PropTypes.func.isRequired,
-    clearFiltersStore: PropTypes.func.isRequired,
+    updateFiltersStore: PropTypes.func,
+    clearFiltersStore: PropTypes.func,
     // from mapStateToProps
     // eslint-disable-next-line react/forbid-prop-types
     filters: PropTypes.object,
+    isMinimalPane: PropTypes.bool.isRequired,
   }
 
   /**
@@ -57,8 +58,8 @@ export class FiltersPaneContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { filtersActions }) {
     return {
-      updateFiltersStore: (filtersValues) => dispatch(filtersActions.updateFiltersStore(filtersValues)),
-      clearFiltersStore: () => dispatch(filtersActions.clearFiltersStore()),
+      updateFiltersStore: filtersActions ? (filtersValues) => dispatch(filtersActions.updateFiltersStore(filtersValues)) : null,
+      clearFiltersStore: filtersActions ? () => dispatch(filtersActions.clearFiltersStore()) : null,
     }
   }
 
@@ -70,7 +71,7 @@ export class FiltersPaneContainer extends React.Component {
    */
   static mapStateToProps(state, { filtersSelectors }) {
     return {
-      filters: filtersSelectors.getFilters(state),
+      filters: filtersSelectors ? filtersSelectors.getFilters(state) : {},
     }
   }
 
@@ -78,7 +79,7 @@ export class FiltersPaneContainer extends React.Component {
     const {
       isPaneOpened, onCloseFiltersPane, defaultFiltersState, filtersComponent, updateRequestParameters,
       filtersComponentProps, updateFiltersStore, clearFiltersStore, filters, ignoredURLParameters,
-      filtersI18n,
+      filtersI18n, isMinimalPane,
     } = this.props
     return (
       <FiltersPaneComponent
@@ -93,6 +94,7 @@ export class FiltersPaneContainer extends React.Component {
         clearFiltersStore={clearFiltersStore}
         filters={filters}
         filtersI18n={filtersI18n}
+        isMinimalPane={isMinimalPane}
       />
     )
   }

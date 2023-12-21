@@ -22,8 +22,3 @@ export const readNotificationActions = new AdminClient.ReadNotificationActions()
 export const readNotificationReducer = AdminClient.getReadNotificationReducer()
 export const readNotificationInstanceActions = new AdminClient.ReadNotificationActions(true)
 export const readNotificationInstanceReducer = AdminClient.getReadNotificationReducer(true)
-export const readNotificationSelectors = AdminClient.getReadNotificationSelectors([
-  'modules.menu',
-  'readNotification',
-])
-export const readNotificationDetailsReducer = AdminClient.getNotificationDetailsReducer(true)

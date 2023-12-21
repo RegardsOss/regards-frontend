@@ -49,7 +49,7 @@ import messages from '../../i18n'
 class FiltersPaneComponent extends React.Component {
   static propTypes = {
     isPaneOpened: PropTypes.bool.isRequired,
-    onCloseFiltersPane: PropTypes.func.isRequired,
+    onCloseFiltersPane: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
     defaultFiltersState: PropTypes.object,
     ignoredURLParameters: PropTypes.arrayOf(PropTypes.string),
@@ -58,10 +58,13 @@ class FiltersPaneComponent extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     filtersComponentProps: PropTypes.object,
     filtersI18n: UIShapes.FiltersI18nList,
-    updateFiltersStore: PropTypes.func.isRequired,
-    clearFiltersStore: PropTypes.func.isRequired,
+    updateFiltersStore: PropTypes.func,
+    clearFiltersStore: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
     filters: PropTypes.object,
+    // Use a minimal version of the filter pane.
+    // Disable url & redux store update. Usefull when we want to use filters in a popup.
+    isMinimalPane: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -79,21 +82,27 @@ class FiltersPaneComponent extends React.Component {
   debounceUpdateRequestParameters = debounce((requestParameters) => {
     const { updateRequestParameters, updateFiltersStore } = this.props
     updateRequestParameters(requestParameters)
-    updateFiltersStore(requestParameters)
+    if (updateFiltersStore) {
+      updateFiltersStore(requestParameters)
+    }
   }, 500)
 
   UNSAFE_componentWillMount() {
     const { updateFiltersStore, defaultFiltersState } = this.props
     const extractedFilters = UIDomain.FiltersPaneHelper.extractFiltersFromURL(defaultFiltersState)
     this.updateInputValues(extractedFilters)
-    updateFiltersStore(extractedFilters)
+    if (updateFiltersStore) {
+      updateFiltersStore(extractedFilters)
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { filters } = this.props
     if (!isEqual(filters, nextProps.filters)) {
       const newFilters = nextProps.filters
-      UIDomain.FiltersPaneHelper.updateURL(newFilters, nextProps.ignoredURLParameters)
+      if (!nextProps.isMinimalPane) {
+        UIDomain.FiltersPaneHelper.updateURL(newFilters, nextProps.ignoredURLParameters)
+      }
       this.updateInputValues(newFilters)
     }
   }
@@ -121,7 +130,9 @@ class FiltersPaneComponent extends React.Component {
     * @param {boolean} useDebounce
     */
   updateFilter = (newFilterValue, filterElement, useDebounce = false) => {
-    const { updateRequestParameters, updateFiltersStore, ignoredURLParameters } = this.props
+    const {
+      updateRequestParameters, updateFiltersStore, ignoredURLParameters, isMinimalPane,
+    } = this.props
     const { inputValues } = this.state
     const newFilters = {
       ...inputValues,
@@ -135,10 +146,14 @@ class FiltersPaneComponent extends React.Component {
       this.debounceUpdateRequestParameters(newRequestParameters)
     } else {
       updateRequestParameters(newRequestParameters)
-      updateFiltersStore(newFilters)
+      if (!isMinimalPane && updateFiltersStore) {
+        updateFiltersStore(newFilters)
+      }
     }
     this.setState(newState)
-    UIDomain.FiltersPaneHelper.updateURL(newFilters, ignoredURLParameters)
+    if (!isMinimalPane) {
+      UIDomain.FiltersPaneHelper.updateURL(newFilters, ignoredURLParameters)
+    }
   }
 
   /**
@@ -194,7 +209,9 @@ class FiltersPaneComponent extends React.Component {
       updateRequestParameters(UIDomain.FiltersPaneHelper.buildRequestParameters(defaultFiltersState))
     }
     // Clear redux store
-    clearFiltersStore()
+    if (clearFiltersStore) {
+      clearFiltersStore()
+    }
     // Clear url parameters
     const newQuery = {
       ...pickBy(query, (value, key) => !includes(keys(defaultFiltersState), key)),
@@ -209,7 +226,7 @@ class FiltersPaneComponent extends React.Component {
   render() {
     const {
       isPaneOpened, onCloseFiltersPane, filtersComponent, filtersComponentProps,
-      filtersI18n,
+      filtersI18n, isMinimalPane,
     } = this.props
     const {
       inputValues,
@@ -235,42 +252,44 @@ class FiltersPaneComponent extends React.Component {
       inputValues,
     })
     return (
-      <Drawer
-        width={width}
-        containerStyle={rootContainer}
-        open={isPaneOpened}
-        disableSwipeToOpen
-        openSecondary
-      >
-        {/* 1. Title bar */}
-        <div style={titleContainer}>
-          {/* 1.a Icon and title */}
-          <SearchIcon style={icon} />
-          <div style={text}>
-            {formatMessage({ id: 'filter.pane.title' })}
+      isMinimalPane
+        ? <div>{decoratedComponentElement}</div>
+        : <Drawer
+            width={width}
+            containerStyle={rootContainer}
+            open={isPaneOpened}
+            disableSwipeToOpen
+            openSecondary
+        >
+          {/* 1. Title bar */}
+          <div style={titleContainer}>
+            {/* 1.a Icon and title */}
+            <SearchIcon style={icon} />
+            <div style={text}>
+              {formatMessage({ id: 'filter.pane.title' })}
+            </div>
+            {/* 1.b close button */}
+            <IconButton
+              title={formatMessage({ id: 'filter.pane.close.button' })}
+              onClick={onCloseFiltersPane}
+            >
+              <CloseIcon />
+            </IconButton>
           </div>
-          {/* 1.b close button */}
-          <IconButton
-            title={formatMessage({ id: 'filter.pane.close.button' })}
-            onClick={onCloseFiltersPane}
-          >
-            <CloseIcon />
-          </IconButton>
-        </div>
-        <div style={mainContainer}>
-          {decoratedComponentElement}
-        </div>
-        {/* 3. Buttons bar */}
-        <div style={buttonsContainers}>
-          {/* 3.a clear inputs */}
-          <FlatButton
-            icon={<ClearIcon />}
-            label={formatMessage({ id: 'filter.pane.clear.button' })}
-            title={formatMessage({ id: 'filter.pane.clear.button' })}
-            onClick={this.clearFilters}
-          />
-        </div>
-      </Drawer>
+          <div style={mainContainer}>
+            {decoratedComponentElement}
+          </div>
+          {/* 3. Buttons bar */}
+          <div style={buttonsContainers}>
+            {/* 3.a clear inputs */}
+            <FlatButton
+              icon={<ClearIcon />}
+              label={formatMessage({ id: 'filter.pane.clear.button' })}
+              title={formatMessage({ id: 'filter.pane.clear.button' })}
+              onClick={this.clearFilters}
+            />
+          </div>
+        </Drawer>
     )
   }
 }

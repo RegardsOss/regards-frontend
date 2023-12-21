@@ -339,7 +339,7 @@ const styles = (theme) => ({
         gridTmplateColumns: '100%',
       },
       toggleModeColor: {
-        backgroundColor: '#2196f3',
+        backgroundColor: theme.toggle.thumbOffColor,
       },
       toggleStyle: {
         margin: 'auto',

@@ -60,9 +60,10 @@ class FilterPaneAutoCompleteField extends React.Component {
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { searchPane: { autocompleteStyle } } } = this.context
     const hintTextKey = get(filtersI18n, `${filterKey}.hintTextKey`, '')
+    const labelKey = get(filtersI18n, `${filterKey}.labelKey`, '')
     return (
       <FiltersPaneLineComponent
-        label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
+        label={!isEmpty(labelKey) ? formatMessage({ id: labelKey }) : null}
       >
         <TableHeaderAutoCompleteFilterContainer
           id={`pane.${filterKey}`}

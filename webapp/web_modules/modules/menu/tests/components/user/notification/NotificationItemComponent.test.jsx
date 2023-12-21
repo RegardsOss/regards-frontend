@@ -65,7 +65,7 @@ describe('[Menu] Testing NotificationItemComponent', () => {
     const enzymeWrapper = shallow(<NotificationItemComponent {...props} />, { context })
     const icon = enzymeWrapper.find(NotificationIcon)
     assert.lengthOf(icon, 1, 'There should be the notification icon')
-    assert.equal(icon.props().notification, props.entity.content, 'Icon notification should be correctly set')
+    assert.equal(icon.props().entity, props.entity, 'Icon notification should be correctly set')
 
     const dateWrapper = enzymeWrapper.find(FormattedNotificationDate)
     assert.lengthOf(dateWrapper, 1, 'There should be the notification icon')

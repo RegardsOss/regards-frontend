@@ -29,6 +29,7 @@ const context = buildTestContext(styles)
 /**
  * Test NotificationListContainer
  * @author Maxime Bouveron
+ * @author Théo Lasserre
  */
 describe('[Menu] Testing NotificationListContainer', () => {
   before(testSuiteHelpers.before)
@@ -42,26 +43,18 @@ describe('[Menu] Testing NotificationListContainer', () => {
     const props = {
       notifications: {},
       isAuthenticated: false,
+      isLoading: true,
       fetchLastNotification: () => { },
       sendReadNotification: () => { },
-      markAllNotificationRead: () => { },
       fetchNotification: () => { },
-      fetchLastReadNotification: () => { },
-      deleteReadNotifications: () => { },
+      deleteNotifications: () => { },
+      dispatchUnselectAll: () => { },
 
       project: 'project1',
 
       // from mapStateToProps
       lastNotification: {},
-      lastReadNotification: {},
-      nbNotification: 14,
-      nbReadNotification: 42,
-      notificationMetadata: {
-        number: 3,
-        size: 3,
-        totalElements: 3,
-        totalPages: 3,
-      },
+      nbNotificationUnreadAndError: 14,
     }
     const enzymeWrapper = shallow(<NotificationListContainer {...props} />, { context })
     let showableWrapper = enzymeWrapper.find(ShowableAtRender)
@@ -74,7 +67,7 @@ describe('[Menu] Testing NotificationListContainer', () => {
       showableWrapper.props().show,
       'The showable component should be hiding component',
     )
-    let componentWrapper = enzymeWrapper.find(NotificationListComponent)
+    const componentWrapper = enzymeWrapper.find(NotificationListComponent)
     assert.lengthOf(componentWrapper, 1, 'The component should be rendered')
 
     enzymeWrapper.setProps({ isAuthenticated: true })
@@ -84,12 +77,6 @@ describe('[Menu] Testing NotificationListContainer', () => {
       'The showable component should be displaying component',
     )
 
-    componentWrapper = enzymeWrapper.find(NotificationListComponent)
-    assert.equal(
-      componentWrapper.props().readAllNotifications,
-      enzymeWrapper.instance().readAllNotifications,
-      'Container should provide read all notificatons method',
-    )
     assert.equal(
       componentWrapper.props().readNotification,
       enzymeWrapper.instance().readNotification,
@@ -99,6 +86,11 @@ describe('[Menu] Testing NotificationListContainer', () => {
       componentWrapper.props().registerNotify,
       enzymeWrapper.instance().registerNotify,
       'Container should provide register notify method',
+    )
+    assert.equal(
+      componentWrapper.props().deleteNotifications,
+      enzymeWrapper.instance().deleteNotifications,
+      'Container should provide delete notification method',
     )
   })
 })

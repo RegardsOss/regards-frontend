@@ -16,23 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export const Notification = PropTypes.shape({
-  id: PropTypes.number,
-  date: PropTypes.string,
-  message: PropTypes.string,
-  mimeType: PropTypes.string,
-  title: PropTypes.string,
-  sender: PropTypes.string,
-  level: PropTypes.string,
-  status: PropTypes.string,
-  type: PropTypes.string,
-  projectUserRecipients: PropTypes.arrayOf(PropTypes.string),
-  roleRecipients: PropTypes.arrayOf(PropTypes.string),
-})
 
-export const NotificationWithinContent = PropTypes.shape({
-  content: Notification.isRequired,
-})
-
-export const NotificationList = PropTypes.objectOf(Notification)
-export const NotificationArray = PropTypes.arrayOf(Notification)
+/**
+ * Available values for notification levels
+ */
+export const LEVELS_ENUM = {
+  ERROR: 'ERROR',
+  WARNING: 'WARNING',
+  INFO: 'INFO',
+  FATAL: 'FATAL',
+}

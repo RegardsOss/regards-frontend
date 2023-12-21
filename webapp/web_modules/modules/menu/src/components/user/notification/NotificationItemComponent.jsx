@@ -80,7 +80,7 @@ export default class NotificationItemComponent extends React.Component {
         onClick={this.onOpenNotification}
       >
         <NotificationIcon
-          notification={entity.content}
+          entity={entity}
           style={item.iconStyle}
         />
         <div style={item.primaryText}>

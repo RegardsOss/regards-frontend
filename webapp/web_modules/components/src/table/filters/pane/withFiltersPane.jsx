@@ -25,16 +25,17 @@ import { FiltersPaneContainer, FiltersActions } from '@regardsoss/components'
  *
  * @type {function}
  * @param {object} defaultFiltersState initial form state
+ * @param {bool} isMinimalPane enable to display filters without opening pane
  * @param {React.Component} DecoratedComponent The component to enhance
  * @return {React.Component}
  * @author Théo
  * @author Léo
  */
-const withFiltersPane = (defaultFiltersState) => (DecoratedComponent) => {
+const withFiltersPane = (defaultFiltersState, isMinimalPane = false) => (DecoratedComponent) => {
   class WithFiltersPane extends React.Component {
     static propTypes = {
       isPaneOpened: PropTypes.bool.isRequired,
-      onCloseFiltersPane: PropTypes.func.isRequired,
+      onCloseFiltersPane: PropTypes.func,
       updateRequestParameters: PropTypes.func,
       ignoredURLParameters: PropTypes.arrayOf(PropTypes.string),
       filtersActions: PropTypes.instanceOf(FiltersActions),
@@ -61,6 +62,7 @@ const withFiltersPane = (defaultFiltersState) => (DecoratedComponent) => {
           filtersSelectors={filtersSelectors}
           filtersI18n={filtersI18n}
           filtersComponentProps={otherProps}
+          isMinimalPane={isMinimalPane}
         />
       )
     }

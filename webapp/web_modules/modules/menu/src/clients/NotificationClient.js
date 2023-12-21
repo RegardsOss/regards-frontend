@@ -23,9 +23,9 @@ import { AdminClient } from '@regardsoss/client'
  *
  * @author Maxime Bouveron
  * @author Léo Mieulet
+ * @author Théo Lasserre
  */
 const namespacePoller = 'menu/notification'
-const namespaceReadPoller = 'menu/notification-read'
 const namespaceResearch = 'menu/notification-research'
 const namespaceDetails = 'menu/notification-details'
 const namespaceDelete = 'menu/notification-delete-read'
@@ -36,12 +36,6 @@ export const notificationPollerReducer = AdminClient.getNotificationReducer(name
 export const notificationPollerInstanceActions = new AdminClient.NotificationActions(namespacePoller, true)
 export const notificationPollerInstanceReducer = AdminClient.getNotificationReducer(namespacePoller, true)
 export const notificationPollerSelectors = AdminClient.getNotificationSelectors(['modules.menu', 'notificationPoller'])
-
-export const notificationReadPollerActions = new AdminClient.NotificationActions(namespaceReadPoller)
-export const notificationReadPollerReducer = AdminClient.getNotificationReducer(namespaceReadPoller)
-export const notificationReadPollerInstanceActions = new AdminClient.NotificationActions(namespaceReadPoller, true)
-export const notificationReadPollerInstanceReducer = AdminClient.getNotificationReducer(namespaceReadPoller, true)
-export const notificationReadPollerSelectors = AdminClient.getNotificationSelectors(['modules.menu', 'notificationReadPoller'])
 
 // Used to fetch notification inside the HMI
 export const notificationActions = new AdminClient.NotificationActions(namespaceResearch)

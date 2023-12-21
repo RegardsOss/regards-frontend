@@ -44,6 +44,10 @@ class FilterPaneSelectField extends React.Component {
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
+    // eslint-disable-next-line react/no-unused-prop-types
+    additionnalLineStyle: PropTypes.objectOf( // eslint wont fix: broken rule, used in onPropertiesUpdated
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    ),
   }
 
   static defaultProps = {
@@ -59,13 +63,15 @@ class FilterPaneSelectField extends React.Component {
   render() {
     const {
       filtersI18n, updateValuesFilter, filterKey, inputValues, allValuesOption,
-      children, disabled,
+      children, disabled, additionnalLineStyle,
     } = this.props
     const { intl: { formatMessage } } = this.context
     const hintTextKey = get(filtersI18n, `${filterKey}.hintTextKey`, '')
+    const labelKey = get(filtersI18n, `${filterKey}.labelKey`, '')
     return (
       <FiltersPaneLineComponent
-        label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
+        label={!isEmpty(labelKey) ? formatMessage({ id: labelKey }) : null}
+        additionnalLineStyle={additionnalLineStyle}
       >
         <SelectField
           id={`pane.${filterKey}`}

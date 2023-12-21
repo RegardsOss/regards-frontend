@@ -214,7 +214,7 @@ const menuStyles = (theme) => ({
         lineHeight: undefined,
         fontWeight: 'bold',
       },
-      style: { opacity: '0.9', backgroundColor: theme.palette.accent1Color, margin: 'auto' },
+      style: { opacity: '0.9', backgroundColor: theme.textField.errorColor, margin: 'auto' },
     },
   },
   cart: {
@@ -235,6 +235,32 @@ const menuStyles = (theme) => ({
     },
   },
   notifications: {
+    headerComponent: {
+      mainDivStyle: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      filterComponentStyle: {
+        width: '75%',
+      },
+      headerActionBarStyle: {
+        marginBottom: '10px',
+      },
+    },
+    filters: {
+      levelFieldStyle: {
+        width: '17%',
+        marginRight: '20px',
+      },
+      statusFieldStyle: {
+        width: '17%',
+      },
+      sendersFieldStyle: {
+        width: '20%',
+        marginRight: '20px',
+      },
+    },
     iconButton: {
       style: { padding: 0 },
       iconStyle: {
@@ -365,9 +391,6 @@ const menuStyles = (theme) => ({
       },
     },
     dialog: {
-      style: {
-        height: '100%',
-      },
       wrapper: {
         style: {
           margin: '-24px 0 -24px -24px',
@@ -376,6 +399,14 @@ const menuStyles = (theme) => ({
           width: '100%',
           display: 'flex',
         },
+      },
+      deleteButtonStyle: {
+        display: 'flex',
+        justifyContent: 'end',
+        marginTop: '20px',
+      },
+      style: {
+        height: '100%',
       },
       list: {
         style: {
@@ -387,12 +418,13 @@ const menuStyles = (theme) => ({
       details: {
         date: {
           style: {
-            paddingRight: 24,
-            paddingTop: 24,
             fontSize: '0.8em',
           },
         },
         header: {
+          main: {
+            height: '23%',
+          },
           style: {
             display: 'flex',
             justifyContent: 'space-between',
@@ -407,6 +439,7 @@ const menuStyles = (theme) => ({
             hyphens: 'auto',
             textAlign: 'justify',
             overflowY: 'auto',
+            height: '70%',
           },
         },
         actions: {

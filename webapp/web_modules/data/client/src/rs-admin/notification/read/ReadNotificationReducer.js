@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicSignalsReducers } from '@regardsoss/store-utils'
+import { BasicSignalReducers } from '@regardsoss/store-utils'
 import ReadNotificationActions from './ReadNotificationActions'
 
-class ReadNotificationReducer extends BasicSignalsReducers {
-  constructor(namespace, instance) {
-    super(new ReadNotificationActions(namespace, instance))
+class ReadNotificationReducer extends BasicSignalReducers {
+  constructor(instance) {
+    super(new ReadNotificationActions(instance))
   }
 }
 
 /** Closure builder for reducer function */
-export default (namespace, instance = false) => {
-  const reducerInstance = new ReadNotificationReducer(namespace, instance)
+export default (instance = false) => {
+  const reducerInstance = new ReadNotificationReducer(instance)
   return (state, action) => reducerInstance.reduce(state, action)
 }

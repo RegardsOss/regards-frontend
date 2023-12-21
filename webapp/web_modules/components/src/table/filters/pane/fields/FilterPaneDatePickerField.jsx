@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import {
   DatePickerField,
   FiltersPaneLineComponent,
@@ -38,6 +39,10 @@ class FilterPaneDatePickerField extends React.Component {
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     multiline: PropTypes.bool,
     displayTime: PropTypes.bool,
+    // eslint-disable-next-line react/no-unused-prop-types
+    additionnalLineStyle: PropTypes.objectOf( // eslint wont fix: broken rule, used in onPropertiesUpdated
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    ),
   }
 
   static defaultProps = {
@@ -61,12 +66,15 @@ class FilterPaneDatePickerField extends React.Component {
   render() {
     const {
       filtersI18n, updateDatesFilter, filterKey, inputValues, multiline, displayTime,
+      additionnalLineStyle,
     } = this.props
     const { intl: { formatMessage, locale } } = this.context
+    const labelKey = get(filtersI18n, `${filterKey}.labelKey`, '')
     return (
       <FiltersPaneLineComponent
-        label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
+        label={!isEmpty(labelKey) ? formatMessage({ id: labelKey }) : null}
         multiline={multiline}
+        additionnalLineStyle={additionnalLineStyle}
       >
         <DatePickerField
           id={`pane.${filterKey}`}

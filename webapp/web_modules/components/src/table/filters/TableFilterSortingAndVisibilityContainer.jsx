@@ -42,12 +42,12 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
     // eslint-disable-next-line react/forbid-prop-types
-    updateRefreshParameters: PropTypes.func.isRequired,
+    updateRefreshParameters: PropTypes.func,
     isPagePostFetching: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
-    filtersActions: PropTypes.instanceOf(FiltersActions).isRequired,
+    filtersActions: PropTypes.instanceOf(FiltersActions),
     // eslint-disable-next-line react/no-unused-prop-types
-    filtersSelectors: PropTypes.instanceOf(BasicSelector).isRequired,
+    filtersSelectors: PropTypes.instanceOf(BasicSelector),
     // eslint-disable-next-line react/forbid-prop-types
     filtersI18n: UIShapes.FiltersI18nList,
     // from mapStateToProps
@@ -213,7 +213,9 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
    */
   updateExtRefreshParameters = (requestParameters) => {
     const { updateRefreshParameters } = this.props
-    updateRefreshParameters(requestParameters)
+    if (updateRefreshParameters) {
+      updateRefreshParameters(requestParameters)
+    }
   }
 
   render() {
@@ -244,6 +246,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
           })
         } if (child.key === CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER) {
           return React.cloneElement(child, {
+            ...this.getProxyfiedFunc(newPropsToProxy),
             updateRequestParameters: this.updateRequestParameters,
             filtersActions,
             filtersSelectors,

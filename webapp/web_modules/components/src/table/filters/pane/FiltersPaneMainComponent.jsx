@@ -34,6 +34,9 @@ class FiltersPaneMainComponent extends React.Component {
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
+    style: PropTypes.objectOf( // eslint wont fix: broken rule, used in onPropertiesUpdated
+      PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    ),
   }
 
   static contextTypes = {
@@ -43,12 +46,13 @@ class FiltersPaneMainComponent extends React.Component {
   render() {
     const {
       children, updateFilter, inputValues, filtersI18n, updateDatesFilter, updateValuesFilter,
+      style,
     } = this.props
     const {
       moduleTheme: { searchPane: { childrenStyles: { mainDivStyle } } },
     } = this.context
     return (
-      <div style={mainDivStyle}>
+      <div style={style || mainDivStyle}>
         {
           React.Children.map(children, (child) => React.cloneElement(child, {
             ...child.props,

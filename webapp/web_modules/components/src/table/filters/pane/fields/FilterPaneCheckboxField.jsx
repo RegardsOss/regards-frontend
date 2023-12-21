@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import Checkbox from 'material-ui/Checkbox'
 import {
   FiltersPaneLineComponent,
@@ -54,9 +56,10 @@ class FilterPaneCheckboxField extends React.Component {
     } = this.props
     const { intl: { formatMessage } } = this.context
     const filterValue = uiValue || !inputValues[filterKey]
+    const labelKey = get(filtersI18n, `${filterKey}.labelKey`, '')
     return (
       <FiltersPaneLineComponent
-        label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
+        label={!isEmpty(labelKey) ? formatMessage({ id: labelKey }) : null}
       >
         <Checkbox
           checked={!!inputValues[filterKey]}

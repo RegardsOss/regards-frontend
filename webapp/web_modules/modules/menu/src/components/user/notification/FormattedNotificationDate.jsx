@@ -45,7 +45,7 @@ class FormattedNotificationDate extends React.Component {
     return isToday
       ? formatDate(notificationDate, { hour: '2-digit', minute: '2-digit', timeZone: 'utc' })
       : formatDate(notificationDate, {
-        year: isSameYear ? undefined : '2-digit', month: 'short', day: 'numeric', timeZone: 'utc',
+        year: isSameYear ? undefined : '2-digit', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'utc',
       })
   }
 }

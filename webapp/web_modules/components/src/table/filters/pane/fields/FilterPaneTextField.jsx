@@ -54,9 +54,10 @@ class FilterPaneTextField extends React.Component {
     } = this.props
     const { intl: { formatMessage } } = this.context
     const hintTextKey = get(filtersI18n, `${filterKey}.hintTextKey`, '')
+    const labelKey = get(filtersI18n, `${filterKey}.labelKey`, '')
     return (
       <FiltersPaneLineComponent
-        label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
+        label={!isEmpty(labelKey) ? formatMessage({ id: labelKey }) : null}
       >
         <TextField
           id={`pane.${filterKey}`}

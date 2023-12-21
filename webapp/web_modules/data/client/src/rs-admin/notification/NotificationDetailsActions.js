@@ -31,4 +31,10 @@ export default class NotificationDetailsActions extends BasicSignalActions {
       }/notifications/{notification_id}`,
     })
   }
+
+  /**
+   * Fetch a notification using its id
+   * @param {*} notificationId
+   */
+  fetchNotification = (notificationId) => this.sendSignal('GET', {}, { notification_id: notificationId })
 }

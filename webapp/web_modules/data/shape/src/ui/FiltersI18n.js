@@ -23,7 +23,7 @@
  */
 
 const FilterI18n = PropTypes.shape({
-  labelKey: PropTypes.string.isRequired,
+  labelKey: PropTypes.string,
   hintTextKey: PropTypes.string,
   chipValueKeys: PropTypes.objectOf(PropTypes.string),
 })

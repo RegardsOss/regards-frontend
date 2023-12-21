@@ -46,6 +46,7 @@ describe('[Menu] Testing NotificationDetailComponent', () => {
         ...aNotif,
         mimeType: MIME_TYPES.HTML_MIME_TYPE,
       },
+      onCloseNotification: () => { },
     }
     const enzymeWrapper = shallow(<NotificationDetailComponent {...props} />, { context })
     // expected: find a div with dangerouslySetInnerHTML field
@@ -66,6 +67,7 @@ describe('[Menu] Testing NotificationDetailComponent', () => {
           ...aNotif,
           mimeType: type,
         },
+        onCloseNotification: () => {},
       }
       const enzymeWrapper = shallow(<NotificationDetailComponent {...props} />, { context })
       // expected: find a <pre> div

@@ -161,19 +161,36 @@ const messages = {
     other {{elementsCount} new notifications}
   }`,
   'user.menu.notification.no-notification-for-instance': 'There is no notification for the instance user',
-  'user.menu.notification.title': 'Old notifications ({count})',
-  'user.menu.notification.unread.title': 'New notifications ({count})',
-  'user.menu.notification.empty': 'No new notifications',
   'user.menu.notification.details.sentby': 'Sent by {sender}',
-  'user.menu.notification.clearAll': 'Clear all new notifications',
   'user.menu.notification.action.close': 'Close',
-  'user.menu.notification.action.delete.read': 'Delete all read notifications',
 
   'user.menu.profile.leftbar.title': 'User options',
   'user.menu.profile.leftbar.profile': 'Profile',
   'user.menu.profile.leftbar.notification': 'Notifications',
   'user.menu.profile.leftbar.quotaInformation': 'Downloads',
   'user.menu.profile.action.close': 'Close',
+
+  'user.menu.notification.filters.levels.label': 'Levels',
+  'user.menu.notification.filters.levels.ERROR': 'Error',
+  'user.menu.notification.filters.levels.WARNING': 'Warning',
+  'user.menu.notification.filters.levels.INFO': 'Info',
+  'user.menu.notification.filters.levels.FATAL': 'Fatal',
+  'user.menu.notification.filters.creationDate.label': 'Creation date',
+  'user.menu.notification.filters.senders.label': 'Senders',
+  'user.menu.notification.filters.status.label': 'Status',
+  'user.menu.notification.filters.status.READ': 'Read',
+  'user.menu.notification.filters.status.UNREAD': 'Unread',
+
+  'user.menu.notification.table.header.level': 'Level',
+  'user.menu.notification.table.header.date': 'Date',
+  'user.menu.notification.table.header.title': 'Title',
+  'user.menu.notification.table.header.status': 'Status',
+  'user.menu.notification.table.no.content.title': 'Nothing to show',
+  'user.menu.notification.table.no.content.message': 'No notifications',
+  'user.menu.notification.table.loading.content.title': 'Loading...',
+
+  'user.menu.notification.header.delete.button': 'Delete selection',
+
   ...Locales.en,
   ...MetadataLocales.en,
 }

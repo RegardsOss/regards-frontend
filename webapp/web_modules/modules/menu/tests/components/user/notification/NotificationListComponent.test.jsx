@@ -18,16 +18,16 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import IconButton from 'material-ui/IconButton'
+import FlatButton from 'material-ui/FlatButton'
 import Chip from 'material-ui/Chip'
-import Dialog from 'material-ui/Dialog/Dialog'
-import { List } from 'material-ui/List'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ShowableAtRender, PositionedDialog, PageableInfiniteTableContainer } from '@regardsoss/components'
+import { ShowableAtRender, PositionedDialog, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { AdminClient } from '@regardsoss/client'
 import NotificationListComponent from '../../../../src/components/user/notification/NotificationListComponent'
 import styles from '../../../../src/styles/styles'
-import { generateNotification } from '../../../dumps/notification.dump'
+import NotificationTableContainer from '../../../../src/containers/user/notification/NotificationTableContainer'
+import NotificationHeaderComponent from '../../../../src/components/user/notification/NotificationHeaderComponent'
+import { NOTIFICATION_FILTERS_I18N } from '../../../../src/domain/filters'
 
 const context = buildTestContext(styles)
 const namespacePoller = 'menu/notification'
@@ -45,95 +45,17 @@ describe('[Menu] Testing NotificationListComponent', () => {
   it('should exists', () => {
     assert.isDefined(NotificationListComponent)
   })
-
-  it('should render correctly without notifications', () => {
-    const props = {
-      registerNotify: () => { },
-      readNotification: () => { },
-      readAllNotifications: () => { },
-
-      notificationActions: notificationPollerActions,
-      notificationSelectors: notificationPollerSelectors,
-      nbNotification: 0,
-      lastNotification: generateNotification('UNREAD', 2),
-      nbReadNotification: 0,
-      lastReadNotification: null,
-      isInstance: false,
-    }
-    const enzymeWrapper = shallow(<NotificationListComponent {...props} />, { context })
-
-    // check that notification count is hidden
-    const showableWrapper = enzymeWrapper.find(ShowableAtRender)
-    assert.lengthOf(
-      showableWrapper,
-      1,
-      'There should be a showing / hide controller for the notification count component',
-    )
-    assert.isFalse(showableWrapper.props().show, 'It should be hiding the count when zero')
-    const iconButtonWrapper = enzymeWrapper.find(IconButton)
-    assert.lengthOf(iconButtonWrapper, 1, 'There should be an Icon Button for the notifications')
-    assert.isTrue(
-      iconButtonWrapper.props().disabled,
-      "The Icon Button should be disabled when there isn't any notification",
-    )
-
-    // check that dialog is not opened
-    const dialogWrapper = enzymeWrapper.find(Dialog)
-    assert.lengthOf(dialogWrapper, 0, "There should'nt be the notification dialog")
-  })
-
-  it('should render correctly without unread notifications', () => {
-    const props = {
-      registerNotify: () => { },
-      readNotification: () => { },
-      readAllNotifications: () => { },
-
-      notificationActions: notificationPollerActions,
-      notificationSelectors: notificationPollerSelectors,
-      nbNotification: 3,
-      lastNotification: null,
-      nbReadNotification: 5,
-      lastReadNotification: generateNotification('UNREAD', 2),
-      isInstance: false,
-    }
-    const enzymeWrapper = shallow(<NotificationListComponent {...props} />, { context })
-
-    // check that notification count is shown
-    const showableWrapper = enzymeWrapper.find(ShowableAtRender)
-    assert.lengthOf(
-      showableWrapper,
-      1,
-      'There should be a showing / hide controller for the notification count component',
-    )
-
-    enzymeWrapper.setState({ openedNotification: props.lastReadNotification })
-
-    // check that dialog is opened
-    const dialogWrapper = enzymeWrapper.find(PositionedDialog)
-    assert.lengthOf(dialogWrapper, 1, 'There should be the notification dialog')
-
-    // check that unread list is hidden
-    const listWrapper = enzymeWrapper.find(List)
-    assert.lengthOf(listWrapper, 2, 'There should be only one notification list')
-
-    // check that read list shows 2 notifications
-    const infiniteTableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
-    assert.lengthOf(infiniteTableWrapper, 1, 'There should be one infinite table')
-  })
-
   it('should render correctly with notifications', () => {
     const props = {
       registerNotify: () => { },
       readNotification: () => { },
-      readAllNotifications: () => { },
+      deleteNotifications: () => { },
 
       notificationActions: notificationPollerActions,
       notificationSelectors: notificationPollerSelectors,
-      nbNotification: 2,
-      lastNotification: null,
-      nbReadNotification: 5,
-      lastReadNotification: generateNotification('UNREAD', 2),
+      nbNotificationUnreadAndError: 2,
       isInstance: false,
+      isLoading: false,
     }
     const enzymeWrapper = shallow(<NotificationListComponent {...props} />, { context })
 
@@ -154,18 +76,39 @@ describe('[Menu] Testing NotificationListComponent', () => {
     assert.lengthOf(chipWrapper, 1, 'There should be a chip to show objectsCount')
     assert.include(chipWrapper.debug(), 2, 'The chip text should read 2')
 
-    enzymeWrapper.setState({ openedNotification: props.lastReadNotification })
+    enzymeWrapper.setState({ openedModal: true })
 
     // check that dialog is opened
     const dialogWrapper = enzymeWrapper.find(PositionedDialog)
     assert.lengthOf(dialogWrapper, 1, 'There should be the notification dialog')
 
-    // check that unread list is hidden
-    const listWrapper = enzymeWrapper.find(List)
-    assert.lengthOf(listWrapper, 2, 'There should be both notification lists')
+    const tableVisibilityWrapper = enzymeWrapper.find(TableFilterSortingAndVisibilityContainer)
+    assert.lengthOf(tableVisibilityWrapper, 1, 'There should be one TableFilterSortingAndVisibilityContainer')
+    testSuiteHelpers.assertWrapperProperties(tableVisibilityWrapper, {
+      pageActions: props.notificationActions,
+      pageSelectors: props.notificationSelectors,
+      isPagePostFetching: true,
+      onReadNotification: props.readNotification,
+      onDeleteNotifications: props.deleteNotifications,
+      filtersI18n: NOTIFICATION_FILTERS_I18N,
+    })
 
-    // check that read list shows 2 notifications
-    const infiniteTableWrapper = enzymeWrapper.find(PageableInfiniteTableContainer)
-    assert.lengthOf(infiniteTableWrapper, 1, 'There should be one infinite table')
+    const headerWrapper = enzymeWrapper.find(NotificationHeaderComponent)
+    assert.lengthOf(headerWrapper, 1, 'There should be a NotificationHeaderComponent')
+    testSuiteHelpers.assertWrapperProperties(headerWrapper, {
+      onCloseNotificationDialog: enzymeWrapper.instance().handleClose,
+      isPaneOpened: true,
+    })
+
+    const tableWrapper = enzymeWrapper.find(NotificationTableContainer)
+    assert.lengthOf(tableWrapper, 1, 'There should be a NotificationTableContainer')
+    testSuiteHelpers.assertWrapperProperties(tableWrapper, {
+      notificationActions: props.notificationActions,
+      notificationSelectors: props.notificationSelectors,
+      isLoading: props.isLoading,
+    })
+
+    const deleteButtonWrapper = enzymeWrapper.find(FlatButton)
+    assert.lengthOf(deleteButtonWrapper, 1, 'There should be a FlatButton')
   })
 })

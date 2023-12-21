@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import Avatar from 'material-ui/Avatar'
 import Info from 'mdi-material-ui/InformationVariant'
 import Warning from 'mdi-material-ui/Alert'
@@ -30,7 +31,7 @@ import { themeContextType } from '@regardsoss/theme'
  */
 class NotificationIcon extends React.Component {
   static propTypes = {
-    notification: AdminShapes.Notification,
+    entity: AdminShapes.NotificationWithinContent,
     style: PropTypes.objectOf(PropTypes.any), // sent by parent component OR MUI card
   }
 
@@ -39,20 +40,21 @@ class NotificationIcon extends React.Component {
   }
 
   render() {
-    const { style, notification } = this.props
+    const { style, entity } = this.props
 
     const { moduleTheme: { notifications: { levelIcon } } } = this.context
-    switch (notification && notification.level) {
+    const level = get(entity, 'content.level')
+    switch (level) {
       case 'INFO':
-        return <Avatar backgroundColor={levelIcon.infoColor} color={levelIcon.color} icon={<Info />} style={style} />
+        return <Avatar size={30} backgroundColor={levelIcon.infoColor} color={levelIcon.color} icon={<Info />} style={style} />
       case 'ERROR':
-        return <Avatar backgroundColor={levelIcon.errorColor} color={levelIcon.color} icon={<Error />} style={style} />
+        return <Avatar size={30} backgroundColor={levelIcon.errorColor} color={levelIcon.color} icon={<Error />} style={style} />
       case 'FATAL':
-        return <Avatar backgroundColor={levelIcon.fatalColor} color={levelIcon.color} icon={<Skull />} style={style} />
+        return <Avatar size={30} backgroundColor={levelIcon.fatalColor} color={levelIcon.color} icon={<Skull />} style={style} />
       case 'WARNING':
-        return <Avatar backgroundColor={levelIcon.warningColor} color={levelIcon.color} icon={<Warning />} style={style} />
+        return <Avatar size={30} backgroundColor={levelIcon.warningColor} color={levelIcon.color} icon={<Warning />} style={style} />
       default:
-        return <Avatar backgroundColor={levelIcon.infoColor} color={levelIcon.color} icon={<Info />} style={style} />
+        return <Avatar size={30} backgroundColor={levelIcon.infoColor} color={levelIcon.color} icon={<Info />} style={style} />
     }
   }
 }

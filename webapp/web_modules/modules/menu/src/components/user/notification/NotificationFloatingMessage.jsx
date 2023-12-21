@@ -41,12 +41,13 @@ class NotificationFloatingMessage extends React.Component {
     const {
       moduleTheme: { notifications: { notificationSystem: notificationSystemStyle } },
     } = this.context
+    const notificationWithContent = { content: notification }
     return (
       <div
         role="presentation"
         style={notificationSystemStyle.message.rootStyle}
       >
-        <NotificationIcon notification={notification} />
+        <NotificationIcon entity={notificationWithContent} />
         <div style={floatingMessageTheme.containerStyle}>
           {/* Date */}
           <div style={floatingMessageTheme.dateStyle}>

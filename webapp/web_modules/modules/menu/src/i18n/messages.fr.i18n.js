@@ -161,19 +161,36 @@ const messages = {
     other {Vous avez {elementsCount} nouvelles notifications}
   }`,
   'user.menu.notification.no-notification-for-instance': 'L\'utilisateur instance ne reçoit pas de notification',
-  'user.menu.notification.title': 'Notifications lues ({count})',
-  'user.menu.notification.unread.title': 'Notifications non lues ({count})',
-  'user.menu.notification.empty': 'Pas de nouvelles notifications',
   'user.menu.notification.details.sentby': 'Envoyé par {sender}',
-  'user.menu.notification.clearAll': 'Tout marquer comme lu',
   'user.menu.notification.action.close': 'Fermer',
-  'user.menu.notification.action.delete.read': 'Supprimer les notifications lues',
 
   'user.menu.profile.leftbar.title': 'Options utilisateur',
   'user.menu.profile.leftbar.profile': 'Profil',
   'user.menu.profile.leftbar.notification': 'Notifications',
   'user.menu.profile.leftbar.quotaInformation': 'Téléchargements',
   'user.menu.profile.action.close': 'Fermer',
+
+  'user.menu.notification.filters.levels.label': 'Niveaux',
+  'user.menu.notification.filters.levels.ERROR': 'Erreur',
+  'user.menu.notification.filters.levels.WARNING': 'Warning',
+  'user.menu.notification.filters.levels.INFO': 'Info',
+  'user.menu.notification.filters.levels.FATAL': 'Fatal',
+  'user.menu.notification.filters.creationDate.label': 'Date de création',
+  'user.menu.notification.filters.senders.label': 'Expéditeurs',
+  'user.menu.notification.filters.status.label': 'Statuts',
+  'user.menu.notification.filters.status.READ': 'Lu',
+  'user.menu.notification.filters.status.UNREAD': 'Non lu',
+
+  'user.menu.notification.table.header.level': 'Niveau',
+  'user.menu.notification.table.header.date': 'Date',
+  'user.menu.notification.table.header.title': 'Titre',
+  'user.menu.notification.table.header.status': 'Statut',
+  'user.menu.notification.table.no.content.title': 'Rien à afficher',
+  'user.menu.notification.table.no.content.message': 'Pas de notifications',
+  'user.menu.notification.table.loading.content.title': 'Chargement...',
+
+  'user.menu.notification.header.delete.button': 'Supprimer la sélection',
+
   ...Locales.fr,
   ...MetadataLocales.fr,
 }

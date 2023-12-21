@@ -181,9 +181,10 @@ class FilterPaneTextFieldValues extends React.Component {
     const hintTextKey = get(filtersI18n, `${filterKey}.hintTextKey`, '')
     const chipValues = get(inputValues, `${filterKey}.${CommonDomain.REQUEST_PARAMETERS.VALUES}`)
     const textMessage = this.getTextMessage(chipValues)
+    const labelKey = get(filtersI18n, `${filterKey}.labelKey`, '')
     return (
       <FiltersPaneLineComponent
-        label={formatMessage({ id: filtersI18n[filterKey].labelKey })}
+        label={!isEmpty(labelKey) ? formatMessage({ id: labelKey }) : null}
         multiline
       >
         <div style={mainDivStyle}>

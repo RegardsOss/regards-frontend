@@ -16,16 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalsActions } from '@regardsoss/store-utils'
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
  * Actions to send a read notification request
  */
-export default class ReadNotificationActions extends BasicSignalsActions {
-  static MARK_READ_ACTIONS = 'markReadEndpoint'
-
-  static MARK_ALL_READ_ACTIONS = 'markAllReadEndpoint'
-
+export default class ReadNotificationActions extends BasicSignalActions {
   /**
    * We use a static namespace to allow another reducer to catch actions from this actionner
    */
@@ -37,18 +33,10 @@ export default class ReadNotificationActions extends BasicSignalsActions {
     const ROOT_RESOURCE = `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.IMSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN}/notifications`
 
     super({
-      [ReadNotificationActions.MARK_READ_ACTIONS]: {
-        entityEndpoint: `${ROOT_ENDPOINT}/{notificationId}/read`,
-        resourcesEndpoint: `${ROOT_RESOURCE}/{notificationId}/read`,
-        namespace: `${ReadNotificationActions.NAMESPACE}/resume`,
-        bypassErrorMiddleware: true,
-      },
-      [ReadNotificationActions.MARK_ALL_READ_ACTIONS]: {
-        entityEndpoint: `${ROOT_ENDPOINT}/all/read`,
-        resourcesEndpoint: `${ROOT_RESOURCE}/all/read`,
-        namespace: `${ReadNotificationActions.NAMESPACE}/all-read`,
-        bypassErrorMiddleware: true,
-      },
+      entityEndpoint: `${ROOT_ENDPOINT}/{notificationId}/read`,
+      resourcesEndpoint: `${ROOT_RESOURCE}/{notificationId}/read`,
+      namespace: `${ReadNotificationActions.NAMESPACE}/resume`,
+      bypassErrorMiddleware: true,
     })
   }
 
@@ -57,14 +45,6 @@ export default class ReadNotificationActions extends BasicSignalsActions {
    * @param notificationId Notification ID
    */
   readNotification(notificationId) {
-    return this.getSubAction(ReadNotificationActions.MARK_READ_ACTIONS).sendSignal('PUT', null, { notificationId })
-  }
-
-  /**
-   * Mark all unread notification from the current user as read
-   * @return an action to dispatch
-   */
-  markAllNotificationRead() {
-    return this.getSubAction(ReadNotificationActions.MARK_ALL_READ_ACTIONS).sendSignal('PUT')
+    return this.sendSignal('PUT', null, { notificationId })
   }
 }
