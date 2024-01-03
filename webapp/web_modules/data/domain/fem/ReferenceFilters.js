@@ -25,7 +25,7 @@ export const REFERENCE_FILTER_PARAMS = {
   SESSION: 'session',
   PROVIDER_IDS: 'providerIds',
   LAST_UPDATE: 'lastUpdate',
-  DISSEMINATION_PENDING: 'disseminationPending',
+  DISSEMINATION_STATUS: 'disseminationStatus',
   IDS: 'featureIds',
 }
 
@@ -77,7 +77,7 @@ export class ReferenceFilters {
       [REFERENCE_FILTER_PARAMS.SESSION]: '',
       [REFERENCE_FILTER_PARAMS.PROVIDER_IDS]: TableFilterDefaultStateEnum.VALUES,
       [REFERENCE_FILTER_PARAMS.LAST_UPDATE]: TableFilterDefaultStateEnum.DATES,
-      [REFERENCE_FILTER_PARAMS.DISSEMINATION_PENDING]: null,
+      [REFERENCE_FILTER_PARAMS.DISSEMINATION_STATUS]: null,
     }
   }
 }

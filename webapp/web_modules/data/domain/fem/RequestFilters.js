@@ -27,7 +27,6 @@ export const REQUEST_FILTER_PARAMS = {
   PROVIDER_IDS: 'providerIds',
   LAST_UPDATE: 'lastUpdate',
   STATE: 'states',
-  DISSEMINATION_PENDING: 'disseminationPending',
   REQUEST_IDS: 'requestIds',
 }
 

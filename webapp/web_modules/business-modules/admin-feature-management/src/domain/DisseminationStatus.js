@@ -22,10 +22,10 @@ import values from 'lodash/values'
  * dissemination possible status
  * @author Théo Lasserre
  */
-export const DISSEMINATION_PENDING_ENUM = {
+export const DISSEMINATION_STATUS_ENUM = {
   NONE: 'NONE',
   DONE: 'DONE',
   PENDING: 'PENDING',
 }
 
-export const DISSEMINATION_PENDING_VALUES = values(DISSEMINATION_PENDING_ENUM)
+export const DISSEMINATION_STATUS_VALUES = values(DISSEMINATION_STATUS_ENUM)
