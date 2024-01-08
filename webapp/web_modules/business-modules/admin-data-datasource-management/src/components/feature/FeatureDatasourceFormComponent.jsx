@@ -92,7 +92,7 @@ export class FeatureDatasourceFormComponent extends React.Component {
 
   render() {
     const {
-      modelList, submitting, invalid, backUrl, isEditing,
+      modelList, submitting, invalid, backUrl, isEditing, currentDatasource,
     } = this.props
     const title = this.getTitle()
     return (
@@ -102,7 +102,7 @@ export class FeatureDatasourceFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
-            subtitle={this.context.intl.formatMessage({ id: 'fem.datasource.form.subtitle' })}
+            subtitle={this.context.intl.formatMessage({ id: 'fem.datasource.form.subtitle' }, { name: currentDatasource.content.label })}
           />
           <CardText>
             <Field

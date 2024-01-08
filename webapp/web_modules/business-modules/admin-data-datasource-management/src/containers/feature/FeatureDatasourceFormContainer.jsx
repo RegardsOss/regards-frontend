@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import reject from 'lodash/reject'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -146,7 +148,12 @@ export class FeatureDatasourceFormContainer extends React.Component {
 
   handleSave = (values) => {
     const { isCreating } = this.state
+    // retrieve possible parameters set by microservice conf import
+    const currentParameters = get(this.props.currentDatasource.content, 'parameters', [])
+    // We need to remove previous model parameter to prevent duplication
+    const currentParametersWithoutModel = reject(currentParameters, (currentParameter) => currentParameter.name === IAIPDatasourceParamsEnum.MODEL)
     const parameters = [
+      ...currentParametersWithoutModel,
       {
         name: IAIPDatasourceParamsEnum.MODEL,
         type: CommonDomain.PluginParameterTypes.STRING,
