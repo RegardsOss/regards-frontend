@@ -26,13 +26,13 @@ import {
   CardHeaderActions, FiltersChipsContainer, TableHeaderLine,
   TableLayout,
 } from '@regardsoss/components'
-import { FemDomain, CommonDomain } from '@regardsoss/domain'
+import { FemDomain, CommonDomain, UIDomain } from '@regardsoss/domain'
 import PageView from 'mdi-material-ui/CardSearch'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { NotifierShapes } from '@regardsoss/shape'
-import ReferencesManagerComponent from './ReferencesManagerComponent'
-import RequestManagerComponent from './RequestManagerComponent'
+import ReferencesManagerComponent, { REFERENCES_COLUMN_KEYS } from './ReferencesManagerComponent'
+import RequestManagerComponent, { REQUESTS_COLUMN_KEYS } from './RequestManagerComponent'
 import RequestManagerFiltersComponent from './filters/RequestManagerFiltersComponent'
 import ReferenceManagerFiltersComponent from './filters/ReferenceManagerFiltersComponent'
 import SwitchTables from '../containers/SwitchTables'
@@ -104,8 +104,12 @@ class FeatureManagerComponent extends React.Component {
   }
 
   updateRefreshParameters = (requestParameters) => {
+    const { paneType } = this.state
+    const columnKeys = paneType === FemDomain.REQUEST_TYPES_ENUM.REFERENCES ? REFERENCES_COLUMN_KEYS : REQUESTS_COLUMN_KEYS
+    // We remove sorting parameters that are not used in this pane
+    const filteredRequestParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, columnKeys)
     this.setState({
-      currentRequestParameters: requestParameters,
+      currentRequestParameters: filteredRequestParameters,
     })
   }
 

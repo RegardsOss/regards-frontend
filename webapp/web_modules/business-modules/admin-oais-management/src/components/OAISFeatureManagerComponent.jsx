@@ -25,7 +25,7 @@ import {
   Breadcrumb, TableHeaderLine, CardHeaderActions, TableFilterSortingAndVisibilityContainer,
   TableLayout, FiltersChipsContainer,
 } from '@regardsoss/components'
-import { IngestDomain, CommonDomain } from '@regardsoss/domain'
+import { IngestDomain, CommonDomain, UIDomain } from '@regardsoss/domain'
 import { NotifierShapes } from '@regardsoss/shape'
 import PageView from 'mdi-material-ui/CardSearch'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -34,8 +34,8 @@ import clientByPane from '../domain/ClientByPane'
 import OAISSwitchTables from './OAISSwitchTables'
 import AIPFiltersComponent from './packages/AIPFiltersComponent'
 import RequestsFiltersComponent from './requests/RequestsFiltersComponent'
-import OAISRequestManagerComponent from './requests/OAISRequestManagerComponent'
-import OAISPackageManagerComponent from './packages/OAISPackageManagerComponent'
+import OAISRequestManagerComponent, { REQUESTS_COLUMN_KEYS } from './requests/OAISRequestManagerComponent'
+import OAISPackageManagerComponent, { PACKAGE_COLUMN_KEYS } from './packages/OAISPackageManagerComponent'
 import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
 import { AIP_FILTERS_I18N, REQUEST_FILTERS_I18N } from '../domain/filters'
 
@@ -109,8 +109,12 @@ class OAISFeatureManagerComponent extends React.Component {
   }
 
   updateRefreshParameters = (requestParameters) => {
+    const { paneType } = this.state
+    const columnKeys = paneType === IngestDomain.REQUEST_TYPES_ENUM.AIP ? PACKAGE_COLUMN_KEYS : REQUESTS_COLUMN_KEYS
+    // We remove sorting parameters that are not used in this pane
+    const filteredRequestParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, columnKeys)
     this.setState({
-      currentRequestParameters: requestParameters,
+      currentRequestParameters: filteredRequestParameters,
     })
   }
 
