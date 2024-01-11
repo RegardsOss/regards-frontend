@@ -147,9 +147,10 @@ export class FeatureDatasourceFormContainer extends React.Component {
   }
 
   handleSave = (values) => {
+    const { currentDatasource } = this.props
     const { isCreating } = this.state
     // retrieve possible parameters set by microservice conf import
-    const currentParameters = get(this.props.currentDatasource.content, 'parameters', [])
+    const currentParameters = get(currentDatasource, 'content.parameters', [])
     // We need to remove previous model parameter to prevent duplication
     const currentParametersWithoutModel = reject(currentParameters, (currentParameter) => currentParameter.name === IAIPDatasourceParamsEnum.MODEL)
     const parameters = [

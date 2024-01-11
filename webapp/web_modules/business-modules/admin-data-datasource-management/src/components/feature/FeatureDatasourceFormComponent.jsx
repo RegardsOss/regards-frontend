@@ -102,7 +102,7 @@ export class FeatureDatasourceFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
-            subtitle={this.context.intl.formatMessage({ id: 'fem.datasource.form.subtitle' }, { name: currentDatasource.content.label })}
+            subtitle={isEditing ? this.context.intl.formatMessage({ id: 'fem.datasource.form.subtitle' }, { name: currentDatasource.content.label }) : null}
           />
           <CardText>
             <Field
