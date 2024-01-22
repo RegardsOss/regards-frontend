@@ -38,8 +38,13 @@ const messages = {
   'feature.table.header.column.description': 'Description',
   'feature.subtitle': 'By default, the selected products will be notified to all recipients configured by the service\'s notification rules. However, you can manually choose the recipients to notify by selecting them below.',
   'feature.button.notify': 'Notify',
-  'feature.references.notify.title': 'Notify products',
-  'feature.references.notify.title.count': '{value} selected product(s)',
+  'feature.references.notify.title': 'Notify products - ',
+  'feature.references.notify.title.all': 'Notify all products',
+  'feature.references.notify.title.count': `{value} selected product{value, plural,
+    =0 {}
+    one {}
+    other {s}
+  }`,
   'feature.close': 'Close',
   'feature.references.notify': 'Notify',
 }

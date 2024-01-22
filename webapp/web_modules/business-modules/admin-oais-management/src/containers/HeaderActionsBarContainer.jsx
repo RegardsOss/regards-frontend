@@ -33,6 +33,7 @@ export class HeaderActionsBarContainer extends React.Component {
     onSelectVersionOption: PropTypes.func,
     onAbort: PropTypes.func,
     onRetry: PropTypes.func,
+    onNotify: PropTypes.func,
 
     // from mapStateToProps
     tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
@@ -59,7 +60,7 @@ export class HeaderActionsBarContainer extends React.Component {
       tableSelection, selectionMode, areAllSelected,
       onModify, onDelete, paneType,
       onSelectVersionOption, onAbort,
-      onRetry,
+      onRetry, onNotify,
     } = this.props
     return (
       <HeaderActionsBarComponent
@@ -70,6 +71,7 @@ export class HeaderActionsBarContainer extends React.Component {
         onRetry={onRetry}
         onDelete={onDelete}
         onAbort={onAbort}
+        onNotify={onNotify}
         onSelectVersionOption={onSelectVersionOption}
         paneType={paneType}
       />

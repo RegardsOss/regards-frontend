@@ -45,6 +45,7 @@ describe('[OAIS AIP MANAGEMENT] Testing HeaderActionsBarComponent', () => {
       onSelectVersionOption: () => {},
       onAbort: () => {},
       onRetry: () => {},
+      onNotify: () => { },
       areAllSelected: false,
       selectionMode: 'INCLUDE',
     }
@@ -56,6 +57,7 @@ describe('[OAIS AIP MANAGEMENT] Testing HeaderActionsBarComponent', () => {
       onModify: () => {},
       onDelete: () => {},
       onSelectVersionOption: () => {},
+      onNotify: () => { },
       onAbort: () => {},
       onRetry: () => {},
       areAllSelected: false,

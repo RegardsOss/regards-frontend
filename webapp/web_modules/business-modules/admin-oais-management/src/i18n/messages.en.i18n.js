@@ -94,6 +94,8 @@ export default {
   'oais.packages.tooltip.modify': 'Modify product',
   'oais.packages.tooltip.delete': 'Delete product',
   'oais.packages.tooltip.notify': 'Notify product',
+  'oais.packages.tooltip.notify.header': 'Notify selection',
+  'oais.packages.tooltip.notify.title': 'Notify products selection',
   'oais.packages.tooltip.selection.modify': 'Modify product selection',
   'oais.packages.tooltip.selection.delete': 'Delete product selection',
 

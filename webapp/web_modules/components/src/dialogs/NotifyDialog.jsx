@@ -288,8 +288,10 @@ export class NotifyDialog extends React.Component {
   renderTitle = () => {
     const { numberOfSelectedProducts } = this.props
     const { intl: { formatMessage } } = this.context
+    const title = numberOfSelectedProducts > 0 ? formatMessage({ id: 'feature.references.notify.title' }) : formatMessage({ id: 'feature.references.notify.title.all' })
+    const countTitle = numberOfSelectedProducts > 0 ? formatMessage({ id: 'feature.references.notify.title.count' }, { value: numberOfSelectedProducts }) : ''
     return (
-      `${formatMessage({ id: 'feature.references.notify.title' })} - ${formatMessage({ id: 'feature.references.notify.title.count' }, { value: numberOfSelectedProducts })}`
+      `${title} ${countTitle}`
     )
   }
 

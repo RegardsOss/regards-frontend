@@ -19,7 +19,10 @@
 import isEmpty from 'lodash/isEmpty'
 import FlatButton from 'material-ui/FlatButton'
 import ModeEdit from 'mdi-material-ui/Pencil'
+import find from 'lodash/find'
+import every from 'lodash/every'
 import Delete from 'mdi-material-ui/Delete'
+import SendIcon from 'mdi-material-ui/Send'
 import { IngestShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
@@ -40,6 +43,7 @@ class HeaderActionsBarComponent extends React.Component {
     selectionMode: PropTypes.string.isRequired,
     areAllSelected: PropTypes.bool.isRequired,
     onModify: PropTypes.func,
+    onNotify: PropTypes.func,
     onSelectVersionOption: PropTypes.func,
     onDelete: PropTypes.func.isRequired,
     onRetry: PropTypes.func,
@@ -55,6 +59,15 @@ class HeaderActionsBarComponent extends React.Component {
   isButtonDisabled = () => {
     const { tableSelection, areAllSelected } = this.props
     return !areAllSelected && isEmpty(tableSelection)
+  }
+
+  isNotifyButtonDisabled = () => {
+    const { tableSelection, areAllSelected } = this.props
+    let ret = !areAllSelected
+    if (!isEmpty(tableSelection)) {
+      ret = !every(tableSelection, (selection) => find(selection.links, (l) => l.rel === 'notify'))
+    }
+    return ret
   }
 
   onModify = () => {
@@ -77,6 +90,11 @@ class HeaderActionsBarComponent extends React.Component {
     onSelectVersionOption(tableSelection, selectionMode)
   }
 
+  onNotify = () => {
+    const { onNotify, tableSelection, selectionMode } = this.props
+    onNotify(tableSelection, selectionMode)
+  }
+
   onAbort = () => {
     const { onAbort } = this.props
     onAbort()
@@ -86,12 +104,21 @@ class HeaderActionsBarComponent extends React.Component {
     const {
       tableSelection, selectionMode, paneType,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { headerActionBarStyle } } = this.context
+    const { intl: { formatMessage } } = this.context
     return (
-      <div style={headerActionBarStyle}>
+      <div>
         <TableHeaderOptionGroup>
           {
             paneType === IngestDomain.REQUEST_TYPES_ENUM.AIP ? [
+              <FlatButton
+                key="notify"
+                id="notify"
+                label={formatMessage({ id: 'oais.packages.tooltip.notify.header' })}
+                title={formatMessage({ id: 'oais.packages.tooltip.notify.title' })}
+                onClick={this.onNotify}
+                icon={<SendIcon />}
+                disabled={this.isNotifyButtonDisabled()}
+              />,
               <ResourceFlatButton
                 displayLogic={allMatchHateoasDisplayLogic}
                 resourceDependencies={dependencies.updateDependency}
