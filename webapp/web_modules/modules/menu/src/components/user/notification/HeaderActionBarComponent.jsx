@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEmpty from 'lodash/isEmpty'
+import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Delete from 'mdi-material-ui/Delete'
 import { AdminShapes } from '@regardsoss/shape'
@@ -33,6 +34,7 @@ class HeaderActionBarComponent extends React.Component {
     selectionMode: PropTypes.string.isRequired,
     areAllSelected: PropTypes.bool.isRequired,
     onDeleteNotifications: PropTypes.func,
+    onCloseNotificationDialog: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -51,14 +53,26 @@ class HeaderActionBarComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage } } = this.context
+    const { onCloseNotificationDialog } = this.props
+    const { intl: { formatMessage }, moduleTheme: { notifications: { dialog: { deleteButtonStyle } } } } = this.context
+    const isDeleteButtonDisabled = this.isButtonDisabled()
     return (
-      <FlatButton
-        icon={<Delete />}
-        label={formatMessage({ id: 'user.menu.notification.header.delete.button' })}
-        onClick={this.onDelete}
-        disabled={this.isButtonDisabled()}
-      />
+      <div>
+        <FlatButton
+          icon={<Delete />}
+          label={formatMessage({ id: 'user.menu.notification.header.delete.button' })}
+          onClick={this.onDelete}
+          disabled={isDeleteButtonDisabled}
+          key="delete"
+          style={!isDeleteButtonDisabled ? deleteButtonStyle : null}
+        />
+        <RaisedButton
+          label={formatMessage({ id: 'user.menu.notification.action.close' })}
+          key="close"
+          primary
+          onClick={onCloseNotificationDialog}
+        />
+      </div>
     )
   }
 }

@@ -31,6 +31,7 @@ import HeaderActionBarComponent from '../../../components/user/notification/Head
 export class HeaderActionBarContainer extends React.Component {
   static propTypes = {
     onDeleteNotifications: PropTypes.func,
+    onCloseNotificationDialog: PropTypes.func.isRequired,
     // from mapStateToProps
     tableSelection: PropTypes.arrayOf(AdminShapes.NotificationWithinContent),
     selectionMode: PropTypes.string.isRequired,
@@ -59,6 +60,7 @@ export class HeaderActionBarContainer extends React.Component {
   render() {
     const {
       areAllSelected, selectionMode, tableSelection, onDeleteNotifications,
+      onCloseNotificationDialog,
     } = this.props
     return (
       <HeaderActionBarComponent
@@ -66,6 +68,7 @@ export class HeaderActionBarContainer extends React.Component {
         selectionMode={selectionMode}
         tableSelection={tableSelection}
         onDeleteNotifications={onDeleteNotifications}
+        onCloseNotificationDialog={onCloseNotificationDialog}
       />
     )
   }

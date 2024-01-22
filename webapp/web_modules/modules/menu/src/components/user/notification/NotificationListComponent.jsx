@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import FlatButton from 'material-ui/FlatButton'
 import Chip from 'material-ui/Chip'
 import NotificationNone from 'mdi-material-ui/BellOutline'
 import Notification from 'mdi-material-ui/Bell'
@@ -127,8 +126,7 @@ class NotificationListComponent extends React.Component {
       notificationActions, notificationSelectors, isLoading, readNotification, deleteNotifications,
     } = this.props
     const {
-      moduleTheme: { notifications: { dialog: { style, deleteButtonStyle } } },
-      intl: { formatMessage },
+      moduleTheme: { notifications: { dialog: { style } } },
     } = this.context
     const { openedModal } = this.state
     const { isInstance } = this.props
@@ -162,16 +160,6 @@ class NotificationListComponent extends React.Component {
           />
         </TableFilterSortingAndVisibilityContainer>
         <NotificationDetailContainer isInstance={isInstance} />
-        <div style={deleteButtonStyle}>
-          <FlatButton
-            label={
-              formatMessage({ id: 'user.menu.notification.action.close' })
-            }
-            key="close"
-            primary
-            onClick={this.handleClose}
-          />
-        </div>
       </PositionedDialog>
     ) : null
   }

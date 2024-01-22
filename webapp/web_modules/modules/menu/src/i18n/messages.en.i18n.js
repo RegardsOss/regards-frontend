@@ -161,6 +161,7 @@ const messages = {
     other {{elementsCount} new notifications}
   }`,
   'user.menu.notification.no-notification-for-instance': 'There is no notification for the instance user',
+  'user.menu.notification.empty.title': 'No notification selected',
   'user.menu.notification.details.sentby': 'Sent by {sender}',
   'user.menu.notification.action.close': 'Close',
 
@@ -189,7 +190,10 @@ const messages = {
   'user.menu.notification.table.no.content.message': 'No notifications',
   'user.menu.notification.table.loading.content.title': 'Loading...',
 
-  'user.menu.notification.header.delete.button': 'Delete selection',
+  'user.menu.notification.table.cell.status.read.title': 'Read',
+  'user.menu.notification.table.cell.status.unread.title': 'Unread',
+
+  'user.menu.notification.header.delete.button': 'Delete',
 
   ...Locales.en,
   ...MetadataLocales.en,

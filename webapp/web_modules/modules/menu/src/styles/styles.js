@@ -235,11 +235,14 @@ const menuStyles = (theme) => ({
     },
   },
   notifications: {
+    selectorLineStyle: {
+      color: theme.palette.accent1Color,
+    },
     headerComponent: {
       mainDivStyle: {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
       },
       filterComponentStyle: {
         width: '75%',
@@ -391,6 +394,9 @@ const menuStyles = (theme) => ({
       },
     },
     dialog: {
+      deleteButtonStyle: {
+        color: theme.textField.errorColor,
+      },
       wrapper: {
         style: {
           margin: '-24px 0 -24px -24px',
@@ -399,11 +405,6 @@ const menuStyles = (theme) => ({
           width: '100%',
           display: 'flex',
         },
-      },
-      deleteButtonStyle: {
-        display: 'flex',
-        justifyContent: 'end',
-        marginTop: '20px',
       },
       style: {
         height: '100%',
@@ -416,14 +417,39 @@ const menuStyles = (theme) => ({
         },
       },
       details: {
+        emptyStyle: {
+          mainDiv: {
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+          iconStyle: {
+            height: '70px',
+            width: '70px',
+            opacity: 0.2,
+          },
+          messageStyle: {
+            fontSize: '20px',
+            marginTop: '15px',
+            color: theme.palette.textColor,
+          },
+        },
         date: {
           style: {
             fontSize: '0.8em',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '16px',
           },
         },
         header: {
           main: {
-            height: '23%',
+            height: '35%',
+            borderRadius: '7px',
+            backgroundColor: theme.tableRow.stripeColor,
+            zIndex: 3000,
           },
           style: {
             display: 'flex',
@@ -440,6 +466,10 @@ const menuStyles = (theme) => ({
             textAlign: 'justify',
             overflowY: 'auto',
             height: '70%',
+            paddingLeft: '0px',
+            paddingRight: '0px',
+            marginLeft: '20px',
+            marginRight: '20px',
           },
         },
         actions: {

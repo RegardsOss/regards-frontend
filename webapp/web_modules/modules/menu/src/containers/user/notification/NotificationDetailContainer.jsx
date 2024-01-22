@@ -1,6 +1,6 @@
 import { connect } from '@regardsoss/redux'
-import isEmpty from 'lodash/isEmpty'
-import { notificationDetailsActions, notificationDetailsSelectors } from '../../../clients/NotificationClient'
+import { AdminShapes } from '@regardsoss/shape'
+import { notificationDetailsSelectors } from '../../../clients/NotificationClient'
 import NotificationDetailComponent from '../../../components/user/notification/NotificationDetailComponent'
 
 /**
@@ -20,40 +20,23 @@ export class NotificationDetailContainer extends React.Component {
     }
   }
 
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch) {
-    return {
-      flushDetail: () => dispatch(notificationDetailsActions.flush()),
-    }
-  }
-
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     isInstance: PropTypes.bool.isRequired,
     // from mapStateToProps
-    selectedNotification: PropTypes.shape({
-      date: PropTypes.string,
-      id: PropTypes.number,
-      message: PropTypes.string,
-      title: PropTypes.string,
-    }),
+    selectedNotification: AdminShapes.Notification,
+  }
 
-    // from mapDispatchToProps
-    // eslint-disable-next-line react/no-unused-prop-types
-    flushDetail: PropTypes.func.isRequired,
+  static defaultProps = {
+    selectedNotification: null,
   }
 
   render() {
-    const { selectedNotification, flushDetail } = this.props
+    const { selectedNotification } = this.props
     return (
-      !isEmpty(selectedNotification) ? <NotificationDetailComponent notification={selectedNotification} onCloseNotification={flushDetail} /> : null
+      <NotificationDetailComponent notification={selectedNotification} />
     )
   }
 }
 
-export default connect(NotificationDetailContainer.mapStateToProps, NotificationDetailContainer.mapDispatchToProps)(NotificationDetailContainer)
+export default connect(NotificationDetailContainer.mapStateToProps, null)(NotificationDetailContainer)

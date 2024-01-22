@@ -17,15 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import includes from 'lodash/includes'
 import isEqual from 'lodash/isEqual'
 import values from 'lodash/values'
 import { AdminShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { ShowableAtRender } from '@regardsoss/display-control'
+import { TableSelectionModes } from '@regardsoss/components'
+import { CommonDomain } from '@regardsoss/domain'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
-import { UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import NotificationListComponent from '../../../components/user/notification/NotificationListComponent'
 import {
@@ -39,13 +41,14 @@ import {
   deleteNotificationInstanceActions,
   notificationDetailsInstanceActions,
   notificationDetailsActions,
+  notificationDetailsSelectors,
 } from '../../../clients/NotificationClient'
 import {
   readNotificationActions,
   readNotificationInstanceActions,
 } from '../../../clients/ReadNotificationClient'
 import { tableActions } from '../../../clients/TableClient'
-import { NotificationFilters } from '../../../domain/filters'
+import { NotificationFilters, NOTIFICATION_FILTER_PARAMS } from '../../../domain/filters'
 import { STATUS_ENUM } from '../../../domain/statusEnum'
 import { LEVELS_ENUM } from '../../../domain/levelsEnum'
 
@@ -66,6 +69,7 @@ export class NotificationListContainer extends React.Component {
       lastNotification: notificationPollerSelectors.getList(state),
       nbNotificationUnreadAndError: notificationPollerSelectors.getResultsCount(state),
       isLoading: notificationSelectors.isFetching(state),
+      selectedNotification: notificationDetailsSelectors.getResult(state),
     }
   }
 
@@ -86,6 +90,11 @@ export class NotificationListContainer extends React.Component {
         instance
           ? notificationDetailsInstanceActions.fetchNotification(notificationId)
           : notificationDetailsActions.fetchNotification(notificationId),
+      ),
+      flushDetailNotification: (instance = false) => dispatch(
+        instance
+          ? notificationDetailsInstanceActions.flush()
+          : notificationDetailsActions.flush(),
       ),
       sendReadNotification: (notificationId, instance = false) => dispatch(
         instance
@@ -109,12 +118,14 @@ export class NotificationListContainer extends React.Component {
     isAuthenticated: PropTypes.bool,
     nbNotificationUnreadAndError: PropTypes.number,
     isLoading: PropTypes.bool.isRequired,
+    selectedNotification: AdminShapes.Notification,
     // from mapDispatchToProps
     fetchLastNotification: PropTypes.func.isRequired,
     sendReadNotification: PropTypes.func.isRequired,
     fetchNotification: PropTypes.func.isRequired,
     deleteNotifications: PropTypes.func.isRequired,
     dispatchUnselectAll: PropTypes.func.isRequired,
+    flushDetailNotification: PropTypes.func.isRequired,
   }
 
   static getNotif(notification) {
@@ -178,11 +189,29 @@ export class NotificationListContainer extends React.Component {
     this.perform(promises, onRefresh)
   }
 
-  deleteNotifications = (inputFilters, onRefresh) => {
-    const { deleteNotifications, dispatchUnselectAll } = this.props
-    const requestParameters = UIDomain.FiltersPaneHelper.buildRequestParameters(inputFilters)
+  /**
+   * Handle notifications deletion.
+   * When deleting a notification, enable to flush notification details if needed
+   * @param {*} requestParameters
+   * @param {*} onRefresh
+   */
+  deleteNotifications = (requestParameters, onRefresh) => {
+    const {
+      deleteNotifications, dispatchUnselectAll, selectedNotification, flushDetailNotification,
+    } = this.props
+    const { isInstance } = this.state
     this.restartTimer()
-    this.perform(deleteNotifications(requestParameters, this.state.isInstance), onRefresh)
+    this.perform(deleteNotifications(requestParameters, this.state.isInstance).then((actionResult) => {
+      if (!actionResult.error) {
+        const idsToDelete = get(requestParameters, `${NOTIFICATION_FILTER_PARAMS.IDS}.${CommonDomain.REQUEST_PARAMETERS.VALUES}`, [])
+        const deletionMode = get(requestParameters, `${NOTIFICATION_FILTER_PARAMS.IDS}.${CommonDomain.REQUEST_PARAMETERS.MODE}`, TableSelectionModes.INCLUDE)
+        const selectedDetailNotificationId = get(selectedNotification, 'id')
+        const flushDetail = includes(idsToDelete, selectedDetailNotificationId) || deletionMode === TableSelectionModes.EXCLUDE
+        if (flushDetail) {
+          flushDetailNotification(isInstance)
+        }
+      }
+    }), onRefresh)
     dispatchUnselectAll()
   }
 

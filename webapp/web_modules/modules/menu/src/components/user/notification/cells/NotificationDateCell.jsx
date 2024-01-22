@@ -17,20 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import EmailOpenOutline from 'mdi-material-ui/EmailOpenOutline'
-import EmailAlertOutline from 'mdi-material-ui/EmailAlertOutline'
-import IconButton from 'material-ui/IconButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
-import { STATUS_ENUM } from '../../../domain/statusEnum'
 /**
  * @author Théo Lasserre
  */
-class NotificationStatusCell extends React.Component {
+class NotificationDateCell extends React.Component {
   static propTypes = {
     entity: AdminShapes.NotificationWithinContent,
-    onReadNotification: PropTypes.func.isRequired,
+    selectedNotification: AdminShapes.Notification,
   }
 
   static contextTypes = {
@@ -38,27 +34,16 @@ class NotificationStatusCell extends React.Component {
     ...themeContextType,
   }
 
-  /**
-   * User callback: open notification
-   */
-  onOpenNotification = () => {
-    const { entity: { content }, onReadNotification } = this.props
-    onReadNotification(content)
-  }
-
   render() {
-    const { entity } = this.props
-    const { muiTheme } = this.context
-    const status = get(entity, 'content.status', STATUS_ENUM.UNREAD)
+    const { entity, selectedNotification } = this.props
+    const { moduleTheme: { notifications: { selectorLineStyle } } } = this.context
+    const date = get(entity, 'content.date', '')
+    const isNotificationSelected = get(entity, 'content.id', '') === get(selectedNotification, 'id', '')
     return (
-      <IconButton
-        onClick={this.onOpenNotification}
-      >
-        {
-          status === STATUS_ENUM.READ ? <EmailOpenOutline /> : <EmailAlertOutline color={muiTheme.palette.accent1Color} />
-        }
-      </IconButton>
+      <div style={isNotificationSelected ? selectorLineStyle : null}>
+        {date}
+      </div>
     )
   }
 }
-export default NotificationStatusCell
+export default NotificationDateCell

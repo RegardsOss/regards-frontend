@@ -16,9 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import NotificationNone from 'mdi-material-ui/BellOffOutline'
 import { CardHeader, CardText } from 'material-ui/Card'
-import CloseIcon from 'mdi-material-ui/Close'
-import IconButton from 'material-ui/IconButton'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
@@ -33,8 +32,7 @@ import '../../../styles/styles.css'
  */
 class NotificationDetailComponent extends React.Component {
   static propTypes = {
-    notification: AdminShapes.Notification.isRequired,
-    onCloseNotification: PropTypes.func.isRequired,
+    notification: AdminShapes.Notification,
   }
 
   static contextTypes = {
@@ -42,12 +40,12 @@ class NotificationDetailComponent extends React.Component {
     ...i18nContextType,
   }
 
-  render() {
-    const { notification, onCloseNotification } = this.props
+  renderNotification = () => {
+    const { notification } = this.props
     const { intl: { formatMessage }, moduleTheme: { notifications: { dialog: { details } } } } = this.context
     const notificationWithContent = { content: notification }
     return (
-      <div style={details.header.main}>
+      <>
         <div style={details.header.style}>
           <CardHeader
             title={notification.title}
@@ -56,11 +54,6 @@ class NotificationDetailComponent extends React.Component {
           />
           <div style={details.date.style}>
             <FormattedNotificationDate notification={notification} />
-            <IconButton
-              onClick={onCloseNotification}
-            >
-              <CloseIcon />
-            </IconButton>
           </div>
         </div>
         <CardText style={details.message.style}>
@@ -82,6 +75,26 @@ class NotificationDetailComponent extends React.Component {
           }
 
         </CardText>
+      </>
+    )
+  }
+
+  renderNoNotificationSelected = () => {
+    const { muiTheme, intl: { formatMessage }, moduleTheme: { notifications: { dialog: { details: { emptyStyle } } } } } = this.context
+    return (
+      <div style={emptyStyle.mainDiv}>
+        <NotificationNone color={muiTheme.components.noData.icon.color} style={emptyStyle.iconStyle} />
+        <div style={emptyStyle.messageStyle}>{formatMessage({ id: 'user.menu.notification.empty.title' })}</div>
+      </div>
+    )
+  }
+
+  render() {
+    const { notification } = this.props
+    const { moduleTheme: { notifications: { dialog: { details } } } } = this.context
+    return (
+      <div style={details.header.main}>
+        {notification ? this.renderNotification() : this.renderNoNotificationSelected()}
       </div>)
   }
 }

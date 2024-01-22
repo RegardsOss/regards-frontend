@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
 import { BasicPageableSelectors, BasicPageableActions } from '@regardsoss/store-utils'
 import {
   TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
-import { notificationDetailsSelectors } from '../../../clients/NotificationClient'
+import { AdminShapes } from '@regardsoss/shape'
+import { notificationDetailsActions, notificationDetailsSelectors } from '../../../clients/NotificationClient'
 import NotificationTableComponent from '../../../components/user/notification/NotificationTableComponent'
 
 /**
@@ -40,12 +40,16 @@ export class NotificationTableContainer extends React.Component {
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     bodyParameters: TableFilterSortingAndVisibilityContainer.BODY_PARAMETERS_PROP_TYPE,
     // from mapStateToProps
-    selectedNotification: PropTypes.shape({
-      date: PropTypes.string,
-      id: PropTypes.number,
-      message: PropTypes.string,
-      title: PropTypes.string,
+    selectedNotification: AdminShapes.Notification,
+    // eslint-disable-next-line react/no-unused-prop-types
+    notifications: AdminShapes.NotificationArray,
+    notificationsMeta: PropTypes.shape({ // use only in onPropertiesUpdate
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
     }),
+    // from mapDispatchToProps
+    flushDetail: PropTypes.func.isRequired,
   }
 
   /**
@@ -54,10 +58,29 @@ export class NotificationTableContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state) {
+  static mapStateToProps(state, { notificationSelectors }) {
     return {
       selectedNotification: notificationDetailsSelectors.getResult(state),
+      notifications: notificationSelectors.getOrderedList(state),
+      notificationsMeta: notificationSelectors.getMetaData(state),
     }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      flushDetail: () => dispatch(notificationDetailsActions.flush()),
+    }
+  }
+
+  componentWillUnmount = () => {
+    const { flushDetail } = this.props
+    flushDetail()
   }
 
   render() {
@@ -69,7 +92,7 @@ export class NotificationTableContainer extends React.Component {
         notificationActions={notificationActions}
         notificationSelectors={notificationSelectors}
         isLoading={isLoading}
-        notificationSelected={!isEmpty(selectedNotification)}
+        selectedNotification={selectedNotification}
         onReadNotification={onReadNotification}
         requestParameters={requestParameters}
         bodyParameters={bodyParameters}

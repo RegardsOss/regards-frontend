@@ -24,7 +24,10 @@ import { i18nContextType } from '@regardsoss/i18n'
 import {
   TableFilterSortingAndVisibilityContainer, PageableInfiniteTableContainer, NoContentComponent, TableColumnBuilder, TableLayout,
 } from '@regardsoss/components'
-import NotificationStatusCell from './NotificationStatusCell'
+import { AdminShapes } from '@regardsoss/shape'
+import NotificationStatusCell from './cells/NotificationStatusCell'
+import NotificationDateCell from './cells/NotificationDateCell'
+import NotificationTitleCell from './cells/NotificationTitleCell'
 import NotificationIcon from './NotificationIcon'
 import { tableActions, tableSelectors } from '../../../clients/TableClient'
 
@@ -36,10 +39,9 @@ class NotificationTableComponent extends React.Component {
   static propTypes = {
     notificationActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // BasicPageableActions to retrieve entities from server
     notificationSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired, // BasicPageableActions to retrieve entities from server
-    // handleOpenNotif: PropTypes.func.isRequired,
     onReadNotification: PropTypes.func,
     isLoading: PropTypes.bool.isRequired,
-    notificationSelected: PropTypes.bool.isRequired,
+    selectedNotification: AdminShapes.Notification,
 
     // table sorting, column visiblity & filters management
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
@@ -77,10 +79,10 @@ class NotificationTableComponent extends React.Component {
     const {
       bodyParameters, notificationActions,
       requestParameters, notificationSelectors, isLoading, onReadNotification,
-      notificationSelected,
+      selectedNotification,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
-    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
+    const { admin: { minRowCount } } = muiTheme.components.infiniteTable
     const columns = [
       new TableColumnBuilder()
         .selectionColumn(true, notificationSelectors, tableActions, tableSelectors)
@@ -88,23 +90,36 @@ class NotificationTableComponent extends React.Component {
       new TableColumnBuilder(NotificationTableComponent.COLUMN_KEYS.LEVEL)
         .titleHeaderCell()
         .label(formatMessage({ id: 'user.menu.notification.table.header.level' }))
+        .fixedSizing(100)
         .rowCellDefinition({
           Constructor: NotificationIcon,
         })
         .build(),
       new TableColumnBuilder(NotificationTableComponent.COLUMN_KEYS.DATE)
         .titleHeaderCell()
-        .propertyRenderCell(`content.${NotificationTableComponent.COLUMN_KEYS.DATE}`)
+        .fixedSizing(350)
+        .rowCellDefinition({
+          Constructor: NotificationDateCell,
+          props: {
+            selectedNotification,
+          },
+        })
         .label(formatMessage({ id: 'user.menu.notification.table.header.date' }))
         .build(),
       new TableColumnBuilder(NotificationTableComponent.COLUMN_KEYS.TITLE)
         .titleHeaderCell()
-        .propertyRenderCell(`content.${NotificationTableComponent.COLUMN_KEYS.TITLE}`)
+        .rowCellDefinition({
+          Constructor: NotificationTitleCell,
+          props: {
+            selectedNotification,
+          },
+        })
         .label(formatMessage({ id: 'user.menu.notification.table.header.title' }))
         .build(),
       new TableColumnBuilder(NotificationTableComponent.COLUMN_KEYS.STATUS)
         .titleHeaderCell()
         .label(formatMessage({ id: 'user.menu.notification.table.header.status' }))
+        .fixedSizing(100)
         .rowCellDefinition({
           Constructor: NotificationStatusCell,
           props: {
@@ -122,7 +137,7 @@ class NotificationTableComponent extends React.Component {
           tableActions={tableActions}
           pageSize={NotificationTableComponent.PAGE_SIZE}
           minRowCount={minRowCount}
-          maxRowCount={notificationSelected ? 7 : maxRowCount}
+          maxRowCount={6}
           columns={columns}
           requestParameters={requestParameters}
           bodyParams={bodyParameters}

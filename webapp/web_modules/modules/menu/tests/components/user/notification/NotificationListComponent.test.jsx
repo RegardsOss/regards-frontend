@@ -18,7 +18,6 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import FlatButton from 'material-ui/FlatButton'
 import Chip from 'material-ui/Chip'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ShowableAtRender, PositionedDialog, TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
@@ -107,8 +106,5 @@ describe('[Menu] Testing NotificationListComponent', () => {
       notificationSelectors: props.notificationSelectors,
       isLoading: props.isLoading,
     })
-
-    const deleteButtonWrapper = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(deleteButtonWrapper, 1, 'There should be a FlatButton')
   })
 })

@@ -161,6 +161,7 @@ const messages = {
     other {Vous avez {elementsCount} nouvelles notifications}
   }`,
   'user.menu.notification.no-notification-for-instance': 'L\'utilisateur instance ne reçoit pas de notification',
+  'user.menu.notification.empty.title': 'Pas de notification sélectionnée',
   'user.menu.notification.details.sentby': 'Envoyé par {sender}',
   'user.menu.notification.action.close': 'Fermer',
 
@@ -189,7 +190,10 @@ const messages = {
   'user.menu.notification.table.no.content.message': 'Pas de notifications',
   'user.menu.notification.table.loading.content.title': 'Chargement...',
 
-  'user.menu.notification.header.delete.button': 'Supprimer la sélection',
+  'user.menu.notification.table.cell.status.read.title': 'Lu',
+  'user.menu.notification.table.cell.status.unread.title': 'Non lu',
+
+  'user.menu.notification.header.delete.button': 'Supprimer',
 
   ...Locales.fr,
   ...MetadataLocales.fr,

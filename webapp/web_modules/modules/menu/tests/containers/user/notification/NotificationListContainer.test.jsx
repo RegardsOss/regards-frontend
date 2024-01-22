@@ -44,11 +44,13 @@ describe('[Menu] Testing NotificationListContainer', () => {
       notifications: {},
       isAuthenticated: false,
       isLoading: true,
+      selectedNotification: null,
       fetchLastNotification: () => { },
       sendReadNotification: () => { },
       fetchNotification: () => { },
       deleteNotifications: () => { },
       dispatchUnselectAll: () => { },
+      flushDetailNotification: () => { },
 
       project: 'project1',
 
