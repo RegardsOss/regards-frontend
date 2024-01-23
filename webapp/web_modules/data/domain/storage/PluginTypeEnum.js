@@ -22,9 +22,9 @@ import values from 'lodash/values'
  * @author Sébastien Binda
  */
 export const PluginTypeEnum = {
-  STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.IStorageLocation',
-  ONLINE_STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.IOnlineStorageLocation',
-  NEARLINE_STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.INearlineStorageLocation',
+  STORAGE: 'fr.cnes.regards.modules.fileaccess.plugin.domain.IStorageLocation',
+  ONLINE_STORAGE: 'fr.cnes.regards.modules.fileaccess.plugin.domain.IOnlineStorageLocation',
+  NEARLINE_STORAGE: 'fr.cnes.regards.modules.fileaccess.plugin.domain.INearlineStorageLocation',
 }
 
 export const PluginTypeEnumValues = values(PluginTypeEnum)
