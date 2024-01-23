@@ -73,5 +73,6 @@ export class UISettingsActions extends BasicSignalActions {
    * @param {*} res action result
    * @return {Promise} result reading promise
    */
+  // eslint-disable-next-line class-methods-use-this
   buildResults = (res) => getJSON(res).then((json) => JSON.parse(json.content.configuration))
 }

@@ -62,16 +62,18 @@ export class OrderListFiltersComponent extends React.Component {
 
   static EXCLUDED_ORDER_STATUS_FILTER = [OrderDomain.ORDER_STATUS_ENUM.WAITING_USER_DOWNLOAD, OrderDomain.ORDER_STATUS_ENUM.UNKNOWN]
 
+  static prepareHints({ content: { email } }) {
+    return {
+      id: email, // the value that interests us here
+      text: email, // text field output when a user is selected
+      value: <MenuItem primaryText={email} />, // graphic render
+    }
+  }
+
   /** Component default state (controls the auto complete filter state) */
   state = {
     isInError: false,
   }
-
-  prepareHints = ({ content: { email } }) => ({
-    id: email, // the value that interests us here
-    text: email, // text field output when a user is selected
-    value: <MenuItem primaryText={email} />, // graphic render
-  })
 
   /**
  * Callback: the user selected a user mail or typed in some text
@@ -125,7 +127,7 @@ export class OrderListFiltersComponent extends React.Component {
           noData={isInError}
           onUpdateInput={this.onUpdateUsersFilter}
           onFilterSelected={this.onUserFilterSelected}
-          prepareHints={this.prepareHints}
+          prepareHints={OrderListFiltersComponent.prepareHints}
         />
         <FilterPaneSelectField filterKey={FILTER_PARAMS.STATUSES}>
           {map(OrderDomain.ORDER_STATUS, (status) => {

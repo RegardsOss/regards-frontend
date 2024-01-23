@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import initializePluginActions from '../../src/model/InitializePluginActions'
+import { InitializePluginActions } from '../../src/model/InitializePluginActions'
 import initializePluginReducer, { InitializePluginReducer } from '../../src/model/InitializePluginReducer'
 
 /**
@@ -38,18 +38,18 @@ describe('[PLUGINS] Testing InitializePluginReducer', () => {
     assert.deepEqual(nextState, InitializePluginReducer.DEFAULT_STATE)
   })
   it('should reduce correctly markInitialized and markUnloaded actions', () => {
-    let nextState = initializePluginReducer(undefined, initializePluginActions.markInitialized('A'))
+    let nextState = initializePluginReducer(undefined, InitializePluginActions.markInitialized('A'))
     assert.deepEqual(nextState, {
       A: true,
     })
     let currentState = nextState
-    nextState = initializePluginReducer(currentState, initializePluginActions.markInitialized('B'))
+    nextState = initializePluginReducer(currentState, InitializePluginActions.markInitialized('B'))
     assert.deepEqual(nextState, {
       A: true,
       B: true,
     })
     currentState = nextState
-    nextState = initializePluginReducer(currentState, initializePluginActions.markUnloaded('A'))
+    nextState = initializePluginReducer(currentState, InitializePluginActions.markUnloaded('A'))
     assert.deepEqual(nextState, {
       A: false,
       B: true,

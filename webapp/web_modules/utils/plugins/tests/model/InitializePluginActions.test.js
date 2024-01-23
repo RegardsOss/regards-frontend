@@ -28,13 +28,13 @@ describe('[PLUGINS] Testing InitializePluginActions', () => {
     assert.isDefined(initializePluginActions)
   })
   it('should return markInitialized action', () => {
-    assert.deepEqual(initializePluginActions.markInitialized('A'), {
+    assert.deepEqual(InitializePluginActions.markInitialized('A'), {
       type: InitializePluginActions.MARK_INITIALIZED,
       pluginInstanceId: 'A',
     })
   })
   it('should return marUnloaded action', () => {
-    assert.deepEqual(initializePluginActions.markUnloaded('B'), {
+    assert.deepEqual(InitializePluginActions.markUnloaded('B'), {
       type: InitializePluginActions.MARK_UNLOADED,
       pluginInstanceId: 'B',
     })

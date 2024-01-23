@@ -107,6 +107,21 @@ export class AccountListContainer extends React.Component {
     }
   }
 
+  /**
+   * Account edition callback: shows edit form
+   */
+  static onEdit(accountId) {
+    const url = `/admin/accounts/management/${accountId}/edit`
+    browserHistory.push(url)
+  }
+
+  /**
+   * On back callback
+   */
+  static onBack() {
+    browserHistory.push('/admin/accounts/board')
+  }
+
   state = {
     isFetchingActions: false,
   }
@@ -141,21 +156,6 @@ export class AccountListContainer extends React.Component {
         }
       })
     }
-  }
-
-  /**
-   * Account edition callback: shows edit form
-   */
-  onEdit = (accountId) => {
-    const url = `/admin/accounts/management/${accountId}/edit`
-    browserHistory.push(url)
-  }
-
-  /**
-   * On back callback
-   */
-  onBack = () => {
-    browserHistory.push('/admin/accounts/board')
   }
 
   /**
@@ -236,8 +236,8 @@ export class AccountListContainer extends React.Component {
             waitingAccounts={waitingAccounts}
             isFetchingActions={isFetchingActions}
             isFetching={isFetching}
-            onEdit={this.onEdit}
-            onBack={this.onBack}
+            onEdit={AccountListContainer.onEdit}
+            onBack={AccountListContainer.onBack}
             onAccept={this.onAccept}
             onRefuse={this.onRefuse}
             onEnable={this.onEnable}

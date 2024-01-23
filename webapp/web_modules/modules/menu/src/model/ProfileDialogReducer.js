@@ -29,7 +29,7 @@ export class ProfileDialogReducer {
     view: PROFILE_VIEW_STATE_ENUM.EDIT_PROFILE,
   }
 
-  reduce = (state = ProfileDialogReducer.DEFAULT_STATE, action) => {
+  static reduce(state = ProfileDialogReducer.DEFAULT_STATE, action) {
     switch (action.type) {
       case ProfileDialogActions.SHOW_DIALOG:
         return { open: true, view: action.view }
@@ -43,7 +43,6 @@ export class ProfileDialogReducer {
   }
 }
 
-const instance = new ProfileDialogReducer()
 /**
  * Return a function where the reducer instance exists
  * @param state redux previous state
@@ -51,5 +50,5 @@ const instance = new ProfileDialogReducer()
  * @return new state
  */
 export default function reduce(state, action) {
-  return instance.reduce(state, action)
+  return ProfileDialogReducer.reduce(state, action)
 }

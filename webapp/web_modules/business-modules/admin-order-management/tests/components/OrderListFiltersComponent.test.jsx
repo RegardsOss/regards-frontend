@@ -95,7 +95,7 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
       noData: enzymeWrapper.instance().state.isInError,
       onUpdateInput: enzymeWrapper.instance().onUpdateUsersFilter,
       onFilterSelected: enzymeWrapper.instance().onUserFilterSelected,
-      prepareHints: enzymeWrapper.instance().prepareHints,
+      prepareHints: OrderListFiltersComponent.prepareHints,
     }, 'Component should defined the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(FilterPaneSelectField), 1, 'There should be 1 FilterPaneSelectField')
     assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 1, 'There should be 1 FilterPaneDatePickerField')
@@ -143,7 +143,7 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
       noData: enzymeWrapper.instance().state.isInError,
       onUpdateInput: enzymeWrapper.instance().onUpdateUsersFilter,
       onFilterSelected: enzymeWrapper.instance().onUserFilterSelected,
-      prepareHints: enzymeWrapper.instance().prepareHints,
+      prepareHints: OrderListFiltersComponent.prepareHints,
     }, 'Component should defined the expected properties and callbacks')
     assert.lengthOf(enzymeWrapper.find(FilterPaneSelectField), 1, 'There should be 1 FilterPaneSelectField')
     assert.lengthOf(enzymeWrapper.find(FilterPaneDatePickerField), 1, 'There should be 1 FilterPaneDatePickerField')

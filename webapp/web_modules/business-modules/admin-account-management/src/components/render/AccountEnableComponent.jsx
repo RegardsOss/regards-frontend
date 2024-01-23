@@ -40,15 +40,17 @@ class AccountEnableComponent extends React.Component {
     ...themeContextType,
   }
 
+  /**
+   * @return {boolean} true if administrator can enabled this account
+   */
+  static canEnableAccount(account) {
+    return AdminInstanceDomain.ACCOUNT_STATUS_ENUM.INACTIVE === account.content.status
+  }
+
   onEnable = () => {
     const { entity, onEnable } = this.props
     onEnable(entity.content.email)
   }
-
-  /**
-   * @return {boolean} true if administrator can enabled this account
-   */
-  canEnableAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.INACTIVE === account.content.status
 
   render() {
     const { entity, isFetchingActions } = this.props
@@ -58,7 +60,7 @@ class AccountEnableComponent extends React.Component {
         className="selenium-enableButton"
         title={formatMessage({ id: 'account.list.table.action.enable.tooltip' })}
         onClick={this.onEnable}
-        disabled={isFetchingActions || !this.canEnableAccount(entity)}
+        disabled={isFetchingActions || !AccountEnableComponent.canEnableAccount(entity)}
         entityLinks={entity.links}
         hateoasKey={HateoasKeys.ACTIVE}
         alwaysDisplayforInstanceUser={false}

@@ -76,6 +76,13 @@ export class ThemeFormComponent extends React.Component {
 
   static LIGHT_THEME = 'light'
 
+  static getRegardsComponentsKeys(currentConfiguration) {
+    // Let's generate the theme to execute ours additionals configurations
+    const generatedTheme = getMuiTheme(currentConfiguration.mainTheme)
+    const customConfiguration = defaultCustomConfiguration(generatedTheme)
+    return Object.keys(customConfiguration)
+  }
+
   // Generate the basic configuration using the Dark or Light theme
 
   state = {
@@ -107,13 +114,6 @@ export class ThemeFormComponent extends React.Component {
       return formatMessage({ id: 'theme.edit.title' }, { name: currentTheme.content.name })
     }
     return formatMessage({ id: 'theme.duplicate.title' }, { name: currentTheme.content.name })
-  }
-
-  getRegardsComponentsKeys = (currentConfiguration) => {
-    // Let's generate the theme to execute ours additionals configurations
-    const generatedTheme = getMuiTheme(currentConfiguration.mainTheme)
-    const customConfiguration = defaultCustomConfiguration(generatedTheme)
-    return Object.keys(customConfiguration)
   }
 
   /**
@@ -181,7 +181,7 @@ export class ThemeFormComponent extends React.Component {
     } = this.props
     if (isEditing || isDuplicating) {
       const currentConfiguration = currentTheme.content.configuration
-      const customConfigurationKeys = this.getRegardsComponentsKeys(currentConfiguration)
+      const customConfigurationKeys = ThemeFormComponent.getRegardsComponentsKeys(currentConfiguration)
       const initialName = currentTheme.content.name
       const editionName = isDuplicating ? `${initialName}_COPY` : initialName
       initialize({
@@ -214,7 +214,7 @@ export class ThemeFormComponent extends React.Component {
     delete updatedConf.mainTheme.themeName
     // Let's generate the theme to execute ours additionals configurations
     const generatedTheme = getMuiTheme(updatedConf.mainTheme)
-    const customConfigurationKeys = this.getRegardsComponentsKeys(generatedTheme)
+    const customConfigurationKeys = ThemeFormComponent.getRegardsComponentsKeys(generatedTheme)
 
     updatedConf = merge(
       updatedConf,

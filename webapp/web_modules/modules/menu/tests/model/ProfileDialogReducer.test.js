@@ -18,7 +18,7 @@
  **/
 import { assert } from 'chai'
 import { PROFILE_VIEW_STATE_ENUM } from '../../src/domain/ProfileViewStateEnum'
-import testActions from '../../src/model/ProfileDialogActions'
+import { ProfileDialogActions } from '../../src/model/ProfileDialogActions'
 import testReducer, { ProfileDialogReducer } from '../../src/model/ProfileDialogReducer'
 
 /**
@@ -38,28 +38,28 @@ describe('[Menu] Testing ProfileDialogReducer', () => {
   it('should reduce correctly showDialog, setView and hideDialog actions', () => {
     const tests = [{
       label: 'show dialog',
-      action: testActions.showDialog(PROFILE_VIEW_STATE_ENUM.EDIT_NOTIFICATIONS),
+      action: ProfileDialogActions.showDialog(PROFILE_VIEW_STATE_ENUM.EDIT_NOTIFICATIONS),
       post: {
         open: true,
         view: PROFILE_VIEW_STATE_ENUM.EDIT_NOTIFICATIONS,
       },
     }, {
       label: 'set quota information view',
-      action: testActions.setView(PROFILE_VIEW_STATE_ENUM.VIEW_QUOTA_INFORMATIONS),
+      action: ProfileDialogActions.setView(PROFILE_VIEW_STATE_ENUM.VIEW_QUOTA_INFORMATIONS),
       post: {
         open: true,
         view: PROFILE_VIEW_STATE_ENUM.VIEW_QUOTA_INFORMATIONS,
       },
     }, {
       label: 'set edit profile view',
-      action: testActions.setView(PROFILE_VIEW_STATE_ENUM.EDIT_PROFILE),
+      action: ProfileDialogActions.setView(PROFILE_VIEW_STATE_ENUM.EDIT_PROFILE),
       post: {
         open: true,
         view: PROFILE_VIEW_STATE_ENUM.EDIT_PROFILE,
       },
     }, {
       label: 'hide dialog',
-      action: testActions.hideDialog(),
+      action: ProfileDialogActions.hideDialog(),
       post: {
         open: false,
         view: PROFILE_VIEW_STATE_ENUM.EDIT_PROFILE,

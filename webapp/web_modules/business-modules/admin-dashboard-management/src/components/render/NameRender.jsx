@@ -42,6 +42,10 @@ class NameRender extends React.Component {
     ...themeContextType,
   }
 
+  static isSelected(entity, selectedEntityId) {
+    return entity.content.name === selectedEntityId
+  }
+
   /**
     * On button clicked callback
     */
@@ -51,8 +55,6 @@ class NameRender extends React.Component {
     } = this.props
     onSelected(entity, entityType)
   }
-
-  isSelected = (entity, selectedEntityId) => entity.content.name === selectedEntityId
 
   render() {
     const {
@@ -65,7 +67,7 @@ class NameRender extends React.Component {
     return <div style={tableStyle.nameRenderStyle.divStyle}>
       <FlatButton
         onClick={this.onClick}
-        style={this.isSelected(entity, selectedEntityId) ? tableStyle.selectOptionStyle.textStyle : null}
+        style={NameRender.isSelected(entity, selectedEntityId) ? tableStyle.selectOptionStyle.textStyle : null}
       >
         <StringValueRender
           value={entity.content.name}

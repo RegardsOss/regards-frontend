@@ -69,6 +69,27 @@ class PositionedDialog extends React.Component {
 
   static BORDER_REGEX = new RegExp('^border', 'i');
 
+  /**
+   * Computes a dimension as percent, and return D as : MIN_DIM <= D <= MAX_DIM
+   * @param screenDimension  screen dimension
+   * @param percentDimension dimension as percent of screen size
+   * @param minDimension minimum dimension value
+   * @param maxDimension maximum dimension value
+   */
+  static getDimension(screenDimension, percentDimension, minDimension, maxDimension) {
+    return Math.min(maxDimension, Math.max(minDimension, (screenDimension * percentDimension) / 100))
+  }
+
+  static getScreenDimensions() {
+    const documentElement = get(root, 'document.documentElement', {})
+    // using body
+    if (documentElement) {
+      return { width: documentElement.clientWidth, height: documentElement.clientHeight }
+    }
+    // no info
+    return { width: 0, height: 0 }
+  }
+
   UNSAFE_componentWillMount = () => this.updateDimensions()
 
   componentDidMount = () => {
@@ -81,34 +102,15 @@ class PositionedDialog extends React.Component {
 
   onResize = () => this.updateDimensions()
 
-  /**
-   * Computes a dimension as percent, and return D as : MIN_DIM <= D <= MAX_DIM
-   * @param screenDimension  screen dimension
-   * @param percentDimension dimension as percent of screen size
-   * @param minDimension minimum dimension value
-   * @param maxDimension maximum dimension value
-   */
-  getDimension = (screenDimension, percentDimension, minDimension, maxDimension) => Math.min(maxDimension, Math.max(minDimension, (screenDimension * percentDimension) / 100))
-
-  getScreenDimensions = () => {
-    const documentElement = get(root, 'document.documentElement', {})
-    // using body
-    if (documentElement) {
-      return { width: documentElement.clientWidth, height: documentElement.clientHeight }
-    }
-    // no info
-    return { width: 0, height: 0 }
-  }
-
   getDialogDimensions = () => {
     const {
       dialogWidthPercent, minWidth, maxWidth,
       dialogHeightPercent, minHeight, maxHeight,
     } = this.props
-    const screenDim = this.getScreenDimensions()
+    const screenDim = PositionedDialog.getScreenDimensions()
     return {
-      width: this.getDimension(screenDim.width, dialogWidthPercent, minWidth, maxWidth),
-      height: this.getDimension(screenDim.height, dialogHeightPercent, minHeight, maxHeight),
+      width: PositionedDialog.getDimension(screenDim.width, dialogWidthPercent, minWidth, maxWidth),
+      height: PositionedDialog.getDimension(screenDim.height, dialogHeightPercent, minHeight, maxHeight),
     }
   }
 

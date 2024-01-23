@@ -53,7 +53,7 @@ class BasicSignalReducers extends BasicReducer {
   }
 
   reduce(state = this.defaultState, action) {
-    if (this.isCancelled(state, action)) {
+    if (BasicReducer.isCancelled(state, action)) {
       return state
     }
     const newState = super.reduce(state, action)

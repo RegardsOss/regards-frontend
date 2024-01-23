@@ -206,10 +206,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     initialize(initialValues)
   }
 
-  handleModeChange = (event, index, value, input) => {
-    input.onChange(value)
-  }
-
   switchCronDialog = () => {
     this.setState({
       cronDescOpened: !this.state.cronDescOpened,

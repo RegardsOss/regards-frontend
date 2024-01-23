@@ -74,9 +74,23 @@ class DynamicContentContainer extends React.Component {
   }
 
   /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  static onPropertiesUpdated(oldProps, newProps) {
+    const { module, setSelectedDynamicModule } = newProps
+    if (oldProps.module !== newProps.module) {
+      const moduleId = get(module, 'content.id', null)
+      // update the redux app state
+      setSelectedDynamicModule(moduleId)
+    }
+  }
+
+  /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => DynamicContentContainer.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component did mount. Used here to log error when no module is found
@@ -93,21 +107,7 @@ class DynamicContentContainer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const { module, setSelectedDynamicModule } = newProps
-    if (oldProps.module !== newProps.module) {
-      const moduleId = get(module, 'content.id', null)
-      // update the redux app state
-      setSelectedDynamicModule(moduleId)
-    }
-  }
+  UNSAFE_componentWillReceiveProps = (nextProps) => DynamicContentContainer.onPropertiesUpdated(this.props, nextProps)
 
   render() {
     if (this.props.module) {

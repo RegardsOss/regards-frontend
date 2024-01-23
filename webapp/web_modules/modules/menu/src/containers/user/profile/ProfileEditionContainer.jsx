@@ -20,7 +20,7 @@ import { connect } from '@regardsoss/redux'
 import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { getMetadataArray, packMetadataField } from '@regardsoss/user-metadata-common'
 import { QuotaInfo } from '@regardsoss/entities-common'
-import profileDialogActions from '../../../model/ProfileDialogActions'
+import { ProfileDialogActions } from '../../../model/ProfileDialogActions'
 import profileDialogSelectors from '../../../model/ProfileDialogSelectors'
 import { myUserActions, myUserSelectors } from '../../../clients/MyUserClient'
 import { notificationSettingsActions, notificationSettingsSelectors } from '../../../clients/NotificationSettingsClient'
@@ -38,8 +38,8 @@ export class ProfileEditionContainer extends React.Component {
   })
 
   static mapDispatchToProps = (dispatch) => ({
-    onShowView: (view) => dispatch(profileDialogActions.setView(view)),
-    onHideDialog: () => dispatch(profileDialogActions.hideDialog()),
+    onShowView: (view) => dispatch(ProfileDialogActions.setView(view)),
+    onHideDialog: () => dispatch(ProfileDialogActions.hideDialog()),
     fetchMyUser: () => dispatch(myUserActions.fetchMyUser()),
     updateMyUser: (user) => dispatch(myUserActions.updateMyUser(user)),
     fetchNotificationSettings: () => dispatch(notificationSettingsActions.fetchNotificationSettings()),

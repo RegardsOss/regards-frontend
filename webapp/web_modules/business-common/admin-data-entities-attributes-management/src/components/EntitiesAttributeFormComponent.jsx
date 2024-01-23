@@ -58,6 +58,13 @@ export class EntitiesAttributeFormComponent extends React.Component {
     height: '95px',
   }
 
+  static showStarIfInputRequired(modelAttribute) {
+    if (!modelAttribute.optional) {
+      return ' (*)'
+    }
+    return null
+  }
+
   static getComplexRestriction(restriction) {
     const restrictions = []
     if (restriction) {
@@ -245,13 +252,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
     </div>
   )
 
-  showStarIfInputRequired = (modelAttribute) => {
-    if (!modelAttribute.optional) {
-      return ' (*)'
-    }
-    return null
-  }
-
   isDisabled = () => {
     const { modelAttribute, isEditing } = this.props
     return !modelAttribute.content.attribute.alterable && isEditing
@@ -265,7 +265,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
           title={modelAttribute.content.attribute.description}
         >
           {modelAttribute.content.attribute.label}
-          {this.showStarIfInputRequired(modelAttribute.content.attribute)}
+          {EntitiesAttributeFormComponent.showStarIfInputRequired(modelAttribute.content.attribute)}
           <br />
           {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
         </TableRowColumn>

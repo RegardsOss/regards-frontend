@@ -76,7 +76,7 @@ describe('[Description] Testing DescriptionConfigurationFormComponent', () => {
     testSuiteHelpers.assertWrapperProperties(groupsField, {
       component: GroupsFieldComponent,
       availableAttributes: props.availableAttributes,
-      validate: enzymeWrapper.instance().validateGroups,
+      validate: DescriptionConfigurationFormComponent.validateGroups,
     }, 'Groups field array properties should be correctly reported')
 
     const urlDescFilesField = enzymeWrapper.find(AttributesListConfigurationComponent)

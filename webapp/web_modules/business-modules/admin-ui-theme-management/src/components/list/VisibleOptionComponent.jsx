@@ -40,16 +40,20 @@ class VisibleOptionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  isThemeVisible = (theme) => get(theme, 'content.visible', true)
+  static isThemeVisible(theme) {
+    return get(theme, 'content.visible', true)
+  }
 
-  isThemeActive = (theme) => get(theme, 'content.active', false)
+  static isThemeActive(theme) {
+    return get(theme, 'content.active', false)
+  }
 
   /**
    * User callback: on delete theme
    */
   onUpdate = () => {
     const { theme, onUpdate } = this.props
-    const isVisible = this.isThemeVisible(theme)
+    const isVisible = VisibleOptionComponent.isThemeVisible(theme)
     const newThemeValue = {
       ...theme.content,
       configuration: JSON.stringify(theme.content.configuration),
@@ -61,13 +65,13 @@ class VisibleOptionComponent extends React.Component {
   render() {
     const { theme } = this.props
     const { intl: { formatMessage }, moduleTheme: { themeList } } = this.context
-    const isVisible = this.isThemeVisible(theme)
+    const isVisible = VisibleOptionComponent.isThemeVisible(theme)
     return (
       <HateoasIconAction
         entityLinks={theme.links}
         hateoasKey={HateoasKeys.UPDATE}
         onClick={this.onUpdate}
-        disabled={this.isThemeActive(theme)}
+        disabled={VisibleOptionComponent.isThemeActive(theme)}
         title={isVisible ? formatMessage({ id: 'theme.list.tooltip.visible' }) : formatMessage({ id: 'theme.list.tooltip.invisible' })}
       >
         {isVisible

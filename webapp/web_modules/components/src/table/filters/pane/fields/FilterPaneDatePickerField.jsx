@@ -55,7 +55,7 @@ class FilterPaneDatePickerField extends React.Component {
     ...i18nContextType,
   }
 
-  getFilterDateValue = (inputValues, filterKey, dateParameter) => {
+  static getFilterDateValue(inputValues, filterKey, dateParameter) {
     const dateParam = get(inputValues, `${filterKey}.${dateParameter}`, null)
     if (dateParam) {
       return new Date(dateParam)
@@ -80,7 +80,7 @@ class FilterPaneDatePickerField extends React.Component {
           id={`pane.${filterKey}`}
           dateHintText={formatMessage({ id: 'filter.pane.date.after.hintText' })}
           onChange={(value) => updateDatesFilter(value, filterKey, CommonDomain.REQUEST_PARAMETERS.AFTER)}
-          value={this.getFilterDateValue(inputValues, filterKey, CommonDomain.REQUEST_PARAMETERS.AFTER)}
+          value={FilterPaneDatePickerField.getFilterDateValue(inputValues, filterKey, CommonDomain.REQUEST_PARAMETERS.AFTER)}
           locale={locale}
           fullWidth
           displayTime={displayTime}
@@ -91,7 +91,7 @@ class FilterPaneDatePickerField extends React.Component {
           dateHintText={formatMessage({ id: 'filter.pane.date.before.hintText' })}
           locale={locale}
           onChange={(value) => updateDatesFilter(value, filterKey, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
-          value={this.getFilterDateValue(inputValues, filterKey, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
+          value={FilterPaneDatePickerField.getFilterDateValue(inputValues, filterKey, CommonDomain.REQUEST_PARAMETERS.BEFORE)}
           defaultTime="23:59:59"
           fullWidth
           displayTime={displayTime}

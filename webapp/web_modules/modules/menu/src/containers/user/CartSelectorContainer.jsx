@@ -86,6 +86,29 @@ export class CartSelectorContainer extends React.Component {
     }
   }
 
+  /**
+   * Computes cart module ID
+   * @param {*} properties this component properties
+   * @return {number} retrieved ID or null when not found or state not matching
+   */
+  static getCartModuleId({
+    isAuthenticated, modules, dynamicContainerId, availableEndpoints,
+  }) {
+    // 0 - pre: don't show cart to non logged users or users that do not have enough rights
+    if (!isAuthenticated || !allMatchHateoasDisplayLogic(CartSelectorContainer.BASKET_DEPENDENCIES, availableEndpoints)) {
+      return null
+    }
+    // 1 - Is there one or more order cart modules set up in a dynamic container?
+    const dynamicOrderCartModules = filter((modules || {}), (module) => {
+      const containerId = get(module, 'content.container', '')
+      const moduleType = get(module, 'content.type', '')
+      const isActiveModule = get(module, 'content.active', false)
+      // module is retained when active, of type order cart and set up in the dynamic container
+      return isActiveModule && modulesManager.AllDynamicModuleTypes.ORDER_CART === moduleType && dynamicContainerId === containerId
+    })
+    return dynamicOrderCartModules.length ? dynamicOrderCartModules[0].content.id : null
+  }
+
   UNSAFE_componentWillMount = () => this.setState(CartSelectorContainer.DEFAULT_STATE)
 
   /**
@@ -112,7 +135,7 @@ export class CartSelectorContainer extends React.Component {
       || !isEqual(oldProps.dynamicContainerId, newProps.dynamicContainerId)
       || !isEqual(oldProps.modules, newProps.modules)
       || !isEqual(oldProps.availableEndpoints, newProps.availableEndpoints)) {
-      newState.cartModuleId = this.getCartModuleId(newProps)
+      newState.cartModuleId = CartSelectorContainer.getCartModuleId(newProps)
     }
 
     // 2 - When a new module ID is found:
@@ -134,29 +157,6 @@ export class CartSelectorContainer extends React.Component {
     const { project } = this.props
     const { cartModuleId } = this.state
     browserHistory.push(UIDomain.getModuleURL(project, cartModuleId))
-  }
-
-  /**
-   * Computes cart module ID
-   * @param {*} properties this component properties
-   * @return {number} retrieved ID or null when not found or state not matching
-   */
-  getCartModuleId = ({
-    isAuthenticated, modules, dynamicContainerId, moduleConf, availableEndpoints,
-  }) => {
-    // 0 - pre: don't show cart to non logged users or users that do not have enough rights
-    if (!isAuthenticated || !allMatchHateoasDisplayLogic(CartSelectorContainer.BASKET_DEPENDENCIES, availableEndpoints)) {
-      return null
-    }
-    // 1 - Is there one or more order cart modules set up in a dynamic container?
-    const dynamicOrderCartModules = filter((modules || {}), (module) => {
-      const containerId = get(module, 'content.container', '')
-      const moduleType = get(module, 'content.type', '')
-      const isActiveModule = get(module, 'content.active', false)
-      // module is retained when active, of type order cart and set up in the dynamic container
-      return isActiveModule && modulesManager.AllDynamicModuleTypes.ORDER_CART === moduleType && dynamicContainerId === containerId
-    })
-    return dynamicOrderCartModules.length ? dynamicOrderCartModules[0].content.id : null
   }
 
   render() {

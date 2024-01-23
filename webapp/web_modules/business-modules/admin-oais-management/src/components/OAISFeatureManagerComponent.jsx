@@ -69,20 +69,7 @@ class OAISFeatureManagerComponent extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    paneType: IngestDomain.REQUEST_TYPES_ENUM.AIP,
-    currentRequestParameters: {},
-    isFilterPaneOpened: false,
-  }
-
-  UNSAFE_componentWillMount = () => {
-    const { params: { type } } = this.props
-    if (includes(IngestDomain.REQUEST_TYPES, type)) {
-      this.onSwitchToPane(type)
-    }
-  }
-
-  updatePaneURL = (pane) => {
+  static updatePaneURL(pane) {
     const { pathname, query, search } = browserHistory.getCurrentLocation()
     let newPathName
     if (some(IngestDomain.REQUEST_TYPES, (reqType) => endsWith(pathname, reqType))) {
@@ -97,12 +84,25 @@ class OAISFeatureManagerComponent extends React.Component {
     })
   }
 
+  state = {
+    paneType: IngestDomain.REQUEST_TYPES_ENUM.AIP,
+    currentRequestParameters: {},
+    isFilterPaneOpened: false,
+  }
+
+  UNSAFE_componentWillMount = () => {
+    const { params: { type } } = this.props
+    if (includes(IngestDomain.REQUEST_TYPES, type)) {
+      this.onSwitchToPane(type)
+    }
+  }
+
   /**
   * Update state with pane type
   * @param {*} paneType see FeatureManagerComponent.PANES for values
   */
   onSwitchToPane = (paneType) => {
-    this.updatePaneURL(paneType)
+    OAISFeatureManagerComponent.updatePaneURL(paneType)
     this.setState({
       paneType,
     })

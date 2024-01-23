@@ -67,6 +67,10 @@ export class AddElementToCartContainer extends React.Component {
     return AddElementToCartContainer.ORDERABLE_FILES_TYPES.some((fileType) => get(files, `${fileType}.length`, 0) > 0)
   }
 
+  static canOrderDatasetData(links) {
+    return some(links, (link) => link.rel === DATA_ACCESS_GRANTED_LINK)
+  }
+
   /**
    * Callback: user adds entity into the basket
    */
@@ -76,8 +80,6 @@ export class AddElementToCartContainer extends React.Component {
       onAddElementToCart(entity)
     }
   }
-
-  canOrderDatasetData = (links) => some(links, (link) => link.rel === DATA_ACCESS_GRANTED_LINK)
 
   /**
    * Is add to cart possible with current entity ?
@@ -96,7 +98,7 @@ export class AddElementToCartContainer extends React.Component {
     // add to cart is allowed when:
     // the object is a dataset and has dataobjects link (A)
     // Or : the object is a data object and has an orderable file (any quicklook or any raw data)
-    return (entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET && this.canOrderDatasetData(links)) // (A)
+    return (entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET && AddElementToCartContainer.canOrderDatasetData(links)) // (A)
       || (entityType === DamDomain.ENTITY_TYPES_ENUM.DATA
         && AddElementToCartContainer.canOrderDataObject(entity))// (B)
   }

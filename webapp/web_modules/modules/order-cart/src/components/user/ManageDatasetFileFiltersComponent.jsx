@@ -58,6 +58,14 @@ class ManageDatasetFileFiltersComponent extends React.Component {
     [OrderDomain.FILTER_PARAMS.NAME]: '',
   }
 
+  static filtersExist(filters) {
+    return !!(filters && !isEqual(filters, ManageDatasetFileFiltersComponent.DEFAULT_FILTERS_STATE))
+  }
+
+  static filterValueExist(filterKey, filters) {
+    return !isEqual(filters[filterKey], ManageDatasetFileFiltersComponent.DEFAULT_FILTERS_STATE[filterKey])
+  }
+
   state = {
     isDialogOpen: false,
     filters: ManageDatasetFileFiltersComponent.DEFAULT_FILTERS_STATE,
@@ -158,8 +166,8 @@ class ManageDatasetFileFiltersComponent extends React.Component {
             label={formatMessage({ id: 'order-cart.module.basket.table.filters.dialog.remove' })}
             icon={<RemoveIcon />}
             onClick={this.handleRemoveFilters}
-            disabled={!this.filtersExist(fileSelectionDescription)}
-            style={!this.filtersExist(fileSelectionDescription) ? null : deleteButtonStyle}
+            disabled={!ManageDatasetFileFiltersComponent.filtersExist(fileSelectionDescription)}
+            style={!ManageDatasetFileFiltersComponent.filtersExist(fileSelectionDescription) ? null : deleteButtonStyle}
           />
           <FlatButton
             key="cancel"
@@ -217,10 +225,6 @@ class ManageDatasetFileFiltersComponent extends React.Component {
     return null
   }
 
-  filtersExist = (filters) => !!(filters && !isEqual(filters, ManageDatasetFileFiltersComponent.DEFAULT_FILTERS_STATE))
-
-  filterValueExist = (filterKey, filters) => !isEqual(filters[filterKey], ManageDatasetFileFiltersComponent.DEFAULT_FILTERS_STATE[filterKey])
-
   getFilterValue = (filterKey, filters) => {
     const { intl: { formatMessage } } = this.context
     if (filterKey === OrderDomain.FILTER_PARAMS.TYPE) {
@@ -246,7 +250,7 @@ class ManageDatasetFileFiltersComponent extends React.Component {
       },
     } = this.context
     return (
-      this.filterValueExist(filterType, filters)
+      ManageDatasetFileFiltersComponent.filterValueExist(filterType, filters)
         ? <div style={lineStyle}>
           <p style={pStyle}>{`\u25cf ${formatMessage({ id: `order-cart.module.basket.table.filters.button.filters.${filterType}.label` })}: `}</p>
           <p style={pValueStyle}>{this.getFilterValue(filterType, filters)}</p>
@@ -269,20 +273,20 @@ class ManageDatasetFileFiltersComponent extends React.Component {
       },
     } = this.context
     const { fileSelectionDescription } = this.props
-    const titleI18nKey = !this.filtersExist(fileSelectionDescription) ? 'order-cart.module.basket.table.filters.button.add.title' : 'order-cart.module.basket.table.filters.button.edit.title'
+    const titleI18nKey = !ManageDatasetFileFiltersComponent.filtersExist(fileSelectionDescription) ? 'order-cart.module.basket.table.filters.button.add.title' : 'order-cart.module.basket.table.filters.button.edit.title'
     return (
       <>
         <FlatButton
           key="openFileFiltersDialog"
           id="openFileFiltersDialog"
-          label={!this.filtersExist(fileSelectionDescription) ? formatMessage({ id: 'order-cart.module.basket.table.filters.button.label' }) : null}
-          icon={!this.filtersExist(fileSelectionDescription) ? <AddIcon style={iconStyle} /> : null}
+          label={!ManageDatasetFileFiltersComponent.filtersExist(fileSelectionDescription) ? formatMessage({ id: 'order-cart.module.basket.table.filters.button.label' }) : null}
+          icon={!ManageDatasetFileFiltersComponent.filtersExist(fileSelectionDescription) ? <AddIcon style={iconStyle} /> : null}
           onClick={this.toggleDialog}
           labelStyle={labelStyle}
           title={formatMessage({ id: titleI18nKey })}
           style={buttonStyle}
         >
-          {this.filtersExist(fileSelectionDescription)
+          {ManageDatasetFileFiltersComponent.filtersExist(fileSelectionDescription)
             ? <div style={mainDivStyle}>
               {this.computeLine(fileSelectionDescription, OrderDomain.FILTER_PARAMS.TYPE)}
               {this.computeLine(fileSelectionDescription, OrderDomain.FILTER_PARAMS.NAME)}

@@ -48,6 +48,10 @@ class StatusProgressRender extends React.Component {
 
   static ORDER_EXPIRE_MS = STATIC_CONF.ORDER_EXPIRE_ICON_DISPLAY || 3600000
 
+  static willExpire(currentDate, expirationDate) {
+    return (currentDate >= expirationDate - StatusProgressRender.ORDER_EXPIRE_MS && currentDate < expirationDate)
+  }
+
   getStatus = () => {
     const { entity } = this.props
     // return waiting status when waitingForUser is true, return backend status otherwise
@@ -182,12 +186,10 @@ class StatusProgressRender extends React.Component {
     return iconToDisplay
   }
 
-  willExpire = (currentDate, expirationDate) => (currentDate >= expirationDate - StatusProgressRender.ORDER_EXPIRE_MS && currentDate < expirationDate)
-
   displayExpirationIcon = (currentDate, expirationDate) => {
     const { moduleTheme: { progressBarModuleStyle } } = this.context
     if (expirationDate) {
-      if (this.willExpire(currentDate, expirationDate)) {
+      if (StatusProgressRender.willExpire(currentDate, expirationDate)) {
         return (<ClockIcon style={progressBarModuleStyle.expirationIconStyle} />)
       } if (expirationDate < currentDate) {
         return (<ClockIcon style={progressBarModuleStyle.expiredIconStyle} />)
@@ -199,7 +201,7 @@ class StatusProgressRender extends React.Component {
   getExpirationIconTitle = (currentDate, expirationDate) => {
     const { intl } = this.context
     if (expirationDate) {
-      if (this.willExpire(currentDate, expirationDate)) {
+      if (StatusProgressRender.willExpire(currentDate, expirationDate)) {
         return intl.formatMessage({ id: 'order.list.cell.status.remainingTime' }, { value: DateRelativeValueRender.getFormattedDate(intl, expirationDate, true) })
       } if (expirationDate < currentDate) {
         return intl.formatMessage({ id: 'order.list.cell.status.expired' })

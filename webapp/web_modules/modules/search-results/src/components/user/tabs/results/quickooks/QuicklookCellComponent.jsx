@@ -227,6 +227,10 @@ class QuicklookCellComponent extends React.PureComponent {
     return (gridWidth * 7 / 10) + footerHeight + 15
   }
 
+  static isProductSelected(selectedProducts, productId) {
+    return find(selectedProducts, (selectedProduct) => (selectedProduct.content.id === productId))
+  }
+
   /** State holds dynamic styles, to avoid building them at render time */
   state = {
     cardStyle: null,
@@ -267,7 +271,7 @@ class QuicklookCellComponent extends React.PureComponent {
         width: isFinite(width) && width > 0 ? width : 0,
         padding: 0,
         transition: undefined, // remove MUI transition that is quite inadequate
-        backgroundColor: this.isProductSelected(selectedProducts, entity.content.id)
+        backgroundColor: QuicklookCellComponent.isProductSelected(selectedProducts, entity.content.id)
           ? muiTheme.module.searchResults.map.quicklooks.selectedColor
           : 'transparent',
       }
@@ -300,8 +304,6 @@ class QuicklookCellComponent extends React.PureComponent {
 
   /** User callback: close zoom view */
   onCloseZoom = () => this.setState({ zoomOpen: false })
-
-  isProductSelected = (selectedProducts, productId) => find(selectedProducts, (selectedProduct) => (selectedProduct.content.id === productId))
 
   onImageClicked = () => {
     const {

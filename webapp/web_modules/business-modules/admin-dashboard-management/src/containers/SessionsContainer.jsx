@@ -71,6 +71,10 @@ export class SessionsContainer extends React.Component {
     }
   }
 
+  static doesSessionChanged(oldProps, newProps) {
+    return (!isEmpty(newProps.selectedSessionId) && newProps.selectedSessionId !== oldProps.selectedSessionId) || (!isEmpty(newProps.sessions) && !isEqual(newProps.sessions, oldProps.sessions))
+  }
+
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
@@ -92,7 +96,7 @@ export class SessionsContainer extends React.Component {
       selectedSessionId, fetchSelectedSession, throwError, sessions, selectedSourceId,
     } = newProps
     const { intl: { formatMessage } } = this.context
-    if (this.doesSessionChanged(oldProps, newProps)) {
+    if (SessionsContainer.doesSessionChanged(oldProps, newProps)) {
       const filteredSessions = filter(sessions, (session) => session.content.source === selectedSourceId)
       const selectedSession = find(filteredSessions, (session) => session.content.name === selectedSessionId)
       if (selectedSession) {
@@ -104,8 +108,6 @@ export class SessionsContainer extends React.Component {
       }
     }
   }
-
-  doesSessionChanged = (oldProps, newProps) => (!isEmpty(newProps.selectedSessionId) && newProps.selectedSessionId !== oldProps.selectedSessionId) || (!isEmpty(newProps.sessions) && !isEqual(newProps.sessions, oldProps.sessions))
 
   render() {
     const {

@@ -50,7 +50,13 @@ class DisplayPropertiesComponent extends React.Component {
     ...themeContextType,
   }
 
-  getIntValue = (sessionStep, property) => parseInt(get(sessionStep, `properties.${property}`, '0'), 10)
+  static getIntValue(sessionStep, property) {
+    return parseInt(get(sessionStep, `properties.${property}`, '0'), 10)
+  }
+
+  static getItemStyle(propValue, itemStyle1, itemStyle2) {
+    return propValue > 0 ? itemStyle1 : itemStyle2
+  }
 
   getPropValue = (property) => {
     const {
@@ -60,31 +66,29 @@ class DisplayPropertiesComponent extends React.Component {
     // Data provider specific properties
     if (stepSubType === STEP_SUB_TYPES_ENUM.DATA_PROVIDER) {
       if (property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
-        return this.getIntValue(sessionStep, 'generationError') + this.getIntValue(sessionStep, 'ingestionFailed')
+        return DisplayPropertiesComponent.getIntValue(sessionStep, 'generationError') + DisplayPropertiesComponent.getIntValue(sessionStep, 'ingestionFailed')
       } if (property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.PRODUCTS_CANCELED) {
-        return this.getIntValue(sessionStep, 'canceled')
+        return DisplayPropertiesComponent.getIntValue(sessionStep, 'canceled')
       }
     }
     // Feature manager specific properties
     if (stepSubType === STEP_SUB_TYPES_ENUM.FEATURE_MANAGER) {
       if (property === FEM_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-        return this.getIntValue(sessionStep, 'inErrorReferencingRequests') + this.getIntValue(sessionStep, 'inErrorDeleteRequests') + this.getIntValue(sessionStep, 'inErrorUpdateRequests') + this.getIntValue(sessionStep, 'inErrorNotifyRequests')
+        return DisplayPropertiesComponent.getIntValue(sessionStep, 'inErrorReferencingRequests') + DisplayPropertiesComponent.getIntValue(sessionStep, 'inErrorDeleteRequests') + DisplayPropertiesComponent.getIntValue(sessionStep, 'inErrorUpdateRequests') + DisplayPropertiesComponent.getIntValue(sessionStep, 'inErrorNotifyRequests')
       }
     }
     // Worker manager specific properties
     if (stepSubType === STEP_SUB_TYPES_ENUM.WORKERS && includes(WORKERS_PRODUCTS_PROPERTIES, property) && !isEmpty(propertyKey)) {
       currentProperty = `${propertyKey}.${property}`
       if (property === WORKERS_PRODUCTS_PROPERTIES_ENUM.RUNNING) {
-        return this.getIntValue(sessionStep, `${propertyKey}.running`) + this.getIntValue(sessionStep, `${propertyKey}.dispatched`)
+        return DisplayPropertiesComponent.getIntValue(sessionStep, `${propertyKey}.running`) + DisplayPropertiesComponent.getIntValue(sessionStep, `${propertyKey}.dispatched`)
       }
       if (property === WORKERS_PRODUCTS_PROPERTIES_ENUM.ERROR) {
-        return this.getIntValue(sessionStep, `${propertyKey}.error`) + this.getIntValue(sessionStep, `${propertyKey}.invalid`)
+        return DisplayPropertiesComponent.getIntValue(sessionStep, `${propertyKey}.error`) + DisplayPropertiesComponent.getIntValue(sessionStep, `${propertyKey}.invalid`)
       }
     }
-    return this.getIntValue(sessionStep, currentProperty)
+    return DisplayPropertiesComponent.getIntValue(sessionStep, currentProperty)
   }
-
-  getItemStyle = (propValue, itemStyle1, itemStyle2) => propValue > 0 ? itemStyle1 : itemStyle2
 
   getStyle = (property, propValue) => {
     const { stepSubType } = this.props
@@ -97,42 +101,42 @@ class DisplayPropertiesComponent extends React.Component {
       },
     } = this.context
 
-    let style = this.getItemStyle(propValue, listItemStyle, listItemNoValueStyle)
+    let style = DisplayPropertiesComponent.getItemStyle(propValue, listItemStyle, listItemNoValueStyle)
 
     // Data provider specific style
     if (stepSubType === STEP_SUB_TYPES_ENUM.DATA_PROVIDER
         && property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
-      style = this.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
+      style = DisplayPropertiesComponent.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
     }
     // Feature manager specific style
     if (stepSubType === STEP_SUB_TYPES_ENUM.FEATURE_MANAGER
       && property === FEM_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-      style = this.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
+      style = DisplayPropertiesComponent.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
     }
     // Ingest specific style
     if (stepSubType === STEP_SUB_TYPES_ENUM.INGEST) {
       if (property === INGEST_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-        style = this.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
+        style = DisplayPropertiesComponent.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
       } else if (property === INGEST_PRODUCTS_PROPERTIES_ENUM.PRODUCT_WAIT_VERSION_MODE) {
-        style = this.getItemStyle(propValue, listItemWaitStyle, listItemNoValueStyle)
+        style = DisplayPropertiesComponent.getItemStyle(propValue, listItemWaitStyle, listItemNoValueStyle)
       }
     }
     // Storage specific style
     if (stepSubType === STEP_SUB_TYPES_ENUM.STORAGE
       && property === STORAGE_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-      style = this.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
+      style = DisplayPropertiesComponent.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
     }
     // Diffusion specific properties
     if (stepSubType === STEP_SUB_TYPES_ENUM.DISSEMINATION
       && property === CATALOG_PRODUCTS_PROPERTIES_ENUM.INDEXED_ERROR) {
-      style = this.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
+      style = DisplayPropertiesComponent.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
     }
     // Worker manager specific properties
     if (stepSubType === STEP_SUB_TYPES_ENUM.WORKERS) {
       if (property === WORKERS_REQUESTS_PROPERTIES_ENUM.NO_WORKER_AVAILABLE) {
-        style = this.getItemStyle(propValue, listItemWaitStyle, listItemNoValueStyle)
+        style = DisplayPropertiesComponent.getItemStyle(propValue, listItemWaitStyle, listItemNoValueStyle)
       } else if (property === WORKERS_PRODUCTS_PROPERTIES_ENUM.ERROR) {
-        style = this.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
+        style = DisplayPropertiesComponent.getItemStyle(propValue, listItemErrorStyle, listItemNoValueStyle)
       }
     }
     return style

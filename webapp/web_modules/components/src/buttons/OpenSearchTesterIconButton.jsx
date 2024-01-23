@@ -54,12 +54,7 @@ class OpenSearchTesterIconButton extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    status: states.NOT_TESTED,
-    snackBarOpen: false,
-  }
-
-  getSnackBarMessageId = (status) => {
+  static getSnackBarMessageId(status) {
     switch (status) {
       case states.SUCCESS:
         return 'opensearch.tester.button.snackbar.success'
@@ -68,6 +63,11 @@ class OpenSearchTesterIconButton extends React.Component {
       default:
         return 'opensearch.tester.button.snackbar.success'
     }
+  }
+
+  state = {
+    status: states.NOT_TESTED,
+    snackBarOpen: false,
   }
 
   handleTouchTap = () => {
@@ -131,7 +131,7 @@ class OpenSearchTesterIconButton extends React.Component {
 
     const snackbar = (<Snackbar
       open={this.state.snackBarOpen}
-      message={this.context.intl.formatMessage({ id: this.getSnackBarMessageId(this.state.status) })}
+      message={this.context.intl.formatMessage({ id: OpenSearchTesterIconButton.getSnackBarMessageId(this.state.status) })}
       autoHideDuration={4000}
       onRequestClose={this.handleSnackbarRequestClose}
       onActionClick={this.handleSnackbarActionClick}

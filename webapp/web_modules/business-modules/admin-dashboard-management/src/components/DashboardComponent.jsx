@@ -57,6 +57,28 @@ class DashboardComponent extends React.Component {
     ...themeContextType,
   }
 
+  /**
+   * Get entity id. Depends on a type.
+   * @param {*} entity
+   * @param {*} type : either source or session
+   * @returns
+   */
+  static getEntityId(entity, type) {
+    return type === AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION ? get(entity, 'content.name', -1).toString() : get(entity, 'content.name', '')
+  }
+
+  /**
+   * Get user selected entity id. Must be different than currently selected. If not, return empty string.
+   * Allow to clear url and component state when a user select twice the same entity.
+   * @param {*} entity: new entity
+   * @param {*} entityId : new entity's id
+   * @param {*} selectedEntityId : current selected entity id
+   * @returns
+   */
+  static getSelectedEntityId(entity, entityId, selectedEntityId) {
+    return entity && entityId !== selectedEntityId ? entityId : ''
+  }
+
   state = {
     sourceFilters: {},
     sessionFilters: {},
@@ -90,24 +112,6 @@ class DashboardComponent extends React.Component {
   }
 
   /**
-   * Get entity id. Depends on a type.
-   * @param {*} entity
-   * @param {*} type : either source or session
-   * @returns
-   */
-  getEntityId = (entity, type) => type === AdminDomain.SESSION_FILTER_PARAMS.SELECTED_SESSION ? get(entity, 'content.name', -1).toString() : get(entity, 'content.name', '')
-
-  /**
-   * Get user selected entity id. Must be different than currently selected. If not, return empty string.
-   * Allow to clear url and component state when a user select twice the same entity.
-   * @param {*} entity: new entity
-   * @param {*} entityId : new entity's id
-   * @param {*} selectedEntityId : current selected entity id
-   * @returns
-   */
-  getSelectedEntityId = (entity, entityId, selectedEntityId) => entity && entityId !== selectedEntityId ? entityId : ''
-
-  /**
    * Handle source and session selection
    * @param {*} entity selected
    * @param {*} selectedEntityId previous entity selected id
@@ -116,8 +120,8 @@ class DashboardComponent extends React.Component {
   onSelected = (entity, type) => {
     const { flushSelectedSession } = this.props
     const { pathname, query: currentQuery } = browserHistory.getCurrentLocation()
-    const entityId = this.getEntityId(entity, type)
-    const selectedElementId = this.getSelectedEntityId(entity, entityId, this.state[type])
+    const entityId = DashboardComponent.getEntityId(entity, type)
+    const selectedElementId = DashboardComponent.getSelectedEntityId(entity, entityId, this.state[type])
     let newQuery = {}
     let newState = {}
     let source = ''

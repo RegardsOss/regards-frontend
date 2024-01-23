@@ -51,6 +51,13 @@ export class DatasetFormSubsettingComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static getPropertyAttributeName(attribute) {
+    if (attribute.fragment.name === DEFAULT_FRAGMENT) {
+      return `properties.${attribute.name}`
+    }
+    return `properties.${attribute.fragment.name}.${attribute.name}`
+  }
+
   state = {
     subsetting: get(this.props.currentDataset, 'content.openSearchSubsettingClause', ''),
   }
@@ -69,13 +76,6 @@ export class DatasetFormSubsettingComponent extends React.Component {
       return formatMessage({ id: 'dataset.create.title' })
     }
     return formatMessage({ id: 'dataset.edit.title' }, { name: this.props.currentDataset.content.label })
-  }
-
-  getPropertyAttributeName = (attribute) => {
-    if (attribute.fragment.name === DEFAULT_FRAGMENT) {
-      return `properties.${attribute.name}`
-    }
-    return `properties.${attribute.fragment.name}.${attribute.name}`
   }
 
   render() {
@@ -108,7 +108,7 @@ export class DatasetFormSubsettingComponent extends React.Component {
                 <Subheader>{formatMessage({ id: 'dataset.form.subsetting.attributes' })}</Subheader>
                 {map(modelAttributeList, (modelAttribute, id) => (
                   <ListItem
-                    primaryText={this.getPropertyAttributeName(modelAttribute.content.attribute)}
+                    primaryText={DatasetFormSubsettingComponent.getPropertyAttributeName(modelAttribute.content.attribute)}
                     key={id}
                     disabled
                   />

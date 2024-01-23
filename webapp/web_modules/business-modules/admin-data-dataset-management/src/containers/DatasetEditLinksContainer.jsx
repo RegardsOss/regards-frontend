@@ -53,6 +53,15 @@ export class DatasetEditLinksContainer extends React.Component {
     fetchCollectionList: PropTypes.func,
   }
 
+  static getCollectionLinked(collectionIpIdList, collectionList) {
+    return map(collectionIpIdList, (collectionIpId) => find(collectionList, (collection) => collection.content.ipId === collectionIpId))
+  }
+
+  static partitionDatasetLinkedTags(currentDataset) {
+    const linkedTags = partition(currentDataset.content.tags, (tag) => tag.match(/URN:.*:COLLECTION.*/))
+    return linkedTags
+  }
+
   state = {
     isLoading: true,
     collectionName: '',
@@ -93,13 +102,6 @@ export class DatasetEditLinksContainer extends React.Component {
     return filter(collectionLinkedToCurrentCollection[1], (remainingCollection) => startsWith(remainingCollection.content.feature.label.toLowerCase(), collectionName))
   }
 
-  getCollectionLinked = (collectionIpIdList, collectionList) => map(collectionIpIdList, (collectionIpId) => find(collectionList, (collection) => collection.content.ipId === collectionIpId))
-
-  partitionDatasetLinkedTags = (currentDataset) => {
-    const linkedTags = partition(currentDataset.content.tags, (tag) => tag.match(/URN:.*:COLLECTION.*/))
-    return linkedTags
-  }
-
   handleSearch = (event, collectionName) => {
     this.setState({
       collectionName: collectionName.toLowerCase(),
@@ -133,9 +135,9 @@ export class DatasetEditLinksContainer extends React.Component {
   renderSubComponent = () => {
     const { currentDataset, collectionList } = this.props
     const remainingCollections = this.getRemainingCollection(currentDataset, collectionList)
-    const datasetTags = this.partitionDatasetLinkedTags(currentDataset)
+    const datasetTags = DatasetEditLinksContainer.partitionDatasetLinkedTags(currentDataset)
     const datasetStringTags = datasetTags[1]
-    const linkedCollection = this.getCollectionLinked(datasetTags[0], collectionList)
+    const linkedCollection = DatasetEditLinksContainer.getCollectionLinked(datasetTags[0], collectionList)
     return (
       <DatasetEditLinksComponent
         currentDataset={currentDataset}

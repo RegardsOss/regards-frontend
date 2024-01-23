@@ -57,9 +57,11 @@ export class RenderFileFieldWithMui extends React.Component {
 
   static HIDDEN_FIELD = { display: 'none' }
 
-  adaptFileEventToValue = (delegate) => (e) => delegate(e.target.files[0])
+  static adaptFileEventToValue(delegate) {
+    return (e) => delegate(e.target.files[0])
+  }
 
-  transformSize = (size) => {
+  static transformSize(size) {
     const capacity = new storage.StorageCapacity(size, storage.units.BYTE)
     const scale = capacity.scaleAndConvert(storage.StorageUnitScale.bytesScale)
     return (<storage.FormattedStorageCapacity
@@ -96,7 +98,7 @@ export class RenderFileFieldWithMui extends React.Component {
           <div style={RenderFileFieldWithMui.PROP_STYLES}>
             {intl.formatMessage({ id: 'renderer.fileField.file.size' })}
             {' : '}
-            {this.transformSize(file.size)}
+            {RenderFileFieldWithMui.transformSize(file.size)}
           </div>
         </div>
       </div>
@@ -122,8 +124,8 @@ export class RenderFileFieldWithMui extends React.Component {
           {...otherProps}
         >
           <input
-            onChange={this.adaptFileEventToValue(onChange)}
-            onBlur={this.adaptFileEventToValue(onBlur)}
+            onChange={RenderFileFieldWithMui.adaptFileEventToValue(onChange)}
+            onBlur={RenderFileFieldWithMui.adaptFileEventToValue(onBlur)}
             type="file"
             accept={accept}
             {...inputProps}

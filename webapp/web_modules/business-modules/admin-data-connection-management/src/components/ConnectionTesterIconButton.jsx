@@ -52,12 +52,7 @@ class ConnectionTesterIconButton extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    status: states.NOT_TESTED,
-    snackBarOpen: false,
-  }
-
-  getSnackBarMessageId = (status) => {
+  static getSnackBarMessageId(status) {
     switch (status) {
       case states.SUCCESS:
         return 'connection.connectionTester.snackbar.success'
@@ -66,6 +61,11 @@ class ConnectionTesterIconButton extends React.Component {
       default:
         return 'connection.connectionTester.snackbar.success'
     }
+  }
+
+  state = {
+    status: states.NOT_TESTED,
+    snackBarOpen: false,
   }
 
   handleTouchTap = () => {
@@ -135,7 +135,7 @@ class ConnectionTesterIconButton extends React.Component {
 
     const snackbar = (<Snackbar
       open={this.state.snackBarOpen}
-      message={this.context.intl.formatMessage({ id: this.getSnackBarMessageId(this.state.status) }, { label: connection.content.label })}
+      message={this.context.intl.formatMessage({ id: ConnectionTesterIconButton.getSnackBarMessageId(this.state.status) }, { label: connection.content.label })}
       autoHideDuration={4000}
       onRequestClose={this.handleSnackbarRequestClose}
       onActionClick={this.handleSnackbarActionClick}

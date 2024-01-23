@@ -63,7 +63,7 @@ describe('[Order Cart] Testing SelectionDetailResultsTableComponent', () => {
     testSuiteHelpers.assertCompWithProps(enzymeWrapper, PageableInfiniteTableContainer, {
       pageActions: props.pageActions,
       pageSelectors: props.pageSelectors,
-      columns: enzymeWrapper.instance().renderColumns(),
+      columns: SelectionDetailResultsTableComponent.renderColumns(),
       bodyParams: props.bodyParams,
       emptyComponent: SelectionDetailResultsTableComponent.NO_DATA_COMPONENT,
       fetchUsingPostMethod: true,

@@ -102,6 +102,16 @@ export class DBDatasourceFormContainer extends React.Component {
     fetchPluginMetaDataList: PropTypes.func.isRequired,
   }
 
+  /**
+   * Check if the fragment if the none one
+   */
+  static getNamespaceUsingFragmentName(modelAttr) {
+    if (modelAttr.content.attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
+      return modelAttr.content.attribute.fragment.name
+    }
+    return ''
+  }
+
   state = {
     isCreating: this.props.params.datasourceId === undefined,
     isEditing: this.props.params.datasourceId !== undefined,
@@ -183,16 +193,6 @@ export class DBDatasourceFormContainer extends React.Component {
       return `/admin/${project}/data/acquisition/datasource/list`
     }
     return `/admin/${project}/data/acquisition/datasource/db/create/connection`
-  }
-
-  /**
-   * Check if the fragment if the none one
-   */
-  getNamespaceUsingFragmentName = (modelAttr) => {
-    if (modelAttr.content.attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
-      return modelAttr.content.attribute.fragment.name
-    }
-    return ''
   }
 
   redirectToList = () => {
@@ -363,7 +363,7 @@ export class DBDatasourceFormContainer extends React.Component {
       const newAttributeMapping = {
         name: attributeName,
         type: modelAttr.content.attribute.type,
-        namespace: this.getNamespaceUsingFragmentName(modelAttr),
+        namespace: DBDatasourceFormContainer.getNamespaceUsingFragmentName(modelAttr),
         // Add the Java type ¯\_(ツ)_/¯
         attributeType: modelAttrStatic ? 'STATIC' : 'DYNAMIC',
       }

@@ -50,6 +50,58 @@ class BrowsingTreeComponent extends React.Component {
   /** Static reference to tree columns, as they are unused by this component */
   static COLUMNS_FILLER = [<TableHeaderColumn key="singleColumnFiller" />]
 
+  /**
+   * Builds tree table page row
+   * @param {*} section parent section, matches FormSection
+   * @param {*} page page model for that row
+   * @return {TreeTableRow}
+   */
+  static buildPageRow(section, page) {
+    return new TreeTableRow(`${section.type}/${page.type}`, [{ section, page }])
+  }
+
+  /**
+   * Builds a cell (here, first column as there is only one)
+   * @param {*} cellValue cell value as built using buildTreeTableRows methods (and therefore buildSectionRow and buildPageRow)
+   */
+  static buildCellComponent({ section, page }, level) {
+    return (
+      <TableRowColumn key={`${section.type}/${page ? page.type : 'ROOT'}`}>
+        <BrowsingTreeCellComponent
+          section={section}
+          page={page}
+          level={level}
+        />
+      </TableRowColumn>)
+  }
+
+  /**
+   * Builds tree table section row
+   * @param {*} navigationSection navigation section, matching FormSection shape
+   * @return {TreeTableRow} tree table row, where cells are an array of objects like: { section: FormSection, page: FormPage} (nota: page is null if section should be shown as parent)
+   */
+  static buildSectionRow(navigationSection) {
+    // 1 - specific cases: single section pages
+    if (navigationSection.type === FORM_SECTIONS_ENUM.MAIN
+      || navigationSection.type === FORM_SECTIONS_ENUM.RESTRICTIONS
+      || navigationSection.type === FORM_SECTIONS_ENUM.FILTERS
+      || navigationSection.type === FORM_SECTIONS_ENUM.SEARCH) {
+      // build section row using page builder
+      return BrowsingTreeComponent.buildPageRow(navigationSection, navigationSection.pages[0])
+    }
+    // 2 - common case: build a section with pages below
+    return new TreeTableRow(navigationSection.type, [{ section: navigationSection }], navigationSection.pages.map((page) => BrowsingTreeComponent.buildPageRow(navigationSection, page)), true)
+  }
+
+  /**
+   * Builds tree table rows
+   * @param {[*]} navigationSections navigation sections as array (respects input prop type)
+   * @return {[TreeTableRow]} tree table rows
+   */
+  static buildTreeTableRows(navigationSections) {
+    return navigationSections.map(BrowsingTreeComponent.buildSectionRow)
+  }
+
   state = {
     isErrorDialogOpen: false,
   }
@@ -66,15 +118,13 @@ class BrowsingTreeComponent extends React.Component {
     return (
       <Dialog
         title={formatMessage({ id: 'search.results.form.dialog.configuration.invalid' })}
-        actions={<>
-          <FlatButton
-            id="dialog.confirm"
-            primary
-            keyboardFocused
-            label={formatMessage({ id: 'search.results.form.dialog.configuration.confirm' })}
-            onClick={this.toggleErrorDialog}
-          />
-        </>}
+        actions={<FlatButton
+          id="dialog.confirm"
+          primary
+          keyboardFocused
+          label={formatMessage({ id: 'search.results.form.dialog.configuration.confirm' })}
+          onClick={this.toggleErrorDialog}
+        />}
         modal={false}
         open={isErrorDialogOpen}
       >
@@ -82,53 +132,6 @@ class BrowsingTreeComponent extends React.Component {
       </Dialog>
     )
   }
-
-  /**
-   * Builds tree table rows
-   * @param {[*]} navigationSections navigation sections as array (respects input prop type)
-   * @return {[TreeTableRow]} tree table rows
-   */
-  buildTreeTableRows = (navigationSections) => navigationSections.map(this.buildSectionRow)
-
-  /**
-   * Builds tree table section row
-   * @param {*} navigationSection navigation section, matching FormSection shape
-   * @return {TreeTableRow} tree table row, where cells are an array of objects like: { section: FormSection, page: FormPage} (nota: page is null if section should be shown as parent)
-   */
-  buildSectionRow = (navigationSection) => {
-    // 1 - specific cases: single section pages
-    if (navigationSection.type === FORM_SECTIONS_ENUM.MAIN
-      || navigationSection.type === FORM_SECTIONS_ENUM.RESTRICTIONS
-      || navigationSection.type === FORM_SECTIONS_ENUM.FILTERS
-      || navigationSection.type === FORM_SECTIONS_ENUM.SEARCH) {
-      // build section row using page builder
-      return this.buildPageRow(navigationSection, navigationSection.pages[0])
-    }
-    // 2 - common case: build a section with pages below
-    return new TreeTableRow(navigationSection.type, [{ section: navigationSection }],
-      navigationSection.pages.map((page) => this.buildPageRow(navigationSection, page)), true)
-  }
-
-  /**
-   * Builds tree table page row
-   * @param {*} section parent section, matches FormSection
-   * @param {*} page page model for that row
-   * @return {TreeTableRow}
-   */
-  buildPageRow = (section, page) => new TreeTableRow(`${section.type}/${page.type}`, [{ section, page }])
-
-  /**
-   * Builds a cell (here, first column as there is only one)
-   * @param {*} cellValue cell value as built using buildTreeTableRows methods (and therefore buildSectionRow and buildPageRow)
-   */
-  buildCellComponent = ({ section, page }, level) => (
-    <TableRowColumn key={`${section.type}/${page ? page.type : 'ROOT'}`}>
-      <BrowsingTreeCellComponent
-        section={section}
-        page={page}
-        level={level}
-      />
-    </TableRowColumn>)
 
   /**
    * A tree cell was clicked: provided
@@ -156,8 +159,8 @@ class BrowsingTreeComponent extends React.Component {
       <>
         <TreeTableComponent
           model={navigationSections}
-          buildTreeTableRows={this.buildTreeTableRows}
-          buildCellComponent={this.buildCellComponent}
+          buildTreeTableRows={BrowsingTreeComponent.buildTreeTableRows}
+          buildCellComponent={BrowsingTreeComponent.buildCellComponent}
           columns={BrowsingTreeComponent.COLUMNS_FILLER}
           onCellClick={this.onCellClicked}
           stripeLevelColors={false}

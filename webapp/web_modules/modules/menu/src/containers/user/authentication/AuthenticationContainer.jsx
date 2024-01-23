@@ -30,7 +30,7 @@ import { borrowRoleActions, borrowRoleSelectors } from '../../../clients/BorrowR
 import { authenticationDialogActions } from '../../../clients/AuthenticationDialogUIClient'
 import { serviceProviderPublicSelectors } from '../../../clients/ServiceProviderPublicClient'
 import { disconnectServiceProviderAction } from '../../../clients/ServiceProviderDisconnect'
-import profileDialogActions from '../../../model/ProfileDialogActions'
+import { ProfileDialogActions } from '../../../model/ProfileDialogActions'
 import LoggedUserComponent from '../../../components/user/authentication/LoggedUserComponent'
 import LoginButton from '../../../components/user/authentication/LoginButton'
 import { PROFILE_VIEW_STATE_ENUM } from '../../../domain/ProfileViewStateEnum'
@@ -69,7 +69,7 @@ export class AuthenticationContainer extends React.Component {
       onLogout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
       sendBorrowRole: (roleName) => dispatch(borrowRoleActions.borrowRole(roleName)),
       dispatchRoleBorrowed: (authResult) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authResult)),
-      onShowProfile: (initialView) => dispatch(profileDialogActions.showDialog(initialView)),
+      onShowProfile: (initialView) => dispatch(ProfileDialogActions.showDialog(initialView)),
       toggleAuthenticationDialogOpen: (opened) => dispatch(authenticationDialogActions.toggleDialogDisplay(opened)),
       setMainServiceProvider: (selectedMainService) => dispatch(authenticationDialogActions.setMainService(selectedMainService)),
       disconnectServiceProvider: (serviceProviderName) => dispatch(disconnectServiceProviderAction.disconnectServiceProvider(serviceProviderName)),

@@ -21,13 +21,14 @@
  * @author Léo Mieulet
  */
 import BasicListReducers from '../list/BasicListReducers'
+import BasicReducer from '../BasicReducer'
 
 /**
  *  Handle reduction for pageable entity lists
  */
 class BasicPageableReducer extends BasicListReducers {
   reduce(state, action) {
-    if (this.isCancelled(state, action)) {
+    if (BasicReducer.isCancelled(state, action)) {
       return state
     }
     const newState = super.reduce(state, action)

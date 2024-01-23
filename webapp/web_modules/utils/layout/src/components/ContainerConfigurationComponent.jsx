@@ -84,27 +84,12 @@ class ContainerConfigurationComponent extends React.Component {
 
   static SELECT_FIELD_STYLES = { marginBottom: '12px' }
 
-  state = {
-    advanced: false,
-  }
-
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
   /**
    * Properties change detected: update local state
    * @param oldProps previous component properties
    * @param newProps next component properties
    */
-  onPropertiesUpdated = (oldProps, newProps) => {
+  static onPropertiesUpdated(oldProps, newProps) {
     const { change, container, open } = newProps
     // Detect form opening
     if (!isEqual(oldProps.open, open) && open) {
@@ -114,13 +99,28 @@ class ContainerConfigurationComponent extends React.Component {
     }
   }
 
+  static selectContainerType(event, index, value, input) {
+    input.onChange(value)
+  }
+
+  state = {
+    advanced: false,
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => ContainerConfigurationComponent.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => ContainerConfigurationComponent.onPropertiesUpdated(this.props, nextProps)
+
   onAdvancedClick = () => this.setState({
     advanced: !this.state.advanced,
   })
-
-  selectContainerType = (event, index, value, input) => {
-    input.onChange(value)
-  }
 
   validatedJSON = (value, allValues, props, name) => {
     if (value == null || value === undefined) {
@@ -188,7 +188,7 @@ class ContainerConfigurationComponent extends React.Component {
                   fullWidth
                   component={RenderSelectField}
                   type="text"
-                  onSelect={this.selectContainerType}
+                  onSelect={ContainerConfigurationComponent.selectContainerType}
                   label={formatMessage({ id: 'container.form.type' })}
                   validate={ValidationHelpers.required}
                   style={ContainerConfigurationComponent.SELECT_FIELD_STYLES}

@@ -51,7 +51,9 @@ class SelectedSessionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  getSessionSteps = (selectedSession, stepType) => (filter(selectedSession.content.steps, (step) => (step.type === stepType)))
+  static getSessionSteps(selectedSession, stepType) {
+    return (filter(selectedSession.content.steps, (step) => (step.type === stepType)))
+  }
 
   handleCloseSessionSelected = () => {
     const { onSelected } = this.props
@@ -81,22 +83,22 @@ class SelectedSessionComponent extends React.Component {
         <CardText style={cardTextStyle}>
           <AcquisitionComponent
             project={project}
-            sessionSteps={this.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION)}
+            sessionSteps={SelectedSessionComponent.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION)}
             relaunchProducts={relaunchProducts}
             retryWorkerRequests={retryWorkerRequests}
           />
           <ReferencingComponent
             project={project}
-            sessionSteps={this.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING)}
+            sessionSteps={SelectedSessionComponent.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING)}
             relaunchAIP={relaunchAIP}
             retryFEMRequests={retryFEMRequests}
           />
           <ArchivalComponent
-            sessionSteps={this.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE)}
+            sessionSteps={SelectedSessionComponent.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE)}
             relaunchStorages={relaunchStorages}
           />
           <DiffusionComponent
-            sessionSteps={this.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.DISSEMINATION)}
+            sessionSteps={SelectedSessionComponent.getSessionSteps(selectedSession, AdminDomain.STEP_TYPE_ENUM.DISSEMINATION)}
           />
         </CardText>
       </Card>

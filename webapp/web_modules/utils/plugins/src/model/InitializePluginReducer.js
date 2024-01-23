@@ -31,7 +31,7 @@ export class InitializePluginReducer {
    * @param {*} state current reducer state
    * @param {*} action redux action to reduce
    */
-  reduce = (state = InitializePluginReducer.DEFAULT_STATE, action) => {
+  static reduce(state = InitializePluginReducer.DEFAULT_STATE, action) {
     switch (action.type) {
       case InitializePluginActions.MARK_INITIALIZED:
         return {
@@ -52,4 +52,4 @@ export class InitializePluginReducer {
 /**
  * Reducer function instance
  */
-export default new InitializePluginReducer().reduce
+export default InitializePluginReducer.reduce

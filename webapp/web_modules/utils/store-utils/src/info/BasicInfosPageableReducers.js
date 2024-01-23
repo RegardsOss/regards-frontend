@@ -17,13 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import BasicPageableReducers from '../pageable/BasicPageableReducers'
+import BasicReducer from '../BasicReducer'
 
 /**
  * Actions that are pageable and expose 'info' field (same level than page metadata)
  */
 class BasicInfosPageableReducers extends BasicPageableReducers {
   reduce(state, action) {
-    if (this.isCancelled(state, action)) {
+    if (BasicReducer.isCancelled(state, action)) {
       return state
     }
     const newState = super.reduce(state, action)

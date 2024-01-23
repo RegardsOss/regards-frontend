@@ -26,7 +26,7 @@ import { ErrorCardComponent } from '@regardsoss/components'
 import pluginReducerHelper from '../helpers/PluginReducerHelper'
 import { loadPlugin } from '../model/LoadPluginActions'
 import loadPluginSelector from '../model/LoadPluginSelector'
-import initializePluginActions from '../model/InitializePluginActions'
+import { InitializePluginActions } from '../model/InitializePluginActions'
 import initializePluginSelectors from '../model/InitializePluginSelectors'
 
 /**
@@ -113,7 +113,7 @@ export class PluginLoader extends React.Component {
         // 1 - Let helper initialize the plugin (especially plugin redux store space)
         pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId, () => {
           // 2 - after initialize, mark initialization complete
-          dispatch(initializePluginActions.markInitialized(pluginInstanceId))
+          dispatch(InitializePluginActions.markInitialized(pluginInstanceId))
         })
       },
     }

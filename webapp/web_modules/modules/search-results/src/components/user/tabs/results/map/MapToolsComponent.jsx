@@ -52,6 +52,10 @@ class MapToolsComponent extends React.Component {
     ...themeContextType,
   }
 
+  static dataLayerExist(layers, viewMode) {
+    return find(layers, (layer) => layer.enabled && !layer.background && layer.layerViewMode === viewMode)
+  }
+
   state = {
     openOpacitySlider: false,
     availableModeList: [],
@@ -64,15 +68,13 @@ class MapToolsComponent extends React.Component {
       layers, viewMode,
     } = this.props
     const enabledBackgroundLayers = filter(layers, (layer) => layer.enabled && layer.background)
-    const dataLayerExist = this.dataLayerExist(layers, viewMode)
+    const dataLayerExist = MapToolsComponent.dataLayerExist(layers, viewMode)
     const availableModeList = uniq(map(enabledBackgroundLayers, (layer) => layer.layerViewMode))
     this.setState({
       availableModeList,
       dataLayerExist,
     })
   }
-
-  dataLayerExist = (layers, viewMode) => find(layers, (layer) => layer.enabled && !layer.background && layer.layerViewMode === viewMode)
 
   /**
     * Lifecycle method: component receive props. Used here to detect properties change and update local state
@@ -92,7 +94,7 @@ class MapToolsComponent extends React.Component {
     const oldState = this.state || {}
     const newState = { ...oldState }
     if (!isEqual(oldProps.viewMode, viewMode)) {
-      newState.dataLayerExist = this.dataLayerExist(layers, viewMode)
+      newState.dataLayerExist = MapToolsComponent.dataLayerExist(layers, viewMode)
     }
     if (!isEqual(oldState, newState)) {
       this.setState(newState)

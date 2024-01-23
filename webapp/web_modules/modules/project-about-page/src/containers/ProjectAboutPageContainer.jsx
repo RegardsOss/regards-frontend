@@ -50,6 +50,19 @@ class ProjectAboutPageContainer extends React.Component {
     ...i18nContextType,
   }
 
+  static getFullPath = (path) => {
+    if (path) {
+      if (startsWith(path, 'http') || startsWith(path, 'wwww')) {
+        return path
+      }
+      if (startsWith(path, '/')) {
+        return `http://${root.location.host}${path}`
+      }
+      return `http://${root.location.host}/${path}`
+    }
+    return path
+  }
+
   UNSAFE_componentWillMount = () => {
     this.setState({
       dialogOpen: !this.isProjectAboutPageHiddenCached(),
@@ -68,19 +81,6 @@ class ProjectAboutPageContainer extends React.Component {
   onCacheProjectAboutPageDisplayed = () => {
     root.localStorage.setItem(`${this.props.project}ProjectAboutPageHidden`, false)
     this.onClose()
-  }
-
-  getFullPath = (path) => {
-    if (path) {
-      if (startsWith(path, 'http') || startsWith(path, 'wwww')) {
-        return path
-      }
-      if (startsWith(path, '/')) {
-        return `http://${root.location.host}${path}`
-      }
-      return `http://${root.location.host}/${path}`
-    }
-    return path
   }
 
   isProjectAboutPageHiddenCached = () => !!JSON.parse(root.localStorage.getItem(`${this.props.project}ProjectAboutPageHidden`))
@@ -143,7 +143,7 @@ class ProjectAboutPageContainer extends React.Component {
         {runtimeButton}
         <SingleContentURLDialogContainer
           open={dialogOpen}
-          contentURL={this.getFullPath(htmlPath)}
+          contentURL={ProjectAboutPageContainer.getFullPath(htmlPath)}
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}
           onRequestClose={this.onClose}

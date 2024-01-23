@@ -46,6 +46,33 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
     height: '95px',
   }
 
+  static getFieldName(modelAttribute) {
+    // Static attributes
+    if (!modelAttribute.content.attribute.fragment.name && modelAttribute.content.attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
+      return `mapping.${modelAttribute.content.attribute.name}`
+    }
+    // Dynamic attributes with fragment
+    if (modelAttribute.content.attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
+      return `mapping.properties@${modelAttribute.content.attribute.fragment.name}@${modelAttribute.content.attribute.name}`
+    }
+    // Dynamic attributes without fragment
+    return `mapping.properties@${modelAttribute.content.attribute.name}`
+  }
+
+  static getValidation(attributeModel) {
+    if (!attributeModel.optional) {
+      return requiredString
+    }
+    return []
+  }
+
+  static showStarIfInputRequired(attributeModel) {
+    if (!attributeModel.optional) {
+      return ' (*)'
+    }
+    return null
+  }
+
   getField = (modelAttribute) => {
     switch (modelAttribute.content.attribute.type) {
       case MODEL_ATTR_TYPES.STRING:
@@ -71,28 +98,15 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
     }
   }
 
-  getFieldName = (modelAttribute) => {
-    // Static attributes
-    if (!modelAttribute.content.attribute.fragment.name && modelAttribute.content.attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
-      return `mapping.${modelAttribute.content.attribute.name}`
-    }
-    // Dynamic attributes with fragment
-    if (modelAttribute.content.attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
-      return `mapping.properties@${modelAttribute.content.attribute.fragment.name}@${modelAttribute.content.attribute.name}`
-    }
-    // Dynamic attributes without fragment
-    return `mapping.properties@${modelAttribute.content.attribute.name}`
-  }
-
   getFieldTextField = (modelAttribute) => (
     <Field
       className={`selenium-fill-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
-      name={this.getFieldName(modelAttribute)}
+      name={AIPDatasourceAttributeLineConfigurationComponent.getFieldName(modelAttribute)}
       fullWidth
       component={RenderTextField}
       type="text"
       label={this.context.intl.formatMessage({ id: 'aip.datasource.form.table.input' })}
-      validate={this.getValidation(modelAttribute.content.attribute)}
+      validate={AIPDatasourceAttributeLineConfigurationComponent.getValidation(modelAttribute.content.attribute)}
     />
   )
 
@@ -100,39 +114,25 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
     <Field
       key="lower"
       className={`selenium-fill-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
-      name={`${this.getFieldName(modelAttribute)}@lowerBound`}
+      name={`${AIPDatasourceAttributeLineConfigurationComponent.getFieldName(modelAttribute)}@lowerBound`}
       fullWidth
       component={RenderTextField}
       type="text"
       label={this.context.intl.formatMessage({ id: 'aip.datasource.form.table.lowerBound' })}
-      validate={this.getValidation(modelAttribute.content.attribute)}
+      validate={AIPDatasourceAttributeLineConfigurationComponent.getValidation(modelAttribute.content.attribute)}
     />,
     <br key="have-a-nice-day" />,
     <Field
       key="upper"
       className={`selenium-fill-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
-      name={`${this.getFieldName(modelAttribute)}@upperBound`}
+      name={`${AIPDatasourceAttributeLineConfigurationComponent.getFieldName(modelAttribute)}@upperBound`}
       fullWidth
       component={RenderTextField}
       type="text"
       label={this.context.intl.formatMessage({ id: 'aip.datasource.form.table.upperBound' })}
-      validate={this.getValidation(modelAttribute.content.attribute)}
+      validate={AIPDatasourceAttributeLineConfigurationComponent.getValidation(modelAttribute.content.attribute)}
     />,
   ])
-
-  getValidation = (attributeModel) => {
-    if (!attributeModel.optional) {
-      return requiredString
-    }
-    return []
-  }
-
-  showStarIfInputRequired = (attributeModel) => {
-    if (!attributeModel.optional) {
-      return ' (*)'
-    }
-    return null
-  }
 
   render() {
     const { modelAttribute } = this.props
@@ -142,7 +142,7 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
           title={modelAttribute.content.attribute.description}
         >
           {modelAttribute.content.attribute.label}
-          {this.showStarIfInputRequired(modelAttribute.content.attribute)}
+          {AIPDatasourceAttributeLineConfigurationComponent.showStarIfInputRequired(modelAttribute.content.attribute)}
           <br />
           {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
         </TableRowColumn>

@@ -125,6 +125,28 @@ class ViewTypeConfigurationComponent extends React.Component {
 
   static duplicateLayerInfo = (layerInfo) => layerInfo
 
+  /* Set menu items according to map engine selected */
+  static getMenuItems(mapEngine) {
+    let sortedLayers = null
+    switch (mapEngine) {
+      case UIDomain.MAP_ENGINE_ENUM.MIZAR:
+        sortedLayers = ViewTypeConfigurationComponent.SORTED_MIZAR_LAYER_TYPES
+        break
+      case UIDomain.MAP_ENGINE_ENUM.CESIUM:
+        sortedLayers = ViewTypeConfigurationComponent.SORTED_CESIUM_LAYER_TYPES
+        break
+      default:
+    }
+
+    return map(sortedLayers, (type) => (
+      <MenuItem
+        key={type}
+        value={type}
+        primaryText={type}
+      />
+    ))
+  }
+
   /**
    * User callback: enable view toggled. When disabling the view, make sure the group do not use that view
    * as initial one
@@ -222,32 +244,10 @@ class ViewTypeConfigurationComponent extends React.Component {
    */
   getLayerProps = (mapEngine) => ({
     mapEngine,
-    getMenuItems: this.getMenuItems,
+    getMenuItems: ViewTypeConfigurationComponent.getMenuItems,
     validateBackgroundURL: this.validateBackgroundURL,
     validateBackgroundConf: this.validateBackgroundConf,
   })
-
-  /* Set menu items according to map engine selected */
-  getMenuItems = (mapEngine) => {
-    let sortedLayers = null
-    switch (mapEngine) {
-      case UIDomain.MAP_ENGINE_ENUM.MIZAR:
-        sortedLayers = ViewTypeConfigurationComponent.SORTED_MIZAR_LAYER_TYPES
-        break
-      case UIDomain.MAP_ENGINE_ENUM.CESIUM:
-        sortedLayers = ViewTypeConfigurationComponent.SORTED_CESIUM_LAYER_TYPES
-        break
-      default:
-    }
-
-    return map(sortedLayers, (type) => (
-      <MenuItem
-        key={type}
-        value={type}
-        primaryText={type}
-      />
-    ))
-  }
 
   render() {
     const {

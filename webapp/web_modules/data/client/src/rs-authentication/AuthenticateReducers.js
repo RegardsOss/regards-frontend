@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicSignalReducers } from '@regardsoss/store-utils'
+import { BasicSignalReducers, BasicReducer } from '@regardsoss/store-utils'
 import get from 'lodash/get'
 import AuthenticateActions from './AuthenticateActions'
 
@@ -26,7 +26,7 @@ class AuthenticateReducers extends BasicSignalReducers {
   }
 
   reduce(state, action) {
-    if (this.isCancelled(state, action)) {
+    if (BasicReducer.isCancelled(state, action)) {
       return state
     }
 

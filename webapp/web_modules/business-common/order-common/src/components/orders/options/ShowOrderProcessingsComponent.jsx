@@ -36,7 +36,7 @@ class ShowOrderProcessingsComponent extends React.Component {
     ...i18nContextType,
   }
 
-  isOrderProcessingListExist = (orderProcessings) => {
+  static isOrderProcessingListExist(orderProcessings) {
     const orderProcessingList = get(orderProcessings, 'orderProcessingList', null)
     return orderProcessingList !== null && !isEmpty(orderProcessingList)
   }
@@ -46,7 +46,7 @@ class ShowOrderProcessingsComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
-        disabled={!this.isOrderProcessingListExist(orderProcessings)}
+        disabled={!ShowOrderProcessingsComponent.isOrderProcessingListExist(orderProcessings)}
         onClick={() => onShowProcessings(orderProcessings)}
         title={formatMessage({ id: 'order.list.option.cell.show.processing.order.tooltip' })}
       >

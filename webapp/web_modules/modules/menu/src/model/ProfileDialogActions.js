@@ -37,29 +37,35 @@ export class ProfileDialogActions {
    * @param {string} initialView from PROFILE_VIEW_STATE_ENUM
    * @return {*} redux action
    */
-  showDialog = (initialView = PROFILE_VIEW_STATE_ENUM.EDIT_PROFILE) => ({
-    type: ProfileDialogActions.SHOW_DIALOG,
-    view: initialView,
-  })
+  static showDialog(initialView = PROFILE_VIEW_STATE_ENUM.EDIT_PROFILE) {
+    return {
+      type: ProfileDialogActions.SHOW_DIALOG,
+      view: initialView,
+    }
+  }
 
   /**
    * Builds redux action to dispatch to change dialog current view
    * @param {string} view from PROFILE_VIEW_STATE_ENUM
    * @return {*} redux action
    */
-  setView = (view) => ({
-    type: ProfileDialogActions.SET_VIEW,
-    view,
-  })
+  static setView(view) {
+    return {
+      type: ProfileDialogActions.SET_VIEW,
+      view,
+    }
+  }
 
   /**
    * Builds redux action to dispatch to change dialog current view
    * @param {string} viewMode from PROFILE_VIEW_STATE_ENUM
    * @return {*} redux action
    */
-  hideDialog = () => ({
-    type: ProfileDialogActions.HIDE_DIALOG,
-  })
+  static hideDialog() {
+    return {
+      type: ProfileDialogActions.HIDE_DIALOG,
+    }
+  }
 }
 
 export default new ProfileDialogActions()

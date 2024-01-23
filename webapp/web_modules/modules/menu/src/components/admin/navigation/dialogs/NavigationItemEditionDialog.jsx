@@ -134,6 +134,33 @@ export class NavigationItemEditionDialog extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Validates custom icon URL
+   * @param textURL user entered text
+   * @param values the rest of form values
+   * @return error intl key if any error, undefined otherwise
+   */
+  static validateCustomIcon(textURL, values) {
+    if (get(values, ICON_TYPE_FIELD) === AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM) {
+      // when in custom icon type, that field is required
+      return ValidationHelpers.required(textURL) || ValidationHelpers.url(textURL)
+    }
+    return undefined // no error in any other case
+  }
+
+  /**
+   * Validate role field
+   * @param role selected user role
+   * @param values the reset of form values
+   * @return error intl key if any error, undefined otherwise
+   */
+  static validateRoleField(role, values) {
+    if (values[VISIBILITY_MODE_FIELD] === VISIBILITY_MODES_ENUM.FOR_ROLE) {
+      return ValidationHelpers.required(role)
+    }
+    return undefined // no error in other cases
+  }
+
   /** default state */
   state = {
     parentSectionChoices: [],
@@ -251,33 +278,6 @@ export class NavigationItemEditionDialog extends React.Component {
     onDone(newItem, insertAtPath)
   }
 
-  /**
-   * Validates custom icon URL
-   * @param textURL user entered text
-   * @param values the rest of form values
-   * @return error intl key if any error, undefined otherwise
-   */
-  validateCustomIcon = (textURL, values) => {
-    if (get(values, ICON_TYPE_FIELD) === AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM) {
-      // when in custom icon type, that field is required
-      return ValidationHelpers.required(textURL) || ValidationHelpers.url(textURL)
-    }
-    return undefined // no error in any other case
-  }
-
-  /**
-   * Validate role field
-   * @param role selected user role
-   * @param values the reset of form values
-   * @return error intl key if any error, undefined otherwise
-   */
-  validateRoleField = (role, values) => {
-    if (values[VISIBILITY_MODE_FIELD] === VISIBILITY_MODES_ENUM.FOR_ROLE) {
-      return ValidationHelpers.required(role)
-    }
-    return undefined // no error in other cases
-  }
-
   render() {
     const {
       onClose, editionData, selectedIconType, selectedVisibilityMode,
@@ -359,7 +359,7 @@ export class NavigationItemEditionDialog extends React.Component {
                     fullWidth
                     type="text"
                     label={this.context.intl.formatMessage({ id: 'menu.form.navigation.edit.item.dialog.custom.icon.url' })}
-                    validate={this.validateCustomIcon}
+                    validate={NavigationItemEditionDialog.validateCustomIcon}
                     disabled={selectedIconType !== AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM}
                   />,
                   // A.3 - section EN title
@@ -463,7 +463,7 @@ export class NavigationItemEditionDialog extends React.Component {
                 component={RenderSelectField}
                 label={formatMessage({ id: 'menu.form.navigation.edit.item.dialog.visibility.visible.for.role.field' })}
                 disabled={selectedVisibilityMode !== VISIBILITY_MODES_ENUM.FOR_ROLE}
-                validate={this.validateRoleField}
+                validate={NavigationItemEditionDialog.validateRoleField}
                 fullWidth
               >
                 { /** Possible roles */

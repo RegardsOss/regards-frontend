@@ -53,6 +53,18 @@ export class ConnectionViewerComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Show a foreign key icon if the table attribute is a FK, otherwise nothing
+   * @param tableAttribute
+   * @returns {*}
+   */
+  static showFK(tableAttribute) {
+    if (tableAttribute.isPrimaryKey) {
+      return (<KeyIcon />)
+    }
+    return null
+  }
+
   state = {
     tableOpen: '',
   }
@@ -101,18 +113,6 @@ export class ConnectionViewerComponent extends React.Component {
   }
 
   /**
-   * Show a foreign key icon if the table attribute is a FK, otherwise nothing
-   * @param tableAttribute
-   * @returns {*}
-   */
-  showFK = (tableAttribute) => {
-    if (tableAttribute.isPrimaryKey) {
-      return (<KeyIcon />)
-    }
-    return null
-  }
-
-  /**
    * Replace the default icon "^" by a mark if the user wants to map attributes to a table
    * @param isOpen
    * @returns {*}
@@ -142,7 +142,7 @@ export class ConnectionViewerComponent extends React.Component {
         <ListItem
           key={tableAttribute.name}
           secondaryText={tableAttribute.javaSqlType}
-          rightIcon={this.showFK(tableAttribute)}
+          rightIcon={ConnectionViewerComponent.showFK(tableAttribute)}
           disabled
           style={styleTableAttribute}
         >

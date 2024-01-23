@@ -74,7 +74,7 @@ class ProjectSidebarComponent extends React.Component {
   /** Roles allowed to see instance administration link */
   static INSTANCE_ADMINISTRATION_LINK_ROLES = [AdminDomain.DEFAULT_ROLES_ENUM.INSTANCE_ADMIN, AdminDomain.DEFAULT_ROLES_ENUM.PROJECT_ADMIN]
 
-  handleRedirectToInstanceAdminDashboard = () => {
+  static handleRedirectToInstanceAdminDashboard() {
     window.open(/admin/, '_blank')
   }
 
@@ -175,7 +175,7 @@ class ProjectSidebarComponent extends React.Component {
           <MenuItem
             primaryText={this.context.intl.formatMessage({ id: 'menu.instance' })}
             leftIcon={<Back color={this.context.muiTheme.svgIcon.color} />}
-            onClick={this.handleRedirectToInstanceAdminDashboard}
+            onClick={ProjectSidebarComponent.handleRedirectToInstanceAdminDashboard}
           />
         </ShowableAtRender>
       </Drawer>

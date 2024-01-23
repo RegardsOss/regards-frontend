@@ -39,7 +39,9 @@ export class FileFiltersComponent extends React.Component {
     ...i18nContextType,
   }
 
-  filterValueExist = (filterKey, filters) => !!get(filters, filterKey, null)
+  static filterValueExist(filterKey, filters) {
+    return !!get(filters, filterKey, null)
+  }
 
   getFilterValue = (filterKey, filters) => {
     const { intl: { formatMessage } } = this.context
@@ -61,7 +63,7 @@ export class FileFiltersComponent extends React.Component {
       } = this.context,
     } = this.context
     return (
-      this.filterValueExist(filterType, filters)
+      FileFiltersComponent.filterValueExist(filterType, filters)
         ? <div style={lineDivStyle}>
           <p style={lineLabelStyle}>
             {`${formatMessage({ id: `datasets.list.column.fileFilters.${filterType}.label` })}: `}

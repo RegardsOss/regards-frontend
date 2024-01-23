@@ -93,6 +93,28 @@ export class ManageDatasetProcessingContainer extends React.Component {
     return null
   }
 
+  /**
+   * Manipulation of metadata, processingConf & links to create an easily exploitable object
+   */
+  static getProcessingConfParametersSelected(processingConfParametersObjects, process) {
+    const processBusinessId = get(process, 'processBusinessId', null)
+
+    // Set selected conf to dataset process businessId if exist, if not set to first conf found in processingConfParameters collection
+    let processingConfParametersSelected = get(processingConfParametersObjects, `${processBusinessId}`, {})
+    if (isEmpty(processingConfParametersSelected)) {
+      processingConfParametersSelected = get(processingConfParametersObjects, keys(processingConfParametersObjects)[0])
+    }
+    return processingConfParametersSelected
+  }
+
+  /**
+   * We need this to check if conf selected need parameters configuration
+   * @param {*} businessId
+   */
+  static isParametersConfigurationNeeded(processingConfParametersSelected) {
+    return !isEmpty(processingConfParametersSelected.resolvedParameters)
+  }
+
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     datasetIpid: PropTypes.string.isRequired,
@@ -180,8 +202,8 @@ export class ManageDatasetProcessingContainer extends React.Component {
         || !isEqual(oldProps.process, process)
       )) {
       newState.processingConfParametersObjects = this.getProcessingConfParametersObjects(oldState.linkProcessingDatasetList, processingConfigurationList, process)
-      newState.processingConfParametersSelected = this.getProcessingConfParametersSelected(newState.processingConfParametersObjects, process)
-      newState.isProcessingConfSelectedConfigurable = !!newState.processingConfParametersSelected && this.isParametersConfigurationNeeded(newState.processingConfParametersSelected)
+      newState.processingConfParametersSelected = ManageDatasetProcessingContainer.getProcessingConfParametersSelected(newState.processingConfParametersObjects, process)
+      newState.isProcessingConfSelectedConfigurable = !!newState.processingConfParametersSelected && ManageDatasetProcessingContainer.isParametersConfigurationNeeded(newState.processingConfParametersSelected)
     }
     // update when there is a state change
     if (!isEqual(oldState, newState) || this.state.isLoading !== newState.isLoading) {
@@ -231,26 +253,6 @@ export class ManageDatasetProcessingContainer extends React.Component {
   }
 
   /**
-   * Manipulation of metadata, processingConf & links to create an easily exploitable object
-   */
-  getProcessingConfParametersSelected = (processingConfParametersObjects, process) => {
-    const processBusinessId = get(process, 'processBusinessId', null)
-
-    // Set selected conf to dataset process businessId if exist, if not set to first conf found in processingConfParameters collection
-    let processingConfParametersSelected = get(processingConfParametersObjects, `${processBusinessId}`, {})
-    if (isEmpty(processingConfParametersSelected)) {
-      processingConfParametersSelected = get(processingConfParametersObjects, keys(processingConfParametersObjects)[0])
-    }
-    return processingConfParametersSelected
-  }
-
-  /**
-   * We need this to check if conf selected need parameters configuration
-   * @param {*} businessId
-   */
-  isParametersConfigurationNeeded = (processingConfParametersSelected) => !isEmpty(processingConfParametersSelected.resolvedParameters)
-
-  /**
    * Handle selected change
    * @param {*} link
    */
@@ -261,7 +263,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
     const processingConfParametersSelected = get(processingConfParametersObjects, `${value}`, {})
     this.setState({
       processingConfParametersSelected,
-      isProcessingConfSelectedConfigurable: this.isParametersConfigurationNeeded(processingConfParametersSelected),
+      isProcessingConfSelectedConfigurable: ManageDatasetProcessingContainer.isParametersConfigurationNeeded(processingConfParametersSelected),
     })
   }
 
@@ -278,7 +280,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
     if (processBusinessId !== processingConfParametersSelected.businessId || !isEqual(processingConfParametersSelected.parameters, formValues)) {
       // We need to create a new object instead of update it directly in state because we need it for backend call.
       // We update parameters values only if conf has parameters
-      if (this.isParametersConfigurationNeeded(processingConfParametersSelectedFound)) {
+      if (ManageDatasetProcessingContainer.isParametersConfigurationNeeded(processingConfParametersSelectedFound)) {
         processingConfParametersSelectedFound = {
           ...processingConfParametersSelectedFound,
           parameters: formValues,

@@ -82,6 +82,17 @@ class ModuleFormComponent extends React.Component {
     },
   }
 
+  /**
+   * Validates custom icon URL
+   */
+  static validateCustomIcon(textURL, values) {
+    if (values.pageIconType === AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM) {
+      // when in custom icon type, that field is required
+      return ValidationHelpers.required(textURL) || ValidationHelpers.url(textURL)
+    }
+    return undefined // no error in any other case
+  }
+
   /** Initial state */
   state = (() => {
     let dynamicContainerSelected
@@ -129,17 +140,6 @@ class ModuleFormComponent extends React.Component {
       moduleSelected: true,
       module: merge({}, this.state.module, { type: value }),
     })
-  }
-
-  /**
-   * Validates custom icon URL
-   */
-  validateCustomIcon = (textURL, values) => {
-    if (values.pageIconType === AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM) {
-      // when in custom icon type, that field is required
-      return ValidationHelpers.required(textURL) || ValidationHelpers.url(textURL)
-    }
-    return undefined // no error in any other case
   }
 
   /**
@@ -242,7 +242,7 @@ class ModuleFormComponent extends React.Component {
           fullWidth
           type="text"
           label={formatMessage({ id: 'module.form.page.custom.icon.url' })}
-          validate={this.validateCustomIcon}
+          validate={ModuleFormComponent.validateCustomIcon}
         />
         {/* page english title */}
         <Field

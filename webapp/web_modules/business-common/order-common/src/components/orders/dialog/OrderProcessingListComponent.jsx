@@ -42,11 +42,11 @@ class OrderProcessingListComponent extends React.Component {
     ...themeContextType,
   }
 
+  static getTabValue = (orderProcessing) => orderProcessing.datasetId
+
   state = {
     activeOrderProcessing: this.props.orderProcessings.orderProcessingList[0],
   }
-
-  getTabValue = (orderProcessing) => orderProcessing.datasetId
 
   setActiveTab = (orderProcessing) => {
     this.setState({
@@ -79,16 +79,16 @@ class OrderProcessingListComponent extends React.Component {
           style={scrollAreaStyle}
         >
           <SelectableList
-            defaultValue={this.getTabValue(activeOrderProcessing)}
+            defaultValue={OrderProcessingListComponent.getTabValue(activeOrderProcessing)}
             onSelect={this.setActiveTab}
           >
             {map(orderProcessingList, (orderProcessing) => (
               <ListItem
-                key={this.getTabValue(orderProcessing)}
+                key={OrderProcessingListComponent.getTabValue(orderProcessing)}
                 value={orderProcessing}
                 title={`${orderProcessing.datasetLabel}`}
                 primaryText={<div style={globalTextStyle}>{orderProcessing.datasetLabel}</div>}
-                style={this.getTabValue(orderProcessing) === this.getTabValue(activeOrderProcessing) ? selectedDatasetStyle : null}
+                style={OrderProcessingListComponent.getTabValue(orderProcessing) === OrderProcessingListComponent.getTabValue(activeOrderProcessing) ? selectedDatasetStyle : null}
               />
             ))}
           </SelectableList>

@@ -194,7 +194,7 @@ class BrowsingTreeComponent extends React.Component {
    * @param {*} descriptionEntity matching DescriptionState.DescriptionEntity
    * @return {[*]} rows to display
    */
-  buildTreeTableRows = ({
+  static buildTreeTableRows({
     entityWithTreeEntry: {
       selectedTreeEntry,
     },
@@ -208,40 +208,42 @@ class BrowsingTreeComponent extends React.Component {
       linkedDocuments,
       otherVersions,
     },
-  }) => [
-    // 1 - Parameters section row
-    BrowsingTreeComponent.buildLinkSectionRow(UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, selectedTreeEntry),
-    // 2 - Information files section if there are any
-    BrowsingTreeComponent.buildlListSectionRow(
-      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION, BrowsingTreeComponent.CELL_TYPES.FILE, descriptionFiles,
-      BrowsingTreeComponent.buildFileOptionCellModel, selectedTreeEntry),
-    // 3 - Quicklooks
-    quicklookFiles.length ? BrowsingTreeComponent.buildLinkSectionRow(UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.QUICKLOOKS, selectedTreeEntry) : null,
-    // 4 - Simple tags
-    BrowsingTreeComponent.buildlListSectionRow(
-      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.SIMPLE_TAGS, BrowsingTreeComponent.CELL_TYPES.TAG, wordTags,
-      BrowsingTreeComponent.buildTagOptionCellModel, selectedTreeEntry),
-    // 5 - Linked entities
-    BrowsingTreeComponent.buildlListSectionRow(
-      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.LINKED_ENTITIES, BrowsingTreeComponent.CELL_TYPES.ENTITY, linkedEntities,
-      BrowsingTreeComponent.buildEntityOptionCellModel, selectedTreeEntry),
-    // 6 - Coupling tags
-    BrowsingTreeComponent.buildlListSectionRow(
-      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.COUPLED_TAGS, BrowsingTreeComponent.CELL_TYPES.TAG, couplingTags,
-      BrowsingTreeComponent.buildTagOptionCellModel, selectedTreeEntry),
-    // 7 - Linked documents
-    BrowsingTreeComponent.buildlListSectionRow(
-      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.LINKED_DOCUMENTS, BrowsingTreeComponent.CELL_TYPES.ENTITY, linkedDocuments,
-      BrowsingTreeComponent.buildEntityOptionCellModel, selectedTreeEntry),
-    // 8 - Other files
-    BrowsingTreeComponent.buildlListSectionRow(
-      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.FILES, BrowsingTreeComponent.CELL_TYPES.FILE,
-      otherFiles, BrowsingTreeComponent.buildFileOptionCellModel, selectedTreeEntry),
-    // 9 - Other entity versions
-    BrowsingTreeComponent.buildlListSectionRow(
-      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.OTHER_VERSIONS, BrowsingTreeComponent.CELL_TYPES.VERSION, otherVersions,
-      null, selectedTreeEntry),
-  ].filter((row) => !!row) // remove null rows
+  }) {
+    return [
+      // 1 - Parameters section row
+      BrowsingTreeComponent.buildLinkSectionRow(UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, selectedTreeEntry),
+      // 2 - Information files section if there are any
+      BrowsingTreeComponent.buildlListSectionRow(
+        UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION, BrowsingTreeComponent.CELL_TYPES.FILE, descriptionFiles,
+        BrowsingTreeComponent.buildFileOptionCellModel, selectedTreeEntry),
+      // 3 - Quicklooks
+      quicklookFiles.length ? BrowsingTreeComponent.buildLinkSectionRow(UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.QUICKLOOKS, selectedTreeEntry) : null,
+      // 4 - Simple tags
+      BrowsingTreeComponent.buildlListSectionRow(
+        UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.SIMPLE_TAGS, BrowsingTreeComponent.CELL_TYPES.TAG, wordTags,
+        BrowsingTreeComponent.buildTagOptionCellModel, selectedTreeEntry),
+      // 5 - Linked entities
+      BrowsingTreeComponent.buildlListSectionRow(
+        UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.LINKED_ENTITIES, BrowsingTreeComponent.CELL_TYPES.ENTITY, linkedEntities,
+        BrowsingTreeComponent.buildEntityOptionCellModel, selectedTreeEntry),
+      // 6 - Coupling tags
+      BrowsingTreeComponent.buildlListSectionRow(
+        UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.COUPLED_TAGS, BrowsingTreeComponent.CELL_TYPES.TAG, couplingTags,
+        BrowsingTreeComponent.buildTagOptionCellModel, selectedTreeEntry),
+      // 7 - Linked documents
+      BrowsingTreeComponent.buildlListSectionRow(
+        UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.LINKED_DOCUMENTS, BrowsingTreeComponent.CELL_TYPES.ENTITY, linkedDocuments,
+        BrowsingTreeComponent.buildEntityOptionCellModel, selectedTreeEntry),
+      // 8 - Other files
+      BrowsingTreeComponent.buildlListSectionRow(
+        UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.FILES, BrowsingTreeComponent.CELL_TYPES.FILE,
+        otherFiles, BrowsingTreeComponent.buildFileOptionCellModel, selectedTreeEntry),
+      // 9 - Other entity versions
+      BrowsingTreeComponent.buildlListSectionRow(
+        UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.OTHER_VERSIONS, BrowsingTreeComponent.CELL_TYPES.VERSION, otherVersions,
+        null, selectedTreeEntry),
+    ].filter((row) => !!row) // remove null rows
+  }
 
   /**
    * Builds a cell (here, first column as there is only one)
@@ -331,7 +333,7 @@ class BrowsingTreeComponent extends React.Component {
       <ScrollArea vertical stopScrollPropagation contentStyle={scrollAreaContent} style={style}>
         <TreeTableComponent
           model={descriptionEntity}
-          buildTreeTableRows={this.buildTreeTableRows}
+          buildTreeTableRows={BrowsingTreeComponent.buildTreeTableRows}
           buildCellComponent={this.buildCellComponent}
           columns={BrowsingTreeComponent.COLUMNS_FILLER}
           stripeLevelColors={false}

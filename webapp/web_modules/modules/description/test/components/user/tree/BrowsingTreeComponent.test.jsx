@@ -70,7 +70,7 @@ describe('[Description] Testing BrowsingTreeComponent', () => {
     assert.lengthOf(treeWrapper, 1, 'Tree should be visible')
     testSuiteHelpers.assertWrapperProperties(treeWrapper, {
       model: props.descriptionEntity,
-      buildTreeTableRows: enzymeWrapper.instance().buildTreeTableRows,
+      buildTreeTableRows: BrowsingTreeComponent.buildTreeTableRows,
       buildCellComponent: enzymeWrapper.instance().buildCellComponent,
       columns: BrowsingTreeComponent.COLUMNS_FILLER,
     }, 'Tree properties should be correctly set')

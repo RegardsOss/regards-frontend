@@ -50,6 +50,10 @@ export default class CesiumCursorPosition extends React.Component {
     lineHeight: '1.5em',
   }
 
+  static roundNumber(num, dec) {
+    return Math.round(num * (10 ** dec)) / (10 ** dec)
+  }
+
   state = {
     coordText: null, // Cursor coordinates text
   }
@@ -63,8 +67,8 @@ export default class CesiumCursorPosition extends React.Component {
       const cartesian = camera.pickEllipsoid(new Cartesian3(endPosition.x, endPosition.y), ellipsoid)
       if (cartesian) {
         const cartographic = ellipsoid.cartesianToCartographic(cartesian)
-        const lon = this.roundNumber(CesiumMath.toDegrees(cartographic.longitude), 3)
-        const lat = this.roundNumber(CesiumMath.toDegrees(cartographic.latitude), 3)
+        const lon = CesiumCursorPosition.roundNumber(CesiumMath.toDegrees(cartographic.longitude), 3)
+        const lat = CesiumCursorPosition.roundNumber(CesiumMath.toDegrees(cartographic.latitude), 3)
         const latPos = lat >= 0 ? lat : -1.0 * lat
         const latOrient = lat >= 0 ? 'N' : 'S'
         const lonPos = lon >= 0 ? lon : -1.0 * lon
@@ -79,10 +83,6 @@ export default class CesiumCursorPosition extends React.Component {
       }
     }
   }, 50, { leading: true, trailing: true })
-
-  roundNumber = (num, dec) => (
-    Math.round(num * (10 ** dec)) / (10 ** dec)
-  )
 
   render() {
     const { coordText } = this.state

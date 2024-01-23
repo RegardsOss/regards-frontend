@@ -61,6 +61,31 @@ class OrderCartComponent extends React.Component {
     ...themeContextType,
   }
 
+  /**
+   * Renders module options
+   * @param {function} onClearCart on clear cart callback
+   * @param {function} onOrder on order callback
+   * @param {boolean} isFetching is fetching?
+   * @param {boolean} isNoContent is no content?
+   * @return [React.Element] options list
+   */
+  static renderOptions(onClearCart, onOrder, isFetching, isNoContent) {
+    return [
+      <OrderComponent
+        key="options.order"
+        isFetching={isFetching}
+        empty={isNoContent}
+        onOrder={onOrder}
+      />,
+      <ClearCartComponent
+        key="options.clear.cart"
+        isFetching={isFetching}
+        empty={isNoContent}
+        onClearCart={onClearCart}
+      />,
+    ]
+  }
+
   /** Initial component state */
   state = {
     showMessage: false,
@@ -77,29 +102,6 @@ class OrderCartComponent extends React.Component {
    * Callback: show duplicated message
    */
   onHideDuplicatedMessage = () => this.setState({ totalObjectsCount: 0, effectiveObjectsCount: 0, showMessage: false })
-
-  /**
-   * Renders module options
-   * @param {function} onClearCart on clear cart callback
-   * @param {function} onOrder on order callback
-   * @param {boolean} isFetching is fetching?
-   * @param {boolean} isNoContent is no content?
-   * @return [React.Element] options list
-   */
-  renderOptions = (onClearCart, onOrder, isFetching, isNoContent) => [
-    <OrderComponent
-      key="options.order"
-      isFetching={isFetching}
-      empty={isNoContent}
-      onOrder={onOrder}
-    />,
-    <ClearCartComponent
-      key="options.clear.cart"
-      isFetching={isFetching}
-      empty={isNoContent}
-      onClearCart={onClearCart}
-    />,
-  ]
 
   render() {
     const {
@@ -122,7 +124,7 @@ class OrderCartComponent extends React.Component {
     return (
       <div style={root}>
         <DynamicModulePane
-          options={this.renderOptions(onClearCart, onOrder, isFetching, isNoContent)}
+          options={OrderCartComponent.renderOptions(onClearCart, onOrder, isFetching, isNoContent)}
           requiresAuthentication
           requiredDependencies={dependencies}
           {...moduleProperties}

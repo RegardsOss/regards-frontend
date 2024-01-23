@@ -42,7 +42,7 @@ describe('[ADMIN CLIENT] Testing model AttributesBounds', () => {
     entityTester.beforeAll()
   })
   after(() => {
-    entityTester.afterAll()
+    ReduxEntityTester.afterAll()
   })
   it('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
     entityTester.runTests(done)

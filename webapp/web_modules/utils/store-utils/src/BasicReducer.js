@@ -38,7 +38,9 @@ class BasicReducer {
    * @return {boolean} False when cancelPendingAfter time has not been set up, or action meta requestTime has not
    * been set up or action request time is older than cancelPendingAfter time. True when action is cancelled
    */
-  isCancelled = (state, action) => get(state, 'cancelPendingAfter', 0) > get(action, 'meta.requestTime', Number.MAX_SAFE_INTEGER)
+  static isCancelled(state, action) {
+    return get(state, 'cancelPendingAfter', 0) > get(action, 'meta.requestTime', Number.MAX_SAFE_INTEGER)
+  }
 
   reduce(state = this.defaultState, action) {
     switch (action.type) {

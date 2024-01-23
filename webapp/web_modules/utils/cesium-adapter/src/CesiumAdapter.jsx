@@ -93,6 +93,50 @@ export default class CesiumAdapter extends React.Component {
 
   static DEFAULT_POINT_ZOOM_LEVEL = 100000
 
+  static getSelectedFeature(featuresCollection, selectedProductId) {
+    return find(featuresCollection.features, (feature) => feature.id === selectedProductId)
+  }
+
+  static getZoomToFeature(featuresCollection, zoomToFeature) {
+    return find(featuresCollection.features, (feature) => feature.id === zoomToFeature.id)
+  }
+
+  static getGreyBackgroundProvider(layers, viewMode) {
+    const backgroundLayerInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode, UIDomain.MAP_ENGINE_ENUM.CESIUM)
+    const greyBackgroundProvider = getImageryProvider(backgroundLayerInfo, null, 1)
+    greyBackgroundProvider.defaultContrast = 0.2
+    return greyBackgroundProvider
+  }
+
+  static getCustomLayerProviders(layers, viewMode) {
+    const layersInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.CUSTOM, viewMode, UIDomain.MAP_ENGINE_ENUM.CESIUM)
+    return map(layersInfo, (layerInfo) => getImageryProvider(layerInfo))
+  }
+
+  /**
+   * Compute center point for camera destination
+   * @param {*} geometry
+   */
+  static getCameraDestination(geometry) {
+    switch (geometry.type) {
+      case 'Point': {
+        const zoom = STATIC_CONF.MAP.POINT_ZOOM_LEVEL || CesiumAdapter.DEFAULT_POINT_ZOOM_LEVEL
+        return Cartesian3.fromDegrees(geometry.coordinates[0], geometry.coordinates[1], zoom)
+      }
+      default: {
+        const bBox = toBBox(geometry)
+        return Rectangle.fromDegrees(bBox[0], bBox[1], bBox[2], bBox[3])
+      }
+    }
+  }
+
+  static getNewCameraDestination(geometry) {
+    return {
+      time: new Date().getTime(),
+      destination: CesiumAdapter.getCameraDestination(geometry),
+    }
+  }
+
   state = {
     greyBackgroundProvider: null, // background layer
     customLayerProviders: null, // custom layers
@@ -129,19 +173,19 @@ export default class CesiumAdapter extends React.Component {
     } = this.props
 
     // Background layer with constrast
-    const greyBackgroundProvider = this.getGreyBackgroundProvider(layers, viewMode)
+    const greyBackgroundProvider = CesiumAdapter.getGreyBackgroundProvider(layers, viewMode)
 
     // We add another background layer which take all the globe surface. It is resized when a drawn an area exist.
     let cameraDestination = null
     let cameraDestinationTime = null
     if (!isEmpty(drawnAreas)) {
-      const { time, destination } = this.getNewCameraDestination(drawnAreas[0].geometry)
+      const { time, destination } = CesiumAdapter.getNewCameraDestination(drawnAreas[0].geometry)
       cameraDestination = destination
       cameraDestinationTime = time
     }
 
     // Load data layers if any exist
-    const customLayerProviders = this.getCustomLayerProviders(layers, viewMode)
+    const customLayerProviders = CesiumAdapter.getCustomLayerProviders(layers, viewMode)
 
     const cesiumFeaturesColor = Color.fromCssColorString(this.props.featuresColor)
     const cesiumDrawColor = Color.fromCssColorString(this.props.drawColor)
@@ -196,7 +240,7 @@ export default class CesiumAdapter extends React.Component {
         forEach(selectedProducts, (selectedProduct) => {
           const selectedProductId = get(selectedProduct, 'content.id')
           if (selectedProductId && !includes(storedSelectedProductsIds, selectedProductId)) {
-            const selectedFeature = this.getSelectedFeature(featuresCollection, selectedProductId)
+            const selectedFeature = CesiumAdapter.getSelectedFeature(featuresCollection, selectedProductId)
             if (selectedFeature) {
               storedSelectedProducts.push(selectedFeature)
             }
@@ -215,16 +259,16 @@ export default class CesiumAdapter extends React.Component {
     // Manage camera destination
     if (!isEqual(oldProps.zoomToFeature, zoomToFeature) || !isEqual(oldProps.drawnAreas, drawnAreas)) {
       if (!isEqual(oldProps.zoomToFeature, zoomToFeature)) {
-        const zoomToFeatureFeature = this.getZoomToFeature(featuresCollection, zoomToFeature)
+        const zoomToFeatureFeature = CesiumAdapter.getZoomToFeature(featuresCollection, zoomToFeature)
         if (zoomToFeatureFeature) {
-          const { time, destination } = this.getNewCameraDestination(zoomToFeatureFeature.geometry)
+          const { time, destination } = CesiumAdapter.getNewCameraDestination(zoomToFeatureFeature.geometry)
           newState.cameraDestination = destination
           newState.cameraDestinationTime = time
         }
       } else if (!isEmpty(drawnAreas)) {
         // When user stop drawing area or toponym change
         if (drawingSelection === false) {
-          const { time, destination } = this.getNewCameraDestination(drawnAreas[0].geometry)
+          const { time, destination } = CesiumAdapter.getNewCameraDestination(drawnAreas[0].geometry)
           newState.cameraDestination = destination
           newState.cameraDestinationTime = time
         }
@@ -233,44 +277,6 @@ export default class CesiumAdapter extends React.Component {
 
     if (!isEqual(oldState, newState)) {
       this.setState(newState)
-    }
-  }
-
-  getSelectedFeature = (featuresCollection, selectedProductId) => find(featuresCollection.features, (feature) => feature.id === selectedProductId)
-
-  getZoomToFeature = (featuresCollection, zoomToFeature) => find(featuresCollection.features, (feature) => feature.id === zoomToFeature.id)
-
-  getGreyBackgroundProvider = (layers, viewMode) => {
-    const backgroundLayerInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode, UIDomain.MAP_ENGINE_ENUM.CESIUM)
-    const greyBackgroundProvider = getImageryProvider(backgroundLayerInfo, null, 1)
-    greyBackgroundProvider.defaultContrast = 0.2
-    return greyBackgroundProvider
-  }
-
-  getCustomLayerProviders = (layers, viewMode) => {
-    const layersInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.CUSTOM, viewMode, UIDomain.MAP_ENGINE_ENUM.CESIUM)
-    return map(layersInfo, (layerInfo) => getImageryProvider(layerInfo))
-  }
-
-  getNewCameraDestination = (geometry) => ({
-    time: new Date().getTime(),
-    destination: this.getCameraDestination(geometry),
-  })
-
-  /**
-   * Compute center point for camera destination
-   * @param {*} geometry
-   */
-  getCameraDestination = (geometry) => {
-    switch (geometry.type) {
-      case 'Point': {
-        const zoom = STATIC_CONF.MAP.POINT_ZOOM_LEVEL || CesiumAdapter.DEFAULT_POINT_ZOOM_LEVEL
-        return Cartesian3.fromDegrees(geometry.coordinates[0], geometry.coordinates[1], zoom)
-      }
-      default: {
-        const bBox = toBBox(geometry)
-        return Rectangle.fromDegrees(bBox[0], bBox[1], bBox[2], bBox[3])
-      }
     }
   }
 

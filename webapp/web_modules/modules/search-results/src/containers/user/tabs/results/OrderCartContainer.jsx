@@ -144,6 +144,29 @@ export class OrderCartContainer extends React.Component {
   }
 
   /**
+   * Computes cart related state fields from component properties
+   * @param {*} properties this component properties
+   * @return {boolean} true if basket is available
+   */
+  static isBasketAvailable({
+    isAuthenticated, modules, availableDependencies,
+  }) {
+    // Available if...
+    // A - User is logged in
+    if (isAuthenticated) {
+      // B - There is / are active Order cart module(s)
+      const hasOrderCartModule = find((modules || {}), (module) => (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART
+        && get(module, 'content.active', false)))
+      if (hasOrderCartModule) {
+        // C - Finally, user must have rights to manage the basket
+        return allMatchHateoasDisplayLogic(OrderCartContainer.BASKET_DEPENDENCIES, availableDependencies)
+      }
+    }
+    // otherwise: it isn't available
+    return false
+  }
+
+  /**
    * Lifecycle hook: component will mount, used here to update component state
    */
   UNSAFE_componentWillMount = () => this.onPropertiesChanged({}, this.props)
@@ -170,7 +193,7 @@ export class OrderCartContainer extends React.Component {
       || !isEqual(oldProps.toggledElements, newProps.toggledElements)
       || !isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       // recompute if basket should be displayed
-      newState.basketAvailaible = this.isBasketAvailable(newProps)
+      newState.basketAvailaible = OrderCartContainer.isBasketAvailable(newProps)
     }
     // update callbacks when basket available state changes or view object type changes
     if (oldProps.viewObjectType !== newProps.viewObjectType
@@ -279,29 +302,6 @@ export class OrderCartContainer extends React.Component {
     const { requestParameters, dispatchAddToCart } = this.props
     // Provide current parameters as restriction on dataset
     dispatchAddToCart(null, null, requestParameters, datasetEntity.content.id)
-  }
-
-  /**
-   * Computes cart related state fields from component properties
-   * @param {*} properties this component properties
-   * @return {boolean} true if basket is available
-   */
-  isBasketAvailable = ({
-    isAuthenticated, modules, availableDependencies, viewObjectType,
-  }) => {
-    // Available if...
-    // A - User is logged in
-    if (isAuthenticated) {
-      // B - There is / are active Order cart module(s)
-      const hasOrderCartModule = find((modules || {}), (module) => (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART
-        && get(module, 'content.active', false)))
-      if (hasOrderCartModule) {
-        // C - Finally, user must have rights to manage the basket
-        return allMatchHateoasDisplayLogic(OrderCartContainer.BASKET_DEPENDENCIES, availableDependencies)
-      }
-    }
-    // otherwise: it isn't available
-    return false
   }
 
   render() {

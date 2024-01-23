@@ -80,6 +80,21 @@ export class AIPDatasourceFormContainer extends React.Component {
     updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
   })
 
+  /**
+   * The mapping defined in the form use the caracter @ instead of .
+   * This function just replaces that token foreach value
+   * @param values form values
+   */
+  static computeMappings(values) {
+    const result = {}
+    forEach(values.mapping, (value, key) => {
+      if (value) {
+        result[key.replace(/@/g, '.')] = value
+      }
+    })
+    return result
+  }
+
   state = {
     isCreating: this.props.params.datasourceId === undefined,
     isEditing: this.props.params.datasourceId !== undefined,
@@ -150,21 +165,6 @@ export class AIPDatasourceFormContainer extends React.Component {
   }
 
   /**
-   * The mapping defined in the form use the caracter @ instead of .
-   * This function just replaces that token foreach value
-   * @param values form values
-   */
-  computeMappings = (values) => {
-    const result = {}
-    forEach(values.mapping, (value, key) => {
-      if (value) {
-        result[key.replace(/@/g, '.')] = value
-      }
-    })
-    return result
-  }
-
-  /**
    * Fetch model attributes
    * @param modelName the model the user clicked o
    */
@@ -213,7 +213,7 @@ export class AIPDatasourceFormContainer extends React.Component {
 
   handleSave = (values) => {
     const { isCreating } = this.state
-    const mappings = this.computeMappings(values)
+    const mappings = AIPDatasourceFormContainer.computeMappings(values)
     const parameters = [
       {
         name: IAIPDatasourceParamsEnum.BINDMAP_MAP,

@@ -40,15 +40,17 @@ class AccountRefuseComponent extends React.Component {
     ...themeContextType,
   }
 
+  /**
+   * @return {boolean} true if administrator can refuse this account
+   */
+  static canRefuseAccount(account) {
+    return AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
+  }
+
   onOpenRefuseDialog = () => {
     const { onOpenRefuseDialog, entity } = this.props
     onOpenRefuseDialog(entity)
   }
-
-  /**
-   * @return {boolean} true if administrator can refuse this account
-   */
-  canRefuseAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
 
   render() {
     const { entity, isFetchingActions } = this.props
@@ -58,7 +60,7 @@ class AccountRefuseComponent extends React.Component {
         className="selenium-refuseButton"
         title={formatMessage({ id: 'account.list.table.action.refuse.tooltip' })}
         onClick={this.onOpenRefuseDialog}
-        disabled={isFetchingActions || !this.canRefuseAccount(entity)}
+        disabled={isFetchingActions || !AccountRefuseComponent.canRefuseAccount(entity)}
         entityLinks={entity.links}
         hateoasKey={HateoasKeys.REFUSE}
         alwaysDisplayforInstanceUser={false}

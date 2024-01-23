@@ -133,6 +133,12 @@ export class NotificationListContainer extends React.Component {
     return valuesArray.length ? valuesArray[0] : null
   }
 
+  static perform(promise, onRefresh) {
+    Promise.resolve(promise).then(() => Promise.resolve(
+      onRefresh(true),
+    ))
+  }
+
   state = {
     isInstance: !this.props.project,
   }
@@ -186,7 +192,7 @@ export class NotificationListContainer extends React.Component {
     }
     promises.push(this.props.fetchNotification(notification.id, this.state.isInstance))
     this.restartTimer()
-    this.perform(promises, onRefresh)
+    NotificationListContainer.perform(promises, onRefresh)
   }
 
   /**
@@ -201,7 +207,7 @@ export class NotificationListContainer extends React.Component {
     } = this.props
     const { isInstance } = this.state
     this.restartTimer()
-    this.perform(deleteNotifications(requestParameters, this.state.isInstance).then((actionResult) => {
+    NotificationListContainer.perform(deleteNotifications(requestParameters, this.state.isInstance).then((actionResult) => {
       if (!actionResult.error) {
         const idsToDelete = get(requestParameters, `${NOTIFICATION_FILTER_PARAMS.IDS}.${CommonDomain.REQUEST_PARAMETERS.VALUES}`, [])
         const deletionMode = get(requestParameters, `${NOTIFICATION_FILTER_PARAMS.IDS}.${CommonDomain.REQUEST_PARAMETERS.MODE}`, TableSelectionModes.INCLUDE)
@@ -217,12 +223,6 @@ export class NotificationListContainer extends React.Component {
 
   registerNotify = (notify) => {
     this.notify = notify
-  }
-
-  perform = (promise, onRefresh) => {
-    Promise.resolve(promise).then(() => Promise.resolve(
-      onRefresh(true),
-    ))
   }
 
   render() {

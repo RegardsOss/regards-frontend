@@ -55,18 +55,22 @@ class ModelAttributeComponent extends React.Component {
     fontStyle: 'italic',
   }
 
-  /**
-   * When the user select a plugin configuration, send the updated value to the server
-   * @param value the pluginConfiguration id
-   */
-  onPluginConfigurationChange = (value) => this.props.handleComputationUpdate(value)
-
-  showIfAttributeIsNotOptional = (modelAttribute) => {
+  static showIfAttributeIsNotOptional(modelAttribute) {
     if (!modelAttribute.content.attribute.optional) {
       return ' (*)'
     }
     return null
   }
+
+  static getAttrInfo(attr) {
+    return compact([attr.label, attr.description]).join(' - ')
+  }
+
+  /**
+   * When the user select a plugin configuration, send the updated value to the server
+   * @param value the pluginConfiguration id
+   */
+  onPluginConfigurationChange = (value) => this.props.handleComputationUpdate(value)
 
   /**
    * @returns {bool} true when Is computing plugin selection is allowed (computed using parent model type)
@@ -100,10 +104,6 @@ class ModelAttributeComponent extends React.Component {
     return null
   }
 
-  getAttrInfo = (attr) => (
-    compact([attr.label, attr.description]).join(' - ')
-  )
-
   render() {
     const { modelAttribute, pluginMetaDataList, pluginConfigurationList } = this.props
 
@@ -118,9 +118,9 @@ class ModelAttributeComponent extends React.Component {
           showRowHover={false}
         >
           <TableRow>
-            <TableRowColumn title={this.getAttrInfo(modelAttribute.content.attribute)}>
+            <TableRowColumn title={ModelAttributeComponent.getAttrInfo(modelAttribute.content.attribute)}>
               {modelAttribute.content.attribute.name}
-              {this.showIfAttributeIsNotOptional(modelAttribute)}
+              {ModelAttributeComponent.showIfAttributeIsNotOptional(modelAttribute)}
               {' - '}
               <span style={ModelAttributeComponent.typeStyle}>
                 {modelAttribute.content.attribute.type}

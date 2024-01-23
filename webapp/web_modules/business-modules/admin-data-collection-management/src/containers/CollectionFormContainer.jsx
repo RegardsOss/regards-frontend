@@ -61,6 +61,10 @@ export class CollectionFormContainer extends React.Component {
     clearModelAttributeList: PropTypes.func.isRequired,
   }
 
+  static extractCollectionFromActionResult(actionResult) {
+    return actionResult.payload.entities.collection[keys(actionResult.payload.entities.collection)[0]].content
+  }
+
   state = {
     isCreating: this.props.params.collectionId === undefined,
     isEditing: this.props.params.collectionId !== undefined && this.props.params.mode === 'edit',
@@ -75,7 +79,7 @@ export class CollectionFormContainer extends React.Component {
           // We receive here the action
           if (!actionResult.error) {
             // We extract the collection name from the action
-            const collection = this.extractCollectionFromActionResult(actionResult)
+            const collection = CollectionFormContainer.extractCollectionFromActionResult(actionResult)
             this.props.fetchModelAttributeList(collection.model.name)
           }
         })
@@ -117,8 +121,6 @@ export class CollectionFormContainer extends React.Component {
         }
       })
   }
-
-  extractCollectionFromActionResult = (actionResult) => actionResult.payload.entities.collection[keys(actionResult.payload.entities.collection)[0]].content
 
   /**
    * Handle form submission on duplication / creation

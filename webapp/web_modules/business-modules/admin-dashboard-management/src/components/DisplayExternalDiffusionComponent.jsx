@@ -42,6 +42,10 @@ class DisplayExternalDiffusionComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static getValueStyle(propertyValue, rowStyle, rowNoValueStyle) {
+    return propertyValue > 0 ? rowStyle : rowNoValueStyle
+  }
+
   getStyle = (pendingValue, doneValue) => {
     const {
       moduleTheme: {
@@ -61,8 +65,6 @@ class DisplayExternalDiffusionComponent extends React.Component {
     return style
   }
 
-  getValueStyle = (propertyValue, rowStyle, rowNoValueStyle) => propertyValue > 0 ? rowStyle : rowNoValueStyle
-
   getTableBody = () => {
     const { sessionStep } = this.props
     const {
@@ -79,8 +81,8 @@ class DisplayExternalDiffusionComponent extends React.Component {
         const doneValue = properties[recipientKey].done
         return (<TableRow key={recipientKey}>
           <TableRowColumn style={this.getStyle(pendingValue, doneValue)}>{recipientKey}</TableRowColumn>
-          <TableRowColumn style={this.getValueStyle(pendingValue, rowWaitingStyle, rowNoValueStyle)}>{pendingValue}</TableRowColumn>
-          <TableRowColumn style={this.getValueStyle(doneValue, rowDefaultStyle, rowNoValueStyle)}>{doneValue}</TableRowColumn>
+          <TableRowColumn style={DisplayExternalDiffusionComponent.getValueStyle(pendingValue, rowWaitingStyle, rowNoValueStyle)}>{pendingValue}</TableRowColumn>
+          <TableRowColumn style={DisplayExternalDiffusionComponent.getValueStyle(doneValue, rowDefaultStyle, rowNoValueStyle)}>{doneValue}</TableRowColumn>
         </TableRow>)
       })
     }

@@ -44,7 +44,9 @@ class SearchRelatedEntitiesComponent extends React.Component {
     ...i18nContextType,
   }
 
-  canSearchDatasetData = (links) => some(links, (link) => link.rel === SEARCH_DATASET_DATA_LINK)
+  static canSearchDatasetData(links) {
+    return some(links, (link) => link.rel === SEARCH_DATASET_DATA_LINK)
+  }
 
   /**
    * Callback proxy for search entity
@@ -68,7 +70,7 @@ class SearchRelatedEntitiesComponent extends React.Component {
       <IconButton
         onClick={this.onSearchEntity}
         title={formatMessage({ id: 'filter.related.data' })}
-        disabled={!this.canSearchDatasetData(links)}
+        disabled={!SearchRelatedEntitiesComponent.canSearchDatasetData(links)}
         {...buttonProperties}
       >
         <FilterIcon />

@@ -38,7 +38,7 @@ describe('[ADMIN UI LAYOUT MANAGEMENT] Testing model Layout', () => {
   })
 
   after(() => {
-    entityTester.afterAll()
+    ReduxEntityTester.afterAll()
   })
   it('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
     entityTester.runTests(done)

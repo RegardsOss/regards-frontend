@@ -62,7 +62,7 @@ describe('[Components] Testing ZoomedPictureDialog', () => {
     testSuiteHelpers.assertWrapperProperties(imgWrapper, {
       alt: props.alt,
       src: props.picURL,
-      onLoad: enzymeWrapper.instance().onDialogContentLoaded,
+      onLoad: ZoomedPictureDialog.onDialogContentLoaded,
     })
   })
 })

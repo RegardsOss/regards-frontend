@@ -37,6 +37,11 @@ export class DragAndDrop extends React.Component {
     ]),
   }
 
+  static handleDrag(e) {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
   state = {
     dragging: false,
   }
@@ -48,7 +53,7 @@ export class DragAndDrop extends React.Component {
     const div = this.dropRef.current
     div.addEventListener('dragenter', this.handleDragIn)
     div.addEventListener('dragleave', this.handleDragOut)
-    div.addEventListener('dragover', this.handleDrag)
+    div.addEventListener('dragover', DragAndDrop.handleDrag)
     div.addEventListener('drop', this.handleDrop)
   }
 
@@ -56,13 +61,8 @@ export class DragAndDrop extends React.Component {
     const div = this.dropRef.current
     div.removeEventListener('dragenter', this.handleDragIn)
     div.removeEventListener('dragleave', this.handleDragOut)
-    div.removeEventListener('dragover', this.handleDrag)
+    div.removeEventListener('dragover', DragAndDrop.handleDrag)
     div.removeEventListener('drop', this.handleDrop)
-  }
-
-  handleDrag = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
   }
 
   handleDragIn = (e) => {

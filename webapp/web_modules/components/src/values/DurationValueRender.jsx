@@ -53,7 +53,7 @@ class DurationValueRender extends React.Component {
    * Return true when the durationInfo[unit] is different than 0
    * and is the biggest unit or the following one
    */
-  shouldShow = (unit, durationInfo) => {
+  static shouldShow(unit, durationInfo) {
     if (durationInfo[unit] === 0) {
       return false
     }
@@ -84,12 +84,12 @@ class DurationValueRender extends React.Component {
       return (
         <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell}>
           {durationInfo.sign !== '+' ? durationInfo.sign : null}
-          {this.shouldShow(DurationValueRender.UNITS.YEARS, durationInfo) && formatMessage({ id: 'value.render.duration.year' }, { year: durationInfo.years })}
-          {this.shouldShow(DurationValueRender.UNITS.MONTHS, durationInfo) && formatMessage({ id: 'value.render.duration.month' }, { month: durationInfo.months })}
-          {this.shouldShow(DurationValueRender.UNITS.DAYS, durationInfo) && formatMessage({ id: 'value.render.duration.day' }, { day: durationInfo.days })}
-          {this.shouldShow(DurationValueRender.UNITS.HOURS, durationInfo) && formatMessage({ id: 'value.render.duration.hour' }, { hour: durationInfo.hours })}
-          {this.shouldShow(DurationValueRender.UNITS.MINUTES, durationInfo) && formatMessage({ id: 'value.render.duration.minute' }, { minute: durationInfo.minutes })}
-          {this.shouldShow(DurationValueRender.UNITS.SECONDS, durationInfo) && formatMessage({ id: 'value.render.duration.second' }, { second: durationInfo.seconds })}
+          {DurationValueRender.shouldShow(DurationValueRender.UNITS.YEARS, durationInfo) && formatMessage({ id: 'value.render.duration.year' }, { year: durationInfo.years })}
+          {DurationValueRender.shouldShow(DurationValueRender.UNITS.MONTHS, durationInfo) && formatMessage({ id: 'value.render.duration.month' }, { month: durationInfo.months })}
+          {DurationValueRender.shouldShow(DurationValueRender.UNITS.DAYS, durationInfo) && formatMessage({ id: 'value.render.duration.day' }, { day: durationInfo.days })}
+          {DurationValueRender.shouldShow(DurationValueRender.UNITS.HOURS, durationInfo) && formatMessage({ id: 'value.render.duration.hour' }, { hour: durationInfo.hours })}
+          {DurationValueRender.shouldShow(DurationValueRender.UNITS.MINUTES, durationInfo) && formatMessage({ id: 'value.render.duration.minute' }, { minute: durationInfo.minutes })}
+          {DurationValueRender.shouldShow(DurationValueRender.UNITS.SECONDS, durationInfo) && formatMessage({ id: 'value.render.duration.second' }, { second: durationInfo.seconds })}
         </div>
       )
     }

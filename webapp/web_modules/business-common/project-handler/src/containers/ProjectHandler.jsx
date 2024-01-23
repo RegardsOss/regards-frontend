@@ -34,6 +34,14 @@ class ProjectHandler extends React.Component {
     fetchProject: PropTypes.func,
   }
 
+  static setFavicon(icon = 'img/logo_regards_grey_black.png') {
+    const link = root.document.querySelector("link[rel*='icon']") || document.createElement('link')
+    link.type = 'image/x-icon'
+    link.rel = 'shortcut icon'
+    link.href = icon
+    document.getElementsByTagName('head')[0].appendChild(link)
+  }
+
   componentDidMount() {
     this.props.fetchProject(this.props.projectName).then((actionResult) => {
       if (!has(actionResult, 'error') && root && root.document && root.document.querySelector) {
@@ -44,17 +52,9 @@ class ProjectHandler extends React.Component {
         if (root.document.title !== title) {
           root.document.title = title
         }
-        this.setFavicon(this.props.project.content.icon)
+        ProjectHandler.setFavicon(this.props.project.content.icon)
       }
     })
-  }
-
-  setFavicon = (icon = 'img/logo_regards_grey_black.png') => {
-    const link = root.document.querySelector("link[rel*='icon']") || document.createElement('link')
-    link.type = 'image/x-icon'
-    link.rel = 'shortcut icon'
-    link.href = icon
-    document.getElementsByTagName('head')[0].appendChild(link)
   }
 
   render() {

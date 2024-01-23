@@ -52,23 +52,23 @@ class ApplicationLayoutComponent extends React.Component {
 
   static CARD_TEXT_STYLE = { width: '100%' }
 
+  static getInitialLayout(layout) {
+    const initialLayout = layout || DefaultLayout
+    return initialLayout.id && initialLayout.type ? initialLayout : DefaultLayout
+  }
+
   state = {
     currentLayout: null,
   }
 
   UNSAFE_componentWillMount() {
-    const initialLayout = this.getInitialLayout(this.props.layout)
+    const initialLayout = ApplicationLayoutComponent.getInitialLayout(this.props.layout)
     this.setState({
       currentLayout: initialLayout,
     })
     this.props.initialize({
       layout: initialLayout,
     })
-  }
-
-  getInitialLayout = (layout) => {
-    const initialLayout = layout || DefaultLayout
-    return initialLayout.id && initialLayout.type ? initialLayout : DefaultLayout
   }
 
   changeLayout = (layout) => {

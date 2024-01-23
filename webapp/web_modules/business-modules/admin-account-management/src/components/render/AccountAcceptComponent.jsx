@@ -39,15 +39,17 @@ class AccountAcceptComponent extends React.Component {
     ...themeContextType,
   }
 
+  /**
+   * @return {boolean} true if administrator can accept this account
+   */
+  static canAcceptAccount(account) {
+    return AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
+  }
+
   onAccept = () => {
     const { entity, onAccept } = this.props
     onAccept(entity.content.email)
   }
-
-  /**
-   * @return {boolean} true if administrator can accept this account
-   */
-  canAcceptAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
 
   render() {
     const { entity } = this.props
@@ -56,7 +58,7 @@ class AccountAcceptComponent extends React.Component {
       <HateoasIconAction
         title={formatMessage({ id: 'account.list.table.action.accept.tooltip' })}
         onClick={this.onAccept}
-        disabled={!this.canAcceptAccount(entity)}
+        disabled={!AccountAcceptComponent.canAcceptAccount(entity)}
         entityLinks={entity.links}
         hateoasKey={HateoasKeys.ACCEPT}
         alwaysDisplayforInstanceUser={false}

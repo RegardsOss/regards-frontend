@@ -41,20 +41,27 @@ export class ProjectListContainer extends React.Component {
     updateLicense: PropTypes.func,
   }
 
-  UNSAFE_componentWillMount() {
-    this.props.fetchProjectList()
+  static getCreateUrl() {
+    return '/admin/projects/create'
   }
 
-  getCreateUrl = () => '/admin/projects/create'
-
-  handleEdit = (projectName) => {
+  static handleEdit(projectName) {
     const url = `/admin/projects/${projectName}/edit`
     browserHistory.push(url)
   }
 
-  handleConfigureConnections = (projectName) => {
+  static handleConfigureConnections(projectName) {
     const url = `/admin/projects/${projectName}/connections`
     browserHistory.push(url)
+  }
+
+  static handleOpen(projectName) {
+    const url = `/admin/${projectName}`
+    window.open(url, '_blank')
+  }
+
+  UNSAFE_componentWillMount() {
+    this.props.fetchProjectList()
   }
 
   handleDelete = (projectName) => {
@@ -67,11 +74,6 @@ export class ProjectListContainer extends React.Component {
       })
   }
 
-  handleOpen = (projectName) => {
-    const url = `/admin/${projectName}`
-    window.open(url, '_blank')
-  }
-
   handleUpdateLicense = (projectName) => {
     this.props.updateLicense(projectName)
   }
@@ -82,11 +84,11 @@ export class ProjectListContainer extends React.Component {
       <I18nProvider messages={messages}>
         <ProjectListComponent
           projectList={projectList}
-          createUrl={this.getCreateUrl()}
+          createUrl={ProjectListContainer.getCreateUrl()}
           handleDelete={this.handleDelete}
-          handleEdit={this.handleEdit}
-          handleConfigureConnections={this.handleConfigureConnections}
-          handleOpen={this.handleOpen}
+          handleEdit={ProjectListContainer.handleEdit}
+          handleConfigureConnections={ProjectListContainer.handleConfigureConnections}
+          handleOpen={ProjectListContainer.handleOpen}
           handleUpdateLicense={this.handleUpdateLicense}
         />
       </I18nProvider>

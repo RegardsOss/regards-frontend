@@ -31,20 +31,24 @@ export class InitializePluginActions {
    * @param {string} pluginInstanceId plugin instance ID
    * @return {{type: string, pluginInstanceId: string}} redux action to dispatch
    */
-  markInitialized = (pluginInstanceId) => ({
-    type: InitializePluginActions.MARK_INITIALIZED,
-    pluginInstanceId,
-  })
+  static markInitialized(pluginInstanceId) {
+    return {
+      type: InitializePluginActions.MARK_INITIALIZED,
+      pluginInstanceId,
+    }
+  }
 
   /**
    * Marks a plugin unloaded
    * @param {string} pluginInstanceId plugin instance ID
    * @return {{type: string, pluginInstanceId: string}} redux action to dispatch
    */
-  markUnloaded = (pluginInstanceId) => ({
-    type: InitializePluginActions.MARK_UNLOADED,
-    pluginInstanceId,
-  })
+  static markUnloaded(pluginInstanceId) {
+    return {
+      type: InitializePluginActions.MARK_UNLOADED,
+      pluginInstanceId,
+    }
+  }
 }
 
 export default new InitializePluginActions()

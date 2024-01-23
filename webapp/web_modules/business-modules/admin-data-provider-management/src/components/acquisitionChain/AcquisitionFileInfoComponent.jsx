@@ -75,7 +75,9 @@ export class AcquisitionFileInfoComponent extends React.Component {
     value: 'mime',
   }
 
-  renderScanDirInfoLabel = (item) => item.scannedDirectory ? last(split(item.scannedDirectory, '/')) : 'New directory'
+  static renderScanDirInfoLabel(item) {
+    return item.scannedDirectory ? last(split(item.scannedDirectory, '/')) : 'New directory'
+  }
 
   render() {
     const { name } = this.props
@@ -107,7 +109,7 @@ export class AcquisitionFileInfoComponent extends React.Component {
         fieldProps={componentProps}
         sortFields
         sortAttribute="scannedDirectory"
-        elementLabel={this.renderScanDirInfoLabel}
+        elementLabel={AcquisitionFileInfoComponent.renderScanDirInfoLabel}
         fieldComponent={AcquisitionFileInfoScanDirComponent}
         allowDuplicate={false}
         validate={required}

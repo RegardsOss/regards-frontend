@@ -54,10 +54,30 @@ export class AuthenticationModuleContainer extends React.Component {
     authenticated: PropTypes.bool,
   }
 
+  /**
+   * Returns view state for external access
+   * @param urlAction found url authentication action
+   * @returns initial view state
+   */
+  static getInitialViewMode(urlAction = '') {
+    const modes = AuthenticationRouteParameters.mailAuthenticationAction.values
+    switch (urlAction) {
+      case modes.verifyEmail:
+        return initialModes.validateCreatedAccount
+      case modes.unlockAccount:
+        return initialModes.finishAccountUnlocking
+      case modes.changePassword:
+        return initialModes.finishChangePassword
+      default:
+        // no external acces, default view state (login)
+        return initialModes.loginForm
+    }
+  }
+
   UNSAFE_componentWillMount = () => {
     // determinate the initial state and parameters for authentication state machine
     this.setState({
-      initialViewMode: this.getInitialViewMode(AuthenticationParametersHelper.getMailAuthenticationAction()),
+      initialViewMode: AuthenticationModuleContainer.getInitialViewMode(AuthenticationParametersHelper.getMailAuthenticationAction()),
       initialEmail: AuthenticationParametersHelper.getAccountEmail(),
       actionToken: AuthenticationParametersHelper.getToken(),
     })
@@ -73,26 +93,6 @@ export class AuthenticationModuleContainer extends React.Component {
         })
         routeHelpers.doRedirection()
       }
-    }
-  }
-
-  /**
-   * Returns view state for external access
-   * @param urlAction found url authentication action
-   * @returns initial view state
-   */
-  getInitialViewMode = (urlAction = '') => {
-    const modes = AuthenticationRouteParameters.mailAuthenticationAction.values
-    switch (urlAction) {
-      case modes.verifyEmail:
-        return initialModes.validateCreatedAccount
-      case modes.unlockAccount:
-        return initialModes.finishAccountUnlocking
-      case modes.changePassword:
-        return initialModes.finishChangePassword
-      default:
-        // no external acces, default view state (login)
-        return initialModes.loginForm
     }
   }
 

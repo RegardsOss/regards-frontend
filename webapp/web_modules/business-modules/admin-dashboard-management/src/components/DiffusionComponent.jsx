@@ -52,7 +52,9 @@ class DiffusionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  getStyle = (stepId, externalStyle, catalogStyle) => stepId === DISSEMINATION_TYPE.EXTERNAL_DIFFUSION ? externalStyle : catalogStyle
+  static getStyle(stepId, externalStyle, catalogStyle) {
+    return stepId === DISSEMINATION_TYPE.EXTERNAL_DIFFUSION ? externalStyle : catalogStyle
+  }
 
   buildStep = (sessionStep) => {
     const {
@@ -68,7 +70,7 @@ class DiffusionComponent extends React.Component {
       currentSessionStep = computeSessionStep(sessionStep, STEP_SUB_TYPES_ENUM.DISSEMINATION)
     }
     return (
-      <div style={this.getStyle(currentSessionStep.stepId, extDiffusionCardContentStyle, cardContentStyle)}>
+      <div style={DiffusionComponent.getStyle(currentSessionStep.stepId, extDiffusionCardContentStyle, cardContentStyle)}>
         <ScrollArea
           vertical
           horizontal={false}

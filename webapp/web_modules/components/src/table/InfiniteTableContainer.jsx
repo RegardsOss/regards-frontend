@@ -124,6 +124,19 @@ class InfiniteTableContainer extends React.Component {
     tableWidth: 1,
   }
 
+  /**
+   * Fetches an entity page (prevents fetching multiple times the same entity)
+   * @param {fetchEntities:{func}, requestParams:{}} props component props to use
+   * @param {number} pageNumber number of page to fetch (optional, defaults to 0)
+   */
+  static fetchEntityPage({
+    fetchEntities, queryPageSize, pathParams, requestParams, bodyParams,
+  }, pageNumber = 0) {
+    if (fetchEntities) {
+      fetchEntities(pageNumber, queryPageSize, pathParams, requestParams, bodyParams)
+    }
+  }
+
   /** Initialize state */
   UNSAFE_componentWillMount = () => this.setState(InfiniteTableContainer.DEFAULT_STATE)
 
@@ -152,7 +165,7 @@ class InfiniteTableContainer extends React.Component {
       // Remove entities in store CONSIDERING CURRENT STATE (and not next state fetch method)
       this.flushEntities()
       // Fetch new ones
-      this.fetchEntityPage(nextProps)
+      InfiniteTableContainer.fetchEntityPage(nextProps)
     } else if (!isEqual(previousProps.entities, nextProps.entities) || nextState.entities.length < get(nextProps, 'entities.length', 0)) {
       // update row entities (add new one to previously known ones)
       const firstReloadingIndex = nextProps.entitiesPageIndex * nextProps.queryPageSize
@@ -203,7 +216,7 @@ class InfiniteTableContainer extends React.Component {
       const inPageRatio = inPageIndex / queryPageSize
       if (inPageRatio > this.props.loadAtPagePoint) {
         const nextPage = Math.ceil(lastVisibleIndex / queryPageSize)
-        this.fetchEntityPage(this.props, nextPage)
+        InfiniteTableContainer.fetchEntityPage(this.props, nextPage)
       }
     }
   }
@@ -269,19 +282,6 @@ class InfiniteTableContainer extends React.Component {
     }
     if (flushSelection) {
       flushSelection()
-    }
-  }
-
-  /**
-   * Fetches an entity page (prevents fetching multiple times the same entity)
-   * @param {fetchEntities:{func}, requestParams:{}} props component props to use
-   * @param {number} pageNumber number of page to fetch (optional, defaults to 0)
-   */
-  fetchEntityPage = ({
-    fetchEntities, queryPageSize, pathParams, requestParams, bodyParams,
-  }, pageNumber = 0) => {
-    if (fetchEntities) {
-      fetchEntities(pageNumber, queryPageSize, pathParams, requestParams, bodyParams)
     }
   }
 

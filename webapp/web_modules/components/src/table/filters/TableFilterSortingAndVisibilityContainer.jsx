@@ -118,6 +118,10 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     }
   }
 
+  static buildSortURL(columnsSorting) {
+    return map(columnsSorting, ({ columnKey, order }) => `${columnKey},${TableFilterSortingAndVisibilityContainer.COLUMN_ORDER_TO_QUERY[order]}`)
+  }
+
   state = {
     requestParameters: {},
     columnsSorting: [],
@@ -167,8 +171,6 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     return columnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[columnIndex].order, columnIndex]
   }
 
-  buildSortURL = (columnsSorting) => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${TableFilterSortingAndVisibilityContainer.COLUMN_ORDER_TO_QUERY[order]}`)
-
   onSort = (columnSortKey, order) => {
     const { columnsSorting, requestParameters } = this.state
 
@@ -181,7 +183,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     } else {
       newColumnSorting.splice(columnIndex, 1, { columnKey: columnSortKey, order })
     }
-    const newSort = this.buildSortURL(newColumnSorting)
+    const newSort = TableFilterSortingAndVisibilityContainer.buildSortURL(newColumnSorting)
     const newState = {
       columnsSorting: newColumnSorting,
       requestParameters: {

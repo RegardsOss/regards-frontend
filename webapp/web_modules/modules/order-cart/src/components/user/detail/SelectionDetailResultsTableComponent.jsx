@@ -71,18 +71,20 @@ class SelectionDetailResultsTableComponent extends React.Component {
   /** Min page size for table */
   static MIN_TABLE_PAGE_SIZE = 5
 
+  /**
+   * Renders columns
+   * @return [*] columns
+   */
+  static renderColumns() {
+    return SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(
+      (model) => AttributeColumnBuilder.buildAttributeColumn(model, null, 'fakeLocale'))
+  }
+
   computeVisibleRowsCount(availableHeight) {
     const { lineHeight, minHeaderRowHeight } = this.context.muiTheme.components.infiniteTable
     const remainingRowsHeight = availableHeight - (minHeaderRowHeight * 2)
     return Math.floor(remainingRowsHeight / lineHeight)
   }
-
-  /**
-   * Renders columns
-   * @return [*] columns
-   */
-  renderColumns = () => SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(
-    (model) => AttributeColumnBuilder.buildAttributeColumn(model, null, 'fakeLocale'))
 
   render() {
     const {
@@ -94,7 +96,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
         <PageableInfiniteTableContainer
           pageActions={pageActions}
           pageSelectors={pageSelectors}
-          columns={this.renderColumns()}
+          columns={SelectionDetailResultsTableComponent.renderColumns()}
           bodyParams={bodyParams}
           emptyComponent={SelectionDetailResultsTableComponent.NO_DATA_COMPONENT}
           fetchUsingPostMethod

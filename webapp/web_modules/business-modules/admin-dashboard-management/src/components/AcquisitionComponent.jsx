@@ -59,9 +59,9 @@ class AcquisitionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  getProperties = (stepId, workersProperties, dpProperties) => stepId === ACQUISITION_TYPE.WORKERS ? workersProperties : dpProperties
-
-  getStepSubType = (stepId) => stepId === ACQUISITION_TYPE.WORKERS ? STEP_SUB_TYPES_ENUM.WORKERS : STEP_SUB_TYPES_ENUM.DATA_PROVIDER
+  static getStepSubType(stepId) {
+    return stepId === ACQUISITION_TYPE.WORKERS ? STEP_SUB_TYPES_ENUM.WORKERS : STEP_SUB_TYPES_ENUM.DATA_PROVIDER
+  }
 
   buildStep = (sessionStep) => {
     const {
@@ -87,10 +87,10 @@ class AcquisitionComponent extends React.Component {
             currentSessionStep.stepId === ACQUISITION_TYPE.WORKERS
               ? <div>
                 <DisplayPropertiesComponent
-                  title={formatMessage({ id: `dashboard.selectedsession.${currentSessionStep.type}.${this.getStepSubType(currentSessionStep.stepId)}.properties.input.title` })}
+                  title={formatMessage({ id: `dashboard.selectedsession.${currentSessionStep.type}.${AcquisitionComponent.getStepSubType(currentSessionStep.stepId)}.properties.input.title` })}
                   properties={WORKERS_REQUESTS_PROPERTIES}
                   sessionStep={currentSessionStep}
-                  stepSubType={this.getStepSubType(currentSessionStep.stepId)}
+                  stepSubType={AcquisitionComponent.getStepSubType(currentSessionStep.stepId)}
                 />
                 {
                   map(keys(currentSessionStep.properties), (propertyKey) => {
@@ -102,7 +102,7 @@ class AcquisitionComponent extends React.Component {
                           properties={WORKERS_PRODUCTS_PROPERTIES}
                           propertyKey={propertyKey}
                           sessionStep={currentSessionStep}
-                          stepSubType={this.getStepSubType(currentSessionStep.stepId)}
+                          stepSubType={AcquisitionComponent.getStepSubType(currentSessionStep.stepId)}
                         />
                       )
                     }
@@ -112,16 +112,16 @@ class AcquisitionComponent extends React.Component {
               </div>
               : <div>
                 <DisplayPropertiesComponent
-                  title={formatMessage({ id: `dashboard.selectedsession.${currentSessionStep.type}.${this.getStepSubType(currentSessionStep.stepId)}.properties.input.title` })}
+                  title={formatMessage({ id: `dashboard.selectedsession.${currentSessionStep.type}.${AcquisitionComponent.getStepSubType(currentSessionStep.stepId)}.properties.input.title` })}
                   properties={DATA_PROVIDER_FILES_PROPERTIES}
                   sessionStep={currentSessionStep}
-                  stepSubType={this.getStepSubType(currentSessionStep.stepId)}
+                  stepSubType={AcquisitionComponent.getStepSubType(currentSessionStep.stepId)}
                 />
                 <DisplayPropertiesComponent
-                  title={formatMessage({ id: `dashboard.selectedsession.${currentSessionStep.type}.${this.getStepSubType(currentSessionStep.stepId)}.properties.output.title` })}
+                  title={formatMessage({ id: `dashboard.selectedsession.${currentSessionStep.type}.${AcquisitionComponent.getStepSubType(currentSessionStep.stepId)}.properties.output.title` })}
                   properties={DATA_PROVIDER_PRODUCTS_PROPERTIES}
                   sessionStep={currentSessionStep}
-                  stepSubType={this.getStepSubType(currentSessionStep.stepId)}
+                  stepSubType={AcquisitionComponent.getStepSubType(currentSessionStep.stepId)}
                 />
               </div>
           }

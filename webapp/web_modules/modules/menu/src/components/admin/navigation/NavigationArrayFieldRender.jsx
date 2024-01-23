@@ -126,6 +126,20 @@ class NavigationArrayFieldRender extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  static onPropertiesUpdated(oldProps, newProps) {
+    const { dynamicModules, navigationItems, changeNavigationFieldValue } = newProps
+    // when modules are loaded, update conf (no problem here when there is no module, User application part will filter
+    // missing modules)
+    if (!isEqual(oldProps.dynamicModules, dynamicModules) && dynamicModules.length) {
+      changeNavigationFieldValue(NavigationArrayFieldRender.updateEditionModel(navigationItems, dynamicModules))
+    }
+  }
+
   /** Initial state */
   state = {
     editionData: null,
@@ -135,28 +149,14 @@ class NavigationArrayFieldRender extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update this field value
    * */
   UNSAFE_componentWillMount() {
-    this.onPropertiesUpdated({}, this.props)
+    NavigationArrayFieldRender.onPropertiesUpdated({}, this.props)
   }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const { dynamicModules, navigationItems, changeNavigationFieldValue } = newProps
-    // when modules are loaded, update conf (no problem here when there is no module, User application part will filter
-    // missing modules)
-    if (!isEqual(oldProps.dynamicModules, dynamicModules) && dynamicModules.length) {
-      changeNavigationFieldValue(NavigationArrayFieldRender.updateEditionModel(navigationItems, dynamicModules))
-    }
-  }
+  UNSAFE_componentWillReceiveProps = (nextProps) => NavigationArrayFieldRender.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * User asked to create a section: initialize new section model and show edition dialog

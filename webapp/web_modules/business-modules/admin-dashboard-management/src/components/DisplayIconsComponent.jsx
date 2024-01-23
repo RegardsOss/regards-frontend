@@ -53,7 +53,9 @@ class DisplayIconsComponent extends React.Component {
     ...themeContextType,
   }
 
-  getValue = (entity, iconType) => get(entity, `content.managerState.${iconType}`, false)
+  static getValue(entity, iconType) {
+    return get(entity, `content.managerState.${iconType}`, false)
+  }
 
   getElementCount = (iconType) => {
     const { entity } = this.props
@@ -112,9 +114,9 @@ class DisplayIconsComponent extends React.Component {
   render() {
     const { entity } = this.props
     const { moduleTheme: { displayIconsComponentStyle: { mainDivStyle } } } = this.context
-    const errors = this.getValue(entity, ICON_TYPE_ENUM.ERRORS)
-    const waitings = this.getValue(entity, ICON_TYPE_ENUM.WAITING)
-    const runnings = this.getValue(entity, ICON_TYPE_ENUM.RUNNING)
+    const errors = DisplayIconsComponent.getValue(entity, ICON_TYPE_ENUM.ERRORS)
+    const waitings = DisplayIconsComponent.getValue(entity, ICON_TYPE_ENUM.WAITING)
+    const runnings = DisplayIconsComponent.getValue(entity, ICON_TYPE_ENUM.RUNNING)
     return (
       <div style={mainDivStyle}>
         {this.displayIconsWithCount(errors, waitings, runnings)}

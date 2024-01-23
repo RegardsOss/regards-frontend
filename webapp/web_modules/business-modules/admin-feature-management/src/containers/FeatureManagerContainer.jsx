@@ -76,6 +76,10 @@ export class FeatureManagerContainer extends React.Component {
     recipientList: NotifierShapes.RecipientArray,
   }
 
+  static getPathParams(paneType) {
+    return paneType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES ? { type: paneType } : {}
+  }
+
   state = { isFetching: true }
 
   UNSAFE_componentWillMount = () => {
@@ -140,7 +144,7 @@ export class FeatureManagerContainer extends React.Component {
 
   onDeleteRequests = (bodyParams, paneType, onRefresh) => {
     const { deleteRequests } = this.props
-    const pathParams = this.getPathParams(paneType)
+    const pathParams = FeatureManagerContainer.getPathParams(paneType)
     this.perform(deleteRequests(bodyParams, pathParams, paneType), onRefresh)
   }
 

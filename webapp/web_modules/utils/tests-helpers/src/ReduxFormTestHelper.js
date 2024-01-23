@@ -64,11 +64,13 @@ function getFieldsProps(initialValue = [], name = 'anything') {
 
     currentValue = [...initialValue]
 
-    forEach = () => {}
+    // eslint-disable-next-line class-methods-use-this
+    forEach = () => { }
 
     get = (index) => this.currentValue[index]
 
-    insert = () => {}
+    // eslint-disable-next-line class-methods-use-this
+    insert = () => { }
 
     getAll = () => this.currentValue
 
@@ -76,7 +78,8 @@ function getFieldsProps(initialValue = [], name = 'anything') {
 
     map = (f) => this.currentValue.map((member, index) => f(member, index, this))
 
-    move = () => {}
+    // eslint-disable-next-line class-methods-use-this
+    move = () => { }
 
     pop = () => this.currentValue.slice(0, -1)
 
@@ -88,17 +91,22 @@ function getFieldsProps(initialValue = [], name = 'anything') {
       this.currentValue = this.currentValue.filter((v, vI) => vI !== i)
     }
 
-    removeAll = () => {}
+    // eslint-disable-next-line class-methods-use-this
+    removeAll = () => { }
 
     shift = () => this.currentValue.slice(1)
 
-    splice = () => {}
+    // eslint-disable-next-line class-methods-use-this
+    splice = () => { }
 
-    swap = () => {}
+    // eslint-disable-next-line class-methods-use-this
+    swap = () => { }
 
-    unshift = () => {}
+    // eslint-disable-next-line class-methods-use-this
+    unshift = () => { }
 
-    reduce = () => {}
+    // eslint-disable-next-line class-methods-use-this
+    reduce = () => { }
   }())
 }
 

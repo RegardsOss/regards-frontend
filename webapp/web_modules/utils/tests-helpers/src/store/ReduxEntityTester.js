@@ -39,6 +39,14 @@ export default class ReduxEntityTester {
     this.options = options
   }
 
+  /**
+   * Remove any HTTP mock created
+   */
+  static afterAll() {
+    nock.cleanAll()
+    console.error = originalConsoleError
+  }
+
   popLeafStore(remainingArray) {
     const firstKey = remainingArray.shift()
     const obj = {}
@@ -86,7 +94,7 @@ export default class ReduxEntityTester {
       shapeResult = PropTypes.checkPropTypes(this.entityShape, entityList, 'entityList', 'ReduxEntityTester')
       assert.isUndefined(shapeResult, 'There is a shape error')
       assert.isDefined(entityList, 'There is no result returned by the selector')
-      this.afterAll()
+      ReduxEntityTester.afterAll()
       done()
     } catch (e) {
       done(new Error(`${e}.
@@ -157,13 +165,5 @@ export default class ReduxEntityTester {
         throw new Error([warning, ...args].join(' '))
       }
     }
-  }
-
-  /**
-   * Remove any HTTP mock created
-   */
-  afterAll = () => {
-    nock.cleanAll()
-    console.error = originalConsoleError
   }
 }

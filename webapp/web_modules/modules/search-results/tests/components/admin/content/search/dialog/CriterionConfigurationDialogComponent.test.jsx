@@ -179,7 +179,7 @@ describe('[SEARCH RESULTS] Testing CriterionConfigurationDialogComponent', () =>
         label: 'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.field',
         component: SingleAttributeFieldRender,
         attributeModels: editionAttribute.attributes,
-        validate: enzymeWrapper.instance().validateAttribute,
+        validate: CriterionConfigurationDialogComponent.validateAttribute,
       }, `Attribute ${editionAttribute.name} field should be correctly set`)
     })
   })
@@ -266,24 +266,23 @@ describe('[SEARCH RESULTS] Testing CriterionConfigurationDialogComponent', () =>
       initialize: () => {},
       attributesFilter: DamDomain.AttributeModelController.isSearchableAttribute,
     }
-    const enzymeWrapper = shallow(<CriterionConfigurationDialogComponent {...props} />, { context })
     // 1 - undefined / null / empty
-    assert.equal(enzymeWrapper.instance().validateAttribute(null, {}, props, 'attributes.f1'), ErrorTypes.REQUIRED)
-    assert.equal(enzymeWrapper.instance().validateAttribute(undefined, {}, props, 'attributes.f1'), ErrorTypes.REQUIRED)
-    assert.equal(enzymeWrapper.instance().validateAttribute('', {}, props, 'attributes.f1'), ErrorTypes.REQUIRED)
+    assert.equal(CriterionConfigurationDialogComponent.validateAttribute(null, {}, props, 'attributes.f1'), ErrorTypes.REQUIRED)
+    assert.equal(CriterionConfigurationDialogComponent.validateAttribute(undefined, {}, props, 'attributes.f1'), ErrorTypes.REQUIRED)
+    assert.equal(CriterionConfigurationDialogComponent.validateAttribute('', {}, props, 'attributes.f1'), ErrorTypes.REQUIRED)
     // 2 - attribute that does not exist or typing in progress
-    assert.equal(enzymeWrapper.instance().validateAttribute('i.dont.exist', {}, props, 'attributes.f1'),
+    assert.equal(CriterionConfigurationDialogComponent.validateAttribute('i.dont.exist', {}, props, 'attributes.f1'),
       'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.unknown')
     // 3 - invalid type attribute selected
-    assert.equal(enzymeWrapper.instance().validateAttribute(DamDomain.AttributeModelController.getStandardAttributeModel(
+    assert.equal(CriterionConfigurationDialogComponent.validateAttribute(DamDomain.AttributeModelController.getStandardAttributeModel(
       DamDomain.AttributeModelController.standardAttributesKeys.label).content.jsonPath, {}, props, 'attributes.f1'),
     'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.invalid.type')
-    assert.equal(enzymeWrapper.instance().validateAttribute(attributes[3].content.jsonPath, {}, props, 'attributes.f1'),
+    assert.equal(CriterionConfigurationDialogComponent.validateAttribute(attributes[3].content.jsonPath, {}, props, 'attributes.f1'),
       'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.invalid.type')
     // 4 - A valid attribute (expected undefined, as anything else is an error in redux form)
-    assert.isUndefined(enzymeWrapper.instance().validateAttribute('test.attr.dateArray', {}, props, 'attributes.f1'),
+    assert.isUndefined(CriterionConfigurationDialogComponent.validateAttribute('test.attr.dateArray', {}, props, 'attributes.f1'),
       'There should be no error for matching type')
-    assert.isUndefined(enzymeWrapper.instance().validateAttribute('test.attr.dateInterval', {}, props, 'attributes.f1'),
+    assert.isUndefined(CriterionConfigurationDialogComponent.validateAttribute('test.attr.dateInterval', {}, props, 'attributes.f1'),
       'There should be no error for matching type')
   })
 })

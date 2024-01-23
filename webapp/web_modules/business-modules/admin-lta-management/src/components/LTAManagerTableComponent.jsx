@@ -95,6 +95,14 @@ class LTAManagerTableComponent extends React.Component {
       Icon={AddToPhotos}
     />)
 
+  static getEntityId(entity) {
+    const id = get(entity, `content.${LTAManagerTableComponent.COLUMN_KEYS.REQUEST_ID}`, null)
+    if (!id) {
+      throw new Error('Invalid entitiy. Cannot retrieve id.', entity)
+    }
+    return id
+  }
+
   state = {
     [DIALOG_TYPES.DELETE_DIALOG]: {
       open: false,
@@ -137,21 +145,13 @@ class LTAManagerTableComponent extends React.Component {
 
   onViewMessage = (entity) => this.onOpenActionDialog(DIALOG_TYPES.VIEW_MESSAGE, [entity])
 
-  getEntityId = (entity) => {
-    const id = get(entity, `content.${LTAManagerTableComponent.COLUMN_KEYS.REQUEST_ID}`, null)
-    if (!id) {
-      throw new Error('Invalid entitiy. Cannot retrieve id.', entity)
-    }
-    return id
-  }
-
   onConfirmActionDialog = (dialogRequestType) => {
     const { bodyParameters } = this.props
     const { entities, mode } = this.state[dialogRequestType]
     const payload = {
       ...bodyParameters,
       [FILTER_PARAMS.IDS]: {
-        [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => this.getEntityId(e)),
+        [CommonDomain.REQUEST_PARAMETERS.VALUES]: map(entities, (e) => LTAManagerTableComponent.getEntityId(e)),
         [CommonDomain.REQUEST_PARAMETERS.MODE]: mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE,
       },
     }

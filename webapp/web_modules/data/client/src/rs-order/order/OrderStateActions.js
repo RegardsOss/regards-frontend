@@ -113,10 +113,6 @@ class OrderStateActions {
     return this.resumeDelegate.sendSignal(RequestVerbEnum.PUT, null, { orderId })
   }
 
-  getDependency = (verb) => {
-    throw new Error('Invalid order state actions API call: use seperate get dependency methods instead')
-  }
-
   /**
    * Returns delete superficially dependency
    * @return {[string]} dependency

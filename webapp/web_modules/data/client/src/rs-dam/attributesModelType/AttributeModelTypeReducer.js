@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import sortBy from 'lodash/sortBy'
-import { BasicArrayReducers } from '@regardsoss/store-utils'
+import { BasicArrayReducers, BasicReducer } from '@regardsoss/store-utils'
 import AttributeModelTypeActions from './AttributeModelTypeActions'
 
 class AttributeModelTypeReducer extends BasicArrayReducers {
@@ -26,7 +26,7 @@ class AttributeModelTypeReducer extends BasicArrayReducers {
   }
 
   reduce(state, action) {
-    if (this.isCancelled(state, action)) {
+    if (BasicReducer.isCancelled(state, action)) {
       return state
     }
 

@@ -68,10 +68,6 @@ class ActionButtonComponent extends React.Component {
     }
   }
 
-  getComponent = (Component, props) => (
-    <Component {...props} />
-  )
-
   render() {
     const {
       button: ButtonConstructor, isVisible, url, ...remainingProps

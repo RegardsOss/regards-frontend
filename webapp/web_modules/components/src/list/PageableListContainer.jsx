@@ -110,6 +110,33 @@ class PageableListContainer extends React.Component {
     fetchEntities: (index, nbEntityByPage, pathParams, queryParams) => dispatch(props.entitiesActions.fetchPagedEntityList(index, nbEntityByPage, pathParams, queryParams)),
   })
 
+  /**
+   * Display the loading element
+   * @returns {*}
+   */
+  static elementInfiniteLoad() {
+    const style = {
+      container: {
+        position: 'relative',
+      },
+      refresh: {
+        display: 'inline-block',
+        position: 'relative',
+      },
+    }
+    return (
+      <div className="infinite-list-item" style={style.container}>
+        <RefreshIndicatorComponent
+          size={40}
+          left={10}
+          top={0}
+          status="loading"
+          style={style.refresh}
+        />
+      </div>
+    )
+  }
+
   state = {
     lineHeight: 40,
     autoLoadOffset: 160,
@@ -163,33 +190,6 @@ class PageableListContainer extends React.Component {
   }
 
   /**
-   * Display the loading element
-   * @returns {*}
-   */
-  elementInfiniteLoad = (fetching) => {
-    const style = {
-      container: {
-        position: 'relative',
-      },
-      refresh: {
-        display: 'inline-block',
-        position: 'relative',
-      },
-    }
-    return (
-      <div className="infinite-list-item" style={style.container}>
-        <RefreshIndicatorComponent
-          size={40}
-          left={10}
-          top={0}
-          status="loading"
-          style={style.refresh}
-        />
-      </div>
-    )
-  }
-
-  /**
    * Fetch new list of result
    * @param index
    * @param searchValue
@@ -240,7 +240,7 @@ class PageableListContainer extends React.Component {
           containerHeight={containerSize * this.state.lineHeight}
           infiniteLoadBeginEdgeOffset={this.calculateOffset()}
           onInfiniteLoad={this.handleInfiniteLoad}
-          loadingSpinnerDelegate={this.elementInfiniteLoad()}
+          loadingSpinnerDelegate={PageableListContainer.elementInfiniteLoad()}
           isInfiniteLoading={this.props.entitiesFetching}
         >
           {map(this.state.loadedEntities, (entity) => {

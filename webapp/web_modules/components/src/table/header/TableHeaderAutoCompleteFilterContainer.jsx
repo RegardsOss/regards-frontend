@@ -87,6 +87,10 @@ export class TableHeaderAutoCompleteFilterContainer extends React.Component {
     }
   }
 
+  static prepareHints(element) {
+    return { id: element, text: element, value: element }
+  }
+
   /**
    * User updated the text field
    * @param {string} searchText text field value
@@ -107,8 +111,6 @@ export class TableHeaderAutoCompleteFilterContainer extends React.Component {
     onChangeText(text)
   }
 
-  prepareHints = (element) => ({ id: element, text: element, value: element })
-
   render() {
     const {
       text, hintText, isFetching, noData, hintsArray, style, fullWidth,
@@ -123,7 +125,7 @@ export class TableHeaderAutoCompleteFilterContainer extends React.Component {
         onFilterSelected={this.onFilterSelected}
         isFetching={isFetching}
         noData={noData}
-        prepareHints={this.prepareHints}
+        prepareHints={TableHeaderAutoCompleteFilterContainer.prepareHints}
         style={style}
         fullWidth={fullWidth}
       />

@@ -76,6 +76,18 @@ export class DBDatasourceFormMappingComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static getSelectedAspirationMode(attributesMapping) {
+    let selectedAspirationMode = ASPIRATION_MODE_ENUM.NONE
+    forEach(attributesMapping, (attributeMapping) => {
+      if (attributeMapping.name === SELECTED_PLUGIN_PARAMETER_ENUM[ASPIRATION_MODE_ENUM.BY_DATE]) {
+        selectedAspirationMode = ASPIRATION_MODE_ENUM.BY_DATE
+      } else if (attributeMapping.name === SELECTED_PLUGIN_PARAMETER_ENUM[ASPIRATION_MODE_ENUM.BY_ID]) {
+        selectedAspirationMode = ASPIRATION_MODE_ENUM.BY_ID
+      }
+    })
+    return selectedAspirationMode
+  }
+
   state = {
     currentTableSelected: {
       fullname: '', // ex: schema.table
@@ -127,7 +139,7 @@ export class DBDatasourceFormMappingComponent extends React.Component {
             fullname: tableFullName,
             name: includes(tableFullName, '.') ? tableFullName.split('.')[1] : tableFullName,
           },
-          selectedAspirationMode: this.getSelectedAspirationMode(attributesMapping),
+          selectedAspirationMode: DBDatasourceFormMappingComponent.getSelectedAspirationMode(attributesMapping),
         }
         const obj = {
           [states.FROM_TABLE]: {
@@ -146,7 +158,7 @@ export class DBDatasourceFormMappingComponent extends React.Component {
         // Initialise state
         newState = {
           ...newState,
-          selectedAspirationMode: this.getSelectedAspirationMode(attributesMapping),
+          selectedAspirationMode: DBDatasourceFormMappingComponent.getSelectedAspirationMode(attributesMapping),
         }
         const obj = {
           [states.CUSTOM_FROM]: {
@@ -158,18 +170,6 @@ export class DBDatasourceFormMappingComponent extends React.Component {
       }
       this.setState(newState)
     }
-  }
-
-  getSelectedAspirationMode = (attributesMapping) => {
-    let selectedAspirationMode = ASPIRATION_MODE_ENUM.NONE
-    forEach(attributesMapping, (attributeMapping) => {
-      if (attributeMapping.name === SELECTED_PLUGIN_PARAMETER_ENUM[ASPIRATION_MODE_ENUM.BY_DATE]) {
-        selectedAspirationMode = ASPIRATION_MODE_ENUM.BY_DATE
-      } else if (attributeMapping.name === SELECTED_PLUGIN_PARAMETER_ENUM[ASPIRATION_MODE_ENUM.BY_ID]) {
-        selectedAspirationMode = ASPIRATION_MODE_ENUM.BY_ID
-      }
-    })
-    return selectedAspirationMode
   }
 
   /**

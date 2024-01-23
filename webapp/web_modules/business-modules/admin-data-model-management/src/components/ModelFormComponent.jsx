@@ -58,6 +58,22 @@ export class ModelFormComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Builds a function that will apply validators as parameter (from first to last) only when
+   * import file is not provided (when import file is provided, those fields are no longer mandatory)
+   * @param {[function]} validators validators for field
+   * @return {function} validator
+   */
+  static getFieldOrImportValidator(validators) {
+    return function fieldValidator(value, values) {
+      let error
+      if (!values.file) {
+        error = validators.reduce((acc, validator) => acc || validator(value, values), undefined)
+      }
+      return error
+    }
+  }
+
   componentDidMount() {
     this.handleInitialize()
   }
@@ -73,25 +89,11 @@ export class ModelFormComponent extends React.Component {
   }
 
   /**
-   * Builds a function that will apply validators as parameter (from first to last) only when
-   * import file is not provided (when import file is provided, those fields are no longer mandatory)
-   * @param {[function]} validators validators for field
-   * @return {function} validator
-   */
-  getFieldOrImportValidator = (validators) => function fieldValidator(value, values) {
-    let error
-    if (!values.file) {
-      error = validators.reduce((acc, validator) => acc || validator(value, values), undefined)
-    }
-    return error
-  }
-
-  /**
    * Validates name field
    * @return validation error
    */
   // eslint-disable-next-line react/sort-comp
-  validateName = this.getFieldOrImportValidator([
+  validateName = ModelFormComponent.getFieldOrImportValidator([
     ValidationHelpers.required,
     ValidationHelpers.validAlphaNumericUnderscore,
     ValidationHelpers.lengthMoreThan(3),
@@ -101,7 +103,7 @@ export class ModelFormComponent extends React.Component {
    * Validates type field
    * @return validation error
    */
-  validateType = this.getFieldOrImportValidator([ValidationHelpers.required])
+  validateType = ModelFormComponent.getFieldOrImportValidator([ValidationHelpers.required])
 
   /**
    * Handles component initialization

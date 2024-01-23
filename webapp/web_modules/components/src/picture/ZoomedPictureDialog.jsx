@@ -45,6 +45,14 @@ export class ZoomedPictureDialog extends React.Component {
   /** Min width for small pictures */
   static MIN_WIDTH = 100
 
+  /**
+   * Dialog content loaded. Apply workaround to force dialog repositioning as its child content has changed:
+   * https://github.com/mui-org/material-ui/issues/1676 (resolved in v1x, not in v0x...)
+   */
+  static onDialogContentLoaded() {
+    root.window.dispatchEvent(new Event('resize')) // Workaround (see comment above)
+  }
+
   state = {
     contentStyle: null,
   }
@@ -70,14 +78,6 @@ export class ZoomedPictureDialog extends React.Component {
    * @param {*} nextProps next component properties
    */
   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-   * Dialog content loaded. Apply workaround to force dialog repositioning as its child content has changed:
-   * https://github.com/mui-org/material-ui/issues/1676 (resolved in v1x, not in v0x...)
-   */
-  onDialogContentLoaded = (evt) => {
-    root.window.dispatchEvent(new Event('resize')) // Workaround (see comment above)
-  }
 
   /**
    * Properties change detected: update local state
@@ -130,7 +130,7 @@ export class ZoomedPictureDialog extends React.Component {
         <img
           alt={alt}
           src={picURL}
-          onLoad={this.onDialogContentLoaded}
+          onLoad={ZoomedPictureDialog.onDialogContentLoaded}
         />
       </Dialog>)
   }

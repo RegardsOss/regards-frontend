@@ -113,6 +113,25 @@ export class InfiniteGalleryContainer extends React.Component {
     }
   }
 
+  /**
+   * Flushes current entities
+   * @param {*} props -
+   */
+  static flush({ flush }) {
+    return flush()
+  }
+
+  /**
+   * Fetches an entity page (prevents fetching multiple times the same entity)
+   * @param {fetchEntities:{func}, requestParams:{}} props component props to use
+   * @param {number} pageNumber number of page to fetch (optional, defaults to 0)
+   */
+  static fetchEntityPage({
+    fetchEntities, pathParams, requestParams, queryPageSize,
+  }, pageNumber = 0) {
+    fetchEntities(pageNumber, queryPageSize, pathParams, requestParams)
+  }
+
   /** Initialize state */
   UNSAFE_componentWillMount = () => this.setState({
     ...InfiniteGalleryContainer.DEFAULT_STATE,
@@ -139,8 +158,8 @@ export class InfiniteGalleryContainer extends React.Component {
       || !isEqual(nextProps.pathParams, previousProps.pathParams)
       || !isEqual(nextProps.authentication, previousProps.authentication)) {
       // Fetch new ones (clear store first)
-      this.flush(nextProps)
-      this.fetchEntityPage(nextProps)
+      InfiniteGalleryContainer.flush(nextProps)
+      InfiniteGalleryContainer.fetchEntityPage(nextProps)
       // Entities stored is managed outside this container. After fetching, we receive
       // the new full list of items inside the loadedEntities props
     }
@@ -158,29 +177,12 @@ export class InfiniteGalleryContainer extends React.Component {
     return Math.max(entitiesCount || 0, (this.props.loadedEntities || []).length)
   }
 
-  /**
-   * Flushes current entities
-   * @param {*} props -
-   */
-  flush = ({ flush }) => flush()
-
-  /**
-   * Fetches an entity page (prevents fetching multiple times the same entity)
-   * @param {fetchEntities:{func}, requestParams:{}} props component props to use
-   * @param {number} pageNumber number of page to fetch (optional, defaults to 0)
-   */
-  fetchEntityPage = ({
-    fetchEntities, pathParams, requestParams, queryPageSize,
-  }, pageNumber = 0) => {
-    fetchEntities(pageNumber, queryPageSize, pathParams, requestParams)
-  }
-
   fetchMoreEntities = () => {
     const { entitiesFetching, pageMetadata } = this.props
     // Is table incomplete? (prevent fetching when already in progress)
     if (this.hasMoreEntities() && !entitiesFetching) {
       const nextPage = get(pageMetadata, 'number', 0) + 1
-      this.fetchEntityPage(this.props, nextPage)
+      InfiniteGalleryContainer.fetchEntityPage(this.props, nextPage)
     }
   }
 

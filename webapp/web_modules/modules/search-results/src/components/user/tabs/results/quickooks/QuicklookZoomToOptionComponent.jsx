@@ -41,6 +41,10 @@ class QuicklookZoomToOptionComponent extends React.Component {
   /** Properties that should not be reported to render child button */
   static NON_REPORTED_PROPS = ['entity', 'onZoomToFeature']
 
+  static isGeometryExist(entity) {
+    return !!get(entity, 'content.geometry', null)
+  }
+
   onZoomToFeature = () => {
     const { onZoomToFeature, entity } = this.props
     onZoomToFeature({
@@ -49,15 +53,13 @@ class QuicklookZoomToOptionComponent extends React.Component {
     })
   }
 
-  isGeometryExist = (entity) => !!get(entity, 'content.geometry', null)
-
   render() {
     const { entity } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
         title={formatMessage({ id: 'zoom.to.product.tooltip' })}
-        disabled={!this.isGeometryExist(entity)}
+        disabled={!QuicklookZoomToOptionComponent.isGeometryExist(entity)}
         onClick={this.onZoomToFeature}
         {...omit(this.props, QuicklookZoomToOptionComponent.NON_REPORTED_PROPS)}
       >

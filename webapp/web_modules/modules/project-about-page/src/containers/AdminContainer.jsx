@@ -52,6 +52,19 @@ class AdminContainer extends React.Component {
   /** Configuration part layout */
   static CONFIGURATION_LAYOUT = { display: 'flex', justifyContent: 'space-between', alignItems: 'center' }
 
+  static getFullPath = (path) => {
+    if (path) {
+      if (startsWith(path, 'http')) {
+        return path
+      }
+      if (startsWith(path, '/')) {
+        return `${root.location.protocol}//${root.location.host}${path}`
+      }
+      return `${root.location.protocol}//${root.location.host}/${path}`
+    }
+    return path
+  }
+
   /** HTML field path in redux form */
   CONF_HTML_PATH = `${this.props.adminForm.currentNamespace}.htmlPath`
 
@@ -68,21 +81,8 @@ class AdminContainer extends React.Component {
     this.startTest(null)
   }
 
-  getFullPath = (path) => {
-    if (path) {
-      if (startsWith(path, 'http')) {
-        return path
-      }
-      if (startsWith(path, '/')) {
-        return `${root.location.protocol}//${root.location.host}${path}`
-      }
-      return `${root.location.protocol}//${root.location.host}/${path}`
-    }
-    return path
-  }
-
-  startTest = (event) => {
-    const path = this.getFullPath(get(this.props.adminForm.form, this.CONF_HTML_PATH))
+  startTest = () => {
+    const path = AdminContainer.getFullPath(get(this.props.adminForm.form, this.CONF_HTML_PATH))
     if (path) {
       this.setState({
         isLoading: true,

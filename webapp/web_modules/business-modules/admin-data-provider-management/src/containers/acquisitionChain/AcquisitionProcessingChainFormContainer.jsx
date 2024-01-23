@@ -83,6 +83,34 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
     changeField: PropTypes.func.isRequired,
   }
 
+  static getTargetTypes(storage) {
+    const targetTypes = []
+    if (storage.rawdata) {
+      targetTypes.push(DATA_TYPES_ENUM.RAWDATA)
+    }
+    if (storage.aip) {
+      targetTypes.push(DATA_TYPES_ENUM.AIP)
+    }
+    if (storage.description) {
+      targetTypes.push(DATA_TYPES_ENUM.DESCRIPTION)
+    }
+    if (storage.document) {
+      targetTypes.push(DATA_TYPES_ENUM.DOCUMENT)
+    }
+    if (storage.quicklook) {
+      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK_SD)
+      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK_MD)
+      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK_HD)
+    }
+    if (storage.thumbnail) {
+      targetTypes.push(DATA_TYPES_ENUM.THUMBNAIL)
+    }
+    if (storage.other) {
+      targetTypes.push(DATA_TYPES_ENUM.OTHER)
+    }
+    return targetTypes
+  }
+
   /** Initial state */
   state = {
     isLoadingChain: this.props.params.chainId !== undefined,
@@ -118,34 +146,6 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  getTargetTypes = (storage) => {
-    const targetTypes = []
-    if (storage.rawdata) {
-      targetTypes.push(DATA_TYPES_ENUM.RAWDATA)
-    }
-    if (storage.aip) {
-      targetTypes.push(DATA_TYPES_ENUM.AIP)
-    }
-    if (storage.description) {
-      targetTypes.push(DATA_TYPES_ENUM.DESCRIPTION)
-    }
-    if (storage.document) {
-      targetTypes.push(DATA_TYPES_ENUM.DOCUMENT)
-    }
-    if (storage.quicklook) {
-      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK_SD)
-      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK_MD)
-      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK_HD)
-    }
-    if (storage.thumbnail) {
-      targetTypes.push(DATA_TYPES_ENUM.THUMBNAIL)
-    }
-    if (storage.other) {
-      targetTypes.push(DATA_TYPES_ENUM.OTHER)
-    }
-    return targetTypes
-  }
-
   /**
    * Callback to submit form values
    * @param {*} values : AcquisitionProcessingChain object to submit (update or create)
@@ -168,7 +168,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       storages: values.storages.filter((storages) => storages.active).map((configuredStorage) => ({
         pluginBusinessId: configuredStorage.label,
         storePath: configuredStorage.storePath ? configuredStorage.storePath : '',
-        targetTypes: this.getTargetTypes(configuredStorage),
+        targetTypes: AcquisitionProcessingChainFormContainer.getTargetTypes(configuredStorage),
       })),
     }
 

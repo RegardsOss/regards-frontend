@@ -52,6 +52,15 @@ export class CollectionEditLinksContainer extends React.Component {
     fetchCollectionList: PropTypes.func.isRequired,
   }
 
+  static partitionCollectionLinkedTags(currentCollection) {
+    const linkedTags = partition(currentCollection.content.tags, (tag) => tag.match(/URN:.*:COLLECTION.*/))
+    return linkedTags
+  }
+
+  static getCollectionLinked(collectionIpIdList, collectionList) {
+    return map(collectionIpIdList, (collectionIpId) => find(collectionList, (collection) => collection.content.ipId === collectionIpId))
+  }
+
   state = {
     collectionName: '',
     isLoading: true,
@@ -71,19 +80,12 @@ export class CollectionEditLinksContainer extends React.Component {
     return `/admin/${project}/data/collections/collection/${collectionId}/edit`
   }
 
-  partitionCollectionLinkedTags = (currentCollection) => {
-    const linkedTags = partition(currentCollection.content.tags, (tag) => tag.match(/URN:.*:COLLECTION.*/))
-    return linkedTags
-  }
-
-  getCollectionLinked = (collectionIpIdList, collectionList) => map(collectionIpIdList, (collectionIpId) => find(collectionList, (collection) => collection.content.ipId === collectionIpId))
-
   getComponent = () => {
     const { currentCollection, collectionList } = this.props
     const collectionLinkedToCurrentCollection = this.getRemainingCollection(currentCollection, collectionList)
-    const collectionTags = this.partitionCollectionLinkedTags(currentCollection)
+    const collectionTags = CollectionEditLinksContainer.partitionCollectionLinkedTags(currentCollection)
     const collectionStringTags = collectionTags[1]
-    const linkedCollection = this.getCollectionLinked(collectionTags[0], collectionList)
+    const linkedCollection = CollectionEditLinksContainer.getCollectionLinked(collectionTags[0], collectionList)
     return (
       <CollectionEditLinksComponent
         linkedCollections={linkedCollection}

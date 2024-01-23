@@ -39,11 +39,13 @@ export class AccountFormContainer extends React.Component {
     updateAccount: PropTypes.func,
   }
 
+  static getBackUrl() {
+    return ('/admin/accounts/management/list')
+  }
+
   componentDidMount() {
     this.props.fetchAccount(this.props.params.account_id)
   }
-
-  getBackUrl = () => ('/admin/accounts/management/list')
 
   handleUpdate = (values) => {
     const updatedAccount = {
@@ -56,7 +58,7 @@ export class AccountFormContainer extends React.Component {
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          const url = this.getBackUrl()
+          const url = AccountFormContainer.getBackUrl()
           browserHistory.push(url)
         }
       })
@@ -73,7 +75,7 @@ export class AccountFormContainer extends React.Component {
         >
           <AccountFormComponent
             onSubmit={this.handleUpdate}
-            backUrl={this.getBackUrl()}
+            backUrl={AccountFormContainer.getBackUrl()}
             currentAccount={this.props.account}
           />
         </LoadableContentDisplayDecorator>

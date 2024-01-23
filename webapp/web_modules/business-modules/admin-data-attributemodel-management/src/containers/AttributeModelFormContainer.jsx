@@ -59,6 +59,58 @@ export class AttributeModelFormContainer extends React.Component {
     fetchAttributeModelRestrictionList: PropTypes.func,
   }
 
+  /**
+   * Extract values from the form result
+   * @param values
+   * @returns {{}} return data we send to the API
+   */
+  static getRestriction(values) {
+    let restriction = {}
+    if (values.restriction) {
+      // Handle integer range
+      const restrictions = ['INTEGER_RANGE', 'DOUBLE_RANGE', 'LONG_RANGE']
+      restrictions.forEach((value) => {
+        if (values.restriction[value] && values.restriction[value].active) {
+          restriction = {
+            type: value,
+            min: parseInt(values.restriction[value].min, 10),
+            max: parseInt(values.restriction[value].max, 10),
+            minExcluded: !values.restriction[value].isMinInclusive,
+            maxExcluded: !values.restriction[value].isMaxInclusive,
+          }
+        }
+      })
+      // Handle enumeration
+      if (values.restriction.ENUMERATION && values.restriction.ENUMERATION.active) {
+        const acceptableValues = map(values.restriction.ENUMERATION.inputs, (val) => val.length > 0 ? val : undefined)
+        restriction = {
+          type: 'ENUMERATION',
+          acceptableValues,
+        }
+      }
+      // Handle pattern
+      if (values.restriction.PATTERN && values.restriction.PATTERN.active) {
+        restriction = {
+          type: 'PATTERN',
+          pattern: values.restriction.PATTERN.pattern,
+        }
+      }
+      if (values.restriction.JSON_SCHEMA && values.restriction.JSON_SCHEMA.active) {
+        restriction = {
+          type: 'JSON_SCHEMA',
+          jsonSchema: values.restriction.JSON_SCHEMA.jsonSchema,
+        }
+        if (values.restriction.JSON_SCHEMA.restrict && values.elasticConfType === ELASTIC_CONFIGURATION_TYPES_ENUM.SIMPLE) {
+          restriction = {
+            ...restriction,
+            indexableFields: values.restriction.JSON_SCHEMA.indexableFields || [],
+          }
+        }
+      }
+    }
+    return restriction
+  }
+
   state = {
     isEditing: this.props.params.attrModel_id !== undefined,
     isLoading: true,
@@ -131,58 +183,6 @@ export class AttributeModelFormContainer extends React.Component {
     />)
   }
 
-  /**
-   * Extract values from the form result
-   * @param values
-   * @returns {{}} return data we send to the API
-   */
-  getRestriction = (values) => {
-    let restriction = {}
-    if (values.restriction) {
-      // Handle integer range
-      const restrictions = ['INTEGER_RANGE', 'DOUBLE_RANGE', 'LONG_RANGE']
-      restrictions.forEach((value) => {
-        if (values.restriction[value] && values.restriction[value].active) {
-          restriction = {
-            type: value,
-            min: parseInt(values.restriction[value].min, 10),
-            max: parseInt(values.restriction[value].max, 10),
-            minExcluded: !values.restriction[value].isMinInclusive,
-            maxExcluded: !values.restriction[value].isMaxInclusive,
-          }
-        }
-      })
-      // Handle enumeration
-      if (values.restriction.ENUMERATION && values.restriction.ENUMERATION.active) {
-        const acceptableValues = map(values.restriction.ENUMERATION.inputs, (val) => val.length > 0 ? val : undefined)
-        restriction = {
-          type: 'ENUMERATION',
-          acceptableValues,
-        }
-      }
-      // Handle pattern
-      if (values.restriction.PATTERN && values.restriction.PATTERN.active) {
-        restriction = {
-          type: 'PATTERN',
-          pattern: values.restriction.PATTERN.pattern,
-        }
-      }
-      if (values.restriction.JSON_SCHEMA && values.restriction.JSON_SCHEMA.active) {
-        restriction = {
-          type: 'JSON_SCHEMA',
-          jsonSchema: values.restriction.JSON_SCHEMA.jsonSchema,
-        }
-        if (values.restriction.JSON_SCHEMA.restrict && values.elasticConfType === ELASTIC_CONFIGURATION_TYPES_ENUM.SIMPLE) {
-          restriction = {
-            ...restriction,
-            indexableFields: values.restriction.JSON_SCHEMA.indexableFields || [],
-          }
-        }
-      }
-    }
-    return restriction
-  }
-
   getFragment = (values) => {
     if (values.fragment !== DEFAULT_FRAGMENT_NAME) {
       const attrFragment = find(this.props.fragmentList, (fragment) => (fragment.content.name === values.fragment))
@@ -196,7 +196,7 @@ export class AttributeModelFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    const restriction = this.getRestriction(values)
+    const restriction = AttributeModelFormContainer.getRestriction(values)
     const previousAttrModel = this.props.attrModel.content
     const updatedAttrModel = {
       ...previousAttrModel,
@@ -226,7 +226,7 @@ export class AttributeModelFormContainer extends React.Component {
   }
 
   handleCreate = (values) => {
-    const restriction = this.getRestriction(values)
+    const restriction = AttributeModelFormContainer.getRestriction(values)
     const fragment = this.getFragment(values)
     const newAttrModel = {
       fragment,

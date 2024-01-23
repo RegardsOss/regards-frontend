@@ -96,6 +96,12 @@ export class OAISPackageManagerComponent extends React.Component {
     Icon={SearchIcon}
   />
 
+  static getActionPayload(entities, mode) {
+    const aipIds = map(entities, (e) => get(e, 'content.aipId', ''))
+    const selectionMode = mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE
+    return IngestDomain.AipFilters.builder().withAipIds(aipIds, selectionMode).build()
+  }
+
   state = {
     [DIALOG_TYPES.AIP_DETAIL_DIALOG]: {
       open: false,
@@ -192,7 +198,7 @@ export class OAISPackageManagerComponent extends React.Component {
     const payload = {
       ...bodyParameters,
       deletionMode,
-      ...this.getActionPayload(entities, mode),
+      ...OAISPackageManagerComponent.getActionPayload(entities, mode),
     }
     onDeleteRequests(payload, paneType, this.updatePostDialogState)
   }
@@ -209,7 +215,7 @@ export class OAISPackageManagerComponent extends React.Component {
       removeStorages: modifyParameters.storages.toDelete,
       criteria: {
         ...bodyParameters,
-        ...this.getActionPayload(entities, mode),
+        ...OAISPackageManagerComponent.getActionPayload(entities, mode),
       },
     }
     onModifyAip(finalModifyPayload, this.updatePostDialogState)
@@ -220,15 +226,9 @@ export class OAISPackageManagerComponent extends React.Component {
     const { entities, mode } = this.state[DIALOG_TYPES.NOTIFY_DIALOG]
     const payload = {
       ...bodyParameters,
-      ...this.getActionPayload(entities, mode),
+      ...OAISPackageManagerComponent.getActionPayload(entities, mode),
     }
     onNotifyAip(payload, recipientIds)
-  }
-
-  getActionPayload = (entities, mode) => {
-    const aipIds = map(entities, (e) => get(e, 'content.aipId', ''))
-    const selectionMode = mode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE
-    return IngestDomain.AipFilters.builder().withAipIds(aipIds, selectionMode).build()
   }
 
   renderDialog = (dialogRequestType) => {
@@ -240,7 +240,7 @@ export class OAISPackageManagerComponent extends React.Component {
         case DIALOG_TYPES.MODIFY_DIALOG:
           component = <AIPModifyDialogContainer
             onConfirmModify={this.onConfirmModify}
-            contextRequestBodyParameters={{ ...bodyParameters, ...this.getActionPayload(entities, mode) }}
+            contextRequestBodyParameters={{ ...bodyParameters, ...OAISPackageManagerComponent.getActionPayload(entities, mode) }}
             onClose={() => this.onCloseActionDialog(dialogRequestType)}
           />
           break

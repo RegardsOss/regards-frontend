@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import map from 'lodash/map'
-import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { BasicPageableReducers, BasicReducer } from '@regardsoss/store-utils'
 import { EndpointConfiguration } from '@regardsoss/api'
 import EndpointActions from './EndpointActions'
 /**
@@ -39,7 +39,7 @@ class EndpointReducers extends BasicPageableReducers {
   }
 
   reduce(state, action) {
-    if (this.isCancelled(state, action)) {
+    if (BasicReducer.isCancelled(state, action)) {
       return state
     }
 

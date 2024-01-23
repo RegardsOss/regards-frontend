@@ -77,11 +77,6 @@ export class FragmentListContainer extends React.Component {
     this.props.deleteFragment(fragmentId)
   }
 
-  handleOpen = (projectName) => {
-    const url = `/admin/${projectName}`
-    browserHistory.push(url)
-  }
-
   render() {
     const { fragmentList, accessToken } = this.props
     return (

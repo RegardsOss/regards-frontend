@@ -45,6 +45,19 @@ class MoveOptionComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Builds all options for list as parameter
+   * @param {[*]} list list of siding element
+   * @param {Function} buildOption buildOption like (element, index) => Component, where element ranges
+   * from -1 (first) to N-1
+   */
+  static buildOptionsForList(list, buildOption) {
+    return [
+      buildOption(null, -1), // first option
+      ...list.map((element, index) => buildOption(element, index)),
+    ].filter((c) => !!c) // remove null as MUI bugs with them in sub menus
+  }
+
   /** Initial state */
   state = {
     menuOpen: false,
@@ -88,17 +101,6 @@ class MoveOptionComponent extends React.Component {
     }
   })
 
-  /**
-   * Builds all options for list as parameter
-   * @param {[*]} list list of siding element
-   * @param {Function} buildOption buildOption like (element, index) => Component, where element ranges
-   * from -1 (first) to N-1
-   */
-  buildOptionsForList = (list, buildOption) => [
-    buildOption(null, -1), // first option
-    ...list.map((element, index) => buildOption(element, index)),
-  ].filter((c) => !!c) // remove null as MUI bugs with them in sub menus
-
   render() {
     const { groups, entity } = this.props
     const { menuOpen, menuAnchorElement } = this.state
@@ -128,7 +130,7 @@ class MoveOptionComponent extends React.Component {
                     key="in.current.group.option"
                     primaryText={intl.formatMessage({ id: 'search.results.form.configuration.search.pane.options.column.move.in.current.group.menu.label' })}
                     rightIcon={<MenuChildrenIcon />}
-                    menuItems={this.buildOptionsForList(groups[entity.groupIndex].criteria, (criterion, index) => {
+                    menuItems={MoveOptionComponent.buildOptionsForList(groups[entity.groupIndex].criteria, (criterion, index) => {
                       // index: N => N+1 while before this criterion, N otherwise (computed after deletion)
                       const targetIndex = index < entity.criterionIndex ? index + 1 : index
                       // next options: skip element before and this one (x-1/x) as they would result in same location
@@ -161,7 +163,7 @@ class MoveOptionComponent extends React.Component {
                           })
                         }
                         rightIcon={<MenuChildrenIcon />}
-                        menuItems={this.buildOptionsForList(groups[groupIndex].criteria,
+                        menuItems={MoveOptionComponent.buildOptionsForList(groups[groupIndex].criteria,
                           (criterion, criterionIndex) => ( // All options available in other groups
                             <PositionMenuItemComponent
                               key={`at.${criterionIndex}`}
@@ -176,7 +178,7 @@ class MoveOptionComponent extends React.Component {
                       />))
                   }
                 </>) // Group options: move first or after each
-                : this.buildOptionsForList(groups, (g, index) => {
+                : MoveOptionComponent.buildOptionsForList(groups, (g, index) => {
                   // index: N => N+1 while before this group, N otherwise (computed after deletion)
                   const targetIndex = index < entity.groupIndex ? index + 1 : index
                   // next options: skip element before and this one (x-1/x) as they would result in same location

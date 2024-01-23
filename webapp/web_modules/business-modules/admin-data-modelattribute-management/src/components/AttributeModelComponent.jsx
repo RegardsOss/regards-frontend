@@ -27,16 +27,16 @@ class AttributeModelComponent extends React.Component {
     attribute: DataManagementShapes.AttributeModel,
   }
 
-  showIfAttributeIsNotOptional = (modelAttribute) => {
+  static showIfAttributeIsNotOptional(modelAttribute) {
     if (!modelAttribute.content.optional) {
       return ' (*)'
     }
     return null
   }
 
-  getAttrInfo = (attr) => (
-    compact([attr.content.label, attr.content.description]).join(' - ')
-  )
+  static getAttrInfo(attr) {
+    return compact([attr.content.label, attr.content.description]).join(' - ')
+  }
 
   render() {
     const { attribute } = this.props
@@ -49,9 +49,9 @@ class AttributeModelComponent extends React.Component {
           preScanRows={false}
         >
           <TableRow>
-            <TableRowColumn title={this.getAttrInfo(attribute)}>
+            <TableRowColumn title={AttributeModelComponent.getAttrInfo(attribute)}>
               {attribute.content.name}
-              {this.showIfAttributeIsNotOptional(attribute)}
+              {AttributeModelComponent.showIfAttributeIsNotOptional(attribute)}
             </TableRowColumn>
             <TableRowColumn>{attribute.content.type}</TableRowColumn>
           </TableRow>

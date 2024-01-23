@@ -116,6 +116,29 @@ export const withSelectionContainer = (DecoratedComponent) => {
       }, {})
     }
 
+    /**
+     * Add provided products to the initElements list
+     */
+    static includeProductsIntoResult(initElements, products) {
+      return {
+        ...initElements,
+        ...reduce(products, (acc, product) => {
+          acc[product.id] = { content: product }
+          return acc
+        }, {}),
+      }
+    }
+
+    /**
+     * Remove provided products from the initElements list
+     */
+    static excludeProductsFromResult(initElements, products) {
+      return reduce(products, (acc, product) => {
+        delete acc[product.id]
+        return acc
+      }, { ...initElements })
+    }
+
     state = {
       selectedProducts: {},
     }
@@ -150,25 +173,6 @@ export const withSelectionContainer = (DecoratedComponent) => {
     }
 
     /**
-     * Add provided products to the initElements list
-     */
-    includeProductsIntoResult = (initElements, products) => ({
-      ...initElements,
-      ...reduce(products, (acc, product) => {
-        acc[product.id] = { content: product }
-        return acc
-      }, {}),
-    })
-
-    /**
-     * Remove provided products from the initElements list
-     */
-    excludeProductsFromResult = (initElements, products) => reduce(products, (acc, product) => {
-      delete acc[product.id]
-      return acc
-    }, { ...initElements })
-
-    /**
      * Handle product selection in Mizar/Cesium & in Quicklooks
      * @param {*} product products selected : id & label
      */
@@ -179,7 +183,7 @@ export const withSelectionContainer = (DecoratedComponent) => {
       if (products.length) {
         // Update list of product selected
         const hasToggleExistingElement = find(toggledElements, (toggledElement) => find(products, (product) => toggledElement.content.id === product.id))
-        const newToggledElements = hasToggleExistingElement ? this.excludeProductsFromResult(toggledElements, products) : this.includeProductsIntoResult(toggledElements, products)
+        const newToggledElements = hasToggleExistingElement ? SelectionContainer.excludeProductsFromResult(toggledElements, products) : SelectionContainer.includeProductsIntoResult(toggledElements, products)
         setSelection(selectionMode, newToggledElements)
         // Update point of interest
         if (!hasToggleExistingElement) {

@@ -49,6 +49,10 @@ class FiltersChipsComponent extends React.Component {
     ...themeContextType,
   }
 
+  static i18nExist(i18nKey, messages) {
+    return keys(messages).includes(i18nKey)
+  }
+
   state = {
     filters: {},
   }
@@ -96,7 +100,7 @@ class FiltersChipsComponent extends React.Component {
       },
     } = this.context
     const i18nKey = get(filtersI18n, `${filterKey}.labelKey`)
-    const chipLabel = this.i18nExist(i18nKey, messages) ? formatMessage({ id: i18nKey }) : `${filterKey}`
+    const chipLabel = FiltersChipsComponent.i18nExist(i18nKey, messages) ? formatMessage({ id: i18nKey }) : `${filterKey}`
     return (
       !FiltersPaneHelper.isFilterEmpty(filter)
       && <div
@@ -178,13 +182,11 @@ class FiltersChipsComponent extends React.Component {
     if (displayedDirectValues) {
       return `${i18nValueKeyOrDirectValue}`
     }
-    if (!this.i18nExist(i18nValueKeyOrDirectValue, messages)) {
+    if (!FiltersChipsComponent.i18nExist(i18nValueKeyOrDirectValue, messages)) {
       return `${value}`
     }
     return formatMessage({ id: i18nValueKeyOrDirectValue })
   }
-
-  i18nExist = (i18nKey, messages) => keys(messages).includes(i18nKey)
 
   render() {
     const { filters } = this.state

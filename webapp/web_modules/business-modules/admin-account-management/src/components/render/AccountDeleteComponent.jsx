@@ -40,15 +40,17 @@ class AccountDeleteComponent extends React.Component {
     ...themeContextType,
   }
 
+  /**
+   * @return {boolean} true if administrator can refuse this account
+   */
+  static canRefuseAccount(account) {
+    return AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
+  }
+
   onOpenDeleteDialog = () => {
     const { entity, onOpenDeleteDialog } = this.props
     onOpenDeleteDialog(entity)
   }
-
-  /**
-   * @return {boolean} true if administrator can refuse this account
-   */
-  canRefuseAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
 
   render() {
     const { entity, isFetchingActions } = this.props
@@ -58,7 +60,7 @@ class AccountDeleteComponent extends React.Component {
         className="selenium-deleteButton"
         title={formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
         onClick={this.onOpenDeleteDialog}
-        disabled={isFetchingActions}
+        disabled={isFetchingActions || !AccountDeleteComponent.canRefuseAccount(entity)}
         entityLinks={entity.links}
         hateoasKey={HateoasKeys.DELETE}
         alwaysDisplayforInstanceUser={false}

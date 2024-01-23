@@ -87,6 +87,58 @@ export class AIPDatasourceFormComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Returns all attributes having a long type
+   */
+  static getAttributesTypeLong(modelAttributeList) {
+    return filter(modelAttributeList, (modelAttribute) => (
+      modelAttribute.content.attribute.type === MODEL_ATTR_TYPES.LONG
+    ))
+  }
+
+  /**
+   * Return the value expected by the server
+   */
+  static getFullQualifiedAttributeValue(attribute) {
+    if (attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
+      return `${attribute.fragment.name}.${attribute.name}`
+    }
+    return `${attribute.name}`
+  }
+
+  /**
+   * Return the mapping component, with optional at the end
+   */
+  static getMappingAttributes(modelAttributeList) {
+    return flow(
+      fpsortBy('content.attribute.optional'),
+      fpmap((modelAttribute) => (
+        <AIPDatasourceAttributeLineConfigurationComponent
+          key={modelAttribute.content.attribute.name}
+          modelAttribute={modelAttribute}
+        />
+      )),
+    )(modelAttributeList)
+  }
+
+  static isMappableAttributKey(key, attributes) {
+    if (find(attributes, ['key', key])) {
+      return true
+    }
+    if (find(attributes, (a) => a.content.attribute.jsonPath === key)) {
+      return true
+    }
+
+    // Special  case of range attributes add lowerBound and upperBound at the end of the jsonPath
+    if (endsWith(key, '.upperBound') && find(attributes, (a) => a.content.attribute.jsonPath === replace(key, '.upperBound', ''))) {
+      return true
+    }
+    if (endsWith(key, '.lowerBound') && find(attributes, (a) => a.content.attribute.jsonPath === replace(key, '.lowerBound', ''))) {
+      return true
+    }
+    return false
+  }
+
   componentDidMount() {
     this.handleInitialize()
   }
@@ -106,41 +158,9 @@ export class AIPDatasourceFormComponent extends React.Component {
   getMappableAttributes = (modelAttributeList) => {
     const attributeFileSize = get(this.props.formValues, 'attributeFileSize')
     return reject(modelAttributeList, (modelAttribute) => (
-      this.getFullQualifiedAttributeValue(modelAttribute.content.attribute) === attributeFileSize
+      AIPDatasourceFormComponent.getFullQualifiedAttributeValue(modelAttribute.content.attribute) === attributeFileSize
     ))
   }
-
-  /**
-   * Returns all attributes having a long type
-   */
-  getAttributesTypeLong = (modelAttributeList) => (
-    filter(modelAttributeList, (modelAttribute) => (
-      modelAttribute.content.attribute.type === MODEL_ATTR_TYPES.LONG
-    ))
-  )
-
-  /**
-   * Return the value expected by the server
-   */
-  getFullQualifiedAttributeValue = (attribute) => {
-    if (attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
-      return `${attribute.fragment.name}.${attribute.name}`
-    }
-    return `${attribute.name}`
-  }
-
-  /**
-   * Return the mapping component, with optional at the end
-   */
-  getMappingAttributes = (modelAttributeList) => flow(
-    fpsortBy('content.attribute.optional'),
-    fpmap((modelAttribute) => (
-      <AIPDatasourceAttributeLineConfigurationComponent
-        key={modelAttribute.content.attribute.name}
-        modelAttribute={modelAttribute}
-      />
-    )),
-  )(modelAttributeList)
 
   /**
    * Remove the mapping already set up for that property
@@ -166,24 +186,6 @@ export class AIPDatasourceFormComponent extends React.Component {
     this.props.onModelSelected(value)
   }
 
-  isMappableAttributKey = (key, attributes) => {
-    if (find(attributes, ['key', key])) {
-      return true
-    }
-    if (find(attributes, (a) => a.content.attribute.jsonPath === key)) {
-      return true
-    }
-
-    // Special  case of range attributes add lowerBound and upperBound at the end of the jsonPath
-    if (endsWith(key, '.upperBound') && find(attributes, (a) => a.content.attribute.jsonPath === replace(key, '.upperBound', ''))) {
-      return true
-    }
-    if (endsWith(key, '.lowerBound') && find(attributes, (a) => a.content.attribute.jsonPath === replace(key, '.lowerBound', ''))) {
-      return true
-    }
-    return false
-  }
-
   /**
    * Initialize form fields
    */
@@ -199,11 +201,11 @@ export class AIPDatasourceFormComponent extends React.Component {
       const attributeFileSize = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.ATTRIBUTE_FILE_SIZE), 'value', '')
       const mappingRaw = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.BINDMAP_MAP), 'value', [])
       const mappableAttributs = this.getMappableAttributes(modelAttributeList)
-      const staticMappableAttributs = this.getMappingAttributes(StaticAttributeListAIP)
+      const staticMappableAttributs = AIPDatasourceFormComponent.getMappingAttributes(StaticAttributeListAIP)
       // Replace the caracter . inside the binding into the caracter @
       const mapping = {}
       forEach(mappingRaw, (value, key) => {
-        if (!find(staticMappableAttributs, ['key', key]) && !this.isMappableAttributKey(key, mappableAttributs)) {
+        if (!find(staticMappableAttributs, ['key', key]) && !AIPDatasourceFormComponent.isMappableAttributKey(key, mappableAttributs)) {
           console.error('unmappable attribute remove from conf', mappableAttributs, key)
         } else {
           mapping[key.replace(/\./g, '@')] = value
@@ -294,9 +296,9 @@ export class AIPDatasourceFormComponent extends React.Component {
                   key="undefined-filesize"
                   primaryText=""
                 />
-                {map(this.getAttributesTypeLong(modelAttributeList), (modelAttribute, id) => (
+                {map(AIPDatasourceFormComponent.getAttributesTypeLong(modelAttributeList), (modelAttribute) => (
                   <MenuItem
-                    value={this.getFullQualifiedAttributeValue(modelAttribute.content.attribute)}
+                    value={AIPDatasourceFormComponent.getFullQualifiedAttributeValue(modelAttribute.content.attribute)}
                     key={modelAttribute.content.attribute.name}
                     primaryText={getFullQualifiedAttributeName(modelAttribute.content.attribute)}
                     className={`selenium-pickAttributeFileSize-${modelAttribute.content.attribute.name}`}
@@ -341,7 +343,7 @@ export class AIPDatasourceFormComponent extends React.Component {
                   preScanRows={false}
                   showRowHover
                 >
-                  {this.getMappingAttributes(StaticAttributeListAIP)}
+                  {AIPDatasourceFormComponent.getMappingAttributes(StaticAttributeListAIP)}
                 </TableBody>
               </Table>
               <ShowableAtRender
@@ -366,7 +368,7 @@ export class AIPDatasourceFormComponent extends React.Component {
                     preScanRows={false}
                     showRowHover
                   >
-                    {this.getMappingAttributes(this.getMappableAttributes(modelAttributeList))}
+                    {AIPDatasourceFormComponent.getMappingAttributes(this.getMappableAttributes(modelAttributeList))}
                   </TableBody>
                 </Table>
               </ShowableAtRender>

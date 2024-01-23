@@ -92,6 +92,14 @@ export class StorageLocationListComponent extends React.Component {
       Icon={AddToPhotos}
     />)
 
+  static isPendingActionsExist(entities) {
+    return find(entities, (entity) => {
+      const storePendingActionAvailable = get(entity, 'content.nbFilesStoredWithPendingActionRemaining', 0) > 0
+      const pendingActionRunning = get(entity, 'content.pendingActionRemaining', false)
+      return pendingActionRunning || storePendingActionAvailable
+    })
+  }
+
   state = {
     entityTargeted: null,
     entitytoDeleteFiles: null,
@@ -444,12 +452,6 @@ export class StorageLocationListComponent extends React.Component {
 
   formatType = (entity) => this.context.intl.formatMessage({ id: `storage.type.${get(entity, 'content.configuration.storageType', 'NONE')}` })
 
-  isPendingActionsExist = (entities) => find(entities, (entity) => {
-    const storePendingActionAvailable = get(entity, 'content.nbFilesStoredWithPendingActionRemaining', 0) > 0
-    const pendingActionRunning = get(entity, 'content.pendingActionRemaining', false)
-    return pendingActionRunning || storePendingActionAvailable
-  })
-
   render() {
     const {
       entities, isLoading, availableDependencies,
@@ -509,7 +511,7 @@ export class StorageLocationListComponent extends React.Component {
                   onClick={this.onSwitchConfirmPendingActionsDialog}
                   primary
                   style={StorageLocationListComponent.ICON_STYLE}
-                  disabled={!this.isPendingActionsExist(entities)}
+                  disabled={!StorageLocationListComponent.isPendingActionsExist(entities)}
                 />
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>

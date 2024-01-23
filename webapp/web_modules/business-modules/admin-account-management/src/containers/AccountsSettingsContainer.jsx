@@ -74,6 +74,13 @@ export class AccountsSettingsContainer extends React.Component {
     flushSettings: PropTypes.func.isRequired,
   }
 
+  /**
+   * On back button clicked callback
+   */
+  static onBack() {
+    browserHistory.push('/admin/accounts/board')
+  }
+
   state = {
     isLoading: true,
     settings: null,
@@ -119,13 +126,6 @@ export class AccountsSettingsContainer extends React.Component {
   }
 
   /**
-   * On back button clicked callback
-   */
-  onBack = () => {
-    browserHistory.push('/admin/accounts/board')
-  }
-
-  /**
    * On submit callback
    * @param {*} values edited settrings values
    */
@@ -135,7 +135,7 @@ export class AccountsSettingsContainer extends React.Component {
     Promise.all(tasks)
       .then((actionResults) => {
         if (!find(actionResults, (actionResult) => actionResult.error)) {
-          this.onBack()
+          AccountsSettingsContainer.onBack()
         }
       })
   }
@@ -152,7 +152,7 @@ export class AccountsSettingsContainer extends React.Component {
           >
             <AccountsSettingsComponent
               settings={settings}
-              onBack={this.onBack}
+              onBack={AccountsSettingsContainer.onBack}
               onSubmit={this.onSubmit}
             />
           </LoadableContentDisplayDecorator>

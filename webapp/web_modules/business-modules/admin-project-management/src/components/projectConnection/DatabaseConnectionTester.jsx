@@ -47,14 +47,7 @@ class DatabaseConnectionTester extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    status: this.props.projectConnection.content.connectivity,
-    completed: 0,
-    snackBarOpen: false,
-    snackBarMessageId: 'database.connectionTester.snackbar.warning',
-  }
-
-  getSnackBarMessageId = (status) => {
+  static getSnackBarMessageId(status) {
     switch (status) {
       case EnumConnectivity.SUCCESS:
         return 'database.connectionTester.snackbar.connected'
@@ -65,6 +58,13 @@ class DatabaseConnectionTester extends React.Component {
       default:
         return 'database.connectionTester.snackbar.warning'
     }
+  }
+
+  state = {
+    status: this.props.projectConnection.content.connectivity,
+    completed: 0,
+    snackBarOpen: false,
+    snackBarMessageId: 'database.connectionTester.snackbar.warning',
   }
 
   handleTouchTap = () => {
@@ -81,7 +81,7 @@ class DatabaseConnectionTester extends React.Component {
               status: result,
               completed: 100,
               snackBarOpen: true,
-              snackBarMessageId: this.getSnackBarMessageId(result),
+              snackBarMessageId: DatabaseConnectionTester.getSnackBarMessageId(result),
             })
           }
         })

@@ -58,9 +58,13 @@ class ReferencingComponent extends React.Component {
     ...i18nContextType,
   }
 
-  getProperties = (stepId, femProperties, ingestProperties) => stepId === REFERENCING_TYPE.FEATURE ? femProperties : ingestProperties
+  static getProperties(stepId, femProperties, ingestProperties) {
+    return stepId === REFERENCING_TYPE.FEATURE ? femProperties : ingestProperties
+  }
 
-  getStepSubType = (stepId) => stepId === REFERENCING_TYPE.FEATURE ? STEP_SUB_TYPES_ENUM.FEATURE_MANAGER : STEP_SUB_TYPES_ENUM.INGEST
+  static getStepSubType(stepId) {
+    return stepId === REFERENCING_TYPE.FEATURE ? STEP_SUB_TYPES_ENUM.FEATURE_MANAGER : STEP_SUB_TYPES_ENUM.INGEST
+  }
 
   buildStep = (sessionStep) => {
     const {
@@ -79,16 +83,16 @@ class ReferencingComponent extends React.Component {
         >
           <div>
             <DisplayPropertiesComponent
-              title={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${this.getStepSubType(sessionStep.stepId)}.properties.input.title` })}
-              properties={this.getProperties(sessionStep.stepId, FEM_REQUESTS_PROPERTIES, INGEST_REQUESTS_PROPERTIES)}
+              title={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${ReferencingComponent.getStepSubType(sessionStep.stepId)}.properties.input.title` })}
+              properties={ReferencingComponent.getProperties(sessionStep.stepId, FEM_REQUESTS_PROPERTIES, INGEST_REQUESTS_PROPERTIES)}
               sessionStep={sessionStep}
-              stepSubType={this.getStepSubType(sessionStep.stepId)}
+              stepSubType={ReferencingComponent.getStepSubType(sessionStep.stepId)}
             />
             <DisplayPropertiesComponent
-              title={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${this.getStepSubType(sessionStep.stepId)}.properties.output.title` })}
-              properties={this.getProperties(sessionStep.stepId, FEM_PRODUCTS_PROPERTIES, INGEST_PRODUCTS_PROPERTIES)}
+              title={formatMessage({ id: `dashboard.selectedsession.${sessionStep.type}.${ReferencingComponent.getStepSubType(sessionStep.stepId)}.properties.output.title` })}
+              properties={ReferencingComponent.getProperties(sessionStep.stepId, FEM_PRODUCTS_PROPERTIES, INGEST_PRODUCTS_PROPERTIES)}
               sessionStep={sessionStep}
-              stepSubType={this.getStepSubType(sessionStep.stepId)}
+              stepSubType={ReferencingComponent.getStepSubType(sessionStep.stepId)}
             />
           </div>
         </ScrollArea>

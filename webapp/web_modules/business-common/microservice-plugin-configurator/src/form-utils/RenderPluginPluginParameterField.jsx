@@ -81,6 +81,17 @@ export class RenderPluginPluginParameterField extends React.Component {
     ...i18nContextType,
   }
 
+  static buildMenuItemPrimaryText(leftContent, rightContent) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {leftContent}
+        <span style={{ color: '#bdbdbd' }}>
+          {rightContent}
+        </span>
+      </div>
+    )
+  }
+
   state = {
     openMenu: false,
     pluginMetaDataList: [],
@@ -131,15 +142,6 @@ export class RenderPluginPluginParameterField extends React.Component {
       openMenu: value,
     })
   }
-
-  buildMenuItemPrimaryText = (leftContent, rightContent) => (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      {leftContent}
-      <span style={{ color: '#bdbdbd' }}>
-        {rightContent}
-      </span>
-    </div>
-  )
 
   handleChange = (value) => {
     const { pluginConfigurationList } = this.state
@@ -193,13 +195,13 @@ export class RenderPluginPluginParameterField extends React.Component {
           return (
             <MenuItem
               key={pmd.content.pluginId}
-              primaryText={this.buildMenuItemPrimaryText(pmd.content.pluginId, pmd.content.version)}
+              primaryText={RenderPluginPluginParameterField.buildMenuItemPrimaryText(pmd.content.pluginId, pmd.content.version)}
               rightIcon={<ArrowDropRight />}
               disabled={pluginConfigurationListIsEmpty}
               menuItems={
                 map(pluginConfigurationListForThisPluginMetaData, (pc) => (<MenuItem
                   key={pc.content.id}
-                  primaryText={this.buildMenuItemPrimaryText(pc.content.label, pc.content.version)}
+                  primaryText={RenderPluginPluginParameterField.buildMenuItemPrimaryText(pc.content.label, pc.content.version)}
                   onClick={() => this.handleChange(pc.content.id)}
                   checked={pc.content.id === this.state.value}
                 />))

@@ -18,7 +18,7 @@
  **/
 import { assert } from 'chai'
 import { PROFILE_VIEW_STATE_ENUM } from '../../src/domain/ProfileViewStateEnum'
-import testActions, { ProfileDialogActions } from '../../src/model/ProfileDialogActions'
+import { ProfileDialogActions } from '../../src/model/ProfileDialogActions'
 
 /**
  * Test ProfileDialogActions
@@ -26,19 +26,19 @@ import testActions, { ProfileDialogActions } from '../../src/model/ProfileDialog
  */
 describe('[Menu] Testing ProfileDialogActions', () => {
   it('should return showDialog action', () => {
-    assert.deepEqual(testActions.showDialog(PROFILE_VIEW_STATE_ENUM.VIEW_QUOTA_INFORMATIONS), {
+    assert.deepEqual(ProfileDialogActions.showDialog(PROFILE_VIEW_STATE_ENUM.VIEW_QUOTA_INFORMATIONS), {
       type: ProfileDialogActions.SHOW_DIALOG,
       view: PROFILE_VIEW_STATE_ENUM.VIEW_QUOTA_INFORMATIONS,
     })
   })
   it('should return setView action', () => {
-    assert.deepEqual(testActions.setView(PROFILE_VIEW_STATE_ENUM.EDIT_NOTIFICATIONS), {
+    assert.deepEqual(ProfileDialogActions.setView(PROFILE_VIEW_STATE_ENUM.EDIT_NOTIFICATIONS), {
       type: ProfileDialogActions.SET_VIEW,
       view: PROFILE_VIEW_STATE_ENUM.EDIT_NOTIFICATIONS,
     })
   })
   it('should return hideDialog action', () => {
-    assert.deepEqual(testActions.hideDialog(), {
+    assert.deepEqual(ProfileDialogActions.hideDialog(), {
       type: ProfileDialogActions.HIDE_DIALOG,
     })
   })

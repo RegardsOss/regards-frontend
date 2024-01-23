@@ -60,6 +60,39 @@ export class CriterionConfigurationDialogComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Validates selected value for attribute  field
+   * @param {string} value selected value for field
+   * @param {*} formValues
+   * @param {*} props
+   * @param {string} field name
+   * @return {string} error message IS when there is an error <em>undefined</em> otherwise (due to
+   * redux behavior with other constants)
+   */
+  static validateAttribute(value, formValues, props, fieldName) {
+    const { open, availableAttributes, criterionRow } = props
+    if (open) {
+      // A - Value must be set
+      if (isEmpty(value)) {
+        return ErrorTypes.REQUIRED
+      }
+      // B - Attribute must exist in pool
+      const attrModel = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(value,
+        availableAttributes)
+      if (!attrModel) {
+        return 'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.unknown'
+      }
+      // C - Finally, attribute type must match configuration expected type
+      const { pluginMetadata: { configuration: { attributes } } } = criterionRow
+      const fieldAttrName = last(fieldName.split('.'))
+      const { attributeType } = attributes.find((attr) => attr.name === fieldAttrName)
+      if (!attributeType.includes(attrModel.content.type)) {
+        return 'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.invalid.type'
+      }
+    }
+    return undefined
+  }
+
   state = {
     /** Stores edition attributes for current edition session */
     editionAttributes: [],
@@ -103,39 +136,6 @@ export class CriterionConfigurationDialogComponent extends React.Component {
     onConfirm(editedConfiguration)
   }
 
-  /**
-   * Validates selected value for attribute  field
-   * @param {string} value selected value for field
-   * @param {*} formValues
-   * @param {*} props
-   * @param {string} field name
-   * @return {string} error message IS when there is an error <em>undefined</em> otherwise (due to
-   * redux behavior with other constants)
-   */
-  validateAttribute = (value, formValues, props, fieldName) => {
-    const { open, availableAttributes, criterionRow } = props
-    if (open) {
-      // A - Value must be set
-      if (isEmpty(value)) {
-        return ErrorTypes.REQUIRED
-      }
-      // B - Attribute must exist in pool
-      const attrModel = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(value,
-        availableAttributes)
-      if (!attrModel) {
-        return 'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.unknown'
-      }
-      // C - Finally, attribute type must match configuration expected type
-      const { pluginMetadata: { configuration: { attributes } } } = criterionRow
-      const fieldAttrName = last(fieldName.split('.'))
-      const { attributeType } = attributes.find((attr) => attr.name === fieldAttrName)
-      if (!attributeType.includes(attrModel.content.type)) {
-        return 'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.invalid.type'
-      }
-    }
-    return undefined
-  }
-
   render() {
     const {
       invalid, open, onCancel,
@@ -176,7 +176,7 @@ export class CriterionConfigurationDialogComponent extends React.Component {
               })}
               component={SingleAttributeFieldRender}
               attributeModels={attributes}
-              validate={this.validateAttribute}
+              validate={CriterionConfigurationDialogComponent.validateAttribute}
               fullWidth
             />
           ))}

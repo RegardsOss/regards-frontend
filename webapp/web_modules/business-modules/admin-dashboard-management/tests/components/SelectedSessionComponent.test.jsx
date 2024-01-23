@@ -141,7 +141,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     assert.lengthOf(acquisitionWrapper, 1, 'There should be a AcquisitionComponent')
     testSuiteHelpers.assertWrapperProperties(acquisitionWrapper, {
       project: props.project,
-      sessionSteps: enzymeWrapper.instance().getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION),
+      sessionSteps: SelectedSessionComponent.getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION),
       relaunchProducts: props.relaunchProducts,
       retryWorkerRequests: props.retryWorkerRequests,
     }, 'Component should define the expected properties')
@@ -150,7 +150,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     assert.lengthOf(referencingWrapper, 1, 'There should be a ReferencingComponent')
     testSuiteHelpers.assertWrapperProperties(referencingWrapper, {
       project: props.project,
-      sessionSteps: enzymeWrapper.instance().getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING),
+      sessionSteps: SelectedSessionComponent.getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING),
       relaunchAIP: props.relaunchAIP,
       retryFEMRequests: props.retryFEMRequests,
     }, 'Component should define the expected properties')
@@ -158,14 +158,14 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     const storageWrapper = enzymeWrapper.find(ArchivalComponent)
     assert.lengthOf(storageWrapper, 1, 'There should be a ArchivalComponent')
     testSuiteHelpers.assertWrapperProperties(storageWrapper, {
-      sessionSteps: enzymeWrapper.instance().getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE),
+      sessionSteps: SelectedSessionComponent.getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE),
       relaunchStorages: props.relaunchStorages,
     }, 'Component should define the expected properties')
 
     const diffusionWrapper = enzymeWrapper.find(DiffusionComponent)
     assert.lengthOf(diffusionWrapper, 1, 'There should be a DiffusionComponent')
     testSuiteHelpers.assertWrapperProperties(diffusionWrapper, {
-      sessionSteps: enzymeWrapper.instance().getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.DISSEMINATION),
+      sessionSteps: SelectedSessionComponent.getSessionSteps(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.DISSEMINATION),
     }, 'Component should define the expected properties')
   })
 })

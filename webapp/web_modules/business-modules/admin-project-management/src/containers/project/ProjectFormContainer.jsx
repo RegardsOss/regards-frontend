@@ -44,6 +44,14 @@ export class ProjectFormContainer extends React.Component {
     updateProject: PropTypes.func,
   }
 
+  static getBackUrl() {
+    return '/admin/projects/list'
+  }
+
+  static getProjectConnectionsUrl(project) {
+    return `/admin/projects/${project}/connections/guided`
+  }
+
   state = {
     isEditing: this.props.params.project_name !== undefined,
   }
@@ -54,10 +62,6 @@ export class ProjectFormContainer extends React.Component {
     }
   }
 
-  getBackUrl = () => ('/admin/projects/list')
-
-  getProjectConnectionsUrl = (project) => (`/admin/projects/${project}/connections/guided`)
-
   getFormComponent = () => {
     if (this.state.isEditing) {
       const { project, isFetching } = this.props
@@ -67,7 +71,7 @@ export class ProjectFormContainer extends React.Component {
       if (project) {
         return (<ProjectFormComponent
           onSubmit={this.handleUpdate}
-          backUrl={this.getBackUrl()}
+          backUrl={ProjectFormContainer.getBackUrl()}
           currentProject={this.props.project}
         />)
       }
@@ -75,7 +79,7 @@ export class ProjectFormContainer extends React.Component {
     }
     return (<ProjectFormComponent
       onSubmit={this.handleCreate}
-      backUrl={this.getBackUrl()}
+      backUrl={ProjectFormContainer.getBackUrl()}
     />)
   }
 
@@ -88,7 +92,7 @@ export class ProjectFormContainer extends React.Component {
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
-          const url = this.getBackUrl()
+          const url = ProjectFormContainer.getBackUrl()
           browserHistory.push(url)
         }
       })
@@ -100,7 +104,7 @@ export class ProjectFormContainer extends React.Component {
         // We receive here the action
         if (!actionResult.error) {
           const createdProject = actionResult.payload.entities.projects[actionResult.payload.result]
-          const url = this.getProjectConnectionsUrl(createdProject.content.name)
+          const url = ProjectFormContainer.getProjectConnectionsUrl(createdProject.content.name)
           browserHistory.push(url)
         }
       })

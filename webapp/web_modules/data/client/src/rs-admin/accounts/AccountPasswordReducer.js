@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import get from 'lodash/get'
-import { BasicSignalReducers } from '@regardsoss/store-utils'
+import { BasicSignalReducers, BasicReducer } from '@regardsoss/store-utils'
 import AccountPasswordActions from './AccountPasswordActions'
 
 export class AccountPasswordReducer extends BasicSignalReducers {
@@ -33,7 +33,7 @@ export class AccountPasswordReducer extends BasicSignalReducers {
   }
 
   reduce(state = this.defaultState, action) {
-    if (this.isCancelled(state, action)) {
+    if (BasicReducer.isCancelled(state, action)) {
       return state
     }
 

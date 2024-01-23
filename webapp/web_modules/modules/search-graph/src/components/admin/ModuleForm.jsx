@@ -57,14 +57,16 @@ class ModuleForm extends React.Component {
     ...i18nContextType,
   }
 
+  /** Validate selected levels in form */
+  static validateSelectedLevels(selectedLevels) {
+    return isEmpty(selectedLevels) ? 'search.graph.levels.selection.none.selected.error' : null
+  }
+
   constructor(props) {
     super(props)
     this.LEVELS_FIELD_NAME = `${props.adminForm.currentNamespace}.graphLevels`
     this.DATASET_ATTRIBUTES_FIELD_NAME = `${props.adminForm.currentNamespace}.graphDatasetAttributes`
   }
-
-  /** Validate selected levels in form */
-  validateSelectedLevels = (selectedLevels) => isEmpty(selectedLevels) ? 'search.graph.levels.selection.none.selected.error' : null
 
   render() {
     const {
@@ -83,7 +85,7 @@ class ModuleForm extends React.Component {
               <FieldArray
                 name={this.LEVELS_FIELD_NAME}
                 component={SelectedLevelFormRender}
-                validate={this.validateSelectedLevels}
+                validate={ModuleForm.validateSelectedLevels}
                 collectionModels={collectionModels}
               />
             </FieldsGroup>

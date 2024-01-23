@@ -72,19 +72,6 @@ export class Breadcrumb extends React.Component {
   }
 
   /**
-   * Packs the rendering model for element and index as parameter, so that no newq reference is generated at render time
-   * @param {Function} labelGenerator label generator
-   * @param {Function} onAction on click action
-   * @param {*} element corresponding element
-   * @param {number} index corresponding element index in breadcrumb
-   * @return {*} element model
-   */
-  packElementModel = (labelGenerator, onAction, element, index) => ({
-    label: labelGenerator(element, index),
-    onAction: () => onAction(element, index),
-  })
-
-  /**
    * Provides icon to use for given element
    * @param {*} element corresponding element
    * @param {number} index corresponding element index in breadcrumb

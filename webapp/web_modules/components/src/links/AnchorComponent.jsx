@@ -42,6 +42,13 @@ export class AnchorComponent extends React.Component {
     ...themeContextType,
   }
 
+  /**
+   * Handle click event on the button
+   */
+  static handleScroll() {
+    ScrollHelper.scrollTo(root.document.body, 200)
+  }
+
   /** Initial state */
   state = {
     isVisible: false,
@@ -94,13 +101,6 @@ export class AnchorComponent extends React.Component {
     }
   }
 
-  /**
-   * Handle click event on the button
-   */
-  handleScroll = () => {
-    ScrollHelper.scrollTo(root.document.body, 200)
-  }
-
   render() {
     const { children } = this.props
     const { isVisible } = this.state
@@ -116,7 +116,7 @@ export class AnchorComponent extends React.Component {
               mini
               style={buttonStyle}
               backgroundColor={buttonColor}
-              onClick={this.handleScroll}
+              onClick={AnchorComponent.handleScroll}
               iconStyle={iconStyle}
           >
             <Up />

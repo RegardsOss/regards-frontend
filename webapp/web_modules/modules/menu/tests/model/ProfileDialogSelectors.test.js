@@ -18,7 +18,7 @@
  **/
 import { assert } from 'chai'
 import { PROFILE_VIEW_STATE_ENUM } from '../../src/domain/ProfileViewStateEnum'
-import testActions from '../../src/model/ProfileDialogActions'
+import { ProfileDialogActions } from '../../src/model/ProfileDialogActions'
 import testReducer, { ProfileDialogReducer } from '../../src/model/ProfileDialogReducer'
 import testSelectors from '../../src/model/ProfileDialogSelectors'
 
@@ -39,19 +39,19 @@ describe('[Menu] Testing ProfileDialogSelectors', () => {
     let fakeStore = buildMockStore()
     assert.deepEqual(testSelectors.getProfileDialogState(fakeStore), ProfileDialogReducer.DEFAULT_STATE)
 
-    fakeStore = mockReduce(fakeStore, testActions.showDialog(PROFILE_VIEW_STATE_ENUM.VIEW_QUOTA_INFORMATIONS))
+    fakeStore = mockReduce(fakeStore, ProfileDialogActions.showDialog(PROFILE_VIEW_STATE_ENUM.VIEW_QUOTA_INFORMATIONS))
     assert.deepEqual(testSelectors.getProfileDialogState(fakeStore), {
       open: true,
       view: PROFILE_VIEW_STATE_ENUM.VIEW_QUOTA_INFORMATIONS,
     })
 
-    fakeStore = mockReduce(fakeStore, testActions.setView(PROFILE_VIEW_STATE_ENUM.EDIT_NOTIFICATIONS))
+    fakeStore = mockReduce(fakeStore, ProfileDialogActions.setView(PROFILE_VIEW_STATE_ENUM.EDIT_NOTIFICATIONS))
     assert.deepEqual(testSelectors.getProfileDialogState(fakeStore), {
       open: true,
       view: PROFILE_VIEW_STATE_ENUM.EDIT_NOTIFICATIONS,
     })
 
-    fakeStore = mockReduce(fakeStore, testActions.hideDialog())
+    fakeStore = mockReduce(fakeStore, ProfileDialogActions.hideDialog())
     assert.deepEqual(testSelectors.getProfileDialogState(fakeStore), {
       open: false,
       view: PROFILE_VIEW_STATE_ENUM.EDIT_NOTIFICATIONS,

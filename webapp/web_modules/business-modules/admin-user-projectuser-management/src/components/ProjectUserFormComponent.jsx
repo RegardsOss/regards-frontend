@@ -96,17 +96,7 @@ export class ProjectUserFormComponent extends React.Component {
 
   static ICON_ANCHOR = { horizontal: 'left', vertical: 'top' }
 
-  state = {
-    isCreating: isNil(this.props.currentUser),
-    popoverOpen: false,
-    tempGroups: {},
-  }
-
-  componentDidMount() {
-    this.handleInitialize()
-  }
-
-  getCurrentUserGroups = (user) => {
+  static getCurrentUserGroups(user) {
     let currentUserGroups = {}
     forEach(user.accessGroups, (group) => {
       currentUserGroups = {
@@ -118,6 +108,16 @@ export class ProjectUserFormComponent extends React.Component {
       }
     })
     return currentUserGroups
+  }
+
+  state = {
+    isCreating: isNil(this.props.currentUser),
+    popoverOpen: false,
+    tempGroups: {},
+  }
+
+  componentDidMount() {
+    this.handleInitialize()
   }
 
   getRoleName = (name = 'empty') => {
@@ -142,7 +142,7 @@ export class ProjectUserFormComponent extends React.Component {
       initialFormValues.rateLimit = getValue(settings, SETTINGS.RATE_LIMIT)
     } else {
       // A.2 - only when editing: initialize groups already associated with user, and restore other user values
-      const currentUserGroups = this.getCurrentUserGroups(currentUser.content)
+      const currentUserGroups = ProjectUserFormComponent.getCurrentUserGroups(currentUser.content)
       initialFormValues.accessGroups = map(currentUserGroups, (group) => group.name)
       this.setState({
         tempGroups: currentUserGroups,

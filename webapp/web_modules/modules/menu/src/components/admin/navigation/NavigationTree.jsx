@@ -82,52 +82,33 @@ class NavigationTree extends React.Component {
   }
 
   /**
-   * Builds table columns
-   * @return [React.Component] built elements
+   * Builds a link tree table row
+   * @param {EditionModule} moduleItem module item
+   * @return {TreeTableRow} built row
    */
-  buildColumns = () => {
-    const { intl: { formatMessage }, moduleTheme: { admin: { navigation: { table: { optionColumnStyle } } } } } = this.context
-    return [
-      // 1 - Title fr column
-      <TableHeaderColumn key="icon">{formatMessage({ id: 'menu.form.navigation.table.column.title.label' })}</TableHeaderColumn>,
-      // 2 - Type column (module type / column)
-      <TableHeaderColumn key="type">{formatMessage({ id: 'menu.form.navigation.table.column.type.label' })}</TableHeaderColumn>,
-      // 3 - Visibility mode column
-      <TableHeaderColumn key="visibilty">{formatMessage({ id: 'menu.form.navigation.table.column.visibility.label' })}</TableHeaderColumn>,
-      // 4 - Warning column
-      <TableHeaderColumn key="warnings">{formatMessage({ id: 'menu.form.navigation.table.column.warnings.label' })}</TableHeaderColumn>,
-      // 5 - Edit option column
-      <TableHeaderColumn key="edit.option" style={optionColumnStyle} />,
-      // 6 - Delete option column
-      <TableHeaderColumn key="delete.option" style={optionColumnStyle} />,
-    ]
+  static buildLinkTreeTableRow({
+    id, title, icon,
+    visibilityMode, visibleForRole,
+  }) {
+    return new TreeTableRow(`link.${id}`, [
+      {
+        iconCellValue: { defaultIconURL: defaultLinkIconURL, iconDisplayMode: icon.type, customIconURL: icon.url },
+        titleCellValue: { title },
+      },
+      { type: NAVIGATION_ITEM_TYPES_ENUM.LINK, parameter: null },
+      { visibilityMode, visibleForRole },
+      ITEM_WARNINGS_ENUM.NONE,
+      { type: NAVIGATION_ITEM_TYPES_ENUM.LINK, id, canEdit: true }, // edit options parameters
+      { id, type: NAVIGATION_ITEM_TYPES_ENUM.LINK }, // delete options parameters
+    ])
   }
-
-  /**
-   * Builds tree table rows from model (the fields). Note: it is recusively called by the buildSectionTreeTableRow function
-   * @param {[NavigationEditionItem]} navigationEditionItems navigation items (initially redux form fields)
-   * @return {[TreeTableRow]} built rows
-   */
-  buildTreeTableRows = (navigationItems) => navigationItems.map((item) => {
-    switch (item.type) {
-      case NAVIGATION_ITEM_TYPES_ENUM.MODULE:
-        return this.buildModuleTreeTableRow(item)
-      case NAVIGATION_ITEM_TYPES_ENUM.SECTION:
-        return this.buildSectionTreeTableRow(item)
-      case NAVIGATION_ITEM_TYPES_ENUM.LINK:
-        return this.buildLinkTreeTableRow(item)
-      default:
-        throw new Error(`Unknown field type ${item.type} in field ${JSON.stringify(item)}`)
-    }
-  }).filter((row) => !!row) // delete here the elements that could not be retrieved (temporary state)
 
   /**
    * Builds a module tree table row
    * @param {EditionModule} moduleItem module item
    * @return {TreeTableRow} built row
    */
-  buildModuleTreeTableRow = ({ id, visibilityMode, visibleForRole }) => {
-    const { dynamicModules, homeConfiguration } = this.props
+  static buildModuleTreeTableRow({ id, visibilityMode, visibleForRole }, dynamicModules, homeConfiguration) {
     // 1 - retrieve corresponding module
     const moduleModel = dynamicModules.find(({ content: { id: moduleId } }) => moduleId === id)
     if (!moduleModel) { // happens only while parent field is changing value
@@ -186,6 +167,47 @@ class NavigationTree extends React.Component {
   }
 
   /**
+   * Builds table columns
+   * @return [React.Component] built elements
+   */
+  buildColumns = () => {
+    const { intl: { formatMessage }, moduleTheme: { admin: { navigation: { table: { optionColumnStyle } } } } } = this.context
+    return [
+      // 1 - Title fr column
+      <TableHeaderColumn key="icon">{formatMessage({ id: 'menu.form.navigation.table.column.title.label' })}</TableHeaderColumn>,
+      // 2 - Type column (module type / column)
+      <TableHeaderColumn key="type">{formatMessage({ id: 'menu.form.navigation.table.column.type.label' })}</TableHeaderColumn>,
+      // 3 - Visibility mode column
+      <TableHeaderColumn key="visibilty">{formatMessage({ id: 'menu.form.navigation.table.column.visibility.label' })}</TableHeaderColumn>,
+      // 4 - Warning column
+      <TableHeaderColumn key="warnings">{formatMessage({ id: 'menu.form.navigation.table.column.warnings.label' })}</TableHeaderColumn>,
+      // 5 - Edit option column
+      <TableHeaderColumn key="edit.option" style={optionColumnStyle} />,
+      // 6 - Delete option column
+      <TableHeaderColumn key="delete.option" style={optionColumnStyle} />,
+    ]
+  }
+
+  /**
+   * Builds tree table rows from model (the fields). Note: it is recusively called by the buildSectionTreeTableRow function
+   * @param {[NavigationEditionItem]} navigationEditionItems navigation items (initially redux form fields)
+   * @return {[TreeTableRow]} built rows
+   */
+  buildTreeTableRows = (navigationItems) => navigationItems.map((item) => {
+    const { dynamicModules, homeConfiguration } = this.props
+    switch (item.type) {
+      case NAVIGATION_ITEM_TYPES_ENUM.MODULE:
+        return NavigationTree.buildModuleTreeTableRow(item, dynamicModules, homeConfiguration)
+      case NAVIGATION_ITEM_TYPES_ENUM.SECTION:
+        return this.buildSectionTreeTableRow(item)
+      case NAVIGATION_ITEM_TYPES_ENUM.LINK:
+        return NavigationTree.buildLinkTreeTableRow(item)
+      default:
+        throw new Error(`Unknown field type ${item.type} in field ${JSON.stringify(item)}`)
+    }
+  }).filter((row) => !!row) // delete here the elements that could not be retrieved (temporary state)
+
+  /**
    * Builds a section tree table row
    * @param {EditionModule} moduleItem module item
    * @return {TreeTableRow} built row with sub rows
@@ -205,26 +227,6 @@ class NavigationTree extends React.Component {
     { type: NAVIGATION_ITEM_TYPES_ENUM.SECTION, id, canEdit: true }, // edit options parameters
     { id, type: NAVIGATION_ITEM_TYPES_ENUM.SECTION }, // delete options parameters
   ], this.buildTreeTableRows(children), true) // build sub rows recursively
-
-  /**
-   * Builds a link tree table row
-   * @param {EditionModule} moduleItem module item
-   * @return {TreeTableRow} built row
-   */
-  buildLinkTreeTableRow = ({
-    id, title, icon,
-    visibilityMode, visibleForRole,
-  }) => new TreeTableRow(`link.${id}`, [
-    {
-      iconCellValue: { defaultIconURL: defaultLinkIconURL, iconDisplayMode: icon.type, customIconURL: icon.url },
-      titleCellValue: { title },
-    },
-    { type: NAVIGATION_ITEM_TYPES_ENUM.LINK, parameter: null },
-    { visibilityMode, visibleForRole },
-    ITEM_WARNINGS_ENUM.NONE,
-    { type: NAVIGATION_ITEM_TYPES_ENUM.LINK, id, canEdit: true }, // edit options parameters
-    { id, type: NAVIGATION_ITEM_TYPES_ENUM.LINK }, // delete options parameters
-  ])
 
   /**
    * Searches in a section items to find an active child

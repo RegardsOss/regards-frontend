@@ -93,41 +93,11 @@ class ProjectUserListComponent extends React.Component {
     }
   }
 
-  state = {
-    visualisationMode: VISUALISATION_MODES.ACCOUNT, // default visualisation mode
-    isPaneOpened: false,
-    currentRequestParameters: {},
-    filtersI18n: FILTERS_I18N,
-  }
-
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const { visualisationMode } = newProps
-    if (!isEmpty(visualisationMode) && oldProps.visualisationMode !== visualisationMode) {
-      this.onChangeVisualisationMode(visualisationMode)
-    }
-  }
-
   /**
    * Inner callback: updates location with user state changes (not yet reflected in class state)
    * @param {boolean} showOnlyLowQuotaUsers show only low quota users?
    */
-  onUpdateLocation = (visualisationMode) => {
+  static onUpdateLocation(visualisationMode) {
     const { pathname, query } = browserHistory.getCurrentLocation()
     let newPathName
     let newQuery = query
@@ -162,12 +132,42 @@ class ProjectUserListComponent extends React.Component {
     })
   }
 
+  state = {
+    visualisationMode: VISUALISATION_MODES.ACCOUNT, // default visualisation mode
+    isPaneOpened: false,
+    currentRequestParameters: {},
+    filtersI18n: FILTERS_I18N,
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { visualisationMode } = newProps
+    if (!isEmpty(visualisationMode) && oldProps.visualisationMode !== visualisationMode) {
+      this.onChangeVisualisationMode(visualisationMode)
+    }
+  }
+
   onChangeVisualisationMode = (value) => {
     this.setState({
       visualisationMode: value,
       isPaneOpened: false,
     })
-    this.onUpdateLocation(value)
+    ProjectUserListComponent.onUpdateLocation(value)
   }
 
   updateRefreshParameters = (requestParameters) => {

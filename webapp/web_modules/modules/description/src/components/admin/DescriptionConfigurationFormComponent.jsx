@@ -54,6 +54,16 @@ class DescriptionConfigurationFormComponent extends React.Component {
   }
 
   /**
+   * Validates edited groups
+   * @return {string} error if any, undefined otherwise
+   */
+  static validateGroups(groups) {
+    return groups.find((g) => g.showTitle && (!g.title.en || !g.title.fr))
+      ? 'error.marker' // unused, only explaining redux there is an error here
+      : null
+  }
+
+  /**
    * Lifecycle method: component will mount. Used here to initialize this sub form part values
    */
   UNSAFE_componentWillMount() {
@@ -77,14 +87,6 @@ class DescriptionConfigurationFormComponent extends React.Component {
       })
     }
   }
-
-  /**
-   * Validates edited groups
-   * @return {string} error if any, undefined otherwise
-   */
-  validateGroups = (groups) => groups.find((g) => g.showTitle && (!g.title.en || !g.title.fr))
-    ? 'error.marker' // unused, only explaining redux there is an error here
-    : null
 
   render() {
     const {
@@ -189,7 +191,7 @@ class DescriptionConfigurationFormComponent extends React.Component {
           name={`${currentNamespace}.${entityType}.groups`}
           component={GroupsFieldComponent}
           availableAttributes={availableAttributes}
-          validate={this.validateGroups}
+          validate={DescriptionConfigurationFormComponent.validateGroups}
         />
       </FormPresentation>
     )

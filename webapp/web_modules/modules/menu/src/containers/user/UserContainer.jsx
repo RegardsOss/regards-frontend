@@ -82,22 +82,11 @@ export class UserContainer extends React.Component {
   }
 
   /**
-    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
    * Properties change detected: update local state
    * @param oldProps previous component properties
    * @param newProps next component properties
    */
-  onPropertiesUpdated = (oldProps, newProps) => {
+  static onPropertiesUpdated(oldProps, newProps) {
     const {
       isInstance, fetchBorrowableRoles, flushBorrowableRoles, authenticationName,
     } = newProps
@@ -110,6 +99,17 @@ export class UserContainer extends React.Component {
       }
     }
   }
+
+  /**
+    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+    */
+  UNSAFE_componentWillMount = () => UserContainer.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => UserContainer.onPropertiesUpdated(this.props, nextProps)
 
   render() {
     const {

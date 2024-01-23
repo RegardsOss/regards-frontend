@@ -125,6 +125,13 @@ export class AttributeModelFormComponent extends React.Component {
     DamDomain.MODEL_ATTR_TYPES.STRING_ARRAY,
   ]
 
+  static getFragmentInitialValue(currentAttrModel) {
+    if (currentAttrModel.content.fragment.name === DamDomain.DEFAULT_FRAGMENT) {
+      return DEFAULT_FRAGMENT_NAME
+    }
+    return currentAttrModel.content.fragment.name
+  }
+
   state = {
     isCreating: this.props.currentAttrModel === undefined,
     shouldShowUnits: this.props.currentAttrModel !== undefined && AttributeModelFormComponent.TYPES_WITH_UNIT.includes(this.props.currentAttrModel.content.type),
@@ -134,13 +141,6 @@ export class AttributeModelFormComponent extends React.Component {
 
   componentDidMount() {
     this.handleInitialize()
-  }
-
-  getFragmentInitialValue = (currentAttrModel) => {
-    if (currentAttrModel.content.fragment.name === DamDomain.DEFAULT_FRAGMENT) {
-      return DEFAULT_FRAGMENT_NAME
-    }
-    return currentAttrModel.content.fragment.name
   }
 
   /**
@@ -252,7 +252,7 @@ export class AttributeModelFormComponent extends React.Component {
         label: currentAttrModel.content.label,
         type: currentAttrModel.content.type,
         unit: currentAttrModel.content.unit,
-        fragment: this.getFragmentInitialValue(currentAttrModel),
+        fragment: AttributeModelFormComponent.getFragmentInitialValue(currentAttrModel),
         description: currentAttrModel.content.description,
         alterable: currentAttrModel.content.alterable,
         optional: currentAttrModel.content.optional,

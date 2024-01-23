@@ -51,6 +51,7 @@ class DownloadFileActions extends BasicSignalActions {
    * adding Content-Type header if present
    * @return result reading promise
    */
+  // eslint-disable-next-line class-methods-use-this
   buildResults = (res) => {
     const contentType = res.headers.get('Content-Type')
     const contentDisposition = res.headers.get('Content-Disposition')

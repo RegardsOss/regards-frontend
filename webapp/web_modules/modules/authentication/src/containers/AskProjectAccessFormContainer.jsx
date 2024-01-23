@@ -60,6 +60,18 @@ export class AskProjectAccessFormContainer extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Resolves metadata as expected by the backend from the form values
+   * @param formValues edition form values
+   * @return resolved metadata for backend
+   */
+  static resolveMetadata(formValues) {
+    return getMetadataArray().map(({ key }) => ({
+      key,
+      value: formValues[key] || '',
+    }))
+  }
+
   componentDidMount = () => {
     const { fetchPasswordRules } = this.props
     fetchPasswordRules()
@@ -89,7 +101,7 @@ export class AskProjectAccessFormContainer extends React.Component {
     const { fetchNewAccount, fetchNewUser } = this.props
 
     // extract user metadata (always, used for both)
-    const metadata = this.resolveMetadata(formValues)
+    const metadata = AskProjectAccessFormContainer.resolveMetadata(formValues)
 
     // prepare request according with type
     if (formValues[useExistingAccountFieldId]) {
@@ -103,16 +115,6 @@ export class AskProjectAccessFormContainer extends React.Component {
     // create a new account, plus corresponding user
     return fetchNewAccount(this.submittedMail, firstName, lastName, newPassword, metadata)
   }
-
-  /**
-   * Resolves metadata as expected by the backend from the form values
-   * @param formValues edition form values
-   * @return resolved metadata for backend
-   */
-  resolveMetadata = (formValues) => getMetadataArray().map(({ key }) => ({
-    key,
-    value: formValues[key] || '',
-  }))
 
   render() {
     const {

@@ -168,6 +168,17 @@ export class RunServiceDialogComponent extends React.Component {
     }
   }
 
+  static renderStep(currentStep, initialize) {
+    switch (currentStep.step) {
+      case RunServiceDialogComponent.Steps.DESCRIPTION:
+        return <ServiceDescriptionComponent description={currentStep.description} />
+      case RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION:
+        return <ParametersConfigurationComponent parameters={currentStep.parameters} parametersValues={currentStep.parametersValues} initialize={initialize} />
+      default:
+        return currentStep.resultsComponent || RunServiceDialogComponent.EMPTY_COMPONENT
+    }
+  }
+
   /**
    * On form submitted (can only be called when step is PARAMETERS_CONFIGURATION)
    */
@@ -218,17 +229,6 @@ export class RunServiceDialogComponent extends React.Component {
     </>
   }
 
-  renderStep = (currentStep, initialize) => {
-    switch (currentStep.step) {
-      case RunServiceDialogComponent.Steps.DESCRIPTION:
-        return <ServiceDescriptionComponent description={currentStep.description} />
-      case RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION:
-        return <ParametersConfigurationComponent parameters={currentStep.parameters} parametersValues={currentStep.parametersValues} initialize={initialize} />
-      default:
-        return currentStep.resultsComponent || RunServiceDialogComponent.EMPTY_COMPONENT
-    }
-  }
-
   render() {
     const {
       serviceName, currentStep, handleSubmit, initialize, ...otherDialogProps
@@ -256,7 +256,7 @@ export class RunServiceDialogComponent extends React.Component {
             messageKey={stepType === RunServiceDialogComponent.Steps.MESSAGE ? currentStep.messageKey : null}
             Icon={currentStep.error ? ErrorIcon : MessageIcon}
           >
-            {this.renderStep(currentStep, initialize)}
+            {RunServiceDialogComponent.renderStep(currentStep, initialize)}
           </NoContentMessageInfo>
         </LoadableContentDialogContainer>
       </form>

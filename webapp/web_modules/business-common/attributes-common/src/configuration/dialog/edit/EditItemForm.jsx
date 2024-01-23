@@ -107,6 +107,16 @@ export class EditItemForm extends React.Component {
   }
 
   /**
+   * Validates multiple attributes field value
+   * @param {[string]} value attributes full qualified names
+   */
+  static validateMultipleAttributesField(value) {
+    return !value || !value.length
+      ? 'attribute.configuration.selected.attributes.error'
+      : undefined
+  }
+
+  /**
    * Lifecycle method: component will mount. Used here to initialize form values
    */
   UNSAFE_componentWillMount() {
@@ -194,14 +204,6 @@ export class EditItemForm extends React.Component {
   }
 
   /**
-   * Validates multiple attributes field value
-   * @param {[string]} value attributes full qualified names
-   */
-  validateMultipleAttributesField = (value) => !value || !value.length
-    ? 'attribute.configuration.selected.attributes.error'
-    : undefined
-
-  /**
    * Validates single attribute field value
    * @param {string} value attribute full qualified name
    * @return {string} error if any
@@ -252,7 +254,7 @@ export class EditItemForm extends React.Component {
                 component={MultipleAttributesFieldRender}
                 attributeModels={attributeModels}
                 allowRendererSelection={allowRendererSelection}
-                validate={this.validateMultipleAttributesField}
+                validate={EditItemForm.validateMultipleAttributesField}
                 label={formatMessage({ id: 'attribute.configuration.multiple.attribute.field' })}
               />) : (
                 <>

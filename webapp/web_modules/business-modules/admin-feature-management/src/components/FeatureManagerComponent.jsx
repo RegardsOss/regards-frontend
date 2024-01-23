@@ -64,20 +64,7 @@ class FeatureManagerComponent extends React.Component {
     ...themeContextType,
   }
 
-  state = {
-    paneType: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
-    currentRequestParameters: {},
-    isFilterPaneOpened: false,
-  }
-
-  UNSAFE_componentWillMount = () => {
-    const { params: { type } } = this.props
-    if (includes(FemDomain.REQUEST_TYPES, type)) {
-      this.onSwitchToPane(type)
-    }
-  }
-
-  updatePaneURL = (pane) => {
+  static updatePaneURL(pane) {
     const { pathname, query, search } = browserHistory.getCurrentLocation()
     let newPathName
     if (some(FemDomain.REQUEST_TYPES, (reqType) => endsWith(pathname, reqType))) {
@@ -92,12 +79,25 @@ class FeatureManagerComponent extends React.Component {
     })
   }
 
+  state = {
+    paneType: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
+    currentRequestParameters: {},
+    isFilterPaneOpened: false,
+  }
+
+  UNSAFE_componentWillMount = () => {
+    const { params: { type } } = this.props
+    if (includes(FemDomain.REQUEST_TYPES, type)) {
+      this.onSwitchToPane(type)
+    }
+  }
+
   /**
   * Update state with pane type
   * @param {*} paneType see FeatureManagerComponent.PANES for values
   */
   onSwitchToPane = (paneType) => {
-    this.updatePaneURL(paneType)
+    FeatureManagerComponent.updatePaneURL(paneType)
     this.setState({
       paneType,
     })

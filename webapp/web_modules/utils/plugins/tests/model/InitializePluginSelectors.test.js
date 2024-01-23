@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import initializePluginActions from '../../src/model/InitializePluginActions'
+import { InitializePluginActions } from '../../src/model/InitializePluginActions'
 import initializePluginReducer, { InitializePluginReducer } from '../../src/model/InitializePluginReducer'
 import initializePluginSelectors from '../../src/model/InitializePluginSelectors'
 
@@ -42,13 +42,13 @@ describe('[PLUGINS] Testing initializePluginSelectors', () => {
   it('should select correctly state as it changes changes', () => {
     let fakeStore = buildMockStore()
 
-    fakeStore = mockReduce(fakeStore, initializePluginActions.markInitialized('A'))
+    fakeStore = mockReduce(fakeStore, InitializePluginActions.markInitialized('A'))
     assert.isTrue(initializePluginSelectors.isInitialized(fakeStore, 'A'), 'A should be marked initialized')
 
-    fakeStore = mockReduce(fakeStore, initializePluginActions.markInitialized('B'))
+    fakeStore = mockReduce(fakeStore, InitializePluginActions.markInitialized('B'))
     assert.isTrue(initializePluginSelectors.isInitialized(fakeStore, 'B'), 'B should be marked initialized')
 
-    fakeStore = mockReduce(fakeStore, initializePluginActions.markUnloaded('A'))
+    fakeStore = mockReduce(fakeStore, InitializePluginActions.markUnloaded('A'))
     assert.isFalse(initializePluginSelectors.isInitialized(fakeStore, 'A'), 'A', 'A should not be marked initialized any longer')
     assert.isTrue(initializePluginSelectors.isInitialized(fakeStore, 'B'), 'B', 'B should not have changed')
   })

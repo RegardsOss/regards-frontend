@@ -143,30 +143,37 @@ export class SwitchTablesContainer extends React.Component {
   }
 
   /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   * Filter bodyParameters to match specified filters state
+   * Used to fetch all tabs at once when filters are updated
+   * @param {*} bodyParameters
+   * @param {*} defaultFiltersState
    */
-  UNSAFE_componentWillMount = () => {
-    const { paneType } = this.props
-    let defaultFilterState = FemDomain.ReferenceFilters.buildDefault()
-    if (paneType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES) {
-      defaultFilterState = FemDomain.RequestFilters.buildDefault()
-    }
-    const featureManagerFilters = UIDomain.FiltersPaneHelper.extractFiltersFromURL(defaultFilterState)
-    this.onPropertiesUpdated({}, { ...this.props, featureManagerFilters })
+  static buildBodyParameters(bodyParameters, defaultFiltersState) {
+    const newBodyParameters = reduce(bodyParameters, (acc, value, key) => {
+      if (includes(keys(defaultFiltersState), key)) {
+        return {
+          ...acc,
+          [key]: value,
+        }
+      }
+      return acc
+    }, {})
+    return newBodyParameters
   }
 
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  static extractInfos(meta, info = null) {
+    return {
+      nbElements: meta ? meta.totalElements : 0,
+      nbErrors: info ? info.nbErrors : 0,
+    }
+  }
 
   /**
    * Properties change detected: update local state
    * @param oldProps previous component properties
    * @param newProps next component properties
    */
-  onPropertiesUpdated = (oldProps, newProps) => {
+  static onPropertiesUpdated(oldProps, newProps) {
     const {
       fetchReferencesCount, fetchCreationRequestsCount, fetchDeleteRequestsCount, fetchNotificationRequestsCount, fetchUpdateRequestsCount,
       featureManagerFilters, isReferencesCountFetching, isCreationCountFetching, isDeleteCountFetching, isNotificationCountFetching,
@@ -180,12 +187,12 @@ export class SwitchTablesContainer extends React.Component {
       const bodyParameters = { ...omit(featureManagerFilters, 'sort') }
 
       if (!isReferencesCountFetching) {
-        const referencesBodyParameters = this.buildBodyParameters(bodyParameters, FemDomain.ReferenceFilters.buildDefault())
+        const referencesBodyParameters = SwitchTables.buildBodyParameters(bodyParameters, FemDomain.ReferenceFilters.buildDefault())
         const referencesRequestParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REFERENCES_COLUMN_KEYS)
         fetchReferencesCount(0, SwitchTablesContainer.PAGE_SIZE, {}, referencesRequestParameters, referencesBodyParameters)
       }
 
-      const requestsBodyParameters = this.buildBodyParameters(bodyParameters, FemDomain.RequestFilters.buildDefault())
+      const requestsBodyParameters = SwitchTables.buildBodyParameters(bodyParameters, FemDomain.RequestFilters.buildDefault())
       const requestsRequestsParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REQUESTS_COLUMN_KEYS)
       if (!isCreationCountFetching) {
         fetchCreationRequestsCount(0, SwitchTablesContainer.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, requestsRequestsParameters, requestsBodyParameters)
@@ -203,28 +210,23 @@ export class SwitchTablesContainer extends React.Component {
   }
 
   /**
-   * Filter bodyParameters to match specified filters state
-   * Used to fetch all tabs at once when filters are updated
-   * @param {*} bodyParameters
-   * @param {*} defaultFiltersState
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  buildBodyParameters = (bodyParameters, defaultFiltersState) => {
-    const newBodyParameters = reduce(bodyParameters, (acc, value, key) => {
-      if (includes(keys(defaultFiltersState), key)) {
-        return {
-          ...acc,
-          [key]: value,
-        }
-      }
-      return acc
-    }, {})
-    return newBodyParameters
+  UNSAFE_componentWillMount = () => {
+    const { paneType } = this.props
+    let defaultFilterState = FemDomain.ReferenceFilters.buildDefault()
+    if (paneType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES) {
+      defaultFilterState = FemDomain.RequestFilters.buildDefault()
+    }
+    const featureManagerFilters = UIDomain.FiltersPaneHelper.extractFiltersFromURL(defaultFilterState)
+    SwitchTables.onPropertiesUpdated({}, { ...this.props, featureManagerFilters })
   }
 
-  extractInfos = (meta, info = null) => ({
-    nbElements: meta ? meta.totalElements : 0,
-    nbErrors: info ? info.nbErrors : 0,
-  })
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => SwitchTables.onPropertiesUpdated(this.props, nextProps)
 
   isFetching = (pane) => {
     const {
@@ -281,7 +283,7 @@ export class SwitchTablesContainer extends React.Component {
         break
       default:
     }
-    return this.extractInfos(meta, info)
+    return SwitchTables.extractInfos(meta, info)
   }
 
   render() {

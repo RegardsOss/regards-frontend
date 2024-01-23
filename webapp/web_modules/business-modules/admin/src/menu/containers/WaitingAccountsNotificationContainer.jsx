@@ -26,11 +26,13 @@ const accountWaitingSelectors = AdminInstanceClient.getAccountWaitingSelectors()
 * Shows users waiting access notification count
 */
 class WaitingAccountsNotificationContainer extends React.Component {
-  countEntities = (state) => accountWaitingSelectors.getSize(state)
+  static countEntities(state) {
+    accountWaitingSelectors.getSize(state)
+  }
 
   render() {
     // instantiate refresh handler and notification displayer
-    return <NotificationCountContainer entitiesCounter={this.countEntities} {...this.props} />
+    return <NotificationCountContainer entitiesCounter={WaitingAccountsNotificationContainer.countEntities} {...this.props} />
   }
 }
 export default WaitingAccountsNotificationContainer

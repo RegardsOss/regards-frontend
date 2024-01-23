@@ -41,7 +41,7 @@ class BasicArrayReducers extends BasicReducer {
   }
 
   reduce(state = defaultState, action) {
-    if (this.isCancelled(state, action)) {
+    if (BasicReducer.isCancelled(state, action)) {
       return state
     }
     const newState = super.reduce(state, action)

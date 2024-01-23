@@ -55,6 +55,61 @@ export class ModelAttributeFormContainer extends React.Component {
     fetchModelAttributeComputationTypesList: PropTypes.func.isRequired,
   }
 
+  static isNotInFragment(attribute) {
+    return attribute.content.fragment.name !== DamDomain.DEFAULT_FRAGMENT
+  }
+
+  /**
+   * Regroup together attributes that are on the same fragment, and store in another key remaining attributes
+   * @param attributeList
+   * @returns {{fragments: {}, attrs: Array}}
+   */
+  static extractFragmentFromAttributeList(attributeList) {
+    const result = {
+      fragments: {},
+      attrs: [],
+    }
+    const partitionAttributeHavingFragment = partition(attributeList, (attribute) => ModelAttributeFormContainer.isNotInFragment(attribute))
+    // Store attributeModel that are on the default fragment
+    result.attrs = partitionAttributeHavingFragment[1]
+
+    // Store fragment and corresponding attributeModel
+    forEach(partitionAttributeHavingFragment[0], (attribute) => {
+      // Add the fragment if not existing
+      if (!result.fragments[attribute.content.fragment.id]) {
+        result.fragments[attribute.content.fragment.id] = []
+      }
+      result.fragments[attribute.content.fragment.id].push(attribute)
+    })
+    return result
+  }
+
+  /**
+   * Distribute attribute model list into 4 categories: remaining attribute inside fragment, remaining attribute not in a fragment
+   * and the same thing for associated attributes to the current model
+   * @param attributeModelList
+   * @param fragmentList
+   * @param model
+   * @param modelAttributeList
+   */
+  static distributeAttrModel = (attributeModelList, model, modelAttributeList) => {
+    const result = {
+      ATTR_REMAINING: {
+        fragments: {},
+        attrs: [],
+      },
+      ATTR_ASSOCIATED: {
+        fragments: {},
+        attrs: [],
+      },
+    }
+    // Extract all attributes that are associated to the current model
+    const partitionAttributeModel = partition(attributeModelList, (attributeModel) => some(modelAttributeList, (modelAttribute) => modelAttribute.content.attribute.id === attributeModel.content.id))
+    result.ATTR_ASSOCIATED = ModelAttributeFormContainer.extractFragmentFromAttributeList(partitionAttributeModel[0])
+    result.ATTR_REMAINING = ModelAttributeFormContainer.extractFragmentFromAttributeList(partitionAttributeModel[1])
+    return result
+  }
+
   state = {
     isLoading: true,
   }
@@ -86,7 +141,7 @@ export class ModelAttributeFormContainer extends React.Component {
       onDeleteAttributeModel={this.handleDeleteAttributeModel}
       backUrl={this.getBackUrl()}
       currentModel={model}
-      distributedAttrModels={this.distributeAttrModel(attributeModelList, model, modelAttributeList)}
+      distributedAttrModels={ModelAttributeFormContainer.distributeAttrModel(attributeModelList, model, modelAttributeList)}
     />)
   }
 
@@ -120,61 +175,6 @@ export class ModelAttributeFormContainer extends React.Component {
   handleDeleteAttributeModel = (attributeModel) => {
     const modelAttributeToDelete = find(this.props.modelAttributeList, (modelAttribute) => (modelAttribute.content.attribute.id === attributeModel.content.id))
     this.props.deleteModelAttribute(modelAttributeToDelete.content.id, this.props.model.content.name)
-  }
-
-  isNotInFragment = (attribute) => (
-    attribute.content.fragment.name !== DamDomain.DEFAULT_FRAGMENT
-  )
-
-  /**
-   * Regroup together attributes that are on the same fragment, and store in another key remaining attributes
-   * @param attributeList
-   * @returns {{fragments: {}, attrs: Array}}
-   */
-  extractFragmentFromAttributeList = (attributeList) => {
-    const result = {
-      fragments: {},
-      attrs: [],
-    }
-    const partitionAttributeHavingFragment = partition(attributeList, (attribute) => this.isNotInFragment(attribute))
-    // Store attributeModel that are on the default fragment
-    result.attrs = partitionAttributeHavingFragment[1]
-
-    // Store fragment and corresponding attributeModel
-    forEach(partitionAttributeHavingFragment[0], (attribute) => {
-      // Add the fragment if not existing
-      if (!result.fragments[attribute.content.fragment.id]) {
-        result.fragments[attribute.content.fragment.id] = []
-      }
-      result.fragments[attribute.content.fragment.id].push(attribute)
-    })
-    return result
-  }
-
-  /**
-   * Distribute attribute model list into 4 categories: remaining attribute inside fragment, remaining attribute not in a fragment
-   * and the same thing for associated attributes to the current model
-   * @param attributeModelList
-   * @param fragmentList
-   * @param model
-   * @param modelAttributeList
-   */
-  distributeAttrModel = (attributeModelList, model, modelAttributeList) => {
-    const result = {
-      ATTR_REMAINING: {
-        fragments: {},
-        attrs: [],
-      },
-      ATTR_ASSOCIATED: {
-        fragments: {},
-        attrs: [],
-      },
-    }
-    // Extract all attributes that are associated to the current model
-    const partitionAttributeModel = partition(attributeModelList, (attributeModel) => some(modelAttributeList, (modelAttribute) => modelAttribute.content.attribute.id === attributeModel.content.id))
-    result.ATTR_ASSOCIATED = this.extractFragmentFromAttributeList(partitionAttributeModel[0])
-    result.ATTR_REMAINING = this.extractFragmentFromAttributeList(partitionAttributeModel[1])
-    return result
   }
 
   render() {

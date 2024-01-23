@@ -161,6 +161,150 @@ export class OrderCartTableComponent extends React.Component {
   }
 
   /**
+   * Builds a dated selection item row
+   * @param {*} datasetSelection dataset selection, as described by BasketDatedItemsSelection
+   * @param {string} datasetLabel dataset label
+   * @param {boolean} showQuotaColumn should show quota column?
+   * @return {TreeTableRow} for the dated selection item
+   */
+  static buildDatedSelectionRow(datasetSelectionId, datasetLabel, showQuotaColumn, {
+    date, objectsCount, filesSize, selectionRequest, quota,
+  }) {
+    return new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [
+      { // 1. label cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+        date,
+      }, { // 2. objects count cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+        effectiveObjectsCount: objectsCount, // no duplicate within a dated selection
+        totalObjectsCount: objectsCount,
+      }, { // 3. size cell (scaled for readability)
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+        capacity: OrderCartTableComponent.getStorageCapacity(filesSize),
+      },
+      ...(showQuotaColumn ? [{ // 4. quota cell, when quota is visible
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+        quota,
+      }] : []),
+      { // 5. Processing cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+      },
+      { // 6. File filters cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+      },
+      { // 7. Detail cell (enabled for dated selection)
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+        datasetLabel,
+        date,
+        selectionRequest,
+      }, { // 8. delete option cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+        datasetSelectionId,
+        itemsSelectionDate: date,
+      },
+    ])
+  }
+
+  /**
+   * Builds total row
+   * @param {*} basket basket matching OrderShapes.Basket
+   * @param {boolean} showQuotaColumn should show quota column?
+   * @param {number} currentQuota current user quota
+   * @param {number} maxQuota current max quota
+   * @param {number} quotaWarningCount low quota warning count
+   * @return {TreeTableRow} for total, null when that row should not be displayed
+   */
+  static buildTotalRow(basket, showQuotaColumn, currentQuota, maxQuota, quotaWarningCount) {
+    if (basket.datasetSelections.length === 0) {
+      return null
+    }
+    // compute total data (single loop)
+    const {
+      totalObjectsCount, effectiveObjectsCount, totalSize, totalQuota,
+    } = OrderCartTableComponent.computeTotalRowData(basket)
+    return new TreeTableRow('total.row', [
+      { // 1. label cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+      }, { // 2. objects count cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+        effectiveObjectsCount,
+        totalObjectsCount,
+      }, { // 3. size cell (scaled for readability)
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+        capacity: OrderCartTableComponent.getStorageCapacity(totalSize),
+      },
+      ...(showQuotaColumn ? [{ // 4. quota cell, when quota is visible
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+        totalQuota,
+        currentQuota,
+        maxQuota,
+        quotaWarningCount,
+      }] : []),
+      { // 5. Processing cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+      },
+      { // 6. File filters cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+      },
+      { // 7. Detail cell (disabled for total row)
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+      }, { // 8. delete option cell (disabled for total raw)
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+      },
+    ])
+  }
+
+  /**
+   * Builds a dataset selection row
+   * @param {*} datasetSelection dataset selection, as described by BasketDatasetSelection
+   * @param {boolean} showQuotaColumn should show quota column?
+   * @param {boolean} rowExpanded is row expanded?
+   * @return TreeTableRow for the dataset selection as parameter
+   */
+  static buildDatasetSelectionRow({
+    id, datasetIpid, datasetLabel, processDatasetDescription, fileSelectionDescription, objectsCount, filesSize, quota, itemsSelections = [],
+  }, showQuotaColumn, rowExpanded) {
+    return new TreeTableRow(`dataset.selection.${id}`, [
+      { // 1. label cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+        datasetLabel,
+      }, { // 2. objects count cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+        effectiveObjectsCount: objectsCount,
+        totalObjectsCount: OrderCartTableComponent.getTotalSelectionsObjectsCount(itemsSelections),
+      }, { // 3. size cell (scaled for readability)
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+        capacity: OrderCartTableComponent.getStorageCapacity(filesSize),
+      },
+      ...(showQuotaColumn ? [{ // 4. quota cell, when quota is visible
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+        quota,
+      }] : []),
+      { // 5. Processing cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+        datasetSelectionIpId: datasetIpid,
+        datasetSelectionId: id,
+        process: processDatasetDescription,
+        fileSelectionDescription,
+      },
+      { // 6. File filters cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+        datasetSelectionIpId: datasetIpid,
+        datasetSelectionId: id,
+        process: processDatasetDescription,
+        fileSelectionDescription,
+      },
+      { // 7. Detail cell (disabled for dataset)
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+      }, { // 8. delete option cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+        datasetSelectionId: id,
+      },
+    ], itemsSelections.map((datedSelectionItem) => OrderCartTableComponent.buildDatedSelectionRow(id, datasetLabel, showQuotaColumn, datedSelectionItem)), // sub rows
+    rowExpanded)
+  }
+
+  /**
    * Initial state
    */
   state = {
@@ -246,152 +390,12 @@ export class OrderCartTableComponent extends React.Component {
     return [
       // A - Datasets or date selections based on conf
       ...(showDatasets
-        ? basket.datasetSelections.map((selection) => this.buildDatasetSelectionRow(selection, showQuota, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
+        ? basket.datasetSelections.map((selection) => OrderCartTableComponent.buildDatasetSelectionRow(selection, showQuota, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
         : flatMap(basket.datasetSelections, ({ id, datasetLabel, itemsSelections }) => itemsSelections
-          .map((itemSelection) => this.buildDatedSelectionRow(id, datasetLabel, showQuota, itemSelection)))),
+          .map((itemSelection) => OrderCartTableComponent.buildDatedSelectionRow(id, datasetLabel, showQuota, itemSelection)))),
       // B - quota total row (possibly null)
-      this.buildTotalRow(basket, showQuota, currentQuota, maxQuota, quotaWarningCount),
+      OrderCartTableComponent.buildTotalRow(basket, showQuota, currentQuota, maxQuota, quotaWarningCount),
     ].filter((row) => !!row) // remove any null row
-  }
-
-  /**
-   * Builds a dataset selection row
-   * @param {*} datasetSelection dataset selection, as described by BasketDatasetSelection
-   * @param {boolean} showQuotaColumn should show quota column?
-   * @param {boolean} rowExpanded is row expanded?
-   * @return TreeTableRow for the dataset selection as parameter
-   */
-  buildDatasetSelectionRow = ({
-    id, datasetIpid, datasetLabel, processDatasetDescription, fileSelectionDescription, objectsCount, filesSize, quota, itemsSelections = [],
-  }, showQuotaColumn, rowExpanded) => new TreeTableRow(`dataset.selection.${id}`, [
-    { // 1. label cell
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
-      datasetLabel,
-    }, { // 2. objects count cell
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
-      effectiveObjectsCount: objectsCount,
-      totalObjectsCount: OrderCartTableComponent.getTotalSelectionsObjectsCount(itemsSelections),
-    }, { // 3. size cell (scaled for readability)
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
-      capacity: OrderCartTableComponent.getStorageCapacity(filesSize),
-    },
-    ...(showQuotaColumn ? [{ // 4. quota cell, when quota is visible
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
-      quota,
-    }] : []),
-    { // 5. Processing cell
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
-      datasetSelectionIpId: datasetIpid,
-      datasetSelectionId: id,
-      process: processDatasetDescription,
-      fileSelectionDescription,
-    },
-    { // 6. File filters cell
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
-      datasetSelectionIpId: datasetIpid,
-      datasetSelectionId: id,
-      process: processDatasetDescription,
-      fileSelectionDescription,
-    },
-    { // 7. Detail cell (disabled for dataset)
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
-    }, { // 8. delete option cell
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
-      datasetSelectionId: id,
-    },
-  ], itemsSelections.map((datedSelectionItem) => this.buildDatedSelectionRow(id, datasetLabel, showQuotaColumn, datedSelectionItem)), // sub rows
-  rowExpanded)
-
-  /**
-   * Builds a dated selection item row
-   * @param {*} datasetSelection dataset selection, as described by BasketDatedItemsSelection
-   * @param {string} datasetLabel dataset label
-   * @param {boolean} showQuotaColumn should show quota column?
-   * @return {TreeTableRow} for the dated selection item
-   */
-  buildDatedSelectionRow = (datasetSelectionId, datasetLabel, showQuotaColumn, {
-    date, objectsCount, filesSize, selectionRequest, quota,
-  }) => new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [
-    { // 1. label cell
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
-      date,
-    }, { // 2. objects count cell
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
-      effectiveObjectsCount: objectsCount, // no duplicate within a dated selection
-      totalObjectsCount: objectsCount,
-    }, { // 3. size cell (scaled for readability)
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
-      capacity: OrderCartTableComponent.getStorageCapacity(filesSize),
-    },
-    ...(showQuotaColumn ? [{ // 4. quota cell, when quota is visible
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
-      quota,
-    }] : []),
-    { // 5. Processing cell
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
-    },
-    { // 6. File filters cell
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
-    },
-    { // 7. Detail cell (enabled for dated selection)
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
-      datasetLabel,
-      date,
-      selectionRequest,
-    }, { // 8. delete option cell
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
-      datasetSelectionId,
-      itemsSelectionDate: date,
-    },
-  ])
-
-  /**
-   * Builds total row
-   * @param {*} basket basket matching OrderShapes.Basket
-   * @param {boolean} showQuotaColumn should show quota column?
-   * @param {number} currentQuota current user quota
-   * @param {number} maxQuota current max quota
-   * @param {number} quotaWarningCount low quota warning count
-   * @return {TreeTableRow} for total, null when that row should not be displayed
-   */
-  buildTotalRow = (basket, showQuotaColumn, currentQuota, maxQuota, quotaWarningCount) => {
-    if (basket.datasetSelections.length === 0) {
-      return null
-    }
-    // compute total data (single loop)
-    const {
-      totalObjectsCount, effectiveObjectsCount, totalSize, totalQuota,
-    } = OrderCartTableComponent.computeTotalRowData(basket)
-    return new TreeTableRow('total.row', [
-      { // 1. label cell
-        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
-      }, { // 2. objects count cell
-        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
-        effectiveObjectsCount,
-        totalObjectsCount,
-      }, { // 3. size cell (scaled for readability)
-        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
-        capacity: OrderCartTableComponent.getStorageCapacity(totalSize),
-      },
-      ...(showQuotaColumn ? [{ // 4. quota cell, when quota is visible
-        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
-        totalQuota,
-        currentQuota,
-        maxQuota,
-        quotaWarningCount,
-      }] : []),
-      { // 5. Processing cell
-        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
-      },
-      { // 6. File filters cell
-        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
-      },
-      { // 7. Detail cell (disabled for total row)
-        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
-      }, { // 8. delete option cell (disabled for total raw)
-        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
-      },
-    ])
   }
 
   /**
