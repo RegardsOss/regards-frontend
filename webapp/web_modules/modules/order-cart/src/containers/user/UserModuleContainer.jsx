@@ -33,6 +33,7 @@ import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { Error } from 'window-or-global'
 import { createOrderActions, createOrderSelectors } from '../../client/CreateOrderClient'
 import { processingActions, processingSelectors } from '../../client/ProcessingClient'
+import { fileFiltersActions } from '../../client/FileFiltersClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../client/PluginMetaDataClient'
 import { linkProcessingDatasetActions } from '../../client/LinkProcessingDatasetClient'
 import { ModuleConfigurationShape } from '../../shapes/ModuleConfigurationShape'
@@ -117,8 +118,7 @@ export class UserModuleContainer extends React.Component {
 
   state = {
     isProcessingDependenciesExist: allMatchHateoasDisplayLogic([processingActions.getDependency(RequestVerbEnum.GET)], this.props.availableDependencies),
-    // isFileFilterDependenciesExist: allMatchHateoasDisplayLogic([fileFiltersActions.getDependency(RequestVerbEnum.PUT)], this.props.availableDependencies),
-    isFileFilterDependenciesExist: true,
+    isFileFilterDependenciesExist: allMatchHateoasDisplayLogic([fileFiltersActions.getDependency(RequestVerbEnum.PUT)], this.props.availableDependencies),
   }
 
   UNSAFE_componentWillMount() {
@@ -130,14 +130,16 @@ export class UserModuleContainer extends React.Component {
   /**
    * Lifecycle method: component did mount. Notify properties changed to fetch basket if logged for user
    */
-  componentDidMount = () => {
+  componentDidMount() {
     this.onPropertiesChanged({}, this.props)
   }
 
   /**
    * Lifecycle method: component will receive props. Notify properties changed to fetch basket if logged for user
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    return this.onPropertiesChanged(this.props, nextProps)
+  }
 
   /**
    * Event handler: component properties changed. If user just logged in, fetch the basket content
