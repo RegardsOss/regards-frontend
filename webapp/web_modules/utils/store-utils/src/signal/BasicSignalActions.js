@@ -37,15 +37,6 @@ class BasicSignalActions extends BasicActions {
   }
 
   /**
-   * Behavior: build result from fetch result
-   * @param {*} res fetched result as string
-   * @return result as json object
-   */
-  static async buildResults(res) {
-    return getJSON(res).then((json) => json)
-  }
-
-  /**
    * Fetch the corresponding route using your verb, body, path and query parameters
    * @param verb
    * @param bodyParam
@@ -69,7 +60,7 @@ class BasicSignalActions extends BasicActions {
           this.SIGNAL_REQUEST,
           this.buildSuccessAction(
             this.SIGNAL_SUCCESS,
-            (action, state, res) => res.status === 204 ? null : BasicSignalActions.buildResults(res),
+            (action, state, res) => res.status === 204 ? null : this.buildResults(res),
           ),
           this.buildFailureAction(this.SIGNAL_FAILURE),
         ],
@@ -96,7 +87,7 @@ class BasicSignalActions extends BasicActions {
         this.SIGNAL_REQUEST,
         this.buildSuccessAction(
           this.SIGNAL_SUCCESS,
-          (action, state, res) => res.status === 204 ? null : BasicSignalActions.buildResults(res),
+          (action, state, res) => res.status === 204 ? null : this.buildResults(res),
         ),
         this.buildFailureAction(this.SIGNAL_FAILURE),
       ], verb)
@@ -116,11 +107,19 @@ class BasicSignalActions extends BasicActions {
         this.SIGNAL_REQUEST,
         this.buildSuccessAction(
           this.SIGNAL_SUCCESS,
-          (action, state, res) => res.status === 204 ? null : BasicSignalActions.buildResults(res),
+          (action, state, res) => res.status === 204 ? null : this.buildResults(res),
         ),
         this.buildFailureAction(this.SIGNAL_FAILURE),
       ], verb)
   }
+
+  /**
+   * Behavior: build result from fetch result
+   * @param {*} res fetch result
+   * @return result
+   */
+  // eslint-disable-next-line class-methods-use-this
+  buildResults = (res) => getJSON(res).then((json) => json)
 }
 
 export default BasicSignalActions
