@@ -242,6 +242,7 @@ class SearchPaneComponent extends React.Component {
             onClick={() => this.setSelectedView(selectedView === SELECTED_VIEW.HISTORY ? SELECTED_VIEW.SEARCH_PANE : SELECTED_VIEW.HISTORY)}
             disabled={!accountEmail || selectedView === SELECTED_VIEW.SAVE}
             style={buttons.historyButton}
+            labelStyle={buttons.labelStyle}
           />
           {/* 3.b clear inputs */}
           <FlatButton
@@ -251,6 +252,7 @@ class SearchPaneComponent extends React.Component {
             onClick={onResetPluginsStates}
             disabled={selectedView === SELECTED_VIEW.HISTORY || selectedView === SELECTED_VIEW.SAVE}
             style={buttons.clearButton}
+            labelStyle={buttons.labelStyle}
           />
           {/* 3.c search */}
           <FlatButton
@@ -260,15 +262,17 @@ class SearchPaneComponent extends React.Component {
             title={formatMessage({ id: 'search.results.search.pane.search.title' })}
             onClick={onSearch}
             style={buttons.searchButton}
+            labelStyle={buttons.labelStyle}
           />
           {/* 3.d save search history */}
           <FlatButton
             icon={<SaveIcon />}
-            disabled={selectedView === SELECTED_VIEW.HISTORY || selectedView === SELECTED_VIEW.SAVE}
+            disabled={!accountEmail || selectedView === SELECTED_VIEW.HISTORY || selectedView === SELECTED_VIEW.SAVE}
             label={formatMessage({ id: 'search.results.search.pane.save.label' })}
             title={formatMessage({ id: 'search.results.search.pane.save.title' })}
             onClick={() => this.setSelectedView(SELECTED_VIEW.SAVE)}
             style={buttons.saveButton}
+            labelStyle={buttons.labelStyle}
           />
         </div>
       </Drawer>

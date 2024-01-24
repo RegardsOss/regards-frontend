@@ -323,17 +323,20 @@ const styles = (theme) => ({
           padding: theme.module.searchResults.searchPane.buttonsBar.padding,
           width: '100%',
         },
+        labelStyle: {
+          fontSize: '12px',
+        },
         historyButton: {
-          width: '25%',
+          width: '149px',
         },
         clearButton: {
-          width: '22%',
+          width: '130px',
         },
         searchButton: {
-          width: '26%',
+          width: '160px',
         },
         saveButton: {
-          width: '27%',
+          width: '162px',
         },
       },
       chipDivStyle: {
