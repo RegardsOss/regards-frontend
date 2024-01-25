@@ -18,17 +18,17 @@
  **/
 
 import { FemDomain } from '@regardsoss/domain'
-import { referencesSelectors, referencesActions } from '../clients/ReferencesClient'
+import { referencesSelectors, referencesActions, referencesActionsCount } from '../clients/ReferencesClient'
 import { referencesTableActions, referencesTableSelectors } from '../clients/ReferencesTableClient'
 import { referenceDeleteActions } from '../clients/ReferencesDeleteClient'
 import { referenceNotifyActions } from '../clients/ReferencesNotifyClient'
-import { creationRequestActions, creationRequestSelectors } from '../clients/CreationRequestsClient'
+import { creationRequestActions, creationRequestSelectors, creationRequestActionsCount } from '../clients/CreationRequestsClient'
 import { creationRequestsTableActions, creationRequestsTableSelectors } from '../clients/CreationRequestsTableClient'
-import { deleteRequestActions, deleteRequestSelectors } from '../clients/DeleteRequestsClient'
+import { deleteRequestActions, deleteRequestSelectors, deleteRequestActionsCount } from '../clients/DeleteRequestsClient'
 import { deleteRequestsTableActions, deleteRequestsTableSelectors } from '../clients/DeleteRequestsTableClient'
-import { notificationRequestActions, notificationRequestSelectors } from '../clients/NotificationRequestsClient'
+import { notificationRequestActions, notificationRequestSelectors, notificationRequestActionsCount } from '../clients/NotificationRequestsClient'
 import { notificationRequestsTableActions, notificationRequestsTableSelectors } from '../clients/NotificationRequestsTableClient'
-import { updateRequestActions, updateRequestSelectors } from '../clients/UpdateRequestsClient'
+import { updateRequestActions, updateRequestSelectors, updateRequestActionsCount } from '../clients/UpdateRequestsClient'
 import { updateRequestsTableActions, updateRequestsTableSelectors } from '../clients/UpdateRequestsTableClient'
 import { requestRetryActions } from '../clients/RequestRetryClient'
 import { requestDeleteActions } from '../clients/RequestDeleteClient'
@@ -41,6 +41,7 @@ export default {
     tableSelectors: referencesTableSelectors,
     notifyActions: referenceNotifyActions,
     deleteActions: referenceDeleteActions,
+    countActions: referencesActionsCount,
   },
   [FemDomain.REQUEST_TYPES_ENUM.CREATION]: {
     actions: creationRequestActions,
@@ -49,6 +50,7 @@ export default {
     tableSelectors: creationRequestsTableSelectors,
     retryActions: requestRetryActions,
     deleteActions: requestDeleteActions,
+    countActions: creationRequestActionsCount,
   },
   [FemDomain.REQUEST_TYPES_ENUM.UPDATE]: {
     actions: updateRequestActions,
@@ -57,6 +59,7 @@ export default {
     tableSelectors: updateRequestsTableSelectors,
     retryActions: requestRetryActions,
     deleteActions: requestDeleteActions,
+    countActions: updateRequestActionsCount,
   },
   [FemDomain.REQUEST_TYPES_ENUM.DELETE]: {
     actions: deleteRequestActions,
@@ -65,6 +68,7 @@ export default {
     tableSelectors: deleteRequestsTableSelectors,
     retryActions: requestRetryActions,
     deleteActions: requestDeleteActions,
+    countActions: deleteRequestActionsCount,
   },
   [FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION]: {
     actions: notificationRequestActions,
@@ -73,5 +77,6 @@ export default {
     tableSelectors: notificationRequestsTableSelectors,
     retryActions: requestRetryActions,
     deleteActions: requestDeleteActions,
+    countActions: notificationRequestActionsCount,
   },
 }

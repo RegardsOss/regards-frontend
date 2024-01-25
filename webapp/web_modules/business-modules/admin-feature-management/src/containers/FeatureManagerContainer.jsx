@@ -18,6 +18,7 @@
  **/
 import pick from 'lodash/pick'
 import omit from 'lodash/omit'
+import forEach from 'lodash/forEach'
 import { connect } from '@regardsoss/redux'
 import { FemDomain } from '@regardsoss/domain'
 import { browserHistory } from 'react-router'
@@ -49,6 +50,7 @@ export class FeatureManagerContainer extends React.Component {
    */
   static mapDispatchToProps = (dispatch) => ({
     fetchRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParams, paneType) => dispatch(clientByPane[paneType].actions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParams)),
+    fetchRequestsCount: (pageIndex, pageSize, pathParams, queryParams, bodyParams, paneType) => dispatch(clientByPane[paneType].countActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParams)),
     notifyRequests: (bodyParams) => dispatch(clientByPane[FemDomain.REQUEST_TYPES_ENUM.REFERENCES].notifyActions.sendSignal('POST', bodyParams)),
     retryRequests: (bodyParams, pathParams, paneType) => dispatch(clientByPane[paneType].retryActions.sendSignal('POST', bodyParams, pathParams)),
     deleteRequests: (bodyParams, pathParams, paneType) => dispatch(clientByPane[paneType].deleteActions.sendSignal('DELETE', bodyParams, pathParams)),
@@ -63,6 +65,7 @@ export class FeatureManagerContainer extends React.Component {
     }),
     // from mapDispatchToProps
     fetchRequests: PropTypes.func.isRequired,
+    fetchRequestsCount: PropTypes.func.isRequired,
     deleteRequests: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     notifyRequests: PropTypes.func.isRequired,
@@ -109,10 +112,24 @@ export class FeatureManagerContainer extends React.Component {
 
   getPathParams = (paneType) => paneType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES ? { type: paneType } : {}
 
+  /**
+   * When refreshing enable to update counts of all tabs
+   */
+  fetchRequestsCounts = (queryParams, bodyParams) => {
+    const { fetchRequestsCount } = this.props
+    forEach(FemDomain.REQUEST_TYPES_ENUM, (paneType) => {
+      const pathParams = this.getPathParams(paneType)
+      fetchRequestsCount(0, 1, pathParams, queryParams, bodyParams, paneType)
+    })
+  }
+
   onRefresh = (requestParameters, paneType) => {
     const { fetchRequests } = this.props
     const pathParams = this.getPathParams(paneType)
-    fetchRequests(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, pathParams, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') }, paneType)
+    const queryParams = { ...pick(requestParameters, 'sort') }
+    const bodyParams = { ...omit(requestParameters, 'sort') }
+    fetchRequests(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, pathParams, queryParams, bodyParams, paneType)
+    this.fetchRequestsCounts(queryParams, bodyParams)
   }
 
   onDeleteRequests = (bodyParams, paneType, onRefresh) => {

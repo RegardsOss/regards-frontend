@@ -43,6 +43,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerContainer', () => {
         type: 'any',
       },
       fetchRequests: () => { },
+      fetchRequestsCount: () => { },
       deleteRequests: () => { },
       retryRequests: () => { },
       notifyRequests: () => { },
