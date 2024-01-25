@@ -36,7 +36,6 @@ import { processingActions, processingSelectors } from '../../client/ProcessingC
 import { fileFiltersActions } from '../../client/FileFiltersClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../client/PluginMetaDataClient'
 import { linkProcessingDatasetActions } from '../../client/LinkProcessingDatasetClient'
-import { fileFiltersActions } from '../../client/FileFiltersClient'
 import { ModuleConfigurationShape } from '../../shapes/ModuleConfigurationShape'
 import OrderCartComponent from '../../components/user/OrderCartComponent'
 import OrderComponent from '../../components/user/options/OrderComponent'
