@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/client",
-  "version": "1.14.2",
+  "version": "1.14.3",
   "private": true,
   "sideEffects": false,
   "description": "REARDS Microservices javascript clients based on redux workflow",

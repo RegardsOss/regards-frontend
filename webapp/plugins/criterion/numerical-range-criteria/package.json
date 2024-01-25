@@ -1,6 +1,6 @@
 {
   "name": "numerical-range-criteria",
-  "version": "1.14.2",
+  "version": "1.14.3",
   "private": true,
   "description": "Criteria widget to search for a given numerical into a range defined by two attributes. One for each range limit (min and max)",
   "license": "GPL-3.0",
