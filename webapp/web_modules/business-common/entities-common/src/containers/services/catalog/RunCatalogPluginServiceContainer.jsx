@@ -174,7 +174,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
     }
   }
 
-  /** Goes forward, after parameters configuration (if there was any) into the servie applying */
+  /** Goes forward, after parameters configuration (if there was any) into the service applying */
   onConfigurationDone = (formValues = {}) => {
     const { target, service, dispatchFetchPluginResult } = this.props
     // 2 - update state and dispatch
@@ -217,6 +217,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
    * }
    */
   renderCurrentStep = () => {
+    const { onQuit } = this.props
     const {
       step, resolvedParameters, userParametersValues, resultFile, localAccessURL, fileName, description,
     } = this.state
@@ -246,10 +247,12 @@ export class RunCatalogPluginServiceContainer extends React.Component {
       case RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_RESULT: {
         // 1 - if there is some usable result, provide a result displaying step
         if (localAccessURL) {
+          // 1.1 - if content preview not supported download file and close the dialog
           return RunServiceDialogComponent.buildResultsStep(<FileContentDisplayer
               loading={false}
               error={false}
               file={resultFile}
+              onPreviewNotAvailable={onQuit} // close the dialog if preview is not available
           />, [
             <DownloadResultButton
               key="download.button"

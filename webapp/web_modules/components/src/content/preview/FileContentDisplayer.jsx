@@ -75,6 +75,8 @@ export class FileContentDisplayer extends React.Component {
     errorComponent: PropTypes.node,
     // Component to display when preview is not available
     noPreviewComponent: PropTypes.node,
+    // Function to execute when preview is not available
+    onPreviewNotAvailable: PropTypes.func,
   }
 
   static defaultProps = {
@@ -98,11 +100,12 @@ export class FileContentDisplayer extends React.Component {
       messageKey="default.unsuported.file.media.type.message"
       Icon={NoPreviewIcon}
     />,
+    onPreviewNotAvailable: () => {},
   }
 
   render() {
     const {
-      loading, error, file, style, fileURI,
+      loading, error, file, style, fileURI, onPreviewNotAvailable,
       loadingComponent, errorComponent, noPreviewComponent,
     } = this.props
 
@@ -151,6 +154,9 @@ export class FileContentDisplayer extends React.Component {
                 </FileContentReader>)
             }
             console.info('Failed to display file with content type =', contentType)
+            if (onPreviewNotAvailable) {
+              onPreviewNotAvailable()
+            }
             return noPreviewComponent || null
           })()
         }
