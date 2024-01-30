@@ -394,6 +394,13 @@ const menuStyles = (theme) => ({
       },
     },
     dialog: {
+      headerDivStyle: {
+        display: 'flex',
+      },
+      deleteIndicatorStyle: {
+        position: 'relative',
+        marginRight: '53px',
+      },
       deleteButtonStyle: {
         color: theme.textField.errorColor,
       },

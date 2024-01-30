@@ -21,7 +21,7 @@ import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { tableSelectors } from '../../../clients/TableClient'
-import { notificationSelectors } from '../../../clients/NotificationClient'
+import { notificationSelectors, deleteNotificationSelectors } from '../../../clients/NotificationClient'
 import HeaderActionBarComponent from '../../../components/user/notification/HeaderActionBarComponent'
 
 /**
@@ -36,6 +36,7 @@ export class HeaderActionBarContainer extends React.Component {
     tableSelection: PropTypes.arrayOf(AdminShapes.NotificationWithinContent),
     selectionMode: PropTypes.string.isRequired,
     areAllSelected: PropTypes.bool.isRequired,
+    isDeleting: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -54,13 +55,14 @@ export class HeaderActionBarContainer extends React.Component {
       tableSelection: tableSelectors.getToggledElementsAsList(state),
       selectionMode: tableSelectors.getSelectionMode(state),
       areAllSelected: tableSelectors.areAllSelected(state, notificationSelectors),
+      isDeleting: deleteNotificationSelectors.isFetching(state),
     }
   }
 
   render() {
     const {
       areAllSelected, selectionMode, tableSelection, onDeleteNotifications,
-      onCloseNotificationDialog,
+      onCloseNotificationDialog, isDeleting,
     } = this.props
     return (
       <HeaderActionBarComponent
@@ -69,6 +71,7 @@ export class HeaderActionBarContainer extends React.Component {
         tableSelection={tableSelection}
         onDeleteNotifications={onDeleteNotifications}
         onCloseNotificationDialog={onCloseNotificationDialog}
+        isDeleting={isDeleting}
       />
     )
   }

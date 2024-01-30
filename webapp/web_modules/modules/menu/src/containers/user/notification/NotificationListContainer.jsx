@@ -217,6 +217,7 @@ export class NotificationListContainer extends React.Component {
         if (flushDetail) {
           flushDetailNotification(isInstance)
         }
+        this.restartTimer() // refresh icon count when delete is successfull
       }
     }), onRefresh)
     dispatchUnselectAll()
