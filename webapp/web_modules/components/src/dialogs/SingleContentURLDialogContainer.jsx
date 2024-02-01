@@ -49,7 +49,7 @@ export class SingleContentURLDialogContainer extends React.Component {
 
     return (
       <PositionedDialog
-        title={title[intl.locale] || null}
+        title={title ? title[intl.locale] || null : null}
         open={open}
         dialogHeightPercent={dialogHeightPercent}
         dialogWidthPercent={dialogWidthPercent}
