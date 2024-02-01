@@ -223,6 +223,7 @@ export class OAISPackageManagerComponent extends React.Component {
 
   onConfirmNotify = (recipientIds) => {
     const { onNotifyAip, bodyParameters } = this.props
+    this.onCloseActionDialog(DIALOG_TYPES.NOTIFY_DIALOG)
     const { entities, mode } = this.state[DIALOG_TYPES.NOTIFY_DIALOG]
     const payload = {
       ...bodyParameters,
