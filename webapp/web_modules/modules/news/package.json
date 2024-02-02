@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss-modules/news",
-  "version": "1.14.3",
+  "version": "1.14.4",
   "private": true,
   "sideEffects": false,
   "description": "Display the regards projects list and allow direct access to associated interface",
