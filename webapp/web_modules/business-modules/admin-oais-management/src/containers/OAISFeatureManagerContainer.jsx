@@ -22,6 +22,7 @@ import pick from 'lodash/pick'
 import omit from 'lodash/omit'
 import isEqual from 'lodash/isEqual'
 import compose from 'lodash/fp/compose'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { NotifierShapes } from '@regardsoss/shape'
 import { IngestDomain } from '@regardsoss/domain'
 import { withI18n } from '@regardsoss/i18n'
@@ -107,6 +108,15 @@ export class OAISFeatureManagerContainer extends React.Component {
   state = {
     isLoading: true,
     modeSelectionAllowed: false,
+    isRecipientsDependenciesExist: allMatchHateoasDisplayLogic([aipRecipientsActions.getDependency(RequestVerbEnum.GET)], this.props.availableDependencies),
+  }
+
+  UNSAFE_componentWillMount() {
+    const { fetchRecipients } = this.props
+    const { isRecipientsDependenciesExist } = this.state
+    if (isRecipientsDependenciesExist) {
+      fetchRecipients()
+    }
   }
 
   /**
@@ -115,7 +125,6 @@ export class OAISFeatureManagerContainer extends React.Component {
   componentDidMount = () => {
     this.props.fetchProcessingChains()
     this.props.fetchStorages({}, {})
-    this.props.fetchRecipients()
     this.setState({ isLoading: false })
   }
 
