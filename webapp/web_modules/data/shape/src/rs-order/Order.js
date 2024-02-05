@@ -29,6 +29,7 @@ import { OrderDomain } from '@regardsoss/domain'
  */
 export const DatasetProcessing = PropTypes.shape({
   processBusinessId: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
   parameters: PropTypes.objectOf(PropTypes.any),
 })
 

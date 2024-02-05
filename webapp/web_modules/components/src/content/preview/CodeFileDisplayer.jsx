@@ -52,8 +52,10 @@ class CodeFileDisplayer extends React.Component {
     content: PropTypes.string,
     contentType: PropTypes.string.isRequired,
     // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any),
     // editor options
+    // eslint-disable-next-line react/forbid-prop-types
     options: PropTypes.objectOf(PropTypes.any),
   }
 

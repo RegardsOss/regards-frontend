@@ -33,6 +33,7 @@ export class SingleContentURLDialogContainer extends React.Component {
     dialogHeightPercent: CommonShapes.Percent.isRequired,
     dialogWidthPercent: CommonShapes.Percent.isRequired,
     title: UIShapes.OptionalIntlMessage,
+    // eslint-disable-next-line react/forbid-prop-types
     titleStyle: PropTypes.objectOf(PropTypes.any),
   }
 

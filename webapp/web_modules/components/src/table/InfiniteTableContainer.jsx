@@ -70,6 +70,7 @@ class InfiniteTableContainer extends React.Component {
     queryPageSize: PropTypes.number,
 
     // abstracted properties: result of a parent selector
+    // eslint-disable-next-line react/forbid-prop-types
     entities: PropTypes.arrayOf(PropTypes.any),
     // page index of entities in results (change it to handle next/previous pages)
     // eslint-disable-next-line react/no-unused-prop-types
@@ -101,6 +102,7 @@ class InfiniteTableContainer extends React.Component {
     authentication: AuthenticateShape, // authentication data, used to refetch on authentication change
 
     // style for cell element
+    // eslint-disable-next-line react/forbid-prop-types
     cellWrapperStyle: PropTypes.objectOf(PropTypes.any),
   }
 

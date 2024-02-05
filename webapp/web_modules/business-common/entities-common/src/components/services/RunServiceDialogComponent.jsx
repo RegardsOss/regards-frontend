@@ -67,6 +67,7 @@ export class RunServiceDialogComponent extends React.Component {
       PropTypes.shape({
         step: PropTypes.oneOf([RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION]),
         parameters: PropTypes.arrayOf(PropTypes.instanceOf(Parameter)).isRequired,
+        // eslint-disable-next-line react/forbid-prop-types
         parametersValues: PropTypes.objectOf(PropTypes.any).isRequired, // previously entered values if any (used for 'previous step')
         onSubmit: PropTypes.func.isRequired,
       }),

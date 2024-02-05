@@ -19,7 +19,9 @@
 
 export const RuntimeConfiguration = PropTypes.shape({
   // static: map parameter key => value
+  // eslint-disable-next-line react/forbid-prop-types
   static: PropTypes.objectOf(PropTypes.any),
   // dynamic: map parameter key => value
+  // eslint-disable-next-line react/forbid-prop-types
   dynamic: PropTypes.objectOf(PropTypes.any),
 })

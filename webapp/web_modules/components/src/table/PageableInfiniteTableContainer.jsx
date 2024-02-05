@@ -41,6 +41,7 @@ export class PageableInfiniteTableContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     tableActions: PropTypes.instanceOf(TableActions), // Table actions instance, used in mapDispatchToProps
     // style for cell element
+    // eslint-disable-next-line react/forbid-prop-types
     cellWrapperStyle: PropTypes.objectOf(PropTypes.any),
 
     // see InfiniteTableContainer for the other properties required (note that the fetch / flush method are
@@ -48,7 +49,7 @@ export class PageableInfiniteTableContainer extends React.Component {
 
     // from map state to props
 
-    // eslint-disable-next-line react/no-unused-prop-types
+    // eslint-disable-next-line react/no-unused-prop-types, react/forbid-prop-types
     entities: PropTypes.arrayOf(PropTypes.object),
     // eslint-disable-next-line react/no-unused-prop-types
     entitiesFetching: PropTypes.bool,

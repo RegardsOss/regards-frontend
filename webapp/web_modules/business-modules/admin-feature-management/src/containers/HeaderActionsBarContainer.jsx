@@ -32,6 +32,7 @@ export class HeaderActionsBarContainer extends React.Component {
     onNotify: PropTypes.func,
 
     // from mapStateToProps
+    // eslint-disable-next-line react/forbid-prop-types
     tableSelection: PropTypes.arrayOf(PropTypes.object),
     selectionMode: PropTypes.string.isRequired,
     areAllSelected: PropTypes.bool.isRequired,

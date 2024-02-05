@@ -36,7 +36,7 @@ export class InfiniteGalleryContainer extends React.Component {
       PropTypes.element,
       PropTypes.func,
     ]).isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
+    // eslint-disable-next-line react/no-unused-prop-types, react/forbid-prop-types
     loadedEntities: PropTypes.arrayOf(PropTypes.object),
     columnWidth: PropTypes.number,
     columnGutter: PropTypes.number,

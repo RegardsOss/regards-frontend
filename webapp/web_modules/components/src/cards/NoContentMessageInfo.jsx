@@ -28,8 +28,10 @@ export class NoContentMessageInfo extends React.Component {
   static propTypes = {
     noContent: PropTypes.bool.isRequired,
     titleKey: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
     titleParameters: PropTypes.objectOf(PropTypes.any), // title message parameters
     messageKey: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
     messageParameters: PropTypes.objectOf(PropTypes.any), // main message parameters
     Icon: PropTypes.func,
     // No data action, generally a button, that will be displayed under the no data message

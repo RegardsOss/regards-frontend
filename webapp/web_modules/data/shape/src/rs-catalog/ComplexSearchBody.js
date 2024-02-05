@@ -27,6 +27,7 @@ export const ComplexSearchRequest = PropTypes.shape({
   datasetUrn: PropTypes.string, // optional dataset restriction
   entityIdsToInclude: PropTypes.arrayOf(PropTypes.string),
   entityIdsToExclude: PropTypes.arrayOf(PropTypes.string),
+  // eslint-disable-next-line react/forbid-prop-types
   searchParameters: PropTypes.objectOf(PropTypes.any),
   searchDateLimit: PropTypes.string,
 })

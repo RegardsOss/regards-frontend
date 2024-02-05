@@ -71,6 +71,7 @@ export class AccessRightListComponent extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     filters: PropTypes.object,
     isFetching: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     selectedDatasetsWithAccessright: PropTypes.arrayOf(PropTypes.object).isRequired,
     // Callback to navigate to dataset creation
     navigateToCreateDataset: PropTypes.func.isRequired,

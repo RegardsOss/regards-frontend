@@ -34,6 +34,7 @@ const requiredMimeType = [required, validMimeType]
 */
 export class EntitiesFilesRefFieldArray extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     mimeTypeList: PropTypes.arrayOf(PropTypes.object),
     allowImage: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,

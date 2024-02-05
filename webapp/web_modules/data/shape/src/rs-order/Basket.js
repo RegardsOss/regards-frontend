@@ -45,6 +45,7 @@ export const BasketDatedItemsSelection = PropTypes.shape({
 /** A dataset processing selection shape */
 export const BasketDatasetProcessingSelection = PropTypes.shape({
   processBusinessId: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
   parameters: PropTypes.objectOf(PropTypes.any).isRequired,
 })
 

@@ -50,6 +50,7 @@ export const ListAttributeRenderData = PropTypes.shape({
   renderers: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string.isRequired,
     RenderConstructor: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     props: PropTypes.objectOf(PropTypes.any), // optionnaly other props
   })).isRequired,
 })

@@ -68,6 +68,7 @@ export class FileContentDisplayer extends React.Component {
     }),
     fileURI: PropTypes.string, // corresponding URI for MIME types that require initial URI context (like HTML)
     // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any),
     // Component to display when loading
     loadingComponent: PropTypes.node,

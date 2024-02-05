@@ -44,8 +44,10 @@ export class IconElementSelector extends React.Component {
     // selection callback: (choice:string) => ()
     onChange: PropTypes.func.isRequired,
     // Style to apply to root button (IconButton)
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any),
     // Style to apply to root icon
+    // eslint-disable-next-line react/forbid-prop-types
     iconStyle: PropTypes.objectOf(PropTypes.any),
   }
 

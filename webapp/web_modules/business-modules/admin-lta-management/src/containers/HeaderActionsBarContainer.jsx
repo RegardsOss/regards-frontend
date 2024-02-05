@@ -28,6 +28,7 @@ import HeaderActionsBarComponent from '../components/HeaderActionsBarComponent'
  */
 export class HeaderActionsBarContainer extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
     onDelete: PropTypes.func.isRequired,
 

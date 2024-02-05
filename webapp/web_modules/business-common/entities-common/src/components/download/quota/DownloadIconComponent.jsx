@@ -33,6 +33,7 @@ export class InnerDownloadIconComponent extends React.Component {
     constrainedByQuota: PropTypes.bool.isRequired,
     quotaInfo: QuotaInfo.isRequired,
     // From MUI, report to main icon
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any),
     activeRootContainerInitial: PropTypes.bool,
   }

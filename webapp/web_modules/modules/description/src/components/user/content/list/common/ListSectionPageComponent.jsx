@@ -28,6 +28,7 @@ import { ScrollArea } from '@regardsoss/adapters'
 class ListSectionPageComponent extends React.Component {
   static propTypes = {
     // elements list (min length: 1)
+    // eslint-disable-next-line react/forbid-prop-types
     elements: PropTypes.arrayOf(PropTypes.any).isRequired,
     scrollAreaHeight: PropTypes.number,
     // function to build graphics for an element model: (element:*) => (graphics: React.Element)

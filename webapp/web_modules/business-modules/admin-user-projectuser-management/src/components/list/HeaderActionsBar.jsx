@@ -34,6 +34,7 @@ import { DownloadResultComponent } from '@regardsoss/entities-common'
  */
 class HeaderActionsBar extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
     onDownloadCSV: PropTypes.func,
 

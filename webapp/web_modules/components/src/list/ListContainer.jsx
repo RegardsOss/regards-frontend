@@ -48,6 +48,7 @@ class ListContainer extends React.Component {
     queryParams: PropTypes.objectOf(PropTypes.string),
     // eslint-disable-next-line react/no-unused-prop-types
     entitiesSelector: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     selectedEntities: PropTypes.arrayOf(PropTypes.object),
     searchIdentifier: PropTypes.string,
     searchText: PropTypes.node,
@@ -63,6 +64,7 @@ class ListContainer extends React.Component {
     // Set by redux store connection
     // eslint-disable-next-line react/forbid-prop-types
     // eslint-disable-next-line react/no-unused-prop-types
+    // eslint-disable-next-line react/forbid-prop-types
     entities: PropTypes.objectOf(PropTypes.object),
     fetchEntities: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types

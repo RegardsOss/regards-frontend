@@ -55,6 +55,7 @@ export class URIContentDisplayer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     uri: PropTypes.string.isRequired, // used only in onPropertiesUpdated
     // other props are reporetd to FileContentDisplayer (see it for more information)
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any),
     loadingComponent: PropTypes.node,
     errorComponent: PropTypes.node,

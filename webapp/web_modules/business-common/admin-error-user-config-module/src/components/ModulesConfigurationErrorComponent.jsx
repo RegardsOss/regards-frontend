@@ -33,6 +33,7 @@ import { themeContextType } from '@regardsoss/theme'
 class ModulesConfigurationErrorComponent extends React.Component {
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     errorConfContent: PropTypes.arrayOf(PropTypes.object).isRequired,
     fetchModulesAndAttributes: PropTypes.func.isRequired,
   }

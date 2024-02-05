@@ -27,6 +27,7 @@ export const ContainerContent = PropTypes.shape({
   classes: PropTypes.arrayOf(PropTypes.string),
   // eslint-disable-next-line react/forbid-prop-types
   styles: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
   containers: PropTypes.arrayOf(PropTypes.object),
   dynamicContent: PropTypes.bool,
 })

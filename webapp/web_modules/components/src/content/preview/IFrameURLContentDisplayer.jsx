@@ -63,10 +63,10 @@ export class IFrameURLContentDisplayer extends React.Component {
     onContentLoaded: PropTypes.func, // callback, called when IFrame content was loaded
     onContentError: PropTypes.func,
     // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
-    // eslint-disable-next-line react/no-unused-prop-types
+    // eslint-disable-next-line react/no-unused-prop-types, react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any),
     // iFrame style: optional iFrame style, when globalTheme.fileContent.background should not be used
-    // eslint-disable-next-line react/no-unused-prop-types
+    // eslint-disable-next-line react/no-unused-prop-types, react/forbid-prop-types
     iFrameStyle: PropTypes.objectOf(PropTypes.any),
   }
 

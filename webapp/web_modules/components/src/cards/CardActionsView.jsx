@@ -32,7 +32,7 @@ class CardActionsView extends React.Component {
     isThirdButtonDisabled: PropTypes.bool,
     isThirdButtonVisible: PropTypes.bool,
     thirdHateoasDependency: PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
+    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     thirdButtonStyle: PropTypes.objectOf(PropTypes.any),
 
     secondaryButtonClassName: PropTypes.string,
@@ -42,7 +42,7 @@ class CardActionsView extends React.Component {
     isSecondaryButtonDisabled: PropTypes.bool,
     isSecondaryButtonVisible: PropTypes.bool,
     secondaryHateoasDependency: PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
+    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     secondaryButtonStyle: PropTypes.objectOf(PropTypes.any),
 
     mainButtonClassName: PropTypes.string,

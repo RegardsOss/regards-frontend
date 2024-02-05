@@ -36,6 +36,7 @@ export const SubsettingEditionDataset = PropTypes.shape({
       label: PropTypes.string.isRequired,
       model: PropTypes.string.isRequired,
       providerId: PropTypes.string.isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
       properties: PropTypes.objectOf(PropTypes.any),
     }).isRequired,
   }),

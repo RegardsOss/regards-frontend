@@ -32,6 +32,7 @@ class CardHeaderActions extends React.Component {
   static propTypes = {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
     subtitle: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
     titleStyle: PropTypes.objectOf(PropTypes.any),
 
     thirdButtonClassName: PropTypes.string,
@@ -41,7 +42,7 @@ class CardHeaderActions extends React.Component {
     isThirdButtonDisabled: PropTypes.bool,
     isThirdButtonVisible: PropTypes.bool,
     thirdHateoasDependency: PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
+    // eslint-disable-next-line react/no-unused-prop-types, react/forbid-prop-types
     thirdButtonStyle: PropTypes.objectOf(PropTypes.any),
 
     secondaryButtonClassName: PropTypes.string,
@@ -51,7 +52,7 @@ class CardHeaderActions extends React.Component {
     isSecondaryButtonDisabled: PropTypes.bool,
     isSecondaryButtonVisible: PropTypes.bool,
     secondaryHateoasDependency: PropTypes.string,
-    // eslint-disable-next-line react/no-unused-prop-types
+    // eslint-disable-next-line react/no-unused-prop-types, react/forbid-prop-types
     secondaryButtonStyle: PropTypes.objectOf(PropTypes.any),
 
     mainButtonClassName: PropTypes.string,

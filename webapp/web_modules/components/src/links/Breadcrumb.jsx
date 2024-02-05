@@ -40,6 +40,7 @@ export class Breadcrumb extends React.Component {
 
   static propTypes = {
     /** list of breadcrumb elements */
+    // eslint-disable-next-line react/forbid-prop-types
     elements: PropTypes.arrayOf(PropTypes.any).isRequired,
     /** Element label generator: (element, index) => void */
     labelGenerator: PropTypes.func,

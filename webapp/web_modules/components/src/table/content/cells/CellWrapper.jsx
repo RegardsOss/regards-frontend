@@ -37,6 +37,7 @@ class CellWrapper extends React.Component {
     isLastColumn: PropTypes.bool.isRequired,
     getEntity: PropTypes.func,
     rowCellDefinition: CellDefinition.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     cellWrapperStyle: PropTypes.objectOf(PropTypes.any),
   }
 

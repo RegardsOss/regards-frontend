@@ -64,6 +64,7 @@ export class TableSelectionCell extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     tableSelectors: PropTypes.instanceOf(TableSelectors), // Table selectors instance, used in onPropertiesUpdate
     // from map state to props
+    // eslint-disable-next-line react/forbid-prop-types
     toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     // from map dispatch to props

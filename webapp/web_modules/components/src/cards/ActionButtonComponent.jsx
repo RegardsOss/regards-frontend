@@ -38,6 +38,7 @@ class ActionButtonComponent extends React.Component {
     url: PropTypes.string,
     onClick: PropTypes.func,
     isVisible: PropTypes.bool,
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any),
     type: PropTypes.string,
     disabled: PropTypes.bool,

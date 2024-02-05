@@ -33,6 +33,7 @@ import { themeContextType } from '@regardsoss/theme'
 class NotificationIcon extends React.Component {
   static propTypes = {
     entity: AdminShapes.NotificationWithinContent,
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any), // sent by parent component OR MUI card
   }
 

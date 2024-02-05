@@ -29,6 +29,7 @@ import HOCUtils from '../hoc/HOCUtils'
 class MeasureResultProvider extends React.Component {
   static propTypes = {
     // Style of the root div layout, to be measured
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any).isRequired,
     // name of the property to set in children
     targetPropertyName: PropTypes.string,

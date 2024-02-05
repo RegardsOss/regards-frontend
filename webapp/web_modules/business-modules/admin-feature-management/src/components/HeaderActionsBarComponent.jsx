@@ -37,6 +37,7 @@ const ResourceFlatButton = withResourceDisplayControl(FlatButton)
   */
 export class HeaderActionsBarComponent extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     tableSelection: PropTypes.arrayOf(PropTypes.object),
     selectionMode: PropTypes.string.isRequired,
     areAllSelected: PropTypes.bool.isRequired,

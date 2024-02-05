@@ -37,6 +37,7 @@ class ImageFileDisplayer extends React.Component {
   static propTypes = {
     source: PropTypes.string,
     // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any),
   }
 

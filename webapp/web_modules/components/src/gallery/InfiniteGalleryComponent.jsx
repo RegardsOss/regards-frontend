@@ -51,6 +51,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     pageClassName: classNamePropType,
     isEmpty: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
     itemComponent: PropTypes.oneOfType([
       PropTypes.element,

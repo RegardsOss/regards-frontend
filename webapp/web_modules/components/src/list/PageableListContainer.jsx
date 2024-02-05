@@ -54,6 +54,7 @@ class PageableListContainer extends React.Component {
     queryParams: PropTypes.objectOf(PropTypes.string),
     // eslint-disable-next-line react/no-unused-prop-types
     entitiesSelector: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     selectedEntities: PropTypes.arrayOf(PropTypes.object),
     searchIdentifier: PropTypes.string,
     searchText: PropTypes.node,
@@ -67,8 +68,7 @@ class PageableListContainer extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.object,
     // Set by redux store connection
-    // eslint-disable-next-line react/forbid-prop-types
-    // eslint-disable-next-line react/no-unused-prop-types
+    // eslint-disable-next-line react/no-unused-prop-types, react/forbid-prop-types
     entities: PropTypes.objectOf(PropTypes.object),
     pageMetadata: PropTypes.shape({
       number: PropTypes.number,

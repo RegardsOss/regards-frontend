@@ -33,14 +33,17 @@ import styles from '../styles'
 export class NoContentComponent extends React.Component {
   static propTypes = {
     titleKey: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
     titleParameters: PropTypes.objectOf(PropTypes.any), // title message parameters
     messageKey: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
     messageParameters: PropTypes.objectOf(PropTypes.any), // main message parameters
     // Icon constructor
     Icon: PropTypes.func,
     // No data action, generally a button, that will be displayed under the no data message
     action: PropTypes.element,
     // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any),
   }
 

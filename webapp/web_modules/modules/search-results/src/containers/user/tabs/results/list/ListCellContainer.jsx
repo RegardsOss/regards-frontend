@@ -81,6 +81,7 @@ export class ListCellContainer extends React.Component {
     enableSearchEntity: PropTypes.bool.isRequired,
     onSearchEntity: PropTypes.func.isRequired,
     // from mapStateToProps
+    // eslint-disable-next-line react/forbid-prop-types
     toggledElements: PropTypes.objectOf(PropTypes.object).isRequired, // inner object is entity type
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     // from mapDispatchToProps

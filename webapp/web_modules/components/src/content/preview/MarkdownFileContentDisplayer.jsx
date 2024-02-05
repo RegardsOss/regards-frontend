@@ -29,8 +29,10 @@ export class MarkdownFileContentDisplayer extends React.Component {
     // source: content or URL
     source: PropTypes.string,
     // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any),
     // MD viewer options
+    // eslint-disable-next-line react/forbid-prop-types
     options: PropTypes.objectOf(PropTypes.any),
   }
 

@@ -31,6 +31,7 @@ import IconButton from 'material-ui/IconButton'
 export class ParameterArrayAttributeComponent extends React.Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     constraints: PropTypes.arrayOf(PropTypes.any),
     // from redux form
     // the selected value as fields object (holds selected levels IDs)

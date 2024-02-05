@@ -32,6 +32,7 @@ class LoginIconComponent extends React.Component {
     quotaState: PropTypes.oneOf(QUOTA_INFO_STATES).isRequired,
     rateState: PropTypes.oneOf(QUOTA_INFO_STATES).isRequired,
     // From MUI
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any),
   }
 

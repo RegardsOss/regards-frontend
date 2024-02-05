@@ -33,6 +33,7 @@ class ParametersConfigurationComponent extends React.Component {
   static propTypes = {
     parameters: PropTypes.arrayOf(PropTypes.instanceOf(Parameter)).isRequired,
     // previously entered values if any (used for 'previous step')
+    // eslint-disable-next-line react/forbid-prop-types
     parametersValues: PropTypes.objectOf(PropTypes.any).isRequired,
     initialize: PropTypes.func.isRequired,
   }

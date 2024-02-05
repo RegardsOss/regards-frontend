@@ -27,6 +27,7 @@ class RoleChipComponent extends React.Component {
   static propTypes = {
     role: AdminShapes.Role.isRequired,
     onEditRoleResources: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any).isRequired,
   }
 

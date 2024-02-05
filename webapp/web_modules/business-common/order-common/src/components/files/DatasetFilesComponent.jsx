@@ -54,6 +54,7 @@ class DatasetFilesComponent extends React.Component {
     // total order count
     totalFilesCount: PropTypes.number.isRequired,
     // request related
+    // eslint-disable-next-line react/forbid-prop-types
     pathParams: PropTypes.objectOf(PropTypes.any).isRequired,
     orderFilesActions: PropTypes.instanceOf(OrderClient.OrderDatasetFilesActions).isRequired,
     orderFilesSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,

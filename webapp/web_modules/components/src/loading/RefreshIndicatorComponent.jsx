@@ -24,6 +24,7 @@ import RefreshIndicator from 'material-ui/RefreshIndicator'
  */
 class RefreshIndicatorComponent extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.objectOf(PropTypes.any).isRequired,
   }
 
