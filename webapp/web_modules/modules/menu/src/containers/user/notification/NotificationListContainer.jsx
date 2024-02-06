@@ -25,7 +25,7 @@ import { connect } from '@regardsoss/redux'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { ShowableAtRender } from '@regardsoss/display-control'
 import { TableSelectionModes } from '@regardsoss/components'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, UIDomain } from '@regardsoss/domain'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -201,12 +201,13 @@ export class NotificationListContainer extends React.Component {
    * @param {*} requestParameters
    * @param {*} onRefresh
    */
-  deleteNotifications = (requestParameters, onRefresh) => {
+  deleteNotifications = (inputValues, onRefresh) => {
     const {
       deleteNotifications, dispatchUnselectAll, selectedNotification, flushDetailNotification,
     } = this.props
     const { isInstance } = this.state
     this.restartTimer()
+    const requestParameters = UIDomain.FiltersPaneHelper.buildRequestParameters(inputValues)
     NotificationListContainer.perform(deleteNotifications(requestParameters, this.state.isInstance).then((actionResult) => {
       if (!actionResult.error) {
         const idsToDelete = get(requestParameters, `${NOTIFICATION_FILTER_PARAMS.IDS}.${CommonDomain.REQUEST_PARAMETERS.VALUES}`, [])

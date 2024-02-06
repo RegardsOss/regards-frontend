@@ -23,6 +23,7 @@ import Warning from 'mdi-material-ui/Alert'
 import Error from 'mdi-material-ui/AlertCircle'
 import Skull from 'mdi-material-ui/Skull'
 import { AdminShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
@@ -37,24 +38,25 @@ class NotificationIcon extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
     const { style, entity } = this.props
 
-    const { moduleTheme: { notifications: { levelIcon } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { notifications: { levelIcon } } } = this.context
     const level = get(entity, 'content.level')
     switch (level) {
       case 'INFO':
-        return <Avatar size={30} backgroundColor={levelIcon.infoColor} color={levelIcon.color} icon={<Info />} style={style} />
+        return <Avatar title={formatMessage({ id: 'user.menu.notification.filters.levels.INFO' })} size={30} backgroundColor={levelIcon.infoColor} color={levelIcon.color} icon={<Info />} style={style} />
       case 'ERROR':
-        return <Avatar size={30} backgroundColor={levelIcon.errorColor} color={levelIcon.color} icon={<Error />} style={style} />
+        return <Avatar title={formatMessage({ id: 'user.menu.notification.filters.levels.ERROR' })} size={30} backgroundColor={levelIcon.errorColor} color={levelIcon.color} icon={<Error />} style={style} />
       case 'FATAL':
-        return <Avatar size={30} backgroundColor={levelIcon.fatalColor} color={levelIcon.color} icon={<Skull />} style={style} />
+        return <Avatar title={formatMessage({ id: 'user.menu.notification.filters.levels.FATAL' })} size={30} backgroundColor={levelIcon.fatalColor} color={levelIcon.color} icon={<Skull />} style={style} />
       case 'WARNING':
-        return <Avatar size={30} backgroundColor={levelIcon.warningColor} color={levelIcon.color} icon={<Warning />} style={style} />
+        return <Avatar title={formatMessage({ id: 'user.menu.notification.filters.levels.WARNING' })} size={30} backgroundColor={levelIcon.warningColor} color={levelIcon.color} icon={<Warning />} style={style} />
       default:
-        return <Avatar size={30} backgroundColor={levelIcon.infoColor} color={levelIcon.color} icon={<Info />} style={style} />
+        return <Avatar title={formatMessage({ id: 'user.menu.notification.filters.levels.INFO' })} size={30} backgroundColor={levelIcon.infoColor} color={levelIcon.color} icon={<Info />} style={style} />
     }
   }
 }
