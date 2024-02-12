@@ -1,6 +1,6 @@
 {
   "name": "fem-delete",
-  "version": "1.14.5",
+  "version": "1.14.6",
   "private": true,
   "description": "Delete entities from the fem",
   "author": "CNES (https://cnes.fr)",
