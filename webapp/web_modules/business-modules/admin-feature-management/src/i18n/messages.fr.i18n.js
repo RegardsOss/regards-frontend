@@ -112,6 +112,7 @@ const messages = {
   'feature.request.step.LOCAL_DELAYED': 'Différée',
   'feature.request.step.LOCAL_SCHEDULED': 'En cours',
   'feature.request.step.LOCAL_ERROR': 'Erreur locale',
+  'feature.request.step.LOCAL_NOTIFICATION_ERROR': 'Erreur de notification: la feature n\'existe plus',
   'feature.request.step.REMOTE_STORAGE_DELETION_REQUESTED': 'En attente stockage',
   'feature.request.step.REMOTE_STORAGE_REQUESTED': 'En attente stockage',
   'feature.request.step.LOCAL_TO_BE_NOTIFIED': 'En attente de notification',
