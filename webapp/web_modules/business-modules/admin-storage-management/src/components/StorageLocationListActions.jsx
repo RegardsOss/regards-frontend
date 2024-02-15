@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Link } from 'react-router'
+import { browserHistory } from 'react-router'
 import get from 'lodash/get'
 import DeleteFiles from 'mdi-material-ui/FileExcel'
 import Edit from 'mdi-material-ui/Pencil'
@@ -50,9 +50,9 @@ class StorageLocationListActions extends React.Component {
     ...i18nContextType,
   }
 
-  getEditUrl = () => {
+  handleEdit = () => {
     const { project, entity: { content: { name } } } = this.props
-    return `/admin/${project}/data/acquisition/storage/storages/${name}/edit`
+    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages/${name}/edit`)
   }
 
   handleDelete = () => {
@@ -110,10 +110,9 @@ class StorageLocationListActions extends React.Component {
           hateoasKey={HateoasKeys.UPDATE}
           disableInsteadOfHide
           title={intl.formatMessage({ id: 'storage.location.list.edit.button' })}
+          onClick={this.handleEdit}
         >
-          <Link to={this.getEditUrl}>
-            <Edit hoverColor={style.hoverButtonEdit} />
-          </Link>
+          <Edit hoverColor={style.hoverButtonEdit} />
         </HateoasIconAction>
         <HateoasIconAction
           key="copy"
