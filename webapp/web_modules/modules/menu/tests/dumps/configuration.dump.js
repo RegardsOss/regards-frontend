@@ -157,4 +157,7 @@ export const aModuleCompleteConfiguration = {
   home: anHomeConfiguration,
   navigation: aNavigationConfiguration,
   selectedMainServiceId: '',
+  selectedMainServiceTitleFr: '',
+  selectedMainServiceTitleEn: '',
+  selectedMainServiceShowSubtitle: true,
 }

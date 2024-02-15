@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { UIShapes } from '@regardsoss/shape'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { authenticationDialogSelectors, authenticationDialogActions } from '../clients/AuthenticationDialogUIClient'
@@ -34,8 +35,8 @@ class AuthenticationContainer extends React.Component {
     ]),
     // Set by mapStateToProps
     authDialogOpened: PropTypes.bool.isRequired,
-    // selected main auth service provider name
-    selectedMainServiceId: PropTypes.string,
+    // selected main auth service provider configuration
+    selectedMainService: UIShapes.ServiceProviderConfiguration,
     // Set by mapDispatchToProps
     toggleAuthenticationDialog: PropTypes.func.isRequired,
   }
@@ -50,7 +51,7 @@ class AuthenticationContainer extends React.Component {
 
   render() {
     const {
-      scope, authDialogOpened, children, selectedMainServiceId,
+      scope, authDialogOpened, children, selectedMainService,
     } = this.props
     const { intl: { formatMessage } } = this.context
     // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
@@ -63,7 +64,7 @@ class AuthenticationContainer extends React.Component {
         showAskProjectAccess: true,
         loginTitle: formatMessage({ id: 'authentication.dialog.title' }, { project: scope }),
         onCancelAction: this.onCloseDialog,
-        selectedMainServiceId,
+        selectedMainService,
       },
     }
     return (
@@ -81,7 +82,7 @@ class AuthenticationContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   authDialogOpened: authenticationDialogSelectors.isAuthDialogOpen(state),
-  selectedMainServiceId: authenticationDialogSelectors.getMainService(state),
+  selectedMainService: authenticationDialogSelectors.getMainService(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({

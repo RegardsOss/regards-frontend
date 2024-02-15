@@ -28,7 +28,7 @@ import {
 } from 'material-ui/Card'
 import { UIDomain } from '@regardsoss/domain'
 import { PictureLinkComponent } from '@regardsoss/components'
-import { CommonShapes } from '@regardsoss/shape'
+import { CommonShapes, UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -40,9 +40,9 @@ class MainAuthenticationServiceFormComponent extends React.Component {
   static propTypes = {
     // form title
     title: PropTypes.string.isRequired,
-    // selected main auth service provider name
+    // selected main auth service provider configuration to be used in priority by users
     // eslint-disable-next-line react/no-unused-prop-types
-    selectedMainServiceId: PropTypes.string,
+    selectedMainService: UIShapes.ServiceProviderConfiguration.isRequired,
     // enable to switch to default authentication form
     setDefaultForm: PropTypes.func.isRequired,
     // service provider list
@@ -80,9 +80,9 @@ class MainAuthenticationServiceFormComponent extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    const { serviceProviderList, selectedMainServiceId } = newProps
+    const { serviceProviderList, selectedMainService } = newProps
     if (!isEqual(oldProps.serviceProviderList, serviceProviderList)) {
-      const selectedServiceProvider = find(serviceProviderList, (serviceProvider) => get(serviceProvider, 'content.name') === selectedMainServiceId)
+      const selectedServiceProvider = find(serviceProviderList, (serviceProvider) => get(serviceProvider, 'content.name') === get(selectedMainService, 'serviceId'))
       this.setState({
         selectedServiceProvider,
       })
@@ -100,9 +100,9 @@ class MainAuthenticationServiceFormComponent extends React.Component {
 
   render() {
     const {
-      title, onCancelAction, showCancel, setDefaultForm,
+      title, onCancelAction, showCancel, setDefaultForm, selectedMainService,
     } = this.props
-    const { moduleTheme, intl: { formatMessage } } = this.context
+    const { moduleTheme, intl: { formatMessage, locale } } = this.context
     const { selectedServiceProvider } = this.state
     let cancelButtonElt
     if (showCancel) {
@@ -121,8 +121,9 @@ class MainAuthenticationServiceFormComponent extends React.Component {
     return (
       <Card style={moduleTheme.cardSelectedAuthStyle}>
         <CardTitle
-          title={title}
-          subtitle={formatMessage({ id: 'session.selected.auth.service.subtitle' })}
+          title={selectedMainService.serviceTitle[locale] || title}
+          subtitle={selectedMainService.showSubtitle ? formatMessage({ id: 'session.selected.auth.service.subtitle' }) : null}
+          style={moduleTheme.cardTitleAuthStyle}
         />
         <CardText>
           <div style={moduleTheme.mainAuthServiceStyle.mainDivStyle}>
@@ -137,7 +138,7 @@ class MainAuthenticationServiceFormComponent extends React.Component {
                       {serviceDescription}
                     </div>
                   </div> : null
-}
+              }
             </div>
             <CardActions style={!isEmpty(serviceDescription) ? moduleTheme.mainAuthServiceStyle.cardActionsStyle : moduleTheme.mainAuthServiceStyle.cardActionsAltStyle}>
               <Link style={moduleTheme.mainAuthServiceStyle.buttonLinkStyle} to={{ pathname: selectedServiceProvider.content.authUrl }} target="_blank">

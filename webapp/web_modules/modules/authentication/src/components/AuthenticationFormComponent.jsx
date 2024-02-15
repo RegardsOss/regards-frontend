@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import get from 'lodash/get'
 import trim from 'lodash/trim'
 import isEmpty from 'lodash/isEmpty'
 import {
@@ -34,7 +35,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { PictureLinkComponent, FormErrorMessage } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { ScrollArea } from '@regardsoss/adapters'
-import { CommonShapes } from '@regardsoss/shape'
+import { CommonShapes, UIShapes } from '@regardsoss/shape'
 import {
   RenderTextField, Field, reduxForm, ValidationHelpers,
 } from '@regardsoss/form-utils'
@@ -76,8 +77,8 @@ export class AuthenticationFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
     // service provider list
     serviceProviderList: CommonShapes.ServiceProviderList.isRequired,
-    // selected main auth service provider name
-    selectedMainServiceId: PropTypes.string,
+    // selected main auth service provider configuration to be used in priority by users
+    selectedMainService: UIShapes.ServiceProviderConfiguration,
     // enable to switch to selected main auth service provider if there is one
     setSelectedServiceForm: PropTypes.func.isRequired,
   }
@@ -112,7 +113,7 @@ export class AuthenticationFormComponent extends React.Component {
   }
 
   renderServiceProviders = () => {
-    const { serviceProviderList, selectedMainServiceId, setSelectedServiceForm } = this.props
+    const { serviceProviderList, selectedMainService, setSelectedServiceForm } = this.props
     const { moduleTheme } = this.context
     return (
       <Card style={moduleTheme.cardProviderStyle}>
@@ -139,7 +140,7 @@ export class AuthenticationFormComponent extends React.Component {
               IconComponent={StarIcon}
               text={this.context.intl.formatMessage({ id: 'authentication.goto.main.service' })}
               onAction={setSelectedServiceForm}
-              disabled={!selectedMainServiceId}
+              disabled={!get(selectedMainService, 'serviceId')}
               defaultImageColor={moduleTheme.mainServiceIconColor}
             />
           </div>

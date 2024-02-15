@@ -98,4 +98,7 @@ export const ModuleConfiguration = PropTypes.shape({
   previewRole: PropTypes.string,
   roleList: AdminShapes.RoleList, // pre-fetched available role list for preview mode
   selectedMainServiceId: PropTypes.string, // name of the selected main service provider to be used by users in priority
+  selectedMainServiceTitleFr: PropTypes.string, // page title of the selected main service provider in french
+  selectedMainServiceTitleEn: PropTypes.string, // page title of the selected main service provider in english
+  selectedMainServiceShowSubtitle: PropTypes.bool, // enable to show/hide subtitle on selected main service provider page
 })

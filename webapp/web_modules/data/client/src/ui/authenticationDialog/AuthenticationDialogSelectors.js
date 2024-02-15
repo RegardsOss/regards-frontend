@@ -33,11 +33,11 @@ export class AuthenticationDialogSelectors extends BasicSelector {
   }
 
   /**
-   * Returns current selected main service provider name
-   * @returns {string}
+   * Returns current selected main service provider configuration
+   * @returns {UIShapes.ServiceProviderConfiguration}
    */
   getMainService(state) {
-    return this.uncombineStore(state).selectedMainServiceId
+    return this.uncombineStore(state).selectedMainService
   }
 }
 

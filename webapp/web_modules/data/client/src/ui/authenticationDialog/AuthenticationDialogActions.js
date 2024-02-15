@@ -43,11 +43,11 @@ export default class AuthenticationDialogActions {
 
   /**
    * Set main service provider to be used in priority by users
-   * @param {string} selectedMainServiceId service provider name
+   * @param {UIShapes.ServiceProviderConfiguration} selectedMainService service provider configuration
    * @return action to dispatch
    */
-  setMainService = (selectedMainServiceId) => ({
+  setMainService = (selectedMainService) => ({
     type: this.SET_MAIN_SERVICE,
-    selectedMainServiceId,
+    selectedMainService,
   })
 }

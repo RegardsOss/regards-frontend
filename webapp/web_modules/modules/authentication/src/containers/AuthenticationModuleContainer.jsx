@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import {
   AuthenticationRouteParameters, AuthenticationParametersHelper, AuthenticationClient, routeHelpers,
 } from '@regardsoss/authentication-utils'
@@ -47,8 +47,8 @@ export class AuthenticationModuleContainer extends React.Component {
       showCancel: PropTypes.bool.isRequired,
       // on cancel button callback, or none if behavior not available
       onCancelAction: PropTypes.func,
-      // selected main service provider to be used in priority by users
-      selectedMainServiceId: PropTypes.string,
+      // selected main auth service provider configuration to be used in priority by users
+      selectedMainService: UIShapes.ServiceProviderConfiguration,
     }),
     // from mapStateToProps
     authenticated: PropTypes.bool,
@@ -100,11 +100,10 @@ export class AuthenticationModuleContainer extends React.Component {
     // parse initial state from parameters
     const {
       project, appName, moduleConf: {
-        showLoginWindow, loginTitle, showAskProjectAccess, showCancel, onCancelAction, selectedMainServiceId,
+        showLoginWindow, loginTitle, showAskProjectAccess, showCancel, onCancelAction, selectedMainService,
       },
     } = this.props
     const { initialViewMode, initialEmail, actionToken } = this.state
-
     // Only enable extenal service providers for user application
     const enableServiceProviders = appName === UIDomain.APPLICATIONS_ENUM.USER
 
@@ -127,7 +126,7 @@ export class AuthenticationModuleContainer extends React.Component {
           initialMode={initialViewMode}
           initialEmail={initialEmail}
           actionToken={actionToken}
-          selectedMainServiceId={selectedMainServiceId}
+          selectedMainService={selectedMainService}
         />
       </SessionManagementContainer>
     )

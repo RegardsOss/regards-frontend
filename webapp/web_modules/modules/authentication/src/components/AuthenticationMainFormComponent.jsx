@@ -17,10 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CommonShapes } from '@regardsoss/shape'
+import { CommonShapes, UIShapes } from '@regardsoss/shape'
 import AuthenticationFormComponent from './AuthenticationFormComponent'
 import MainAuthenticationServiceFormComponent from './MainAuthenticationServiceFormComponent'
 
@@ -57,8 +58,8 @@ class AuthenticationMainFormComponent extends React.Component {
     onGotoUnlockAccount: PropTypes.func.isRequired,
     // service provider list
     serviceProviderList: CommonShapes.ServiceProviderList.isRequired,
-    // selected main service provider to be used in priority by users
-    selectedMainServiceId: PropTypes.string,
+    // selected main auth service provider configuration to be used in priority by users
+    selectedMainService: UIShapes.ServiceProviderConfiguration,
   }
 
   static contextTypes = {
@@ -87,8 +88,9 @@ class AuthenticationMainFormComponent extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    const { selectedMainServiceId } = newProps
-    if (!isEqual(oldProps.selectedMainServiceId, selectedMainServiceId) && !isEmpty(selectedMainServiceId)) {
+    const { selectedMainService } = newProps
+    const selectedMainServiceId = get(selectedMainService, 'serviceId')
+    if (!isEqual(oldProps.selectedMainService, selectedMainService) && !isEmpty(selectedMainServiceId)) {
       this.setState({
         selectedFormType: SELECTED_FORM_TYPE.SELECTED_SERVICE,
       })
@@ -120,7 +122,7 @@ class AuthenticationMainFormComponent extends React.Component {
     const {
       title, onLogin, loading, initialMail, errorMessage, showAskProjectAccess, showCancel,
       onCancelAction, onGotoCreateAccount, onGotoResetPassword, onGotoUnlockAccount, serviceProviderList,
-      selectedMainServiceId,
+      selectedMainService,
     } = this.props
     const { selectedFormType } = this.state
     switch (selectedFormType) {
@@ -139,7 +141,7 @@ class AuthenticationMainFormComponent extends React.Component {
             onGotoResetPassword={onGotoResetPassword}
             onGotoUnlockAccount={onGotoUnlockAccount}
             serviceProviderList={serviceProviderList}
-            selectedMainServiceId={selectedMainServiceId}
+            selectedMainService={selectedMainService}
             setSelectedServiceForm={this.setSelectedServiceForm}
           />
         )
@@ -147,7 +149,7 @@ class AuthenticationMainFormComponent extends React.Component {
         return (
           <MainAuthenticationServiceFormComponent
             title={title}
-            selectedMainServiceId={selectedMainServiceId}
+            selectedMainService={selectedMainService}
             setDefaultForm={this.setDefaultForm}
             serviceProviderList={serviceProviderList}
             showCancel={showCancel}

@@ -84,15 +84,27 @@ class MainMenuComponent extends React.Component {
         home,
         navigation,
         selectedMainServiceId,
+        selectedMainServiceTitleFr,
+        selectedMainServiceTitleEn,
+        selectedMainServiceShowSubtitle,
       },
     } = this.props
     const { moduleTheme: { user: { rootStyle, optionsGroup } } } = this.context
+    // selected main service configuration
+    const selectedMainService = {
+      serviceId: selectedMainServiceId,
+      serviceTitle: {
+        fr: selectedMainServiceTitleFr,
+        en: selectedMainServiceTitleEn,
+      },
+      showSubtitle: selectedMainServiceShowSubtitle,
+    }
     return (
       <div style={rootStyle}>
         {
           displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.USER
             || displayMode === UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW ? [
-              /* navigation component in user and preview modes mode (separator after) */
+            /* navigation component in user and preview modes mode (separator after) */
               <NavigationMenuContainer
                 key="navigation.container"
                 displayMode={displayMode}
@@ -123,7 +135,7 @@ class MainMenuComponent extends React.Component {
               currentRole={currentRole}
               borrowableRoles={borrowableRoles}
               isInstance={isInstance}
-              selectedMainServiceId={selectedMainServiceId}
+              selectedMainService={selectedMainService}
             />
           </ShowableAtRender>
           {/* Notifications */}

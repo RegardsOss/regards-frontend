@@ -19,6 +19,7 @@
 
 import values from 'lodash/values'
 import root from 'window-or-global'
+import { UIShapes } from '@regardsoss/shape'
 import AuthenticationFormContainer from '../containers/AuthenticationFormContainer'
 import AccountOperationMessage, { operationIds } from './AccountOperationMessage'
 import ChangePasswordFormContainer from '../containers/ChangePasswordFormContainer'
@@ -91,8 +92,8 @@ export default class AuthenticationStatesContainer extends React.Component {
     onCancelAction: PropTypes.func,
     // extern access mode (from email): mail back entry point in authentication
     initialMode: PropTypes.oneOf(values(initialModes)).isRequired,
-    // selected main service provider to be used in priority by users
-    selectedMainServiceId: PropTypes.string,
+    // selected main auth service provider configuration to be used in priority by users
+    selectedMainService: UIShapes.ServiceProviderConfiguration,
   }
 
   UNSAFE_componentWillMount = () => {
@@ -150,7 +151,7 @@ export default class AuthenticationStatesContainer extends React.Component {
     const { currentView, currentMail } = this.state
     const {
       project, actionToken, loginTitle, showAskProjectAccess, showCancel, onCancelAction,
-      enableServiceProviders, selectedMainServiceId,
+      enableServiceProviders, selectedMainService,
     } = this.props
 
     // 1 - render messages states first (to write a bit less code in switch!)
@@ -175,7 +176,7 @@ export default class AuthenticationStatesContainer extends React.Component {
             onGotoCreateAccount={this.onGoto(viewStates.askProjectAccessFormView, true)}
             onGotoResetPassword={this.onGoto(viewStates.askResetPasswordFormView, true)}
             onGotoUnlockAccount={this.onGoto(viewStates.askUnlockAccountFormView, true)}
-            selectedMainServiceId={selectedMainServiceId}
+            selectedMainService={selectedMainService}
           />
         )
       case viewStates.askResetPasswordFormView:

@@ -74,6 +74,9 @@ class ModuleFormComponent extends React.Component {
     this.CONF_HOME_TITLE_FR = `${this.HOME_CONFIGURATION_ROOT}.title.fr`
     this.CONF_NAVIGATION = `${currentNamespace}.navigation`
     this.CONF_SELECTED_MAIN_SERVICE = `${currentNamespace}.selectedMainServiceId`
+    this.CONF_SELECTED_MAIN_SERVICE_TITLE_FR = `${currentNamespace}.selectedMainServiceTitleFr`
+    this.CONF_SELECTED_MAIN_SERVICE_TITLE_EN = `${currentNamespace}.selectedMainServiceTitleEn`
+    this.CONF_SELECTED_MAIN_SERVICE_SHOW_SUBTITLE = `${currentNamespace}.selectedMainServiceShowSubtitle`
   }
 
   /**
@@ -181,6 +184,24 @@ class ModuleFormComponent extends React.Component {
                 }
               </Field>
               <Field
+                name={this.CONF_SELECTED_MAIN_SERVICE_TITLE_EN}
+                component={RenderTextField}
+                label={formatMessage({ id: 'menu.form.selectMainServiceTitle.en' })}
+                fullWidth
+              />
+              <Field
+                name={this.CONF_SELECTED_MAIN_SERVICE_TITLE_FR}
+                component={RenderTextField}
+                label={formatMessage({ id: 'menu.form.selectMainServiceTitle.fr' })}
+                fullWidth
+              />
+              <Field
+                name={this.CONF_SELECTED_MAIN_SERVICE_SHOW_SUBTITLE}
+                component={RenderCheckbox}
+                label={formatMessage({ id: 'menu.form.selectMainService.show.subtitle' })}
+                noSpacing
+              />
+              <Field
                 name={this.CONF_CART}
                 component={RenderCheckbox}
                 label={formatMessage({ id: 'menu.form.displaycart' })}
@@ -209,82 +230,82 @@ class ModuleFormComponent extends React.Component {
           noSpacing
         />
         {/* Home page and navigation: any but portal */
-        portal ? null : (
-          <>
-            <Subheader style={subheaderStyle}>
-              {formatMessage({ id: 'user.menu.form.navigation.home.title' })}
-            </Subheader>
-            {/* Home icon type */}
-            <div style={radioButtonGroupLabelStyle}>
-              {formatMessage({ id: 'menu.form.home.page.icon.type.label' })}
-            </div>
-            <Field
-              name={this.CONF_HOME_ICON_TYPE}
-              component={RenderRadio}
-              defaultSelected={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
-              fullWidth
-            >
-              <RadioButton
-                value={HOME_ICON_TYPES_ENUM.NONE}
-                label={formatMessage({ id: 'menu.form.home.page.icon.type.none' })}
+          portal ? null : (
+            <>
+              <Subheader style={subheaderStyle}>
+                {formatMessage({ id: 'user.menu.form.navigation.home.title' })}
+              </Subheader>
+              {/* Home icon type */}
+              <div style={radioButtonGroupLabelStyle}>
+                {formatMessage({ id: 'menu.form.home.page.icon.type.label' })}
+              </div>
+              <Field
+                name={this.CONF_HOME_ICON_TYPE}
+                component={RenderRadio}
+                defaultSelected={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
+                fullWidth
+              >
+                <RadioButton
+                  value={HOME_ICON_TYPES_ENUM.NONE}
+                  label={formatMessage({ id: 'menu.form.home.page.icon.type.none' })}
+                />
+                <RadioButton
+                  value={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
+                  label={formatMessage({ id: 'menu.form.home.page.icon.type.default' })}
+                />
+                <RadioButton
+                  value={HOME_ICON_TYPES_ENUM.MODULE_ICON}
+                  label={formatMessage({ id: 'menu.form.home.page.icon.type.module' })}
+                />
+                <RadioButton
+                  value={HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON}
+                  label={formatMessage({ id: 'menu.form.home.page.icon.type.custom' })}
+                />
+              </Field>
+              {/* Home icon URL */}
+              <Field
+                name={this.CONF_HOME_ICON_URL}
+                disabled={
+                  // enabled only when in custom URL mode
+                  get(adminForm.form, this.CONF_HOME_ICON_TYPE) !== HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON
+                }
+                component={RenderTextField}
+                fullWidth
+                type="text"
+                label={formatMessage({ id: 'menu.form.home.page.icon.custom.url' })}
+                validate={this.validateCustomHomeIcon}
               />
-              <RadioButton
-                value={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
-                label={formatMessage({ id: 'menu.form.home.page.icon.type.default' })}
+              {/* Home titles by locale */}
+              <Field
+                name={this.CONF_HOME_TITLE_EN}
+                component={RenderTextField}
+                fullWidth
+                type="text"
+                label={formatMessage({ id: 'menu.form.home.page.title.en' })}
+                validate={ValidationHelpers.required}
               />
-              <RadioButton
-                value={HOME_ICON_TYPES_ENUM.MODULE_ICON}
-                label={formatMessage({ id: 'menu.form.home.page.icon.type.module' })}
+              <Field
+                name={this.CONF_HOME_TITLE_FR}
+                component={RenderTextField}
+                fullWidth
+                type="text"
+                label={formatMessage({ id: 'menu.form.home.page.title.fr' })}
+                validate={ValidationHelpers.required}
               />
-              <RadioButton
-                value={HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON}
-                label={formatMessage({ id: 'menu.form.home.page.icon.type.custom' })}
+              <Subheader style={subheaderStyle}>
+                {formatMessage({ id: 'user.menu.form.navigation.layout.title' })}
+              </Subheader>
+              {/* Navigation configuration */}
+              <FieldArray
+                name={this.CONF_NAVIGATION}
+                component={NavigationArrayFieldRender}
+                dynamicModules={dynamicModules}
+                roleList={roleList}
+                homeConfiguration={get(adminForm, `form.${this.HOME_CONFIGURATION_ROOT}`)}
+                navigationItems={get(adminForm, `form.${this.CONF_NAVIGATION}`, [])}
+                changeNavigationFieldValue={this.changeNavigationFieldValue}
               />
-            </Field>
-            {/* Home icon URL */}
-            <Field
-              name={this.CONF_HOME_ICON_URL}
-              disabled={
-                // enabled only when in custom URL mode
-                get(adminForm.form, this.CONF_HOME_ICON_TYPE) !== HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON
-              }
-              component={RenderTextField}
-              fullWidth
-              type="text"
-              label={formatMessage({ id: 'menu.form.home.page.icon.custom.url' })}
-              validate={this.validateCustomHomeIcon}
-            />
-            {/* Home titles by locale */}
-            <Field
-              name={this.CONF_HOME_TITLE_EN}
-              component={RenderTextField}
-              fullWidth
-              type="text"
-              label={formatMessage({ id: 'menu.form.home.page.title.en' })}
-              validate={ValidationHelpers.required}
-            />
-            <Field
-              name={this.CONF_HOME_TITLE_FR}
-              component={RenderTextField}
-              fullWidth
-              type="text"
-              label={formatMessage({ id: 'menu.form.home.page.title.fr' })}
-              validate={ValidationHelpers.required}
-            />
-            <Subheader style={subheaderStyle}>
-              {formatMessage({ id: 'user.menu.form.navigation.layout.title' })}
-            </Subheader>
-            {/* Navigation configuration */}
-            <FieldArray
-              name={this.CONF_NAVIGATION}
-              component={NavigationArrayFieldRender}
-              dynamicModules={dynamicModules}
-              roleList={roleList}
-              homeConfiguration={get(adminForm, `form.${this.HOME_CONFIGURATION_ROOT}`)}
-              navigationItems={get(adminForm, `form.${this.CONF_NAVIGATION}`, [])}
-              changeNavigationFieldValue={this.changeNavigationFieldValue}
-            />
-          </>)
+            </>)
         }
         {/* Preview: always available */}
         <Subheader style={subheaderStyle}>

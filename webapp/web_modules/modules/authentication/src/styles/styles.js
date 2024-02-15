@@ -129,6 +129,9 @@ const styles = (theme) => (
       height: '397px',
       backgroundColor: theme.tableRow.stripeColor,
     },
+    cardTitleAuthStyle: {
+      height: '82px',
+    },
     buttonStyle: {
       height: '50px',
     },

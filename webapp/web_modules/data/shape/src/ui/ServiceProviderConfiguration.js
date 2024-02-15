@@ -16,11 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { IntlMessage, OptionalIntlMessage } from './IntlMessage'
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { LayerDefinition } from './LayerDefinition'
-export { UISettings } from './UISettings'
-export { EntityWithTreeEntry, DescriptionTreeEntry } from './EntityWithTreeEntry'
-export { FiltersI18nList } from './FiltersI18n'
-export { ServiceProviderConfiguration } from './ServiceProviderConfiguration'
+import { OptionalIntlMessage } from './IntlMessage'
+
+/**
+ * A service provider configuration used in main authentication service dialog
+ * @author Théo Lasserre
+ */
+export const ServiceProviderConfiguration = PropTypes.shape({
+  serviceId: PropTypes.string,
+  serviceTitle: OptionalIntlMessage,
+  showSubtitle: PropTypes.bool,
+})

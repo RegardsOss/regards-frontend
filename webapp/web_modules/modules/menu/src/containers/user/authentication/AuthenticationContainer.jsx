@@ -24,7 +24,7 @@ import {
   AuthenticateShape,
 } from '@regardsoss/authentication-utils'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AdminShapes, CommonShapes } from '@regardsoss/shape'
+import { AdminShapes, CommonShapes, UIShapes } from '@regardsoss/shape'
 import get from 'lodash/get'
 import { borrowRoleActions, borrowRoleSelectors } from '../../../clients/BorrowRoleClient'
 import { authenticationDialogActions } from '../../../clients/AuthenticationDialogUIClient'
@@ -71,7 +71,7 @@ export class AuthenticationContainer extends React.Component {
       dispatchRoleBorrowed: (authResult) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authResult)),
       onShowProfile: (initialView) => dispatch(profileDialogActions.showDialog(initialView)),
       toggleAuthenticationDialogOpen: (opened) => dispatch(authenticationDialogActions.toggleDialogDisplay(opened)),
-      setMainServiceProvider: (selectedMainServiceId) => dispatch(authenticationDialogActions.setMainService(selectedMainServiceId)),
+      setMainServiceProvider: (selectedMainService) => dispatch(authenticationDialogActions.setMainService(selectedMainService)),
       disconnectServiceProvider: (serviceProviderName) => dispatch(disconnectServiceProviderAction.disconnectServiceProvider(serviceProviderName)),
     }
   }
@@ -84,8 +84,8 @@ export class AuthenticationContainer extends React.Component {
     authenticationName: PropTypes.string.isRequired,
     currentRole: PropTypes.string.isRequired,
     isInstance: PropTypes.bool.isRequired,
-    // selected main auth service provider name
-    selectedMainServiceId: PropTypes.string,
+    // selected main auth service provider configuration to be used in priority by users
+    selectedMainService: UIShapes.ServiceProviderConfiguration,
     // from mapStateToProps
     isSendingBorrowRole: PropTypes.bool.isRequired,
     borrowRoleResult: AuthenticateResultShape,
@@ -171,9 +171,9 @@ export class AuthenticationContainer extends React.Component {
    * @param authenticationVisible is visible in next state?
    */
   onToggleAuthenticationVisible = (authenticationVisible) => {
-    const { selectedMainServiceId, setMainServiceProvider, toggleAuthenticationDialogOpen } = this.props
+    const { selectedMainService, setMainServiceProvider, toggleAuthenticationDialogOpen } = this.props
     toggleAuthenticationDialogOpen(authenticationVisible)
-    setMainServiceProvider(selectedMainServiceId)
+    setMainServiceProvider(selectedMainService)
   }
 
   onGoToHomePage = () => {
