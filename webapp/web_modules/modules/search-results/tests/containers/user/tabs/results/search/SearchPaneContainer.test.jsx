@@ -324,9 +324,6 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
     assert.deepEqual(spiedResultsContextDiff, {
       tabs: {
         [props.tabType]: {
-          search: {
-            open: false, // close pane
-          },
           criteria: {
             searchCriteria: [{
               pluginInstanceId: currentState.groups[0].criteria[0].pluginInstanceId,
@@ -349,9 +346,6 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
     assert.deepEqual(spiedResultsContextDiff, {
       tabs: {
         [props.tabType]: {
-          search: {
-            open: false, // close pane
-          },
           criteria: {
             searchCriteria: [{
               pluginInstanceId: currentState.groups[0].criteria[0].pluginInstanceId,

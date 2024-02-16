@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
+import find from 'lodash/find'
 import root from 'window-or-global'
 import Drawer from 'material-ui/Drawer'
 import FlatButton from 'material-ui/FlatButton'
@@ -100,8 +103,9 @@ class SearchPaneComponent extends React.Component {
     const {
       open, onSearch, onClose, onResetPluginsStates,
     } = this.props
+    const { selectedView } = this.state
     if (open) {
-      if (UIDomain.KeyboardShortcuts.matchEvent(event, UIDomain.KeyboardShortcuts.ALL.runSearch)) {
+      if (selectedView === SELECTED_VIEW.SEARCH_PANE && UIDomain.KeyboardShortcuts.matchEvent(event, UIDomain.KeyboardShortcuts.ALL.runSearch)) {
         onSearch()
       } else if (UIDomain.KeyboardShortcuts.matchEvent(event, UIDomain.KeyboardShortcuts.ALL.closeSearch)) {
         onClose()
@@ -127,11 +131,17 @@ class SearchPaneComponent extends React.Component {
   onAddUserSearchHistory = (fieldValue, searchHistoryConfig) => {
     const { onAddUserSearchHistory, throwError } = this.props
     onAddUserSearchHistory(fieldValue, searchHistoryConfig).then((actionResult) => {
-      if (!actionResult.error) {
-        this.setSearchPaneView()
-      } else {
-        throwError('Unable to create element')
+      const { error } = actionResult
+      if (!error) {
+        const { searchHistory } = actionResult.payload.entities
+        // When using find and no condition is supplied, the first value of the object is returned
+        const firstSearchHistory = find(searchHistory)
+        const firstSearchHistoryContent = get(firstSearchHistory, 'content')
+        if (!isEmpty(firstSearchHistoryContent)) {
+          return this.onSelectUserSearchHistory(firstSearchHistoryContent.id, firstSearchHistoryContent.name, firstSearchHistoryContent.configuration)
+        }
       }
+      return throwError('Unable to create element')
     })
   }
 

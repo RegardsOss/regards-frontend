@@ -339,9 +339,6 @@ export class SearchPaneContainer extends React.Component {
       updateResultsContext(moduleId, {
         tabs: {
           [tabType]: {
-            search: {
-              open: false, // close pane
-            },
             criteria,
           },
         },
@@ -401,10 +398,17 @@ export class SearchPaneContainer extends React.Component {
     const {
       fetchSearchHistory, deleteSearchHistory, moduleId, authentication, throwError,
     } = this.props
+    const { selectedSearchHistory } = this.state
     deleteSearchHistory(searchHistoryId).then((actionResult) => {
       if (!actionResult.error) {
         // Refresh search history list when delete is done
         fetchSearchHistory(moduleId, get(authentication, 'result.sub'))
+        // If deleted search history is current selected search history, reset current selected search history
+        if (searchHistoryId === selectedSearchHistory.id) {
+          this.onStateChange({
+            selectedSearchHistory: SearchPaneContainer.EMPTY_SELECTED_SEARCH_HISTORY,
+          })
+        }
       } else {
         throwError('Unable to delete element')
       }
