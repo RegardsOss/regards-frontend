@@ -1,6 +1,6 @@
 {
   "name": "numerical-criteria-plugin",
-  "version": "1.14.6",
+  "version": "1.14.7",
   "private": true,
   "description": "Numerical attribute criterion plugin for Regards search forms",
   "license": "GPL-3.0",
