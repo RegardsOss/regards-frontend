@@ -18,7 +18,7 @@
  **/
 import map from 'lodash/map'
 import get from 'lodash/get'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, UIDomain } from '@regardsoss/domain'
 import { TableFilterSortingAndVisibilityContainer, TableSelectionModes, withFiltersPane } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -50,7 +50,7 @@ class NotificationHeaderComponent extends React.Component {
     const mode = selectionMode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE
     const notificationIdsFilter = new NotificationFilters().withNotificationIds(notificationIds, mode).build()
     const payload = {
-      ...inputValues,
+      ...UIDomain.FiltersPaneHelper.buildRequestParameters(inputValues),
       ...notificationIdsFilter,
     }
     onDeleteNotifications(payload)
