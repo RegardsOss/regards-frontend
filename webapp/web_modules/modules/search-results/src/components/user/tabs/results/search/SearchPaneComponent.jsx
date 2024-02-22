@@ -77,6 +77,13 @@ class SearchPaneComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static retrieveSearchHistoryPayload(actionResult) {
+    const { searchHistory } = actionResult.payload.entities
+    // When using find and no condition is supplied, the first value of the object is returned
+    const firstSearchHistory = find(searchHistory)
+    return get(firstSearchHistory, 'content')
+  }
+
   state = {
     selectedView: SELECTED_VIEW.SEARCH_PANE,
   }
@@ -133,15 +140,31 @@ class SearchPaneComponent extends React.Component {
     onAddUserSearchHistory(fieldValue, searchHistoryConfig).then((actionResult) => {
       const { error } = actionResult
       if (!error) {
-        const { searchHistory } = actionResult.payload.entities
-        // When using find and no condition is supplied, the first value of the object is returned
-        const firstSearchHistory = find(searchHistory)
-        const firstSearchHistoryContent = get(firstSearchHistory, 'content')
+        const firstSearchHistoryContent = SearchPaneComponent.retrieveSearchHistoryPayload(actionResult)
         if (!isEmpty(firstSearchHistoryContent)) {
           return this.onSelectUserSearchHistory(firstSearchHistoryContent.id, firstSearchHistoryContent.name, firstSearchHistoryContent.configuration)
         }
       }
       return throwError('Unable to create element')
+    })
+  }
+
+  /**
+   * Update a search history element using its id and a new config
+   * @param {number} searchHistoryId
+   * @param {string} searchHistoryConfig
+   */
+  onUpdateUserSearchHistory = (searchHistoryId, searchHistoryConfig) => {
+    const { onUpdateUserSearchHistory, throwError } = this.props
+    onUpdateUserSearchHistory(searchHistoryId, searchHistoryConfig).then((actionResult) => {
+      const { error } = actionResult
+      if (!error) {
+        const firstSearchHistoryContent = SearchPaneComponent.retrieveSearchHistoryPayload(actionResult)
+        if (!isEmpty(firstSearchHistoryContent)) {
+          return this.onSelectUserSearchHistory(firstSearchHistoryContent.id, firstSearchHistoryContent.name, firstSearchHistoryContent.configuration)
+        }
+      }
+      return throwError('Unable to update element')
     })
   }
 
@@ -160,7 +183,6 @@ class SearchPaneComponent extends React.Component {
     const {
       rootContextCriteria, onUpdatePluginState, groups, onDeleteUserSearchHistory, accountEmail,
       moduleId, isUserSearchHistoryFetching, selectedSearchHistory, onRemoveSelectedSearchHistory,
-      onUpdateUserSearchHistory,
     } = this.props
     switch (selectedView) {
       case SELECTED_VIEW.SEARCH_PANE:
@@ -190,7 +212,7 @@ class SearchPaneComponent extends React.Component {
             searchHistoryConfig={JSON.stringify({ rootContextCriteria, groups })}
             setSearchPaneView={this.setSearchPaneView}
             selectedSearchHistory={selectedSearchHistory}
-            onUpdateUserSearchHistory={onUpdateUserSearchHistory}
+            onUpdateUserSearchHistory={this.onUpdateUserSearchHistory}
           />
         )
       default:

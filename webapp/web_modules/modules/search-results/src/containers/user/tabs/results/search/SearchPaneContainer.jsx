@@ -421,12 +421,8 @@ export class SearchPaneContainer extends React.Component {
    * @param {string} searchHistoryConfig
    */
   onUpdateUserSearchHistory = (searchHistoryId, searchHistoryConfig) => {
-    const { updateSearchHistory, throwError } = this.props
-    updateSearchHistory(searchHistoryId, searchHistoryConfig).then((actionResult) => {
-      if (actionResult.error) {
-        throwError('Unable to update element')
-      }
-    })
+    const { updateSearchHistory } = this.props
+    return updateSearchHistory(searchHistoryId, searchHistoryConfig)
   }
 
   /**
