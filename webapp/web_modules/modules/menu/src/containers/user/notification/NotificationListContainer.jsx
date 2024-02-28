@@ -59,7 +59,7 @@ import { LEVELS_ENUM } from '../../../domain/levelsEnum'
  */
 export class NotificationListContainer extends React.Component {
   static requiredDependencies = [
-    notificationPollerActions.getDependency(RequestVerbEnum.GET_LIST),
+    notificationPollerActions.getDependency(RequestVerbEnum.POST),
   ]
 
   static mapStateToProps(state) {
