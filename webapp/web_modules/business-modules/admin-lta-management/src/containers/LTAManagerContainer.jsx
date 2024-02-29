@@ -26,6 +26,7 @@ import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components
 import { requestActions, requestSelectors } from '../clients/LTAClient'
 import { requestDeleteActions } from '../clients/RequestDeleteClient'
 import LTAManagerComponent from '../components/LTAManagerComponent'
+import { tableActions } from '../clients/TableClient'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -44,7 +45,9 @@ export class LTAManagerContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+    isLoading: PropTypes.bool.isRequired,
     // from mapDispatchToProps
+    dispatchUnselectAll: PropTypes.func.isRequired,
     fetchRequests: PropTypes.func.isRequired,
     deleteRequests: PropTypes.func.isRequired,
   }
@@ -58,6 +61,7 @@ export class LTAManagerContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       pageMeta: requestSelectors.getMetaData(state),
+      isLoading: requestSelectors.isFetching(state),
     }
   }
 
@@ -71,6 +75,7 @@ export class LTAManagerContainer extends React.Component {
     return {
       fetchRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParam) => dispatch(requestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParam)),
       deleteRequests: (bodyParams) => dispatch(requestDeleteActions.sendSignal('DELETE', bodyParams)),
+      dispatchUnselectAll: (paneType) => dispatch(tableActions.unselectAll()),
     }
   }
 
@@ -88,9 +93,14 @@ export class LTAManagerContainer extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/board`)
   }
 
+  unselectAll = (actionResult, paneType) => {
+    const { dispatchUnselectAll } = this.props
+    return !actionResult.error && dispatchUnselectAll(paneType)
+  }
+
   onDeleteRequest = (requestBodyParameters, onRefresh) => {
     const { deleteRequests } = this.props
-    this.perform(deleteRequests(requestBodyParameters), onRefresh)
+    this.perform(deleteRequests(requestBodyParameters).then((actionResult) => this.unselectAll(actionResult)), onRefresh)
   }
 
   /**
@@ -124,13 +134,14 @@ export class LTAManagerContainer extends React.Component {
   }
 
   render() {
+    const { isLoading } = this.props
     const { isFetching } = this.state
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={styles}>
           <LTAManagerComponent
             onBack={this.onBack}
-            isLoading={isFetching}
+            isLoading={isFetching || isLoading}
             onRefresh={this.onRefresh}
             onDeleteRequest={this.onDeleteRequest}
           />

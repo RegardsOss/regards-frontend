@@ -41,6 +41,9 @@ describe('[ADMIN LTA MANAGEMENT] Testing LTAManagerContainer', () => {
       // from mapDispatchToProps
       fetchRequests: () => { },
       deleteRequests: () => { },
+      dispatchUnselectAll: () => { },
+      // from mapStateToProps
+      isLoading: false,
     }
     const enzymeWrapper = shallow(<LTAManagerContainer {...props} />, { context })
     const subComponent = enzymeWrapper.find(LTAManagerComponent)

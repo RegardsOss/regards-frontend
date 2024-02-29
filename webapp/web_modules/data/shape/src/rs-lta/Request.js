@@ -33,7 +33,6 @@ const ProductShape = PropTypes.shape({
   files: PropTypes.arrayOf(LTAFileShape).isRequired,
   geometry: EntityGeoProperties,
   tags: PropTypes.arrayOf(PropTypes.string),
-  id: PropTypes.string.isRequired,
   originUrn: PropTypes.string,
   // eslint-disable-next-line react/forbid-prop-types
   properties: PropTypes.object,
