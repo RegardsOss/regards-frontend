@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { IngestDomain, CommonDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableLayout, PageableInfiniteTableContainer, TableHeaderLoadingComponent } from '@regardsoss/components'
+import { TableLayout, PageableInfiniteTableContainer } from '@regardsoss/components'
 import HeaderActionsBarContainer from '../../../src/containers/HeaderActionsBarContainer'
 import { aipActions, aipSelectors } from '../../../src/clients/AIPClient'
 import { OAISPackageManagerComponent } from '../../../src/components/packages/OAISPackageManagerComponent'
@@ -43,12 +43,12 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerComponent', () => {
   it('should render correctly', () => {
     const props = {
       isLoading: false,
-      onDeleteRequests: () => {},
-      onModifyAip: () => {},
+      onDeleteRequests: () => { },
+      onModifyAip: () => { },
       paneType: IngestDomain.REQUEST_TYPES_ENUM.AIP,
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
       recipientList: [],
-      onNotifyAip: () => {},
+      onNotifyAip: () => { },
     }
     const enzymeWrapper = shallow(<OAISPackageManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -59,7 +59,6 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerComponent', () => {
       onModify: enzymeWrapper.instance().onModifySelection,
       onDelete: enzymeWrapper.instance().onDeleteSelection,
     }, 'Component should define the expected properties and callbacks')
-    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
     testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {

@@ -19,34 +19,36 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import FlatButton from 'material-ui/FlatButton'
-import { OAISSwitchTables } from '../../src/components/OAISSwitchTables'
+import { IngestDomain } from '@regardsoss/domain'
+import { OAISSwitchTablesContainer } from '../../src/containers/OAISSwitchTablesContainer'
+import SwitchComponent from '../../src/components/SwitchComponent'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test OAISSwitchTables
+ * Test OAISSwitchTablesContainer
  * @author Simon MILHAU
  */
-describe('[OAIS AIP MANAGEMENT] Testing OAISSwitchTables', () => {
+describe('[OAIS AIP MANAGEMENT] Testing OAISSwitchTablesContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(OAISSwitchTables)
+    assert.isDefined(OAISSwitchTablesContainer)
   })
 
   it('should render correctly', () => {
     const props = {
-      onSwitchToPane: () => {},
-      fetchAIPPage: () => {},
-      fetchRequestsPage: () => {},
+      onSwitchToPane: () => { },
+      fetchAIPPage: () => { },
+      fetchRequestsPage: () => { },
       isAipsFetching: false,
       isRequestsFetching: false,
+      openedPane: IngestDomain.REQUEST_TYPES_ENUM.AIP,
     }
-    const enzymeWrapper = shallow(<OAISSwitchTables {...props} />, { context })
-    const flatButtonWrapper = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(flatButtonWrapper, 2, 'There should two FlatButton')
+    const enzymeWrapper = shallow(<OAISSwitchTablesContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(SwitchComponent)
+    assert.lengthOf(componentWrapper, 2, 'There should be 2 SwitchComponent')
   })
 })

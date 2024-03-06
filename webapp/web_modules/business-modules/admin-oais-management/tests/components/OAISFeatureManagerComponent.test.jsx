@@ -29,7 +29,7 @@ import AIPFiltersComponent from '../../src/components/packages/AIPFiltersCompone
 import { aipSelectors, aipActions } from '../../src/clients/AIPClient'
 import { filtersActions, filtersSelectors } from '../../src/clients/FiltersClient'
 import { requestSelectors, requestActions } from '../../src/clients/RequestClient'
-import OAISSwitchTables from '../../src/components/OAISSwitchTables'
+import OAISSwitchTablesContainer from '../../src/containers/OAISSwitchTablesContainer'
 import { REQUEST_FILTERS_I18N, AIP_FILTERS_I18N } from '../../src/domain/filters'
 import styles from '../../src/styles'
 
@@ -66,7 +66,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
       onBack: () => { },
       storages: [],
       recipientList: [],
-      onNotifyAip: () => {},
+      onNotifyAip: () => { },
     }
     const enzymeWrapper = shallow(<OAISFeatureManagerComponent {...props} />, { context })
     const headerComponent = enzymeWrapper.find(CardHeaderActions)
@@ -82,8 +82,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
       filtersSelectors,
       filtersI18n: { ...AIP_FILTERS_I18N, ...REQUEST_FILTERS_I18N },
     })
-    const switchComponent = enzymeWrapper.find(OAISSwitchTables)
-    assert.lengthOf(switchComponent, 1, 'OAISSwitchTables should be set')
+    const switchComponent = enzymeWrapper.find(OAISSwitchTablesContainer)
+    assert.lengthOf(switchComponent, 1, 'OAISSwitchTablesContainer should be set')
     testSuiteHelpers.assertWrapperProperties(switchComponent, {
       params: props.params,
       onSwitchToPane: enzymeWrapper.instance().onSwitchToPane,

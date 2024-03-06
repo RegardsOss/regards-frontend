@@ -42,14 +42,14 @@ import { REQUESTS_COLUMN_KEYS } from '../components/RequestManagerComponent'
   * Switch between tables
   * @author Théo Lasserre
   */
-export class SwitchTables extends React.Component {
+export class SwitchTablesContainer extends React.Component {
   // Setting PAGE_SIZE to 1 prevent flooding network with unnecessary informations.
   // we juste want to retrieve totalElements, we don't care about results sent by backend server.
   static PAGE_SIZE = 1
 
   static DEFAULT_PAGE_META = {
     number: 0,
-    size: SwitchTables.PAGE_SIZE,
+    size: SwitchTablesContainer.PAGE_SIZE,
     totalElements: 0,
   }
 
@@ -135,11 +135,11 @@ export class SwitchTables extends React.Component {
   }
 
   static defaultProps = {
-    referencesCountMeta: SwitchTables.DEFAULT_PAGE_META,
-    creationCountMeta: SwitchTables.DEFAULT_PAGE_META,
-    updateCountMeta: SwitchTables.DEFAULT_PAGE_META,
-    deleteCountMeta: SwitchTables.DEFAULT_PAGE_META,
-    notificationCountMeta: SwitchTables.DEFAULT_PAGE_META,
+    referencesCountMeta: SwitchTablesContainer.DEFAULT_PAGE_META,
+    creationCountMeta: SwitchTablesContainer.DEFAULT_PAGE_META,
+    updateCountMeta: SwitchTablesContainer.DEFAULT_PAGE_META,
+    deleteCountMeta: SwitchTablesContainer.DEFAULT_PAGE_META,
+    notificationCountMeta: SwitchTablesContainer.DEFAULT_PAGE_META,
   }
 
   /**
@@ -174,30 +174,30 @@ export class SwitchTables extends React.Component {
       paneType,
     } = newProps
 
+    // Refresh current tab count When applying filter or when changing tab.
     if (!isEqual(oldProps.featureManagerFilters, featureManagerFilters) || !isEqual(oldProps.paneType, paneType)) {
       const requestParameters = { ...pick(featureManagerFilters, 'sort') }
       const bodyParameters = { ...omit(featureManagerFilters, 'sort') }
 
-      // Fetch meta to actualise requests count & errors
       if (!isReferencesCountFetching) {
         const referencesBodyParameters = this.buildBodyParameters(bodyParameters, FemDomain.ReferenceFilters.buildDefault())
         const referencesRequestParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REFERENCES_COLUMN_KEYS)
-        fetchReferencesCount(0, SwitchTables.PAGE_SIZE, {}, referencesRequestParameters, referencesBodyParameters)
+        fetchReferencesCount(0, SwitchTablesContainer.PAGE_SIZE, {}, referencesRequestParameters, referencesBodyParameters)
       }
 
       const requestsBodyParameters = this.buildBodyParameters(bodyParameters, FemDomain.RequestFilters.buildDefault())
       const requestsRequestsParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REQUESTS_COLUMN_KEYS)
       if (!isCreationCountFetching) {
-        fetchCreationRequestsCount(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, requestsRequestsParameters, requestsBodyParameters)
+        fetchCreationRequestsCount(0, SwitchTablesContainer.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, requestsRequestsParameters, requestsBodyParameters)
       }
       if (!isDeleteCountFetching) {
-        fetchDeleteRequestsCount(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, requestsRequestsParameters, requestsBodyParameters)
+        fetchDeleteRequestsCount(0, SwitchTablesContainer.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE }, requestsRequestsParameters, requestsBodyParameters)
       }
       if (!isNotificationCountFetching) {
-        fetchNotificationRequestsCount(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION }, requestsRequestsParameters, requestsBodyParameters)
+        fetchNotificationRequestsCount(0, SwitchTablesContainer.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION }, requestsRequestsParameters, requestsBodyParameters)
       }
       if (!isUpdateCountFetching) {
-        fetchUpdateRequestsCount(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.UPDATE }, requestsRequestsParameters, requestsBodyParameters)
+        fetchUpdateRequestsCount(0, SwitchTablesContainer.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.UPDATE }, requestsRequestsParameters, requestsBodyParameters)
       }
     }
   }
@@ -314,4 +314,4 @@ export class SwitchTables extends React.Component {
   }
 }
 
-export default connect(SwitchTables.mapStateToProps, SwitchTables.mapDispatchToProps)(SwitchTables)
+export default connect(SwitchTablesContainer.mapStateToProps, SwitchTablesContainer.mapDispatchToProps)(SwitchTablesContainer)

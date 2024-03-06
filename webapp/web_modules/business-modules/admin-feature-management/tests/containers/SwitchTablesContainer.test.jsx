@@ -21,21 +21,21 @@ import { assert } from 'chai'
 import { FemDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SwitchComponent from '../../src/components/SwitchComponent'
-import { SwitchTables } from '../../src/containers/SwitchTables'
+import { SwitchTablesContainer } from '../../src/containers/SwitchTablesContainer'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SwitchTables
+ * Test SwitchTablesContainer
  * @author Théo Lasserre
  */
-describe('[OAIS FEATURE MANAGEMENT] Testing SwitchTables', () => {
+describe('[OAIS FEATURE MANAGEMENT] Testing SwitchTablesContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SwitchTables)
+    assert.isDefined(SwitchTablesContainer)
   })
   it('should render correctly', () => {
     const props = {
@@ -96,7 +96,7 @@ describe('[OAIS FEATURE MANAGEMENT] Testing SwitchTables', () => {
       fetchNotificationRequestsCount: () => { },
       fetchUpdateRequestsCount: () => { },
     }
-    const enzymeWrapper = shallow(<SwitchTables {...props} />, { context })
+    const enzymeWrapper = shallow(<SwitchTablesContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(SwitchComponent)
     assert.lengthOf(componentWrapper, 5, 'There should be 5 SwitchComponent')
   })

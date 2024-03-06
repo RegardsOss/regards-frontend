@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import reduce from 'lodash/reduce'
 import keys from 'lodash/keys'
@@ -28,16 +29,21 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
-import FlatButton from 'material-ui/FlatButton'
 import clientByPane from '../domain/ClientByPane'
-import { PACKAGE_COLUMN_KEYS } from './packages/OAISPackageManagerComponent'
-import { REQUESTS_COLUMN_KEYS } from './requests/OAISRequestManagerComponent'
+import { PACKAGE_COLUMN_KEYS } from '../components/packages/OAISPackageManagerComponent'
+import { REQUESTS_COLUMN_KEYS } from '../components/requests/OAISRequestManagerComponent'
+import SwitchComponent from '../components/SwitchComponent'
 
 /**
  * Switch between the two tables
  * @author Simon MILHAU
+ * @author Théo Lasserre
  */
-export class OAISSwitchTables extends React.Component {
+export class OAISSwitchTablesContainer extends React.Component {
+  // Setting PAGE_SIZE to 1 prevent flooding network with unnecessary informations.
+  // we juste want to retrieve totalElements, we don't care about results sent by backend server.
+  static PAGE_SIZE = 1
+
   static DEFAULT_PAGE_META = {
     number: 0,
     size: STATIC_CONF.TABLE.PAGE_SIZE || 20,
@@ -51,8 +57,8 @@ export class OAISSwitchTables extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = (dispatch) => ({
-    fetchAIPPage: (pageIndex, pageSize, pathParams, queryParams, bodyParams) => dispatch(clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].actions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParams)),
-    fetchRequestsPage: (pageIndex, pageSize, pathParams, queryParams, bodyParams) => dispatch(clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].actions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParams)),
+    fetchAIPPage: (pageIndex, pageSize, pathParams, queryParams, bodyParams) => dispatch(clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].countActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParams)),
+    fetchRequestsPage: (pageIndex, pageSize, pathParams, queryParams, bodyParams) => dispatch(clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].countActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParams)),
   })
 
   /**
@@ -63,10 +69,10 @@ export class OAISSwitchTables extends React.Component {
  */
   static mapStateToProps(state) {
     return {
-      aipsMeta: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].selectors.getMetaData(state),
-      isAipsFetching: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].selectors.isFetching(state),
-      requestsMeta: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].selectors.getMetaData(state),
-      isRequestsFetching: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].selectors.isFetching(state),
+      aipsMeta: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].countSelectors.getMetaData(state),
+      isAipsFetching: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].countSelectors.isFetching(state),
+      requestsMeta: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].countSelectors.getMetaData(state),
+      isRequestsFetching: clientByPane[IngestDomain.REQUEST_TYPES_ENUM.REQUEST].countSelectors.isFetching(state),
     }
   }
 
@@ -80,7 +86,7 @@ export class OAISSwitchTables extends React.Component {
     onSwitchToPane: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     oaisFilters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
-    openedPane: PropTypes.string,
+    openedPane: PropTypes.oneOf(IngestDomain.REQUEST_TYPES).isRequired,
     // from mapDistpathToProps
     // eslint-disable-next-line react/no-unused-prop-types
     fetchAIPPage: PropTypes.func.isRequired,
@@ -101,8 +107,8 @@ export class OAISSwitchTables extends React.Component {
   }
 
   static defaultProps = {
-    aipsMeta: OAISSwitchTables.DEFAULT_PAGE_META,
-    requestsMeta: OAISSwitchTables.DEFAULT_PAGE_META,
+    aipsMeta: OAISSwitchTablesContainer.DEFAULT_PAGE_META,
+    requestsMeta: OAISSwitchTablesContainer.DEFAULT_PAGE_META,
   }
 
   /**
@@ -131,23 +137,24 @@ export class OAISSwitchTables extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      fetchAIPPage, fetchRequestsPage, oaisFilters, isAipsFetching, isRequestsFetching,
+      fetchAIPPage, fetchRequestsPage, oaisFilters, isAipsFetching, isRequestsFetching, openedPane,
     } = newProps
 
-    if (!isEqual(oldProps.oaisFilters, oaisFilters)) {
+    // Refresh current tab count When applying filter or when changing tab.
+    if (!isEqual(oldProps.oaisFilters, oaisFilters) || !isEqual(oldProps.openedPane, openedPane)) {
       const requestParameters = { ...pick(oaisFilters, 'sort') }
       const bodyParameters = { ...omit(oaisFilters, 'sort') }
 
       if (!isAipsFetching) {
         const aipBodyParameters = this.buildBodyParameters(bodyParameters, IngestDomain.AipFilters.buildDefault())
         const aipRequestParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, PACKAGE_COLUMN_KEYS)
-        fetchAIPPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, aipRequestParameters, aipBodyParameters)
+        fetchAIPPage(0, OAISSwitchTablesContainer.PAGE_SIZE, {}, aipRequestParameters, aipBodyParameters)
       }
 
       if (!isRequestsFetching) {
         const requestsBodyParameters = this.buildBodyParameters(bodyParameters, IngestDomain.RequestFilters.buildDefault())
         const requestsRequestsParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REQUESTS_COLUMN_KEYS)
-        fetchRequestsPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, requestsRequestsParameters, requestsBodyParameters)
+        fetchRequestsPage(0, OAISSwitchTablesContainer.PAGE_SIZE, {}, requestsRequestsParameters, requestsBodyParameters)
       }
     }
   }
@@ -171,39 +178,62 @@ export class OAISSwitchTables extends React.Component {
     return newBodyParameters
   }
 
-  changeToPackages = () => {
-    const { onSwitchToPane } = this.props
-    onSwitchToPane(IngestDomain.REQUEST_TYPES_ENUM.AIP)
+  extractInfos = (meta) => ({
+    nbElements: meta ? meta.totalElements : 0,
+  })
+
+  isFetching = (pane) => {
+    const {
+      isAipsFetching, isRequestsFetching,
+    } = this.props
+    let isFetching = true
+    switch (pane) {
+      case IngestDomain.REQUEST_TYPES_ENUM.AIP:
+        isFetching = isAipsFetching
+        break
+      case IngestDomain.REQUEST_TYPES_ENUM.REQUEST:
+        isFetching = isRequestsFetching
+        break
+      default:
+    }
+    return isFetching
   }
 
-  changeToRequests = () => {
-    const { onSwitchToPane } = this.props
-    onSwitchToPane(IngestDomain.REQUEST_TYPES_ENUM.REQUEST)
+  getNbElementsInfos = (pane) => {
+    const {
+      aipsMeta, requestsMeta,
+    } = this.props
+    let meta = null
+    switch (pane) {
+      case IngestDomain.REQUEST_TYPES_ENUM.AIP:
+        meta = aipsMeta
+        break
+      case IngestDomain.REQUEST_TYPES_ENUM.REQUEST:
+        meta = requestsMeta
+        break
+      default:
+    }
+    return this.extractInfos(meta)
   }
 
   render() {
-    const { intl: { formatMessage }, moduleTheme: { switchButton, switchTable } } = this.context
-    const { aipsMeta, requestsMeta, openedPane } = this.props
+    const { moduleTheme: { switchTable: { divStyle } } } = this.context
+    const { onSwitchToPane, openedPane } = this.props
     return (
-      <div style={switchTable}>
-        <FlatButton
-          label={formatMessage({ id: 'oais.requests.switch-to.products.label' }, { productsNb: aipsMeta ? aipsMeta.totalElements : 0 })}
-          title={formatMessage({ id: 'oais.requests.switch-to.products.title' })}
-          onClick={this.changeToPackages}
-          style={openedPane === IngestDomain.REQUEST_TYPES_ENUM.AIP ? switchButton : null}
-          disabled={openedPane === IngestDomain.REQUEST_TYPES_ENUM.AIP}
-        />
-        <FlatButton
-          label={formatMessage({ id: 'oais.packages.switch-to.requests.label' }, { requestsNb: requestsMeta ? requestsMeta.totalElements : 0 })}
-          title={formatMessage({ id: 'oais.packages.switch-to.requests.title' })}
-          onClick={this.changeToRequests}
-          style={openedPane === IngestDomain.REQUEST_TYPES_ENUM.REQUEST ? switchButton : null}
-          disabled={openedPane === IngestDomain.REQUEST_TYPES_ENUM.REQUEST}
-        />
-
+      <div style={divStyle}>
+        {map(IngestDomain.REQUEST_TYPES, (pane) => (
+          <SwitchComponent
+            key={`switch-table-${pane}`}
+            loading={this.isFetching(pane)}
+            pane={pane}
+            paneType={openedPane}
+            nbElementsInfos={this.getNbElementsInfos(pane)}
+            onSwitchToPane={onSwitchToPane}
+          />
+        ))}
       </div>
     )
   }
 }
 
-export default connect(OAISSwitchTables.mapStateToProps, OAISSwitchTables.mapDispatchToProps)(OAISSwitchTables)
+export default connect(OAISSwitchTablesContainer.mapStateToProps, OAISSwitchTablesContainer.mapDispatchToProps)(OAISSwitchTablesContainer)

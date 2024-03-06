@@ -26,7 +26,8 @@ export default {
   'oais.button.back': 'Back',
 
   'oais.packages.close': 'Close',
-  'oais.packages.switch-to.requests.label': 'Processings ({requestsNb})',
+  'oais.packages.switch-to.requests.label': 'Processings ({nbElements})',
+  'oais.packages.switch-to.requests.label.loading': 'Processings',
   'oais.packages.switch-to.requests.title': 'See processings',
   'oais.list.filters.providerIds.label': 'Provider ID',
   'oais.list.filters.aipIdType.label': 'Type',
@@ -96,8 +97,9 @@ export default {
   'oais.packages.tooltip.selection.modify': 'Modify product selection',
   'oais.packages.tooltip.selection.delete': 'Delete product selection',
 
-  'oais.requests.switch-to.products.label': 'Products ({productsNb})',
-  'oais.requests.switch-to.products.title': 'See products',
+  'oais.packages.switch-to.aips.label': 'Products ({nbElements})',
+  'oais.packages.switch-to.aips.label.loading': 'Products',
+  'oais.packages.switch-to.aips.title': 'See products',
   'oais.packages.switch-to.refresh': 'Refresh',
   'oais.requests.list.filters.providerId': 'Provider ID',
   'oais.requests.list.filters.creationDate.label': 'Creation Date',

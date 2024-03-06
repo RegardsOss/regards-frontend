@@ -31,7 +31,7 @@ import PageView from 'mdi-material-ui/CardSearch'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import clientByPane from '../domain/ClientByPane'
-import OAISSwitchTables from './OAISSwitchTables'
+import OAISSwitchTablesContainer from '../containers/OAISSwitchTablesContainer'
 import AIPFiltersComponent from './packages/AIPFiltersComponent'
 import RequestsFiltersComponent from './requests/RequestsFiltersComponent'
 import OAISRequestManagerComponent, { REQUESTS_COLUMN_KEYS } from './requests/OAISRequestManagerComponent'
@@ -207,7 +207,7 @@ class OAISFeatureManagerComponent extends React.Component {
             />
             <TableLayout>
               <TableHeaderLine>
-                <OAISSwitchTables
+                <OAISSwitchTablesContainer
                   params={params}
                   onSwitchToPane={this.onSwitchToPane}
                   openedPane={paneType}

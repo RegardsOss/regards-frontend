@@ -33,7 +33,7 @@ import { referencesSelectors, referencesActions } from '../../src/clients/Refere
 import { updateRequestActions, updateRequestSelectors } from '../../src/clients/UpdateRequestsClient'
 import { filtersActions, filtersSelectors } from '../../src/clients/FiltersClient'
 import { FILTERS_I18N } from '../../src/domain/filters'
-import SwitchTables from '../../src/containers/SwitchTables'
+import SwitchTablesContainer from '../../src/containers/SwitchTablesContainer'
 import FeatureManagerComponent from '../../src/components/FeatureManagerComponent'
 import styles from '../../src/styles'
 
@@ -91,8 +91,8 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       filtersSelectors,
       filtersI18n: FILTERS_I18N,
     })
-    const switchWrapper = enzymeWrapper.find(SwitchTables)
-    assert.lengthOf(switchWrapper, 1, 'There should be a SwitchTables')
+    const switchWrapper = enzymeWrapper.find(SwitchTablesContainer)
+    assert.lengthOf(switchWrapper, 1, 'There should be a SwitchTablesContainer')
     testSuiteHelpers.assertWrapperProperties(switchWrapper, {
       params: props.params,
       onSwitchToPane: enzymeWrapper.instance().onSwitchToPane,

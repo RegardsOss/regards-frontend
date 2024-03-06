@@ -113,7 +113,8 @@ export class FeatureManagerContainer extends React.Component {
   getPathParams = (paneType) => paneType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES ? { type: paneType } : {}
 
   /**
-   * When refreshing enable to update counts of all tabs
+   * Enable to update tabs count when user click on the Refresh button.
+   * See SwitchTablesContainer for tabs count refresh when user switch tab and when user change filters
    */
   fetchRequestsCounts = (queryParams, bodyParams) => {
     const { fetchRequestsCount } = this.props

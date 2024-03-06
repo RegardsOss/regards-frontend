@@ -35,7 +35,7 @@ import ReferencesManagerComponent, { REFERENCES_COLUMN_KEYS } from './References
 import RequestManagerComponent, { REQUESTS_COLUMN_KEYS } from './RequestManagerComponent'
 import RequestManagerFiltersComponent from './filters/RequestManagerFiltersComponent'
 import ReferenceManagerFiltersComponent from './filters/ReferenceManagerFiltersComponent'
-import SwitchTables from '../containers/SwitchTables'
+import SwitchTablesContainer from '../containers/SwitchTablesContainer'
 import { FILTERS_I18N } from '../domain/filters'
 import clientByPane from '../domain/ClientByPane'
 import { filtersActions, filtersSelectors } from '../clients/FiltersClient'
@@ -194,7 +194,7 @@ class FeatureManagerComponent extends React.Component {
             />
             <TableLayout>
               <TableHeaderLine>
-                <SwitchTables
+                <SwitchTablesContainer
                   params={params}
                   onSwitchToPane={this.onSwitchToPane}
                   featureManagerFilters={currentRequestParameters}

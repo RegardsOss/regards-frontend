@@ -18,6 +18,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
+import forEach from 'lodash/forEach'
 import pick from 'lodash/pick'
 import omit from 'lodash/omit'
 import isEqual from 'lodash/isEqual'
@@ -77,6 +78,7 @@ export class OAISFeatureManagerContainer extends React.Component {
     dispatchUnselectAll: (paneType) => dispatch(clientByPane[paneType].tableActions.unselectAll()),
     fetchRecipients: () => dispatch(aipRecipientsActions.fetchRecipients()),
     notifyAips: (filters, recipients) => dispatch(clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].notifyActions.notifyAip(filters, recipients)),
+    fetchRequestsCount: (pageIndex, pageSize, pathParams, queryParams, bodyParams, paneType) => dispatch(clientByPane[paneType].countActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParams)),
   })
 
   static propTypes = {
@@ -97,6 +99,7 @@ export class OAISFeatureManagerContainer extends React.Component {
     modifyAips: PropTypes.func.isRequired,
     fetchRecipients: PropTypes.func.isRequired,
     notifyAips: PropTypes.func.isRequired,
+    fetchRequestsCount: PropTypes.func.isRequired,
     // from mapStateToProps
     storages: PropTypes.arrayOf(PropTypes.string),
     isFetching: PropTypes.bool,
@@ -174,9 +177,23 @@ export class OAISFeatureManagerContainer extends React.Component {
   */
   setFetching = (isLoading) => this.setState({ isLoading })
 
+  /**
+   * Enable to update tabs count when user click on the Refresh button.
+   * See OAISSwitchTablesContainer for tabs count refresh when user switch tab and when user change filters
+   */
+  fetchRequestsCounts = (queryParams, bodyParams) => {
+    const { fetchRequestsCount } = this.props
+    forEach(IngestDomain.REQUEST_TYPES_ENUM, (paneType) => {
+      fetchRequestsCount(0, 1, {}, queryParams, bodyParams, paneType)
+    })
+  }
+
   onRefresh = (requestParameters, paneType) => {
     const { fetchPage } = this.props
-    fetchPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') }, paneType)
+    const queryParams = { ...pick(requestParameters, 'sort') }
+    const bodyParams = { ...omit(requestParameters, 'sort') }
+    fetchPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, queryParams, bodyParams, paneType)
+    this.fetchRequestsCounts(queryParams, bodyParams)
   }
 
   unselectAll = (actionResult, paneType) => {

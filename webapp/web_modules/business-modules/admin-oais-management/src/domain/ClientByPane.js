@@ -30,6 +30,8 @@ import { requestRetryActions } from '../clients/RequestRetryClient'
 import { requestAbortActions } from '../clients/RequestAbortClient'
 import { requestSelectVersionModeActions } from '../clients/RequestSelectVersionModeClient'
 import { aipNotifyActions } from '../clients/AIPNotifyClient'
+import { aipCountActions, aipCountSelectors } from '../clients/AIPCountClient'
+import { requestCountActions, requestCountSelectors } from '../clients/RequestCountClient'
 
 export default {
   [IngestDomain.REQUEST_TYPES_ENUM.AIP]: {
@@ -42,6 +44,8 @@ export default {
     notifyActions: aipNotifyActions,
     storageActions: aipStorageSearchActions,
     storageSelectors: aipStorageSearchSelectors,
+    countActions: aipCountActions,
+    countSelectors: aipCountSelectors,
   },
   [IngestDomain.REQUEST_TYPES_ENUM.REQUEST]: {
     actions: requestActions,
@@ -52,5 +56,7 @@ export default {
     retryActions: requestRetryActions,
     abortActions: requestAbortActions,
     selectVersionActions: requestSelectVersionModeActions,
+    countActions: requestCountActions,
+    countSelectors: requestCountSelectors,
   },
 }

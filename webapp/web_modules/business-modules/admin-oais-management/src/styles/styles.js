@@ -28,13 +28,6 @@ const aipManagementStyles = (theme) => ({
   headerActionBarStyle: {
     width: '100%',
   },
-  tableStyle: {
-    loadingStyle: {
-      display: 'flex',
-      justifyContent: 'flex-end',
-      width: '80%',
-    },
-  },
   displayBlock: {
     display: 'block',
   },
@@ -138,11 +131,23 @@ const aipManagementStyles = (theme) => ({
       marginLeft: 20,
     },
   },
-  switchButton: {
-    color: theme.palette.accent1Color,
-  },
   switchTable: {
-    display: 'flex',
+    divStyle: {
+      display: 'flex',
+    },
+    switchButton: {
+      color: theme.palette.accent1Color,
+    },
+    displayIndicator: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    displayNone: {
+      display: 'none',
+    },
+    indicatorStyle: {
+      position: 'relative',
+    },
   },
   aipModifyDialog: {
     display: 'flex',

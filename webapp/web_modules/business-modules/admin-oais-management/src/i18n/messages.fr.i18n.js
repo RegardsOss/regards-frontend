@@ -26,7 +26,8 @@ export default {
   'oais.button.back': 'Retour',
 
   'oais.packages.close': 'Close',
-  'oais.packages.switch-to.requests.label': 'Traitements ({requestsNb})',
+  'oais.packages.switch-to.requests.label': 'Traitements ({nbElements})',
+  'oais.packages.switch-to.requests.label.loading': 'Traitements',
   'oais.packages.switch-to.requests.title': 'Voir les traitements',
   'oais.list.filters.providerIds.label': 'ID fournisseur',
   'oais.list.filters.aipIdType.label': 'Type',
@@ -96,8 +97,9 @@ export default {
   'oais.packages.tooltip.selection.modify': 'Modifier les produits sélectionnés',
   'oais.packages.tooltip.selection.delete': 'Supprimer les produits sélectionnés',
 
-  'oais.requests.switch-to.products.label': 'Produits ({productsNb})',
-  'oais.requests.switch-to.products.title': 'Voir les produits',
+  'oais.packages.switch-to.aips.label': 'Produits ({nbElements})',
+  'oais.packages.switch-to.aips.label.loading': 'Produits',
+  'oais.packages.switch-to.aips.title': 'Voir les produits',
   'oais.packages.switch-to.refresh': 'Rafraîchir',
   'oais.requests.list.filters.providerId': 'ID fournisseur',
   'oais.requests.list.filters.creationDate.label': 'Date de création',

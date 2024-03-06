@@ -23,7 +23,7 @@ import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableSelectionModes, DateValueRender, NoContentComponent, TableHeaderLine,
-  TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
+  TableFilterSortingAndVisibilityContainer,
   withSortTables, NotifyDialog,
 } from '@regardsoss/components'
 import { NotifierShapes } from '@regardsoss/shape'
@@ -285,7 +285,7 @@ export class OAISPackageManagerComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage }, muiTheme, moduleTheme: { tableStyle: { loadingStyle } } } = this.context
+    const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const {
       pageSize, isLoading, paneType, bodyParameters,
@@ -350,9 +350,6 @@ export class OAISPackageManagerComponent extends React.Component {
       <div>
         <TableLayout>
           <TableHeaderLine>
-            <div style={loadingStyle}>
-              <TableHeaderLoadingComponent loading={isLoading} />
-            </div>
             <HeaderActionsBarContainer
               paneType={paneType}
               onModify={this.onModifySelection}

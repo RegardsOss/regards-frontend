@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { IngestDomain, CommonDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableLayout, PageableInfiniteTableContainer, TableHeaderLoadingComponent } from '@regardsoss/components'
+import { TableLayout, PageableInfiniteTableContainer } from '@regardsoss/components'
 import HeaderActionsBarContainer from '../../../src/containers/HeaderActionsBarContainer'
 import { requestActions, requestSelectors } from '../../../src/clients/RequestClient'
 import { OAISRequestManagerComponent } from '../../../src/components/requests/OAISRequestManagerComponent'
@@ -55,7 +55,6 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerComponent', () => {
     }
     const enzymeWrapper = shallow(<OAISRequestManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
-    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'TableHeaderLoadingComponent should be set')
     const headerContainer = enzymeWrapper.find(HeaderActionsBarContainer)
     assert.lengthOf(headerContainer, 1, 'HeaderActionsBarContainer should be set')
     testSuiteHelpers.assertWrapperProperties(headerContainer, {
