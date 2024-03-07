@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { UIShapes } from '@regardsoss/shape'
 import { BasicSelector } from '@regardsoss/store-utils'
@@ -73,6 +74,14 @@ export class FiltersPaneContainer extends React.Component {
     return {
       filters: filtersSelectors ? filtersSelectors.getFilters(state) : {},
     }
+  }
+
+  /**
+   * Mandatory to prevent constant re-rendering of the container.
+   * In user app, every times quota redux store is updated this container is re-rendered.
+   */
+  shouldComponentUpdate(nextProps) {
+    return (this.props.isPaneOpened !== nextProps.isPaneOpened) || !isEqual(this.props.filters, nextProps.filters)
   }
 
   render() {
