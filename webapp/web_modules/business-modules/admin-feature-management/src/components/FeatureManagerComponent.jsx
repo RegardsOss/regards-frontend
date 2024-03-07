@@ -56,6 +56,7 @@ class FeatureManagerComponent extends React.Component {
     onDeleteRequests: PropTypes.func.isRequired,
     onRetryRequests: PropTypes.func.isRequired,
     onNotifyRequests: PropTypes.func.isRequired,
+    onForceErrorRequests: PropTypes.func.isRequired,
     recipientList: NotifierShapes.RecipientArray,
   }
 
@@ -168,7 +169,7 @@ class FeatureManagerComponent extends React.Component {
 
   render() {
     const {
-      params, onBack, onRefresh, onDeleteRequests, onNotifyRequests, onRetryRequests,
+      params, onBack, onRefresh, onDeleteRequests, onNotifyRequests, onRetryRequests, onForceErrorRequests,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { card: { filterButtonStyle } } } = this.context
     const { paneType, currentRequestParameters } = this.state
@@ -209,6 +210,8 @@ class FeatureManagerComponent extends React.Component {
               onDeleteRequests={onDeleteRequests}
               onNotifyRequests={onNotifyRequests}
               onRetryRequests={onRetryRequests}
+              onForceErrorRequests={onForceErrorRequests}
+              pathParams={paneType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES ? { type: paneType } : {}}
               isPagePostFetching
               filtersActions={filtersActions}
               filtersSelectors={filtersSelectors}

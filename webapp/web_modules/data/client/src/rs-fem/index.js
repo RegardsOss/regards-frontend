@@ -37,6 +37,8 @@ export { default as RequestDeleteActions } from './request/RequestDeleteActions'
 export { default as getRequestDeleteReducer } from './request/RequestDeleteReducer'
 export { default as getRequestDeleteSelectors } from './request/RequestDeleteSelectors'
 
+export { default as RequestForceErrorActions } from './request/RequestForceErrorActions'
+
 export { default as RequestRetryActions } from './request/RequestRetryActions'
 export { default as getRequestRetryReducer } from './request/RequestRetryReducer'
 export { default as getRequestRetrySelectors } from './request/RequestRetrySelectors'

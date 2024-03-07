@@ -32,6 +32,7 @@ import { updateRequestActions, updateRequestSelectors, updateRequestActionsCount
 import { updateRequestsTableActions, updateRequestsTableSelectors } from '../clients/UpdateRequestsTableClient'
 import { requestRetryActions } from '../clients/RequestRetryClient'
 import { requestDeleteActions } from '../clients/RequestDeleteClient'
+import { requestForceErrorActions } from '../clients/RequestForceErrorClient'
 
 export default {
   [FemDomain.REQUEST_TYPES_ENUM.REFERENCES]: {
@@ -51,6 +52,7 @@ export default {
     retryActions: requestRetryActions,
     deleteActions: requestDeleteActions,
     countActions: creationRequestActionsCount,
+    forceErrorActions: requestForceErrorActions,
   },
   [FemDomain.REQUEST_TYPES_ENUM.UPDATE]: {
     actions: updateRequestActions,
@@ -60,6 +62,7 @@ export default {
     retryActions: requestRetryActions,
     deleteActions: requestDeleteActions,
     countActions: updateRequestActionsCount,
+    forceErrorActions: requestForceErrorActions,
   },
   [FemDomain.REQUEST_TYPES_ENUM.DELETE]: {
     actions: deleteRequestActions,
@@ -69,6 +72,7 @@ export default {
     retryActions: requestRetryActions,
     deleteActions: requestDeleteActions,
     countActions: deleteRequestActionsCount,
+    forceErrorActions: requestForceErrorActions,
   },
   [FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION]: {
     actions: notificationRequestActions,
@@ -78,5 +82,6 @@ export default {
     retryActions: requestRetryActions,
     deleteActions: requestDeleteActions,
     countActions: notificationRequestActionsCount,
+    forceErrorActions: requestForceErrorActions,
   },
 }

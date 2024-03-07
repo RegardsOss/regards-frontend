@@ -24,7 +24,7 @@ import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   DateValueRender, NoContentComponent, TableHeaderLine, TableSelectionModes, InformationDialogComponent,
   TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
-  withSortTables, CodeDisplayDialog,
+  withSortTables, CodeDisplayDialog, ConfirmDialogComponent, ConfirmDialogComponentTypes,
 } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -35,6 +35,7 @@ import DeleteDialog from './options/DeleteDialog'
 import clientByPane from '../domain/ClientByPane'
 import RetryDialog from './options/RetryDialog'
 import RequestDeleteOption from './options/RequestDeleteOption'
+import RequestForceErrorOption from './options/RequestForceErrorOption'
 import RequestRetryOption from './options/RequestRetryOption'
 import StatusRender from './render/StatusRender'
 import HeaderActionsBarContainer from '../containers/HeaderActionsBarContainer'
@@ -57,6 +58,7 @@ export class RequestManagerComponent extends React.Component {
   static propTypes = {
     onDeleteRequests: PropTypes.func.isRequired,
     onRetryRequests: PropTypes.func.isRequired,
+    onForceErrorRequests: PropTypes.func.isRequired,
     paneType: PropTypes.oneOf(FemDomain.REQUEST_TYPES).isRequired,
     isFetching: PropTypes.bool.isRequired,
     pageSize: PropTypes.number,
@@ -114,6 +116,11 @@ export class RequestManagerComponent extends React.Component {
       mode: TableSelectionModes.includeSelected,
       entities: [], // included or excluded depending on mode
     },
+    [DIALOG_TYPES.FORCE_ERROR_DIALOG]: {
+      open: false,
+      mode: TableSelectionModes.includeSelected,
+      entities: [],
+    },
   }
 
   /**
@@ -160,6 +167,18 @@ export class RequestManagerComponent extends React.Component {
   onDeleteRequest = (entity) => this.onDeleteSelection([entity])
 
   /**
+   * Callback: On force error requests for selection as parameter (shows corresponding dialog)
+   * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
+   */
+  onForceErrorRequestSelection = (entities, mode) => this.onOpenActionDialog(DIALOG_TYPES.FORCE_ERROR_DIALOG, mode, entities)
+
+  /**
+   * Callback: On force error selected request
+   * @param {*} entity entity of IngestShapes.RequestEntity (to include or exclude from request)
+   */
+  onForceErrorRequest = (entity) => this.onForceErrorRequestSelection([entity])
+
+  /**
    * Inner callback: closes dialog corresponding to request type
    * @param {string} dialogRequestType dialog type for the request to handle, from DIALOG_TYPES
    */
@@ -191,10 +210,10 @@ export class RequestManagerComponent extends React.Component {
     }
   }
 
-  /** User callback: retry or delete confirmed */
+  /** User callback: retry, delete or force error confirmed */
   onConfirm = (dialogType) => {
     const {
-      onRetryRequests, onDeleteRequests, paneType,
+      onRetryRequests, onDeleteRequests, paneType, onForceErrorRequests,
     } = this.props
     const payload = this.onConfirmActionDialog(dialogType)
     let confirmDialogType
@@ -204,14 +223,20 @@ export class RequestManagerComponent extends React.Component {
         confirmDialogType = DIALOG_TYPES.CONFIRM_RETRY_DIALOG
         functionToCall = onRetryRequests
         break
+      case DIALOG_TYPES.FORCE_ERROR_DIALOG:
+        functionToCall = onForceErrorRequests
+        break
       case DIALOG_TYPES.DELETE_DIALOG:
-      default:
         confirmDialogType = DIALOG_TYPES.CONFIRM_DELETE_DIALOG
         functionToCall = onDeleteRequests
+        break
+      default:
     }
-    this.onOpenActionDialog(confirmDialogType)
-    functionToCall(payload, paneType, () => { }).then((actionResult) => {
-      if (!actionResult.error) {
+    if (confirmDialogType) {
+      this.onOpenActionDialog(confirmDialogType)
+    }
+    functionToCall(payload, paneType).then((actionResult) => {
+      if (!actionResult.error && confirmDialogType) {
         this.setState({
           [confirmDialogType]: {
             open: true,
@@ -272,6 +297,14 @@ export class RequestManagerComponent extends React.Component {
             onClose={() => this.onCloseActionDialog(dialogType)}
           />
           break
+        case DIALOG_TYPES.FORCE_ERROR_DIALOG:
+          component = <ConfirmDialogComponent
+            dialogType={ConfirmDialogComponentTypes.CONFIRM}
+            onConfirm={() => this.onConfirm(DIALOG_TYPES.FORCE_ERROR_DIALOG)}
+            onClose={() => this.onCloseActionDialog(dialogType)}
+            title={formatMessage({ id: 'feature.request.force.error.title' })}
+          />
+          break
         default:
       }
       return (component)
@@ -294,6 +327,7 @@ export class RequestManagerComponent extends React.Component {
               paneType={paneType}
               onRetry={this.onRetrySelection}
               onDelete={this.onDeleteSelection}
+              onForceError={this.onForceErrorRequestSelection}
             />
           </TableHeaderLine>
           <div style={loadingStyle}>
@@ -336,6 +370,10 @@ export class RequestManagerComponent extends React.Component {
                   {
                     OptionConstructor: RequestDeleteOption,
                     optionProps: { onDelete: this.onDeleteRequest },
+                  },
+                  {
+                    OptionConstructor: RequestForceErrorOption,
+                    optionProps: { onForceError: this.onForceErrorRequest },
                   }])
                 .build(),
             ]}
@@ -351,6 +389,7 @@ export class RequestManagerComponent extends React.Component {
         {this.renderDialog(DIALOG_TYPES.ERRORS_DIALOG)}
         {this.renderConfirmDialog(DIALOG_TYPES.CONFIRM_DELETE_DIALOG)}
         {this.renderConfirmDialog(DIALOG_TYPES.CONFIRM_RETRY_DIALOG)}
+        {this.renderDialog(DIALOG_TYPES.FORCE_ERROR_DIALOG)}
       </div>
     )
   }

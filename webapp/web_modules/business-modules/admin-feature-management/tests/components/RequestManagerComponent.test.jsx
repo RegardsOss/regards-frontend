@@ -53,6 +53,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
       paneType: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
       isFetching: false,
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
+      onForceErrorRequests: () => {},
     }
     const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -78,6 +79,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
       paneType: FemDomain.REQUEST_TYPES_ENUM.CREATION,
       isFetching: false,
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
+      onForceErrorRequests: () => {},
     }
     const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -103,6 +105,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
       paneType: FemDomain.REQUEST_TYPES_ENUM.UPDATE,
       isFetching: false,
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
+      onForceErrorRequests: () => {},
     }
     const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -128,6 +131,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
       paneType: FemDomain.REQUEST_TYPES_ENUM.DELETE,
       isFetching: false,
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
+      onForceErrorRequests: () => {},
     }
     const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -153,6 +157,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
       paneType: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION,
       isFetching: false,
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
+      onForceErrorRequests: () => {},
     }
     const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')

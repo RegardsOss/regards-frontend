@@ -20,6 +20,7 @@ import isEmpty from 'lodash/isEmpty'
 import every from 'lodash/every'
 import find from 'lodash/find'
 import Refresh from 'mdi-material-ui/Refresh'
+import Abort from 'mdi-material-ui/Cancel'
 import FlatButton from 'material-ui/FlatButton'
 import Delete from 'mdi-material-ui/Delete'
 import ModeSend from 'mdi-material-ui/Send'
@@ -43,6 +44,7 @@ export class HeaderActionsBarComponent extends React.Component {
     onDelete: PropTypes.func.isRequired,
     onRetry: PropTypes.func,
     onNotify: PropTypes.func,
+    onForceError: PropTypes.func,
     paneType: PropTypes.oneOf(FemDomain.REQUEST_TYPES).isRequired,
   }
 
@@ -80,6 +82,11 @@ export class HeaderActionsBarComponent extends React.Component {
     onNotify(tableSelection, selectionMode)
   }
 
+  onForceError = () => {
+    const { onForceError, tableSelection, selectionMode } = this.props
+    onForceError(tableSelection, selectionMode)
+  }
+
   render() {
     const { tableSelection, selectionMode, paneType } = this.props
     const { intl: { formatMessage }, moduleTheme: { headerActionBarStyle } } = this.context
@@ -97,7 +104,16 @@ export class HeaderActionsBarComponent extends React.Component {
                 onClick={() => this.onNotify(tableSelection, selectionMode)}
                 disabled={this.isButtonDisabled(DIALOG_TYPES.NOTIFY_DIALOG)}
             />
-            : <ResourceFlatButton
+            : [<ResourceFlatButton
+                displayLogic={allMatchHateoasDisplayLogic}
+                key="forceErrorSelection"
+                title={formatMessage({ id: 'feature.requests.tooltip.selection.force.error' })}
+                label={formatMessage({ id: 'feature.requests.list.filters.buttons.force.error' })}
+                icon={<Abort />}
+                onClick={() => this.onForceError(tableSelection, selectionMode)}
+                disabled={this.isButtonDisabled(DIALOG_TYPES.FORCE_ERROR_DIALOG)}
+            />,
+              <ResourceFlatButton
                 displayLogic={allMatchHateoasDisplayLogic}
                 key="retrySelection"
                 title={formatMessage({ id: 'feature.requests.tooltip.selection.retry' })}
@@ -105,7 +121,7 @@ export class HeaderActionsBarComponent extends React.Component {
                 icon={<Refresh />}
                 onClick={() => this.onRetry(tableSelection, selectionMode)}
                 disabled={this.isButtonDisabled(DIALOG_TYPES.RETRY_DIALOG)}
-            />
+              />]
         }
           <ResourceFlatButton
             key="deleteSelection"

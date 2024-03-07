@@ -54,6 +54,7 @@ export class FeatureManagerContainer extends React.Component {
     fetchRequests: (pageIndex, pageSize, pathParams, queryParams, bodyParams, paneType) => dispatch(clientByPane[paneType].actions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParams)),
     fetchRequestsCount: (pageIndex, pageSize, pathParams, queryParams, bodyParams, paneType) => dispatch(clientByPane[paneType].countActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParams)),
     notifyRequests: (bodyParams) => dispatch(clientByPane[FemDomain.REQUEST_TYPES_ENUM.REFERENCES].notifyActions.sendSignal('POST', bodyParams)),
+    forceErrorRequests: (bodyParams, pathParams, paneType) => dispatch(clientByPane[paneType].forceErrorActions.sendSignal('POST', bodyParams, pathParams)),
     retryRequests: (bodyParams, pathParams, paneType) => dispatch(clientByPane[paneType].retryActions.sendSignal('POST', bodyParams, pathParams)),
     deleteRequests: (bodyParams, pathParams, paneType) => dispatch(clientByPane[paneType].deleteActions.sendSignal('DELETE', bodyParams, pathParams)),
     fetchRecipients: () => dispatch(referenceRecipientsActions.fetchRecipients()),
@@ -71,6 +72,7 @@ export class FeatureManagerContainer extends React.Component {
     deleteRequests: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     notifyRequests: PropTypes.func.isRequired,
+    forceErrorRequests: PropTypes.func.isRequired,
     fetchRecipients: PropTypes.func.isRequired,
     // from mapStateToProps
     recipientList: NotifierShapes.RecipientArray,
@@ -158,6 +160,11 @@ export class FeatureManagerContainer extends React.Component {
     this.perform(notifyRequests(bodyParams), onRefresh)
   }
 
+  onForceErrorRequests = (bodyParams, paneType, onRefresh) => {
+    const { forceErrorRequests } = this.props
+    this.perform(forceErrorRequests(bodyParams, { type: paneType }, paneType), onRefresh)
+  }
+
   render() {
     const { params } = this.props
     const { isFetching } = this.state
@@ -170,6 +177,7 @@ export class FeatureManagerContainer extends React.Component {
         onDeleteRequests={this.onDeleteRequests}
         onRetryRequests={this.onRetryRequests}
         onNotifyRequests={this.onNotifyRequests}
+        onForceErrorRequests={this.onForceErrorRequests}
         recipientList={this.props.recipientList}
       />
     )

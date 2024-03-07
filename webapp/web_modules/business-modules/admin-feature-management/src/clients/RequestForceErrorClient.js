@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,19 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { FeatureManagementClient } from '@regardsoss/client'
 
 /**
+ * Force request in error client
+ *
  * @author Théo Lasserre
  */
-/** Possible dialog types */
-export const DIALOG_TYPES = {
-  DETAIL_DIALOG: 'detail',
-  DELETE_DIALOG: 'delete',
-  NOTIFY_DIALOG: 'notify',
-  RETRY_DIALOG: 'retry',
-  CONFIRM_DELETE_DIALOG: 'confirmDeleteDialog',
-  CONFIRM_RETRY_DIALOG: 'confirmRetryDialog',
-  ERRORS_DIALOG: 'errorDialog',
-  FORCE_ERROR_DIALOG: 'abort',
-}
+const REDUX_ACTION_NAMESPACE = 'admin-feature-management/requestForceError'
+
+export const requestForceErrorActions = new FeatureManagementClient.RequestForceErrorActions(REDUX_ACTION_NAMESPACE)
