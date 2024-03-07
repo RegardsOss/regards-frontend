@@ -104,9 +104,9 @@ class HeaderActionsBarComponent extends React.Component {
     const {
       tableSelection, selectionMode, paneType,
     } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { headerActionBarStyle } } = this.context
     return (
-      <div>
+      <div style={headerActionBarStyle}>
         <TableHeaderOptionGroup>
           {
             paneType === IngestDomain.REQUEST_TYPES_ENUM.AIP ? [

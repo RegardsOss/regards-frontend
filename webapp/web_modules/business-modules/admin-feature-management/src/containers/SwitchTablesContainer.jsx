@@ -187,12 +187,12 @@ export class SwitchTablesContainer extends React.Component {
       const bodyParameters = { ...omit(featureManagerFilters, 'sort') }
 
       if (!isReferencesCountFetching) {
-        const referencesBodyParameters = SwitchTables.buildBodyParameters(bodyParameters, FemDomain.ReferenceFilters.buildDefault())
+        const referencesBodyParameters = SwitchTablesContainer.buildBodyParameters(bodyParameters, FemDomain.ReferenceFilters.buildDefault())
         const referencesRequestParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REFERENCES_COLUMN_KEYS)
         fetchReferencesCount(0, SwitchTablesContainer.PAGE_SIZE, {}, referencesRequestParameters, referencesBodyParameters)
       }
 
-      const requestsBodyParameters = SwitchTables.buildBodyParameters(bodyParameters, FemDomain.RequestFilters.buildDefault())
+      const requestsBodyParameters = SwitchTablesContainer.buildBodyParameters(bodyParameters, FemDomain.RequestFilters.buildDefault())
       const requestsRequestsParameters = UIDomain.SortingHelper.buildSortingParameters(requestParameters, REQUESTS_COLUMN_KEYS)
       if (!isCreationCountFetching) {
         fetchCreationRequestsCount(0, SwitchTablesContainer.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION }, requestsRequestsParameters, requestsBodyParameters)
@@ -219,14 +219,14 @@ export class SwitchTablesContainer extends React.Component {
       defaultFilterState = FemDomain.RequestFilters.buildDefault()
     }
     const featureManagerFilters = UIDomain.FiltersPaneHelper.extractFiltersFromURL(defaultFilterState)
-    SwitchTables.onPropertiesUpdated({}, { ...this.props, featureManagerFilters })
+    SwitchTablesContainer.onPropertiesUpdated({}, { ...this.props, featureManagerFilters })
   }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => SwitchTables.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => SwitchTablesContainer.onPropertiesUpdated(this.props, nextProps)
 
   isFetching = (pane) => {
     const {
@@ -283,7 +283,7 @@ export class SwitchTablesContainer extends React.Component {
         break
       default:
     }
-    return SwitchTables.extractInfos(meta, info)
+    return SwitchTablesContainer.extractInfos(meta, info)
   }
 
   render() {
