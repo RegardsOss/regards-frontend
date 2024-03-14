@@ -80,6 +80,7 @@ export const AIP_FILTERS_I18N = {
   },
   [IngestDomain.AIP_FILTER_PARAMS.DISSEMINATION_STATE]: {
     labelKey: 'oais.list.filters.dissemination.label',
+    hintTextKey: 'oais.list.filters.dissemination.label',
     chipValueKeys: reduce(DISSEMINATION_PENDING_ENUM, (acc, value) => ({
       ...acc,
       [value]: `oais.list.filters.dissemination.${value}`,

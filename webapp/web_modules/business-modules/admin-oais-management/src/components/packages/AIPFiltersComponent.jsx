@@ -122,12 +122,11 @@ export class AIPFiltersComponent extends React.Component {
         >
           {map(VERSION_OPTIONS, (option) => <MenuItem key={option} value={option} primaryText={formatMessage({ id: `oais.list.filters.last.${option}` })} />)}
         </FilterPaneSelectFieldLegacy>
-        <FilterPaneSelectFieldLegacy
+        <FilterPaneSelectField
           filterKey={IngestDomain.AIP_FILTER_PARAMS.DISSEMINATION_STATE}
-          allValuesOption
         >
           {map(DISSEMINATION_PENDING_ENUM, (dissemination) => <MenuItem key={dissemination} value={dissemination} primaryText={formatMessage({ id: `oais.list.filters.dissemination.${dissemination}` })} />)}
-        </FilterPaneSelectFieldLegacy>
+        </FilterPaneSelectField>
       </FiltersPaneMainComponent>
     )
   }

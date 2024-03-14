@@ -95,7 +95,7 @@ export class AipFilters {
       [AIP_FILTER_PARAMS.STORAGES]: TableFilterDefaultStateEnum.VALUES,
       [AIP_FILTER_PARAMS.LAST]: null,
       [AIP_FILTER_PARAMS.CREATION_DATE]: TableFilterDefaultStateEnum.DATES,
-      [AIP_FILTER_PARAMS.DISSEMINATION_STATE]: null,
+      [AIP_FILTER_PARAMS.DISSEMINATION_STATE]: TableFilterDefaultStateEnum.VALUES,
     }
   }
 }
