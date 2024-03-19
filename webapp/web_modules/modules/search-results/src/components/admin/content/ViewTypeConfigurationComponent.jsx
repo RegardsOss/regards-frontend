@@ -339,16 +339,14 @@ class ViewTypeConfigurationComponent extends React.Component {
         </FieldsGroup>
         {
           viewType === UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE ? (
-            <>
-              <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.LIST.configuration' })}>
-                <Field
-                  name={`${viewNamespace}.disableLabelDisplay`}
-                  component={RenderCheckbox}
-                  label={formatMessage({ id: 'search.results.form.configuration.result.LIST.disableLabelDisplay' })}
-                  fullWidth
-                />
-              </FieldsGroup>
-            </>
+            <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.LIST.configuration' })}>
+              <Field
+                name={`${viewNamespace}.disableLabelDisplay`}
+                component={RenderCheckbox}
+                label={formatMessage({ id: 'search.results.form.configuration.result.LIST.disableLabelDisplay' })}
+                fullWidth
+              />
+            </FieldsGroup>
           )
             : null
         }

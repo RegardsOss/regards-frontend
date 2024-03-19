@@ -41,15 +41,15 @@ class MetadataField extends React.Component {
     ...i18nContextType,
   }
 
-  UNSAFE_componentWillMount = () => {
-    this.onPropertiesChange(this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesChanged(this.props)
   }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
-    this.onPropertiesChange(nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesChanged(nextProps)
   }
 
-  onPropertiesChange = (properties) => {
+  onPropertiesChanged = (properties) => {
     // we compute here the transient options list, as we need to use them sorted by I18N label at runtime
     let options = []
     if (properties.metadata) {

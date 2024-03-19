@@ -116,7 +116,9 @@ export class OSQueryConfigurationComponent extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state

@@ -129,24 +129,28 @@ export default class RequestOperationsMenuComponent extends React.Component {
   }
 
   /** On select version option callback */
+  // eslint-disable-next-line react/no-unused-class-component-methods
   onSelectVersionOption = () => {
     const { selectionMode, tableSelection, onSelectVersionOption } = this.props
     onSelectVersionOption(selectionMode, tableSelection)
   }
 
   /** On retry option callback */
+  // eslint-disable-next-line react/no-unused-class-component-methods
   onRetry = () => {
     const { selectionMode, tableSelection, onRetrySelection } = this.props
     onRetrySelection(selectionMode, tableSelection)
   }
 
   /** On delete option callback */
+  // eslint-disable-next-line react/no-unused-class-component-methods
   onDelete = () => {
     const { selectionMode, tableSelection, onDeleteSelection } = this.props
     onDeleteSelection(selectionMode, tableSelection)
   }
 
   /** On abort option callback */
+  // eslint-disable-next-line react/no-unused-class-component-methods
   onAbort = () => this.props.onAbort()
 
   /**

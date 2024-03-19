@@ -104,7 +104,7 @@ export class DBDatasourceFormMappingComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     const {
       isEditing, isSingleTable, initialize, currentDatasource,
     } = this.props

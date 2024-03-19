@@ -100,7 +100,7 @@ export class DashboardContainer extends React.Component {
     ...themeContextType,
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     const { flushSelectedSession } = this.props
     flushSelectedSession()
   }

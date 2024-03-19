@@ -157,14 +157,12 @@ export default class CesiumAdapter extends React.Component {
    * Allows us to hide the Cesium logo
    * but also hide credits from Map providers
    */
-  virtualCredit = document.createElement('div');
+  virtualCredit = document.createElement('div')
 
   /**
    * Ref to the Cesium instance
    */
   ref = createRef()
-
-  backgroundVisibleImageryRef = createRef()
 
   UNSAFE_componentWillMount() {
     // Get the background layer
@@ -216,7 +214,9 @@ export default class CesiumAdapter extends React.Component {
     * Lifecycle method: component receive props. Used here to detect properties change and update local state
     * @param {*} nextProps next component properties
     */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
     * Properties change detected: update local state

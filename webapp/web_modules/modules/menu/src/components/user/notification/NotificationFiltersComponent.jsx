@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import get from 'lodash/get'
 import MenuItem from 'material-ui/MenuItem'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -25,9 +24,9 @@ import { UIShapes } from '@regardsoss/shape'
 import { CommonDomain } from '@regardsoss/domain'
 import {
   TableFilterSortingAndVisibilityContainer, FiltersPaneMainComponent,
-  FilterPaneSelectField, FilterPaneDatePickerField, TableSelectionModes,
+  FilterPaneSelectField, FilterPaneDatePickerField,
 } from '@regardsoss/components'
-import { NOTIFICATION_FILTER_PARAMS, NotificationFilters } from '../../../domain/filters'
+import { NOTIFICATION_FILTER_PARAMS } from '../../../domain/filters'
 import { STATUS_ENUM } from '../../../domain/statusEnum'
 import { LEVELS_ENUM } from '../../../domain/levelsEnum'
 
@@ -42,7 +41,6 @@ class NotificationFiltersComponent extends React.Component {
     updateDatesFilter: PropTypes.func.isRequired,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     filtersI18n: UIShapes.FiltersI18nList.isRequired,
-    onDeleteNotifications: PropTypes.func,
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
@@ -56,18 +54,6 @@ class NotificationFiltersComponent extends React.Component {
     [NOTIFICATION_FILTER_PARAMS.CREATION_DATE]: CommonDomain.TableFilterDefaultStateEnum.DATES,
     [NOTIFICATION_FILTER_PARAMS.SENDERS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
     [NOTIFICATION_FILTER_PARAMS.STATUS]: CommonDomain.TableFilterDefaultStateEnum.VALUES,
-  }
-
-  onDeleteNotifications = (tableSelection, selectionMode) => {
-    const { onDeleteNotifications, inputValues } = this.props
-    const notificationIds = map(tableSelection, (selection) => get(selection, 'content.id'))
-    const mode = selectionMode === TableSelectionModes.includeSelected ? TableSelectionModes.INCLUDE : TableSelectionModes.EXCLUDE
-    const notificationIdsFilter = new NotificationFilters().withNotificationIds(notificationIds, mode).build()
-    const payload = {
-      ...inputValues,
-      ...notificationIdsFilter,
-    }
-    onDeleteNotifications(payload)
   }
 
   render() {

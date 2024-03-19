@@ -71,13 +71,17 @@ class SortManagerComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to transform current presentation model into edition models
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to transform current presentation model into edition models
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
@@ -113,17 +117,6 @@ class SortManagerComponent extends React.Component {
     const { currentSortings } = this.state
     const { onDone } = this.props
     onDone(currentSortings)
-  }
-
-  /**
-   * On change visibility callback: update column visibility in edition model
-   * @param {ColumnPresentationModel} presentationModel updated presentation model
-   * @param {boolean} visible new visible attribute
-   */
-  onChangeVisibility = (presentationModel, visible) => {
-    // update state through inner callback
-    this.onSortingsUpdated(
-      this.state.currentSortings.map((model) => model.key === presentationModel.key ? { ...model, visible } : model))
   }
 
   /**

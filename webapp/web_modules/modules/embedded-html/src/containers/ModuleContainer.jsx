@@ -24,10 +24,10 @@ import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { UIDomain } from '@regardsoss/domain'
 import { IFrameURLContentDisplayer } from '@regardsoss/components'
 import { AccessProjectClient } from '@regardsoss/client'
 import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
-import { LOCALES } from '../../../../data/domain/ui'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -100,7 +100,7 @@ export class ModuleContainer extends React.Component {
     // 2 - Prepare the locales URL by locale (it remains possible for URL to be empty in each locale,
     // in specific configuration case)
     const anyNonEmptyLocale = find(moduleConf.urlByLocale, (url) => !!url)
-    nextState.urlByLocale = LOCALES.reduce((acc, locale) => ({
+    nextState.urlByLocale = UIDomain.LOCALES.reduce((acc, locale) => ({
       ...acc,
       [locale]: get(moduleConf.urlByLocale, locale) || anyNonEmptyLocale,
     }), {})

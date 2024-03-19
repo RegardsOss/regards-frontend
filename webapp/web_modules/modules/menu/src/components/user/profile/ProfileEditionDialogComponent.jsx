@@ -79,12 +79,15 @@ class ProfileEditionDialogComponent extends React.Component {
   }
 
   /** User callback: open profile */
+  // eslint-disable-next-line react/no-unused-class-component-methods
   onOpenProfile = () => this.props.onShowView(PROFILE_VIEW_STATE_ENUM.EDIT_PROFILE)
 
   /** User callback: open notifications */
+  // eslint-disable-next-line react/no-unused-class-component-methods
   onOpenNotifications = () => this.props.onShowView(PROFILE_VIEW_STATE_ENUM.EDIT_NOTIFICATIONS)
 
   /** User callback: open quota information */
+  // eslint-disable-next-line react/no-unused-class-component-methods
   onOpenQuotaInformation = () => this.props.onShowView(PROFILE_VIEW_STATE_ENUM.VIEW_QUOTA_INFORMATIONS)
 
   /**

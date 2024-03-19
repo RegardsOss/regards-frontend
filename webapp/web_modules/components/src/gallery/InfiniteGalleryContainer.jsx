@@ -133,19 +133,25 @@ export class InfiniteGalleryContainer extends React.Component {
   }
 
   /** Initialize state */
-  UNSAFE_componentWillMount = () => this.setState({
-    ...InfiniteGalleryContainer.DEFAULT_STATE,
-  })
+  UNSAFE_componentWillMount() {
+    this.setState({
+      ...InfiniteGalleryContainer.DEFAULT_STATE,
+    })
+  }
 
   /** Update state from props */
-  componentDidMount = () => this.onPropertiesUpdate({}, this.props)
+  componentDidMount() {
+    this.onPropertiesUpdate({}, this.props)
+  }
 
   /**
    * Lifecycle method: component will receive props. Used here to update state for properties, avoid new references
    * at render time
    * @param nextProps next component properties values
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdate(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdate(this.props, nextProps)
+  }
 
   /**
    * Updates state and runs fetches required on properties change

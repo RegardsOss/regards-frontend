@@ -51,7 +51,7 @@ export class AccessRightListContainer extends React.Component {
     createAccessRight: PropTypes.func.isRequired,
   }
 
-  state ={
+  state = {
     filters: {},
     isSubmitting: false,
   }

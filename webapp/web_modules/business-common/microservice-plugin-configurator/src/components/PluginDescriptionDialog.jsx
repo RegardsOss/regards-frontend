@@ -63,14 +63,14 @@ class PluginDescriptionDialog extends React.Component {
           { id: 'plugin.configuration.form.description.title' },
           { plugin: pluginMetaData.pluginId })}
         modal={false}
-        actions={<>
+        actions={
           <RaisedButton
             key="close"
             label={formatMessage({ id: 'plugin.parameter.description.dialog.close' })}
             primary
             onClick={onClose}
           />
-        </>}
+        }
         open={opened}
         onRequestClose={onClose}
         bodyStyle={markdownDialog.bodyStyle}

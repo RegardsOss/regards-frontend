@@ -105,12 +105,12 @@ class GroupsFieldComponent extends React.Component {
     })
 
     return (
-      <>
+      <div>
         { /** Nota: here we have to send an array instead of many evaluated blocks  */
           [ /** Show currently defined groups */
             ...allGroups.map((group, index) => (
               <GroupComponent
-              // eslint-disable-next-line react/no-array-index-key
+                // eslint-disable-next-line react/no-array-index-key
                 key={index} // no better key here
                 index={index}
                 group={group}
@@ -133,7 +133,7 @@ class GroupsFieldComponent extends React.Component {
             </FormRow>,
           ]
         }
-      </>
+      </div>
     )
   }
 }

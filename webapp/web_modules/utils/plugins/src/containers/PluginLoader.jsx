@@ -122,13 +122,17 @@ export class PluginLoader extends React.Component {
   /**
    * Life cycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Life cycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * On load done: When not already loading / loaded by another instance:

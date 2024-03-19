@@ -67,7 +67,7 @@ class PositionedDialog extends React.Component {
     ...themeContextType,
   }
 
-  static BORDER_REGEX = new RegExp('^border', 'i');
+  static BORDER_REGEX = new RegExp('^border', 'i')
 
   /**
    * Computes a dimension as percent, and return D as : MIN_DIM <= D <= MAX_DIM
@@ -90,13 +90,15 @@ class PositionedDialog extends React.Component {
     return { width: 0, height: 0 }
   }
 
-  UNSAFE_componentWillMount = () => this.updateDimensions()
+  UNSAFE_componentWillMount() {
+    this.updateDimensions()
+  }
 
-  componentDidMount = () => {
+  componentDidMount() {
     root.addEventListener('resize', this.onResize)
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     root.removeEventListener('resize', this.onResize)
   }
 

@@ -113,7 +113,7 @@ export class ContextManager extends React.Component {
   /**
    * When results context changes, report new type, mode and tags into URL
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       authentication: { result: newAuthResults }, resultsContext: newResultsContext, project,
     } = nextProps

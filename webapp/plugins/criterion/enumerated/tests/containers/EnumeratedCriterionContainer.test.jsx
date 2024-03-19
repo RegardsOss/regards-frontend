@@ -48,7 +48,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       state: EnumeratedCriterionContainer.DEFAULT_STATE,
       isFetching: false,
       availablePropertyValues: ['a', 'b', 'c'],
-      publishState: () => {},
+      publishState: () => { },
       dispatchGetPropertyValues: () => { },
     }
     const enzymeWrapper = shallow(<EnumeratedCriterionContainer {...props} />, { context })
@@ -81,7 +81,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       },
       isFetching: false,
       availablePropertyValues: ['a', 'b', 'c'],
-      publishState: () => {},
+      publishState: () => { },
       dispatchGetPropertyValues: () => { },
     }
     const enzymeWrapper = shallow(<EnumeratedCriterionContainer {...props} />, { context })
@@ -129,7 +129,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
         spiedPublishData.requestParameters = requestParameters
         spiedPublishData.count += 1
       },
-      dispatchGetPropertyValues: (name, filterText, searchParameters) => {
+      dispatchGetPropertyValues: (name, searchParameters, filterText) => {
         spiedDispatchData.name = name
         spiedDispatchData.filterText = filterText
         spiedDispatchData.searchParameters = searchParameters
@@ -150,8 +150,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       searchText: 'test text',
       error: true,
     }, '1 - Dispatched plugin state should be correctly computed (with an error as text is not an available option)')
-    assert.deepEqual(spiedPublishData.requestParameters, {},
-      '1 - No query parameter should be built in error state')
+    assert.deepEqual(spiedPublishData.requestParameters, {}, '1 - No query parameter should be built in error state')
 
     // 2 - Test with existing option
     enzymeWrapper.instance().onUpdateTextFilter('c')
@@ -160,8 +159,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       searchText: 'c',
       error: false,
     }, '2 - Dispatched plugin state should be correctly computed (without error as text is an available option)')
-    assert.deepEqual(spiedPublishData.requestParameters, { q: `${props.attributes.searchField.jsonPath}:"c"` },
-      '2 - Query parameter should be correctly built outside error state')
+    assert.deepEqual(spiedPublishData.requestParameters, { q: `${props.attributes.searchField.jsonPath}:"c"` }, '2 - Query parameter should be correctly built outside error state')
   })
   it('should update correctly state on user item selection', () => {
     const spiedDispatchData = {
@@ -190,7 +188,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
         spiedPublishData.requestParameters = requestParameters
         spiedPublishData.count += 1
       },
-      dispatchGetPropertyValues: (name, filterText, searchParameters) => {
+      dispatchGetPropertyValues: (name, searchParameters, filterText) => {
         spiedDispatchData.name = name
         spiedDispatchData.filterText = filterText
         spiedDispatchData.searchParameters = searchParameters
@@ -211,8 +209,7 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       searchText: 'test1',
       error: true,
     }, '1 - Dispatched plugin state should be correctly computed (with an error as text is not an available option)')
-    assert.deepEqual(spiedPublishData.requestParameters, {},
-      '1 - No query parameter should be built in error state')
+    assert.deepEqual(spiedPublishData.requestParameters, {}, '1 - No query parameter should be built in error state')
 
     // 2 - Test with existing option
     enzymeWrapper.instance().onUpdateTextFilter('t1')
@@ -221,7 +218,6 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       searchText: 't1',
       error: false,
     }, '2 - Dispatched plugin state should be correctly computed (without error as text is an available option)')
-    assert.deepEqual(spiedPublishData.requestParameters, { q: `${props.attributes.searchField.jsonPath}:"t1"` },
-      '2 - Query parameter should be correctly built outside error state')
+    assert.deepEqual(spiedPublishData.requestParameters, { q: `${props.attributes.searchField.jsonPath}:"t1"` }, '2 - Query parameter should be correctly built outside error state')
   })
 })

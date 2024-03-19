@@ -80,7 +80,7 @@ export class DataPreparationContainer extends React.Component {
   /**
    * Lifecycle method: component did mount. Used here to fetch user lists
    */
-  componentDidMount = () => {
+  componentDidMount() {
     this.setState({ isFetching: false })
   }
 

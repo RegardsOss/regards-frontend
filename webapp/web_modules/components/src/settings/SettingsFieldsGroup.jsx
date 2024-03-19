@@ -73,7 +73,7 @@ class SettingsFieldsGroup extends React.Component {
           clearSpaceToChildren
           spanFullWidth
         >
-          <div div={settingsGroup}>
+          <div style={settingsGroup}>
             {children}
           </div>
         </FieldsGroup>

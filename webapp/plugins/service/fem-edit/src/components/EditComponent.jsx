@@ -60,6 +60,31 @@ export class EditComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Returns all attributes except the one :
+   *  - not alterable
+   *  - not inside modelAttributeSelected
+   */
+  static getMappableAttributes(attributeModelList, modelAttributeSelected) {
+    const a = reject(attributeModelList, (modelAttribute) => (
+      !modelAttribute.content.alterable || !modelAttributeSelected.includes(modelAttribute.content.id)
+    ))
+    return a
+  }
+
+  static renderAttributes(attributeModelList, icon, onClick) {
+    return (
+      map(attributeModelList, (attributeModel) => (
+        <AttributeSelectorComponent
+          label={getFullQualifiedAttributeName(attributeModel.content)}
+          attributeModel={attributeModel}
+          onClick={onClick}
+          // node to show as filter icon
+          icon={icon}
+        />
+      )))
+  }
+
   static attributeModelToModelAttribute(attributeModelList) {
     const result = {}
     forEach(attributeModelList, (attributeModel, i) => {
@@ -95,7 +120,7 @@ export class EditComponent extends React.Component {
   /**
    * Lifecycle hook: create attribute list
    */
-  componentDidMount = () => {
+  componentDidMount() {
     const { attributeModelList } = this.props
     const { modelAttributeSelected } = this.state
     this.computeModelAttributes(attributeModelList, modelAttributeSelected)
@@ -105,7 +130,7 @@ export class EditComponent extends React.Component {
    * Lifecycle hook: update attribute list
    * @param {*} nextProps
    */
-  UNSAFE_componentWillReceiveProps = ({ attributeModelList: nextAttributeModelList }) => {
+  UNSAFE_componentWillReceiveProps({ attributeModelList: nextAttributeModelList }) {
     const { attributeModelList } = this.props
     const { modelAttributeSelected } = this.state
     if (attributeModelList !== nextAttributeModelList && nextAttributeModelList) { // refetch on parent change, if showable
@@ -119,7 +144,7 @@ export class EditComponent extends React.Component {
    */
   computeModelAttributes = (attributeModelList, modelAttributeSelected) => {
     if (!isEmpty(attributeModelList)) {
-      const modelAttributeList = EditComponent.attributeModelToModelAttribute(this.getMappableAttributes(attributeModelList, modelAttributeSelected))
+      const modelAttributeList = EditComponent.attributeModelToModelAttribute(EditComponent.getMappableAttributes(attributeModelList, modelAttributeSelected))
       const hasSelectedAttributes = size(modelAttributeSelected) > 0
       const hasSelectedAllAttributes = size(modelAttributeSelected) === size(attributeModelList)
       this.setState({
@@ -129,18 +154,6 @@ export class EditComponent extends React.Component {
         hasSelectedAllAttributes,
       })
     }
-  }
-
-  /**
-   * Returns all attributes except the one :
-   *  - not alterable
-   *  - not inside modelAttributeSelected
-   */
-  getMappableAttributes = (attributeModelList, modelAttributeSelected) => {
-    const a = reject(attributeModelList, (modelAttribute) => (
-      !modelAttribute.content.alterable || !modelAttributeSelected.includes(modelAttribute.content.id)
-    ))
-    return a
   }
 
   onDeselect = (attributeModel) => {
@@ -168,7 +181,7 @@ export class EditComponent extends React.Component {
     const attributeModelList = filter(this.props.attributeModelList, (attributeModel) => (
       !modelAttributeSelected.includes(attributeModel.content.id)
     ))
-    return this.renderAttributes(attributeModelList, <AddIcon />, this.onSelect)
+    return EditComponent.renderAttributes(attributeModelList, <AddIcon />, this.onSelect)
   }
 
   renderSelectedAttributes = () => {
@@ -176,20 +189,8 @@ export class EditComponent extends React.Component {
     const attributeModelList = filter(this.props.attributeModelList, (attributeModel) => (
       modelAttributeSelected.includes(attributeModel.content.id)
     ))
-    return this.renderAttributes(attributeModelList, <MinusIcon />, this.onDeselect)
+    return EditComponent.renderAttributes(attributeModelList, <MinusIcon />, this.onDeselect)
   }
-
-  renderAttributes =(attributeModelList, icon, onClick) => (
-    map(attributeModelList, (attributeModel) => (
-      <AttributeSelectorComponent
-        label={getFullQualifiedAttributeName(attributeModel.content)}
-        attributeModel={attributeModel}
-        onClick={onClick}
-        // node to show as filter icon
-        icon={icon}
-      />
-    ))
-  )
 
   render() {
     const { intl: { formatMessage }, moduleTheme } = this.context

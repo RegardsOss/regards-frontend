@@ -51,10 +51,8 @@ describe('[NUMERICAL RANGE CRITERIA] Testing CriterionContainer', () => {
       },
       label: criterionTestSuiteHelpers.getLabelStub(),
       attributes: {
-        lowerBound: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '10', '100')),
-        upperBound: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '50', '500')),
+        lowerBound: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '10', '100')),
+        upperBound: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '50', '500')),
       },
       publishState: (state, requestParameters) => {
         spiedPublishStateData.count += 1
@@ -101,7 +99,7 @@ describe('[NUMERICAL RANGE CRITERIA] Testing CriterionContainer', () => {
       expectedError: true,
       expectedValue: '600',
       expectedOperator: CommonDomain.EnumNumericalComparator.SG,
-      expectedQuery: { }, // no query
+      expectedQuery: {}, // no query
     }, {
       label: 'back to valid state by changing operator',
       changeValue: () => enzymeWrapper.instance().onOperatorSelected(CommonDomain.EnumNumericalComparator.SL),
@@ -127,8 +125,7 @@ describe('[NUMERICAL RANGE CRITERIA] Testing CriterionContainer', () => {
         operator: expectedOperator,
       }, `#${caseIndex} ${label}: New state should be valid`)
       // check new query is valid
-      assert.deepEqual(spiedPublishStateData.requestParameters, expectedQuery,
-        `#${caseIndex} ${label}: Query should be correctly computed`)
+      assert.deepEqual(spiedPublishStateData.requestParameters, expectedQuery, `#${caseIndex} ${label}: Query should be correctly computed`)
       // apply published state
       enzymeWrapper.setProps({
         ...props,

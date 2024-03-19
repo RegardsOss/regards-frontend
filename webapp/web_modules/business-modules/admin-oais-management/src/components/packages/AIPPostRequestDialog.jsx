@@ -43,7 +43,7 @@ export class AIPPostRequestDialog extends React.Component {
     return (
       <Dialog
         title={formatMessage({ id: 'oais.packages.post.title' })}
-        actions={<>
+        actions={
           <FlatButton
             key="cancel"
             id="confirm.dialog.cancel"
@@ -52,7 +52,7 @@ export class AIPPostRequestDialog extends React.Component {
             keyboardFocused
             onClick={onClose}
           />
-        </>}
+        }
         modal={false}
         open
       >

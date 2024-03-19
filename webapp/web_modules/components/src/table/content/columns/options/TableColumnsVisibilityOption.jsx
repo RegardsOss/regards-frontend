@@ -51,12 +51,16 @@ export class TableColumnsVisibilityOption extends React.Component {
   }
 
   /** Lifecycle hook: component will mount. Used here to keep the inner column model up to date */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /** Lifecycle hook: component will receive props. Used here to keep the inner column model up to date
    * @param nextProps next properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * On properties updated callback. Updates inner columns model (and initializes dialog state)
@@ -179,11 +183,11 @@ export class TableColumnsVisibilityOption extends React.Component {
         >
           <div>
             {map(bufferedColumns, (column) => (
-              column.key !== TableColumnBuilder.selectionColumnKey
-                ? <ColumnVisibilityCheckBox
-                    key={column.key}
-                    column={column}
-                    onToggleVisibility={this.onColumnVisibilityChanged}
+              column.key !== TableColumnBuilder.selectionColumnKey ?
+                <ColumnVisibilityCheckBox
+                  key={column.key}
+                  column={column}
+                  onToggleVisibility={this.onColumnVisibilityChanged}
                 /> : null))}
           </div>
         </Dialog>

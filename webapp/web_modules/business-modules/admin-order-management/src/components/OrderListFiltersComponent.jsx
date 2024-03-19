@@ -91,18 +91,13 @@ export class OrderListFiltersComponent extends React.Component {
   /**
    * Called by auto complete filter box
    */
-   onUpdateUsersFilter = (newText = '') => {
-     const { dispatchGetUsers, updateFilter } = this.props
-     // update filter text
-     updateFilter(newText, FILTER_PARAMS.OWNER, true)
-     // dipatch get users list for text (it will provide the new matching users list)
-     dispatchGetUsers(newText)
-   }
-
-  /**
-   * Callback: user cleared the user mail filter
-   */
-  onUserFilterCleared = () => this.onUserFilterSelected('', true) // empty user is considered part of the list
+  onUpdateUsersFilter = (newText = '') => {
+    const { dispatchGetUsers, updateFilter } = this.props
+    // update filter text
+    updateFilter(newText, FILTER_PARAMS.OWNER, true)
+    // dipatch get users list for text (it will provide the new matching users list)
+    dispatchGetUsers(newText)
+  }
 
   render() {
     const {

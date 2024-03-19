@@ -47,7 +47,9 @@ export class OrderDatasetsContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to initialize the state
    */
-  UNSAFE_componentWillMount = () => this.setState(OrderDatasetsContainer.DEFAULT_STATE)
+  UNSAFE_componentWillMount() {
+    this.setState(OrderDatasetsContainer.DEFAULT_STATE)
+  }
 
   /**
    * User callbacker: user updated columns visibility (this container considers only columns keys)

@@ -79,7 +79,7 @@ export class ProjectUserListContainer extends React.Component {
     fetchGroups: PropTypes.func.isRequired,
   }
 
-  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20;
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
 
   /**
    * Redux: map state to props function
@@ -131,7 +131,7 @@ export class ProjectUserListContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     const {
       throwError, fetchOrigins, fetchRoleList, fetchUISettings,
       fetchGroups,
@@ -161,7 +161,7 @@ export class ProjectUserListContainer extends React.Component {
   /**
    * Lifecycle method: component did mount. Used here to fetch user lists
    */
-  componentDidMount = () => {
+  componentDidMount() {
     this.setState({ isFetching: false })
   }
 

@@ -58,6 +58,21 @@ export class ZoomedPictureDialog extends React.Component {
   }
 
   /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
+
+  /**
    * Avoid to transfer the picture if the component is dying
    * see https://stackoverflow.com/a/5278475/2294168
    */
@@ -67,17 +82,6 @@ export class ZoomedPictureDialog extends React.Component {
       this.img.src = ''
     }
   }
-
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -118,14 +122,14 @@ export class ZoomedPictureDialog extends React.Component {
         contentStyle={contentStyle}
         bodyStyle={content}
         open
-        actions={<>
+        actions={
           <FlatButton
             key="cancel"
             label={formatMessage({ id: 'zoom.picture.close.label' })}
             primary
             onClick={onClose}
           />
-        </>}
+        }
       >
         <img
           alt={alt}

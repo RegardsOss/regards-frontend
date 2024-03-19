@@ -23,7 +23,7 @@ import Menu from 'material-ui/Menu'
 import DrowDownIcon from 'mdi-material-ui/MenuDown'
 
 /** No value label stub function (drop down button is not necessarily used with values) */
-const noLabelStubFunction = () => {}
+const noLabelStubFunction = () => { }
 
 /**
  * Drop down button (used where drop down menu is not adequate). You can add some other properties to this component,
@@ -65,7 +65,7 @@ class DropDownButton extends React.Component {
 
   static ICON_TARGET = { horizontal: 'left', vertical: 'top' }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     this.setMenuVisibleOn()
     this.setCurrentValue(this.props.value)
   }

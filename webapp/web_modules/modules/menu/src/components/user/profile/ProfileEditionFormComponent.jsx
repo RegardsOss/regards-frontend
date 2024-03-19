@@ -47,7 +47,7 @@ export class ProfileEditionFormComponent extends React.Component {
     ...i18nContextType,
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     // this component is unmounted each time the dialog is no longer visible, what allows us to re-initialize
     // form fields values
     const { userMetadata } = this.props
@@ -88,12 +88,12 @@ export class ProfileEditionFormComponent extends React.Component {
             >
               {
                 // show only metadata that are meaningful after registration
-                userMetadata.map((metadata) => metadata.onlyAtRegistration
-                  ? null
-                  : <MetadataField
-                      key={metadata.key}
-                      metadata={metadata}
-                      fullWidth
+                userMetadata.map((metadata) => metadata.onlyAtRegistration ?
+                  null :
+                  <MetadataField
+                    key={metadata.key}
+                    metadata={metadata}
+                    fullWidth
                   />)
               }
             </ScrollArea>

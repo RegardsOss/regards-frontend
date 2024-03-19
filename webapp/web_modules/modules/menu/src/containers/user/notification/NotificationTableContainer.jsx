@@ -78,7 +78,7 @@ export class NotificationTableContainer extends React.Component {
     }
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     const { flushDetail } = this.props
     flushDetail()
   }

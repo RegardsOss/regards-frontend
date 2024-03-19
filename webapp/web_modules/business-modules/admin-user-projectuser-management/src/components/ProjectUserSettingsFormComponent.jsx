@@ -25,8 +25,6 @@ import Avatar from 'material-ui/Avatar'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import map from 'lodash/map'
-import IconButton from 'material-ui/IconButton'
-import Clear from 'mdi-material-ui/Backspace'
 import MenuItem from 'material-ui/MenuItem'
 import {
   Card, CardTitle, CardText, CardActions,
@@ -251,15 +249,6 @@ export class ProjectUserSettingsFormComponent extends React.Component {
       }
       change(settingName, settingFound.content.defaultValue)
     }
-  }
-
-  renderClearIcon = (settingName) => {
-    const { intl: { formatMessage } } = this.context
-    return (<IconButton
-      tooltip={formatMessage({ id: 'oais.settings.clear' })}
-    >
-      <Clear onClick={() => this.onClearInput(settingName)} />
-    </IconButton>)
   }
 
   render() {

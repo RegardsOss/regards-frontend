@@ -54,14 +54,18 @@ export class PluginDisplayerContainer extends React.Component {
     pluginProps: {},
   }
 
-  UNSAFE_componentWillMount = () => this.onPropertiesChange(this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesChanged(this.props)
+  }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChange(nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesChanged(nextProps)
+  }
 
   /**
    * Handles properties change: update the rendered plugin
    */
-  onPropertiesChange = (newProps) => {
+  onPropertiesChanged = (newProps) => {
     // prepare the plugin on new properties values
     let renderedPlugin = null
     if (newProps) {

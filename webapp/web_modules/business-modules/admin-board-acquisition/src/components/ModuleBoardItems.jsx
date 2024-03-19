@@ -34,8 +34,8 @@ import { featureManagementDependencies } from '@regardsoss/admin-feature-managem
 import { dashboardManagementDependencies } from '@regardsoss/admin-dashboard-management'
 import { dataPreparationManagementDependencies } from '@regardsoss/admin-datapreparation-management'
 import { ltaManagementDependencies } from '@regardsoss/admin-lta-management'
+import { oaisDependencies } from '@regardsoss/admin-oais-management'
 import { indexActions, RESET_INDEX_ACTION } from '../clients/IndexClient'
-import { oaisDependencies } from '../../../admin-oais-management'
 
 /**
  * BoardItems configuration for ingest module

@@ -45,11 +45,10 @@ describe('[Numerical criterion] Testing the NumericalCriterionContainer', () => 
     integerTypes.forEach((type) => {
       const props = {
         attributes: {
-          searchField: criterionTestSuiteHelpers.getAttributeStub(type, null,
-            criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
+          searchField: criterionTestSuiteHelpers.getAttributeStub(type, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
         },
         label: criterionTestSuiteHelpers.getLabelStub(),
-        publishState: () => {},
+        publishState: () => { },
       }
       const enzymeWrapper = shallow(<NumericalCriterionContainer {...props} />, { context })
       const component = enzymeWrapper.find(NumericalCriterionComponent)
@@ -71,11 +70,10 @@ describe('[Numerical criterion] Testing the NumericalCriterionContainer', () => 
     floatingTypes.forEach((type) => {
       const props = {
         attributes: {
-          searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
-            criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, 0, 777.777)),
+          searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, 0, 777.777)),
         },
         label: criterionTestSuiteHelpers.getLabelStub(),
-        publishState: () => {},
+        publishState: () => { },
       }
       const enzymeWrapper = shallow(<NumericalCriterionContainer {...props} />, { context })
       const component = enzymeWrapper.find(NumericalCriterionComponent)
@@ -99,8 +97,7 @@ describe('[Numerical criterion] Testing the NumericalCriterionContainer', () => 
     }
     const props = {
       attributes: {
-        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -100, 100)),
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -100, 100)),
       },
       label: criterionTestSuiteHelpers.getLabelStub(),
       state: {
@@ -123,12 +120,12 @@ describe('[Numerical criterion] Testing the NumericalCriterionContainer', () => 
       label: 'non parsable number selection',
       text: 'abcde',
       expectedError: true,
-      expectedQuery: { },
+      expectedQuery: {},
     }, {
       label: 'out of bound number selection',
       text: '-101',
       expectedError: true,
-      expectedQuery: { },
+      expectedQuery: {},
     }]
     textInputTestCases.forEach(({
       label, text, expectedError, expectedQuery,
@@ -171,16 +168,20 @@ describe('[Numerical criterion] Testing the NumericalCriterionContainer', () => 
     }
     // 2.1 - = on negative number
     assert.deepEqual(NumericalCriterionContainer.convertToRequestParameters({ value: -0.41, operator: CommonDomain.EnumNumericalComparator.EQ }, testAttribute),
-      { q: 'xptdr.myAttribute:\\-0.41' }, 'Attribute EQ -0.41 should be correctly exported')
+      { q: 'xptdr.myAttribute:\\-0.41' },
+      'Attribute EQ -0.41 should be correctly exported')
     // 2.2 - = on positive number
     assert.deepEqual(NumericalCriterionContainer.convertToRequestParameters({ value: 56, operator: CommonDomain.EnumNumericalComparator.EQ }, testAttribute),
-      { q: 'xptdr.myAttribute:56' }, 'Attribute EQ 56 should be correctly exported')
+      { q: 'xptdr.myAttribute:56' },
+      'Attribute EQ 56 should be correctly exported')
     // 2.3 - >= on positive number
     assert.deepEqual(NumericalCriterionContainer.convertToRequestParameters({ value: 0.3333, operator: CommonDomain.EnumNumericalComparator.GE }, testAttribute),
-      { q: 'xptdr.myAttribute:[0.3333 TO *]' }, 'Attribute GE 0.3333 should be correctly exported')
+      { q: 'xptdr.myAttribute:[0.3333 TO *]' },
+      'Attribute GE 0.3333 should be correctly exported')
     // 2.4 - <= on negative number
     assert.deepEqual(NumericalCriterionContainer.convertToRequestParameters({ value: -25, operator: CommonDomain.EnumNumericalComparator.LE }, testAttribute),
-      { q: 'xptdr.myAttribute:[* TO \\-25]' }, '\\Attribute LE -25 should be correctly exported')
+      { q: 'xptdr.myAttribute:[* TO \\-25]' },
+      '\\Attribute LE -25 should be correctly exported')
     // 2.5 - not exportable (no value)
     assert.isNotOk(NumericalCriterionContainer.convertToRequestParameters({ value: null, operator: CommonDomain.EnumNumericalComparator.EQ }, testAttribute).q,
       'No query should be exported without value')

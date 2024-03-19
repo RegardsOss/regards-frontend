@@ -40,7 +40,7 @@ class AttributeModelListActionsRenderer extends React.Component {
     ...themeContextType,
   }
 
-  render = () => {
+  render() {
     const { entity, openDeleteDialog, handleEdit } = this.props
     const { intl } = this.context
 

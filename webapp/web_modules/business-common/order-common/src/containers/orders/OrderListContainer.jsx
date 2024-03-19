@@ -116,13 +116,17 @@ export class OrderListContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
@@ -213,26 +217,26 @@ export class OrderListContainer extends React.Component {
     } = this.state
     return (
       <>
-        { /* request fail information component, on demand */ }
+        { /* request fail information component, on demand */}
         <RequestFailedInformationComponent
           visible={!!currentFailureResponse}
           requestResponse={currentFailureResponse}
           onClose={this.onHideRequestFailedInformation}
         />
-        { /* asynchronous request information component, on demand */ }
+        { /* asynchronous request information component, on demand */}
         <AsynchronousRequestInformationComponent
           visible={asynchRequestInformation}
           onClose={this.onHideAsynchronousRequestInformation}
         />
-        { /* delete confirmation component, on demand */ }
+        { /* delete confirmation component, on demand */}
         <DeleteOrderConfirmationComponent
           onClose={this.onHideDeleteConfirmation}
           deleteConfirmation={deleteConfirmation}
         />
-        { orderProcessings
-          ? <OrderProcessingListComponent
-              onClose={this.onHideOrderProcessingList}
-              orderProcessings={orderProcessings}
+        {orderProcessings ?
+          <OrderProcessingListComponent
+            onClose={this.onHideOrderProcessingList}
+            orderProcessings={orderProcessings}
           />
           : null}
         <RetryOrderSelectionModeComponent

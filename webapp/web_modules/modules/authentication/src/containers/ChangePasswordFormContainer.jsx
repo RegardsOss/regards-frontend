@@ -63,12 +63,12 @@ export class ChangePasswordFormContainer extends React.Component {
     errorMessage: null,
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { fetchPasswordRules } = this.props
     fetchPasswordRules()
   }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // Detect last fetch finished
     const {
       isFetching, onDone, onTokenExpired, token, mail, changingPassword,

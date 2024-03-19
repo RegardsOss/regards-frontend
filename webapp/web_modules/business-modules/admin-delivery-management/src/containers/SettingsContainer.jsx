@@ -95,7 +95,7 @@ export class SettingsContainer extends React.Component {
       })
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     const { flushSettings } = this.props
     flushSettings()
   }

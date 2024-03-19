@@ -84,13 +84,17 @@ export class AspirationModeComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
@@ -174,10 +178,10 @@ export class AspirationModeComponent extends React.Component {
           </div>
           <div style={selectedAspirationMode === ASPIRATION_MODE_ENUM.NONE ? rightElementStyleAlt : rightElementStyle}>
             {
-              selectedAspirationMode === ASPIRATION_MODE_ENUM.NONE
-                ? <NoContentComponent
-                    titleKey="datasource.form.mapping.aspiration.mode.none"
-                    Icon={AlertIcon}
+              selectedAspirationMode === ASPIRATION_MODE_ENUM.NONE ?
+                <NoContentComponent
+                  titleKey="datasource.form.mapping.aspiration.mode.none"
+                  Icon={AlertIcon}
                 />
                 : <div style={rightElementDivStyle}>
                   <div style={rightElementInfoStyle}>

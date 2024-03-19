@@ -114,7 +114,7 @@ export default class MizarAdapter extends React.Component {
   /**
    * Lifecycle method: component did mount. Used here to load and initialize the mizar component
    */
-  componentDidMount = () => {
+  componentDidMount() {
     this.initMizarInstance()
   }
 
@@ -122,13 +122,16 @@ export default class MizarAdapter extends React.Component {
     * Lifecycle method: component receive props. Used here to detect properties change and update local state
     * @param {*} nextProps next component properties
     */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
    * @param oldProps previous component properties
    * @param newProps next component properties
    */
+  //eslint-disable-next-line react/sort-comp
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
       featuresCollection, drawingSelection, drawnAreas, customLayersOpacity, viewMode,
@@ -180,7 +183,7 @@ export default class MizarAdapter extends React.Component {
   /**
    * Lifecycle method: component will unmount. Used here to free loaded mizar component.
    */
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.unmounted = true
     if (this.mizar.instance) {
       this.mizar.instance.destroy()
@@ -303,6 +306,7 @@ export default class MizarAdapter extends React.Component {
    * @param {*} featuresCollection (dont know why it's used)
    * @param {*} includedFeatures the list of features to display on that layer
    */
+  //eslint-disable-next-line class-methods-use-this
   addFeatureToLayer = (layer, featuresCollection, includedFeatures) => {
     // delete if any old value
     layer.removeAllFeatures()
@@ -325,6 +329,7 @@ export default class MizarAdapter extends React.Component {
    * @param {*} isIntersection true -> return selectedProducts
    *                           false -> return features from featuresCollection that are not inside selectedProducts
    */
+  //eslint-disable-next-line class-methods-use-this
   getIncludedFeatures = (featuresCollection, selectedProducts, isIntersection) => {
     const isIncluded = (feature) => find(selectedProducts, (selectedProduct) => (selectedProduct.content.id === feature.id))
     if (isIntersection) {

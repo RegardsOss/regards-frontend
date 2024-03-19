@@ -68,24 +68,6 @@ export class SIPSubmissionFormContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  onConfigureDataStorages = () => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/storage/storages`
-    browserHistory.push(url)
-  }
-
-  onConfigureAllocationStrategies = () => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/storage/allocations`
-    browserHistory.push(url)
-  }
-
-  onConfigureCatalogSecurity = () => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/storage/security`
-    browserHistory.push(url)
-  }
-
   onSubmit = (values) => {
     this.setState({
       isLoading: true,

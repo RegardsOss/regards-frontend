@@ -72,12 +72,12 @@ export class AskProjectAccessFormContainer extends React.Component {
     }))
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { fetchPasswordRules } = this.props
     fetchPasswordRules()
   }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // Detect if last fetch is DONE and OK
     const { isFetching, onNewAccountDone, onNewUserDone } = this.props
     if (isFetching && !nextProps.isFetching) {

@@ -143,7 +143,7 @@ export class AccountListContainer extends React.Component {
   /**
    * Lifecycle method: component did mount. Used here to fetch user lists
    */
-  componentDidMount = () => {
+  componentDidMount() {
     const { fetchWaitingAccountList } = this.props
     const { query } = browserHistory.getCurrentLocation()
     const statusQuery = get(query, FILTER_PARAMS.STATUS)

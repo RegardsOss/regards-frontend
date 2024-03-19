@@ -96,12 +96,12 @@ export default class AuthenticationStatesContainer extends React.Component {
     selectedMainService: UIShapes.ServiceProviderConfiguration,
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     // initialize default view state
     this.updateState(this.props.initialMode, this.props.initialEmail, false)
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     // Workaround for dialog not resized problem when switching from one screen to another (shifts the bigger one
     // down the screen): simulate a resize even when switching state
     if (this.state.repositionRequired) {

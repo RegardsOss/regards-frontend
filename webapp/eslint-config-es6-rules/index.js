@@ -60,6 +60,24 @@ const allRules = {
   }],
   // let newlines allowed after parenthesis (better for react elements alignment)
   'function-paren-newline': 0,
+  // allow that a control (an unteractive element) has no text label
+  'jsx-a11y/control-has-associated-label': 0,
+  // allow to line break whenever we want
+  'function-call-argument-newline': 0,
+  // allow to place operator (like ternary operator) wherever we want
+  'operator-linebreak': 0,
+  // allow to set default param at any place we want in method parameter list. TODO: FIX
+  'default-param-last': 0,
+  // allow returning values from promise executor functions
+  'no-promise-executor-return': 0,
+  // allow to create components during render. TODO: FIX
+  'react/no-unstable-nested-components': 0,
+  // don't enforce consistent function types for function components
+  'react/function-component-definition': 0,
+  // allow the use of RegExp constructor
+  'prefer-regex-literals': 0,
+
+  'react/no-unused-class-component-methods': 1,
 
   semi: [
     'error',
@@ -95,6 +113,7 @@ const allRules = {
   'react/state-in-constructor': [2, 'never'],
   'react/static-property-placement': [2, 'static public field'],
   'react/jsx-props-no-spreading': 0,
+  'react/jsx-indent': 0,
   // This is not a security issue in REGARDS, as objects URL are stored database. Therefore, rendered files should be checked
   // as storage level (client network)
   'react/jsx-no-target-blank': 0,

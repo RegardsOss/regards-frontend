@@ -49,13 +49,17 @@ class OSQueryParameterInputField extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
@@ -71,7 +75,7 @@ class OSQueryParameterInputField extends React.Component {
         try {
           regexp = new RegExp(filterParameter.pattern)
         } catch (e) {
-        // DO nothing, that regexp cannot be parsed
+          // DO nothing, that regexp cannot be parsed
         }
       }
       const minInclusive = DescriptorHelper.parseFloatOrNull(filterParameter.minInclusive)
@@ -148,9 +152,9 @@ class OSQueryParameterInputField extends React.Component {
       }
       // test outside bounds if they are provided
       if ((this.hasMinInclusiveBound() && parsedValue < minInclusive)
-      || (this.hasMaxInclusiveBound() && parsedValue > maxInclusive)
-      || (this.hasMinExclusiveBound() && parsedValue <= minExclusive)
-      || (this.hasMaxExclusiveBound() && parsedValue >= maxExclusive)) {
+        || (this.hasMaxInclusiveBound() && parsedValue > maxInclusive)
+        || (this.hasMinExclusiveBound() && parsedValue <= minExclusive)
+        || (this.hasMaxExclusiveBound() && parsedValue >= maxExclusive)) {
         return 'opensearch.crawler.form.query.input.field.number.outside.bounds.error'
       }
     }

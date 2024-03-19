@@ -387,14 +387,14 @@ export class RenderPluginParameterField extends React.Component {
       <Dialog
         key="desc-dialog"
         title={formatMessage({ id: 'plugin.parameter.description.dialog.title' }, { parameter: pluginParameterType.label })}
-        actions={<>
+        actions={
           <RaisedButton
             key="close"
             label={formatMessage({ id: 'plugin.parameter.description.dialog.close' })}
             primary
             onClick={this.handleCloseDescription}
           />
-        </>}
+        }
         modal
         open={this.state.descriptionOpened}
         bodyStyle={bodyStyle}

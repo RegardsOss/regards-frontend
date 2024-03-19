@@ -42,16 +42,14 @@ describe('[numerical-range-criteria] Testing CriterionComponent', () => {
   it('should render correctly with all locales', () => {
     const props = {
       label: criterionTestSuiteHelpers.getLabelStub(),
-      lowerBound: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '10', '100')),
-      upperBound: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '50', '500')),
+      lowerBound: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '10', '100')),
+      upperBound: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '50', '500')),
       error: false,
       value: '50',
       operator: CriterionContainer.DEFAULT_STATE.operator,
       availableComparators: CriterionContainer.AVAILABLE_COMPARATORS,
-      onTextChange: () => {},
-      onOperatorSelected: () => {},
+      onTextChange: () => { },
+      onOperatorSelected: () => { },
     }
     UIDomain.LOCALES.forEach((locale) => {
       const enzymeWrapper = shallow(<CriterionComponent {...props} />, {
@@ -68,7 +66,7 @@ describe('[numerical-range-criteria] Testing CriterionComponent', () => {
     expectedError: true,
   }, {
     label: 'without error',
-    specificProps: { },
+    specificProps: {},
     expectedError: false,
   }]
 
@@ -77,16 +75,14 @@ describe('[numerical-range-criteria] Testing CriterionComponent', () => {
   }) => it(`should render correctly ${label}`, () => {
     const props = {
       label: criterionTestSuiteHelpers.getLabelStub(),
-      lowerBound: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '10', '100')),
-      upperBound: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '50', '500')),
+      lowerBound: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '10', '100')),
+      upperBound: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '50', '500')),
       error: false,
       value: '50',
       operator: CriterionContainer.DEFAULT_STATE.operator,
       availableComparators: CriterionContainer.AVAILABLE_COMPARATORS,
-      onTextChange: () => {},
-      onOperatorSelected: () => {},
+      onTextChange: () => { },
+      onOperatorSelected: () => { },
       ...specificProps,
     }
     const enzymeWrapper = shallow(<CriterionComponent {...props} />, { context })

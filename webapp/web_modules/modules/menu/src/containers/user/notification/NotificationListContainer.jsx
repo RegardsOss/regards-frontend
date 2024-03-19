@@ -134,9 +134,11 @@ export class NotificationListContainer extends React.Component {
   }
 
   static perform(promise, onRefresh) {
-    Promise.resolve(promise).then(() => Promise.resolve(
-      onRefresh(true),
-    ))
+    Promise.resolve(promise).then(() => {
+      Promise.resolve(
+        onRefresh(true),
+      )
+    })
   }
 
   state = {

@@ -61,7 +61,7 @@ export class ProfileNotificationFormComponent extends React.Component {
     showCustomFrequency: this.props.notificationSettings.frequency === NotificationSettingsFrequencies.CUSTOM,
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     this.props.initialize({
       ...this.props.notificationSettings,
     })

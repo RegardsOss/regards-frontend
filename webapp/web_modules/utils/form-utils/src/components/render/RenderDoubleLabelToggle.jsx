@@ -32,6 +32,7 @@ function createComponent(MaterialUIComponent, mapProps) {
 
     childRef = React.createRef()
 
+    // eslint-disable-next-line react/no-unused-class-component-methods
     getRenderedComponent() {
       return this.childRef.current
     }

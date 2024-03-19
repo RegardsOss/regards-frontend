@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { OrderShapes } from '@regardsoss/shape'
 import { searchDataobjectsActions, searchDataobjectsSelectors } from '../../../client/ComplexSearchClient'
 import SelectionDetailResultsTableComponent from '../../../components/user/detail/SelectionDetailResultsTableComponent'
-import { BasketSelelectionRequest } from '../../../../../../data/shape/src/rs-order'
 
 /**
 * Selection detail results container
@@ -41,7 +41,7 @@ export class SelectionDetailResultsTableContainer extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
-    selectionRequest: BasketSelelectionRequest,
+    selectionRequest: OrderShapes.BasketSelelectionRequest,
     // from mapStateToProps
     resultsCount: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
@@ -68,10 +68,14 @@ export class SelectionDetailResultsTableContainer extends React.Component {
   }
 
   /** React lifecycle method: component will mount. Used here to detect properties changed */
-  UNSAFE_componentWillMount = () => this.onPropertiesChanged({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesChanged({}, this.props)
+  }
 
   /** React lifecycle method: component will receive new props. Used here to detect properties changed */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesChanged(this.props, nextProps)
+  }
 
   /**
    * On properties changed:

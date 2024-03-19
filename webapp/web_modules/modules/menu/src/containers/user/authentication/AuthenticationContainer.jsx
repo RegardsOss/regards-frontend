@@ -108,16 +108,18 @@ export class AuthenticationContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect back from email case and open authentication dialog when required
    */
-  UNSAFE_componentWillMount = () => this.onToggleAuthenticationVisible(routeHelpers.isBackFromAuthenticationMail())
+  UNSAFE_componentWillMount() {
+    this.onToggleAuthenticationVisible(routeHelpers.isBackFromAuthenticationMail())
+  }
 
   /**
    * Lifecycle method: component will receive props. It detects here:
    * - send borrow role done to update authentication state (reflect borrowed role in authentication)
    * - authentication change (to hide the authentication dialog)
    */
-  UNSAFE_componentWillReceiveProps = ({
+  UNSAFE_componentWillReceiveProps({
     isSendingBorrowRole, borrowRoleResult, authenticationName, dispatchRoleBorrowed,
-  }) => {
+  }) {
     if (this.props.isSendingBorrowRole && !isSendingBorrowRole) {
       // we just finished changing role, notice the authenication state so that he updates with the new state
       dispatchRoleBorrowed(borrowRoleResult)

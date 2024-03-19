@@ -69,7 +69,7 @@ export class ProjectConnectionListContainer extends React.Component {
     this.startTimer()
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.stopTimer()
   }
 

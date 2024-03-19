@@ -103,9 +103,11 @@ export class AccountsSettingsContainer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     const { flushSettings } = this.props
     flushSettings()
   }

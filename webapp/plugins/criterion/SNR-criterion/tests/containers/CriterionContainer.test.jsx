@@ -85,8 +85,8 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       },
       snrState,
       attributes: {},
-      publishState: () => {},
-      resolveSpatialName: () => {},
+      publishState: () => { },
+      resolveSpatialName: () => { },
     }
     const enzymeWrapper = shallow(<CriterionContainer {...props} />, { context })
     const component = enzymeWrapper.find(CriterionComponent)
@@ -136,7 +136,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       publishState: (publishedState) => {
         spiedPublishedState = publishedState
       },
-      resolveSpatialName: () => {},
+      resolveSpatialName: () => { },
     }
     const enzymeWrapper = shallow(<CriterionContainer {...props} />, { context })
     assert.isNotOk(spiedPublishedState, 'State should not be initially published')
@@ -177,7 +177,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       publishState: (state) => {
         spiedPublishedState = state
       },
-      resolveSpatialName: () => {},
+      resolveSpatialName: () => { },
     }
     const enzymeWrapper = shallow(<CriterionContainer {...props} />, { context })
     assert.isNotOk(spiedPublishedState)
@@ -192,8 +192,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
       unitSelected: converter.UNITS_ENUM.DEG,
-    },
-    'Previously resolved coordinates should have been reset in state')
+    }, 'Previously resolved coordinates should have been reset in state')
   })
   it('should publish state on cone angle change but leave the spatial name related fields unchanged', () => {
     let spiedPublishedState = null
@@ -223,7 +222,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       publishState: (state) => {
         spiedPublishedState = state
       },
-      resolveSpatialName: () => {},
+      resolveSpatialName: () => { },
     }
     const enzymeWrapper = shallow(<CriterionContainer {...props} />, { context })
     assert.isNotOk(spiedPublishedState)
@@ -238,8 +237,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
       unitSelected: converter.UNITS_ENUM.DEG,
-    },
-    'Only cone angle should be updated in state')
+    }, 'Only cone angle should be updated in state')
   })
   it('should publish state on option change but leave other fields unchanged', () => {
     let spiedPublishedState = null
@@ -269,7 +267,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       publishState: (state) => {
         spiedPublishedState = state
       },
-      resolveSpatialName: () => {},
+      resolveSpatialName: () => { },
     }
     const enzymeWrapper = shallow(<CriterionContainer {...props} />, { context })
     assert.isNotOk(spiedPublishedState)
@@ -284,8 +282,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
       unitSelected: converter.UNITS_ENUM.DEG,
-    },
-    'Only optionSelected should be updated in state')
+    }, 'Only optionSelected should be updated in state')
   })
   it('should publish state on right ascension change but leave other fields unchanged', () => {
     let spiedPublishedState = null
@@ -315,7 +312,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       publishState: (state) => {
         spiedPublishedState = state
       },
-      resolveSpatialName: () => {},
+      resolveSpatialName: () => { },
     }
     const enzymeWrapper = shallow(<CriterionContainer {...props} />, { context })
     assert.isNotOk(spiedPublishedState)
@@ -330,8 +327,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
       unitSelected: converter.UNITS_ENUM.DEG,
-    },
-    'Only rightAscension should be updated in state')
+    }, 'Only rightAscension should be updated in state')
   })
   it('should publish state on declinaison change but leave other fields unchanged', () => {
     let spiedPublishedState = null
@@ -361,7 +357,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       publishState: (state) => {
         spiedPublishedState = state
       },
-      resolveSpatialName: () => {},
+      resolveSpatialName: () => { },
     }
     const enzymeWrapper = shallow(<CriterionContainer {...props} />, { context })
     assert.isNotOk(spiedPublishedState)
@@ -376,8 +372,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '42',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
       unitSelected: converter.UNITS_ENUM.DEG,
-    },
-    'Only rightAscension should be updated in state')
+    }, 'Only rightAscension should be updated in state')
   })
   it('should publish state on unit change but leave other fields unchanged', () => {
     let spiedPublishedState = null
@@ -407,7 +402,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       publishState: (state) => {
         spiedPublishedState = state
       },
-      resolveSpatialName: () => {},
+      resolveSpatialName: () => { },
     }
     const enzymeWrapper = shallow(<CriterionContainer {...props} />, { context })
     assert.isNotOk(spiedPublishedState)
@@ -422,8 +417,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
       unitSelected: converter.UNITS_ENUM.RAD,
-    },
-    'Only unitSelected should be updated in state')
+    }, 'Only unitSelected should be updated in state')
   })
   it('should convert correctly to open search parameters', () => {
     // Not convertable: wrong angles or no resolved coordinates with SNR option
@@ -436,8 +430,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
       unitSelected: converter.UNITS_ENUM.DEG,
-    }),
-    'State without resolved coordinates should not be converted into request parameters')
+    }), 'State without resolved coordinates should not be converted into request parameters')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
       spatialName: null,
       coneAngle: '0.6',
@@ -447,8 +440,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
       unitSelected: converter.UNITS_ENUM.DEG,
-    }),
-    'State without spatial name should not be converted into request parameters')
+    }), 'State without spatial name should not be converted into request parameters')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
       spatialName: 'm21',
       coneAngle: null,
@@ -458,8 +450,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
       unitSelected: converter.UNITS_ENUM.DEG,
-    }),
-    'State without cone angle should not be converted into request parameters')
+    }), 'State without cone angle should not be converted into request parameters')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
       spatialName: 'm21',
       coneAngle: 'a25',
@@ -469,8 +460,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
       unitSelected: converter.UNITS_ENUM.DEG,
-    }),
-    'State with an invalid cone angle should not be converted into request parameters (not parsable)')
+    }), 'State with an invalid cone angle should not be converted into request parameters (not parsable)')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
       spatialName: 'm21',
       coneAngle: '0',
@@ -480,8 +470,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
       unitSelected: converter.UNITS_ENUM.DEG,
-    }),
-    'State with an invalid cone angle should not be converted into request parameters (<= 0)')
+    }), 'State with an invalid cone angle should not be converted into request parameters (<= 0)')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
       spatialName: 'm21',
       coneAngle: '181',
@@ -491,8 +480,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.SNR,
       unitSelected: converter.UNITS_ENUM.DEG,
-    }),
-    'State with an invalid cone angle should not be converted into request parameters (>= 180)')
+    }), 'State with an invalid cone angle should not be converted into request parameters (>= 180)')
     // Convertable state with SNR option
     assert.deepEqual(CriterionContainer.convertToRequestParameters({
       spatialName: 'm21',
@@ -518,8 +506,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
       unitSelected: converter.UNITS_ENUM.DEG,
-    }),
-    'State with a wrong right ascension should not be converted into request parameters (< 0)')
+    }), 'State with a wrong right ascension should not be converted into request parameters (< 0)')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
       spatialName: 'm21',
       coneAngle: '0.6',
@@ -529,8 +516,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
       unitSelected: converter.UNITS_ENUM.DEG,
-    }),
-    'State with a wrong right ascension should not be converted into request parameters (> 360)')
+    }), 'State with a wrong right ascension should not be converted into request parameters (> 360)')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
       spatialName: 'm21',
       coneAngle: '0.6',
@@ -540,8 +526,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '-788',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
       unitSelected: converter.UNITS_ENUM.DEG,
-    }),
-    'State with a wrong declinaison should not be converted into request parameters (< -90)')
+    }), 'State with a wrong declinaison should not be converted into request parameters (< -90)')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
       spatialName: 'm21',
       coneAngle: '0.6',
@@ -551,8 +536,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '1002',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
       unitSelected: converter.UNITS_ENUM.DEG,
-    }),
-    'State with a wrong declinaison should not be converted into request parameters (> 90)')
+    }), 'State with a wrong declinaison should not be converted into request parameters (> 90)')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
       spatialName: 'm21',
       coneAngle: '0.6',
@@ -562,8 +546,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
       unitSelected: converter.UNITS_ENUM.DEG,
-    }),
-    'State with a valid right ascension and an empty declinaison should not be converted into request parameters')
+    }), 'State with a valid right ascension and an empty declinaison should not be converted into request parameters')
     assert.isEmpty(CriterionContainer.convertToRequestParameters({
       spatialName: 'm21',
       coneAngle: '0.6',
@@ -573,8 +556,7 @@ describe('[SNR-criterion] Testing CriterionContainer', () => {
       declinaison: '66',
       optionSelected: OPTIONS_ENUM.DIRECT_VALUES,
       unitSelected: converter.UNITS_ENUM.DEG,
-    }),
-    'State with a valid declaison and an empty rigth ascension should not be converted into request parameters')
+    }), 'State with a valid declaison and an empty rigth ascension should not be converted into request parameters')
     // Convertable state with DIRECT_VALUES option
     assert.deepEqual(CriterionContainer.convertToRequestParameters({
       spatialName: 'm21',

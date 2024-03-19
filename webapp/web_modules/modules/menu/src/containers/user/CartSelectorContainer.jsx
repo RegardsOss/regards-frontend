@@ -109,18 +109,24 @@ export class CartSelectorContainer extends React.Component {
     return dynamicOrderCartModules.length ? dynamicOrderCartModules[0].content.id : null
   }
 
-  UNSAFE_componentWillMount = () => this.setState(CartSelectorContainer.DEFAULT_STATE)
+  UNSAFE_componentWillMount() {
+    this.setState(CartSelectorContainer.DEFAULT_STATE)
+  }
 
   /**
    * * Lifecycle hook: component did mount, used here to update component state
    */
-  componentDidMount = () => this.onPropertiesChanged({}, this.props)
+  componentDidMount() {
+    this.onPropertiesChanged({}, this.props)
+  }
 
   /**
    * Lifecycle hook: component will receive props, used here to update component state
    * @param nextProps component next properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesChanged(this.props, nextProps)
+  }
 
   /**
    * Updates component state (recompute properties related elements)

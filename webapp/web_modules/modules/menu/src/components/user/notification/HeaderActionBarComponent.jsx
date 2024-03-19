@@ -61,21 +61,21 @@ class HeaderActionBarComponent extends React.Component {
     return (
       <div style={headerDivStyle}>
         {
-          isDeleting
-            ? <RefreshIndicatorComponent
-                left={0}
-                top={0}
-                status="loading"
-                style={deleteIndicatorStyle}
-                size={30}
-            />
-            : <FlatButton
-                icon={<Delete />}
-                label={formatMessage({ id: 'user.menu.notification.header.delete.button' })}
-                onClick={this.onDelete}
-                disabled={isDeleteButtonDisabled}
-                key="delete"
-                style={!isDeleteButtonDisabled ? deleteButtonStyle : null}
+          isDeleting ?
+            <RefreshIndicatorComponent
+              left={0}
+              top={0}
+              status="loading"
+              style={deleteIndicatorStyle}
+              size={30}
+            /> :
+            <FlatButton
+              icon={<Delete />}
+              label={formatMessage({ id: 'user.menu.notification.header.delete.button' })}
+              onClick={this.onDelete}
+              disabled={isDeleteButtonDisabled}
+              key="delete"
+              style={!isDeleteButtonDisabled ? deleteButtonStyle : null}
             />
         }
         <RaisedButton

@@ -63,14 +63,14 @@ class ParameterPresentation extends React.Component {
     return (
       <Dialog
         title={formatMessage({ id: 'entities.common.services.parameter.description.dialog.title' }, { parameter: label })}
-        actions={<>
+        actions={
           <RaisedButton
             key="close"
             label={formatMessage({ id: 'entities.common.services.parameter.description.dialog.close' })}
             primary
             onClick={this.handleCloseDescription}
           />
-        </>}
+        }
         modal
         open={this.state.descriptionOpened}
       >

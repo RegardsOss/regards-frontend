@@ -21,8 +21,6 @@ import MenuItem from 'material-ui/MenuItem'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
-import Clear from 'mdi-material-ui/Backspace'
 import { AdminInstanceDomain, CommonDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
 import { formValueSelector } from 'redux-form'
@@ -92,15 +90,6 @@ export class AccountsSettingsComponent extends React.Component {
     if (settingFound) {
       change(settingName, settingFound.content.defaultValue)
     }
-  }
-
-  renderClearIcon = (settingName) => {
-    const { intl: { formatMessage } } = this.context
-    return (<IconButton
-      tooltip={formatMessage({ id: 'oais.settings.clear' })}
-    >
-      <Clear onClick={() => this.onClearInput(settingName)} />
-    </IconButton>)
   }
 
   render() {

@@ -75,6 +75,7 @@ export default class SesameActions {
    * @return payload resolution promise, that will always resolve with the object { coordinates, spatialName },
    * where coordinates may be null
    */
+  // eslint-disable-next-line class-methods-use-this
   buildResults = (response) => new Promise((resolve) => {
     // resolution method, to be shared with SeameHelper tools
     function resolveSNPromise(coordinates = null) {

@@ -95,7 +95,7 @@ class ItemLink extends React.Component {
     this.updateDisplayStateStyles(null, this.props.displayState)
   }
 
-  UNSAFE_componentWillReceiveProps = ({ displayState: nextState }) => {
+  UNSAFE_componentWillReceiveProps({ displayState: nextState }) {
     const { displayState: previousState } = this.props
     this.updateDisplayStateStyles(previousState, nextState)
   }
@@ -167,16 +167,16 @@ class ItemLink extends React.Component {
           additiveLineComponent || null
         }
         {/* Show description button, when it is available for collection OR datasets (to align all elements together) */
-         showDescriptionOption ? (
-           <IconButton
-             title={formatMessage({ id: 'search.graph.entity.detail.tooltip' })}
-             iconStyle={informationButton.iconStyles}
-             style={informationButton.styles}
-             onClick={this.onShowDescription}
-             disabled={!isDescriptionAvailableFor(entity.content.entityType)}
-           >
-             <InformationIcon />
-           </IconButton>) : null
+          showDescriptionOption ? (
+            <IconButton
+              title={formatMessage({ id: 'search.graph.entity.detail.tooltip' })}
+              iconStyle={informationButton.iconStyles}
+              style={informationButton.styles}
+              onClick={this.onShowDescription}
+              disabled={!isDescriptionAvailableFor(entity.content.entityType)}
+            >
+              <InformationIcon />
+            </IconButton>) : null
         }
       </div>
     )

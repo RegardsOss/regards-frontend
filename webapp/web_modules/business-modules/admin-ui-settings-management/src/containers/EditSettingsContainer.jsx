@@ -100,12 +100,14 @@ export class EditSettingsContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component did mount. Used here to start data retrieval
    */
-  componentDidMount = () => {
+  componentDidMount() {
     const { getDataModels, getSettings } = this.props
     getDataModels() // pull data model list
     getSettings() // pull current settings values
@@ -115,7 +117,9 @@ export class EditSettingsContainer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state

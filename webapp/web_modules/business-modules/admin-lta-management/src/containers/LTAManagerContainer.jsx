@@ -84,7 +84,7 @@ export class LTAManagerContainer extends React.Component {
   /**
    * Lifecycle method: component did mount. Used here to fetch user lists
    */
-  componentDidMount = () => {
+  componentDidMount() {
     this.setFetching(false)
   }
 

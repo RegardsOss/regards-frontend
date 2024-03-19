@@ -74,14 +74,14 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
 
     return (
       <Dialog
-        actions={<>
+        actions={
           <FlatButton
             key="close"
             label={formatMessage({ id: 'dataaccess.searchengines.info.close' })}
             primary
             onClick={onClose}
           />
-        </>}
+        }
         title={formatMessage({ id: 'dataaccess.searchengines.info.title' }, { name: searchEngineConfiguration.content.label })}
         open
         onRequestClose={onClose}

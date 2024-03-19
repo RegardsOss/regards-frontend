@@ -46,6 +46,7 @@ class SesameReducer {
    * @param {*} action action to handle (or ignore)
    * @return {*} next state (or current one if actions where ignored)
    */
+  // eslint-disable-next-line default-param-last
   reduce = (state = SesameReducer.DEFAULT_STATE, action) => {
     switch (action.type) {
       case this.actions.REQUEST_STARTED_ACTION_ID:

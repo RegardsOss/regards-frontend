@@ -48,13 +48,13 @@ export class ItemLinkContainer extends React.Component {
     return ItemLink.States.DEFAULT
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     // initialize state
     const { locked, selected } = this.props
     this.updateDisplayState(ItemLinkContainer.getNewState(locked, selected, false))
   }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // update state, in case of locked or selected properties changed
     const { locked, selected } = nextProps
     const hover = [ItemLink.States.HOVER, ItemLink.States.SELECTED_HOVER].includes(this.state.currentState)

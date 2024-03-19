@@ -100,7 +100,9 @@ export class PauseResumeOrderContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. used here to initialize the state
    */
-  UNSAFE_componentWillMount = () => this.setFetching(false)
+  UNSAFE_componentWillMount() {
+    this.setFetching(false)
+  }
 
   /**
    * @returns true when pause / resume should be active

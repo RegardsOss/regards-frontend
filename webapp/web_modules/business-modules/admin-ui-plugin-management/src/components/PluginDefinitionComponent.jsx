@@ -38,7 +38,7 @@ class PluginDefinitionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static URL_CONTAINER_STYLE= {
+  static URL_CONTAINER_STYLE = {
     marginTop: 15,
   }
 

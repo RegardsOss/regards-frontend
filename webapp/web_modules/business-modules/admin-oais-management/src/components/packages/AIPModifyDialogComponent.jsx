@@ -95,13 +95,17 @@ export class AIPModifyDialogComponent extends React.Component {
   /**
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
   * Lifecycle method: component receive props. Used here to detect properties change and update local state
   * @param {*} nextProps next component properties
   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
     * Properties change detected: update local state
@@ -259,7 +263,7 @@ export class AIPModifyDialogComponent extends React.Component {
             <TableHeaderLine>
               <TableHeaderContentBox>
                 <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.list' }, { pane: toLower(formatMessage({ id: `oais.packages.modify.${sectionType}` })) })} />
-                {sectionType === AIPModifyDialogComponent.SECTION_TYPES.STORAGE && deleteStorageError ? <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.delete.storages.error' })} /> : null }
+                {sectionType === AIPModifyDialogComponent.SECTION_TYPES.STORAGE && deleteStorageError ? <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.delete.storages.error' })} /> : null}
               </TableHeaderContentBox>
             </TableHeaderLine>
             <InfiniteTableContainer
@@ -309,46 +313,46 @@ export class AIPModifyDialogComponent extends React.Component {
           </TableLayout>
         </div>
         {sectionType !== AIPModifyDialogComponent.SECTION_TYPES.STORAGE ? ([<div key="lastSeparator" style={aipModifyDialogSectionTableSeparator} />,
-          <div key="lastTable" style={aipModifyDialogSectionTable}>
-            <TableLayout>
-              <TableHeaderLine>
-                <TableHeaderContentBox>
-                  <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.add' }, { pane: formatMessage({ id: `oais.packages.modify.${sectionType}` }) })} />
-                </TableHeaderContentBox>
-              </TableHeaderLine>
-              <InfiniteTableContainer
-                displayColumnsHeader={false}
-                // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
-                columns={[ // eslint wont fix: Major API rework required here
-                  new TableColumnBuilder('column.providerId').valuesRenderCell([{ getValue: identity }])
-                    .build(),
-                  new TableColumnBuilder('column.actions').optionsColumn([{
-                    OptionConstructor: AIPModifyAddOption,
-                    optionProps: { onUndo: this.onUndoAdd },
-                  }])
-                    .build(),
-                ]}
-                entities={paneObject.toAdd}
-                minRowCount={minRowCount}
-                maxRowCount={maxRowCount}
-                emptyComponent={AIPModifyDialogComponent.EMPTY_COMPONENTS[sectionType]}
-              />
-            </TableLayout>
-            <div style={aipModifyDialogAddButton}>
-              <TextField
-                name={`add-${sectionType}`}
-                hintText={`Add ${sectionType}`}
-                type="text"
-                value={paneObject.textFieldValue}
-                onChange={this.onTextFieldChange}
-              />
-              <FlatButton
-                onClick={this.onAdd}
-                secondary
-                icon={<Add />}
-              />
-            </div>
-          </div>]) : null}
+        <div key="lastTable" style={aipModifyDialogSectionTable}>
+          <TableLayout>
+            <TableHeaderLine>
+              <TableHeaderContentBox>
+                <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.add' }, { pane: formatMessage({ id: `oais.packages.modify.${sectionType}` }) })} />
+              </TableHeaderContentBox>
+            </TableHeaderLine>
+            <InfiniteTableContainer
+              displayColumnsHeader={false}
+              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+              columns={[ // eslint wont fix: Major API rework required here
+                new TableColumnBuilder('column.providerId').valuesRenderCell([{ getValue: identity }])
+                  .build(),
+                new TableColumnBuilder('column.actions').optionsColumn([{
+                  OptionConstructor: AIPModifyAddOption,
+                  optionProps: { onUndo: this.onUndoAdd },
+                }])
+                  .build(),
+              ]}
+              entities={paneObject.toAdd}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
+              emptyComponent={AIPModifyDialogComponent.EMPTY_COMPONENTS[sectionType]}
+            />
+          </TableLayout>
+          <div style={aipModifyDialogAddButton}>
+            <TextField
+              name={`add-${sectionType}`}
+              hintText={`Add ${sectionType}`}
+              type="text"
+              value={paneObject.textFieldValue}
+              onChange={this.onTextFieldChange}
+            />
+            <FlatButton
+              onClick={this.onAdd}
+              secondary
+              icon={<Add />}
+            />
+          </div>
+        </div>]) : null}
       </>
     )
   }
@@ -389,7 +393,7 @@ export class AIPModifyDialogComponent extends React.Component {
             <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.category' })} leftIcon={<CategoriesIcon />} onClick={this.onShowCategorySection} />
             <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.tag' })} leftIcon={<TagsIcon />} onClick={this.onShowTagSection} />
           </List>
-          { this.renderPane(toggledSection) }
+          {this.renderPane(toggledSection)}
         </div>
       </PositionedDialog>
     )

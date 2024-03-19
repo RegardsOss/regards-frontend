@@ -48,13 +48,13 @@ export class LicenseDisplayContainer extends React.Component {
     ...i18nContextType,
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     // mounting: the user just authentified, fetch license state
     const { fetchLicenseInformation } = this.props
     fetchLicenseInformation()
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     // unmounting: user logged out, clear license state
     this.props.flushLicenseInformation()
   }

@@ -83,7 +83,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
   /**
    * Component initialization: retrieve configuration, then metadata and finally resolve parameters
    */
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     this.setState(RunCatalogPluginServiceContainer.DEFAULT_STATE)
     const { service, dispatchFetchPluginConfiguration } = this.props
     const { configId } = service

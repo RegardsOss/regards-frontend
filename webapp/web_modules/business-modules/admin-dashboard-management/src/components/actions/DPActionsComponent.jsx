@@ -102,14 +102,14 @@ class DPActionsComponent extends React.Component {
         dialogHeightPercent={55}
         title={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.dialog.title' })}
         open={isProductDialogOpen}
-        actions={<>
+        actions={
           <RaisedButton
             key="close"
             label={formatMessage({ id: 'dashboard.selectedsession.ACQUISITION.dp.dialog.button.close' })}
             primary
             onClick={this.toggleProductDialog}
           />
-        </>}
+        }
       >
         <DisplayProductsComponent
           sessionName={sessionStep.session}

@@ -64,9 +64,9 @@ class TotalQuotaRenderComponent extends React.Component {
             case QUOTA_INFO_STATE_ENUM.CONSUMED:
               warningMessage = formatMessage({ id: 'order-cart.module.basket.table.cell.total.quota.consumed.message' })
               break
-            default:
             case QUOTA_INFO_STATE_ENUM.UNLIMITED:
             case QUOTA_INFO_STATE_ENUM.IDLE:
+            default:
               // no warning
               warningMessage = ''
           }

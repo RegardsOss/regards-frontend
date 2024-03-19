@@ -58,13 +58,17 @@ export class ActionsGroupContainer extends React.Component {
   /**
    * Lifecycle method component will mount, used here to update state from properties
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesChanged({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesChanged({}, this.props)
+  }
 
   /**
    * Lifecycle method component will receive props, used here to update state from properties
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesChanged(this.props, nextProps)
+  }
 
   /**
    * On properties change detected: updated state properties that are computed from props (save some render time)

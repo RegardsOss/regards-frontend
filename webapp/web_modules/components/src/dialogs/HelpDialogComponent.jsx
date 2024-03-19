@@ -77,14 +77,14 @@ class HelpDialogComponent extends React.Component {
     const { moduleTheme: { helpDialog: { linkDivStyle, linkStyle } } } = this.context
     return (
       <Dialog
-        actions={<>
+        actions={
           <FlatButton
             key={buttonLabel}
             label={buttonLabel}
             primary
             onClick={this.showOrCloseHelpDialog}
           />
-        </>}
+        }
         title={title}
         open={openHelpDialog}
         onRequestClose={this.showOrCloseHelpDialog}

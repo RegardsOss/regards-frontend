@@ -90,7 +90,9 @@ class DynamicContentContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => DynamicContentContainer.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    DynamicContentContainer.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component did mount. Used here to log error when no module is found
@@ -107,7 +109,9 @@ class DynamicContentContainer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => DynamicContentContainer.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    DynamicContentContainer.onPropertiesUpdated(this.props, nextProps)
+  }
 
   render() {
     if (this.props.module) {

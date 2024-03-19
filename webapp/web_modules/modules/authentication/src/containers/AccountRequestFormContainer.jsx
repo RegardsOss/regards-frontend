@@ -51,7 +51,7 @@ export class AccountRequestFormContainer extends React.Component {
     ...i18nContextType,
   }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // Detect if last fetch is DONE and OK
     const { isFetching, onDone } = this.props
     if (isFetching && !nextProps.hasError && !nextProps.isFetching) {

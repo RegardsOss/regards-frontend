@@ -131,14 +131,14 @@ export class SettingsComponent extends React.Component {
       <Dialog
         open={isHelpCronDialogOpen}
         title={formatMessage({ id: 'feature.settings.dialog.title' })}
-        actions={<>
+        actions={
           <RaisedButton
             key="close"
             label={formatMessage({ id: 'feature.settings.dialog.close' })}
             primary
             onClick={this.toggleHelpCronDialog}
           />
-        </>}
+        }
         modal
       >
         {

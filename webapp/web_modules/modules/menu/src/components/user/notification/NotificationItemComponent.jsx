@@ -70,7 +70,7 @@ export default class NotificationItemComponent extends React.Component {
    * @param notifications Array containing the notifications to show
    * @param unread Is the array containing unread notifications ?
    */
-  render = () => {
+  render() {
     const { moduleTheme: { notifications: { list: { item } } } } = this.context
     const { entity } = this.props
     const styleContentWrapper = this.itemStyle()

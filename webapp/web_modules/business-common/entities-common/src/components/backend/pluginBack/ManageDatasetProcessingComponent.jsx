@@ -104,12 +104,12 @@ export class ManageDatasetProcessingComponent extends React.Component {
   renderDescription = () => {
     const { isDescriptionDialogOpened, selectedPluginMetadata } = this.state
     return (
-      selectedPluginMetadata
-        ? <PluginDescriptionDialog
-            opened={isDescriptionDialogOpened}
-            onClose={() => this.toggleDescriptionDialog(selectedPluginMetadata)}
-            pluginMetaData={selectedPluginMetadata.content}
-            application={UIDomain.APPLICATIONS_ENUM.USER}
+      selectedPluginMetadata ?
+        <PluginDescriptionDialog
+          opened={isDescriptionDialogOpened}
+          onClose={() => this.toggleDescriptionDialog(selectedPluginMetadata)}
+          pluginMetaData={selectedPluginMetadata.content}
+          application={UIDomain.APPLICATIONS_ENUM.USER}
         /> : null)
   }
 

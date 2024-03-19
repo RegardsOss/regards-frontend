@@ -200,7 +200,7 @@ class QuicklookCellComponent extends React.PureComponent {
     // when there is no attributes, we display one attribute height footer to show all available options
     const nbLines = presentationModels.length || 1
     const footerHeight = (nbLines * QuicklookCellComponent.EXPECTED_ATTRIBUTE_ROW_HEIGHT)
-        + QuicklookCellComponent.EXPECTED_ATTRIBUTES_PADDING
+      + QuicklookCellComponent.EXPECTED_ATTRIBUTES_PADDING
     // Get quicklook to display
     const { defaultPic } = QuicklookCellComponent.getPictures(entity, primaryQuicklookGroup, accessToken, projectName, embedInMap)
 
@@ -241,13 +241,17 @@ class QuicklookCellComponent extends React.PureComponent {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state

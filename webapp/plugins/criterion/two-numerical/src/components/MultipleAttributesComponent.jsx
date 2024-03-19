@@ -49,10 +49,6 @@ class MultipleAttributesComponent extends React.Component {
   }
 
   static contextTypes = {
-    ...themeContextType,
-  }
-
-  static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
   }
@@ -68,7 +64,7 @@ class MultipleAttributesComponent extends React.Component {
       <>
         <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
           <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
-            { label[locale] || attribute1.label }
+            {label[locale] || attribute1.label}
           </td>
           <NumericalCriterionComponent
             searchAttribute={attribute1}
@@ -83,8 +79,8 @@ class MultipleAttributesComponent extends React.Component {
         <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
           <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
             { // When label is provided, show empty cell. Show second attribute label otherwise
-            label[locale] ? null : attribute2.label
-          }
+              label[locale] ? null : attribute2.label
+            }
           </td>
           <NumericalCriterionComponent
             searchAttribute={attribute2}

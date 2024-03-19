@@ -106,7 +106,7 @@ export class ProjectUserFormContainer extends React.Component {
     isLoading: true,
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     const tasks = [
       this.props.fetchSettings(),
       this.props.fetchRoleList(),
@@ -129,7 +129,7 @@ export class ProjectUserFormContainer extends React.Component {
       })
   }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // make sure metadata are living with current user
     // back from user fetching?
     if (this.props.user !== nextProps.user) {

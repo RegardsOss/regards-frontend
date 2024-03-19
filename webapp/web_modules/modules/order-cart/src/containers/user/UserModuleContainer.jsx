@@ -138,7 +138,7 @@ export class UserModuleContainer extends React.Component {
    * Lifecycle method: component will receive props. Notify properties changed to fetch basket if logged for user
    */
   UNSAFE_componentWillReceiveProps(nextProps) {
-    return this.onPropertiesChanged(this.props, nextProps)
+    this.onPropertiesChanged(this.props, nextProps)
   }
 
   /**

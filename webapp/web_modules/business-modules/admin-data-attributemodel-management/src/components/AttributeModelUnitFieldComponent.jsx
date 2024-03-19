@@ -50,14 +50,14 @@ class AttributeModelUnitFieldComponent extends React.Component {
       <Dialog
         open={this.state.unitDescriptionOpen}
         title={formatMessage({ id: 'attrmodel.form.unit.description.dialog.title' })}
-        actions={<>
+        actions={
           <RaisedButton
             key="close"
             label={formatMessage({ id: 'attrmodel.form.unit.description.dialog.close' })}
             primary
             onClick={this.handleCloseDescription}
           />
-        </>}
+        }
         modal
       >
         {

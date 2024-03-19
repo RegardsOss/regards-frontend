@@ -111,6 +111,32 @@ export class ExampleContainer extends React.Component {
   }
 
   /**
+   * Renders the configuration value into DOM (knowing only string can be rendered)
+   */
+  static renderValue(value) {
+    if (!value) {
+      return 'value not set'
+    }
+    if (isDate(value)) {
+      // parameters of type date
+      return `${value.toString()} (date)`
+    }
+    if (isBoolean(value)) {
+      // parameters of type boolean
+      return `${value.toString()} (boolean)`
+    }
+    if (isNumber(value)) {
+      // parameters of type int or float
+      return `${value.toString()} (number)`
+    }
+    if (isString(value)) {
+      // parameters of type string or char
+      return `${value} (string)`
+    }
+    return `unknown value type ${value}`
+  }
+
+  /**
    * Standard lifecycle method of a React component, UNSAFE_componentWillMount is called before the the component mounts and renders.
    * It is a good place to initialize component state.
    */
@@ -194,32 +220,6 @@ export class ExampleContainer extends React.Component {
     this.setState({ loading: false, results })
   }
 
-  /**
-   * Renders the configuration value into DOM (knowing only string can be rendered)
-   */
-  renderValue = (value) => {
-    if (!value) {
-      return 'value not set'
-    }
-    if (isDate(value)) {
-      // parameters of type date
-      return `${value.toString()} (date)`
-    }
-    if (isBoolean(value)) {
-      // parameters of type boolean
-      return `${value.toString()} (boolean)`
-    }
-    if (isNumber(value)) {
-      // parameters of type int or float
-      return `${value.toString()} (number)`
-    }
-    if (isString(value)) {
-      // parameters of type string or char
-      return `${value} (string)`
-    }
-    return `unknown value type ${value}`
-  }
-
   render() {
     const {
       loading, currentIndex, totalElements, lastLoadedEntity, errorMessage, results,
@@ -271,7 +271,7 @@ export class ExampleContainer extends React.Component {
                     :
                   </em>
                 </div>
-                <div style={ExampleContainer.INLINE_DIV_STYLE}>{this.renderValue(value)}</div>
+                <div style={ExampleContainer.INLINE_DIV_STYLE}>{ExampleContainer.renderValue(value)}</div>
               </div>))
           }
           { /* 3 - now dynamic configurationcomponent  */}
@@ -285,7 +285,7 @@ export class ExampleContainer extends React.Component {
                     :
                   </em>
                 </div>
-                <div style={ExampleContainer.INLINE_DIV_STYLE}>{this.renderValue(value)}</div>
+                <div style={ExampleContainer.INLINE_DIV_STYLE}>{ExampleContainer.renderValue(value)}</div>
               </div>))
           }
           { /* 4 - now we show loading or the component, if loading is done  */}

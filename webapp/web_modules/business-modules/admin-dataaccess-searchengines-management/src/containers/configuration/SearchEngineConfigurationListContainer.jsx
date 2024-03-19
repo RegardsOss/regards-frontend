@@ -80,7 +80,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     },
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     this.props.fetchDatasetList()
   }
 

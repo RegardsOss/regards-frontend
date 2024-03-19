@@ -189,7 +189,9 @@ export class AdminContainer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
@@ -200,7 +202,7 @@ export class AdminContainer extends React.Component {
     // 1 - When view data change, or views are enabled / disabled, rebuild the left tree model for available sections and pages
     const oldViewsData = AdminContainer.extractViewsGroupData(oldProps || {})
     const newViewsData = AdminContainer.extractViewsGroupData(newProps)
-    let nextState = { } // only diff with previous state
+    let nextState = {} // only diff with previous state
     if (!isEqual(oldViewsData, newViewsData)) {
       nextState = {
         ...nextState,

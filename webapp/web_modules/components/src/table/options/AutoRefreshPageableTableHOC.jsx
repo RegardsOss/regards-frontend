@@ -107,18 +107,22 @@ export class AutoRefreshPageableTableHOC extends React.Component {
   }
 
   /**
+   * Lifecycle method: component did mount. Used here to start refresh loop
+   */
+  componentDidMount() {
+    this.onPropertiesUpdate({}, this.props)
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdate(this.props, nextProps)
+  }
+
+  /**
    * Lifecycle method: component will unmount. Used here to stop refresh loop
    */
   componentWillUnmount() {
     this.stopRefreshing = true // simple marker to avoid sending next refresh
   }
-
-  /**
-   * Lifecycle method: component did mount. Used here to start refresh loop
-   */
-  componentDidMount = () => this.onPropertiesUpdate({}, this.props)
-
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdate(this.props, nextProps)
 
   onPropertiesUpdate = (previousProps, nextProps) => {
     const { enableAutoRefresh } = nextProps

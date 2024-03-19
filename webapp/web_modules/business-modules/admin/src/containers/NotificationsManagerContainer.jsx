@@ -65,11 +65,11 @@ class NotificationsManager extends React.Component {
     fetchMethods: PropTypes.arrayOf(PropTypes.func.isRequired).isRequired,
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     this.startTimer()
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.stopTimer()
   }
 

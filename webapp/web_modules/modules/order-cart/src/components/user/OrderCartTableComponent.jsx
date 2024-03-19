@@ -324,13 +324,17 @@ export class OrderCartTableComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
@@ -346,10 +350,10 @@ export class OrderCartTableComponent extends React.Component {
 
     // update tree model each time basket / RELATED quota information changes (ignores rate related)
     if (!isEqual(oldProps.basket, basket)
-    || !isEqual(get(oldProps, 'quotaInfo.quotaState'), quotaState)
-    || !isEqual(get(oldProps, 'quotaInfo.currentQuota'), currentQuota)
-    || !isEqual(get(oldProps, 'quotaInfo.maxQuota'), maxQuota)
-    || !isEqual(get(oldProps, 'quotaInfo.quotaWarningCount'), quotaWarningCount)) {
+      || !isEqual(get(oldProps, 'quotaInfo.quotaState'), quotaState)
+      || !isEqual(get(oldProps, 'quotaInfo.currentQuota'), currentQuota)
+      || !isEqual(get(oldProps, 'quotaInfo.maxQuota'), maxQuota)
+      || !isEqual(get(oldProps, 'quotaInfo.quotaWarningCount'), quotaWarningCount)) {
       this.setState({
         treeTableModel: {
           basket,
@@ -524,29 +528,29 @@ export class OrderCartTableComponent extends React.Component {
         }
       }
       case OrderCartTableComponent.COLUMN_KEYS.PROCESSING: {
-        return (cellValue.type === OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW && isProcessingDependenciesExist)
-          ? <ManageDatasetProcessingContainer
-              datasetIpid={cellValue.datasetSelectionIpId}
-              datasetSelectionId={cellValue.datasetSelectionId}
-              onProcessChanged={refreshBasket}
-              process={cellValue.process}
-              processingSelectors={processingSelectors}
-              pluginMetaDataSelectors={pluginMetaDataSelectors}
-              linkProcessingDatasetActions={linkProcessingDatasetActions}
-              disabled={isFetching}
-              fileSelectionDescription={cellValue.fileSelectionDescription}
-              fileFiltersActions={fileFiltersActions}
+        return (cellValue.type === OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW && isProcessingDependenciesExist) ?
+          <ManageDatasetProcessingContainer
+            datasetIpid={cellValue.datasetSelectionIpId}
+            datasetSelectionId={cellValue.datasetSelectionId}
+            onProcessChanged={refreshBasket}
+            process={cellValue.process}
+            processingSelectors={processingSelectors}
+            pluginMetaDataSelectors={pluginMetaDataSelectors}
+            linkProcessingDatasetActions={linkProcessingDatasetActions}
+            disabled={isFetching}
+            fileSelectionDescription={cellValue.fileSelectionDescription}
+            fileFiltersActions={fileFiltersActions}
           /> : null
       }
       case OrderCartTableComponent.COLUMN_KEYS.FILE_FILTERS: {
-        return (cellValue.type === OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW && isFileFilterDependenciesExist)
-          ? <ManageDatasetFileFiltersContainer
-              datasetIpid={cellValue.datasetSelectionIpId}
-              datasetSelectionId={cellValue.datasetSelectionId}
-              process={cellValue.process}
-              fileSelectionDescription={cellValue.fileSelectionDescription}
-              onFileSelectionChanged={refreshBasket}
-              fileFiltersActions={fileFiltersActions}
+        return (cellValue.type === OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW && isFileFilterDependenciesExist) ?
+          <ManageDatasetFileFiltersContainer
+            datasetIpid={cellValue.datasetSelectionIpId}
+            datasetSelectionId={cellValue.datasetSelectionId}
+            process={cellValue.process}
+            fileSelectionDescription={cellValue.fileSelectionDescription}
+            onFileSelectionChanged={refreshBasket}
+            fileFiltersActions={fileFiltersActions}
           /> : null
       }
       default:
@@ -597,7 +601,7 @@ export class OrderCartTableComponent extends React.Component {
                 </ScrollArea>
               </div>
             ))
-        }
+          }
         </Measure>
       </TableLayout>
     )

@@ -30,8 +30,6 @@ import {
   Field, reduxForm, RenderTextField,
   FieldsGroup,
 } from '@regardsoss/form-utils'
-import IconButton from 'material-ui/IconButton'
-import Clear from 'mdi-material-ui/Backspace'
 
 const {
   getValue, getUpdatedSettingValue, getSetting,
@@ -107,15 +105,6 @@ export class SettingsComponent extends React.Component {
     if (settingFound) {
       change(settingName, settingFound.content.defaultValue)
     }
-  }
-
-  renderClearIcon = (settingName) => {
-    const { intl: { formatMessage } } = this.context
-    return (<IconButton
-      tooltip={formatMessage({ id: 'order.settings.clear' })}
-    >
-      <Clear onClick={() => this.onClearInput(settingName)} />
-    </IconButton>)
   }
 
   render() {

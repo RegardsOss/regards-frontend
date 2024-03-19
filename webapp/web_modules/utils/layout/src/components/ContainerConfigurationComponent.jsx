@@ -110,13 +110,17 @@ class ContainerConfigurationComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => ContainerConfigurationComponent.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    ContainerConfigurationComponent.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => ContainerConfigurationComponent.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    ContainerConfigurationComponent.onPropertiesUpdated(this.props, nextProps)
+  }
 
   onAdvancedClick = () => this.setState({
     advanced: !this.state.advanced,
@@ -182,16 +186,17 @@ class ContainerConfigurationComponent extends React.Component {
               label={formatMessage({ id: 'container.form.id' })}
               validate={ValidationHelpers.required}
             />
-            {hasDynamicOptions // available for new elements and
-              ? <Field
-                  name="type"
-                  fullWidth
-                  component={RenderSelectField}
-                  type="text"
-                  onSelect={ContainerConfigurationComponent.selectContainerType}
-                  label={formatMessage({ id: 'container.form.type' })}
-                  validate={ValidationHelpers.required}
-                  style={ContainerConfigurationComponent.SELECT_FIELD_STYLES}
+            {/* available for new elements and */}
+            {hasDynamicOptions ?
+              <Field
+                name="type"
+                fullWidth
+                component={RenderSelectField}
+                type="text"
+                onSelect={ContainerConfigurationComponent.selectContainerType}
+                label={formatMessage({ id: 'container.form.type' })}
+                validate={ValidationHelpers.required}
+                style={ContainerConfigurationComponent.SELECT_FIELD_STYLES}
               >
                 { /** Show option (remove container types used for root container) */
                   map(

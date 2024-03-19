@@ -46,7 +46,6 @@ const messages = {
   'order.list.filters.waitingForUser.false': 'No',
   'order.settings.title': 'Order settings',
   'order.settings.subtitle': 'Configure settings',
-  'order.settings.clear': 'Clear',
   'order.settings.field.appSubOrderDuration': 'Sub order applicative duration (in hour)',
   'order.settings.field.orderExpirationDuration': 'Maximum duration of an order before expiration (in hour)',
   'order.settings.fieldgroup.userOrderParameters': 'User order settings',

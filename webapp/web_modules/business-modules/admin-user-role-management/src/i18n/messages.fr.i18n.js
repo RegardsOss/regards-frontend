@@ -36,8 +36,6 @@ const messages = {
   'role.list.table.actions': 'Actions',
   'role.list.action.add': 'Ajouter',
   'role.list.action.cancel': 'Annuler',
-  'role.list.value.false': 'Faux',
-  'role.list.value.true': 'Vrai',
   'role.list.delete.message': 'Supprimer le rôle {name} ?',
   'role.edit.resource.action.title': 'Configurer les ressources accessibles',
   'role.edit.action.title': 'Éditer',

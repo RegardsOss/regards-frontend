@@ -53,7 +53,7 @@ class SearchGraph extends React.Component {
   /** Scroll area reference */
   scrollArea = React.createRef()
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     // initialize state
     this.updateForLevelsWidth()
   }

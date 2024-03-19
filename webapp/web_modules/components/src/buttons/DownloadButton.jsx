@@ -50,6 +50,7 @@ class DownloadButton extends React.Component {
   /** Button reference */
   linkComponent = React.createRef()
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   forceDownload = () => {
     if (this.linkComponent.current) {
       this.linkComponent.current.click()

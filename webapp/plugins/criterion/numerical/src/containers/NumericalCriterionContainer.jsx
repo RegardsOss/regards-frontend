@@ -170,7 +170,8 @@ export class NumericalCriterionContainer extends React.Component {
         value={value}
         operator={operator}
         availableComparators={NumericalCriterionContainer.selectForType(searchField.type,
-          NumericalCriterionContainer.AVAILABLE_INT_COMPARATORS, NumericalCriterionContainer.AVAILABLE_FLOAT_COMPARATORS)}
+          NumericalCriterionContainer.AVAILABLE_INT_COMPARATORS,
+          NumericalCriterionContainer.AVAILABLE_FLOAT_COMPARATORS)}
         onTextChange={this.onTextChange}
         onOperatorSelected={this.onOperatorSelected}
       />

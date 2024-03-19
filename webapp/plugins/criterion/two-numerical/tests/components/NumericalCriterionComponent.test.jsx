@@ -41,14 +41,13 @@ describe('[Two numerical criteria] Testing NumericalCriterionComponent', () => {
   })
   it('should render self and subcomponents enabled with bounds data', () => {
     const props = {
-      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
       fieldBoundType: BOUND_TYPE.ANY_BOUND,
       error: false,
       value: '25',
       comparator: CommonDomain.EnumNumericalComparator.LE,
       availableComparators: CommonDomain.EnumNumericalComparators,
-      onChange: () => {},
+      onChange: () => { },
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
     const comparator = enzymeWrapper.find(NumericalComparatorSelector)
@@ -71,14 +70,13 @@ describe('[Two numerical criteria] Testing NumericalCriterionComponent', () => {
   })
   it('should render self and subcomponents disabled without bounds data', () => {
     const props = {
-      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
       fieldBoundType: BOUND_TYPE.ANY_BOUND,
       error: false,
       value: '-56.12',
       comparator: CommonDomain.EnumNumericalComparator.GE,
       availableComparators: [CommonDomain.EnumNumericalComparator.GE],
-      onChange: () => {},
+      onChange: () => { },
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
     const comparator = enzymeWrapper.find(NumericalComparatorSelector)
@@ -101,14 +99,13 @@ describe('[Two numerical criteria] Testing NumericalCriterionComponent', () => {
   })
   it('should render error status correctly', () => {
     const props = {
-      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
       fieldBoundType: BOUND_TYPE.ANY_BOUND,
       error: true,
       value: '25',
       comparator: CommonDomain.EnumNumericalComparator.LE,
       availableComparators: CommonDomain.EnumNumericalComparators,
-      onChange: () => {},
+      onChange: () => { },
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
 

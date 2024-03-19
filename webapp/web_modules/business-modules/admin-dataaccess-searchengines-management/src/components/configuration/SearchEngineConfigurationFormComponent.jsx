@@ -87,7 +87,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     datasetSelector: 'all',
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     const {
       searchEngineConfiguration,
       initialize,
@@ -238,10 +238,10 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
         </RadioButtonGroup>
         <br />
         {
-          this.state.datasetSelector === 'selected'
-            ? <SubSectionCard
-                title={formatMessage({ id: 'search-engines.form.dataset.section.title' })}
-                arrowMarginLeft={30}
+          this.state.datasetSelector === 'selected' ?
+            <SubSectionCard
+              title={formatMessage({ id: 'search-engines.form.dataset.section.title' })}
+              arrowMarginLeft={30}
             >
               <span>
                 {formatMessage({ id: 'search-engines.form.dataset.infos' })}
@@ -262,7 +262,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
               </span>
             </SubSectionCard>
             : null
-  }
+        }
       </div>
     )
   }

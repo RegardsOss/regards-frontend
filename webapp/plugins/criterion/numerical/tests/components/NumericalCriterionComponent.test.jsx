@@ -41,14 +41,13 @@ describe('[Numerical criterion] Testing NumericalCriterionComponent', () => {
   it('should render self and subcomponents enabled with bounds data', () => {
     const props = {
       label: criterionTestSuiteHelpers.getLabelStub(),
-      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
       error: false,
       value: '25',
       operator: CommonDomain.EnumNumericalComparator.LE,
       availableComparators: CommonDomain.EnumNumericalComparators,
-      onTextChange: () => {},
-      onOperatorSelected: () => {},
+      onTextChange: () => { },
+      onOperatorSelected: () => { },
     }
     // test label rendering with each locale
     UIDomain.LOCALES.forEach((locale) => {
@@ -78,14 +77,13 @@ describe('[Numerical criterion] Testing NumericalCriterionComponent', () => {
   it('should render xorrectly in error', () => {
     const props = {
       label: criterionTestSuiteHelpers.getLabelStub(),
-      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
       error: true,
       value: '105',
       operator: CommonDomain.EnumNumericalComparator.LE,
       availableComparators: CommonDomain.EnumNumericalComparators,
-      onTextChange: () => {},
-      onOperatorSelected: () => {},
+      onTextChange: () => { },
+      onOperatorSelected: () => { },
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
     const textField = enzymeWrapper.find(TextField)
@@ -95,14 +93,13 @@ describe('[Numerical criterion] Testing NumericalCriterionComponent', () => {
   it('should render self and subcomponents disabled without bounds data', () => {
     const props = {
       label: criterionTestSuiteHelpers.getLabelStub(),
-      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
       error: false,
       value: '-56.12',
       operator: CommonDomain.EnumNumericalComparator.GE,
       availableComparators: [CommonDomain.EnumNumericalComparator.GE],
-      onTextChange: () => {},
-      onOperatorSelected: () => {},
+      onTextChange: () => { },
+      onOperatorSelected: () => { },
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
     const comparator = enzymeWrapper.find(NumericalComparatorSelector)

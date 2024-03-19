@@ -93,7 +93,9 @@ export class DeleteOrderContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. used here to initialize the state
    */
-  UNSAFE_componentWillMount = () => this.setFetching(false)
+  UNSAFE_componentWillMount() {
+    this.setFetching(false)
+  }
 
   /**
    * User asked for delete: show confirmation dialog, process only when confirmed

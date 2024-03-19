@@ -52,14 +52,14 @@ export class EntityInfoDialog extends React.Component {
 
     return (
       <Dialog
-        actions={<>
+        actions={
           <FlatButton
             key="close"
             label={formatMessage({ id: 'dataset.info.close' })}
             primary
             onClick={onClose}
           />
-        </>}
+        }
         title={formatMessage({ id: 'dataset.info.title' }, { name: entity.content.feature.label })}
         open
         onRequestClose={onClose}

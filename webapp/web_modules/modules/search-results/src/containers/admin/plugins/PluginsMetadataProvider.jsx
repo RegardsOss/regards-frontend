@@ -117,7 +117,7 @@ export class PluginsMetadataProvider extends React.Component {
    * Life cycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       pluginsFetching, pluginsDefinition,
       dataAttributeModels, children,
@@ -129,8 +129,8 @@ export class PluginsMetadataProvider extends React.Component {
       markAllMetaLoading(keys(pluginsDefinition))
       this.resolveAllPluginMeta(pluginsDefinition)
     } else if (!isEqual(this.props.pluginMetaPartitions, pluginMetaPartitions)
-    || !isEqual(this.props.dataAttributeModels, dataAttributeModels)
-    || this.props.children !== children) {
+      || !isEqual(this.props.dataAttributeModels, dataAttributeModels)
+      || this.props.children !== children) {
       // 2 - Whenever plugins
       this.onMetaComputingUpdate(children, pluginMetaPartitions, dataAttributeModels, pluginsFetching,
         this.props.children !== children)
@@ -182,8 +182,8 @@ export class PluginsMetadataProvider extends React.Component {
   onStateUpdate = (children, fetchingMetadata, pluginsMetadata, rebuildChildren) => {
     // Update state on change or when not yet
     if (this.state.fetchingMetadata !== fetchingMetadata
-        || !isEqual(this.state.pluginsMetadata, pluginsMetadata)
-        || rebuildChildren) {
+      || !isEqual(this.state.pluginsMetadata, pluginsMetadata)
+      || rebuildChildren) {
       this.setState({
         fetchingMetadata,
         pluginsMetadata,

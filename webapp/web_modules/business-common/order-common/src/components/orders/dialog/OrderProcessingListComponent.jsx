@@ -158,14 +158,14 @@ class OrderProcessingListComponent extends React.Component {
         maxHeight={666}
         dialogHeightPercent={70}
         title={formatMessage({ id: 'order.list.option.cell.show.processing.dialog.title' }, { orderName: orderProcessings.orderLabel })}
-        actions={<>
+        actions={
           <FlatButton
             key="close"
             label={formatMessage({ id: 'order.list.option.cell.show.processing.dialog.button.close' })}
             primary
             onClick={onClose}
           />
-        </>}
+        }
         modal
         open={!!orderProcessings}
       >

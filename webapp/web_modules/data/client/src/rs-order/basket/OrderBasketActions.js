@@ -172,6 +172,7 @@ class OrderBasketActions {
     })
   }
 
+  //eslint-disable-next-line class-methods-use-this
   getDependency = (verb) => {
     throw new Error('Invalid order basket actions API call: use getDependencies method instead')
   }

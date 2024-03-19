@@ -252,13 +252,13 @@ export class StorageLocationListComponent extends React.Component {
           <PositionedDialog
             title={this.context.intl.formatMessage({ id: title }, { name })}
             open={!!dialogType}
-            actions={<>
+            actions={
               <FlatButton
                 key="close"
                 label={formatMessage({ id: 'storage.location.dialogs.cancel' })}
                 onClick={this.closeDialogs}
               />
-            </>}
+            }
             dialogWidthPercent={75}
             dialogHeightPercent={75}
           >

@@ -68,23 +68,6 @@ export class ModelListComponent extends React.Component {
     nameFilter: null,
   }
 
-  getType = (type) => {
-    const { intl: { formatMessage } } = this.context
-
-    switch (type) {
-      case 'COLLECTION':
-        return formatMessage({ id: 'model.type.collection' })
-      case 'DOCUMENT':
-        return formatMessage({ id: 'model.type.document' })
-      case 'DATA':
-        return formatMessage({ id: 'model.type.data' })
-      case 'DATASET':
-        return formatMessage({ id: 'model.type.dataset' })
-      default:
-        return null
-    }
-  }
-
   closeDeleteDialog = () => {
     this.setState({
       deleteDialogOpened: false,

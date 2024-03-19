@@ -69,7 +69,7 @@ export class ProfileEditionContainer extends React.Component {
     isLoading: true,
   }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // back from user fetching?
     if (this.props.myUser !== nextProps.myUser) {
       this.updateMetadata(nextProps.myUser)

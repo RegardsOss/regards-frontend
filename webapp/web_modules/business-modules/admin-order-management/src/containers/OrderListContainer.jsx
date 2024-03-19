@@ -55,7 +55,7 @@ export class OrderListContainer extends React.Component {
     fetchOrderList: PropTypes.func.isRequired,
   }
 
-  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20;
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
 
   static mapStateToProps(state) {
     return {

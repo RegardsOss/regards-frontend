@@ -61,12 +61,12 @@ export class DatasetItemContainer extends React.Component {
     dispatchSelected: PropTypes.func.isRequired,
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     // compute dataset attributes
     this.storeDatasetAttributes(this.props)
   }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { dataset, graphDatasetAttributes } = this.props
     const { dataset: nextDataset, graphDatasetAttributes: nextAttributes } = nextProps
     if (!isEqual(dataset, nextDataset) || !isEqual(graphDatasetAttributes, nextAttributes)) {

@@ -212,7 +212,7 @@ export class RunServiceDialogComponent extends React.Component {
             case RunServiceDialogComponent.Steps.MESSAGE:
             case RunServiceDialogComponent.Steps.RESULTS:
               // inner fragment to handle multiple custom options
-              return <>{currentStep.customOptions}</>
+              return currentStep.customOptions
             default:
               return null
           }

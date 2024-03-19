@@ -63,7 +63,7 @@ class ProjectAboutPageContainer extends React.Component {
     return path
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     this.setState({
       dialogOpen: !this.isProjectAboutPageHiddenCached(),
     })
@@ -118,16 +118,16 @@ class ProjectAboutPageContainer extends React.Component {
         </FloatingActionButton>)
 
     const actions = []
-    actions.push(this.isProjectAboutPageHiddenCached()
-      ? <FlatButton
-          key="project.about.page.display"
-          label={this.context.intl.formatMessage({ id: 'project.about.page.display' })}
-          onClick={this.onCacheProjectAboutPageDisplayed}
-      />
-      : <FlatButton
-          key="project.about.page.hide"
-          label={this.context.intl.formatMessage({ id: 'project.about.page.hide' })}
-          onClick={this.onCacheProjectAboutPageHidden}
+    actions.push(this.isProjectAboutPageHiddenCached() ?
+      <FlatButton
+        key="project.about.page.display"
+        label={this.context.intl.formatMessage({ id: 'project.about.page.display' })}
+        onClick={this.onCacheProjectAboutPageDisplayed}
+      /> :
+      <FlatButton
+        key="project.about.page.hide"
+        label={this.context.intl.formatMessage({ id: 'project.about.page.hide' })}
+        onClick={this.onCacheProjectAboutPageHidden}
       />,
     )
     actions.push(

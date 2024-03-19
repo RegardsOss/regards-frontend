@@ -95,13 +95,23 @@ export class SearchResultsContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
+
+  componentWillUnmount() {
+    const { flushSelection } = this.props
+    // Clear table selection when unmount
+    flushSelection()
+  }
 
   /**
    * Properties change detected: update local state
@@ -163,12 +173,6 @@ export class SearchResultsContainer extends React.Component {
     if (!isEqual(this.state, newState)) {
       this.setState(newState)
     }
-  }
-
-  componentWillUnmount = () => {
-    const { flushSelection } = this.props
-    // Clear table selection when unmount
-    flushSelection()
   }
 
   /**

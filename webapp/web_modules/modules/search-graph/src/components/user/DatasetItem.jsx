@@ -44,7 +44,7 @@ class DatasetItem extends React.Component {
     ...themeContextType,
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     // initialize this state styles
     this.onItemLinkStateChange(ItemLink.States.DEFAULT)
   }

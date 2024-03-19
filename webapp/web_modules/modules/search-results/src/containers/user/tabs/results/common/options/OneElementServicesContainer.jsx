@@ -106,13 +106,17 @@ export class OneElementServicesContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
@@ -126,7 +130,7 @@ export class OneElementServicesContainer extends React.Component {
       || !isEqual(oldProps.availableDependencies, availableDependencies)) {
       const newServices = get(entity.content, 'services', [])
         .reduce((services, service) => OneElementServicesContainer.isUsableService(service, entity.content.entityType, availableDependencies)
-        && !services.find(({ content: { type, configId } }) => type === service.content.type && configId === service.content.configId)
+          && !services.find(({ content: { type, configId } }) => type === service.content.type && configId === service.content.configId)
           ? [...services, service]
           : services, [])
         .sort((s1, s2) => StringComparison.compare(s1.content.label, s2.content.label))

@@ -28,7 +28,7 @@ class AttributeModelListFragmentRenderer extends React.Component {
     entity: DataManagementShapes.AttributeModel,
   }
 
-  render = () => {
+  render() {
     if (this.props.entity.content.fragment.name !== DamDomain.FRAGMENT_NONE) {
       return this.props.entity.content.fragment.name
     }

@@ -80,12 +80,6 @@ class SelectionDetailResultsTableComponent extends React.Component {
       (model) => AttributeColumnBuilder.buildAttributeColumn(model, null, 'fakeLocale'))
   }
 
-  computeVisibleRowsCount(availableHeight) {
-    const { lineHeight, minHeaderRowHeight } = this.context.muiTheme.components.infiniteTable
-    const remainingRowsHeight = availableHeight - (minHeaderRowHeight * 2)
-    return Math.floor(remainingRowsHeight / lineHeight)
-  }
-
   render() {
     const {
       pageActions, pageSelectors, bodyParams, resultsCount, isFetching,

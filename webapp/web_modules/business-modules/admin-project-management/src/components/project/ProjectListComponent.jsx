@@ -67,12 +67,6 @@ export class ProjectListComponent extends React.Component {
     currentDialog: null,
   }
 
-  breakPoints = {
-    license: 1270,
-    database: 1065,
-    everything: 1000,
-  }
-
   onLicenseUpdate = (projectName) => {
     const { handleUpdateLicense } = this.props
     this.setDialogState({

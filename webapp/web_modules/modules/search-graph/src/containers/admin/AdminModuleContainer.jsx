@@ -44,7 +44,7 @@ export class AdminModuleContainer extends React.Component {
     loading: true,
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { fetchCollectionModels, fetchSelectableAttributes } = this.props
     return Promise.all([fetchCollectionModels(), fetchSelectableAttributes()]).then(() => this.setState({ loading: false }))
   }

@@ -27,6 +27,9 @@ import { pluginMeta35, pluginMeta2 } from '../../../dumps/search.plugins.meta.ru
 
 const context = buildTestContext(styles)
 
+// Fake functionnal component for testing purpose
+const StubComponent = () => {}
+
 /**
  * Test PluginsMetadataProvider
  * @author Raphaël Mechali
@@ -46,7 +49,8 @@ describe('[SEARCH RESULTS] Testing PluginsMetadataProvider', () => {
 
     const props = {
       dataAttributeModels: attributes,
-      children: <div test />,
+      //eslint-disable-next-line react/no-unknown-property
+      children: <StubComponent test />,
       pluginsFetching: true,
       pluginsDefinition: {},
       pluginMetaPartitions: {},
@@ -61,12 +65,12 @@ describe('[SEARCH RESULTS] Testing PluginsMetadataProvider', () => {
         spyMarkAllMetaLoading.count += 1
         spyMarkAllMetaLoading.pluginIds = pluginIds
       },
-      markMetaLoaded: () => {},
-      markMetaInError: () => {},
+      markMetaLoaded: () => { },
+      markMetaInError: () => { },
     }
     // 1 - Initialization
     const enzymeWrapper = shallow(<PluginsMetadataProvider {...props} />, { context })
-    let componentWrapper = enzymeWrapper.find('div')
+    let componentWrapper = enzymeWrapper.find(StubComponent)
     assert.lengthOf(componentWrapper, 1, '1 - there should be child at init')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       test: true,
@@ -107,7 +111,7 @@ describe('[SEARCH RESULTS] Testing PluginsMetadataProvider', () => {
       },
     }
     enzymeWrapper.setProps(props2)
-    componentWrapper = enzymeWrapper.find('div')
+    componentWrapper = enzymeWrapper.find(StubComponent)
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       test: true,
       fetchingMetadata: true,
@@ -136,7 +140,7 @@ describe('[SEARCH RESULTS] Testing PluginsMetadataProvider', () => {
       },
     }
     enzymeWrapper.setProps(props3)
-    componentWrapper = enzymeWrapper.find('div')
+    componentWrapper = enzymeWrapper.find(StubComponent)
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       test: true,
       fetchingMetadata: true,
@@ -172,7 +176,7 @@ describe('[SEARCH RESULTS] Testing PluginsMetadataProvider', () => {
     }
     enzymeWrapper.setProps(props5)
     // check child is no longer marked loading and plugins are correctly resolved / filtered
-    componentWrapper = enzymeWrapper.find('div')
+    componentWrapper = enzymeWrapper.find(StubComponent)
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       test: true,
       fetchingMetadata: false,

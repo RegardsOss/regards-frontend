@@ -301,14 +301,14 @@ export class NotifyDialog extends React.Component {
     return (
       <PositionedDialog
         title={this.renderTitle()}
-        actions={<>
+        actions={
           <FlatButton
             key="cancel"
             id="confirm.dialog.cancel"
             label={formatMessage({ id: 'feature.close' })}
             onClick={onClose}
           />
-        </>}
+        }
         modal
         open
         dialogWidthPercent={75}

@@ -80,11 +80,6 @@ class StorageLocationListActions extends React.Component {
     onDeleteFiles(entity)
   }
 
-  handleRefresh = () => {
-    const { onRefresh, entity } = this.props
-    onRefresh(entity)
-  }
-
   render() {
     const {
       entity, onRefresh,

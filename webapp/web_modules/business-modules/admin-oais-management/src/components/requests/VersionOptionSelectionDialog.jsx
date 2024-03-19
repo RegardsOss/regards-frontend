@@ -82,6 +82,7 @@ export default function VersionOptionSelectionDialog(
           />
           <FlatButton
             label={formatMessage({ id: 'oais.requests.selection.version.option.confirm' })}
+            //eslint-disable-next-line react/jsx-no-bind
             onClick={onDialogConfirm}
           />
         </>
@@ -106,6 +107,7 @@ export default function VersionOptionSelectionDialog(
         </i>
       </div>
       <div>
+        {/*eslint-disable-next-line react/jsx-no-bind*/}
         <RadioButtonGroup name="options.group" valueSelected={selectedOption} onChange={onOptionSelected}>
           { /** Options */
             AVAILABLE_VERSION_OPTIONS.map((opt) => (

@@ -50,16 +50,22 @@ class ScrollAreaAdapter extends React.Component {
   canDelegate = () => !this.renderHeadless && this.delegateInstance
 
   // expose scroll area API
+  // eslint-disable-next-line react/no-unused-class-component-methods
   scrollTop = () => this.canDelegate() && this.delegateInstance.scrollTop()
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   scrollBottom = () => this.canDelegate() && this.delegateInstance.scrollBottom()
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   scrollYTo = (topPosition) => this.canDelegate() && this.delegateInstance.scrollYTo(topPosition)
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   scrollLeft = () => this.canDelegate() && this.delegateInstance.scrollLeft()
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   scrollRight = () => this.canDelegate() && this.delegateInstance.scrollRight()
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   scrollXTo = (leftPosition) => this.canDelegate() && this.delegateInstance.scrollXTo(leftPosition)
 
   render() {

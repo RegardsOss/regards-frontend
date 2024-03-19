@@ -87,13 +87,17 @@ class ToponymCriterionComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
@@ -119,51 +123,50 @@ class ToponymCriterionComponent extends React.Component {
     const { currentHints } = this.state
     const { intl: { locale, formatMessage }, muiTheme, moduleTheme: { menuStyle } } = this.context
     return (
-      <>
-        <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
-          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
-            {label[locale]}
-          </td>
-          <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
-            <div style={muiTheme.module.searchResults.searchPane.criteria.optionsContainer}>
-              <IconElementSelector
-                value={ToponymCriterionComponent.EQUAL_OPERATOR}
-                choices={ToponymCriterionComponent.OPERATORS}
-                choiceGraphics={ToponymCriterionComponent.OPERATORS_DEFINITION}
-                onChange={noop}
+      <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
+        <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+          {label[locale]}
+        </td>
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <div style={muiTheme.module.searchResults.searchPane.criteria.optionsContainer}>
+            <IconElementSelector
+              value={ToponymCriterionComponent.EQUAL_OPERATOR}
+              choices={ToponymCriterionComponent.OPERATORS}
+              choiceGraphics={ToponymCriterionComponent.OPERATORS_DEFINITION}
+              onChange={noop}
+            />
+          </div>
+        </td>
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <ToponymUploader
+            onToponymUploaded={onToponymUploaded}
+            displayMode={UPLOADER_DISPLAY_MODES.COMPACT}
+          >
+            <AutoCompleteTextField
+              title={formatMessage({ id: 'criterion.toponym.title.tooltip' })}
+              hintText={formatMessage({ id: 'criterion.toponym.hintText' })}
+              currentHintText={toponymFilterText}
+              currentHints={currentHints}
+              isFetching={isFetching}
+              isInError={error}
+              onUpdateInput={onUpdateToponymsFilter}
+              onFilterSelected={onToponymFilterSelected}
+              menuStyle={menuStyle}
+              fullWidth
+            />
+            <ShowableAtRender show={!isEmpty(selectedToponymBusinessId) && isEmpty(toponymFilterText)}>
+              <CurrentToponymComponent
+                toponymBusinessId={selectedToponymBusinessId}
+                onRemoveToponym={onRemoveToponym}
               />
-            </div>
-          </td>
-          <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
-            <ToponymUploader
-              onToponymUploaded={onToponymUploaded}
-              displayMode={UPLOADER_DISPLAY_MODES.COMPACT}
-            >
-              <AutoCompleteTextField
-                title={formatMessage({ id: 'criterion.toponym.title.tooltip' })}
-                hintText={formatMessage({ id: 'criterion.toponym.hintText' })}
-                currentHintText={toponymFilterText}
-                currentHints={currentHints}
-                isFetching={isFetching}
-                isInError={error}
-                onUpdateInput={onUpdateToponymsFilter}
-                onFilterSelected={onToponymFilterSelected}
-                menuStyle={menuStyle}
-                fullWidth
-              />
-              <ShowableAtRender show={!isEmpty(selectedToponymBusinessId) && isEmpty(toponymFilterText)}>
-                <CurrentToponymComponent
-                  toponymBusinessId={selectedToponymBusinessId}
-                  onRemoveToponym={onRemoveToponym}
-                />
-              </ShowableAtRender>
-              <TrickToponymComponent
-                resourceDependencies={uploadToponymDependency}
-              />
-            </ToponymUploader>
-          </td>
-        </tr>
-      </>)
+            </ShowableAtRender>
+            <TrickToponymComponent
+              resourceDependencies={uploadToponymDependency}
+            />
+          </ToponymUploader>
+        </td>
+      </tr>
+    )
   }
 }
 

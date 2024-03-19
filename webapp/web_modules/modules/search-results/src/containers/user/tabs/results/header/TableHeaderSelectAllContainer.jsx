@@ -91,13 +91,17 @@ export class TableHeaderSelectAllContainer extends React.Component {
   /**
    * Lifecycle hook: component will mount, used here to update component state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesChanged({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesChanged({}, this.props)
+  }
 
   /**
    * Lifecycle hook: component will receive props, used here to update component state
    * @param nextProps component next properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesChanged(this.props, nextProps)
+  }
 
   /**
   * Updates component state (recompute properties related elements)

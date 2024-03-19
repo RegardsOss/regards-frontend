@@ -35,7 +35,7 @@ class RoleRenderer extends React.Component {
     ...i18nContextType,
   }
 
-  render = () => {
+  render() {
     const { entity } = this.props
     const { intl: { formatMessage } } = this.context
     let roleName = entity.content.role.name

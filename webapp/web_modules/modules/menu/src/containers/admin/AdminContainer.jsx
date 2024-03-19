@@ -75,7 +75,7 @@ export class AdminContainer extends React.Component {
   /**
    * Lifecycle method component did mount. Used here to fetch layout and modules data (not fetched in common redux store by admin application)
    */
-  componentDidMount = () => {
+  componentDidMount() {
     const {
       fetchLayout, fetchModules, fetchRoleList, appName, fetchServiceProviders,
     } = this.props

@@ -46,7 +46,6 @@ const messages = {
   'order.list.filters.waitingForUser.false': 'Non',
   'order.settings.title': 'Paramètres des commandes',
   'order.settings.subtitle': 'Configurer les parametres',
-  'order.settings.clear': 'Réinitialiser',
   'order.settings.field.appSubOrderDuration': 'Durée d\'une sous commande applicative (en heure)',
   'order.settings.field.orderExpirationDuration': 'Durée maximale d\'une commande avant expiration (en heure)',
   'order.settings.fieldgroup.userOrderParameters': 'Paramètres des commandes utilisateurs',

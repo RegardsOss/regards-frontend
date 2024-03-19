@@ -82,14 +82,14 @@ export class FeatureManagerContainer extends React.Component {
 
   state = { isFetching: true }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     this.props.fetchRecipients()
   }
 
   /**
    * Lifecycle method: component did mount. Used here to fetch user lists
    */
-  componentDidMount = () => {
+  componentDidMount() {
     this.setState({ isFetching: false })
   }
 
@@ -116,8 +116,6 @@ export class FeatureManagerContainer extends React.Component {
   */
   setFetching = (isFetching) => this.setState({ isFetching })
 
-  getPathParams = (paneType) => paneType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES ? { type: paneType } : {}
-
   /**
    * Enable to update tabs count when user click on the Refresh button.
    * See SwitchTablesContainer for tabs count refresh when user switch tab and when user change filters
@@ -135,7 +133,7 @@ export class FeatureManagerContainer extends React.Component {
 
   onRefresh = (requestParameters, paneType) => {
     const { fetchRequests } = this.props
-    const pathParams = this.getPathParams(paneType)
+    const pathParams = FeatureManagerContainer.getPathParams(paneType)
     const queryParams = { ...pick(requestParameters, 'sort') }
     const bodyParams = { ...omit(requestParameters, 'sort') }
     fetchRequests(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, pathParams, queryParams, bodyParams, paneType)

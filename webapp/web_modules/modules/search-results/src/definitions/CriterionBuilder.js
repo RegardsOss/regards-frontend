@@ -106,7 +106,7 @@ export class CriterionBuilder {
     }
   }
 
-  static STATIC_CRITERION_SERIALIZED = /(?<label>[^;]+);(?<attribute>[^=]+)=(?<criteria>[^,]+),?/g;
+  static STATIC_CRITERION_SERIALIZED = /(?<label>[^;]+);(?<attribute>[^=]+)=(?<criteria>[^,]+),?/g
 
   /**
    * Deserialize a static criterion

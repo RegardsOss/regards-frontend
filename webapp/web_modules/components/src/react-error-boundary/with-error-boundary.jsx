@@ -39,10 +39,10 @@ export const withErrorBoundary = (BaseComponent) => class Hoc extends React.Comp
   }
 
   // Enhance component name for debugging and React-Dev-Tools
-  static displayName = `withErrorBoundary(${BaseComponent.name})`;
+  static displayName = `withErrorBoundary(${BaseComponent.name})`
 
   // reference to original wrapped component
-  static WrappedComponent = BaseComponent;
+  static WrappedComponent = BaseComponent
 
   state = {
     error: undefined,

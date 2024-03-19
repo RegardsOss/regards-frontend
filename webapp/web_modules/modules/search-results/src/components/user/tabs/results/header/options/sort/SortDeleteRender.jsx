@@ -47,7 +47,7 @@ class SortDeleteRender extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
-        onClick={this.onToggleSortOrder}
+        onClick={this.onDelete}
         title={formatMessage({
           id: 'search.results.configure.sorting.delete.title',
         })}

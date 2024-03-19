@@ -68,7 +68,7 @@ export class AccountRequestFormComponent extends React.Component {
 
   static contextTypes = { ...themeContextType, ...i18nContextType }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     const initialValues = {}
     initialValues[mailFieldId] = this.props.initialMail
     this.props.initialize(initialValues)

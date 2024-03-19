@@ -156,7 +156,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
   /**
    * Component initialization : retrieve link processing dataset list
    */
-  componentDidMount = () => {
+  componentDidMount() {
     const { fetchLinkProcessingDatasetList, datasetIpid } = this.props
     fetchLinkProcessingDatasetList(datasetIpid)
       .then((actionResult) => {
@@ -177,7 +177,9 @@ export class ManageDatasetProcessingContainer extends React.Component {
   * Lifecycle method: component receive props. Used here to detect properties change and update local state
   * @param {*} nextProps next component properties
   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps, this.state)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps, this.state)
+  }
 
   /**
   * Properties change detected: update local state

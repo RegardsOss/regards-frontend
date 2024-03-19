@@ -170,13 +170,17 @@ export class NavigationItemEditionDialog extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
@@ -385,15 +389,15 @@ export class NavigationItemEditionDialog extends React.Component {
                 ] : null
               }
               {
-                editionData.item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK
-                  ? <Field
-                      key="urlLink"
-                      name={URL_LINK_FIELD}
-                      type="text"
-                      component={RenderTextField}
-                      label={formatMessage({ id: 'menu.form.navigation.edit.item.dialog.urlLink' })}
-                      validate={[ValidationHelpers.required, ValidationHelpers.url]}
-                      fullWidth
+                editionData.item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK ?
+                  <Field
+                    key="urlLink"
+                    name={URL_LINK_FIELD}
+                    type="text"
+                    component={RenderTextField}
+                    label={formatMessage({ id: 'menu.form.navigation.edit.item.dialog.urlLink' })}
+                    validate={[ValidationHelpers.required, ValidationHelpers.url]}
+                    fullWidth
                   />
                   : null // a link model
               }
@@ -431,14 +435,14 @@ export class NavigationItemEditionDialog extends React.Component {
                     key={value.ITEM_ID || `${value.type}-${value.id}`}
                     value={value}
                     primaryText={
-                        value.ITEM_ID
-                          // the FIRST_POSITION placeholder
-                          ? formatMessage({ id: 'menu.form.navigation.edit.item.dialog.insert.at.first.position' })
-                          // After a section or module WITH TITLE (see props comments)
-                          : formatMessage(
-                            { id: 'menu.form.navigation.edit.item.dialog.insert.after' },
-                            { itemTitle: ModuleTitleText.selectTitle(value.title, value.description, locale) })
-                      }
+                      value.ITEM_ID
+                        // the FIRST_POSITION placeholder
+                        ? formatMessage({ id: 'menu.form.navigation.edit.item.dialog.insert.at.first.position' })
+                        // After a section or module WITH TITLE (see props comments)
+                        : formatMessage(
+                          { id: 'menu.form.navigation.edit.item.dialog.insert.after' },
+                          { itemTitle: ModuleTitleText.selectTitle(value.title, value.description, locale) })
+                    }
                   />))
                 }
               </Field>

@@ -103,13 +103,17 @@ class CriteriaGroupsTableComponent extends React.Component {
   /**
   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
   */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
   * Lifecycle method: component receive props. Used here to detect properties change and update local state
   * @param {*} nextProps next component properties
   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
   * Properties change detected: update local state
@@ -119,8 +123,8 @@ class CriteriaGroupsTableComponent extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const newState = { ...this.state }
     if (!isEqual(oldProps.groups, newProps.groups)
-    || !isEqual(oldProps.pluginsMetadata, newProps.pluginsMetadata)
-    || !isEqual(oldProps.fetchingMetadata, newProps.fetchingMetadata)) {
+      || !isEqual(oldProps.pluginsMetadata, newProps.pluginsMetadata)
+      || !isEqual(oldProps.fetchingMetadata, newProps.fetchingMetadata)) {
       // update table entities: set one cell for each group and each child.
       // Nota: while fetching, show no entity but loading state instead
       newState.entities = newProps.fetchingMetadata

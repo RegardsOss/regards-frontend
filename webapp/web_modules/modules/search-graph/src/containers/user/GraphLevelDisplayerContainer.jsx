@@ -120,7 +120,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
   /**
    * Lifecycle hook: fetch initial content data (at least for root level, as it has no parent collection)
    */
-  componentDidMount = () => {
+  componentDidMount() {
     const { isShowable, parentId, selectionPath } = this.props
     this.updateLevelElements(isShowable, parentId, selectionPath)
   }
@@ -129,7 +129,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
    * Lifecycle hook: fetch when parent collection changes (if parent collection is defined)
    * @param {*} nextProps
    */
-  UNSAFE_componentWillReceiveProps = ({ parentId: nextparentId, isShowable, selectionPath }) => {
+  UNSAFE_componentWillReceiveProps({ parentId: nextparentId, isShowable, selectionPath }) {
     const { parentId } = this.props
     if (parentId !== nextparentId && nextparentId) { // refetch on parent change, if showable
       this.updateLevelElements(isShowable, nextparentId, selectionPath)

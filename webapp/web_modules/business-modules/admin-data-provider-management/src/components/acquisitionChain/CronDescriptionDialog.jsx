@@ -77,14 +77,14 @@ class CronDescriptionDialog extends React.Component {
       <Dialog
         title={formatMessage({ id: 'acquisition-chain.form.general.section.cron.description.title' })}
         modal={false}
-        actions={<>
+        actions={
           <RaisedButton
             key="close"
             label={formatMessage({ id: 'acquisition-chain.form.general.section.cron.description.close' })}
             primary
             onClick={onClose}
           />
-        </>}
+        }
         open={opened}
         onRequestClose={onClose}
         bodyStyle={markdownDialog.bodyStyle}

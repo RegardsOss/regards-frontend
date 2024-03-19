@@ -66,7 +66,7 @@ class NavigationLayoutComponent extends React.Component {
    * Lifecycle method: component will mount. Used here to detect properties changes
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     // initialize transient layout data
     this.layoutWidth = null
     this.moreButtonWidth = null
@@ -79,7 +79,9 @@ class NavigationLayoutComponent extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state

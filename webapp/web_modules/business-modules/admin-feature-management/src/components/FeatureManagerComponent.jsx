@@ -85,7 +85,7 @@ class FeatureManagerComponent extends React.Component {
     isFilterPaneOpened: false,
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     const { params: { type } } = this.props
     if (includes(FemDomain.REQUEST_TYPES, type)) {
       this.onSwitchToPane(type)

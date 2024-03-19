@@ -156,7 +156,9 @@ class NavigationArrayFieldRender extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => NavigationArrayFieldRender.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    NavigationArrayFieldRender.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * User asked to create a section: initialize new section model and show edition dialog
@@ -330,8 +332,8 @@ class NavigationArrayFieldRender extends React.Component {
               onCreateLink={this.onCreateLink}
               onDeleteLink={this.onDeleteLink}
             />) : (
-              // no dynamic module found
-              <div style={noElementMessageStyle}>{formatMessage({ id: 'menu.form.navigation.no.module.message' })}</div>
+            // no dynamic module found
+            <div style={noElementMessageStyle}>{formatMessage({ id: 'menu.form.navigation.no.module.message' })}</div>
           )
         }
       </div>

@@ -113,14 +113,18 @@ export class PageableInfiniteTableContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. used here to initialize state for properties
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesChanged(this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesChanged(this.props)
+  }
 
   /**
    * Lifecycle method: component will receive props. Used here to update state for properties, avoid new references
    * at render time
    * @param nextProps next component properties values
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(nextProps, this.props)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesChanged(nextProps, this.props)
+  }
 
   /**
    * On properties changed, used here to update sub component properties (limits the references creation at render time)

@@ -77,7 +77,7 @@ export class AskProjectAccessFormComponent extends React.Component {
     ...i18nContextType,
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     const initialValues = {}
     initialValues[mailFieldId] = this.props.initialMail
     initialValues[useExistingAccountFieldId] = false

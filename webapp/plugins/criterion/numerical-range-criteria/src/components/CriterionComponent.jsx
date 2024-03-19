@@ -32,66 +32,66 @@ import {
   * @author Théo Lasserre
   */
 class CriterionComponent extends React.Component {
-   static propTypes = {
-     label: UIShapes.IntlMessage.isRequired,
-     lowerBound: AttributeModelWithBounds.isRequired,
-     upperBound: AttributeModelWithBounds.isRequired,
-     error: PropTypes.bool.isRequired,
-     value: PropTypes.string,
-     operator: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
-     availableComparators: PropTypes.arrayOf(PropTypes.oneOf(CommonDomain.EnumNumericalComparators)).isRequired,
-     onTextChange: PropTypes.func.isRequired,
-     onOperatorSelected: PropTypes.func.isRequired,
-   }
+  static propTypes = {
+    label: UIShapes.IntlMessage.isRequired,
+    lowerBound: AttributeModelWithBounds.isRequired,
+    upperBound: AttributeModelWithBounds.isRequired,
+    error: PropTypes.bool.isRequired,
+    value: PropTypes.string,
+    operator: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
+    availableComparators: PropTypes.arrayOf(PropTypes.oneOf(CommonDomain.EnumNumericalComparators)).isRequired,
+    onTextChange: PropTypes.func.isRequired,
+    onOperatorSelected: PropTypes.func.isRequired,
+  }
 
-   static contextTypes = {
-     // enable plugin theme access through this.context
-     ...themeContextType,
-     // enable i18n access trhough this.context
-     ...i18nContextType,
-   }
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
+  }
 
-   /** Error text placeholder (used to display empty error on text field) */
-   static ERROR_TEXT_PLACEHOLDER = ' '
+  /** Error text placeholder (used to display empty error on text field) */
+  static ERROR_TEXT_PLACEHOLDER = ' '
 
-   render() {
-     const {
-       label, lowerBound, upperBound,
-       error, value, operator, availableComparators,
-       onTextChange, onOperatorSelected,
-     } = this.props
-     const { intl, muiTheme } = this.context
+  render() {
+    const {
+      label, lowerBound, upperBound,
+      error, value, operator, availableComparators,
+      onTextChange, onOperatorSelected,
+    } = this.props
+    const { intl, muiTheme } = this.context
 
-     // compute no value state with attribute bounds
-     const hasNovalue = isNil(lowerBound) && isNil(upperBound)
-     return (
-       <tr>
-         {/* 1. label */}
-         <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
-           {`${label[intl.locale]}`}
-         </td>
-         {/* 2. Comparison selector */}
-         <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
-           <NumericalComparatorSelector
-             operator={operator}
-             operators={availableComparators}
-             onSelect={onOperatorSelected}
-             disabled={hasNovalue}
-           />
-         </td>
-         {/* 3. input box */}
-         <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
-           <TextField
-             hintText={`[${lowerBound.boundsInformation.lowerBound}, ${upperBound.boundsInformation.upperBound}]`}
-             errorText={error ? CriterionComponent.ERROR_TEXT_PLACEHOLDER : null}
-             value={value}
-             onChange={onTextChange}
-             disabled={hasNovalue}
-             fullWidth
-           />
-         </td>
-       </tr>
-     )
-   }
+    // compute no value state with attribute bounds
+    const hasNovalue = isNil(lowerBound) && isNil(upperBound)
+    return (
+      <tr>
+        {/* 1. label */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+          {`${label[intl.locale]}`}
+        </td>
+        {/* 2. Comparison selector */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <NumericalComparatorSelector
+            operator={operator}
+            operators={availableComparators}
+            onSelect={onOperatorSelected}
+            disabled={hasNovalue}
+          />
+        </td>
+        {/* 3. input box */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <TextField
+            hintText={`[${lowerBound.boundsInformation.lowerBound}, ${upperBound.boundsInformation.upperBound}]`}
+            errorText={error ? CriterionComponent.ERROR_TEXT_PLACEHOLDER : null}
+            value={value}
+            onChange={onTextChange}
+            disabled={hasNovalue}
+            fullWidth
+          />
+        </td>
+      </tr>
+    )
+  }
 }
 export default CriterionComponent

@@ -169,8 +169,8 @@ export class NavigationModelResolutionContainer extends React.Component {
    * @return {SectionNavigationItem} built section or null
    */
   static convertSection(navigationSectionItem, children, role, borrowableRoles) {
-    return children.length
-      && NavigationModelResolutionContainer.isNavigationItemAvailable(navigationSectionItem, role) ? {
+    return children.length && NavigationModelResolutionContainer.isNavigationItemAvailable(navigationSectionItem, role) ?
+      {
         key: `section.${navigationSectionItem.id}`,
         type: navigationSectionItem.type,
         title: navigationSectionItem.title,
@@ -359,13 +359,17 @@ export class NavigationModelResolutionContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state

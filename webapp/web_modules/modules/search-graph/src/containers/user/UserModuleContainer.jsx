@@ -150,11 +150,13 @@ export class UserModuleContainer extends React.Component {
       .then(getRecursiveUpdater(selectionPath, 1))
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     this.onPropertiesChanged(undefined, this.props)
   }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesChanged(this.props, nextProps)
+  }
 
   onPropertiesChanged = (oldProps, nextProps) => {
     const { moduleConf: { graphDatasetAttributes }, attributeModels, authentication } = (oldProps || { moduleConf: { attributeModels: [], graphLevels: [] } })

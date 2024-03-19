@@ -54,6 +54,7 @@ class Table extends React.Component {
     stripeRows: PropTypes.bool,
 
     // dynamic properties
+    // eslint-disable-next-line react/forbid-prop-types
     entities: PropTypes.arrayOf(PropTypes.any), // Current fetched entities
     // eslint-disable-next-line react/no-unused-prop-types
     entitiesCount: PropTypes.number, // Total number of entities (even the unfetched ones)
@@ -66,6 +67,7 @@ class Table extends React.Component {
     width: PropTypes.number.isRequired,
 
     // style for cell element
+    // eslint-disable-next-line react/forbid-prop-types
     cellWrapperStyle: PropTypes.objectOf(PropTypes.any),
   }
 
@@ -93,14 +95,17 @@ class Table extends React.Component {
   /**
    * Lifecycle method component will mount. Used here to initialize runtime graphic data in state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesChanged({}, this.props)
-  // initialize graphics and columns
+  UNSAFE_componentWillMount() {
+    this.onPropertiesChanged({}, this.props)
+  }
 
   /**
    * Lifecycle method component will receive props. Used here to (re-)initialize runtime data in state
    * @param nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesChanged(this.props, nextProps)
+  }
 
   /**
    * On properties changed
@@ -158,14 +163,6 @@ class Table extends React.Component {
    * @return current header height
    */
   getHeaderHeight = (displayColumnsHeader) => displayColumnsHeader ? this.context.muiTheme.components.infiniteTable.minHeaderRowHeight : 0
-
-  /**
-   * Is there an entity on specified row index?
-   * Note: it happens that a row have no entity, because of the min row count being sometimes greater than the entities count
-   * @param {number} rowIndex row index
-   * @return {boolean} true if row has an entity
-   */
-  hasEntity = (rowIndex) => rowIndex >= 0 && this.props.entities.length > rowIndex
 
   /**
    * Computes graphics measures and provides a usable component state

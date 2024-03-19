@@ -369,8 +369,8 @@ export class EntitiesFilesFormComponent extends React.Component {
       <List>
         <Subheader style={EntitiesFilesFormComponent.subHeaderStyle}>
           {
-          this.state.type === CommonDomain.DATA_TYPES_ENUM.RAWDATA
-            ? formatMessage({ id: 'entities-files.form.file.RAWDATA.subtitle' }) : formatMessage({ id: 'entities-files.form.file.subtitle' })
+            this.state.type === CommonDomain.DATA_TYPES_ENUM.RAWDATA
+              ? formatMessage({ id: 'entities-files.form.file.RAWDATA.subtitle' }) : formatMessage({ id: 'entities-files.form.file.subtitle' })
           }
         </Subheader>
         {content}

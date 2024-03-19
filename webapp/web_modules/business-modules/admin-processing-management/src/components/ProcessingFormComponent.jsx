@@ -175,14 +175,14 @@ export class ProcessingFormComponent extends React.Component {
     const { intl: { formatMessage }, moduleTheme } = this.context
     return (
       <Dialog
-        actions={<>
+        actions={
           <FlatButton
             key="close"
             label={formatMessage({ id: 'processing.form.list.tooltip.info.close' })}
             primary
             onClick={this.showOrCloseHelpUserRoleDialog}
           />
-        </>}
+        }
         title={formatMessage({ id: 'processing.form.select.role' })}
         open={this.state.isHelpUserRoleDialogOpen}
         onRequestClose={this.showOrCloseHelpUserRoleDialog}

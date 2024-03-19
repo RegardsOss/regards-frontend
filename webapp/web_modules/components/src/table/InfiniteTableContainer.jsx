@@ -140,13 +140,19 @@ class InfiniteTableContainer extends React.Component {
   }
 
   /** Initialize state */
-  UNSAFE_componentWillMount = () => this.setState(InfiniteTableContainer.DEFAULT_STATE)
+  UNSAFE_componentWillMount() {
+    this.setState(InfiniteTableContainer.DEFAULT_STATE)
+  }
 
   /** Update state from props */
-  componentDidMount = () => this.onPropertiesUpdate({}, this.props)
+  componentDidMount() {
+    this.onPropertiesUpdate({}, this.props)
+  }
 
   /** Update state from props */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdate(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdate(this.props, nextProps)
+  }
 
   /**
    * Updates state and runs fetches required on properties change

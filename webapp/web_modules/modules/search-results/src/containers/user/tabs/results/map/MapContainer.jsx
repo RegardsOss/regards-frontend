@@ -26,10 +26,10 @@ import map from 'lodash/map'
 import { ToponymUploader, UPLOADER_DISPLAY_MODES } from '@regardsoss/components'
 import { CatalogDomain, UIDomain } from '@regardsoss/domain'
 import { AccessShapes, CatalogShapes, UIShapes } from '@regardsoss/shape'
+import { toAreaFeature, toBoxCoordinates, geometryToAreaFeature } from '@regardsoss/mizar-adapter'
 import { connect } from '@regardsoss/redux'
 import { resultsContextActions } from '../../../../../clients/ResultsContextClient'
 import MapComponent from '../../../../../components/user/tabs/results/map/MapComponent'
-import { toAreaFeature, toBoxCoordinates, geometryToAreaFeature } from '../../../../../../../../utils/mizar-adapter/src/main'
 import { toponymSelectors } from '../../../../../clients/ToponymClient'
 import { withSelectionContainer } from '../common/withSelectionContainer'
 
@@ -135,13 +135,17 @@ export class MapContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state

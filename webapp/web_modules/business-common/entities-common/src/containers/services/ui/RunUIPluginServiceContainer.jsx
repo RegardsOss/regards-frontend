@@ -74,7 +74,7 @@ export class RunUIPluginServiceContainer extends React.Component {
   /**
    * Component initialization: retrieve configuration (the plugin defintion comes within)
    */
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     this.setState(RunUIPluginServiceContainer.DEFAULT_STATE)
     const { service, dispatchFetchPluginConfiguration } = this.props
     const { configId } = service

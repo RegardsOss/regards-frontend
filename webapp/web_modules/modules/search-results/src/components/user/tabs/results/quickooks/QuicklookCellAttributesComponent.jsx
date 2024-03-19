@@ -39,7 +39,7 @@ class QuicklookCellAttributesComponent extends React.PureComponent {
     ...i18nContextType,
   }
 
-  render = () => {
+  render() {
     const { moduleTheme } = this.context
     const { presentationModels, locale } = this.props
     const {

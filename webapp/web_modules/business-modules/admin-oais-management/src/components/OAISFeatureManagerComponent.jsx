@@ -90,7 +90,7 @@ class OAISFeatureManagerComponent extends React.Component {
     isFilterPaneOpened: false,
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     const { params: { type } } = this.props
     if (includes(IngestDomain.REQUEST_TYPES, type)) {
       this.onSwitchToPane(type)

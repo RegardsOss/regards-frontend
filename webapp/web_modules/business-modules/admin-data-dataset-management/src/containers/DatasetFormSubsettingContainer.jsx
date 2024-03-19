@@ -51,6 +51,13 @@ export class DatasetFormSubsettingContainer extends React.Component {
     modelAttributeList: {},
   }
 
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
+
   componentDidMount() {
     // Fetch attributes from the Datasource model
     Promise.resolve(this.props.fetchModelAttributeList(this.props.currentDataset.content.dataModel))
@@ -62,15 +69,12 @@ export class DatasetFormSubsettingContainer extends React.Component {
   }
 
   /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state

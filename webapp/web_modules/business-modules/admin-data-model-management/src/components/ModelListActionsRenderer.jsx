@@ -60,7 +60,7 @@ class ModelListActionsRenderer extends React.Component {
     return `${exportLink.href}?token=${accessToken}` || ''
   }
 
-  render = () => {
+  render() {
     const {
       entity, openDeleteDialog, handleEdit, handleDuplicate, handleBindAttributes,
     } = this.props

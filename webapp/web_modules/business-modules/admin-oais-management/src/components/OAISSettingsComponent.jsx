@@ -135,14 +135,14 @@ export class OAISSettingsComponent extends React.Component {
       <Dialog
         open={isHelpCronDialogOpen}
         title={formatMessage({ id: 'oais.settings.dialog.title' })}
-        actions={<>
+        actions={
           <RaisedButton
             key="close"
             label={formatMessage({ id: 'oais.settings.dialog.close' })}
             primary
             onClick={this.toggleHelpCronDialog}
           />
-        </>}
+        }
         modal
       >
         {

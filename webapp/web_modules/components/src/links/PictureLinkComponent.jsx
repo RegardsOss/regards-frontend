@@ -32,11 +32,9 @@ class PictureLinkComponent extends React.Component {
     iconStyles: PropTypes.object,
     iconToTextGap: PropTypes.string,
     defaultTextColor: PropTypes.string,
-    overTextColor: PropTypes.string,
     defaultImageColor: PropTypes.string,
     disabledTextColor: PropTypes.string,
     disabledImageColor: PropTypes.string,
-    overImageColor: PropTypes.string,
   }
 
   static defaultProps = {
@@ -65,10 +63,6 @@ class PictureLinkComponent extends React.Component {
     flexShrink: '0',
   }
 
-  state = {
-    isOver: false,
-  }
-
   onAction = () => {
     const { disabled, onAction } = this.props
     if (!disabled) {
@@ -76,31 +70,16 @@ class PictureLinkComponent extends React.Component {
     }
   }
 
-  onEnter = () => {
-    this.setState({
-      isOver: true,
-    })
-  }
-
-  onExit = () => {
-    this.setState({
-      isOver: false,
-    })
-  }
-
   render() {
     const {
       className, disabled, text, IconComponent, iconStyles, iconToTextGap,
     } = this.props
-    const { isOver } = this.state
     const { palette } = this.context.muiTheme
 
     // compute text colors according with provided properties (use some default otherwise)
     const {
       defaultTextColor = palette.textColor,
-      overTextColor = palette.primary2Color,
       defaultImageColor = palette.primary1Color,
-      overImageColor = palette.primary1Color,
       disabledTextColor = palette.disabledColor,
       disabledImageColor = palette.disabledColor,
     } = this.props
@@ -110,8 +89,6 @@ class PictureLinkComponent extends React.Component {
     let imageColor
     if (disabled) {
       [textColor, imageColor] = [disabledTextColor, disabledImageColor]
-    } else if (isOver) {
-      [textColor, imageColor] = [overTextColor, overImageColor]
     } else {
       [textColor, imageColor] = [defaultTextColor, defaultImageColor]
     }

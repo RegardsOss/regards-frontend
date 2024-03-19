@@ -58,8 +58,8 @@ export class KeyboardShortcuts {
         return eventModifier
       case MODIFIER_STATE.NOT_PRESSED:
         return !eventModifier
-      default:
       case MODIFIER_STATE.ANY:
+      default:
         return true
     }
   }

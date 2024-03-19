@@ -93,7 +93,7 @@ export class SessionManagementContainer extends React.Component {
   /**
    * Lifecle method Component will receive props: used here to detect authentication state changes
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // check: if the authentication state changes, set up a timer to handle expiration
     const currentAuthData = this.props.authentication || {}
     const nextAuthData = nextProps.authentication || {}
@@ -238,11 +238,11 @@ export class SessionManagementContainer extends React.Component {
         open={showLoginWindow || sessionLocked}
       >
         {
-          sessionLocked
-            ? <SessionLockedFormComponent
-                serviceProvider={serviceProvider}
-                hasUnlockingError={hasUnlockingError}
-                onUnlock={this.unlockSession}
+          sessionLocked ?
+            <SessionLockedFormComponent
+              serviceProvider={serviceProvider}
+              hasUnlockingError={hasUnlockingError}
+              onUnlock={this.unlockSession}
             /> : children
         }
       </AuthenticationDialogComponent>

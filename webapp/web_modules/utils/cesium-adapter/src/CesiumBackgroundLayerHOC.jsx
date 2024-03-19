@@ -34,13 +34,19 @@ const withCesiumBackgroundLayerHOC = (Component) => class CesiumRectangleMeridia
     drawnAreas: PropTypes.arrayOf(GeoJsonFeature),
   }
 
-  rectangle = null;
+  rectangle = null
+
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
     * Lifecycle method: component receive props. Used here to detect properties change and update local state
     * @param {*} nextProps next component properties
     */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
     * Properties change detected: update local state
@@ -56,8 +62,6 @@ const withCesiumBackgroundLayerHOC = (Component) => class CesiumRectangleMeridia
       this.rectangle = !isEmpty(drawnAreas) ? buildRectangleFromGeometry(drawnAreas[0].geometry) : null
     }
   }
-
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   render() {
     // eslint-disable-next-line no-unused-vars

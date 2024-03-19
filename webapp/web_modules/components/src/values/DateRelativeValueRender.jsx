@@ -68,6 +68,16 @@ class DateRelativeValueRender extends React.Component {
     toDisplay: null,
   }
 
+  UNSAFE_componentWillMount() {
+    this.updateRelativeDate()
+  }
+
+  componentWillUnmount() {
+    if (this.timeOut) {
+      clearTimeout(this.timeOut)
+    }
+  }
+
   setTimeOut = () => {
     this.timeOut = setTimeout(this.updateRelativeDate, 1000)
   }
@@ -78,16 +88,6 @@ class DateRelativeValueRender extends React.Component {
     this.setState({
       toDisplay: DateRelativeValueRender.getFormattedDate(intl, value, displayOnlyFutureDate) || intl.formatMessage({ id: 'value.render.no.value.label' }),
     }, this.setTimeOut)
-  }
-
-  UNSAFE_componentWillMount = () => {
-    this.updateRelativeDate()
-  }
-
-  componentWillUnmount = () => {
-    if (this.timeOut) {
-      clearTimeout(this.timeOut)
-    }
   }
 
   render() {

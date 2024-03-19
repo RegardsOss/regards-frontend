@@ -83,7 +83,7 @@ export class MaxQuotaFormComponent extends React.Component {
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    * Nota: user property is stable during this component lifecycle (as parent dialog unmounts it when when user changes)
    */
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     const { user: { content: { maxQuota } }, initialize } = this.props
     initialize({
       maxQuota: (isNaN(maxQuota) ? QuotaInfoConstants.UNLIMITED : maxQuota).toString(),
@@ -150,7 +150,7 @@ export class MaxQuotaFormComponent extends React.Component {
           fullWidth
           disabled
         />
-        { (() => {
+        {(() => {
           if (remainingQuota === QuotaInfoConstants.UNLIMITED) {
             return <UnlimitedIcon style={unlimitedIcon} />
           }

@@ -43,35 +43,35 @@ export class ServiceProviderButton extends React.Component {
   /**
    * Retrieve a service provider description depending on locale used
    */
-   getServiceDescription = (serviceProvider) => {
-     const { intl: { locale } } = this.context
-     return locale === UIDomain.LOCALES_ENUM.fr ? get(serviceProvider, 'content.descriptionFr', '') : get(serviceProvider, 'content.descriptionEn', '')
-   }
+  getServiceDescription = (serviceProvider) => {
+    const { intl: { locale } } = this.context
+    return locale === UIDomain.LOCALES_ENUM.fr ? get(serviceProvider, 'content.descriptionFr', '') : get(serviceProvider, 'content.descriptionEn', '')
+  }
 
-   render() {
-     const { serviceProvider, unlockStep } = this.props
-     const { moduleTheme } = this.context
-     const description = this.getServiceDescription(serviceProvider)
-     return (
-       <Link to={{ pathname: serviceProvider.content.authUrl }} target="_blank">
-         <RaisedButton
-           label={this.context.intl.formatMessage({ id: unlockStep ? 'authentication.external.button.unlock.label' : 'authentication.external.button.label' }, { name: serviceProvider.content.name })}
-           style={moduleTheme.serviceProviderButton}
-           buttonStyle={moduleTheme.serviceProviderButtonStyle}
-           overlayStyle={moduleTheme.overlayAltStyle}
-           labelStyle={moduleTheme.labelStyle}
-           primary
-         >
-           {
+  render() {
+    const { serviceProvider, unlockStep } = this.props
+    const { moduleTheme } = this.context
+    const description = this.getServiceDescription(serviceProvider)
+    return (
+      <Link to={{ pathname: serviceProvider.content.authUrl }} target="_blank">
+        <RaisedButton
+          label={this.context.intl.formatMessage({ id: unlockStep ? 'authentication.external.button.unlock.label' : 'authentication.external.button.label' }, { name: serviceProvider.content.name })}
+          style={moduleTheme.serviceProviderButton}
+          buttonStyle={moduleTheme.serviceProviderButtonStyle}
+          overlayStyle={moduleTheme.overlayAltStyle}
+          labelStyle={moduleTheme.labelStyle}
+          primary
+        >
+          {
             !isEmpty(description)
               ? <div style={moduleTheme.serviceProviderDescriptionStyle}>
                 {description}
               </div> : null
-}
-         </RaisedButton>
+          }
+        </RaisedButton>
 
-       </Link>
-     )
-   }
+      </Link>
+    )
+  }
 }
 export default ServiceProviderButton

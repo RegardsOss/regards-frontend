@@ -82,7 +82,7 @@ class ModuleFormComponent extends React.Component {
   /**
    * Lifecycle method component will mount, used here to initialize default form values
    */
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     // initialize EN and FR titles
     const { adminForm: { form, changeField } } = this.props
     if (!get(form, this.CONF_HOME_TITLE_EN)) {

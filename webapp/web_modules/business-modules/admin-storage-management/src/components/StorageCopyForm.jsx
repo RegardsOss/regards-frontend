@@ -77,7 +77,7 @@ class StorageCopyform extends React.Component {
 
   isDisabled = (location) => (location.content.name === this.props.storageLocation.content.name) || get(location, 'content.configuration.storageType', null) === 'CACHE' || get(location, 'content.configuration.storageType', null) === 'OFFLINE'
 
-  render = () => {
+  render() {
     const { storageLocation, availablableDestinations } = this.props
     const {
       copyPathSource, copyPathTarget, copyStorageTarget,

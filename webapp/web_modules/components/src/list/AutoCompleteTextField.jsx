@@ -122,7 +122,7 @@ class AutoCompleteTextField extends React.Component {
   /**
    * Lifecycle method: component did mount. Used here to request initial hints list
    */
-  componentDidMount = () => {
+  componentDidMount() {
     const { onUpdateInput, currentHintText } = this.props
     onUpdateInput(currentHintText)
   }

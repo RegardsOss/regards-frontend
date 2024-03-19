@@ -142,13 +142,17 @@ class ProjectUserListComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
@@ -200,12 +204,12 @@ class ProjectUserListComponent extends React.Component {
         isPaneOpened={isPaneOpened}
         onCloseFiltersPane={this.handleFiltersPane}
       />,
-        <ProjectUserAccountComponent
-          key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
-          project={project}
-          isLoading={isLoading}
-          onEdit={onEdit}
-        />]
+      <ProjectUserAccountComponent
+        key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
+        project={project}
+        isLoading={isLoading}
+        onEdit={onEdit}
+      />]
     }
     if (visualisationMode === VISUALISATION_MODES.QUOTA) {
       return [<ProjectUserQuotaFiltersComponent
@@ -214,13 +218,13 @@ class ProjectUserListComponent extends React.Component {
         onCloseFiltersPane={this.handleFiltersPane}
         uiSettings={uiSettings}
       />,
-        <ProjectUserQuotaComponent
-          key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
-          project={project}
-          onEdit={onEdit}
-          isLoading={isLoading}
-          uiSettings={uiSettings}
-        />]
+      <ProjectUserQuotaComponent
+        key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
+        project={project}
+        onEdit={onEdit}
+        isLoading={isLoading}
+        uiSettings={uiSettings}
+      />]
     }
     if (visualisationMode === VISUALISATION_MODES.ACCESS_RIGHT) {
       return [<ProjectUserAccessRightFiltersComponent
@@ -229,11 +233,11 @@ class ProjectUserListComponent extends React.Component {
         onCloseFiltersPane={this.handleFiltersPane}
         groups={groups}
       />,
-        <ProjectUserAccessRightComponent
-          key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
-          onEdit={onEdit}
-          isLoading={isLoading}
-        />]
+      <ProjectUserAccessRightComponent
+        key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
+        onEdit={onEdit}
+        isLoading={isLoading}
+      />]
     }
     return null
   }

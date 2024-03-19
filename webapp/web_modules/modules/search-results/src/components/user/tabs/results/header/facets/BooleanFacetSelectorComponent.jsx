@@ -37,16 +37,6 @@ class BooleanFacetSelectorComponent extends React.Component {
   }
 
   /**
-   * @param {boolean} value facet value
-   * @return {string} label for boolean value */
-  getValueLabel = (value) => {
-    const { intl: { formatMessage } } = this.context
-    return formatMessage({
-      id: value ? 'search.facets.filter.boolean.value.true' : 'search.facets.filter.boolean.value.false',
-    })
-  }
-
-  /**
    * Formats facet value
    * @param {FacetValue} facetValue as returned by the backend
    * @return {string} value label

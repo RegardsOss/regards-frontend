@@ -101,13 +101,17 @@ class RenderMapField extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
@@ -457,15 +461,15 @@ class RenderMapField extends React.Component {
                 >
                   {map(mapKeys, (localKey, idx) => this.renderListItem(localKey))}
                 </SelectableList>
-                {disabled
-                  ? null
-                  : <RaisedButton
-                      label={formatMessage({ id: 'render.array-object.add.button' })}
-                      fullWidth
-                      primary
-                      onClick={this.onOpenAddDialog}
-                      icon={<AddBoxIcon />}
-                      style={leftButtonStyle}
+                {disabled ?
+                  null :
+                  <RaisedButton
+                    label={formatMessage({ id: 'render.array-object.add.button' })}
+                    fullWidth
+                    primary
+                    onClick={this.onOpenAddDialog}
+                    icon={<AddBoxIcon />}
+                    style={leftButtonStyle}
                   />}
               </div>
               <div style={rightColumnStyle}>

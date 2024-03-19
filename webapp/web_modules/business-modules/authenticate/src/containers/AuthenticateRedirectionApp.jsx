@@ -90,12 +90,12 @@ export class AuthenticateRedirectionApp extends React.Component {
     status: STATUS.LOADING,
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     // Redux store space init for user app
     this.props.initializeApplication(this.props.params.project)
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const {
       params: { project, serviceProviderName }, requestLogin,
     } = this.props

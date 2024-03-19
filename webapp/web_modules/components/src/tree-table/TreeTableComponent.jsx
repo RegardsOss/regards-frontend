@@ -109,13 +109,17 @@ export class TreeTableComponent extends React.Component {
   }
 
   /** Lyfecycle method: component will mount. Used here to rebuild rows and local model from model */
-  UNSAFE_componentWillMount = () => this.onPropertiesChanged({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesChanged({}, this.props)
+  }
 
   /**
    * Lyfecycle method: component receive props. Used here to rebuild rows and local model from model
    * @param nextProps next properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesChanged(this.props, nextProps)
+  }
 
   /**
    * On properties changed detected: update local rows model

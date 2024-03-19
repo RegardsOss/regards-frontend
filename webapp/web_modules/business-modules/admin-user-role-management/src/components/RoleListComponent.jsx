@@ -68,15 +68,6 @@ export class RoleListComponent extends React.Component {
     handleDelete(entityToDelete.content.name)
   }
 
-  getBooleanAsString = (value) => {
-    const { intl: { formatMessage } } = this.context
-
-    if (value) {
-      return formatMessage({ id: 'role.list.value.true' })
-    }
-    return formatMessage({ id: 'role.list.value.false' })
-  }
-
   /**
    * Returns role label for role name as parameter
    * @param {string}  name (may be undefined)
@@ -101,20 +92,6 @@ export class RoleListComponent extends React.Component {
    * @returns {string} label to use
    */
   getParentRoleLabel = (parentRole) => this.getRoleLabel(parentRole ? parentRole.name : null)
-
-  /**
-   *
-   * @param isDeleted
-   * @returns {*}
-   */
-  getState = (isDeleted) => {
-    const { intl: { formatMessage } } = this.context
-
-    if (isDeleted) {
-      return formatMessage({ id: 'projects.table.isDeleted' })
-    }
-    return (null)
-  }
 
   closeDeleteDialog = () => {
     this.setState({

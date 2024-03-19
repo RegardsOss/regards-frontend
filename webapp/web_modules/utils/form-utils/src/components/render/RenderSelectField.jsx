@@ -45,7 +45,7 @@ class RenderSelectField extends React.Component {
    * @param {number} index selected element index
    * @param {*} value selected element value
    */
-  onSelect =(event, index, value) => {
+  onSelect = (event, index, value) => {
     const { onSelect, input } = this.props
     if (onSelect) {
       return onSelect(event, index, value, input)

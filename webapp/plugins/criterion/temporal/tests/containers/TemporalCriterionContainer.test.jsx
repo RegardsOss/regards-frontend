@@ -59,8 +59,7 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
       pluginInstanceId: 'any',
       label: criterionTestSuiteHelpers.getLabelStub(),
       attributes: {
-        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
-          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '2017-09-27T13:15:42.726Z', '2018-09-27T13:15:42.726Z')),
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '2017-09-27T13:15:42.726Z', '2018-09-27T13:15:42.726Z')),
       },
       publishState: (state, requestParameters) => {
         spiedPublishStateData.count += 1
@@ -107,7 +106,7 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
       expectedError: true,
       expectedTime: new Date('2025-01-01T12:40:42.726Z').getTime(),
       expectedOperator: CommonDomain.EnumNumericalComparator.GE,
-      expectedQuery: { }, // no query
+      expectedQuery: {}, // no query
     }, {
       label: 'back to valid state by changing operator',
       changeValue: () => enzymeWrapper.instance().onOperatorSelected(CommonDomain.EnumNumericalComparator.LE),
@@ -133,8 +132,7 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
         operator: expectedOperator,
       }, `#${caseIndex} ${label}: New state should be valid`)
       // check new query is valid
-      assert.deepEqual(spiedPublishStateData.requestParameters, expectedQuery,
-        `#${caseIndex} ${label}: Query should be correctly computed`)
+      assert.deepEqual(spiedPublishStateData.requestParameters, expectedQuery, `#${caseIndex} ${label}: Query should be correctly computed`)
       // apply published state
       enzymeWrapper.setProps({
         ...props,

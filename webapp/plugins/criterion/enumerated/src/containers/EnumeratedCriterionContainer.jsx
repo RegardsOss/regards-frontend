@@ -75,7 +75,7 @@ export class EnumeratedCriterionContainer extends React.Component {
     const enumeratedValuesActions = EnumeratedCriterionContainer.CLIENTS_MAP.getClient(buildClient, pluginInstanceId).actions
     return {
       // dispatches a request to get property values.
-      dispatchGetPropertyValues: (name, filterText = '', contextParameters) => dispatch(enumeratedValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT, contextParameters)),
+      dispatchGetPropertyValues: (name, contextParameters, filterText = '') => dispatch(enumeratedValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT, contextParameters)),
     }
   }
 
@@ -131,13 +131,17 @@ export class EnumeratedCriterionContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update current options on context change and selected option on list change
@@ -153,10 +157,10 @@ export class EnumeratedCriterionContainer extends React.Component {
 
     if (!isEqual(oldProps.searchContext, searchContext)) {
       // Update immediately available options on context change
-      dispatchGetPropertyValues(searchField.jsonPath, state.searchText, searchContext.searchParameters)
+      dispatchGetPropertyValues(searchField.jsonPath, searchContext.searchParameters, state.searchText)
     } else if (!isEqual(get(oldProps, 'state.searchText', EnumeratedCriterionContainer.DEFAULT_STATE.searchText), state.searchText)) {
       // when search text changes (user is typing text), update options after an inactivity time ellapsed
-      this.stabilityDelayer.onEvent(() => dispatchGetPropertyValues(searchField.jsonPath, state.searchText, searchContext.searchParameters))
+      this.stabilityDelayer.onEvent(() => dispatchGetPropertyValues(searchField.jsonPath, searchContext.searchParameters, state.searchText))
     } else {
       // compute if error status changed (happens when availablePropertyValues change)
       const oldErrorState = get(oldProps, 'state.error', false)

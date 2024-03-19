@@ -159,7 +159,7 @@ export class DynamicModulePane extends React.Component {
   /**
    * Lifecycle method, used here to recompute authentication and dependencies state
    */
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     const { storedPresentationState } = this.props
     // initialize redux store with this configuration, when layout options should be shown AND not yet initializd (keeps state while
     // user change pages)
@@ -177,7 +177,9 @@ export class DynamicModulePane extends React.Component {
    * Lifecycle method, used here to recompute authentication and dependencies state
    * @param nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesChanged(this.props, nextProps)
+  }
 
   /**
    * On properties changed: used to detect changes in incoming component properties

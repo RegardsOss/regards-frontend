@@ -42,14 +42,14 @@ class AsynchronousRequestInformationComponent extends React.Component {
     return (
       <Dialog
         title={formatMessage({ id: 'order.list.options.aynschronous.request.title' })}
-        actions={<>
+        actions={
           <FlatButton
             key="close.button"
             label={formatMessage({ id: 'order.list.options.aynschronous.request.close.button.label' })}
             onClick={onClose}
             primary
           />
-        </>}
+        }
         modal={false}
         open={visible}
         onRequestClose={onClose}

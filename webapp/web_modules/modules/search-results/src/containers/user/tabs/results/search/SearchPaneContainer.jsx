@@ -205,7 +205,7 @@ export class SearchPaneContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     // Initialize from configuration and pack with runtime data
     const { resultsContext, tabType } = this.props
     const { tab: { criteria, search: { groups } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
@@ -220,7 +220,7 @@ export class SearchPaneContainer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { resultsContext, tabType } = nextProps
     const { tab: { criteria } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     // update root context criteria when it changes

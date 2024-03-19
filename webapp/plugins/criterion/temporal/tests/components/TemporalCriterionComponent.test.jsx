@@ -43,13 +43,12 @@ describe('[Temporal criterion] Testing TemporalCriterionComponent', () => {
       pluginInstanceId: 'any',
       error: false,
       label: criterionTestSuiteHelpers.getLabelStub(),
-      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '2017-09-27T13:15:42.726Z', '2018-09-29T13:15:42.726Z')),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '2017-09-27T13:15:42.726Z', '2018-09-29T13:15:42.726Z')),
       value: new Date('2017-12-25T00:00:00.000Z'),
       operator: CommonDomain.EnumNumericalComparator.GE,
       availableComparators: TemporalCriterionContainer.AVAILABLE_COMPARISON_OPERATORS,
-      onDateChanged: () => {},
-      onOperatorSelected: () => {},
+      onDateChanged: () => { },
+      onOperatorSelected: () => { },
     }
     UIDomain.LOCALES.forEach((locale) => {
       const enzymeWrapper = shallow(<TemporalCriterionComponent {...props} />, {
@@ -67,14 +66,13 @@ describe('[Temporal criterion] Testing TemporalCriterionComponent', () => {
     expectedDisabled: false,
   }, {
     label: 'without error (with attribute bounds)',
-    specificProps: { },
+    specificProps: {},
     expectedError: false,
     expectedDisabled: false,
   }, {
     label: 'without error (without attribute bounds)',
     specificProps: {
-      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
     },
     expectedError: false,
     expectedDisabled: true,
@@ -86,14 +84,13 @@ describe('[Temporal criterion] Testing TemporalCriterionComponent', () => {
     const props = {
       pluginInstanceId: 'any',
       label: criterionTestSuiteHelpers.getLabelStub(),
-      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '2017-09-27T13:15:42.726Z', '2018-09-29T13:15:42.726Z')),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null, criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '2017-09-27T13:15:42.726Z', '2018-09-29T13:15:42.726Z')),
       error: false,
       value: new Date('2018-01-01T00:00:00.000Z'),
       operator: CommonDomain.EnumNumericalComparator.LE,
       availableComparators: TemporalCriterionContainer.AVAILABLE_COMPARISON_OPERATORS,
-      onDateChanged: () => {},
-      onOperatorSelected: () => {},
+      onDateChanged: () => { },
+      onOperatorSelected: () => { },
       ...specificProps,
     }
     const enzymeWrapper = shallow(<TemporalCriterionComponent {...props} />, { context })

@@ -36,7 +36,7 @@ import TableFilterSortingAndVisibilityContainer from './filters/TableFilterSorti
 const withSortTables = (columnKeys) => (DecoratedComponent) => {
   class WithSortTables extends React.Component {
     static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
+      // eslint-disable-next-line react/no-unused-prop-types
       requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     }
 
@@ -49,13 +49,17 @@ const withSortTables = (columnKeys) => (DecoratedComponent) => {
     /**
      * Lifecycle method: component will mount. Used here to detect first properties change and update local state
      */
-    UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+    UNSAFE_componentWillMount() {
+      this.onPropertiesUpdated({}, this.props)
+    }
 
     /**
      * Lifecycle method: component receive props. Used here to detect properties change and update local state
      * @param {*} nextProps next component properties
      */
-    UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+    UNSAFE_componentWillReceiveProps(nextProps) {
+      this.onPropertiesUpdated(this.props, nextProps)
+    }
 
     /**
      * Properties change detected: update local state

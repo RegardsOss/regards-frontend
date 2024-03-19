@@ -62,8 +62,8 @@ export class OSConfigurationFormContainer extends React.Component {
     crawler: {
       refreshRate: '86400',
     },
-    query: { },
-    results: { },
+    query: {},
+    results: {},
   }
 
   /**
@@ -173,6 +173,13 @@ export class OSConfigurationFormContainer extends React.Component {
   }
 
   /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount() {
+    this.onPropertiesUpdated({}, this.props)
+  }
+
+  /**
    * Lifecycle method: component did mount. Used here to fetch the data source the state
    */
   componentDidMount() {
@@ -182,15 +189,12 @@ export class OSConfigurationFormContainer extends React.Component {
   }
 
   /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: Used here to update state when edition data has been fetched (useless
@@ -307,17 +311,6 @@ export class OSConfigurationFormContainer extends React.Component {
     const { project } = this.props.params
     const { formValues: { crawler, query, results }, formState } = this.state
     switch (formState) {
-      case OSConfigurationFormContainer.STATE.CRAWLER:
-      default:
-        return (
-          <OSCrawlerConfigurationContainer
-            project={project}
-            initialValues={crawler}
-            isEditing={this.state.isEditing}
-            onBack={this.handleBack}
-            onSubmit={this.onCrawlerSubmit}
-          />
-        )
       case OSConfigurationFormContainer.STATE.QUERY:
         return (
           <OSQueryConfigurationContainer
@@ -334,6 +327,17 @@ export class OSConfigurationFormContainer extends React.Component {
             isEditing={this.state.isEditing}
             onBack={this.handleBack}
             onSubmit={this.onResultsSubmit}
+          />
+        )
+      case OSConfigurationFormContainer.STATE.CRAWLER:
+      default:
+        return (
+          <OSCrawlerConfigurationContainer
+            project={project}
+            initialValues={crawler}
+            isEditing={this.state.isEditing}
+            onBack={this.handleBack}
+            onSubmit={this.onCrawlerSubmit}
           />
         )
     }

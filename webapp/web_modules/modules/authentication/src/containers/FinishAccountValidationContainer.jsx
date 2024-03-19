@@ -47,13 +47,13 @@ export class FinishAccountValidationContainer extends React.Component {
     ...i18nContextType,
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     // start fetching account unlock finish request after showing loading screen
     const { token, fetchRequestAction } = this.props
     fetchRequestAction(token)
   }
 
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // Detect last fetch finished
     const { isFetching, onDone, onTokenExpired } = this.props
     if (isFetching && !nextProps.isFetching) {

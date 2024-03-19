@@ -138,7 +138,7 @@ export class EditItemForm extends React.Component {
   /**
    * Lifecycle method: component will receive props. Used here to update labels when they are undefined
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // check if labels should be updated: while user did not modify them, we auto update them here
     if (nextProps.allowLabel) {
       if (!isEqual(this.props.editedAttributes, nextProps.editedAttributes)
@@ -173,7 +173,7 @@ export class EditItemForm extends React.Component {
     // - state is not pristine (avoids changing model at mounting time)
     // - single attribute (binded from redux) has changed
     if (!nextProps.allowAttributesGroups && nextProps.allowRendererSelection && !nextProps.pristine
-        && !isEqual(this.props.editedSingleAttribute, nextProps.editedSingleAttribute)) {
+      && !isEqual(this.props.editedSingleAttribute, nextProps.editedSingleAttribute)) {
       const oldAttr = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(
         get(this.props, 'editedSingleAttribute.name'), nextProps.attributeModels)
       const nextAttr = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(
@@ -219,17 +219,6 @@ export class EditItemForm extends React.Component {
     return found ? undefined : 'attribute.configuration.single.attribute.error'
   }
 
-  /**
-   * Formats single attribute field: jsonPath to label
-   * @param {[string]} value single element value array
-   * @return {string} single attribute label out of the attributes jsonPath array
-   */
-  formatSingleAttributeValue = (value) => {
-    // format using label from attribute model when retrieved
-    const { attributeModels } = this.props
-    return EditItemForm.getAttributeLabel(value, attributeModels) || value
-  }
-
   render() {
     const {
       allowLabel, allowRendererSelection, allowAttributesGroups,
@@ -257,23 +246,23 @@ export class EditItemForm extends React.Component {
                 validate={EditItemForm.validateMultipleAttributesField}
                 label={formatMessage({ id: 'attribute.configuration.multiple.attribute.field' })}
               />) : (
-                <>
-                  <Field // single element field
-                    name="singleAttribute.name"
-                    component={SingleAttributeFieldRender}
-                    attributeModels={attributeModels}
-                    validate={this.validateSingleAttributeNameField}
-                    label={formatMessage({ id: 'attribute.configuration.single.attribute.field' })}
+              <>
+                <Field // single element field
+                  name="singleAttribute.name"
+                  component={SingleAttributeFieldRender}
+                  attributeModels={attributeModels}
+                  validate={this.validateSingleAttributeNameField}
+                  label={formatMessage({ id: 'attribute.configuration.single.attribute.field' })}
+                  fullWidth
+                />
+                {allowRendererSelection ? (
+                  <Field
+                    name="singleAttribute.renderer"
+                    component={RenderSelectField}
+                    label={formatMessage({ id: 'attribute.configuration.renderer.field' })}
                     fullWidth
-                  />
-                  { allowRendererSelection ? (
-                    <Field
-                      name="singleAttribute.renderer"
-                      component={RenderSelectField}
-                      label={formatMessage({ id: 'attribute.configuration.renderer.field' })}
-                      fullWidth
-                    >
-                      { // render available options for current type
+                  >
+                    { // render available options for current type
                       (() => {
                         if (editedSingleAttribute) {
                           const attr = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(editedSingleAttribute.name, attributeModels)
@@ -298,8 +287,8 @@ export class EditItemForm extends React.Component {
                         ]
                       })()
                     }
-                    </Field>) : null}
-                </>)
+                  </Field>) : null}
+              </>)
           }
           {/* 2 position in columns list */}
           <Field

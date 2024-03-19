@@ -214,13 +214,17 @@ export class PluginServicesContainer extends React.Component {
   /**
    * Lifecycle hook. Used here to detect properties change
    */
-  UNSAFE_componentWillMount = () => this.onPropertiesChanged(this.props)
+  UNSAFE_componentWillMount() {
+    this.onPropertiesChanged(this.props)
+  }
 
   /**
    * Lifecycle hook. Used here to detect properties change
    * @param {*} nextProps next component props
    */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(nextProps, this.props)
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesChanged(nextProps, this.props)
+  }
 
   /**
    * Updates the component on properties changes (starts fetching, converts data, update state...)

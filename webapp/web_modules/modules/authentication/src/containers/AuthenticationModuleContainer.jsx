@@ -74,7 +74,7 @@ export class AuthenticationModuleContainer extends React.Component {
     }
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount() {
     // determinate the initial state and parameters for authentication state machine
     this.setState({
       initialViewMode: AuthenticationModuleContainer.getInitialViewMode(AuthenticationParametersHelper.getMailAuthenticationAction()),
