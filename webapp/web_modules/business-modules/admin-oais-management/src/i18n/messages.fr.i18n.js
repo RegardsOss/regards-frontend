@@ -127,7 +127,7 @@ export default {
   'oais.list.filters.requestState.ABORTED': 'Annulé',
   'oais.list.filters.requestState.IGNORED': 'Ignoré',
   'oais.list.filters.requestState.WAITING_REMOTE_STORAGE': 'En attente de stockage',
-  'oais.list.filters.requestState.WAITING_NOTIFIER_DISSEMINATION_RESPONSE': 'En attente de notification',
+  'oais.list.filters.requestState.WAITING_NOTIFIER_RESPONSE': 'En attente de notification',
   'oais.list.filters.errorType.label': 'Code d\'erreur',
   'oais.list.filters.errorType.INITIAL': 'Initial',
   'oais.list.filters.errorType.INITIAL_CHECKSUM': 'Initial - Sip checksum incorrect',
