@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss-modules/search-results",
-  "version": "1.14.8",
+  "version": "1.14.9",
   "private": true,
   "sideEffects": false,
   "description": "Module for regards catalog researchs results",

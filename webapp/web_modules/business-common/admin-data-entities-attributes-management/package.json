@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/admin-data-entities-attributes-management",
-  "version": "1.14.8",
+  "version": "1.14.9",
   "private": true,
   "sideEffects": false,
   "description": "Holds the attributes form that manages admin defined attributes",

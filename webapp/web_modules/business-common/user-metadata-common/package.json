@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/user-metadata-common",
-  "version": "1.14.8",
+  "version": "1.14.9",
   "private": true,
   "sideEffects": false,
   "description": "Tools, constants and components to work with user metadata",
