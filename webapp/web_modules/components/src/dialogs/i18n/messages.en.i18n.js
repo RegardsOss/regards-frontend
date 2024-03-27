@@ -36,7 +36,7 @@ const messages = {
   'feature.notify.confirm.button': 'Confirm',
   'feature.table.header.column.label': 'Label',
   'feature.table.header.column.description': 'Description',
-  'feature.subtitle': 'By default, the selected products will be notified to all recipients configured by the service\'s notification rules. However, you can manually choose the recipients to notify by selecting them below.',
+  'feature.subtitle': 'Select recipients to notify directly without using a rule. If no recipient is selected, then the recipients will be those configured in the notification rules (see the configuration of the rs-notifier service).',
   'feature.button.notify': 'Notify',
   'feature.references.notify.title': 'Notify products - ',
   'feature.references.notify.title.all': 'Notify all products',

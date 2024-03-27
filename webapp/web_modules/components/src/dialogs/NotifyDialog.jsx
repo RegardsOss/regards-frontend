@@ -313,6 +313,7 @@ export class NotifyDialog extends React.Component {
         open
         dialogWidthPercent={75}
         dialogHeightPercent={63}
+        minHeight={585}
       >
         {this.renderDialogContent()}
       </PositionedDialog>
