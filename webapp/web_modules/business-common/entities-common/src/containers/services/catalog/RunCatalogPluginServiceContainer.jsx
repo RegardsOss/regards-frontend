@@ -249,10 +249,10 @@ export class RunCatalogPluginServiceContainer extends React.Component {
         if (localAccessURL) {
           // 1.1 - if content preview not supported download file and close the dialog
           return RunServiceDialogComponent.buildResultsStep(<FileContentDisplayer
-              loading={false}
-              error={false}
-              file={resultFile}
-              onPreviewNotAvailable={onQuit} // close the dialog if preview is not available
+            loading={false}
+            error={false}
+            file={resultFile}
+            onPreviewNotAvailable={onQuit} // close the dialog if preview is not available
           />, [
             <DownloadResultButton
               key="download.button"

@@ -136,9 +136,9 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
                   : null,
                 // 7 - Reactive static criteria - let the user reactive unactive static criteria
                 ...reject(staticParameters, (sp) => sp.active).map((sp) => <ReactiveStaticParameterCriterionComponent
-                    key={sp.label}
-                    staticParameter={sp}
-                    onSelectStaticParameter={onToggleStaticParameter}
+                  key={sp.label}
+                  staticParameter={sp}
+                  onSelectStaticParameter={onToggleStaticParameter}
                 />),
               ]
             }

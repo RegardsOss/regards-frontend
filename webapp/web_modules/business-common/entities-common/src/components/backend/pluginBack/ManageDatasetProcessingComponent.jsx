@@ -198,9 +198,9 @@ export class ManageDatasetProcessingComponent extends React.Component {
           }
           {
             isProcessingConfSelectedConfigurable && !isEmpty(processingConfParametersSelected) ? <ParametersConfigurationComponent
-                parameters={processingConfParametersSelected.resolvedParameters}
-                parametersValues={processingConfParametersSelected.parameters}
-                initialize={initialize}
+              parameters={processingConfParametersSelected.resolvedParameters}
+              parametersValues={processingConfParametersSelected.parameters}
+              initialize={initialize}
             /> : null
           }
         </PositionedDialog>
