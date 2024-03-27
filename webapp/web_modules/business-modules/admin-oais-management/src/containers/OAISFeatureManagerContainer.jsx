@@ -25,19 +25,21 @@ import isEqual from 'lodash/isEqual'
 import compose from 'lodash/fp/compose'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { NotifierShapes } from '@regardsoss/shape'
-import { IngestDomain } from '@regardsoss/domain'
+import { IngestDomain, UIDomain } from '@regardsoss/domain'
 import { withI18n } from '@regardsoss/i18n'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { withModuleStyle } from '@regardsoss/theme'
-import messages from '../i18n'
-import styles from '../styles'
+import { REQUESTS_COLUMN_KEYS } from '../components/requests/OAISRequestManagerComponent'
+import { PACKAGE_COLUMN_KEYS } from '../components/packages/OAISPackageManagerComponent'
 import { processingChainActions } from '../clients/ProcessingChainClient'
 import { aipRecipientsActions, aipRecipientsSelectors } from '../clients/AIPRecipientsClient'
 import OAISFeatureManagerComponent from '../components/OAISFeatureManagerComponent'
 import clientByPane from '../domain/ClientByPane'
 import dependencies from '../dependencies'
+import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * OAIS Feature manager container.
@@ -184,7 +186,10 @@ export class OAISFeatureManagerContainer extends React.Component {
   fetchRequestsCounts = (queryParams, bodyParams) => {
     const { fetchRequestsCount } = this.props
     forEach(IngestDomain.REQUEST_TYPES_ENUM, (paneType) => {
-      fetchRequestsCount(0, 1, {}, queryParams, bodyParams, paneType)
+      const columnKeys = paneType === IngestDomain.REQUEST_TYPES_ENUM.AIP ? PACKAGE_COLUMN_KEYS : REQUESTS_COLUMN_KEYS
+      // We remove sorting parameters that are not used in this pane
+      const filteredQueryParams = UIDomain.SortingHelper.buildSortingParameters(queryParams, columnKeys)
+      fetchRequestsCount(0, 1, {}, filteredQueryParams, bodyParams, paneType)
     })
   }
 

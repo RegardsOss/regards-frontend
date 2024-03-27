@@ -20,13 +20,15 @@ import pick from 'lodash/pick'
 import omit from 'lodash/omit'
 import forEach from 'lodash/forEach'
 import { connect } from '@regardsoss/redux'
-import { FemDomain } from '@regardsoss/domain'
+import { FemDomain, UIDomain } from '@regardsoss/domain'
 import { browserHistory } from 'react-router'
 import compose from 'lodash/fp/compose'
 import { NotifierShapes } from '@regardsoss/shape'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { TableFilterSortingAndVisibilityContainer } from '@regardsoss/components'
+import { REFERENCES_COLUMN_KEYS } from '../components/ReferencesManagerComponent'
+import { REQUESTS_COLUMN_KEYS } from '../components/RequestManagerComponent'
 import FeatureManagerComponent from '../components/FeatureManagerComponent'
 import { referenceRecipientsActions, referenceRecipientsSelectors } from '../clients/ReferenceRecipientsClient'
 import clientByPane from '../domain/ClientByPane'
@@ -120,7 +122,10 @@ export class FeatureManagerContainer extends React.Component {
     const { fetchRequestsCount } = this.props
     forEach(FemDomain.REQUEST_TYPES_ENUM, (paneType) => {
       const pathParams = this.getPathParams(paneType)
-      fetchRequestsCount(0, 1, pathParams, queryParams, bodyParams, paneType)
+      const columnKeys = paneType === FemDomain.REQUEST_TYPES_ENUM.REFERENCES ? REFERENCES_COLUMN_KEYS : REQUESTS_COLUMN_KEYS
+      // We remove sorting parameters that are not used in this pane
+      const filteredQueryParams = UIDomain.SortingHelper.buildSortingParameters(queryParams, columnKeys)
+      fetchRequestsCount(0, 1, pathParams, filteredQueryParams, bodyParams, paneType)
     })
   }
 
