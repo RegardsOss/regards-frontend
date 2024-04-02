@@ -422,7 +422,7 @@ export class SearchPaneContainer extends React.Component {
    */
   onUpdateUserSearchHistory = (searchHistoryId, searchHistoryConfig) => {
     const { updateSearchHistory } = this.props
-    return updateSearchHistory(searchHistoryId, searchHistoryConfig)
+    return updateSearchHistory(searchHistoryId, JSON.parse(searchHistoryConfig))
   }
 
   /**
