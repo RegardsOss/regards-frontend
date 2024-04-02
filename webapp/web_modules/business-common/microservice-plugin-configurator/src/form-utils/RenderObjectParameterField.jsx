@@ -22,7 +22,6 @@ import { fieldInputPropTypes } from 'redux-form'
 import { Field } from '@regardsoss/form-utils'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { RenderPluginParameterField } from './RenderPluginParameterField'
 import styles from '../styles'
 import messages from '../i18n'
 
@@ -38,6 +37,8 @@ export class RenderObjectParameterField extends React.Component {
     // From redux field
     name: PropTypes.string,
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
+    // class RenderPluginParameterFieldClass - to avoid circular dependency
+    RenderPluginParameterFieldClass: PropTypes.elementType.isRequired,
   }
 
   static defaultProps = {
@@ -51,7 +52,7 @@ export class RenderObjectParameterField extends React.Component {
 
   render() {
     const {
-      input, pluginParameterType, microserviceName, name, disabled,
+      input, pluginParameterType, microserviceName, name, disabled, RenderPluginParameterFieldClass,
     } = this.props
     const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
 
@@ -60,7 +61,7 @@ export class RenderObjectParameterField extends React.Component {
         {map(pluginParameterType.parameters, (p) => (<Field
           key={`${name || input.name}.${p.name}`}
           name={`${name || input.name}.${p.name}`}
-          component={RenderPluginParameterField}
+          component={RenderPluginParameterFieldClass}
           microserviceName={microserviceName}
           pluginParameterType={p}
           hideDynamicParameterConf

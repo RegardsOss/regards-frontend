@@ -36,6 +36,7 @@ import {
   Field, FieldArray, RenderArrayTextField, RenderRadio, ValidationHelpers,
 } from '@regardsoss/form-utils'
 import { CommonDomain } from '@regardsoss/domain'
+import RenderModelParameterField from './RenderModelParameterField'
 import { RenderPluginField } from './RenderPluginPluginParameterField'
 import { RenderObjectParameterField } from './RenderObjectParameterField'
 import { RenderCollectionParameterField } from './RenderCollectionParameterField'
@@ -114,6 +115,7 @@ export class RenderPluginParameterField extends React.Component {
         case CommonDomain.PluginParameterTypes.BOOLEAN:
         case CommonDomain.PluginParameterTypes.POJO:
         case CommonDomain.PluginParameterTypes.PLUGIN:
+        case CommonDomain.PluginParameterTypes.MODEL:
           validators.push(ValidationHelpers.required)
           break
         case CommonDomain.PluginParameterTypes.COLLECTION:
@@ -311,6 +313,7 @@ export class RenderPluginParameterField extends React.Component {
       label,
       microserviceName,
       pluginParameterType,
+      RenderPluginParameterFieldClass: RenderPluginParameterField,
     }
     return this.renderParamConfiguration(name, false, true, RenderObjectParameterField, label, disabled, validators, false, parameters)
   }
@@ -337,6 +340,18 @@ export class RenderPluginParameterField extends React.Component {
       pluginParameterType,
     }
     return this.renderParamConfiguration(name, false, true, RenderMapParameterField, label, disabled, validators, false, parameters)
+  }
+
+  renderModelParameter = (label, validators) => {
+    const {
+      input: { name }, disabled, pluginParameterType, microserviceName,
+    } = this.props
+    const parameters = {
+      label,
+      microserviceName,
+      pluginParameterType,
+    }
+    return this.renderParamConfiguration(name, false, true, RenderModelParameterField, label, disabled, validators, false, parameters)
   }
 
   renderTabs = () => {
@@ -445,6 +460,8 @@ export class RenderPluginParameterField extends React.Component {
         return this.renderCollectionParameter(label, validators)
       case CommonDomain.PluginParameterTypes.MAP:
         return this.renderMapParameter(label, validators)
+      case CommonDomain.PluginParameterTypes.MODEL:
+        return this.renderModelParameter(label, validators)
       default:
         return null
     }

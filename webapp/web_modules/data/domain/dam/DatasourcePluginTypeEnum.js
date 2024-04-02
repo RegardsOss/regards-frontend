@@ -20,6 +20,7 @@
 const DataSourcePluginTypeEnum = {
   AIP: 'aip-storage-datasource',
   FEATURE: 'feature-datasource',
+  SWOT_FEATURE: 'swot-feature-datasource',
   OPENSEARCH: 'webservice-datasource',
   DB_POSTGRES: 'postgresql-datasource',
   DB_POSTGRES_SINGLE_TABLE: 'postgresql-datasource-single-table',

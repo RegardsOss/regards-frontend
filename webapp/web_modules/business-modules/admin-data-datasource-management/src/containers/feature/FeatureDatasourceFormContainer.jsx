@@ -21,15 +21,16 @@ import reject from 'lodash/reject'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { I18nProvider } from '@regardsoss/i18n'
 import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { IAIPDatasourceParamsEnum } from '@regardsoss/domain/dam'
-import { CommonDomain } from '@regardsoss/domain'
 import FeatureDatasourceFormComponent from '../../components/feature/FeatureDatasourceFormComponent'
 import { modelSelectors, modelActions } from '../../clients/ModelClient'
 import messages from '../../i18n'
 import { datasourceSelectors, datasourceActions } from '../../clients/DatasourceClient'
+import styles from '../../styles'
 /**
  * Show the AIP datasource form
  */
@@ -42,7 +43,6 @@ export class FeatureDatasourceFormContainer extends React.Component {
     }),
 
     // from mapStateToProps
-    modelList: DataManagementShapes.ModelList,
     currentDatasource: DataManagementShapes.Datasource,
 
     // from mapDispatchToProps
@@ -97,14 +97,13 @@ export class FeatureDatasourceFormContainer extends React.Component {
 
   getForm = () => {
     const {
-      currentDatasource, modelList,
+      currentDatasource,
     } = this.props
     const {
       isEditing, isCreating,
     } = this.state
     return (<FeatureDatasourceFormComponent
       currentDatasource={currentDatasource}
-      modelList={modelList}
       onSubmit={this.handleSave}
       backUrl={this.getBackURL()}
       isEditing={isEditing}
@@ -146,35 +145,29 @@ export class FeatureDatasourceFormContainer extends React.Component {
       })
   }
 
+  /**
+   * Handle saving a feature datasource
+   * @param {*} values contains pluginConfiguration
+   */
   handleSave = (values) => {
     const { currentDatasource } = this.props
     const { isCreating } = this.state
     // retrieve possible parameters set by microservice conf import
-    const currentParameters = get(currentDatasource, 'content.parameters', [])
+    const currentParameters = get(currentDatasource, 'content.pluginConfiguration.parameters', [])
     // We need to remove previous model parameter to prevent duplication
     const currentParametersWithoutModel = reject(currentParameters, (currentParameter) => currentParameter.name === IAIPDatasourceParamsEnum.MODEL)
-    const parameters = [
-      ...currentParametersWithoutModel,
-      {
-        name: IAIPDatasourceParamsEnum.MODEL,
-        type: CommonDomain.PluginParameterTypes.STRING,
-        value: values.model,
-      },
-    ]
+    const newPluginConfiguration = {
+      ...values.pluginConfiguration,
+      label: values.label,
+      parameters: [
+        ...currentParametersWithoutModel, // add possible existing parameters to pluginConfiguration
+        ...values.pluginConfiguration.parameters,
+      ],
+    }
     if (isCreating) {
-      const datasource = {
-        pluginId: 'feature-datasource',
-        label: values.label,
-        parameters,
-      }
-      this.handleCreate(PluginFormUtils.formatPluginConf(datasource))
+      this.handleCreate(PluginFormUtils.formatPluginConf(newPluginConfiguration))
     } else {
-      const updatedDatasource = {
-        ...this.props.currentDatasource.content,
-        label: values.label,
-        parameters,
-      }
-      this.handleUpdate(updatedDatasource)
+      this.handleUpdate(newPluginConfiguration)
     }
   }
 
@@ -182,11 +175,13 @@ export class FeatureDatasourceFormContainer extends React.Component {
     const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={isLoading}
-        >
-          {this.getForm}
-        </LoadableContentDisplayDecorator>
+        <ModuleStyleProvider module={styles}>
+          <LoadableContentDisplayDecorator
+            isLoading={isLoading}
+          >
+            {this.getForm}
+          </LoadableContentDisplayDecorator>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

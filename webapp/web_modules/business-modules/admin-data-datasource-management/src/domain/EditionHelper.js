@@ -30,14 +30,14 @@ export class EditionHelper {
     let type = ''
     if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.AIP) {
       type = 'aip'
-    } else if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.FEATURE) {
+    } else if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.FEATURE || datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.SWOT_FEATURE) {
       type = 'feature'
     } else if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.OPENSEARCH) {
       type = 'opensearch'
     } else if (DB_DATASOURCE_PUGINS.includes(datasource.content.pluginId)) {
       type = 'db'
     } else {
-      throw new Error('Datasource Plugin type not recognized :', datasource.content.pluginId)
+      throw new Error(`Datasource Plugin type not recognized : ${datasource.content.pluginId}`)
     }
 
     return type

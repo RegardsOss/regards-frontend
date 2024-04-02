@@ -17,25 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import map from 'lodash/map'
 import get from 'lodash/get'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
 import { DataManagementShapes } from '@regardsoss/shape'
+import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import { CardActionsComponent } from '@regardsoss/components'
 import {
-  reduxForm, RenderTextField, RenderSelectField, Field, ValidationHelpers,
+  reduxForm, Field, ValidationHelpers, RenderTextField,
 } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import MenuItem from 'material-ui/MenuItem'
-import {
-  IAIPDatasourceParamsEnum,
-} from '@regardsoss/domain/dam'
-import { PluginConfParamsUtils } from '@regardsoss/domain/common'
-
-const { findParam } = PluginConfParamsUtils
+import { FemDomain } from '@regardsoss/domain'
 
 const labelValidators = [ValidationHelpers.required, ValidationHelpers.lengthLessThan(128)]
 
@@ -45,7 +39,6 @@ const labelValidators = [ValidationHelpers.required, ValidationHelpers.lengthLes
 export class FeatureDatasourceFormComponent extends React.Component {
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
-    modelList: DataManagementShapes.ModelList,
     onSubmit: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
     isEditing: PropTypes.bool.isRequired,
@@ -68,10 +61,11 @@ export class FeatureDatasourceFormComponent extends React.Component {
   }
 
   getTitle = () => {
+    const { intl: { formatMessage } } = this.context
     if (this.props.isCreating) {
-      return this.context.intl.formatMessage({ id: 'fem.datasource.create.title' })
+      return formatMessage({ id: 'fem.datasource.create.title' })
     }
-    return this.context.intl.formatMessage({ id: 'fem.datasource.edit.title' }, { name: this.props.currentDatasource.content.label })
+    return formatMessage({ id: 'fem.datasource.edit.title' }, { name: this.props.currentDatasource.content.label })
   }
 
   /**
@@ -79,21 +73,19 @@ export class FeatureDatasourceFormComponent extends React.Component {
    */
   handleInitialize = () => {
     const { isCreating, currentDatasource } = this.props
-
     if (!isCreating) {
-      const modelName = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.MODEL), 'value')
-      const initialValues = {
-        label: currentDatasource.content.label,
-        model: modelName,
-      }
-      this.props.initialize(initialValues)
+      this.props.initialize({
+        label: get(currentDatasource, 'content.label'),
+        pluginConfiguration: get(currentDatasource, 'content'),
+      })
     }
   }
 
   render() {
     const {
-      modelList, submitting, invalid, backUrl, isEditing, currentDatasource,
+      submitting, invalid, backUrl, isEditing, currentDatasource,
     } = this.props
+    const { intl: { formatMessage }, moduleTheme: { featureDataSource: { labelFieldStyle } } } = this.context
     const title = this.getTitle()
     return (
       <form
@@ -102,7 +94,7 @@ export class FeatureDatasourceFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
-            subtitle={isEditing ? this.context.intl.formatMessage({ id: 'fem.datasource.form.subtitle' }, { name: currentDatasource.content.label }) : null}
+            subtitle={isEditing ? formatMessage({ id: 'fem.datasource.form.subtitle' }, { name: currentDatasource.content.label }) : null}
           />
           <CardText>
             <Field
@@ -110,33 +102,29 @@ export class FeatureDatasourceFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'datasource.form.label' })}
+              label={formatMessage({ id: 'datasource.form.label' })}
               validate={labelValidators}
+              style={labelFieldStyle}
             />
             <Field
-              name="model"
-              fullWidth
-              component={RenderSelectField}
-              label={this.context.intl.formatMessage({ id: 'datasource.form.model' })}
-              disabled={isEditing}
-              validate={ValidationHelpers.required}
-            >
-              {map(modelList, (model, id) => (
-                <MenuItem
-                  value={model.content.name}
-                  key={model.content.name}
-                  primaryText={model.content.name}
-                  className={`selenium-pickModel-${model.content.name}`}
-                />
-              ))}
-            </Field>
+              key="femPlugin"
+              name="pluginConfiguration"
+              component={RenderPluginField}
+              defaultPluginConfLabel={get(currentDatasource, 'content.label')}
+              selectLabel={formatMessage({ id: 'datasource.form.pluginConfiguration' })}
+              pluginType={FemDomain.PluginTypeEnum.GEOJSON}
+              microserviceName={STATIC_CONF.MSERVICES.DAM}
+              hideDynamicParameterConf
+              hideGlobalParameterConf
+              selectorDisabled={isEditing && get(currentDatasource, 'content.pluginConfiguration', null) !== null}
+            />
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.mapping.action.save' })}
+              mainButtonLabel={formatMessage({ id: 'datasource.form.mapping.action.save' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.action.cancel' })}
+              secondaryButtonLabel={formatMessage({ id: 'datasource.form.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>
