@@ -23,7 +23,7 @@ import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   DateValueRender, NoContentComponent, TableHeaderLine, TableSelectionModes, InformationDialogComponent,
-  TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
+  TableFilterSortingAndVisibilityContainer,
   withSortTables, CodeDisplayDialog, ConfirmDialogComponent, ConfirmDialogComponentTypes,
 } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -313,7 +313,7 @@ export class RequestManagerComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage }, muiTheme, moduleTheme: { tableStyle: { loadingStyle } } } = this.context
+    const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const {
       pageSize, getColumnSortingData, paneType, onSort, requestParameters,
@@ -330,9 +330,6 @@ export class RequestManagerComponent extends React.Component {
               onForceError={this.onForceErrorRequestSelection}
             />
           </TableHeaderLine>
-          <div style={loadingStyle}>
-            <TableHeaderLoadingComponent loading={isFetching} />
-          </div>
           <PageableInfiniteTableContainer
             name="request-management-table"
             pageActions={clientByPane[paneType].actions}

@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
-  TableLayout, PageableInfiniteTableContainer, TableHeaderLoadingComponent,
+  TableLayout, PageableInfiniteTableContainer,
 } from '@regardsoss/components'
 import { FemDomain, CommonDomain } from '@regardsoss/domain'
 import HeaderActionsBarContainer from '../../src/containers/HeaderActionsBarContainer'
@@ -48,12 +48,12 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
   })
   it('should render correctly REFERENCES tab', () => {
     const props = {
-      onDeleteRequests: () => {},
-      onRetryRequests: () => {},
+      onDeleteRequests: () => { },
+      onRetryRequests: () => { },
       paneType: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
       isFetching: false,
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
-      onForceErrorRequests: () => {},
+      onForceErrorRequests: () => { },
     }
     const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -64,7 +64,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
       onRetry: enzymeWrapper.instance().onRetrySelection,
       onDelete: enzymeWrapper.instance().onDeleteSelection,
     }, 'Component should define the expected properties and callbacks')
-    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
     testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
@@ -74,12 +73,12 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
   })
   it('should render correctly CREATION tab', () => {
     const props = {
-      onDeleteRequests: () => {},
-      onRetryRequests: () => {},
+      onDeleteRequests: () => { },
+      onRetryRequests: () => { },
       paneType: FemDomain.REQUEST_TYPES_ENUM.CREATION,
       isFetching: false,
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
-      onForceErrorRequests: () => {},
+      onForceErrorRequests: () => { },
     }
     const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -90,7 +89,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
       onRetry: enzymeWrapper.instance().onRetrySelection,
       onDelete: enzymeWrapper.instance().onDeleteSelection,
     }, 'Component should define the expected properties and callbacks')
-    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
     testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
@@ -100,12 +98,12 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
   })
   it('should render correctly UPDATE tab', () => {
     const props = {
-      onDeleteRequests: () => {},
-      onRetryRequests: () => {},
+      onDeleteRequests: () => { },
+      onRetryRequests: () => { },
       paneType: FemDomain.REQUEST_TYPES_ENUM.UPDATE,
       isFetching: false,
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
-      onForceErrorRequests: () => {},
+      onForceErrorRequests: () => { },
     }
     const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -116,7 +114,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
       onRetry: enzymeWrapper.instance().onRetrySelection,
       onDelete: enzymeWrapper.instance().onDeleteSelection,
     }, 'Component should define the expected properties and callbacks')
-    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
     testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
@@ -126,12 +123,12 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
   })
   it('should render correctly DELETE tab', () => {
     const props = {
-      onDeleteRequests: () => {},
-      onRetryRequests: () => {},
+      onDeleteRequests: () => { },
+      onRetryRequests: () => { },
       paneType: FemDomain.REQUEST_TYPES_ENUM.DELETE,
       isFetching: false,
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
-      onForceErrorRequests: () => {},
+      onForceErrorRequests: () => { },
     }
     const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -142,7 +139,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
       onRetry: enzymeWrapper.instance().onRetrySelection,
       onDelete: enzymeWrapper.instance().onDeleteSelection,
     }, 'Component should define the expected properties and callbacks')
-    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
     testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
@@ -152,12 +148,12 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
   })
   it('should render correctly NOTIFICATION tab', () => {
     const props = {
-      onDeleteRequests: () => {},
-      onRetryRequests: () => {},
+      onDeleteRequests: () => { },
+      onRetryRequests: () => { },
       paneType: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION,
       isFetching: false,
       getColumnSortingData: () => [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null],
-      onForceErrorRequests: () => {},
+      onForceErrorRequests: () => { },
     }
     const enzymeWrapper = shallow(<RequestManagerComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -168,7 +164,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerComponent', () => {
       onRetry: enzymeWrapper.instance().onRetrySelection,
       onDelete: enzymeWrapper.instance().onDeleteSelection,
     }, 'Component should define the expected properties and callbacks')
-    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
     testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {

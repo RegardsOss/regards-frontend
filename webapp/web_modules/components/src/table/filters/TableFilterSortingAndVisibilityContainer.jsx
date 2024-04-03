@@ -44,6 +44,8 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     updateRefreshParameters: PropTypes.func,
     isPagePostFetching: PropTypes.bool,
+    // eslint-disable-next-line react/forbid-prop-types
+    pathParams: PropTypes.object, // optionnal pathParams used when refreshing after an action
     // eslint-disable-next-line react/no-unused-prop-types
     filtersActions: PropTypes.instanceOf(FiltersActions),
     // eslint-disable-next-line react/no-unused-prop-types
@@ -69,6 +71,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
 
   static defaultProps = {
     isPagePostFetching: false,
+    pathParams: {},
   }
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE
@@ -137,7 +140,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
   )
 
   onRefresh = () => {
-    const { isPagePostFetching } = this.props
+    const { isPagePostFetching, pathParams } = this.props
     const { requestParameters } = this.state
     const {
       pageMeta, fetchPagedEntityList, fetchPagedEntityListByPost,
@@ -145,9 +148,9 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     const lastPage = (pageMeta && pageMeta.number) || 0
     const fetchPageSize = TableFilterSortingAndVisibilityContainer.PAGE_SIZE * (lastPage + 1)
     if (isPagePostFetching) {
-      fetchPagedEntityListByPost(0, fetchPageSize, {}, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') })
+      fetchPagedEntityListByPost(0, fetchPageSize, pathParams, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') })
     } else {
-      fetchPagedEntityList(0, fetchPageSize, {}, { ...requestParameters })
+      fetchPagedEntityList(0, fetchPageSize, pathParams, { ...requestParameters })
     }
   }
 

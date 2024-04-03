@@ -24,7 +24,7 @@ import { FemDomain } from '@regardsoss/domain'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableSelectionModes, DateValueRender, NoContentComponent, TableHeaderLine,
-  TableHeaderLoadingComponent, TableFilterSortingAndVisibilityContainer,
+  TableFilterSortingAndVisibilityContainer,
   withSortTables, CodeDisplayDialog, NotifyDialog,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -235,7 +235,7 @@ export class ReferencesManagerComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage }, muiTheme, moduleTheme: { tableStyle: { loadingStyle } } } = this.context
+    const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const {
       isFetching, getColumnSortingData, onSort, pageSize, requestParameters, paneType, bodyParameters,
@@ -293,9 +293,6 @@ export class ReferencesManagerComponent extends React.Component {
               onDelete={this.onDeleteSelection}
             />
           </TableHeaderLine>
-          <div style={loadingStyle}>
-            <TableHeaderLoadingComponent loading={isFetching} />
-          </div>
           <PageableInfiniteTableContainer
             name="feature-management-table"
             pageActions={referencesActions}

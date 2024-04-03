@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { FemDomain, CommonDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
-  TableLayout, PageableInfiniteTableContainer, TableHeaderLoadingComponent,
+  TableLayout, PageableInfiniteTableContainer,
 } from '@regardsoss/components'
 import HeaderActionsBarContainer from '../../src/containers/HeaderActionsBarContainer'
 import { ReferencesManagerComponent } from '../../src/components/ReferencesManagerComponent'
@@ -58,7 +58,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing ReferencesManagerComponent', () => 
       onNotify: enzymeWrapper.instance().onNotifySelection,
       onDelete: enzymeWrapper.instance().onDeleteSelection,
     })
-    assert.lengthOf(enzymeWrapper.find(TableHeaderLoadingComponent), 1, 'There should be 1 TableHeaderLoadingComponent')
     const infiniteTableComponent = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(infiniteTableComponent, 1, 'There should be 1 PageableInfiniteTableContainer')
     testSuiteHelpers.assertWrapperProperties(infiniteTableComponent, {
