@@ -66,7 +66,6 @@ const messages = {
   'feature.references.confirm.delete.message': 'This processing is asynchronous, it will be effective after a certain delay. Once done, this processing will create deletion requests that you can follow in the Delete tab. Do you want to delete the selected product (s)',
   'feature.references.tooltip.selection.notify': 'Notify product selection',
   'feature.references.list.filters.buttons.notify': 'Notify selection',
-  'feature.references.notify.message': 'Do you want to notify the selected products to all configured recipients. These recipients are configured on the rs-notifier service, the configuration of which you can retrieve from the Microservice function of this UI.',
   'feature.references.detail.title': 'Detail',
 
   'feature.title': 'Notify selected recipients',

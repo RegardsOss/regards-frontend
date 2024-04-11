@@ -66,7 +66,6 @@ const messages = {
   'feature.references.confirm.delete.message': 'Ce traitement est asynchrone, il sera effectif après un certain délai. Une fois démarré, ce traitement créera des requêtes de suppression que vous pourrez suivre dans l\'onglet Suppression. Voulez-vous supprimer le/les produits sélectionné(s)',
   'feature.references.tooltip.selection.notify': 'Notifier les produits sélectionnés',
   'feature.references.list.filters.buttons.notify': 'Notifier la sélection',
-  'feature.references.notify.message': 'Voulez vous notifier les produits sélectionnés vers tous les destinataires configurés. Ces destinataires sont configurés sur le service rs-notifier dont vous pouvez récupérer la configuration depuis la fonction Microservice de cet IHM.',
   'feature.references.detail.title': 'Détail',
 
   'feature.title': 'Notifier les produits sélectionnés',
