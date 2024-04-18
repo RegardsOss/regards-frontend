@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss-modules/embedded-html",
-  "version": "1.14.9",
+  "version": "1.14.10",
   "private": true,
   "sideEffects": false,
   "description": "Display an html content",

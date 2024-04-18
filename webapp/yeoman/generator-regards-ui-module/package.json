@@ -1,6 +1,6 @@
 {
   "name": "generator-regards-ui-module",
-  "version": "1.14.9",
+  "version": "1.14.10",
   "private": true,
   "description": "Yeoman generator to create your own REGARDS UI Module",
   "files": [
