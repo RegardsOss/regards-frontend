@@ -29,6 +29,7 @@ const messages = {
   'account.list.table.status.ACTIVE': 'Actif',
   'account.list.table.status.LOCKED': 'Verrouillé',
   'account.list.table.status.INACTIVE': 'Inactif',
+  'account.list.table.status.INACTIVE_PASSWORD': 'Mot de passe expiré',
   'account.list.table.origin': 'Origine',
   'account.list.table.projects': 'Projets',
   'account.list.table.filters.firstName.label': 'Prénom',
