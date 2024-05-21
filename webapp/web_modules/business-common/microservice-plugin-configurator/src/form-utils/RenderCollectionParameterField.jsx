@@ -40,6 +40,8 @@ export class RenderCollectionParameterField extends React.Component {
     disabled: PropTypes.bool, // Disable all fields
     // From redux field
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
+    // class RenderPluginParameterField - to avoid circular dependency
+    classRenderPluginParameterField: PropTypes.elementType.isRequired,
   }
 
   static defaultProps = {
@@ -64,7 +66,7 @@ export class RenderCollectionParameterField extends React.Component {
 
   initialize = () => {
     const {
-      input, pluginParameterType, microserviceName, disabled,
+      input, pluginParameterType, microserviceName, disabled, classRenderPluginParameterField,
     } = this.props
     const parameterizedType = get(pluginParameterType, 'parameterizedSubTypes', [undefined])[0]
     const primitiveParameters = getPrimitiveJavaTypeRenderParameters(parameterizedType)
@@ -89,6 +91,7 @@ export class RenderCollectionParameterField extends React.Component {
           complexParameter: false,
           disabled,
           input,
+          classRenderPluginParameterField,
         },
       })
     }

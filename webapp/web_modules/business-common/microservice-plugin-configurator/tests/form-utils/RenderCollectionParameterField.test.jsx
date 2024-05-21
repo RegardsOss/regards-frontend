@@ -27,6 +27,7 @@ import {
 } from '@regardsoss/tests-helpers'
 import { CommonDomain } from '@regardsoss/domain'
 import { RenderCollectionParameterField } from '../../src/form-utils/RenderCollectionParameterField'
+import RenderPluginParameterField from '../../src/form-utils/RenderPluginParameterField'
 import RenderObjectParameterField from '../../src/form-utils/RenderObjectParameterField'
 import { getPrimitiveJavaTypeRenderParameters } from '../../src/form-utils/JavaPrimitiveTypesTool'
 import styles from '../../src/styles/styles'
@@ -63,6 +64,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderCollectionParameterFi
         pluginParameterType: parameter,
         disabled: false,
         input,
+        classRenderPluginParameterField: RenderPluginParameterField,
       }
       // Render
       const enzymeWrapper = shallow(<RenderCollectionParameterField {...props} />, { context })
@@ -71,7 +73,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderCollectionParameterFi
         assert.equal(enzymeWrapper.find(FieldArray).find({
           component: RenderArrayTextField,
           disabled: false,
-        }).length, 1, 'There should be a FieldArray for for primitive COLLECTION')
+        }).length, 1, 'There should be a FieldArray for primitive COLLECTION')
       } else {
         assert.equal(enzymeWrapper.find(FieldArray).find({
           component: RenderArrayObjectField,
@@ -82,6 +84,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderCollectionParameterFi
             complexParameter: false,
             disabled: false,
             input,
+            classRenderPluginParameterField: RenderPluginParameterField,
           },
           disabled: false,
         }).length, 1, 'There should be a FieldArray RenderArrayObjectField for for COLLECTION of objects ')
@@ -107,6 +110,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderCollectionParameterFi
         pluginParameterType: parameter,
         disabled: true,
         input,
+        classRenderPluginParameterField: RenderPluginParameterField,
       }
       // Render
       const enzymeWrapper = shallow(<RenderCollectionParameterField {...props} />, { context })
@@ -125,6 +129,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderCollectionParameterFi
             complexParameter: false,
             disabled: true,
             input,
+            classRenderPluginParameterField: RenderPluginParameterField,
           },
           disabled: true,
         }).length, 1, 'There should be a FieldArray RenderArrayObjectField for for COLLECTION of objects ')

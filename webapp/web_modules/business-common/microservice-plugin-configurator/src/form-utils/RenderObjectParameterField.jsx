@@ -37,8 +37,8 @@ export class RenderObjectParameterField extends React.Component {
     // From redux field
     name: PropTypes.string,
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
-    // class RenderPluginParameterFieldClass - to avoid circular dependency
-    RenderPluginParameterFieldClass: PropTypes.elementType.isRequired,
+    // class RenderPluginParameterField - to avoid circular dependency
+    classRenderPluginParameterField: PropTypes.elementType.isRequired,
   }
 
   static defaultProps = {
@@ -52,7 +52,7 @@ export class RenderObjectParameterField extends React.Component {
 
   render() {
     const {
-      input, pluginParameterType, microserviceName, name, disabled, RenderPluginParameterFieldClass,
+      input, pluginParameterType, microserviceName, name, disabled, classRenderPluginParameterField,
     } = this.props
     const { moduleTheme: { renderer: { fullWidthStyle } } } = this.context
 
@@ -61,7 +61,7 @@ export class RenderObjectParameterField extends React.Component {
         {map(pluginParameterType.parameters, (p) => (<Field
           key={`${name || input.name}.${p.name}`}
           name={`${name || input.name}.${p.name}`}
-          component={RenderPluginParameterFieldClass}
+          component={classRenderPluginParameterField}
           microserviceName={microserviceName}
           pluginParameterType={p}
           hideDynamicParameterConf

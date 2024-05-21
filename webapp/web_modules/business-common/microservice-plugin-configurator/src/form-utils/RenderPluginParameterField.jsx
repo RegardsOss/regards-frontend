@@ -313,7 +313,7 @@ export class RenderPluginParameterField extends React.Component {
       label,
       microserviceName,
       pluginParameterType,
-      RenderPluginParameterFieldClass: RenderPluginParameterField,
+      classRenderPluginParameterField: RenderPluginParameterField,
     }
     return this.renderParamConfiguration(name, false, true, RenderObjectParameterField, label, disabled, validators, false, parameters)
   }
@@ -326,6 +326,7 @@ export class RenderPluginParameterField extends React.Component {
       label,
       microserviceName,
       pluginParameterType,
+      classRenderPluginParameterField: RenderPluginParameterField,
     }
     return this.renderParamConfiguration(name, false, true, RenderCollectionParameterField, label, disabled, validators, false, parameters)
   }
@@ -338,6 +339,7 @@ export class RenderPluginParameterField extends React.Component {
       label,
       microserviceName,
       pluginParameterType,
+      classRenderPluginParameterField: RenderPluginParameterField,
     }
     return this.renderParamConfiguration(name, false, true, RenderMapParameterField, label, disabled, validators, false, parameters)
   }
