@@ -69,6 +69,8 @@ export class OrderDisplayContainer extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
+    // download order csv
+    downloadOrderActions: PropTypes.instanceOf(OrderClient.DownloadOrderSummaryCSVFileActions),
     // parameters appying on the orders list request
     requestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
@@ -112,7 +114,7 @@ export class OrderDisplayContainer extends React.Component {
       navigationActions, navigationPath, displayMode, project,
       requestParameters, ordersActions, ordersSelectors, orderFilesActions,
       orderFilesSelectors, processingSelectors, isProcessingDependenciesExist,
-      pluginMetaDataSelectors,
+      pluginMetaDataSelectors, downloadOrderActions,
     } = this.props
     switch (navigationPath.length) {
       case 0:
@@ -122,6 +124,7 @@ export class OrderDisplayContainer extends React.Component {
             project={project}
             displayMode={displayMode}
             ordersRequestParameters={requestParameters}
+            downloadOrderActions={downloadOrderActions}
             ordersActions={ordersActions}
             ordersSelectors={ordersSelectors}
             navigationActions={navigationActions}

@@ -15,31 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { DownloadFileActions } from '@regardsoss/store-utils'
-
-/**
- * Pseudo actions to obtain the link to orders list summary CSV file
  */
-class DownloadOrderSummaryCSVFileActions extends DownloadFileActions {
-  constructor(namespace) {
-    super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders/csv`,
-      namespace,
-      headers: {
-        Accept: '*/*', // Accept: all
-      },
-    })
-  }
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import DownloadOrderSummaryCSVFileActions from './DownloadOrderSummaryCSVFileActions'
 
-  /**
-   * Download csv file
-   * @param {object} optional request parameters needed to filter results
-   * @return {string} csv download URL
-   */
-  downloadCSV(requestParameters = {}) {
-    return this.download(null, null, 'POST', requestParameters)
+class DownloadOrderSummaryCSVFileReducer extends BasicSignalReducers {
+  constructor(namespace) {
+    super(new DownloadOrderSummaryCSVFileActions(namespace))
   }
 }
 
-export default DownloadOrderSummaryCSVFileActions
+export default (namespace) => {
+  const instance = new DownloadOrderSummaryCSVFileReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

@@ -51,6 +51,25 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
   }
 
   /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => {
+    const {
+      moduleId, updateResultsContext, tabType,
+    } = this.props
+    // Clear geometry criterion on mount. It cause Cesium distortion when loading an existing geometry criterion
+    updateResultsContext(moduleId, {
+      tabs: {
+        [tabType]: {
+          criteria: {
+            geometry: [],
+          },
+        },
+      },
+    })
+  }
+
+  /**
    * User callback: tag criterion unselected (remove it from applying tag filters selections list)
    * @param {*} tagCriterion tag criterion to remove (respects TagCriterion shape)
    */

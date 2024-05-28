@@ -81,6 +81,8 @@ class OrderListComponent extends React.Component {
     columnsVisibility: PropTypes.objectOf(PropTypes.bool).isRequired,
     // columns configuration callback
     onChangeColumnsVisibility: PropTypes.func.isRequired,
+    //actions and selectors for csv download
+    downloadOrderActions: PropTypes.instanceOf(OrderClient.DownloadOrderSummaryCSVFileActions),
     // actions and selectors for table
     ordersRequestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
@@ -341,7 +343,7 @@ class OrderListComponent extends React.Component {
 
   render() {
     const {
-      displayMode, pageSize, isFetching, totalOrderCount, children,
+      displayMode, pageSize, isFetching, totalOrderCount, children, downloadOrderActions,
       onChangeColumnsVisibility, ordersRequestParameters, ordersActions, ordersSelectors,
     } = this.props
     const columns = this.buildColumns()
@@ -379,7 +381,7 @@ class OrderListComponent extends React.Component {
               />
               {/* downlaod summary (when admin) */
                 displayMode === ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR ? (
-                  <DownloadOrdersCSVSummaryContainer ordersRequestParameters={ordersRequestParameters} />
+                  <DownloadOrdersCSVSummaryContainer downloadOrderActions={downloadOrderActions} ordersRequestParameters={ordersRequestParameters} />
                 ) : null
               }
               {/* columns visibility configuration  */}
