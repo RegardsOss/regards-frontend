@@ -1,6 +1,6 @@
 {
   "name": "last-version-only",
-  "version": "1.14.10",
+  "version": "1.15.2",
   "private": true,
   "description": "Search only last data version",
   "license": "GPL-3.0",
