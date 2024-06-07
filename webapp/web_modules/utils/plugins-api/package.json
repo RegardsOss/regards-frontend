@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/plugins-api",
-  "version": "1.15.2",
+  "version": "1.16.0-SNAPSHOT",
   "private": true,
   "sideEffects": false,
   "description": "",
