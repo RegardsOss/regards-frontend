@@ -214,6 +214,11 @@ class AutoCompleteTextField extends React.Component {
         errorText={isInError ? errorMessage : null}
         onNewRequest={this.onNewRequest}
         onUpdateInput={this.onUpdateInput}
+        popoverProps={{
+          // enable to force popover to be display on top of the field
+          // usefull if the field is located on the bottom of the page
+          canAutoPosition: true,
+        }}
         {...reportedProps}
       />
     )

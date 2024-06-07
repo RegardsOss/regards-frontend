@@ -17,19 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
-import DeleteOnAllIcon from 'mdi-material-ui/DeleteForever'
+import Abort from 'mdi-material-ui/Cancel'
 import { FemShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ResourceIconAction } from '@regardsoss/components'
 
 /**
- * Table option to delete AIP files on every local storage
+ * Table option to force a request in error
  * @author Théo Lasserre
  */
-class ReferenceDeleteOption extends React.Component {
+class RequestForceErrorOption extends React.Component {
   static propTypes = {
-    entity: FemShapes.Reference.isRequired,
-    onDelete: PropTypes.func.isRequired,
+    entity: FemShapes.Request.isRequired,
+    onForceError: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -40,27 +40,27 @@ class ReferenceDeleteOption extends React.Component {
    * On button clicked callback
    */
   onClick = () => {
-    const { entity, onDelete } = this.props
-    onDelete(entity)
+    const { entity, onForceError } = this.props
+    onForceError(entity)
   }
 
   isDisabled = () => {
     const { entity } = this.props
-    return !find(entity.links, (l) => l.rel === 'delete')
+    return !find(entity.links, (l) => l.rel === 'abort')
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
     return (
       <ResourceIconAction
-        title={formatMessage({ id: 'feature.references.tooltip.delete' })}
-        disabled={this.isDisabled()}
         onClick={this.onClick}
+        title={formatMessage({ id: 'feature.requests.force.error.title' })}
+        disabled={this.isDisabled()}
       >
-        <DeleteOnAllIcon />
+        <Abort />
       </ResourceIconAction>
     )
   }
 }
 
-export default ReferenceDeleteOption
+export default RequestForceErrorOption

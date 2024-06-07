@@ -60,7 +60,7 @@ class RequestDeleteOption extends React.Component {
         title={formatMessage({ id: 'feature.requests.delete.title' })}
         disabled={this.isDisabled()}
       >
-        <DeleteOnAllIcon className="selenium-deleteButton" />
+        <DeleteOnAllIcon />
       </ResourceIconAction>
     )
   }

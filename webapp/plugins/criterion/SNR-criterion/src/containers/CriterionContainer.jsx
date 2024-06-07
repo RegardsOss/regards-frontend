@@ -30,7 +30,6 @@ import ConeAngleHelper from '../utils/ConeAngleHelper'
 import RightAscensionHelper from '../utils/RightAscensionHelper'
 import DeclinaisonHelper from '../utils/DeclinaisonHelper'
 import SpatialNameHelper from '../utils/SpatialNameHelper'
-import SesameHelper from '../clients/SesameHelper'
 import { OPTIONS_ENUM, OPTIONS } from '../domain/Options'
 
 /**
@@ -177,7 +176,7 @@ export class CriterionContainer extends React.Component {
       const convertedConeAngle = CriterionContainer.convertValueToUnit(coneAngle, unitSelected)
       return {
         lat: convertedDeclinaison,
-        lon: SesameHelper.convertRightAscsencionToLongitude(convertedRightAscension),
+        lon: convertedRightAscension,
         r: (parseFloat(convertedConeAngle) / 2).toString(), // server expects half angle
       }
     }

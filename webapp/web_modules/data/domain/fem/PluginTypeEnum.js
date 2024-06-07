@@ -19,22 +19,10 @@
 import values from 'lodash/values'
 
 /**
- * Possible parameter types
+ * @author Théo Lasserre
  */
-export const PluginParameterTypes = {
-  STRING: 'STRING',
-  BYTE: 'BYTE',
-  SHORT: 'SHORT',
-  INTEGER: 'INTEGER',
-  LONG: 'LONG',
-  FLOAT: 'FLOAT',
-  DOUBLE: 'DOUBLE',
-  BOOLEAN: 'BOOLEAN',
-  MAP: 'MAP',
-  COLLECTION: 'COLLECTION',
-  POJO: 'POJO',
-  PLUGIN: 'PLUGIN',
-  MODEL: 'REGARDS_ENTITY_MODEL',
+export const PluginTypeEnum = {
+  GEOJSON: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IInternalGeoJsonDataSourcePlugin',
 }
 
-export const PluginParamType = values(PluginParameterTypes)
+export const PluginTypeEnumValues = values(PluginTypeEnum)

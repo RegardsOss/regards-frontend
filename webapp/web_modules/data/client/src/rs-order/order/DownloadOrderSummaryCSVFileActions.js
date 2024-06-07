@@ -21,7 +21,7 @@ import { DownloadFileActions } from '@regardsoss/store-utils'
 /**
  * Pseudo actions to obtain the link to orders list summary CSV file
  */
-class DownloadOrderMetalinkFileAtions extends DownloadFileActions {
+class DownloadOrderSummaryCSVFileActions extends DownloadFileActions {
   constructor(namespace) {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/orders/csv`,
@@ -42,4 +42,4 @@ class DownloadOrderMetalinkFileAtions extends DownloadFileActions {
   }
 }
 
-export default DownloadOrderMetalinkFileAtions
+export default DownloadOrderSummaryCSVFileActions

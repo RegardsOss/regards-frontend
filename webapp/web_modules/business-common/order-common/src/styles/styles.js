@@ -203,4 +203,7 @@ export default (theme) => ({
       overflow: 'hidden',
     },
   },
+  downloadOrderButton: {
+    width: '120px',
+  },
 })

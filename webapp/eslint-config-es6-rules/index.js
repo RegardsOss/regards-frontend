@@ -76,6 +76,8 @@ const allRules = {
   'react/function-component-definition': 0,
   // allow the use of RegExp constructor
   'prefer-regex-literals': 0,
+  // allow usage of static attributes inside the class
+  'no-use-before-define': 0,
 
   'react/no-unused-class-component-methods': 1,
 

@@ -58,7 +58,7 @@ class ReferenceNotifyOption extends React.Component {
         disabled={this.isDisabled()}
         onClick={this.onClick}
       >
-        <SendIcon className="selenium-notifyButton" />
+        <SendIcon />
       </ResourceIconAction>
     )
   }

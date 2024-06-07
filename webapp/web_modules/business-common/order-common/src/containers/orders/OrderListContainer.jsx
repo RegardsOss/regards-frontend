@@ -55,6 +55,7 @@ export class OrderListContainer extends React.Component {
     // from router
     project: PropTypes.string.isRequired,
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
+    downloadOrderActions: PropTypes.instanceOf(OrderClient.DownloadOrderSummaryCSVFileActions),
     ordersRequestParameters: TableFilterSortingAndVisibilityContainer.REQUEST_PARAMETERS_PROP_TYPE,
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     ordersSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
@@ -207,7 +208,7 @@ export class OrderListContainer extends React.Component {
   render() {
     const {
       children, displayMode, isFetching, totalOrderCount, navigationActions,
-      ordersRequestParameters, ordersActions, ordersSelectors, project,
+      ordersRequestParameters, ordersActions, ordersSelectors, project, downloadOrderActions,
       processingSelectors, pluginMetaDataSelectors, isProcessingDependenciesExist,
     } = this.props
     const {
@@ -261,6 +262,7 @@ export class OrderListContainer extends React.Component {
           hasPauseResume={hasPauseResume}
           onChangeColumnsVisibility={this.onChangeColumnsVisibility}
           ordersRequestParameters={ordersRequestParameters}
+          downloadOrderActions={downloadOrderActions}
           ordersActions={ordersActions}
           ordersSelectors={ordersSelectors}
           orderStateActions={orderStateActions}

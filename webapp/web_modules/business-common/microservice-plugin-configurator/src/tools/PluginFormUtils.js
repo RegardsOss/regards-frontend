@@ -105,6 +105,7 @@ class PluginFormUtils {
       case CommonDomain.PluginParameterTypes.LONG:
       case CommonDomain.PluginParameterTypes.FLOAT:
       case CommonDomain.PluginParameterTypes.DOUBLE:
+      case CommonDomain.PluginParameterTypes.MODEL:
       case CommonDomain.PluginParameterTypes.BOOLEAN: {
         if (parameterMetadata.unconfigurable) {
           return ''

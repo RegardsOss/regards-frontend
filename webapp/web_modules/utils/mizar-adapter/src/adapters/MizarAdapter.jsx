@@ -391,8 +391,6 @@ export default class MizarAdapter extends React.Component {
    */
   onToggleDrawSelectionMode = (drawingSelection) => {
     if (this.mizar.drawLayer && !this.unmounted) {
-      // reinitialize gesture transient state
-      this.currentDrawingSelectionInitPoint = null
       if (drawingSelection) {
         // started drawing selection: stop navigation to avoid map rotation / drag
         this.mizar.instance.getActivatedContext().getNavigation().stop()

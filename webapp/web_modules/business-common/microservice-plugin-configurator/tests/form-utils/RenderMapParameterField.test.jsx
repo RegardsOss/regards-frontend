@@ -27,6 +27,7 @@ import {
 } from '@regardsoss/tests-helpers'
 import { CommonDomain } from '@regardsoss/domain'
 import { getPrimitiveJavaTypeRenderParameters } from '../../src/form-utils/JavaPrimitiveTypesTool'
+import RenderPluginParameterField from '../../src/form-utils/RenderPluginParameterField'
 import { RenderMapParameterField } from '../../src/form-utils/RenderMapParameterField'
 import RenderObjectParameterField from '../../src/form-utils/RenderObjectParameterField'
 import styles from '../../src/styles/styles'
@@ -65,6 +66,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderMapParameterField', (
         pluginParameterType: parameter,
         input,
         meta,
+        classRenderPluginParameterField: RenderPluginParameterField,
       }
       const enzymeWrapper = shallow(<RenderMapParameterField {...props} />, { context })
       if (primitiveParameters) {
@@ -84,6 +86,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderMapParameterField', (
             microserviceName,
             pluginParameterType: parameter,
             complexParameter: false,
+            classRenderPluginParameterField: RenderPluginParameterField,
           },
           disabled: false,
           input,
@@ -112,6 +115,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderMapParameterField', (
         disabled: true,
         input,
         meta,
+        classRenderPluginParameterField: RenderPluginParameterField,
       }
       const enzymeWrapper = shallow(<RenderMapParameterField {...props} />, { context })
       if (primitiveParameters) {
@@ -133,6 +137,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderMapParameterField', (
             pluginParameterType: parameter,
             complexParameter: false,
             disabled: true,
+            classRenderPluginParameterField: RenderPluginParameterField,
           },
           disabled: true,
           input,

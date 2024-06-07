@@ -199,4 +199,9 @@ export default (theme) => ({
       },
     },
   },
+  featureDataSource: {
+    labelFieldStyle: {
+      marginBottom: '20px',
+    },
+  },
 })

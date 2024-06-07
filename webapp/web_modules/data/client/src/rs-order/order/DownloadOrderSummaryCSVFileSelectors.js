@@ -15,26 +15,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import values from 'lodash/values'
-
-/**
- * Possible parameter types
  */
-export const PluginParameterTypes = {
-  STRING: 'STRING',
-  BYTE: 'BYTE',
-  SHORT: 'SHORT',
-  INTEGER: 'INTEGER',
-  LONG: 'LONG',
-  FLOAT: 'FLOAT',
-  DOUBLE: 'DOUBLE',
-  BOOLEAN: 'BOOLEAN',
-  MAP: 'MAP',
-  COLLECTION: 'COLLECTION',
-  POJO: 'POJO',
-  PLUGIN: 'PLUGIN',
-  MODEL: 'REGARDS_ENTITY_MODEL',
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
+
+class DownloadOrderSummaryCSVFileSelectors extends BasicSignalSelectors {
+  getCSV(state) {
+    return this.uncombineStore(state).result || null
+  }
 }
 
-export const PluginParamType = values(PluginParameterTypes)
+/**
+ * Builds selectors on expected store path
+ */
+export default (storePath) => new DownloadOrderSummaryCSVFileSelectors(storePath)

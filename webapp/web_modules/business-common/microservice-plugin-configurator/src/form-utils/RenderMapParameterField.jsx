@@ -39,6 +39,8 @@ export class RenderMapParameterField extends React.Component {
     // From redux field
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
     meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
+    // class RenderPluginParameterField - to avoid circular dependency
+    classRenderPluginParameterField: PropTypes.elementType.isRequired,
   }
 
   static defaultProps = {
@@ -68,7 +70,7 @@ export class RenderMapParameterField extends React.Component {
    */
   initialize = () => {
     const {
-      pluginParameterType, microserviceName, disabled,
+      pluginParameterType, microserviceName, disabled, classRenderPluginParameterField,
     } = this.props
     const { intl: { formatMessage } } = this.context
 
@@ -77,7 +79,7 @@ export class RenderMapParameterField extends React.Component {
       throw new Error('Invalid map parameter', pluginParameterType)
     }
     if ((pluginParameterType.parameterizedSubTypes[0] !== 'java.lang.String')
-     && (pluginParameterType.parameterizedSubTypes[0] !== 'STRING')) {
+      && (pluginParameterType.parameterizedSubTypes[0] !== 'STRING')) {
       throw new Error('Invalid map key parameter. Only String is allowed.')
     }
 
@@ -103,6 +105,7 @@ export class RenderMapParameterField extends React.Component {
           pluginParameterType,
           complexParameter: false,
           disabled,
+          classRenderPluginParameterField,
         },
         component: RenderObjectParameterField,
         defaultValue: {},

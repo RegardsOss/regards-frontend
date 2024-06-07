@@ -29,4 +29,5 @@ export const DIALOG_TYPES = {
   CONFIRM_DELETE_DIALOG: 'confirmDeleteDialog',
   CONFIRM_RETRY_DIALOG: 'confirmRetryDialog',
   ERRORS_DIALOG: 'errorDialog',
+  FORCE_ERROR_DIALOG: 'abort',
 }

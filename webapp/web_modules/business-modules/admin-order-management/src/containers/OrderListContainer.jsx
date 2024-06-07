@@ -30,6 +30,7 @@ import { ordersNavigationActions, ordersNavigationSelectors } from '../clients/O
 import { orderFilesActions, orderFilesSelectors } from '../clients/OrderFilesClient'
 import { orderListActions, orderListSelectors } from '../clients/OrderListClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../clients/PluginMetaDataClient'
+import { downloadOrderActions } from '../clients/DownloadCSVClient'
 import OrderListComponent from '../components/OrderListComponent'
 
 /**
@@ -113,6 +114,7 @@ export class OrderListContainer extends React.Component {
         project={project}
         backUrl={this.getBackURL()}
         onRefresh={this.onRefresh}
+        downloadOrderActions={downloadOrderActions}
         ordersActions={orderListActions}
         ordersSelectors={orderListSelectors}
         ordersNavigationActions={ordersNavigationActions}

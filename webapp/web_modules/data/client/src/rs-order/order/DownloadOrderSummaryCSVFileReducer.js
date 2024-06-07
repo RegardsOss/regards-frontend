@@ -15,26 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import values from 'lodash/values'
-
-/**
- * Possible parameter types
  */
-export const PluginParameterTypes = {
-  STRING: 'STRING',
-  BYTE: 'BYTE',
-  SHORT: 'SHORT',
-  INTEGER: 'INTEGER',
-  LONG: 'LONG',
-  FLOAT: 'FLOAT',
-  DOUBLE: 'DOUBLE',
-  BOOLEAN: 'BOOLEAN',
-  MAP: 'MAP',
-  COLLECTION: 'COLLECTION',
-  POJO: 'POJO',
-  PLUGIN: 'PLUGIN',
-  MODEL: 'REGARDS_ENTITY_MODEL',
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import DownloadOrderSummaryCSVFileActions from './DownloadOrderSummaryCSVFileActions'
+
+class DownloadOrderSummaryCSVFileReducer extends BasicSignalReducers {
+  constructor(namespace) {
+    super(new DownloadOrderSummaryCSVFileActions(namespace))
+  }
 }
 
-export const PluginParamType = values(PluginParameterTypes)
+export default (namespace) => {
+  const instance = new DownloadOrderSummaryCSVFileReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

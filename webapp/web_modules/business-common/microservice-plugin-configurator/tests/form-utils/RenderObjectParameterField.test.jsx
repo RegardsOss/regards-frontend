@@ -54,6 +54,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderObjectParameterField'
         microserviceName: 'rs-test',
         pluginParameterType: parameter,
         input: ReduxFormTestHelper.getInputFieldProps('conf'),
+        classRenderPluginParameterField: RenderPluginParameterField,
       }
       const enzymeWrapper = shallow(<RenderObjectParameterField {...props} />, { context })
       const objectNbParameters = parameter.parameters.length
@@ -81,6 +82,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderObjectParameterField'
         pluginParameterType: parameter,
         disabled: true,
         input: ReduxFormTestHelper.getInputFieldProps('conf'),
+        classRenderPluginParameterField: RenderPluginParameterField,
       }
       const enzymeWrapper = shallow(<RenderObjectParameterField {...props} />, { context })
       const objectNbParameters = parameter.parameters.length

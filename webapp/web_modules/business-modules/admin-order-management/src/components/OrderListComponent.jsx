@@ -41,6 +41,8 @@ class OrderListComponent extends React.Component {
     project: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    // download order csv actions
+    downloadOrderActions: PropTypes.instanceOf(OrderClient.DownloadOrderSummaryCSVFileActions),
     // order request actions
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
     // order request selectors
@@ -88,7 +90,7 @@ class OrderListComponent extends React.Component {
       backUrl, ordersActions, ordersSelectors, project,
       ordersNavigationActions, ordersNavigationSelectors, orderFilesActions,
       orderFilesSelectors, isProcessingDependenciesExist, processingActions,
-      processingSelectors, pluginMetaDataSelectors,
+      processingSelectors, pluginMetaDataSelectors, downloadOrderActions,
     } = this.props
     const { isPaneOpened } = this.state
     const {
@@ -140,6 +142,7 @@ class OrderListComponent extends React.Component {
             <OrderDisplayContainer
               key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}
               project={project}
+              downloadOrderActions={downloadOrderActions}
               ordersActions={ordersActions}
               ordersSelectors={ordersSelectors}
               displayMode={ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR}

@@ -16,25 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
- * Possible parameter types
- */
-export const PluginParameterTypes = {
-  STRING: 'STRING',
-  BYTE: 'BYTE',
-  SHORT: 'SHORT',
-  INTEGER: 'INTEGER',
-  LONG: 'LONG',
-  FLOAT: 'FLOAT',
-  DOUBLE: 'DOUBLE',
-  BOOLEAN: 'BOOLEAN',
-  MAP: 'MAP',
-  COLLECTION: 'COLLECTION',
-  POJO: 'POJO',
-  PLUGIN: 'PLUGIN',
-  MODEL: 'REGARDS_ENTITY_MODEL',
+  * Endpoint to force requests in error
+  */
+export default class RequestForceErrorActions extends BasicSignalActions {
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/requests/{type}/abort`,
+      namespace,
+    })
+  }
 }
-
-export const PluginParamType = values(PluginParameterTypes)

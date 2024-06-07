@@ -20,7 +20,6 @@
 import { HateoasIconAction } from '@regardsoss/components'
 import { AdminInstanceShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AdminInstanceDomain } from '@regardsoss/domain'
 import { HateoasKeys } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import DeleteAccountIcon from 'mdi-material-ui/Delete'
@@ -40,13 +39,6 @@ class AccountDeleteComponent extends React.Component {
     ...themeContextType,
   }
 
-  /**
-   * @return {boolean} true if administrator can refuse this account
-   */
-  static canRefuseAccount(account) {
-    return AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
-  }
-
   onOpenDeleteDialog = () => {
     const { entity, onOpenDeleteDialog } = this.props
     onOpenDeleteDialog(entity)
@@ -57,10 +49,9 @@ class AccountDeleteComponent extends React.Component {
     const { intl: { formatMessage }, muiTheme: { palette } } = this.context
     return (
       <HateoasIconAction
-        className="selenium-deleteButton"
         title={formatMessage({ id: 'account.list.table.action.delete.tooltip' })}
         onClick={this.onOpenDeleteDialog}
-        disabled={isFetchingActions || !AccountDeleteComponent.canRefuseAccount(entity)}
+        disabled={isFetchingActions}
         entityLinks={entity.links}
         hateoasKey={HateoasKeys.DELETE}
         alwaysDisplayforInstanceUser={false}

@@ -73,6 +73,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       onDeleteRequests: () => { },
       onRetryRequests: () => { },
       onNotifyRequests: () => { },
+      onForceErrorRequests: () => { },
     }
     const enzymeWrapper = shallow(<FeatureManagerComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)
@@ -109,6 +110,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       onDeleteRequests: props.onDeleteRequests,
       onNotifyRequests: props.onNotifyRequests,
       onRetryRequests: props.onRetryRequests,
+      onForceErrorRequests: props.onForceErrorRequests,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
       filtersActions,
       filtersSelectors,
@@ -145,6 +147,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       onDeleteRequests: props.onDeleteRequests,
       onNotifyRequests: props.onNotifyRequests,
       onRetryRequests: props.onRetryRequests,
+      onForceErrorRequests: props.onForceErrorRequests,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
       filtersActions,
       filtersSelectors,
@@ -181,6 +184,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       onDeleteRequests: props.onDeleteRequests,
       onNotifyRequests: props.onNotifyRequests,
       onRetryRequests: props.onRetryRequests,
+      onForceErrorRequests: props.onForceErrorRequests,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
       filtersActions,
       filtersSelectors,
@@ -217,6 +221,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       onDeleteRequests: props.onDeleteRequests,
       onNotifyRequests: props.onNotifyRequests,
       onRetryRequests: props.onRetryRequests,
+      onForceErrorRequests: props.onForceErrorRequests,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
       filtersActions,
       filtersSelectors,
@@ -253,6 +258,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       onDeleteRequests: props.onDeleteRequests,
       onNotifyRequests: props.onNotifyRequests,
       onRetryRequests: props.onRetryRequests,
+      onForceErrorRequests: props.onForceErrorRequests,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,
       filtersActions,
       filtersSelectors,

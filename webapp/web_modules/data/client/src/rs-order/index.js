@@ -36,6 +36,8 @@ export { default as DownloadAllOrderFilesAction } from './order/DownloadAllOrder
 export { default as DownloadOrderFileActions } from './order/DownloadOrderFileActions'
 export { default as DownloadOrderMetalinkFileActions } from './order/DownloadOrderMetalinkFileActions'
 export { default as DownloadOrderSummaryCSVFileActions } from './order/DownloadOrderSummaryCSVFileActions'
+export { default as getDownloadOrderSummaryCSVFileReducer } from './order/DownloadOrderSummaryCSVFileReducer'
+export { default as getDownloadOrderSummaryCSVFileSelectors } from './order/DownloadOrderSummaryCSVFileSelectors'
 
 // get a dataset order detail (order)
 export { default as OrderDatasetFilesActions } from './order/OrderDatasetFilesActions'

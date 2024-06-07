@@ -30,6 +30,7 @@ export class HeaderActionsBarContainer extends React.Component {
     onDelete: PropTypes.func.isRequired,
     onRetry: PropTypes.func,
     onNotify: PropTypes.func,
+    onForceError: PropTypes.func,
 
     // from mapStateToProps
     // eslint-disable-next-line react/forbid-prop-types
@@ -55,7 +56,7 @@ export class HeaderActionsBarContainer extends React.Component {
   render() {
     const {
       tableSelection, selectionMode, areAllSelected,
-      onDelete, onRetry, onNotify, paneType,
+      onDelete, onRetry, onNotify, paneType, onForceError,
     } = this.props
     return (
       <HeaderActionsBarComponent
@@ -65,6 +66,7 @@ export class HeaderActionsBarContainer extends React.Component {
         onDelete={onDelete}
         onRetry={onRetry}
         onNotify={onNotify}
+        onForceError={onForceError}
         paneType={paneType}
       />
     )

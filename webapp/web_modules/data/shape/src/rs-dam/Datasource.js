@@ -16,16 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PluginParameterContent from '../rs-common/Plugin/PluginParameter'
+import { PluginConfigurationContent } from '../rs-common'
 
 export const Datasource = PropTypes.shape({
   content: PropTypes.shape({
-    id: PropTypes.number,
-    pluginId: PropTypes.string,
-    businessId: PropTypes.string,
-    label: PropTypes.string,
-    version: PropTypes.string,
-    parameters: PropTypes.arrayOf(PluginParameterContent).isRequired,
+    pluginConfiguration: PluginConfigurationContent,
   }),
 })
 

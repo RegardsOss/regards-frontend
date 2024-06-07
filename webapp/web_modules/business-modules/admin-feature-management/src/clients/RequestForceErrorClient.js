@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2023 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,26 +15,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import values from 'lodash/values'
+ */
+import { FeatureManagementClient } from '@regardsoss/client'
 
 /**
- * Possible parameter types
+ * Force request in error client
+ *
+ * @author Théo Lasserre
  */
-export const PluginParameterTypes = {
-  STRING: 'STRING',
-  BYTE: 'BYTE',
-  SHORT: 'SHORT',
-  INTEGER: 'INTEGER',
-  LONG: 'LONG',
-  FLOAT: 'FLOAT',
-  DOUBLE: 'DOUBLE',
-  BOOLEAN: 'BOOLEAN',
-  MAP: 'MAP',
-  COLLECTION: 'COLLECTION',
-  POJO: 'POJO',
-  PLUGIN: 'PLUGIN',
-  MODEL: 'REGARDS_ENTITY_MODEL',
-}
+const REDUX_ACTION_NAMESPACE = 'admin-feature-management/requestForceError'
 
-export const PluginParamType = values(PluginParameterTypes)
+export const requestForceErrorActions = new FeatureManagementClient.RequestForceErrorActions(REDUX_ACTION_NAMESPACE)

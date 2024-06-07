@@ -222,7 +222,7 @@ export class OAISRequestManagerComponent extends React.Component {
         onAbortRequests()
         break
       case DIALOG_TYPES.DELETE_DIALOG:
-        onDeleteRequests(payload, paneType)
+        onDeleteRequests(payload, paneType, null)
         break
       case DIALOG_TYPES.RETRY_DIALOG:
         onRetryRequests(payload)

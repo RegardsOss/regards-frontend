@@ -47,7 +47,7 @@ class ReferenceDetailOption extends React.Component {
         title={formatMessage({ id: 'feature.references.tooltip.details' })}
         onClick={this.onClick}
       >
-        <ViewIcon className="selenium-viewButton" />
+        <ViewIcon />
       </ResourceIconAction>
     )
   }
