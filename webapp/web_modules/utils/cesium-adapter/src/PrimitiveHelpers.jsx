@@ -31,6 +31,63 @@ import {
  * @author Théo Lasserre
  */
 class PrimitiveHelpers {
+  static GEOJSON_TYPES = {
+    POLYGON: 'Polygon',
+    LINE_STRING: 'LineString',
+    POINT: 'Point',
+    MULTI_POLYGON: 'MultiPolygon',
+  }
+
+  /**
+   * Create a geometry instance
+   * @param {*} id
+   * @param {*} positions
+   * @param {*} outlineWidth
+   * @returns a geometry instance
+   */
+  static createGeometryInstance = (id, positions, outlineWidth) => (
+    new GeometryInstance({
+      id,
+      geometry: new PolylineGeometry({
+        positions: Cartesian3.fromDegreesArray(positions),
+        arcType: ArcType.GEODESIC,
+        width: outlineWidth,
+      }),
+    })
+  )
+
+  /**
+   * Builds a Cesium's geometry instances from features
+   * @param {GeoJsonFeature} features
+   * @param {number} outlineWidth
+   * @returns an array of geometry instances
+   */
+  static buildPolylineGeometryInstances(features, outlineWidth = 1) {
+    const polylineGeometryInstances = []
+    forEach(features, (feature) => {
+      const geometryType = get(feature, 'geometry.type')
+      const coordinates = get(feature, 'geometry.coordinates')
+      // feature must have a geometry type and coordinates
+      if (geometryType && coordinates) {
+        if (geometryType === PrimitiveHelpers.GEOJSON_TYPES.POLYGON || geometryType === PrimitiveHelpers.GEOJSON_TYPES.MULTI_POLYGON) {
+          // for each polygon
+          forEach(coordinates, (coord) => {
+            // get the list of polygon points
+            const positions = flattenDeep(coord)
+            const polylineGeometryInstance = PrimitiveHelpers.createGeometryInstance(feature.id, positions, outlineWidth)
+            polylineGeometryInstances.push(polylineGeometryInstance)
+          })
+        } else if (geometryType === PrimitiveHelpers.GEOJSON_TYPES.LINE_STRING) {
+          // get the list of the line points
+          const positions = flattenDeep(coordinates)
+          const polylineGeometryInstance = PrimitiveHelpers.createGeometryInstance(feature.id, positions, outlineWidth)
+          polylineGeometryInstances.push(polylineGeometryInstance)
+        }
+      }
+    })
+    return polylineGeometryInstances
+  }
+
   /**
    * Builds a Resium's Polyline Primitive component from a feature.
    * @param {GeoJsonFeature} features
@@ -41,26 +98,7 @@ class PrimitiveHelpers {
    * @returns a polyline primitive component or null if feature's coordinates are unprocessable
    */
   static buildPolylinePrimitive(features, outlineColor, outlineWidth = 1, dataSourceName = 'default') {
-    const polylineGeometryInstances = []
-    forEach(features, (feature) => {
-      const geometryType = get(feature, 'geometry.type')
-      const coordinates = get(feature, 'geometry.coordinates')
-      // feature must have a geometry type and coordinates
-      if (geometryType && coordinates) {
-        forEach(coordinates, (coord) => {
-          const positions = flattenDeep(coord)
-          const polylineGeometryInstance = new GeometryInstance({
-            id: feature.id,
-            geometry: new PolylineGeometry({
-              positions: Cartesian3.fromDegreesArray(positions),
-              arcType: ArcType.GEODESIC,
-              width: outlineWidth,
-            }),
-          })
-          polylineGeometryInstances.push(polylineGeometryInstance)
-        })
-      }
-    })
+    const polylineGeometryInstances = PrimitiveHelpers.buildPolylineGeometryInstances(features, outlineWidth)
     if (!isEmpty(polylineGeometryInstances)) {
       const polylineAppearance = new PolylineMaterialAppearance({
         material: Material.fromType('Color', {
