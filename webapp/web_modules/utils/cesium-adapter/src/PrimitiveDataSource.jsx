@@ -44,6 +44,40 @@ class PrimitiveDataSource extends React.Component {
     features: {},
   }
 
+  /**
+   * Retrieve list of features depending on their type
+   * @param {Array<GeoJsonFeature>} features
+   * @param {Array<PrimitiveDataSource.GEOJSON_TYPES>} featureTypes
+   * @returns
+   */
+  static getFeatures = (features, featureTypes) => filter(features, (feature) => includes(featureTypes, get(feature, 'geometry.type')))
+
+  /**
+   * Builds Resium's Primitives components from features.
+   * @param {Array<GeoJsonFeature>} features
+   * @param {Color} outlineColor
+   * @param {number} outlineWidth
+   * @param {string} dataSourceName used for primitive unique key
+   * @returns a primitive component for each features
+   */
+  static buildPrimitives = (features, outlineColor, outlineWidth = 1, dataSourceName = 'default') => {
+    const polygonAndLineFeatures = PrimitiveDataSource.getFeatures(features, [PrimitiveHelpers.GEOJSON_TYPES.POLYGON, PrimitiveHelpers.GEOJSON_TYPES.MULTI_POLYGON, PrimitiveHelpers.GEOJSON_TYPES.LINE_STRING])
+    let pointFeatures = []
+    const primitives = []
+    if (polygonAndLineFeatures.length < features.length) {
+      pointFeatures = PrimitiveDataSource.getFeatures(features, [PrimitiveHelpers.GEOJSON_TYPES.POINT])
+    }
+    if (!isEmpty(polygonAndLineFeatures)) {
+      const polygonPolylinePrimitive = PrimitiveHelpers.buildPolylinePrimitive(polygonAndLineFeatures, outlineColor, outlineWidth, dataSourceName)
+      primitives.push(polygonPolylinePrimitive)
+    }
+    if (!isEmpty(pointFeatures)) {
+      const pointPrimitive = PrimitiveHelpers.buildPointPrimitive(pointFeatures, outlineColor, outlineWidth, dataSourceName)
+      primitives.push(pointPrimitive)
+    }
+    return primitives
+  }
+
   state = {
     primitives: null,
   }
@@ -75,40 +109,6 @@ class PrimitiveDataSource extends React.Component {
       })
     }
   }
-
-  /**
-   * Builds Resium's Primitives components from features.
-   * @param {Array<GeoJsonFeature>} features
-   * @param {Color} outlineColor
-   * @param {number} outlineWidth
-   * @param {string} dataSourceName used for primitive unique key
-   * @returns a primitive component for each features
-   */
-  buildPrimitives = (features, outlineColor, outlineWidth = 1, dataSourceName = 'default') => {
-    const polygonAndLineFeatures = this.getFeatures(features, [PrimitiveHelpers.GEOJSON_TYPES.POLYGON, PrimitiveHelpers.GEOJSON_TYPES.MULTI_POLYGON, PrimitiveHelpers.GEOJSON_TYPES.LINE_STRING])
-    let pointFeatures = []
-    const primitives = []
-    if (polygonAndLineFeatures.length < features.length) {
-      pointFeatures = this.getFeatures(features, [PrimitiveHelpers.GEOJSON_TYPES.POINT])
-    }
-    if (!isEmpty(polygonAndLineFeatures)) {
-      const polygonPolylinePrimitive = PrimitiveHelpers.buildPolylinePrimitive(polygonAndLineFeatures, outlineColor, outlineWidth, dataSourceName)
-      primitives.push(polygonPolylinePrimitive)
-    }
-    if (!isEmpty(pointFeatures)) {
-      const pointPrimitive = PrimitiveHelpers.buildPointPrimitive(pointFeatures, outlineColor, outlineWidth, dataSourceName)
-      primitives.push(pointPrimitive)
-    }
-    return primitives
-  }
-
-  /**
-   * Retrieve list of features depending on their type
-   * @param {Array<GeoJsonFeature>} features
-   * @param {Array<PrimitiveDataSource.GEOJSON_TYPES>} featureTypes
-   * @returns
-   */
-  getFeatures = (features, featureTypes) => filter(features, (feature) => includes(featureTypes, get(feature, 'geometry.type')))
 
   render() {
     const { primitives } = this.state
