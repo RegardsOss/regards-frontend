@@ -30,7 +30,9 @@ import { dependencies } from '../../user-dependencies'
 import SelectionItemDetailContainer from '../../containers/user/detail/SelectionItemDetailContainer'
 import OrderComponent from './options/OrderComponent'
 import ClearCartComponent from './options/ClearCartComponent'
+import ImportFileComponent from './options/ImportFileComponent'
 import OrderCartTableComponent from './OrderCartTableComponent'
+import OrderUploader from './OrderUploader'
 
 /**
  * Order cart content component
@@ -45,6 +47,9 @@ class OrderCartComponent extends React.Component {
     basket: OrderShapes.Basket,
     refreshBasket: PropTypes.func.isRequired,
     showDatasets: PropTypes.bool.isRequired,
+    showProcessings: PropTypes.bool,
+    showFilters: PropTypes.bool,
+    onImportFile: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
     isFetching: PropTypes.bool.isRequired,
     onClearCart: PropTypes.func.isRequired,
@@ -61,16 +66,27 @@ class OrderCartComponent extends React.Component {
     ...themeContextType,
   }
 
+  static defaultProps = {
+    showProcessings: false,
+    showFilters: false,
+  }
+
   /**
    * Renders module options
    * @param {function} onClearCart on clear cart callback
    * @param {function} onOrder on order callback
    * @param {boolean} isFetching is fetching?
    * @param {boolean} isNoContent is no content?
+   * @param {function} onImportFile on import callback
    * @return [React.Element] options list
    */
-  static renderOptions(onClearCart, onOrder, isFetching, isNoContent) {
+  static renderOptions(onClearCart, onOrder, isFetching, isNoContent, onImportFile, refreshBasket) {
     return [
+      <ImportFileComponent
+        key="options.import"
+        onImportFile={onImportFile}
+        refreshBasket={refreshBasket}
+      />,
       <OrderComponent
         key="options.order"
         isFetching={isFetching}
@@ -107,7 +123,7 @@ class OrderCartComponent extends React.Component {
     const {
       isAuthenticated, basket, isFetching, onClearCart, onOrder, showDatasets, isProcessingDependenciesExist,
       processingSelectors, pluginMetaDataSelectors, linkProcessingDatasetActions, refreshBasket,
-      isFileFilterDependenciesExist,
+      isFileFilterDependenciesExist, showProcessings, showFilters, onImportFile,
       ...moduleProperties
     } = this.props
     const { totalObjectsCount, effectiveObjectsCount, showMessage } = this.state
@@ -124,32 +140,36 @@ class OrderCartComponent extends React.Component {
     return (
       <div style={root}>
         <DynamicModulePane
-          options={OrderCartComponent.renderOptions(onClearCart, onOrder, isFetching, isNoContent)}
+          options={OrderCartComponent.renderOptions(onClearCart, onOrder, isFetching, isNoContent, onImportFile, refreshBasket)}
           requiresAuthentication
           requiredDependencies={dependencies}
           {...moduleProperties}
         >
-          {/* 1.a - Empty basket display */}
-          <NoContentMessageInfo
-            noContent={isNoContent}
-            titleKey={noContentTitleKey}
-            messageKey={noContentMesageKey}
-            Icon={NoContentIconConstructor}
-          >
-            {/* 1.b - content  */}
-            <OrderCartTableComponent
-              isFetching={isFetching}
-              basket={basket}
-              refreshBasket={refreshBasket}
-              showDatasets={showDatasets}
-              onShowDuplicatedMessage={this.onShowDuplicatedMessage}
-              isProcessingDependenciesExist={isProcessingDependenciesExist}
-              processingSelectors={processingSelectors}
-              pluginMetaDataSelectors={pluginMetaDataSelectors}
-              linkProcessingDatasetActions={linkProcessingDatasetActions}
-              isFileFilterDependenciesExist={isFileFilterDependenciesExist}
-            />
-          </NoContentMessageInfo>
+          <OrderUploader refreshBasket={refreshBasket}>
+            {/* 1.a - Empty basket display */}
+            <NoContentMessageInfo
+              noContent={isNoContent}
+              titleKey={noContentTitleKey}
+              messageKey={noContentMesageKey}
+              Icon={NoContentIconConstructor}
+            >
+              {/* 1.b - content  */}
+              <OrderCartTableComponent
+                isFetching={isFetching}
+                basket={basket}
+                refreshBasket={refreshBasket}
+                showDatasets={showDatasets}
+                showProcessings={showProcessings}
+                showFilters={showFilters}
+                onShowDuplicatedMessage={this.onShowDuplicatedMessage}
+                isProcessingDependenciesExist={isProcessingDependenciesExist}
+                processingSelectors={processingSelectors}
+                pluginMetaDataSelectors={pluginMetaDataSelectors}
+                linkProcessingDatasetActions={linkProcessingDatasetActions}
+                isFileFilterDependenciesExist={isFileFilterDependenciesExist}
+              />
+            </NoContentMessageInfo>
+          </OrderUploader>
         </DynamicModulePane>
         { /* 2 - Add dialog component for size informations messages (avoid creating dialogs in table) */}
         <Dialog

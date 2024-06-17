@@ -32,6 +32,10 @@ import messages from './i18n'
 class ImportFromFileDialogButton extends React.Component {
   static propTypes = {
     title: PropTypes.string,
+    buttonLabel: PropTypes.string,
+    primary: PropTypes.bool,
+    labelPosition: PropTypes.string,
+    buttonStyle: PropTypes.objectOf(PropTypes.string),
     onImport: PropTypes.func.isRequired,
     onImportSucceed: PropTypes.func.isRequired,
     disableImportButton: PropTypes.bool,
@@ -45,6 +49,8 @@ class ImportFromFileDialogButton extends React.Component {
   static defaultProps = {
     ignoreErrors: false,
     disableImportButton: false,
+    primary: true,
+    labelPosition: 'before',
   }
 
   static contextTypes = {
@@ -143,17 +149,21 @@ class ImportFromFileDialogButton extends React.Component {
   }
 
   render() {
+    const {
+      buttonStyle, buttonLabel, primary, labelPosition,
+    } = this.props
     const { intl: { formatMessage } } = this.context
     const { style } = this.props
     return (
       <div style={style}>
         {this.renderDialog()}
         <RaisedButton
-          label={formatMessage({ id: 'import.file.dialog.open.button' })}
-          labelPosition="before"
-          primary
+          label={buttonLabel || formatMessage({ id: 'import.file.dialog.open.button' })}
+          labelPosition={labelPosition}
+          primary={primary}
           icon={<FileUpload />}
           onClick={this.handleOpen}
+          style={buttonStyle}
         />
       </div>
     )

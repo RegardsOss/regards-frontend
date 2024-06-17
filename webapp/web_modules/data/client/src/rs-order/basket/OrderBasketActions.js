@@ -42,6 +42,11 @@ class OrderBasketActions {
       entityEndpoint: `${rootEnpoint}/selection`,
       namespace: `${namespace}/selection`,
     })
+    // import products file delegate
+    this.importFileDelegate = new BasicSignalActions({
+      entityEndpoint: `${rootEnpoint}/selection/upload`,
+      namespace: `${namespace}/selection-upload`,
+    })
     // delete dataset delegate
     this.datasetDelegate = new BasicSignalActions({
       entityEndpoint: `${rootEnpoint}/dataset/{datasetSelectionId}`,
@@ -143,6 +148,15 @@ class OrderBasketActions {
    */
   removeDatasetSelectionFromBasket(datasetSelectionId) {
     return this.datasetDelegate.sendSignal(RequestVerbEnum.DELETE, null, { datasetSelectionId })
+  }
+
+  /**
+   * Returns action to import a file containing a list of product ids.
+   * @param {*} file
+   * @returns {type:string, ...} redux action to import a file
+   */
+  importFile(file) {
+    return this.importFileDelegate.sendEntityUsingMultiPart('POST', {}, file)
   }
 
   /**

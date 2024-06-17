@@ -40,6 +40,8 @@ class ModuleConfigurationComponent extends React.Component {
   constructor(props) {
     super(props)
     this.SHOW_DATASETS_FIELD = `${props.currentNamespace}.showDatasets`
+    this.SHOW_PROCESSINGS_FIELD = `${props.currentNamespace}.showProcessings`
+    this.SHOW_FILTERS_FIELD = `${props.currentNamespace}.showFilters`
   }
 
   /**
@@ -50,6 +52,8 @@ class ModuleConfigurationComponent extends React.Component {
     const { changeField, isCreating } = this.props
     if (isCreating) {
       changeField(this.SHOW_DATASETS_FIELD, true)
+      changeField(this.SHOW_PROCESSINGS_FIELD, true)
+      changeField(this.SHOW_FILTERS_FIELD, true)
     }
   }
 
@@ -65,6 +69,16 @@ class ModuleConfigurationComponent extends React.Component {
               name={this.SHOW_DATASETS_FIELD}
               component={RenderCheckbox}
               label={intl.formatMessage({ id: 'order.cart.configuration.show.datasets' })}
+            />
+            <Field
+              name={this.SHOW_PROCESSINGS_FIELD}
+              component={RenderCheckbox}
+              label={intl.formatMessage({ id: 'order.cart.configuration.show.processings' })}
+            />
+            <Field
+              name={this.SHOW_FILTERS_FIELD}
+              component={RenderCheckbox}
+              label={intl.formatMessage({ id: 'order.cart.configuration.show.filters' })}
             />
           </FieldsGroup>
         </FormRow>

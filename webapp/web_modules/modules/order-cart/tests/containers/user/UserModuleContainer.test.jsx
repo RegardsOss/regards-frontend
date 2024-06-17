@@ -58,6 +58,8 @@ describe('[Order Cart] Testing UserModuleContainer', () => {
       dispatchClearCart: () => { },
       fetchProcessingConfigurationList: () => { },
       fetchProcessingMetadataList: () => { },
+      onImportFile: () => { },
+      throwError: () => { },
     }, {
       appName: 'x',
       project: 'y',
@@ -76,6 +78,8 @@ describe('[Order Cart] Testing UserModuleContainer', () => {
       dispatchClearCart: () => { },
       fetchProcessingConfigurationList: () => { },
       fetchProcessingMetadataList: () => { },
+      onImportFile: () => { },
+      throwError: () => { },
     }, {
       appName: 'x',
       project: 'y',
@@ -94,6 +98,8 @@ describe('[Order Cart] Testing UserModuleContainer', () => {
       dispatchClearCart: () => { },
       fetchProcessingConfigurationList: () => { },
       fetchProcessingMetadataList: () => { },
+      onImportFile: () => { },
+      throwError: () => { },
     }]
 
     propsSets.forEach((props, index) => {
@@ -107,6 +113,7 @@ describe('[Order Cart] Testing UserModuleContainer', () => {
         isAuthenticated: props.isAuthenticated,
         onClearCart: props.dispatchClearCart,
         onOrder: enzymeWrapper.instance().onOrder,
+        onImportFile: enzymeWrapper.instance().onImportFile,
       }, `Properties should be correctly reported to sub component - property set n°${index}`)
     })
   })

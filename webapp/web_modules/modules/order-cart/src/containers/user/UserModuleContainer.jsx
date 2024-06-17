@@ -68,6 +68,7 @@ export class UserModuleContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchGetBasket: PropTypes.func.isRequired,
     availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onImportFile: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchFlushBasket: PropTypes.func.isRequired, // locally clears basket
     dispatchStartOrder: PropTypes.func.isRequired,
@@ -108,6 +109,7 @@ export class UserModuleContainer extends React.Component {
       dispatchClearCart: () => dispatch(orderBasketActions.clearBasket()),
       dispatchStartOrder: (label, onSucceedOrderURL) => dispatch(createOrderActions.order(label, onSucceedOrderURL)),
       fetchProcessingConfigurationList: () => dispatch(processingActions.fetchEntityList()),
+      onImportFile: (file) => dispatch(orderBasketActions.importFile(file)),
       fetchProcessingMetadataList: () => dispatch(pluginMetaDataActions.fetchEntityList({
         microserviceName: 'rs-processing',
       }, {
@@ -204,6 +206,15 @@ export class UserModuleContainer extends React.Component {
   }
 
   /**
+   * On import file callback
+   * @param {*} file
+   */
+  onImportFile = (file) => {
+    const { onImportFile } = this.props
+    return onImportFile(file)
+  }
+
+  /**
    * Generate the URL that will be used in the mail sent by the server to the user
    */
   getOnSucceedOrderURL = () => {
@@ -215,7 +226,7 @@ export class UserModuleContainer extends React.Component {
 
   render() {
     const {
-      basket, hasError, isAuthenticated, isFetching, dispatchClearCart, moduleConf: { showDatasets = true }, dispatchGetBasket,
+      basket, hasError, isAuthenticated, isFetching, dispatchClearCart, moduleConf: { showDatasets, showProcessings, showFilters }, dispatchGetBasket,
     } = this.props
     const { isProcessingDependenciesExist, isFileFilterDependenciesExist } = this.state
     return (
@@ -224,6 +235,9 @@ export class UserModuleContainer extends React.Component {
         basket={basket}
         refreshBasket={dispatchGetBasket}
         showDatasets={showDatasets}
+        showProcessings={showProcessings}
+        showFilters={showFilters}
+        onImportFile={this.onImportFile}
         hasError={hasError}
         isFetching={isFetching}
         isAuthenticated={isAuthenticated}

@@ -24,6 +24,11 @@
 const moduleStyles = (theme) => ({
   user: {
     // module content styles
+    import: {
+      buttonStyle: {
+        boxShadow: 'none',
+      },
+    },
     root: { // report parent layout
       display: 'flex',
       flexDirection: 'column',
@@ -161,6 +166,41 @@ const moduleStyles = (theme) => ({
       iconStyle: {
         color: theme.flatButton.secondaryTextColor,
       },
+    },
+    dragAndDropMapStyle: {
+      dropDivStyle: {
+        backgroundColor: 'rgba(89, 91, 96, 0.7)',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 9999,
+      },
+      dropTextStyle: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+        textAlign: 'center',
+      },
+      dropTitleStyle: {
+        fontWeight: 500,
+        marginBottom: '40px',
+        fontSize: '20px',
+      },
+      dropSubtitleStyle: {
+        fontSize: '25px',
+      },
+      dropIconStyle: {
+        height: '80px',
+        width: '70px',
+      },
+    },
+    dragOrderMainDivStyle: {
+      minHeight: '800px',
+      display: 'flex',
     },
   },
 })

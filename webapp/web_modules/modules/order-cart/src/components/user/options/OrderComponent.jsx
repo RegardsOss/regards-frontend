@@ -131,7 +131,6 @@ export class OrderComponent extends React.Component {
             onChange={this.onOrderLabelChanged}
             disabled={startingOrder}
             errorText={serverError ? formatMessage({ id: `order-cart.module.order.confirmation.server.error.${serverError}` }) : null}
-            // floatingLabelText={formatMessage({ id: 'order-cart.module.order.confirmation.label.field' })}
             hintText={formatMessage({ id: 'order-cart.module.order.confirmation.label.hint' })}
             fullWidth
           />

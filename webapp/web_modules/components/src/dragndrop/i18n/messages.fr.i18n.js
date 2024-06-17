@@ -28,7 +28,8 @@ const messages = {
   'toponym.uploader.kmz.missing-files': 'L\'archive ne contient pas de fichier KML',
   'toponym.uploader.geojson.invalid-projection': 'Le fichier GeoJSON doit être dans la projection CRS84',
   'dragndrop.title': 'Drag & Drop',
-  'dragndrop.subtitle.toponym': 'Glissez déposez votre fichier shapefile zip, KML, KMZ ou GeoJSON',
+  'dragndrop.subtitle.toponym': 'Importer votre fichier shapefile zip, KML, KMZ ou GeoJSON',
+  'dragndrop.subtitle.order': 'Importer votre fichier de produits',
 }
 
 export default messages

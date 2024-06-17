@@ -147,7 +147,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
 
   state = {
     isLoading: true,
-    processingConfParametersSelected: '',
+    processingConfParametersSelected: {},
     isProcessingConfSelectedConfigurable: false,
     processingConfParametersObjects: {},
     linkProcessingDatasetList: [],

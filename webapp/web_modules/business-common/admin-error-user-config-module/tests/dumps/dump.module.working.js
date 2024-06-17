@@ -81,7 +81,17 @@ export default {
   },
   4: {
     content: {
-      id: 4, type: 'order-cart', description: 'Cart', applicationId: 'user', container: 'page-content-module', conf: { showDatasets: true, primaryPane: 'EXPANDED_COLLAPSIBLE' }, active: true, page: { home: false, iconType: 'DEFAULT', title: { en: 'cart', fr: 'panier' } }, confHash: '6c5c09cee81521d8744562f6a4593d962ecd5e5aba331d2c723de98175e3ec62',
+      id: 4,
+      type: 'order-cart',
+      description: 'Cart',
+      applicationId: 'user',
+      container: 'page-content-module',
+      conf: {
+        showDatasets: true, showProcessing: true, showFilters: true, primaryPane: 'EXPANDED_COLLAPSIBLE',
+      },
+      active: true,
+      page: { home: false, iconType: 'DEFAULT', title: { en: 'cart', fr: 'panier' } },
+      confHash: '6c5c09cee81521d8744562f6a4593d962ecd5e5aba331d2c723de98175e3ec62',
     },
     links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/4' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/4' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/4' }],
   },
@@ -302,7 +312,17 @@ export default {
   },
   55: {
     content: {
-      id: 55, type: 'order-cart', description: 'Cart (default)', applicationId: 'user', container: 'page-content-module', conf: { showDatasets: true, primaryPane: 'ALWAYS_EXPANDED' }, active: true, page: { home: false, iconType: 'DEFAULT', title: { en: 'Cart', fr: 'Panier' } }, confHash: '8210c92d833a3d4d6266f7c52b690cf292fded81d50180fa2b6c58388cb15dc1',
+      id: 55,
+      type: 'order-cart',
+      description: 'Cart (default)',
+      applicationId: 'user',
+      container: 'page-content-module',
+      conf: {
+        showDatasets: true, showProcessing: true, showFilters: true, primaryPane: 'ALWAYS_EXPANDED',
+      },
+      active: true,
+      page: { home: false, iconType: 'DEFAULT', title: { en: 'Cart', fr: 'Panier' } },
+      confHash: '8210c92d833a3d4d6266f7c52b690cf292fded81d50180fa2b6c58388cb15dc1',
     },
     links: [{ rel: 'self', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/55' }, { rel: 'update', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/55' }, { rel: 'delete', href: 'http://vm-perf.cloud-espace.si.c-s.fr/api/v1/rs-access-project/applications/user/modules/55' }],
   },

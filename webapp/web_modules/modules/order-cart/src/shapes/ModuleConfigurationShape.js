@@ -22,4 +22,6 @@
  */
 export const ModuleConfigurationShape = PropTypes.shape({
   showDatasets: PropTypes.bool,
+  showProcessings: PropTypes.bool,
+  showFilters: PropTypes.bool,
 })

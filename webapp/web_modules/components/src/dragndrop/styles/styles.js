@@ -24,6 +24,10 @@
  * @author Théo Lasserre
  */
 const styles = (theme) => ({
+  dragOrderMainDivStyle: {
+    minHeight: '800px',
+    display: 'flex',
+  },
   dragAndDropMapStyle: {
     dropDivStyle: {
       backgroundColor: 'rgba(89, 91, 96, 0.7)',

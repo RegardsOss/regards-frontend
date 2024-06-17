@@ -30,11 +30,17 @@ export class DragAndDrop extends React.Component {
     subtitle: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     style: PropTypes.object.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    mainDivStyle: PropTypes.object,
     handleDrop: PropTypes.func.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
+  }
+
+  static defaultProps = {
+    mainDivStyle: {},
   }
 
   static handleDrag(e) {
@@ -98,11 +104,12 @@ export class DragAndDrop extends React.Component {
 
   render() {
     const {
-      title, subtitle, style, children,
+      title, subtitle, style, children, mainDivStyle,
     } = this.props
     return (
       <div
         ref={this.dropRef}
+        style={mainDivStyle}
       >
         {this.state.dragging
           && <div

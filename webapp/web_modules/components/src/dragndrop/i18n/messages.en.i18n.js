@@ -29,6 +29,7 @@ const messages = {
   'toponym.uploader.geojson.invalid-projection': 'GeoJSON file must in CRS84 projection',
   'dragndrop.title': 'Drag & Drop',
   'dragndrop.subtitle.toponym': 'Import your zip shapefile, KML, KMZ or GeoJSON',
+  'dragndrop.subtitle.order': 'Import your products file',
 }
 
 export default messages
