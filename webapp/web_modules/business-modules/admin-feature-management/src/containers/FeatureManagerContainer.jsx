@@ -130,7 +130,7 @@ export class FeatureManagerContainer extends React.Component {
   fetchRequestsCounts = (queryParams, bodyParams) => {
     const { fetchRequestsCount } = this.props
     forEach(FemDomain.REQUEST_TYPES_ENUM, (paneType) => {
-      const pathParams = this.getPathParams(paneType)
+      const pathParams = FeatureManagerContainer.getPathParams(paneType)
       const columnKeys = paneType === FemDomain.REQUEST_TYPES_ENUM.REFERENCES ? REFERENCES_COLUMN_KEYS : REQUESTS_COLUMN_KEYS
       // We remove sorting parameters that are not used in this pane
       const filteredQueryParams = UIDomain.SortingHelper.buildSortingParameters(queryParams, columnKeys)
