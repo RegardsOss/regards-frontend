@@ -30,7 +30,7 @@ export default class AIPTagSearchActions extends BasicArrayActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aips/tags/search/`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aips/tags/search`,
     })
   }
 }

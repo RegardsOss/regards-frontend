@@ -30,7 +30,7 @@ export default class AIPCategorySearchActions extends BasicArrayActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aips/categories/search/`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aips/categories/search`,
     })
   }
 }
