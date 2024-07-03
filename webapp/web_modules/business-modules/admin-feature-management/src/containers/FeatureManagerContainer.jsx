@@ -58,6 +58,7 @@ export class FeatureManagerContainer extends React.Component {
     retryRequests: (bodyParams, pathParams, paneType) => dispatch(clientByPane[paneType].retryActions.sendSignal('POST', bodyParams, pathParams)),
     deleteRequests: (bodyParams, pathParams, paneType) => dispatch(clientByPane[paneType].deleteActions.sendSignal('DELETE', bodyParams, pathParams)),
     fetchRecipients: () => dispatch(referenceRecipientsActions.fetchRecipients()),
+    dispatchUnselectAll: (paneType) => dispatch(clientByPane[paneType].tableActions.unselectAll()),
   })
 
   static propTypes = {
@@ -74,6 +75,7 @@ export class FeatureManagerContainer extends React.Component {
     notifyRequests: PropTypes.func.isRequired,
     forceErrorRequests: PropTypes.func.isRequired,
     fetchRecipients: PropTypes.func.isRequired,
+    dispatchUnselectAll: PropTypes.func.isRequired,
     // from mapStateToProps
     recipientList: NotifierShapes.RecipientArray,
   }
@@ -104,12 +106,15 @@ export class FeatureManagerContainer extends React.Component {
   * Marks fetching true, performs promise as parameter, update waiting users state then marks fetching false
   * @param promise
   */
-  perform = (promise, onRefresh) => {
+  perform = (promise, paneType, onRefresh) => {
     this.setFetching(true)
     const onDone = () => { this.setFetching(false) }
-    Promise.resolve(promise).then(() => Promise.resolve(
-      onRefresh(true),
-    ).then(onDone).catch(onDone)).catch(onDone)
+    Promise.resolve(promise).then((actionResult) => {
+      this.unselectAll(actionResult, paneType)
+      return Promise.resolve(
+        onRefresh(true),
+      ).then(onDone).catch(onDone)
+    }).catch(onDone)
   }
 
   /**
@@ -142,25 +147,30 @@ export class FeatureManagerContainer extends React.Component {
     this.fetchRequestsCounts(queryParams, bodyParams)
   }
 
+  unselectAll = (actionResult, paneType) => {
+    const { dispatchUnselectAll } = this.props
+    return !actionResult.error && dispatchUnselectAll(paneType)
+  }
+
   onDeleteRequests = (bodyParams, paneType, onRefresh) => {
     const { deleteRequests } = this.props
     const pathParams = FeatureManagerContainer.getPathParams(paneType)
-    this.perform(deleteRequests(bodyParams, pathParams, paneType), onRefresh)
+    this.perform(deleteRequests(bodyParams, pathParams, paneType), paneType, onRefresh)
   }
 
   onRetryRequests = (bodyParams, paneType, onRefresh) => {
     const { retryRequests } = this.props
-    this.perform(retryRequests(bodyParams, { type: paneType }, paneType), onRefresh)
+    this.perform(retryRequests(bodyParams, { type: paneType }, paneType), paneType, onRefresh)
   }
 
   onNotifyRequests = (bodyParams, onRefresh) => {
     const { notifyRequests } = this.props
-    this.perform(notifyRequests(bodyParams), onRefresh)
+    this.perform(notifyRequests(bodyParams), FemDomain.REQUEST_TYPES_ENUM.REFERENCES, onRefresh)
   }
 
   onForceErrorRequests = (bodyParams, paneType, onRefresh) => {
     const { forceErrorRequests } = this.props
-    this.perform(forceErrorRequests(bodyParams, { type: paneType }, paneType), onRefresh)
+    this.perform(forceErrorRequests(bodyParams, { type: paneType }, paneType), paneType, onRefresh)
   }
 
   render() {

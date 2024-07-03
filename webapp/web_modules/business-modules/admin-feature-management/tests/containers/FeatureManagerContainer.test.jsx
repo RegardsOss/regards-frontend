@@ -49,6 +49,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerContainer', () => {
       notifyRequests: () => { },
       fetchRecipients: () => { },
       forceErrorRequests: () => { },
+      dispatchUnselectAll: () => { },
     }
     const enzymeWrapper = shallow(<FeatureManagerContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(FeatureManagerComponent)
