@@ -188,7 +188,7 @@ export class ReferencesManagerComponent extends React.Component {
     const payload = this.onConfirmActionDialog(dialogRequestType)
     switch (dialogRequestType) {
       case DIALOG_TYPES.DELETE_DIALOG:
-        onDeleteRequests(payload, paneType)
+        onDeleteRequests(payload, paneType, null)
         break
       case DIALOG_TYPES.NOTIFY_DIALOG:
         onNotifyRequests({ searchParameters: payload, recipientIds })

@@ -210,42 +210,52 @@ export class RequestManagerComponent extends React.Component {
     }
   }
 
+  updateRetryConfirmDialogState = (actionResult) => {
+    if (!actionResult.error) {
+      this.setState({
+        [DIALOG_TYPES.CONFIRM_RETRY_DIALOG]: {
+          open: true,
+          isLoading: false,
+          payload: actionResult.payload,
+        },
+      })
+    }
+    return actionResult
+  }
+
+  updateDeleteConfirmDialogState = (actionResult) => {
+    if (!actionResult.error) {
+      this.setState({
+        [DIALOG_TYPES.CONFIRM_DELETE_DIALOG]: {
+          open: true,
+          isLoading: false,
+          payload: actionResult.payload,
+        },
+      })
+    }
+    return actionResult
+  }
+
   /** User callback: retry, delete or force error confirmed */
   onConfirm = (dialogType) => {
     const {
       onRetryRequests, onDeleteRequests, paneType, onForceErrorRequests,
     } = this.props
     const payload = this.onConfirmActionDialog(dialogType)
-    let confirmDialogType
-    let functionToCall
     switch (dialogType) {
       case DIALOG_TYPES.RETRY_DIALOG:
-        confirmDialogType = DIALOG_TYPES.CONFIRM_RETRY_DIALOG
-        functionToCall = onRetryRequests
+        onRetryRequests(payload, paneType, this.updateRetryConfirmDialogState)
+        this.onOpenActionDialog(DIALOG_TYPES.CONFIRM_RETRY_DIALOG)
         break
       case DIALOG_TYPES.FORCE_ERROR_DIALOG:
-        functionToCall = onForceErrorRequests
+        onForceErrorRequests(payload, paneType)
         break
       case DIALOG_TYPES.DELETE_DIALOG:
-        confirmDialogType = DIALOG_TYPES.CONFIRM_DELETE_DIALOG
-        functionToCall = onDeleteRequests
+        onDeleteRequests(payload, paneType, this.updateDeleteConfirmDialogState)
+        this.onOpenActionDialog(DIALOG_TYPES.CONFIRM_DELETE_DIALOG)
         break
       default:
     }
-    if (confirmDialogType) {
-      this.onOpenActionDialog(confirmDialogType)
-    }
-    functionToCall(payload, paneType).then((actionResult) => {
-      if (!actionResult.error && confirmDialogType) {
-        this.setState({
-          [confirmDialogType]: {
-            open: true,
-            isLoading: false,
-            payload: actionResult.payload,
-          },
-        })
-      }
-    })
   }
 
   renderConfirmDialog = (dialogType) => {

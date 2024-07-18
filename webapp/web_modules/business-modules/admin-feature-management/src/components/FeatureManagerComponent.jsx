@@ -58,6 +58,7 @@ class FeatureManagerComponent extends React.Component {
     onNotifyRequests: PropTypes.func.isRequired,
     onForceErrorRequests: PropTypes.func.isRequired,
     recipientList: NotifierShapes.RecipientArray,
+    fetchRequestsCounts: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -170,6 +171,7 @@ class FeatureManagerComponent extends React.Component {
   render() {
     const {
       params, onBack, onRefresh, onDeleteRequests, onNotifyRequests, onRetryRequests, onForceErrorRequests,
+      fetchRequestsCounts,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { card: { filterButtonStyle } } } = this.context
     const { paneType, currentRequestParameters } = this.state
@@ -216,6 +218,7 @@ class FeatureManagerComponent extends React.Component {
               filtersActions={filtersActions}
               filtersSelectors={filtersSelectors}
               filtersI18n={FILTERS_I18N}
+              fetchCounts={fetchRequestsCounts}
             >
               {this.getDisplayComponents(paneType)}
             </TableFilterSortingAndVisibilityContainer>

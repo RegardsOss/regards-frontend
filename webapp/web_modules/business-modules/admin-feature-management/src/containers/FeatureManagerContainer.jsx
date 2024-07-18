@@ -127,8 +127,10 @@ export class FeatureManagerContainer extends React.Component {
    * Enable to update tabs count when user click on the Refresh button.
    * See SwitchTablesContainer for tabs count refresh when user switch tab and when user change filters
    */
-  fetchRequestsCounts = (queryParams, bodyParams) => {
+  fetchRequestsCounts = (requestParameters) => {
     const { fetchRequestsCount } = this.props
+    const queryParams = { ...pick(requestParameters, 'sort') }
+    const bodyParams = { ...omit(requestParameters, 'sort') }
     forEach(FemDomain.REQUEST_TYPES_ENUM, (paneType) => {
       const pathParams = FeatureManagerContainer.getPathParams(paneType)
       const columnKeys = paneType === FemDomain.REQUEST_TYPES_ENUM.REFERENCES ? REFERENCES_COLUMN_KEYS : REQUESTS_COLUMN_KEYS
@@ -144,7 +146,7 @@ export class FeatureManagerContainer extends React.Component {
     const queryParams = { ...pick(requestParameters, 'sort') }
     const bodyParams = { ...omit(requestParameters, 'sort') }
     fetchRequests(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, pathParams, queryParams, bodyParams, paneType)
-    this.fetchRequestsCounts(queryParams, bodyParams)
+    this.fetchRequestsCounts(requestParameters)
   }
 
   unselectAll = (actionResult, paneType) => {
@@ -152,15 +154,15 @@ export class FeatureManagerContainer extends React.Component {
     return !actionResult.error && dispatchUnselectAll(paneType)
   }
 
-  onDeleteRequests = (bodyParams, paneType, onRefresh) => {
+  onDeleteRequests = (bodyParams, paneType, updateDeleteConfirmDialogState, onRefresh) => {
     const { deleteRequests } = this.props
     const pathParams = FeatureManagerContainer.getPathParams(paneType)
-    this.perform(deleteRequests(bodyParams, pathParams, paneType), paneType, onRefresh)
+    this.perform(deleteRequests(bodyParams, pathParams, paneType).then(updateDeleteConfirmDialogState), paneType, onRefresh)
   }
 
-  onRetryRequests = (bodyParams, paneType, onRefresh) => {
+  onRetryRequests = (bodyParams, paneType, updateRetryConfirmDialogState, onRefresh) => {
     const { retryRequests } = this.props
-    this.perform(retryRequests(bodyParams, { type: paneType }, paneType), paneType, onRefresh)
+    this.perform(retryRequests(bodyParams, { type: paneType }, paneType).then(updateRetryConfirmDialogState), paneType, onRefresh)
   }
 
   onNotifyRequests = (bodyParams, onRefresh) => {
@@ -187,6 +189,7 @@ export class FeatureManagerContainer extends React.Component {
         onNotifyRequests={this.onNotifyRequests}
         onForceErrorRequests={this.onForceErrorRequests}
         recipientList={this.props.recipientList}
+        fetchRequestsCounts={this.fetchRequestsCounts}
       />
     )
   }

@@ -52,6 +52,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
     filtersSelectors: PropTypes.instanceOf(BasicSelector),
     // eslint-disable-next-line react/forbid-prop-types
     filtersI18n: UIShapes.FiltersI18nList,
+    fetchCounts: PropTypes.func,
     // from mapStateToProps
     pageMeta: PropTypes.shape({
       number: PropTypes.number,
@@ -140,7 +141,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
   )
 
   onRefresh = () => {
-    const { isPagePostFetching, pathParams } = this.props
+    const { isPagePostFetching, pathParams, fetchCounts } = this.props
     const { requestParameters } = this.state
     const {
       pageMeta, fetchPagedEntityList, fetchPagedEntityListByPost,
@@ -151,6 +152,9 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
       fetchPagedEntityListByPost(0, fetchPageSize, pathParams, { ...pick(requestParameters, 'sort') }, { ...omit(requestParameters, 'sort') })
     } else {
       fetchPagedEntityList(0, fetchPageSize, pathParams, { ...requestParameters })
+    }
+    if (fetchCounts) {
+      fetchCounts(requestParameters)
     }
   }
 

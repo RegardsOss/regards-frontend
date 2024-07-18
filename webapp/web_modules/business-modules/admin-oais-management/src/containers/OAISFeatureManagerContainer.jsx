@@ -167,12 +167,17 @@ export class OAISFeatureManagerContainer extends React.Component {
   * Marks fetching true, performs promise as parameter, update waiting users state then marks fetching false
   * @param promise
   */
-  perform = (promise, onRefresh) => {
+  perform = (promise, paneType, onRefresh) => {
     this.setFetching(true)
     const onDone = () => { this.setFetching(false) }
-    Promise.resolve(promise).then(() => Promise.resolve(
-      onRefresh(true),
-    ).then(onDone).catch(onDone)).catch(onDone)
+    Promise.resolve(promise).then((actionResult) => {
+      if (paneType) {
+        this.unselectAll(actionResult, paneType)
+      }
+      return Promise.resolve(
+        onRefresh(true),
+      ).then(onDone).catch(onDone)
+    }).catch(onDone)
   }
 
   /**
@@ -185,8 +190,10 @@ export class OAISFeatureManagerContainer extends React.Component {
    * Enable to update tabs count when user click on the Refresh button.
    * See OAISSwitchTablesContainer for tabs count refresh when user switch tab and when user change filters
    */
-  fetchRequestsCounts = (queryParams, bodyParams) => {
+  fetchRequestsCounts = (requestParameters) => {
     const { fetchRequestsCount } = this.props
+    const queryParams = { ...pick(requestParameters, 'sort') }
+    const bodyParams = { ...omit(requestParameters, 'sort') }
     forEach(IngestDomain.REQUEST_TYPES_ENUM, (paneType) => {
       const columnKeys = paneType === IngestDomain.REQUEST_TYPES_ENUM.AIP ? PACKAGE_COLUMN_KEYS : REQUESTS_COLUMN_KEYS
       // We remove sorting parameters that are not used in this pane
@@ -200,7 +207,7 @@ export class OAISFeatureManagerContainer extends React.Component {
     const queryParams = { ...pick(requestParameters, 'sort') }
     const bodyParams = { ...omit(requestParameters, 'sort') }
     fetchPage(0, TableFilterSortingAndVisibilityContainer.PAGE_SIZE, {}, queryParams, bodyParams, paneType)
-    this.fetchRequestsCounts(queryParams, bodyParams)
+    this.fetchRequestsCounts(requestParameters)
   }
 
   unselectAll = (actionResult, paneType) => {
@@ -210,32 +217,32 @@ export class OAISFeatureManagerContainer extends React.Component {
 
   onDeleteRequests = (bodyParams, paneType, updatePostDialogState, onRefresh) => {
     const { deleteRequests } = this.props
-    this.perform(deleteRequests(bodyParams, paneType).then(updatePostDialogState).then((actionResult) => this.unselectAll(actionResult, paneType)), onRefresh)
+    this.perform(deleteRequests(bodyParams, paneType).then(updatePostDialogState), paneType, onRefresh)
   }
 
   onRetryRequests = (bodyParams, onRefresh) => {
     const { retryRequests } = this.props
-    this.perform(retryRequests(bodyParams).then((actionResult) => this.unselectAll(actionResult, IngestDomain.REQUEST_TYPES_ENUM.REQUEST)), onRefresh)
+    this.perform(retryRequests(bodyParams), IngestDomain.REQUEST_TYPES_ENUM.REQUEST, onRefresh)
   }
 
   onAbortRequests = (onRefresh) => {
     const { abortRequests } = this.props
-    this.perform(abortRequests(), onRefresh)
+    this.perform(abortRequests(), null, onRefresh)
   }
 
   onSelectVersionOption = (bodyParams, onRefresh) => {
     const { selectVersionOption } = this.props
-    this.perform(selectVersionOption(bodyParams).then((actionResult) => this.unselectAll(actionResult, IngestDomain.REQUEST_TYPES_ENUM.REQUEST)), onRefresh)
+    this.perform(selectVersionOption(bodyParams), IngestDomain.REQUEST_TYPES_ENUM.REQUEST, onRefresh)
   }
 
   onModifyAip = (bodyParams, updatePostDialogState, onRefresh) => {
     const { modifyAips } = this.props
-    this.perform(modifyAips(bodyParams).then(updatePostDialogState).then((actionResult) => this.unselectAll(actionResult, IngestDomain.REQUEST_TYPES_ENUM.AIP)), onRefresh)
+    this.perform(modifyAips(bodyParams).then(updatePostDialogState), IngestDomain.REQUEST_TYPES_ENUM.AIP, onRefresh)
   }
 
   onNotifyAip = (filters, recipients, onRefresh) => {
     const { notifyAips } = this.props
-    this.perform(notifyAips(filters, recipients).then((actionResult) => this.unselectAll(actionResult, IngestDomain.REQUEST_TYPES_ENUM.REQUEST)), onRefresh)
+    this.perform(notifyAips(filters, recipients), IngestDomain.REQUEST_TYPES_ENUM.REQUEST, onRefresh)
   }
 
   render() {
@@ -258,6 +265,7 @@ export class OAISFeatureManagerContainer extends React.Component {
         onBack={this.onBack}
         recipientList={recipientList}
         onNotifyAip={this.onNotifyAip}
+        fetchRequestsCounts={this.fetchRequestsCounts}
       />
     )
   }

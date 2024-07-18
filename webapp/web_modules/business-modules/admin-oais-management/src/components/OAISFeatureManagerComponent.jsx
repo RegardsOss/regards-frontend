@@ -62,6 +62,7 @@ class OAISFeatureManagerComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     recipientList: NotifierShapes.RecipientArray,
     onNotifyAip: PropTypes.func.isRequired,
+    fetchRequestsCounts: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -183,6 +184,7 @@ class OAISFeatureManagerComponent extends React.Component {
     const { intl: { formatMessage }, moduleTheme: { filterButtonStyle } } = this.context
     const {
       params, onRefresh, onBack, onDeleteRequests, onRetryRequests, onAbortRequests, onSelectVersionOption, onModifyAip,
+      fetchRequestsCounts,
     } = this.props
     const { paneType, currentRequestParameters } = this.state
     return (
@@ -227,6 +229,7 @@ class OAISFeatureManagerComponent extends React.Component {
               onModifyAip={onModifyAip}
               filtersActions={filtersActions}
               filtersSelectors={filtersSelectors}
+              fetchCounts={fetchRequestsCounts}
             >
               {this.getDisplayComponents(paneType)}
             </TableFilterSortingAndVisibilityContainer>

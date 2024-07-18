@@ -74,6 +74,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       onRetryRequests: () => { },
       onNotifyRequests: () => { },
       onForceErrorRequests: () => { },
+      fetchRequestsCounts: () => { },
     }
     const enzymeWrapper = shallow(<FeatureManagerComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)

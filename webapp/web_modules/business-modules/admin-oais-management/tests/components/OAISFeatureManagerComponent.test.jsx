@@ -67,6 +67,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
       storages: [],
       recipientList: [],
       onNotifyAip: () => { },
+      fetchRequestsCounts: () => { },
     }
     const enzymeWrapper = shallow(<OAISFeatureManagerComponent {...props} />, { context })
     const headerComponent = enzymeWrapper.find(CardHeaderActions)
