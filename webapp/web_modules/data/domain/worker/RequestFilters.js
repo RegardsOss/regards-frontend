@@ -63,7 +63,7 @@ export class RequestFilters {
   }
 
   withSource(source) {
-    this.filters[FILTER_PARAMS_ENUM.SESSION] = source
+    this.filters[FILTER_PARAMS_ENUM.SOURCE] = source
     return this
   }
 

@@ -47,13 +47,13 @@ class WorkerActionsComponent extends React.Component {
 
   getErrorsURL = () => {
     const { project, sessionStep: { session, source } } = this.props
-    return UIDomain.FiltersPaneHelper.buildLocationDescriptorObject(WorkerDomain.RequestFilters.builder(session, source).withStatusError().build(), [],
+    return UIDomain.FiltersPaneHelper.buildLocationDescriptorObject(WorkerDomain.RequestFilters.builder(source, session).withStatusError().build(), [],
       `/admin/${project}/data/acquisition/datapreparation/requests`)
   }
 
   onRetryErrors = () => {
     const { retryWorkerRequests, sessionStep: { session, source } } = this.props
-    const queryParameters = WorkerDomain.RequestFilters.builder(session, source).withStatusError().build()
+    const queryParameters = WorkerDomain.RequestFilters.builder(source, session).withStatusError().build()
     return retryWorkerRequests(queryParameters)
   }
 
@@ -89,6 +89,7 @@ class WorkerActionsComponent extends React.Component {
       },
     } = this.context
     const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
+    console.error('url : ', this.getErrorsURL())
     return (
       <div style={cardButtonStyle}>
         {
