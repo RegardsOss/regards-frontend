@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
+import includes from 'lodash/includes'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { CatalogShapes } from '@regardsoss/shape'
@@ -40,7 +41,9 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
   getSearchLink = (withAuth, type = 'search') => {
     const searchLink = find(this.props.searchEngineConfiguration.links, (l) => l.rel === type)
     if (searchLink) {
-      return withAuth
+      // In some cases (like stac) token is already inside the url.
+      // we need to check its presence before adding it.
+      return withAuth && !includes(searchLink.href, 'token')
         ? `${searchLink.href}?token=${this.props.accessToken}`
         : searchLink.href
     }
