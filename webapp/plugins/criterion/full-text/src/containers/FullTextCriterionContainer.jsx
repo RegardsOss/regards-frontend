@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import startsWith from 'lodash/startsWith'
+import includes from 'lodash/includes'
 import { UIShapes } from '@regardsoss/shape'
 import { CatalogDomain } from '@regardsoss/domain'
 import FullTextCriterionComponent from '../components/FullTextCriterionComponent'
@@ -46,13 +48,60 @@ export class FullTextCriterionContainer extends React.Component {
 
   /**
    * Converts state as parameter into OpenSearch request parameters
+   * Escape some special characters and disable search when searchText
+   * contains only special characters
    * @param {{searchText: string}} state
    * @return {*} corresponding OpenSearch request parameters
    */
   static convertToRequestParameters({ searchText = '' }) {
-    const trimedText = searchText.trim()
+    let trimedText = searchText.trim()
     if (!trimedText) return { q: null }
-    return { q: CatalogDomain.OpenSearchQueryParameter.toFullText(trimedText.replace(/\s\s+/g, ' ').split(' ')) }
+    // We need at least one letter or one digit in searchText
+    if (!(/\d/.test(searchText)) && !(/[a-zA-Z]/.test(searchText))) return { q: null }
+    // startsWith used that way enable to control that if user only type one special character, search will be disabled.
+    // Search will not be disabled if searchText contains more than one special caracter, for exemple :
+    // "(a" is allowed.
+    // "(" is not allowed.
+    // We set up theses restrictions because of backend.
+    if (startsWith('(', trimedText)) return { q: null }
+    if (startsWith(')', trimedText)) return { q: null }
+    if (startsWith('[', trimedText)) return { q: null }
+    if (startsWith(']', trimedText)) return { q: null }
+    if (startsWith('^', trimedText)) return { q: null }
+    if (startsWith(':', trimedText)) return { q: null }
+    if (startsWith('~', trimedText)) return { q: null }
+    if (startsWith('/', trimedText)) return { q: null }
+    if (startsWith('+', trimedText)) return { q: null }
+    if (startsWith('-', trimedText)) return { q: null }
+    // '<' '>' '!' '\' characters are not allowed because they break backend.
+    if (includes(trimedText, '<')) return { q: null }
+    if (includes(trimedText, '>')) return { q: null }
+    if (includes(trimedText, '!')) return { q: null }
+    if (includes(trimedText, '\\')) return { q: null }
+    trimedText = trimedText.replace(/\s\s+/g, ' ')
+    // escape ( character
+    trimedText = trimedText.replace(/[(]/g, '\\(')
+    // escape ) character
+    trimedText = trimedText.replace(/[)]/g, '\\)')
+    // escape [ character
+    trimedText = trimedText.replace(/[[]/g, '\\[')
+    // escape ] character
+    trimedText = trimedText.replace(/[\]]/g, '\\]')
+    // escape ^ character
+    trimedText = trimedText.replace(/[\^]/g, '\\^')
+    // escape : character
+    trimedText = trimedText.replace(/[:]/g, '\\:')
+    // escape / character
+    trimedText = trimedText.replace(/[/]/g, '\\/')
+    // escape ! character
+    trimedText = trimedText.replace(/[!]/g, '\\!')
+    // escape + character
+    trimedText = trimedText.replace(/[+]/g, '\\+')
+    // escape - character
+    trimedText = trimedText.replace(/[-]/g, '\\-')
+    // escape ~ character
+    trimedText = trimedText.replace(/[~]/g, '\\~')
+    return { q: CatalogDomain.OpenSearchQueryParameter.toFullText(trimedText.split(' ')) }
   }
 
   /**

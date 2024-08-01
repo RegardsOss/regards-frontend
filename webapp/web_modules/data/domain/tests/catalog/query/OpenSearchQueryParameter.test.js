@@ -89,12 +89,12 @@ describe('[Domain] Testing OpenSearchQueryParameter', () => {
   }, {
     label: 'a single value for full text',
     value: 'abcdef',
-    expected: '*abcdef*',
+    expected: 'abcdef',
     method: OpenSearchQueryParameter.toFullText,
   }, {
     label: 'multiple values for full text',
     value: ['abcdef', 'fdsfq', 'aeaez'],
-    expected: '*abcdef* AND *fdsfq* AND *aeaez*',
+    expected: 'abcdef AND fdsfq AND aeaez',
     method: OpenSearchQueryParameter.toFullText,
   }]
 

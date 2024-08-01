@@ -160,7 +160,7 @@ export default class OpenSearchQueryParameter extends QueryParameter {
    * @return {string} corresponding OpenSearch parameter value, where each element is in quotes (meaning strict equality)
    */
   static toFullText(values, separator = OpenSearchQueryParameter.OR_SEPARATOR, negate = false) {
-    return OpenSearchQueryParameter.toStringParameterValue(values, OpenSearchQueryParameter.AND_SEPARATOR, false, [], (escapedValue) => `*${escapedValue}*`, true)
+    return OpenSearchQueryParameter.toStringParameterValue(values, OpenSearchQueryParameter.AND_SEPARATOR, false, [], (escapedValue) => `${escapedValue}`, true)
   }
 
   /**
