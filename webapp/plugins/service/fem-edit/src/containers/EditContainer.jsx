@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import omitBy from 'lodash/omitBy'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -124,7 +125,12 @@ export class EditContainer extends React.Component {
     const { searchContext } = this.props.target
     this.props.editFeatures({
       searchRequest: searchContext,
-      feature: { properties },
+      feature: {
+        properties: {
+          ...properties.default,
+          ...omitBy(properties, (value, key) => key === 'default'),
+        },
+      },
     })
   }
 
