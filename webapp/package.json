@@ -180,6 +180,9 @@
     "webpack-dev-server": "~4.9.2",
     "xunit-file": "~2.0.0"
   },
+  "resolutions": {
+    "cheerio": "1.0.0-rc.12"
+  },
   "config": {
     "mocha-sonar-reporter": {
       "outputfile": "./reports/coverage/TEST-xunit.xml"
