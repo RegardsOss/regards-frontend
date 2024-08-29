@@ -91,7 +91,7 @@ const messages = {
   'dataset.form.action.next': 'Next',
   'dataset.form.action.cancel': 'Cancel',
   'dataset.form.model': 'Dataset model (*)',
-  'dataset.form.providerId': 'Supplier identifier',
+  'dataset.form.providerId': 'Supplier identifier (*)',
   'dataset.form.label': 'Label (*)',
   'dataset.form.geometry': 'Geometry',
   'dataset.form.descriptionUrl': 'Page URL describing the dataset',
