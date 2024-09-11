@@ -273,20 +273,34 @@ class RenderArrayObjectField extends React.Component {
       sortFields,
     } = this.props
     const { displayedFieldIdx, listContentStyle } = this.state
-    const entity = fields.get(displayedFieldIdx)
     const EntityComponent = fieldComponent
 
     if (!canBeEmpty && (!fields || fields.length === 0)) {
       return null
     }
 
-    const fieldForm = !isNil(displayedFieldIdx) ? (
-      <EntityComponent
-        key={`${fields.name}[${displayedFieldIdx}]`}
-        name={`${fields.name}[${displayedFieldIdx}]`}
-        entity={entity}
-        {...fieldProps}
-      />) : null
+    // Do not add in dom only the displayed element.
+    // If so, only the displayed element is use for form validation.
+    // Workaround is to add all elements into the dom but hide all not selected elements.
+    const fieldsForm = (
+      <div>
+        {fields.map((name, idx) => {
+          const key = `${fields.name}[${idx}]`
+          const component = <EntityComponent
+            name={key}
+            entity={fields.get(idx)}
+            {...fieldProps}
+          />
+          if (idx === displayedFieldIdx) {
+            // Display selected element
+            return (<div key={key}>{component}</div>)
+          }
+          // Hide all not selected elements
+          return (<div key={key} hidden>{component}</div>)
+        })}
+      </div>
+    )
+
     return (
       <Card>
         <CardMedia>
@@ -318,7 +332,7 @@ class RenderArrayObjectField extends React.Component {
                   /> : null}
               </div>
               <div style={rightColumnStyle}>
-                {fieldForm}
+                {fieldsForm}
               </div>
             </div>
           </div>
