@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss-modules/menu",
-  "version": "1.16.1",
+  "version": "1.17.0-SNAPSHOT",
   "private": true,
   "sideEffects": [
     "*.css"

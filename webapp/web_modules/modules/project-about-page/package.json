@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss-modules/project-about-page",
-  "version": "1.16.1",
+  "version": "1.17.0-SNAPSHOT",
   "private": true,
   "sideEffects": false,
   "description": "Display the project's about page",
