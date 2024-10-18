@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import isUndefined from 'lodash/isUndefined'
 import { i18nContextType } from '@regardsoss/i18n'
 import { Parameter } from '../definitions/parameters/Parameter'
@@ -33,7 +34,7 @@ class ParametersConfigurationComponent extends React.Component {
   static propTypes = {
     parameters: PropTypes.arrayOf(PropTypes.instanceOf(Parameter)).isRequired,
     // previously entered values if any (used for 'previous step')
-    // eslint-disable-next-line react/forbid-prop-types
+    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     parametersValues: PropTypes.objectOf(PropTypes.any).isRequired,
     initialize: PropTypes.func.isRequired,
   }
@@ -43,14 +44,33 @@ class ParametersConfigurationComponent extends React.Component {
   }
 
   UNSAFE_componentWillMount() {
-    const { parameters, parametersValues } = this.props
-    // initialize parameters default values
-    const values = parameters.reduce((acc, parameter) => ({
-      ...acc,
-      // get parameter value: first consider the previous entered value if any, otherwise consider using default parameter value
-      [parameter.name]: isUndefined(parametersValues[parameter.name]) ? parameter.defaultValue : parametersValues[parameter.name],
-    }), {})
-    this.props.initialize(values)
+    this.onPropertiesUpdated({}, this.props)
+  }
+
+  /**
+  * Lifecycle method: component receive props. Used here to detect properties change and update local state
+  * @param {*} nextProps next component properties
+  */
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
+
+  /**
+  * Properties change detected: update local state
+  * @param oldProps previous component properties
+  * @param newProps next component properties
+  */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { parameters, parametersValues } = newProps
+    if (!isEqual(parameters, oldProps.parameters)) {
+      // initialize parameters default values
+      const values = parameters.reduce((acc, parameter) => ({
+        ...acc,
+        // get parameter value: first consider the previous entered value if any, otherwise consider using default parameter value
+        [parameter.name]: isUndefined(parametersValues[parameter.name]) ? parameter.defaultValue : parametersValues[parameter.name],
+      }), {})
+      this.props.initialize(values)
+    }
   }
 
   render() {
