@@ -21,12 +21,12 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export default class SessionsRelaunchStoragesActions extends BasicSignalActions {
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/retry/{source}/{session}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/retry`,
       namespace,
     })
   }
 
   relaunchStorages(source, session) {
-    return this.sendSignal('GET', null, { source, session })
+    return this.sendSignal('POST', null, null, { source, session })
   }
 }
