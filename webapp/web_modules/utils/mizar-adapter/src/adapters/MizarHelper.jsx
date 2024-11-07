@@ -63,7 +63,7 @@ export function toAreaFeature(featureId, point1, point2) {
   if (!empty) {
     // area is not empty
     return {
-      id: '0',
+      id: featureId,
       type: 'Feature',
       geometry: {
         type: 'Polygon',
