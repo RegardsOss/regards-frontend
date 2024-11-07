@@ -35,12 +35,11 @@ import {
   Viewer, SkyBox, SkyAtmosphere, Sun, Moon, ImageryLayer, CameraFlyTo, Scene,
 } from 'resium'
 import {
-  ScreenSpaceEventType, Color, SceneMode, Rectangle, Cartesian3,
+  ScreenSpaceEventType, Color, SceneMode, Cartesian3,
 } from 'cesium'
-import toBBox from 'geojson-bounding-box'
 import CesiumEventAndPolygonDrawerComponent from './CesiumEventAndPolygonDrawerComponent'
 import CesiumCursorPosition from './CesiumCursorPosition'
-import { getImageryProvider } from './CesiumHelper'
+import { getImageryProvider, buildRectangleFromGeometry } from './CesiumHelper'
 import BackgroundLayerComponent from './BackgroundLayerComponent'
 import PrimitiveDataSource from './PrimitiveDataSource'
 import { withPagedFeaturesHOC } from './withPagedFeaturesHOC'
@@ -124,8 +123,7 @@ export default class CesiumAdapter extends React.Component {
         return Cartesian3.fromDegrees(geometry.coordinates[0], geometry.coordinates[1], zoom)
       }
       default: {
-        const bBox = toBBox(geometry)
-        return Rectangle.fromDegrees(bBox[0], bBox[1], bBox[2], bBox[3])
+        return buildRectangleFromGeometry(geometry)
       }
     }
   }

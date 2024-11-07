@@ -192,7 +192,20 @@ export class MapContainer extends React.Component {
       } else {
         const toponymCollection = MapContainer.buildToponymCollection(tab.criteria.toponymCriteria, toponymList)
         nextState.selectedToponyms = MapContainer.buildGeoJSONFeatureCollection(toponymCollection)
-        nextState.criteriaAreas = map(nextState.selectedToponyms.features, (toponym) => geometryToAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${toponym.businessId}`, toponym.geometry))
+        nextState.criteriaAreas = map(nextState.selectedToponyms.features, (toponym) => {
+          let boundingBox = get(toponym, 'boundingBox')
+          if (boundingBox) {
+            boundingBox = JSON.parse(boundingBox)
+            const swPointLon = get(boundingBox, 'sw.lon')
+            const swPointLat = get(boundingBox, 'sw.lat')
+            const nePointLon = get(boundingBox, 'ne.lon')
+            const nePointLat = get(boundingBox, 'ne.lat')
+            if (swPointLon && swPointLat && nePointLon && nePointLat) {
+              return toAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${toponym.businessId}`, [swPointLon, swPointLat], [nePointLon, nePointLat])
+            }
+          }
+          return geometryToAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${toponym.businessId}`, toponym.geometry)
+        })
       }
     }
     // update state on change
