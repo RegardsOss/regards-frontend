@@ -16,7 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import keys from 'lodash/keys'
 import map from 'lodash/map'
+import reduce from 'lodash/reduce'
+import includes from 'lodash/includes'
 import values from 'lodash/values'
 import { formValueSelector } from 'redux-form'
 import CircularProgress from 'material-ui/CircularProgress'
@@ -31,6 +35,12 @@ import { Field, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
 import { CardActionsComponent, FormErrorMessage } from '@regardsoss/components'
 import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import AccessRightsEnum from './AccessRightsEnum'
+
+const FIELDS_ENUM = {
+  ACCESS: 'access',
+  DATA_ACCESS: 'dataAccess',
+  DATA_ACCESS_PLUGIN: 'dataAccessPlugin',
+}
 
 /**
  * Display edit and create accessright form
@@ -90,9 +100,23 @@ export class AccessRightFormComponent extends React.Component {
    * On submit callback
    * @param {*} formValues from redux form
    */
-  onSubmit = (formValues) => {
+  onSubmit = (formValues, e, reduxProps) => {
     const { datasetAccessRightsToEdit, onSubmit } = this.props
-    onSubmit(datasetAccessRightsToEdit, formValues)
+
+    // Filter form values with registered fields.
+    // We need to remove dataAccessPlugin parameter from payload when the field is not registered
+    const registeredFieldsKeys = keys(reduxProps.registeredFields)
+    const registeredFormValues = reduce(formValues, (acc, value, key) => {
+      if (key === FIELDS_ENUM.DATA_ACCESS_PLUGIN && !includes(registeredFieldsKeys, FIELDS_ENUM.DATA_ACCESS_PLUGIN)) {
+        return acc
+      }
+      return {
+        ...acc,
+        [key]: value,
+      }
+    }, {})
+
+    onSubmit(datasetAccessRightsToEdit, registeredFormValues)
   }
 
   isSubmitable = () => {
@@ -118,8 +142,7 @@ export class AccessRightFormComponent extends React.Component {
             </FormErrorMessage>
             {/* 2. Metadata (dataset) access level selection */}
             <Field
-              className="selenium-pick-metaDataAccessLevel"
-              name="access"
+              name={`${FIELDS_ENUM.ACCESS}`}
               fullWidth
               component={RenderSelectField}
               label={formatMessage({ id: 'accessright.form.meta.accessLevel' })}
@@ -128,7 +151,6 @@ export class AccessRightFormComponent extends React.Component {
                 const label = `accessright.form.meta.accessLevel.${value}`
                 return (
                   <MenuItem
-                    className={`selenium-pick-metaDataAccessLevel-${value}`}
                     value={value}
                     key={key}
                     primaryText={formatMessage({ id: label })}
@@ -139,7 +161,7 @@ export class AccessRightFormComponent extends React.Component {
             {/* 3. Access plugin configuration (when meta data access level is custom) */
               selectedAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS ? (
                 <Field
-                  name="dataAccessPlugin"
+                  name={`${FIELDS_ENUM.DATA_ACCESS_PLUGIN}`}
                   component={RenderPluginField}
                   title={formatMessage({ id: 'accessright.form.dataAccessPlugin.title' })}
                   selectLabel={formatMessage({ id: 'accessright.form.dataAccessPlugin.select.label' })}
@@ -154,25 +176,23 @@ export class AccessRightFormComponent extends React.Component {
                   as other metadata access types prevent data access */
               selectedAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS
                 || selectedAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS ? (
-                  <Field
-                    className="selenium-pick-dataAccess"
-                    name="dataAccess"
-                    fullWidth
-                    component={RenderSelectField}
-                    label={formatMessage({ id: 'accessright.form.data.accessLevel' })}
-                  >
-                    {map(AccessRightsEnum.DATA_ACCESS_ENUM, (value, key) => {
-                      const label = `accessright.form.data.accessLevel.${value}`
-                      return (
-                        <MenuItem
-                          className={`selenium-pick-dataAccess-${value}`}
-                          value={value}
-                          key={key}
-                          primaryText={formatMessage({ id: label })}
-                        />
-                      )
-                    })}
-                  </Field>) : null
+                <Field
+                  name={`${FIELDS_ENUM.DATA_ACCESS}`}
+                  fullWidth
+                  component={RenderSelectField}
+                  label={formatMessage({ id: 'accessright.form.data.accessLevel' })}
+                >
+                  {map(AccessRightsEnum.DATA_ACCESS_ENUM, (value, key) => {
+                    const label = `accessright.form.data.accessLevel.${value}`
+                    return (
+                      <MenuItem
+                        value={value}
+                        key={key}
+                        primaryText={formatMessage({ id: label })}
+                      />
+                    )
+                  })}
+                </Field>) : null
             }
           </CardText>
           {/* 5. Form actions */}
@@ -198,7 +218,9 @@ export class AccessRightFormComponent extends React.Component {
  */
 function validate(formValues) {
   const errors = {}
-  if (formValues.dataAccess && formValues.dataAccess === 'CUSTOM_ACCESS' && !formValues.pluginConfiguration) {
+  const accessFormValue = get(formValues, `${FIELDS_ENUM.ACCESS}`)
+  const dataAccessPluginFormValue = get(formValues, `${FIELDS_ENUM.DATA_ACCESS_PLUGIN}`)
+  if (accessFormValue && accessFormValue === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS && !dataAccessPluginFormValue) {
     errors.dataAccess = 'invalid.require_plugin_configuration'
   }
   return errors
@@ -214,5 +236,5 @@ const connectedReduxForm = reduxForm({
 // export connected with selector to select the last mail value
 const selector = formValueSelector(formId)
 export default connect((state) => ({
-  selectedAccessLevel: selector(state, 'access'),
+  selectedAccessLevel: selector(state, `${FIELDS_ENUM.ACCESS}`),
 }))(connectedReduxForm)
