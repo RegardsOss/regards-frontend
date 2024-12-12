@@ -1,6 +1,6 @@
 {
   "name": "enumerated",
-  "version": "3.0.0-SNAPSHOT",
+  "version": "99.9.9-SNAPSHOT",
   "private": true,
   "description": "Enumerated values criterion plugin for Regards search forms",
   "license": "GPL-3.0",
