@@ -87,6 +87,7 @@ export class AccountFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
+              disabled
               label={this.context.intl.formatMessage({ id: 'account.form.input.email' })}
               validate={ValidationHelpers.email}
               normalize={trim}
