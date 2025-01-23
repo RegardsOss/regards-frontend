@@ -93,7 +93,8 @@ class PluginFormUtils {
         const parameterConf = complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, {}) : {}
         if (parameterMetadata.parameters.length > 0) {
           forEach(parameterMetadata.parameters, (innerParameterMetadata) => {
-            parameterConf.value[innerParameterMetadata.name] = PluginFormUtils.createNewParameterConf(innerParameterMetadata, false)
+            const isInnerParameterComplex = innerParameterMetadata.type === CommonDomain.PluginParameterTypes.POJO
+            parameterConf.value[innerParameterMetadata.name] = PluginFormUtils.createNewParameterConf(innerParameterMetadata, isInnerParameterComplex)
           })
         }
         return parameterConf
