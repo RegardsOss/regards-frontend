@@ -59,6 +59,7 @@ const messages = {
   'order.list.cell.status.object.files.label': '{objCount} products - Totalizing {filesCount} files',
   'order.list.option.cell.download.title': 'Download...',
   'order.list.option.cell.download.zip.tooltip': 'Download available order files as zip',
+  'order.list.option.cell.download.zip.message': 'Download has started. Check progress in browser',
   'order.list.option.cell.download.metalink.tooltip': 'Download order metalink file',
   'order.list.option.cell.delete.superficially.order.tooltip': 'Cancel order',
   'order.list.option.cell.delete.superficially.confirmation.title': 'Cancel order {name}',

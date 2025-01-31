@@ -23,6 +23,7 @@ import Chip from 'material-ui/Chip'
 import { DownloadButton, ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import PropTypes from 'prop-types'
 
 /** Constructor wrapper to use the IconButton within a DropDownButton */
 const IconButtonConstructorWrapper = (props) => <IconButton {...(omit(props, ['label', 'labelPosition']))} />
@@ -37,6 +38,8 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
     availableFilesCount: PropTypes.number.isRequired,
     canDownload: PropTypes.bool.isRequired,
     downloadZipURL: PropTypes.string.isRequired,
+    throwError: PropTypes.func.isRequired,
+    refreshTable: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -64,7 +67,7 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
 
   render() {
     const {
-      isWaitingUser, canDownload, downloadZipURL, availableFilesCount,
+      isWaitingUser, canDownload, downloadZipURL, availableFilesCount, refreshTable, throwError,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { downloadWithCount }, muiTheme } = this.context
     // compute displayed text (null if it should be hidden)
@@ -116,6 +119,11 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
           <DownloadIcon
             style={downloadWithCount.icon.style}
             color={canDownload ? muiTheme.palette.accent1Color : muiTheme.flatButton.disabledTextColor}
+            onClick={() => {
+              refreshTable()
+              // Inform user that download has started
+              throwError(formatMessage({ id: 'order.list.option.cell.download.zip.message' }))
+            }}
           />
         </div>
       </DownloadButton>

@@ -225,7 +225,14 @@ class OrderListComponent extends React.Component {
       // 2 - metalink files
       { OptionConstructor: DownloadOrderMetaLinkFileContainer },
       // 3 - user only option: download zip
-      displayMode === ORDER_DISPLAY_MODES.USER ? { OptionConstructor: DownloadOrderFilesAsZipContainer } : null,
+      displayMode === ORDER_DISPLAY_MODES.USER ? {
+        OptionConstructor: DownloadOrderFilesAsZipContainer,
+        optionProps: {
+          pageSize,
+          ordersActions,
+          ordersSelectors,
+        },
+      } : null,
       // 4 - retry option (only for error orders)
       { OptionConstructor: RetryOrderContainer, optionProps: { orderStateActions, onShowRetryMode } },
       // 5 - delete option (superficial and complete)

@@ -59,6 +59,7 @@ const messages = {
   'order.list.cell.status.object.files.label': '{objCount} produits - Totalisant {filesCount} fichiers',
   'order.list.option.cell.download.title': 'Télécharger...',
   'order.list.option.cell.download.zip.tooltip': 'Télécharger les fichiers disponibles de la commande en ZIP',
+  'order.list.option.cell.download.zip.message': 'Le téléchargement des fichiers a commencé. Veuillez vérifier sa progression dans votre navigateur',
   'order.list.option.cell.download.metalink.tooltip': 'Télécharger le fichier metalink de la commande',
   'order.list.option.cell.delete.superficially.order.tooltip': 'Annuler la commande',
   'order.list.option.cell.delete.superficially.confirmation.title': 'Annuler la commande {name}',

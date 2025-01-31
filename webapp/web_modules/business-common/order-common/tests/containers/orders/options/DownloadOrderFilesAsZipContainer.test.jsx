@@ -51,8 +51,14 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipContainer', () => {
 
     const props = {
       entity: mockedOrder,
+      pageSize: 50,
+      ordersActions: new OrderClient.OrderListActions('any', true),
+      ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
       // from mapStateToProps
       authentication: SOME_AUTHENTICATION,
+      // from mapDispatchToProps
+      fetchOrders: () => { },
+      throwError: () => { },
     }
 
     const enzymeWrapper = shallow(<DownloadOrderFilesAsZipContainer {...props} />, { context })
@@ -82,8 +88,14 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipContainer', () => {
 
     const props = {
       entity: mockedOrder,
+      pageSize: 50,
+      ordersActions: new OrderClient.OrderListActions('any', true),
+      ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
       // from mapStateToProps
       authentication: SOME_AUTHENTICATION,
+      // from mapDispatchToProps
+      fetchOrders: () => { },
+      throwError: () => { },
     }
 
     const enzymeWrapper = shallow(<DownloadOrderFilesAsZipContainer {...props} />, { context })
@@ -113,8 +125,14 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipContainer', () => {
 
     const props = {
       entity: mockedOrder,
+      pageSize: 50,
+      ordersActions: new OrderClient.OrderListActions('any', true),
+      ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
       // from mapStateToProps
       authentication: SOME_AUTHENTICATION,
+      // from mapDispatchToProps
+      fetchOrders: () => { },
+      throwError: () => { },
     }
 
     const enzymeWrapper = shallow(<DownloadOrderFilesAsZipContainer {...props} />, { context })
