@@ -136,6 +136,15 @@ class FeatureManagerComponent extends React.Component {
     )
   }
 
+  buildFilterPaneMessage = (paneType) => {
+    const { intl: { formatMessage } } = this.context
+    if (paneType === FemDomain.REQUEST_TYPES_ENUM.UPDATE || paneType === FemDomain.REQUEST_TYPES_ENUM.DELETE ||
+      paneType === FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION) {
+      return formatMessage({ id: 'feature.list.filters.message' })
+    }
+    return null
+  }
+
   getDisplayComponents = (paneType) => {
     const { isFetching, recipientList } = this.props
     const { isFilterPaneOpened } = this.state
@@ -156,9 +165,10 @@ class FeatureManagerComponent extends React.Component {
     }
     return [
       <RequestManagerFiltersComponent
-        key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}
+        key={`${CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER}.${paneType}`}
         isPaneOpened={isFilterPaneOpened}
         onCloseFiltersPane={this.handleFiltersPane}
+        paneMessage={this.buildFilterPaneMessage(paneType)}
       />,
       <RequestManagerComponent
         key={CommonDomain.TableFilterComponentType.COMPONENT_TYPE.COMPONENT}

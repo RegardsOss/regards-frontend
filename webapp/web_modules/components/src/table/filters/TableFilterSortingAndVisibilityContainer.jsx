@@ -18,6 +18,7 @@
  **/
 import reduce from 'lodash/reduce'
 import pick from 'lodash/pick'
+import includes from 'lodash/includes'
 import map from 'lodash/map'
 import clone from 'lodash/clone'
 import omit from 'lodash/omit'
@@ -253,7 +254,7 @@ export class TableFilterSortingAndVisibilityContainer extends React.Component {
             columnsVisibility,
             pageMeta,
           })
-        } if (child.key === CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER) {
+        } if (includes(child.key, CommonDomain.TableFilterComponentType.COMPONENT_TYPE.FILTER)) {
           return React.cloneElement(child, {
             ...this.getProxyfiedFunc(newPropsToProxy),
             updateRequestParameters: this.updateRequestParameters,

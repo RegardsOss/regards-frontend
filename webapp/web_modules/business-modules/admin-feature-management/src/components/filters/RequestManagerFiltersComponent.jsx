@@ -39,6 +39,7 @@ export class RequestManagerFiltersComponent extends React.Component {
     updateDatesFilter: PropTypes.func.isRequired,
     updateValuesFilter: PropTypes.func.isRequired,
     filtersI18n: UIShapes.FiltersI18nList.isRequired,
+    paneMessage: PropTypes.string,
     // other props are reported to withFiltersPane (open/close pane & updateRequestParameters)
   }
 
@@ -49,7 +50,7 @@ export class RequestManagerFiltersComponent extends React.Component {
 
   render() {
     const {
-      updateFilter, inputValues, updateDatesFilter, updateValuesFilter, filtersI18n,
+      updateFilter, inputValues, updateDatesFilter, updateValuesFilter, filtersI18n, paneMessage,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
@@ -59,6 +60,7 @@ export class RequestManagerFiltersComponent extends React.Component {
         updateFilter={updateFilter}
         updateDatesFilter={updateDatesFilter}
         updateValuesFilter={updateValuesFilter}
+        message={paneMessage}
       >
         <FilterPaneDatePickerField
           filterKey={FemDomain.REQUEST_FILTER_PARAMS.LAST_UPDATE}

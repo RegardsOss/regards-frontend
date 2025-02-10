@@ -30,6 +30,7 @@ class FiltersPaneMainComponent extends React.Component {
     updateValuesFilter: PropTypes.func,
     inputValues: TableFilterSortingAndVisibilityContainer.FILTERS_PROP_TYPE,
     filtersI18n: UIShapes.FiltersI18nList.isRequired,
+    message: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -46,10 +47,10 @@ class FiltersPaneMainComponent extends React.Component {
   render() {
     const {
       children, updateFilter, inputValues, filtersI18n, updateDatesFilter, updateValuesFilter,
-      style,
+      style, message,
     } = this.props
     const {
-      moduleTheme: { searchPane: { childrenStyles: { mainDivStyle } } },
+      moduleTheme: { searchPane: { childrenStyles: { mainDivStyle, messageStyle } } },
     } = this.context
     return (
       <div style={style || mainDivStyle}>
@@ -63,6 +64,10 @@ class FiltersPaneMainComponent extends React.Component {
             updateValuesFilter,
           }))
         }
+        {message ?
+          <div style={messageStyle}>
+            {message}
+          </div> : null}
       </div>
     )
   }

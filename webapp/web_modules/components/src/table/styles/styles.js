@@ -357,6 +357,13 @@ export default (theme) => {
           display: 'flex',
           flexDirection: 'column',
         },
+        messageStyle: {
+          border: '1px solid',
+          borderColor: theme.textField.errorColor,
+          textAlign: 'center',
+          padding: '10px',
+          lineHeight: '17px',
+        },
         mainLineDivStyle: {
           display: 'flex',
           alignItems: 'center',

@@ -152,6 +152,8 @@ const messages = {
   'feature.settings.dialog.title': 'A propros de ce champ',
   'feature.settings.dialog.close': 'Fermer',
 
+  'feature.list.filters.message': 'Important : Si vous utilisez les filtres Sources, Session ou ID fournisseur seules les requêtes liées à un produit seront affichées. Il peut arriver qu\'une requête existe sans qu\'elle soit liée à un produit, cela est souvent le cas lorsqu\'une erreur s\'est produite.',
+
   ...Locales.fr,
 }
 

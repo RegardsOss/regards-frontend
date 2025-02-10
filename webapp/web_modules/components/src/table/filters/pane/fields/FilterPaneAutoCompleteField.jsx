@@ -27,6 +27,7 @@ import { UIShapes } from '@regardsoss/shape'
 import { BasicArrayActions, BasicArraySelectors } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import PropTypes from 'prop-types'
 
 /**
  * @author Théo Lasserre
@@ -42,6 +43,7 @@ class FilterPaneAutoCompleteField extends React.Component {
     arrayActions: PropTypes.instanceOf(BasicArrayActions).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     arraySelectors: PropTypes.instanceOf(BasicArraySelectors).isRequired, // to retrieve entities from store
+    tooltip: PropTypes.string,
   }
 
   static defaultProps = {
@@ -56,7 +58,7 @@ class FilterPaneAutoCompleteField extends React.Component {
   render() {
     const {
       filtersI18n, inputValues, filterKey, updateFilter, useDebounce,
-      arrayActions, arraySelectors,
+      arrayActions, arraySelectors, tooltip,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { searchPane: { autocompleteStyle } } } = this.context
     const hintTextKey = get(filtersI18n, `${filterKey}.hintTextKey`, '')
@@ -75,6 +77,7 @@ class FilterPaneAutoCompleteField extends React.Component {
           arraySelectors={arraySelectors}
           fullWidth
           style={autocompleteStyle}
+          tooltip={tooltip}
         />
       </FiltersPaneLineComponent>
     )

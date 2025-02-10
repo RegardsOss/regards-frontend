@@ -152,6 +152,8 @@ const messages = {
   'feature.settings.dialog.title': 'About this field',
   'feature.settings.dialog.close': 'Close',
 
+  'feature.list.filters.message': 'Important: If you use the Sources, Session or Provider ID filters, only requests linked to a product will be displayed. It can happen that a request exists without it being linked to a product, this is often the case when an error has occured.',
+
   ...Locales.en,
 }
 
