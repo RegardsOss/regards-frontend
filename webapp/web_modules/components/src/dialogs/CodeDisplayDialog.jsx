@@ -19,7 +19,6 @@
 import isEmpty from 'lodash/isEmpty'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import { JsonHelper } from '@regardsoss/json'
 import { MIME_TYPES } from '@regardsoss/mime-types'
 import { CardActionsComponent, CodeFileDisplayer, PositionedDialog } from '@regardsoss/components'
 import styles from './styles'
@@ -44,17 +43,6 @@ export class CodeDisplayDialog extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  displayContent = (displayedContent) => {
-    const { intl: { formatMessage } } = this.context
-    if (displayedContent) {
-      if (JsonHelper.hasJsonStructure(displayedContent)) {
-        return JSON.stringify(displayedContent, null, '\t')
-      }
-      return displayedContent
-    }
-    return formatMessage({ id: 'code.display.dialog.no.data' })
   }
 
   render() {
@@ -89,7 +77,7 @@ export class CodeDisplayDialog extends React.Component {
             !isEmpty(errorMessage) ? <div style={errorMessageStyle}>{errorMessage}</div> : null
           }
           <CodeFileDisplayer
-            content={this.displayContent(displayedContent)}
+            content={displayedContent ? JSON.stringify(displayedContent, null, '\t') : formatMessage({ id: 'code.display.dialog.no.data' })}
             contentType={contentType}
             style={jsonContentViewerStyle}
           />
