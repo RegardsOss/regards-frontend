@@ -30,6 +30,10 @@ const listDependencies = [
   new StorageClient.StorageLocationActions().getDependency(RequestVerbEnum.GET_LIST),
 ]
 
+const fileCataloglistDependencies = [
+  new StorageClient.StorageFileCatalogLocationActions().getDependency(RequestVerbEnum.GET_LIST),
+]
+
 const addDependencies = [
   new StorageClient.StorageLocationActions().getDependency(RequestVerbEnum.GET_POST),
   pluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, STATIC_CONF.MSERVICES.STORAGE),
@@ -45,14 +49,26 @@ const settingsDependencies = [
   new StorageClient.SettingsActions().getDependency(RequestVerbEnum.GET_LIST),
 ]
 
+const fileCatalogSettingsDependencies = [
+  new DataManagementClient.SettingsActions().getDependency(RequestVerbEnum.GET_LIST),
+  new StorageClient.FileCatalogSettingsActions().getDependency(RequestVerbEnum.GET_LIST),
+]
+
 const waitingActionsDependencies = [
   new StorageClient.StorageLocationRunPendingActions().getDependency(RequestVerbEnum.POST),
+]
+
+const fileCatalogWaitingActionsDependencies = [
+  new StorageClient.FileCatalogLocationRunPendingActions().getDependency(RequestVerbEnum.POST),
 ]
 
 export default {
   stopDependencies,
   listDependencies,
+  fileCataloglistDependencies,
   addDependencies,
   settingsDependencies,
+  fileCatalogSettingsDependencies,
   waitingActionsDependencies,
+  fileCatalogWaitingActionsDependencies,
 }

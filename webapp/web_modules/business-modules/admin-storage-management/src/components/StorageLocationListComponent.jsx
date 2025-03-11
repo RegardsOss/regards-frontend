@@ -513,6 +513,17 @@ export class StorageLocationListComponent extends React.Component {
                   style={StorageLocationListComponent.ICON_STYLE}
                   disabled={!StorageLocationListComponent.isPendingActionsExist(entities)}
                 />
+                {/**
+                 * Duplication of Run pending action to be used with file packager (neostorage)
+                 */}
+                <RaisedButtonWithResourceDisplayControl
+                  resourceDependencies={dependencies.fileCatalogWaitingActionsDependencies}
+                  label={formatMessage({ id: 'storage.data-storage.waiting.actions.button' })}
+                  onClick={this.onSwitchConfirmPendingActionsDialog}
+                  primary
+                  style={StorageLocationListComponent.ICON_STYLE}
+                  disabled={!StorageLocationListComponent.isPendingActionsExist(entities)}
+                />
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>
           </TableHeaderLine>

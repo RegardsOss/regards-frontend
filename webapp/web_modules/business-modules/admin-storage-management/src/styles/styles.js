@@ -31,6 +31,9 @@ const storageManagementStyles = (theme) => ({
   typeStyle: {
     color: theme.palette.accent1Color,
   },
+  secondaryButtonStyle: {
+    backgroundColor: theme.palette.primary1Color,
+  },
   securityTester: {
     style: {
       display: 'flex',

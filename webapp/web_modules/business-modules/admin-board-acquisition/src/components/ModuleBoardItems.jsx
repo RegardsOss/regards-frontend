@@ -163,6 +163,10 @@ const items = (projectName, intl, onResetIndex) => [
     description: intl.formatMessage({ id: 'data.board.storage.description' }),
     advanced: false,
     actions: [
+      /*
+       * We duplicate listing actions in order to work with storage (rs-storage) and neostorage (rs-file-catalog)
+       * Only one listing action will be displayed at once
+      */
       {
         path: `/admin/${projectName}/data/acquisition/storage/storages`,
         icon: <Archive />,
@@ -172,11 +176,31 @@ const items = (projectName, intl, onResetIndex) => [
         ],
       },
       {
+        path: `/admin/${projectName}/data/acquisition/storage/storages`,
+        icon: <Archive />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.tooltip' }),
+        hateoasDependencies: [
+          ...storageManagementDependencies.fileCataloglistDependencies,
+        ],
+      },
+      /*
+       * We duplicate settings action in order to work with storage (rs-storage) and neostorage (rs-file-catalog)
+       * Only one settings action will be displayed at once
+      */
+      {
         path: `/admin/${projectName}/data/acquisition/storage/settings`,
         icon: <SettingsIcon />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.settings.tooltip' }),
         hateoasDependencies: [
           ...storageManagementDependencies.settingsDependencies,
+        ],
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/storage/settings`,
+        icon: <SettingsIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.settings.tooltip' }),
+        hateoasDependencies: [
+          ...storageManagementDependencies.fileCatalogSettingsDependencies,
         ],
       },
     ],

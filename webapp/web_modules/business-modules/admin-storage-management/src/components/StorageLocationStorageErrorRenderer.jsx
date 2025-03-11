@@ -24,7 +24,7 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'mdi-material-ui/MenuDown'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
-import { storageLocationErrorsRetryActions } from '../clients/StorageLocationClient'
+import { storageLocationErrorsRetryActions, fileCatalogLocationErrorsRetryActions } from '../clients/StorageLocationClient'
 import { storageRequestActions } from '../clients/StorageRequestClient'
 import { DIALOG_OPTIONS } from '../domain/StorageLocationDialogOptionsEnum'
 
@@ -50,6 +50,8 @@ class StorageLocationStorageErrorRenderer extends React.Component {
 
   static retryResource = [storageLocationErrorsRetryActions.getDependency('GET')]
 
+  static fileCatalogRetryResource = [fileCatalogLocationErrorsRetryActions.getDependency('GET')]
+
   static deleteResource = [storageRequestActions.getDependency('DELETE')]
 
   static viewResource = [storageRequestActions.getDependency('GET')]
@@ -74,31 +76,31 @@ class StorageLocationStorageErrorRenderer extends React.Component {
     const { intl: { formatMessage }, moduleTheme: { storageTable: { errorColumn: { container, icon } } } } = this.context
     // compute allowed operations (lazy resources access computing)
     const hasErrors = errorsCount > 0
-    const canRetry = hasErrors && allMatchHateoasDisplayLogic(StorageLocationStorageErrorRenderer.retryResource, availableDependencies)
+    const canRetry = hasErrors && (allMatchHateoasDisplayLogic(StorageLocationStorageErrorRenderer.retryResource, availableDependencies) || allMatchHateoasDisplayLogic(StorageLocationStorageErrorRenderer.fileCatalogRetryResource, availableDependencies))
     const canDelete = hasErrors && allMatchHateoasDisplayLogic(StorageLocationStorageErrorRenderer.deleteResource, availableDependencies)
     const canView = hasErrors && allMatchHateoasDisplayLogic(StorageLocationStorageErrorRenderer.viewResource, availableDependencies)
 
     return (
       <div style={container}>
-        { formatMessage({ id: 'storage.location.list.errors.count' }, { errorsCount }) }
-        { canRetry || canDelete || canView ? (
+        {formatMessage({ id: 'storage.location.list.errors.count' }, { errorsCount })}
+        {canRetry || canDelete || canView ? (
           <IconMenu
             iconButtonElement={<IconButton style={icon}><MoreVertIcon /></IconButton>}
           >
-            { canRetry ? (
+            {canRetry ? (
               <MenuItem
                 primaryText={formatMessage({ id: 'storage.location.list.relaunch.storage' })}
                 onClick={this.onRelaunchStoragesErrors}
                 key="relaunch"
               />) : null}
-            { canDelete ? (
+            {canDelete ? (
               <MenuItem
                 primaryText={formatMessage({ id: 'storage.location.list.delete.storage' })}
                 onClick={this.onDeleteStoragesErrors}
                 key="delete"
               />
             ) : null}
-            { canView ? (
+            {canView ? (
               <MenuItem
                 primaryText={formatMessage({ id: 'storage.location.list.view.storage' })}
                 onClick={this.onViewStorageErrors}
@@ -106,7 +108,7 @@ class StorageLocationStorageErrorRenderer extends React.Component {
               />
             ) : null}
           </IconMenu>
-        ) : null }
+        ) : null}
       </div>
     )
   }

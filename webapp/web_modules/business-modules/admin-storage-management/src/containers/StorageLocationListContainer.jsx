@@ -57,6 +57,10 @@ export class StorageLocationListContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, props) {
     return {
+      /*
+        In the case of neostorage, a redirection is performed by the GATEWAY service to actually retrieve entities from the file-catalog service instead of storage.
+        Whether or not to use neostorage is configured in the deployment inventory.
+      */
       fetch: () => dispatch(storageLocationActions.fetchEntityList({}, { type: props.type })),
       update: (storageLocation) => dispatch(storageLocationActions.updateEntity(storageLocation.id, storageLocation)),
       delete: (name) => dispatch(storageLocationActions.deleteEntity(name)),

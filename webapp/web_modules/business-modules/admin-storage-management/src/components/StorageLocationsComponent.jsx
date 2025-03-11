@@ -27,7 +27,7 @@ import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import StorageLocationListContainer from '../containers/StorageLocationListContainer'
-import { storageLocationActions } from '../clients/StorageLocationClient'
+import { storageLocationActions, storageFileCatalogLocationActions } from '../clients/StorageLocationClient'
 import PendingActionsLabelComponent from './PendingActionsLabelComponent'
 import dependencies from '../dependencies'
 import messages from '../i18n'
@@ -53,6 +53,8 @@ class StorageLocationListComponent extends React.Component {
 
   static addDependencies = [storageLocationActions.getDependency(RequestVerbEnum.POST)]
 
+  static addFileCatalogDependencies = [storageFileCatalogLocationActions.getDependency(RequestVerbEnum.POST)]
+
   goToBoard = () => {
     const { params: { project } } = this.props
     browserHistory.push(`/admin/${project}/data/acquisition/board`)
@@ -65,7 +67,11 @@ class StorageLocationListComponent extends React.Component {
 
   render() {
     const { params: { project } } = this.props
-    const { intl: { formatMessage }, moduleTheme: { root, storageTypeListStyle, typeStyle } } = this.context
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        root, storageTypeListStyle, typeStyle, secondaryButtonStyle,
+      },
+    } = this.context
     return (
       <Card>
         <CardTitle
@@ -102,11 +108,17 @@ class StorageLocationListComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
+            // Main button is not displayed when neostorage is used
             mainButtonLabel={formatMessage({ id: 'storage.location.list.add.button' })}
             mainButtonUrl={this.getCreateUrl}
             mainHateoasDependencies={StorageLocationListComponent.addDependencies}
-            secondaryButtonLabel={formatMessage({ id: 'storage.location.list.back.button' })}
-            secondaryButtonClick={this.goToBoard}
+            // Secondary button is displayed when neostorage is used
+            secondaryButtonLabel={formatMessage({ id: 'storage.location.list.add.button' })}
+            secondaryButtonUrl={this.getCreateUrl}
+            secondaryHateoasDependencies={StorageLocationListComponent.addFileCatalogDependencies}
+            secondaryButtonStyle={secondaryButtonStyle}
+            thirdButtonLabel={formatMessage({ id: 'storage.location.list.back.button' })}
+            thirdButtonClick={this.goToBoard}
           />
         </CardActions>
       </Card>

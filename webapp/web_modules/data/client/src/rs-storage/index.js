@@ -21,9 +21,13 @@ export { default as StorageLocationActions } from './location/StorageLocationAct
 export { default as getStorageLocationReducers } from './location/StorageLocationReducers'
 export { default as getStorageLocationSelectors } from './location/StorageLocationSelectors'
 
+export { default as StorageFileCatalogLocationActions } from './location/StorageFileCatalogLocationActions'
+
 export { default as StorageLocationCopyFilesActions } from './location/StorageLocationCopyFilesActions'
 export { default as StorageLocationDeleteFilesActions } from './location/StorageLocationDeleteFilesActions'
 export { default as StorageLocationErrorsRetryActions } from './location/StorageLocationErrorsRetryActions'
+export { default as FileCatalogLocationErrorsRetryActions } from './location/FileCatalogLocationErrorsRetryActions'
+export { default as FileCatalogLocationRunPendingActions } from './location/FileCatalogLocationRunPendingActions'
 export { default as StorageLocationMonitoringActions } from './location/StorageLocationMonitoringActions'
 export { default as StorageLocationPriorityDownActions } from './location/StorageLocationPriorityDownActions'
 export { default as StorageLocationPriorityUpActions } from './location/StorageLocationPriorityUpActions'
@@ -37,3 +41,5 @@ export { default as StorageRequestStopActions } from './requests/StorageRequestS
 export { default as SettingsActions } from './settings/SettingsActions'
 export { default as getSettingsReducer } from './settings/SettingsReducer'
 export { default as getSettingsSelectors } from './settings/SettingsSelectors'
+
+export { default as FileCatalogSettingsActions } from './settings/FileCatalogSettingsActions'

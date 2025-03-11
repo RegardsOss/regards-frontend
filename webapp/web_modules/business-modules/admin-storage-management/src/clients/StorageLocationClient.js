@@ -38,12 +38,14 @@ const {
   StorageLocationActions, getStorageLocationReducers, getStorageLocationSelectors,
   StorageLocationPriorityDownActions, StorageLocationPriorityUpActions, StorageLocationDeleteFilesActions,
   StorageLocationCopyFilesActions, StorageLocationErrorsRetryActions, StorageLocationMonitoringActions,
-  StorageLocationRunPendingActions,
+  StorageLocationRunPendingActions, StorageFileCatalogLocationActions, FileCatalogLocationErrorsRetryActions,
 } = StorageClient
 
 export const storageLocationReducer = getStorageLocationReducers(REDUX_ACTION_NAMESPACE)
 export const storageLocationActions = new StorageLocationActions(REDUX_ACTION_NAMESPACE)
 export const storageLocationSelectors = getStorageLocationSelectors(ENTITIES_STORE_PATH)
+
+export const storageFileCatalogLocationActions = new StorageFileCatalogLocationActions(REDUX_ACTION_NAMESPACE)
 
 export const storageLocationPriorityUpActions = new StorageLocationPriorityUpActions(UP_NAMESPACE)
 export const storageLocationPriorityDownActions = new StorageLocationPriorityDownActions(DOWN_NAMESPACE)
@@ -51,6 +53,7 @@ export const storageLocationDeleteFilesActions = new StorageLocationDeleteFilesA
 export const storageLocationCopyFilesActions = new StorageLocationCopyFilesActions(COPY_FILES_NAMESPACE)
 
 export const storageLocationErrorsRetryActions = new StorageLocationErrorsRetryActions(ERRORS_RETRY_NAMESPACE)
+export const fileCatalogLocationErrorsRetryActions = new FileCatalogLocationErrorsRetryActions(ERRORS_RETRY_NAMESPACE)
 
 export const storageLocationMonitoringActions = new StorageLocationMonitoringActions(RELAUNCH_MONITORING_NAMESPACE)
 

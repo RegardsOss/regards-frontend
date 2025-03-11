@@ -233,6 +233,10 @@ class StorageLocationFormComponent extends React.Component {
             component={RenderPluginField}
             defaultPluginConfLabel={get(entity, 'content.name')}
             selectLabel={formatMessage({ id: 'storage.location.form.plugin.label' })}
+            /*
+              With neostorage, a redirection is performed by the GATEWAY service to actually retrieve the plugins from the file-access service.
+              Whether or not to use neostorage is configured in the deployment inventory.
+            */
             pluginType={pluginType}
             microserviceName={STATIC_CONF.MSERVICES.STORAGE}
             hideDynamicParameterConf
