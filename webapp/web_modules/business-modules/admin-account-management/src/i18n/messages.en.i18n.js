@@ -41,6 +41,7 @@ const messages = {
   'account.list.table.filters.status.ACTIVE': 'Active',
   'account.list.table.filters.status.LOCKED': 'Locked',
   'account.list.table.filters.status.INACTIVE': 'Inactive',
+  'account.list.table.filters.status.INACTIVE_PASSWORD': 'Password expired',
   'account.list.table.filters.origin.label': 'Origin',
   'account.list.table.filters.origin.any': 'All origins',
   'account.list.table.filters.project.label': 'Project',
