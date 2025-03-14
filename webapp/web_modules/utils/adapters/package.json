@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/adapters",
-  "version": "99.9.9-SNAPSHOT",
+  "version": "2.1.0",
   "private": true,
   "sideEffects": true,
   "description": "Provides components adapters from library to regards. Side effect is enabled for plugins consumption of chartJS (no longer used in main app)",

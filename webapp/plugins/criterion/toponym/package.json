@@ -1,6 +1,6 @@
 {
   "name": "toponym",
-  "version": "99.9.9-SNAPSHOT",
+  "version": "2.1.0",
   "private": true,
   "description": "Limit search to products contained in toponym area",
   "license": "GPL-3.0",
