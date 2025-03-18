@@ -53,7 +53,7 @@ class StorageLocationListComponent extends React.Component {
 
   static addDependencies = [storageLocationActions.getDependency(RequestVerbEnum.POST)]
 
-  static addFileCatalogDependencies = [storageFileCatalogLocationActions.getDependency(RequestVerbEnum.POST)]
+  static addFileCatalogDependencies = storageFileCatalogLocationActions.getDependency(RequestVerbEnum.POST)
 
   goToBoard = () => {
     const { params: { project } } = this.props
@@ -115,7 +115,7 @@ class StorageLocationListComponent extends React.Component {
             // Secondary button is displayed when neostorage is used
             secondaryButtonLabel={formatMessage({ id: 'storage.location.list.add.button' })}
             secondaryButtonUrl={this.getCreateUrl}
-            secondaryHateoasDependencies={StorageLocationListComponent.addFileCatalogDependencies}
+            secondaryHateoasDependency={StorageLocationListComponent.addFileCatalogDependencies}
             secondaryButtonStyle={secondaryButtonStyle}
             thirdButtonLabel={formatMessage({ id: 'storage.location.list.back.button' })}
             thirdButtonClick={this.goToBoard}
