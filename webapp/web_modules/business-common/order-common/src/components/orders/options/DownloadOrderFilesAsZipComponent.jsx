@@ -38,7 +38,7 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
     availableFilesCount: PropTypes.number.isRequired,
     canDownload: PropTypes.bool.isRequired,
     downloadZipURL: PropTypes.string.isRequired,
-    throwError: PropTypes.func.isRequired,
+    displayMessage: PropTypes.func.isRequired,
     refreshTable: PropTypes.func.isRequired,
   }
 
@@ -67,7 +67,7 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
 
   render() {
     const {
-      isWaitingUser, canDownload, downloadZipURL, availableFilesCount, refreshTable, throwError,
+      isWaitingUser, canDownload, downloadZipURL, availableFilesCount, refreshTable, displayMessage,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { downloadWithCount }, muiTheme } = this.context
     // compute displayed text (null if it should be hidden)
@@ -105,7 +105,14 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
         style={buttonStyle}
         iconStyle={downloadWithCount.iconButton.iconStyle}
       >
-        <div>
+        <div
+          style={downloadWithCount.downloadZone}
+          onClick={() => {
+            refreshTable()
+            // Inform user that download has started
+            displayMessage(formatMessage({ id: 'order.list.option.cell.download.zip.message' }))
+          }}
+        >
           <ShowableAtRender show={!!filesCountText}>
             <div style={downloadWithCount.overlay.style}>
               <Chip
@@ -119,11 +126,6 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
           <DownloadIcon
             style={downloadWithCount.icon.style}
             color={canDownload ? muiTheme.palette.accent1Color : muiTheme.flatButton.disabledTextColor}
-            onClick={() => {
-              refreshTable()
-              // Inform user that download has started
-              throwError(formatMessage({ id: 'order.list.option.cell.download.zip.message' }))
-            }}
           />
         </div>
       </DownloadButton>

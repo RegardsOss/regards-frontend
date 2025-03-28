@@ -37,6 +37,7 @@ export default (theme) => ({
         top: 5 * theme.button.iconButtonSize / 9,
         left: 5 * theme.button.iconButtonSize / 9,
         zIndex: '1',
+        pointerEvents: 'none',
       },
       chip: {
         style: {
@@ -49,7 +50,12 @@ export default (theme) => ({
       },
     },
     icon: {
-      style: { position: 'absolute', left: theme.spacing.iconSize / 2, top: theme.spacing.iconSize / 2 },
+      style: {
+        position: 'absolute', left: theme.spacing.iconSize / 2, top: theme.spacing.iconSize / 2,
+      },
+    },
+    downloadZone: {
+      zIndex: '2',
     },
   },
   progressBarModuleStyle: {

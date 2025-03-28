@@ -43,7 +43,7 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipComponent', () => {
       availableFilesCount: 0,
       canDownload: false,
       downloadZipURL: 'http://www.trump.did.it',
-      throwError: () => { },
+      displayMessage: () => { },
       refreshTable: () => { },
     }
     const enzymeWrapper = shallow(<DownloadOrderFilesAsZipComponent {...props} />, { context })
@@ -62,7 +62,7 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipComponent', () => {
       availableFilesCount: 15,
       canDownload: true,
       downloadZipURL: 'http://www.trump.did.it',
-      throwError: () => { },
+      displayMessage: () => { },
       refreshTable: () => { },
     }
     const enzymeWrapper = shallow(<DownloadOrderFilesAsZipComponent {...props} />, { context })
@@ -82,7 +82,7 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipComponent', () => {
       availableFilesCount: 15,
       canDownload: true,
       downloadZipURL: 'http://www.trump.did.it',
-      throwError: () => { },
+      displayMessage: () => { },
       refreshTable: () => { },
     }
     const enzymeWrapper = shallow(<DownloadOrderFilesAsZipComponent {...props} />, { context })
@@ -96,7 +96,7 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipComponent', () => {
       availableFilesCount: DownloadOrderFilesAsZipComponent.MAX_FILES_COUNT + 1,
       canDownload: true,
       downloadZipURL: 'http://www.trump.did.it',
-      throwError: () => { },
+      displayMessage: () => { },
       refreshTable: () => { },
     }
     const enzymeWrapper = shallow(<DownloadOrderFilesAsZipComponent {...props} />, { context })

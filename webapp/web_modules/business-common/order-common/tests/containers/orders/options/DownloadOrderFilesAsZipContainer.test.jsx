@@ -58,7 +58,7 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipContainer', () => {
       authentication: SOME_AUTHENTICATION,
       // from mapDispatchToProps
       fetchOrders: () => { },
-      throwError: () => { },
+      displayMessage: () => { },
     }
 
     const enzymeWrapper = shallow(<DownloadOrderFilesAsZipContainer {...props} />, { context })
@@ -95,7 +95,7 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipContainer', () => {
       authentication: SOME_AUTHENTICATION,
       // from mapDispatchToProps
       fetchOrders: () => { },
-      throwError: () => { },
+      displayMessage: () => { },
     }
 
     const enzymeWrapper = shallow(<DownloadOrderFilesAsZipContainer {...props} />, { context })
@@ -132,7 +132,7 @@ describe('[Order Common] Testing DownloadOrderFilesAsZipContainer', () => {
       authentication: SOME_AUTHENTICATION,
       // from mapDispatchToProps
       fetchOrders: () => { },
-      throwError: () => { },
+      displayMessage: () => { },
     }
 
     const enzymeWrapper = shallow(<DownloadOrderFilesAsZipContainer {...props} />, { context })

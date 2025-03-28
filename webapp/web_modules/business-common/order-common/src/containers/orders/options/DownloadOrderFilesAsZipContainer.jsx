@@ -40,7 +40,7 @@ export class DownloadOrderFilesAsZipContainer extends React.Component {
   static mapDispatchToProps(dispatch, { ordersActions }) {
     return {
       fetchOrders: (pageIndex, pageSize) => dispatch(ordersActions.fetchPagedEntityList(pageIndex, pageSize, {}, {})),
-      throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
+      displayMessage: (message) => dispatch(ApplicationErrorAction.throwError(message)),
     }
   }
 
@@ -73,7 +73,7 @@ export class DownloadOrderFilesAsZipContainer extends React.Component {
       totalElements: PropTypes.number,
     }),
     // from mapDispatchToProps
-    throwError: PropTypes.func.isRequired,
+    displayMessage: PropTypes.func.isRequired,
     fetchOrders: PropTypes.func.isRequired,
   }
 
@@ -91,7 +91,7 @@ export class DownloadOrderFilesAsZipContainer extends React.Component {
   render() {
     const {
       entity: { content: { id, waitingForUser = false, availableFilesCount = 0 } },
-      authentication: { result: { access_token } }, throwError,
+      authentication: { result: { access_token } }, displayMessage,
     } = this.props
     return (
       <DownloadOrderFilesAsZipComponent
@@ -100,7 +100,7 @@ export class DownloadOrderFilesAsZipContainer extends React.Component {
         availableFilesCount={availableFilesCount}
         downloadZipURL={zipFileActions.getFileDownloadLink(id, access_token)}
         refreshTable={this.refreshTable}
-        throwError={throwError}
+        displayMessage={displayMessage}
       />
     )
   }
