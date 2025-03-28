@@ -145,6 +145,7 @@ export class MicroserviceConfBackupComponent extends React.Component {
       <Card>
         <CardTitle
           title={formatMessage({ id: 'microservice.conf-backup.title' }, { name: microserviceName })}
+          subtitle={formatMessage({ id: `microservice.conf-backup.${microserviceName}.subtitle` })}
         />
         <form>
           <CardText>
