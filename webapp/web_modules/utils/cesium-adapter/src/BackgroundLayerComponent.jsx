@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
+import map from 'lodash/map'
 import { UIShapes } from '@regardsoss/shape'
 import { UIDomain } from '@regardsoss/domain'
-import { createRef } from 'react'
 import isEqual from 'lodash/isEqual'
 import {
   ImageryLayer,
 } from 'resium'
-import { getImageryProvider } from './CesiumHelper'
+import { Rectangle } from 'cesium'
+import { getImageryProvider, buildDateLineRectangle } from './CesiumHelper'
 import withCesiumBackgroundLayerHOC from './CesiumBackgroundLayerHOC'
 
 /**
@@ -46,10 +47,8 @@ export class BackgroundLayerComponent extends React.Component {
   }
 
   state = {
-    backgroundVisibleProvider: null,
+    backgroundVisibleProviders: [],
   }
-
-  backgroundVisibleImageryRef = createRef()
 
   static getBackgroundVisibleProvider = (layers, viewMode, rectangle) => {
     const backgroundLayerInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode, UIDomain.MAP_ENGINE_ENUM.CESIUM)
@@ -81,7 +80,22 @@ export class BackgroundLayerComponent extends React.Component {
     const newState = { ...oldState }
 
     if (!isEqual(oldProps.rectangle, rectangle)) {
-      newState.backgroundVisibleProvider = BackgroundLayerComponent.getBackgroundVisibleProvider(layers, viewMode, rectangle)
+      const backgroundVisibleProviders = []
+      const backgroundVisibleProvider = BackgroundLayerComponent.getBackgroundVisibleProvider(layers, viewMode, rectangle)
+      backgroundVisibleProviders.push(backgroundVisibleProvider)
+
+      // If Cesium provider's rectangle is different than local builded rectangle
+      // It means that we have a rectangle that cross date line (Cesium don't do that)
+      // We need to build missing rectangle layer to complete current one
+      const layerRectangle = backgroundVisibleProvider.rectangle
+      const isImageryRectangleFull = Rectangle.equals(rectangle, layerRectangle)
+      if (rectangle && !isImageryRectangleFull) {
+        const missingRectangle = buildDateLineRectangle(rectangle, layerRectangle)
+        const backgroundMissingVisibleProvider = BackgroundLayerComponent.getBackgroundVisibleProvider(layers, viewMode, missingRectangle)
+        backgroundVisibleProviders.push(backgroundMissingVisibleProvider)
+      }
+
+      newState.backgroundVisibleProviders = backgroundVisibleProviders
     }
     if (!isEqual(oldState, newState)) {
       this.setState(newState)
@@ -90,14 +104,16 @@ export class BackgroundLayerComponent extends React.Component {
 
   render() {
     const {
-      backgroundVisibleProvider,
+      backgroundVisibleProviders,
     } = this.state
 
     return (
-      <ImageryLayer
-        ref={this.backgroundVisibleImageryRef}
-        imageryProvider={backgroundVisibleProvider}
-      />
+      map(backgroundVisibleProviders, (backgroundVisibleProvider) => (
+        <ImageryLayer
+          imageryProvider={backgroundVisibleProvider}
+        />
+      ))
+
     )
   }
 }

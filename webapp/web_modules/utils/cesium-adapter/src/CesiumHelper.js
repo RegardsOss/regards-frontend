@@ -90,3 +90,13 @@ export function getLatLongFromCartesian3(cartesian3Point) {
     Math.toDegrees(carto.latitude),
   ]
 }
+
+export function buildDateLineRectangle(fullRectangle, halfRectangle) {
+  const leftRectangle = new Rectangle(fullRectangle.west, fullRectangle.south, Math.PI, fullRectangle.north)
+  const testEquals = Rectangle.equals(leftRectangle, halfRectangle)
+  if (testEquals) {
+    const rightRectangle = new Rectangle(-Math.PI, fullRectangle.south, fullRectangle.east, fullRectangle.north)
+    return rightRectangle
+  }
+  return leftRectangle
+}

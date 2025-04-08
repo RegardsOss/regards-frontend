@@ -103,7 +103,6 @@ export default class CesiumAdapter extends React.Component {
   static getGreyBackgroundProvider(layers, viewMode) {
     const backgroundLayerInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode, UIDomain.MAP_ENGINE_ENUM.CESIUM)
     const greyBackgroundProvider = getImageryProvider(backgroundLayerInfo, null, 1)
-    greyBackgroundProvider.defaultContrast = 0.2
     return greyBackgroundProvider
   }
 
@@ -311,13 +310,15 @@ export default class CesiumAdapter extends React.Component {
               infoBox={false}// no feature info
               fullscreenButton={false}
               navigationHelpButton={false}// tuto for Cesium usage
-              imageryProvider={greyBackgroundProvider}
+              imageryProvider={false}
               animation={false}// Hide Cesium clock
               geocoder={false}// Hide widget for finding addresses and landmarks
               selectionIndicator={false} // Hide green target when entity selected
               creditContainer={this.virtualCredit}
               automaticallyTrackDataSourceClocks={false}
             >
+              {/* Configure background layer (cannot use imageryProvider Viewer prop anymore) */}
+              <ImageryLayer imageryProvider={greyBackgroundProvider} />
               {/* Configurate the initial Scene */}
               <Scene
                 mode={viewMode === UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D ? SceneMode.SCENE3D : SceneMode.SCENE2D}
