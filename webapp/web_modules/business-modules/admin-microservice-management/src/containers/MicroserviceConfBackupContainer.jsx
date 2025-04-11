@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { I18nProvider } from '@regardsoss/i18n'
 import { URLAuthInjector } from '@regardsoss/domain/common'
 import { browserHistory } from 'react-router'
@@ -24,6 +25,7 @@ import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { microserviceConfBackupActions, microserviceConfBackupSelectors } from '../clients/MicroserviceConfBackupClient'
 import MicroserviceConfBackupComponent from '../components/MicroserviceConfBackupComponent'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * React container to export / import microservice configuration
@@ -69,14 +71,16 @@ export class MicroserviceConfBackupContainer extends React.Component {
   render() {
     return (
       <I18nProvider messages={messages}>
-        <MicroserviceConfBackupComponent
-          exportUrl={this.getExportUrl()}
-          backUrl={this.getBackUrl()}
-          microserviceName={this.props.params.microserviceName}
-          handleBack={this.redirectToBack}
-          handleExportFile={this.props.uploadConfiguration}
-          isSendingConfiguration={this.props.isSendingConfiguration}
-        />
+        <ModuleStyleProvider module={styles}>
+          <MicroserviceConfBackupComponent
+            exportUrl={this.getExportUrl()}
+            backUrl={this.getBackUrl()}
+            microserviceName={this.props.params.microserviceName}
+            handleBack={this.redirectToBack}
+            handleExportFile={this.props.uploadConfiguration}
+            isSendingConfiguration={this.props.isSendingConfiguration}
+          />
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

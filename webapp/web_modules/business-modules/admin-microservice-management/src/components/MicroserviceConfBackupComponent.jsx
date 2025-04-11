@@ -23,7 +23,7 @@ import map from 'lodash/map'
 import get from 'lodash/get'
 import has from 'lodash/has'
 import isArray from 'lodash/isArray'
-import { CardActionsComponent, ErrorDecoratorComponent } from '@regardsoss/components'
+import { CardActionsComponent, ErrorDecoratorComponent, HelpMessageComponent } from '@regardsoss/components'
 import { reduxForm } from '@regardsoss/form-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -137,6 +137,65 @@ export class MicroserviceConfBackupComponent extends React.Component {
     return null
   }
 
+  buildDocumentationMessage = () => {
+    const { microserviceName } = this.props
+    const { intl: { formatMessage }, moduleTheme: { linkStyle } } = this.context
+    let url
+    switch (microserviceName) {
+      case STATIC_CONF.MSERVICES.ACCESS_PROJECT:
+        url = 'https://regardsoss.github.io/docs/development/services/access-project/import-export'
+        break
+      case STATIC_CONF.MSERVICES.ADMIN:
+        url = 'https://regardsoss.github.io/docs/development/services/admin/import-export'
+        break
+      case STATIC_CONF.MSERVICES.AUTHENTICATION:
+        url = 'https://regardsoss.github.io/docs/development/services/authentication/import-export'
+        break
+      case STATIC_CONF.MSERVICES.CATALOG:
+        url = 'https://regardsoss.github.io/docs/development/backend/services/catalog/configuration/import-export'
+        break
+      case STATIC_CONF.MSERVICES.DAM:
+        url = 'https://regardsoss.github.io/docs/development/services/dam/configuration/import-export'
+        break
+      case STATIC_CONF.MSERVICES.DATA_PROVIDER:
+        url = 'https://regardsoss.github.io/docs/development/backend/services/dataprovider/configuration/import-export'
+        break
+      case STATIC_CONF.MSERVICES.DELIVERY:
+        url = 'https://regardsoss.github.io/docs/development/backend/services/delivery/configuration/import-export'
+        break
+      case STATIC_CONF.MSERVICES.ORDER:
+        url = 'https://regardsoss.github.io/docs/development/backend/services/order/configuration/import-export'
+        break
+      case STATIC_CONF.MSERVICES.STORAGE:
+        url = 'https://regardsoss.github.io/docs/development/services/storage/configuration/import-export'
+        break
+      case STATIC_CONF.MSERVICES.INGEST:
+        url = 'https://regardsoss.github.io/docs/development/backend/services/ingest/configuration/import-export'
+        break
+      case STATIC_CONF.MSERVICES.FEM:
+        url = 'https://regardsoss.github.io/docs/development/backend/services/fem/configuration/import-export'
+        break
+      case STATIC_CONF.MSERVICES.NOTIFIER:
+        url = 'https://regardsoss.github.io/docs/development/backend/services/notifier/configuration/import-export'
+        break
+      case STATIC_CONF.MSERVICES.PROCESSING:
+        url = 'https://regardsoss.github.io/docs/development/backend/services/processing/configuration/import-export'
+        break
+      case STATIC_CONF.MSERVICES.WORKER_MANAGER:
+        url = 'https://regardsoss.github.io/docs/development/services/worker-manager/configuration/import_export'
+        break
+      case STATIC_CONF.MSERVICES.LTA_MANAGER:
+        url = 'https://regardsoss.github.io/docs/development/backend/services/lta-manager/configuration/import-export'
+        break
+      default:
+    }
+    if (url) {
+      const helpMessage = formatMessage({ id: 'microservice.conf-backup.help.message' })
+      return <HelpMessageComponent message={<a style={linkStyle} href={url} target="_blank">{helpMessage}</a>} />
+    }
+    return null
+  }
+
   render() {
     const { microserviceName, exportUrl } = this.props
     const { intl: { formatMessage } } = this.context
@@ -145,10 +204,10 @@ export class MicroserviceConfBackupComponent extends React.Component {
       <Card>
         <CardTitle
           title={formatMessage({ id: 'microservice.conf-backup.title' }, { name: microserviceName })}
-          subtitle={formatMessage({ id: `microservice.conf-backup.${microserviceName}.subtitle` })}
         />
         <form>
           <CardText>
+            {this.buildDocumentationMessage()}
             {this.renderErrors()}
             <div style={MicroserviceConfBackupComponent.contentWrapper}>
 

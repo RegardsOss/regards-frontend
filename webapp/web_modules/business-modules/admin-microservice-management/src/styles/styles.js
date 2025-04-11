@@ -142,6 +142,9 @@ const microserviceManagementStyles = (theme) => ({
       marginRight: 5,
     },
   },
+  linkStyle: {
+    color: theme.palette.accent1Color,
+  },
 })
 
 export default microserviceManagementStyles
