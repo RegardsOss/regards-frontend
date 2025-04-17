@@ -70,16 +70,34 @@ export class StorageSettingsComponent extends React.Component {
     ...themeContextType,
   }
 
+  state = {
+    // Manage locally if neostorage is used or not
+    // We need to do it to display or not some settings since backend cannot provide
+    // necessary settings
+    isNeostorage: true,
+  }
+
   /** Lifecycle method component will mount, used here to initialize form values */
   UNSAFE_componentWillMount() {
     const { initialize, settings, settingsStorage } = this.props
-    initialize({
+    let initRedux = {
       [SETTINGS_ENUM.STORE_FILES]: getValue(settings, SETTINGS_ENUM.STORE_FILES),
       [SETTINGS_ENUM.STORAGE_LOCATION]: getValue(settings, SETTINGS_ENUM.STORAGE_LOCATION),
       [SETTINGS_ENUM.STORAGE_SUB_DIRECTORY]: getValue(settings, SETTINGS_ENUM.STORAGE_SUB_DIRECTORY),
-      [SETTINGS_ENUM.CACHE_MAX_SIZE]: getValue(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE),
-      [SETTINGS_ENUM.TENANT_CACHE_PATH]: getValue(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH),
-    })
+    }
+    // cacheMaxSize & tenantCachePath are only used by storage and not by neostorage
+    const cacheMaxSizeValue = getValue(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE)
+    if (cacheMaxSizeValue) {
+      initRedux = {
+        ...initRedux,
+        [SETTINGS_ENUM.CACHE_MAX_SIZE]: cacheMaxSizeValue,
+        [SETTINGS_ENUM.TENANT_CACHE_PATH]: getValue(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH),
+      }
+      this.setState({
+        isNeostorage: false,
+      })
+    }
+    initialize(initRedux)
   }
 
   /**
@@ -88,13 +106,21 @@ export class StorageSettingsComponent extends React.Component {
    */
   onSubmit = (values) => {
     const { onSubmit, settings, settingsStorage } = this.props
-    onSubmit({
+    const { isNeostorage } = this.state
+    let submitRedux = {
       [SETTINGS_ENUM.STORE_FILES]: getUpdatedSettingValue(settings, SETTINGS_ENUM.STORE_FILES, values[SETTINGS_ENUM.STORE_FILES]),
       [SETTINGS_ENUM.STORAGE_LOCATION]: getUpdatedSettingValue(settings, SETTINGS_ENUM.STORAGE_LOCATION, values[SETTINGS_ENUM.STORAGE_LOCATION]),
       [SETTINGS_ENUM.STORAGE_SUB_DIRECTORY]: getUpdatedSettingValue(settings, SETTINGS_ENUM.STORAGE_SUB_DIRECTORY, values[SETTINGS_ENUM.STORAGE_SUB_DIRECTORY]),
-      [SETTINGS_ENUM.CACHE_MAX_SIZE]: getUpdatedSettingValue(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE, values[SETTINGS_ENUM.CACHE_MAX_SIZE]),
-      [SETTINGS_ENUM.TENANT_CACHE_PATH]: getUpdatedSettingValue(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH, values[SETTINGS_ENUM.TENANT_CACHE_PATH]),
-    })
+    }
+    // cacheMaxSize & tenantCachePath are only used by storage and not by neostorage
+    if (!isNeostorage) {
+      submitRedux = {
+        ...submitRedux,
+        [SETTINGS_ENUM.CACHE_MAX_SIZE]: getUpdatedSettingValue(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE, values[SETTINGS_ENUM.CACHE_MAX_SIZE]),
+        [SETTINGS_ENUM.TENANT_CACHE_PATH]: getUpdatedSettingValue(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH, values[SETTINGS_ENUM.TENANT_CACHE_PATH]),
+      }
+    }
+    onSubmit(submitRedux)
   }
 
   onClearInput = (settings, settingName) => {
@@ -112,6 +138,7 @@ export class StorageSettingsComponent extends React.Component {
       editedStorageLocation, editedStorageSubDirectory, editedTenantCachePath,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { settings: { settingDiv, settingTitleStyle, settingTitleAltStyle } } } = this.context
+    const { isNeostorage } = this.state
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <Card>
@@ -175,40 +202,47 @@ export class StorageSettingsComponent extends React.Component {
                 fullWidth
               />
             </div>
-            <div style={settingTitleAltStyle}>
-              {
-                formatMessage({ id: 'storage.settings.fieldgroup.cache.title' })
-              }
-            </div>
-            <div style={settingDiv}>
-              <ClearSettingFieldButton
-                onClick={() => this.onClearInput(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE)}
-                isDefaultValue={isDefaultValue(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE, editedCacheMaxSize)}
-                addAlternateStyle
-              />
-              <Field
-                name={SETTINGS_ENUM.CACHE_MAX_SIZE}
-                label={formatMessage({ id: 'storage.settings.field.cacheMaxSize' })}
-                component={RenderTextField}
-                disabled={isDisabled(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE)}
-                validate={ValidationHelpers.positiveIntNumber}
-                fullWidth
-              />
-            </div>
-            <div style={settingDiv}>
-              <ClearSettingFieldButton
-                onClick={() => this.onClearInput(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH)}
-                isDefaultValue={isDefaultValue(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH, editedTenantCachePath)}
-                addAlternateStyle
-              />
-              <Field
-                name={SETTINGS_ENUM.TENANT_CACHE_PATH}
-                label={formatMessage({ id: 'storage.settings.field.tenantCachePath' })}
-                component={RenderTextField}
-                disabled={isDisabled(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH)}
-                fullWidth
-              />
-            </div>
+            {
+              !isNeostorage ?
+                <>
+                  <div style={settingTitleAltStyle}>
+                    {
+                      formatMessage({ id: 'storage.settings.fieldgroup.cache.title' })
+                    }
+                  </div>
+                  <div style={settingDiv}>
+                    <ClearSettingFieldButton
+                      onClick={() => this.onClearInput(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE)}
+                      isDefaultValue={isDefaultValue(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE, editedCacheMaxSize)}
+                      addAlternateStyle
+                    />
+                    <Field
+                      name={SETTINGS_ENUM.CACHE_MAX_SIZE}
+                      label={formatMessage({ id: 'storage.settings.field.cacheMaxSize' })}
+                      component={RenderTextField}
+                      disabled={isDisabled(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE)}
+                      validate={ValidationHelpers.positiveIntNumber}
+                      fullWidth
+                    />
+                  </div>
+                  <div style={settingDiv}>
+                    <ClearSettingFieldButton
+                      onClick={() => this.onClearInput(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH)}
+                      isDefaultValue={isDefaultValue(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH, editedTenantCachePath)}
+                      addAlternateStyle
+                    />
+                    <Field
+                      name={SETTINGS_ENUM.TENANT_CACHE_PATH}
+                      label={formatMessage({ id: 'storage.settings.field.tenantCachePath' })}
+                      component={RenderTextField}
+                      disabled={isDisabled(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH)}
+                      fullWidth
+                    />
+                  </div>
+                </>
+                : null
+            }
+
           </CardText>
           <CardActions>
             <CardActionsComponent
