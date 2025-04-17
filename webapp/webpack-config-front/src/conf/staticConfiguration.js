@@ -41,6 +41,7 @@ STATIC_CONF = {
     DAM: 'rs-dam',
     DATA_PROVIDER: 'rs-dataprovider',
     DELIVERY: 'rs-delivery',
+    DOWNLOADER: 'rs-downloader',
     FILE_CATALOG: 'rs-file-catalog',
     FILE_ACCESS: 'rs-file-access',
     FILE_PACKAGER: 'rs-file-packager',
