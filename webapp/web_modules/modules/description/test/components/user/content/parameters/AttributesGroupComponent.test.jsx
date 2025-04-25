@@ -52,12 +52,6 @@ describe('[Description] Testing AttributesGroupComponent', () => {
       group.elements.forEach(({ label: groupLabel, displayedAttributes }, elementIndex) => {
         const elementDiv = enzymeWrapper.findWhere((n) => n.props().title === groupLabel.fr)
         assert.lengthOf(elementDiv, 1, 'There should be a division showing element label as tooltip')
-        // Nota: we must here test on tooltip and not label, as label may be to long for enzyme to log it
-        // TODO v1.5+ that fragment part is still not supported by enzyme (tested on 12/21/2020). Upgrade when support implemented
-        // const parentWrapper = elementDiv.parent()
-        // displayedAttributes.forEach(({ render: { Constructor, props: renderProps } }, attributeValueIndex) => {
-        //   testSuiteHelpers.assertCompWithProps(parentWrapper, Constructor, renderProps, `Attribute value #${elementIndex}:${attributeValueIndex}: There should be attribute render`)
-        // })
       })
     }))
 })
