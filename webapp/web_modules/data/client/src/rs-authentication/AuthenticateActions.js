@@ -27,7 +27,7 @@ export default class AuthenticateActions extends BasicSignalActions {
    */
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.AUTHENTICATION}/${SPECIFIC_ENDPOINT_MARKER}?grant_type=password&username={username}&password={password}&scope={scope}&origineUrl={origineUrl}&requestLink={requestLink}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.AUTHENTICATION}/${SPECIFIC_ENDPOINT_MARKER}?scope={scope}&origineUrl={origineUrl}&requestLink={requestLink}`,
       namespace,
       bypassErrorMiddleware: true,
     })
@@ -53,9 +53,11 @@ export default class AuthenticateActions extends BasicSignalActions {
   }
 
   login(username, password, scope, origineUrl, requestLink) {
-    return this.sendSignal('POST', {}, {
+    return this.sendSignal('POST', {
       username,
       password,
+      grant_type: 'password',
+    }, {
       scope,
       origineUrl,
       requestLink,
