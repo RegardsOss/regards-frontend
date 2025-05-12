@@ -81,6 +81,12 @@ const messages = {
   'render.map-object.add.new.dialog.key.label': 'New element key',
   'render.map-object.key.already.exists.error': 'Selected value already exists.',
   'render.map-object.duplicate.key.not.exists': 'Element to duplicate does not exist anymore',
+
+  'render.chip.input': 'Attribute value',
+  'render.chip.warn': 'Confirm to add value',
+  'render.chip.exist': 'Already exists',
+  'render.chip.display': 'Selected values :',
+  'render.chip.none': 'No selected values',
 }
 
 export default messages

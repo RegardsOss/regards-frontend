@@ -25,6 +25,7 @@ export { default as RenderArrayObjectField } from './components/render/RenderArr
 export { default as RenderMapField } from './components/render/RenderMapField'
 export { default as RenderSelectField } from './components/render/RenderSelectField'
 export { default as RenderCheckbox } from './components/render/RenderCheckbox'
+export { default as RenderArrayChipField } from './components/render/RenderArrayChipField'
 export { default as RenderRadio } from './components/render/RenderRadio'
 export { default as RenderFileFieldWithMui } from './components/render/RenderFileFieldWithMui'
 export { default as RenderToggle } from './components/render/RenderToggle'

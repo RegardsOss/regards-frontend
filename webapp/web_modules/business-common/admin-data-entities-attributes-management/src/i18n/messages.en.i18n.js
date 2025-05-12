@@ -25,7 +25,6 @@ const messages = {
   'entities-attributes.form.table.input': 'Attribute value',
   'entities-attributes.form.table.input.multiple': 'Attribute values',
   'entities-attributes.form.table.stringarray.action.remove': 'Remove the value',
-  'entities-attributes.form.table.stringarray.action.add': 'Add a new value',
 
   'entities-files.form.DESCRIPTION.title': 'Description',
   'entities-files.form.DESCRIPTION.subtitle': 'Files describing the entité',

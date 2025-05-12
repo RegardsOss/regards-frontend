@@ -59,7 +59,7 @@ class Field extends React.Component {
     return (
       <div style={fullWidth ? Field.FULLWIDTH_STYLE : Field.COMMON_STYLE}>
         <ReduxField intl={this.context.intl} fullWidth={fullWidth} {...otherProps} />
-        { (() => {
+        {(() => {
           if (help) {
             switch (help.contentType) {
               case FieldHelp.CONTENT_TYPES.MESSAGE:

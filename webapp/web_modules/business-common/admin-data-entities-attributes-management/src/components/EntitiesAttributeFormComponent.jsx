@@ -32,12 +32,12 @@ import {
   Field,
   ValidationHelpers,
   FieldArray,
+  RenderArrayChipField,
 } from '@regardsoss/form-utils'
 import { ShowableAtRender } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/domain/dam'
-import ParameterArrayAttributeComponent from './ParameterArrayAttributeComponent'
 import isRestrictedWithEnum from '../utils/isRestrictedWithEnum'
 
 /**
@@ -89,21 +89,29 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
     switch (modelAttribute.content.attribute.type) {
       case MODEL_ATTR_TYPES.STRING:
-      case MODEL_ATTR_TYPES.STRING_ARRAY:
         if (!modelAttribute.content.attribute.optional) {
           return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
         }
-        return [ValidationHelpers.string]
+        return [ValidationHelpers.string, ...complexRestriction]
+      case MODEL_ATTR_TYPES.STRING_ARRAY:
+        if (!modelAttribute.content.attribute.optional) {
+          return [ValidationHelpers.arrayStringRequired, ...complexRestriction]
+        }
+        return [ValidationHelpers.isValidArray, ...complexRestriction]
       case MODEL_ATTR_TYPES.DOUBLE:
       case MODEL_ATTR_TYPES.LONG:
       case MODEL_ATTR_TYPES.INTEGER:
+        if (!modelAttribute.content.attribute.optional) {
+          return [ValidationHelpers.validRequiredNumber, ...complexRestriction]
+        }
+        return [ValidationHelpers.number, ...complexRestriction]
       case MODEL_ATTR_TYPES.INTEGER_ARRAY:
       case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
       case MODEL_ATTR_TYPES.LONG_ARRAY:
         if (!modelAttribute.content.attribute.optional) {
-          return [ValidationHelpers.validRequiredNumber, ...complexRestriction]
+          return [ValidationHelpers.arrayNumberRequired, ...complexRestriction]
         }
-        return complexRestriction
+        return [ValidationHelpers.isValidArray, ...complexRestriction]
       case MODEL_ATTR_TYPES.URL:
         if (!modelAttribute.content.attribute.optional) {
           return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
@@ -165,7 +173,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
   getFieldTextField = (modelAttribute, type) => (
     <Field
-      className={`selenium-fill-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       fullWidth
       component={RenderTextField}
@@ -179,7 +186,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
   getFieldCheckbox = (modelAttribute) => (
     <Field
-      className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       component={RenderCheckbox}
       disabled={this.isDisabled()}
@@ -188,7 +194,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
   getFieldDateTime = (modelAttribute) => (
     <Field
-      className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       component={RenderDateTimeField}
       validate={this.state.restrictions}
@@ -198,7 +203,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
 
   getFieldSelect = (modelAttribute) => (
     <Field
-      className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
       fullWidth
       component={RenderSelectField}
@@ -208,7 +212,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
     >
       {map(modelAttribute.content.attribute.restriction.acceptableValues, (acceptableValue, id) => (
         <MenuItem
-          className={`selenium-value-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}-${acceptableValue}`}
           value={acceptableValue}
           key={acceptableValue}
           primaryText={acceptableValue}
@@ -218,22 +221,19 @@ export class EntitiesAttributeFormComponent extends React.Component {
   )
 
   getFieldTextFieldWithValuesArray = (modelAttribute, type) => (
-    <div
-      className={`selenium-array-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
-    >
+    <div>
       <FieldArray
         name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
-        component={ParameterArrayAttributeComponent}
+        component={RenderArrayChipField}
         modelAttribute={modelAttribute}
         type={type}
-        constraints={this.state.restrictions}
+        validate={this.state.restrictions}
       />
     </div>)
 
   getEnumTextArrayField = (modelAttribute) => (
     <div>
       <Field
-        className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
         name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
         fullWidth
         component={RenderSelectField}
@@ -242,7 +242,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
       >
         {map(modelAttribute.content.attribute.restriction.acceptableValues, (acceptableValue, id) => (
           <MenuItem
-            className={`selenium-value-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}-${acceptableValue}`}
             value={acceptableValue}
             key={acceptableValue}
             primaryText={acceptableValue}
@@ -269,9 +268,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
           <br />
           {getFullQualifiedAttributeName(modelAttribute.content.attribute)}
         </TableRowColumn>
-        <TableRowColumn
-          className={`selenium-type-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
-        >
+        <TableRowColumn>
           {modelAttribute.content.attribute.type}
         </TableRowColumn>
         <TableRowColumn style={EntitiesAttributeFormComponent.styleTableRow}>

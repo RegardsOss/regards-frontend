@@ -82,6 +82,12 @@ const messages = {
   'render.map-object.key.already.exists.error': 'La valeur existe déjà.',
   'render.map-object.duplicate.key.not.exists': 'L\'élément à dupliquer n\'existe plus',
 
+  'render.chip.input': 'Valeur de l\'attribut',
+  'render.chip.warn': 'Confirmer l\'ajout de la valeur',
+  'render.chip.exist': 'Cette valeur existe déjà',
+  'render.chip.display': 'Valeurs sélectionnées :',
+  'render.chip.none': 'Pas de valeurs sélectionnées',
+
 }
 
 export default messages

@@ -15,7 +15,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+**/
+import isArray from 'lodash/isArray'
+import every from 'lodash/every'
 import find from 'lodash/find'
 import isUndefined from 'lodash/isUndefined'
 import isNil from 'lodash/isNil'
@@ -97,6 +99,30 @@ const required = (value) => !isNil(value) && value !== '' ? undefined : ErrorTyp
  * @returns {String||undefined}
  */
 const arrayRequired = (value) => !isNil(value) && value !== '' && value.length > 0 ? undefined : ErrorTypes.ARRAY_REQUIRED
+
+/**
+ * Redux-Form-style validator for Fields which content is required.
+ *
+ * @param {String[]} values
+ * @returns {String||undefined}
+ */
+const arrayStringRequired = (values) => !isNil(values) && values !== '' && values.length > 0 && every((values, (value) => isString(value) && !isNil(value))) ? undefined : ErrorTypes.ARRAY_REQUIRED
+
+/**
+ * Redux-Form-style validator for Fields which content is required.
+ *
+ * @param {String[]} values
+ * @returns {String||undefined}
+ */
+const arrayNumberRequired = (values) => !isNil(values) && values !== '' && values.length > 0 && every((values, (value) => isNumber(value) && !isNil(value))) ? undefined : ErrorTypes.ARRAY_REQUIRED
+
+/**
+ * Redux-Form-style validator for Fields which content is required.
+ *
+ * @param {String[]} values
+ * @returns {String||undefined}
+ */
+const isValidArray = (values) => isNil(values) || isArray(values) ? undefined : ErrorTypes.ARRAY_REQUIRED
 
 /**
  * Redux-Form-style validator for Fields which content is required.
@@ -341,4 +367,7 @@ export default {
   javaIntegerValidator,
   javaLongValidator,
   javaShortValidator,
+  arrayStringRequired,
+  arrayNumberRequired,
+  isValidArray,
 }

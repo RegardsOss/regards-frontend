@@ -227,5 +227,47 @@ export default function styles(theme) {
         textOverflow: 'ellipsis',
       },
     },
+    renderChipField: {
+      chipStyle: {
+        margin: '3px 3px 3px 0px',
+      },
+      chipDivStyle: {
+        width: '100%',
+        maxWidth: '360px',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+      },
+      defaultElementStyle: {
+        color: theme.textField.borderColor,
+      },
+      addNewElementStyle: {
+        color: theme.formsExtensions.validation.warningColor,
+      },
+      mainDivStyle: {
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      divStyle: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        width: '100%',
+        alignItems: 'flex-end',
+      },
+      underlineFocusStyle: {
+        borderBottomWidth: '1px',
+        opacity: 0.3,
+      },
+      scrollAreaStyle: {
+        maxHeight: '115px',
+        marginTop: '15px',
+      },
+      scrollDivStyle: {
+        display: 'flex',
+        width: '100%',
+        maxWidth: '440px',
+        flexWrap: 'wrap',
+      },
+    },
   }
 }
