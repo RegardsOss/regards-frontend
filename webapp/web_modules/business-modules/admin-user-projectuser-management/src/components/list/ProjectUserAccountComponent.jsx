@@ -28,8 +28,6 @@ import {
   TableHeaderContentBox, TableHeaderLoadingComponent,
   TableFilterSortingAndVisibilityContainer,
 } from '@regardsoss/components'
-import isString from 'lodash/isString'
-import isEmpty from 'lodash/isEmpty'
 import { projectUserActions, projectUserSelectors } from '../../clients/ProjectUserClient'
 import NoUserComponent from './NoUserComponent'
 import ProjectUserStatusRenderCell from './render/ProjectUserStatusRenderCell'
@@ -37,7 +35,6 @@ import EditProjectUserComponent from './options/EditProjectUserComponent'
 import DeleteProjectUserComponent from './options/DeleteProjectUserComponent'
 import DenyAccessComponent from './options/DenyAccessComponent'
 import AllowAccessComponent from './options/AllowAccessComponent'
-import SendEmailComponent from './options/SendEmailComponent'
 import { ProjectUserAccountFiltersComponent } from './filters/ProjectUserAccountFiltersComponent'
 import HeaderActionsBar from './HeaderActionsBar'
 import { getUserRequestParameters } from '../../domain/QueryUtils'
@@ -57,7 +54,6 @@ export class ProjectUserAccountComponent extends React.Component {
     onDeny: PropTypes.func,
     onDisable: PropTypes.func,
     onEnable: PropTypes.func,
-    onSendEmailConfirmation: PropTypes.func,
     onDownloadCSV: PropTypes.func,
     pageMeta: PropTypes.shape({
       number: PropTypes.number,
@@ -153,15 +149,6 @@ export class ProjectUserAccountComponent extends React.Component {
     })
   }
 
-  onToggleEmailConfirmationDialog = (userEmail = '') => {
-    this.setState({
-      [DIALOG_TYPES.EMAIL_CONFIRMATION_DIALOG]: {
-        open: !this.state[DIALOG_TYPES.EMAIL_CONFIRMATION_DIALOG].open,
-        userEmail,
-      },
-    })
-  }
-
   /**
    * Renders account deletion confirmation dialog
    */
@@ -183,31 +170,6 @@ export class ProjectUserAccountComponent extends React.Component {
         />
       </ShowableAtRender>
     )
-  }
-
-  /**
-  * Renders send email confirmation confirmation dialog
-  */
-  renderEmailConfirmDialog = () => {
-    const { onSendEmailConfirmation } = this.props
-    const { intl: { formatMessage } } = this.context
-    const { userEmail, open } = this.state[DIALOG_TYPES.EMAIL_CONFIRMATION_DIALOG]
-    if (isString(userEmail) && !isEmpty(userEmail)) {
-      const title = formatMessage({ id: 'projectUser.list.email.confirmation.message' }, { email: userEmail })
-      return (
-        <ShowableAtRender
-          show={open}
-        >
-          <ConfirmDialogComponent
-            dialogType={ConfirmDialogComponentTypes.CONFIRM}
-            onConfirm={() => onSendEmailConfirmation(userEmail)}
-            onClose={this.onToggleEmailConfirmationDialog}
-            title={title}
-          />
-        </ShowableAtRender>
-      )
-    }
-    return null
   }
 
   render() {
@@ -298,9 +260,6 @@ export class ProjectUserAccountComponent extends React.Component {
         }, { // Deny access options
           OptionConstructor: DenyAccessComponent,
           optionProps: { isLoading, onDeny, onDisable },
-        }, {
-          OptionConstructor: SendEmailComponent,
-          optionProps: { isLoading, onSendEmailConfirmation: this.onToggleEmailConfirmationDialog },
         }])
         .build(),
     ]
@@ -340,7 +299,6 @@ export class ProjectUserAccountComponent extends React.Component {
             : ProjectUserAccountComponent.LOADING_COMPONENT}
         />
         {this.renderDeleteConfirmDialog()}
-        {this.renderEmailConfirmDialog()}
       </TableLayout>
     )
   }

@@ -104,10 +104,10 @@ const messages = {
 
   // New account operation
   'create.account.sent.title': 'Create account sent',
-  'create.account.sent.message': 'Your request has been sent, you will receive an email to activate your account',
+  'create.account.sent.message': 'Your request has been sent, you will receive an email to confirm your address',
   'create.account.sent.option': 'Back',
-  'new.account.validated.title': 'User account validated',
-  'new.account.validated.message': 'Your user account has been validated',
+  'new.account.validated.title': 'Email address confirmed',
+  'new.account.validated.message': 'Your email address has been confirmed. You will receive an email when your account is activated.',
   'new.account.validated.option': 'Login',
   'new.account.token.expired.title': 'Account creation failed',
   'new.account.token.expired.message': 'Your user account cannot be validated, please retry creating it',

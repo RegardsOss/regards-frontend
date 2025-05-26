@@ -122,10 +122,6 @@ export { default as ProjectUserSignalActions } from './user/ProjectUserSignalAct
 export { default as getProjectUserSignalReducer } from './user/ProjectUserSignalReducer'
 export { default as getProjectUserSignalSelectors } from './user/ProjectUserSignalSelectors'
 
-export { default as ProjectUserEmailConfirmationActions } from './user/ProjectUserEmailConfirmationActions'
-export { default as getProjectUserEmailConfirmationReducer } from './user/ProjectUserEmailConfirmationReducer'
-export { default as getProjectUserEmailConfirmationSelectors } from './user/ProjectUserEmailConfirmationSelectors'
-
 export { default as DownloadUserListCSVActions } from './user/DownloadUserListCSVActions'
 export { default as getDownloadUserListCSVReducer } from './user/DownloadUserListCSVReducer'
 export { default as getDownloadUserListCSVSelectors } from './user/DownloadUserListCSVSelectors'

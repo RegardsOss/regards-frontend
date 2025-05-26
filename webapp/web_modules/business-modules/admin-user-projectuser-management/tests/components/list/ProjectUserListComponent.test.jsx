@@ -66,7 +66,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
       onDeny: () => { },
       onDisable: () => { },
       onEnable: () => { },
-      onSendEmailConfirmation: () => { },
       roleList: {},
       onSetMaxQuota: () => { },
       uiSettings: {
@@ -92,7 +91,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
       onValidate: props.onValidate,
       onDeny: props.onDeny,
       onDisable: props.onDisable,
-      onSendEmailConfirmation: props.onSendEmailConfirmation,
       onSetMaxQuota: props.onSetMaxQuota,
       onDownloadCSV: props.onDownloadCSV,
       updateRefreshParameters: enzymeWrapper.instance().updateRefreshParameters,

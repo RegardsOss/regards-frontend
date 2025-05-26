@@ -296,7 +296,7 @@ module.exports = {
     },
     // Perform email verification
     verifyEmail: {
-      url: 'rs-admin/accesses/verifyEmail/{token}',
+      url: 'rs-admin/accounts/verifyEmail/{token}',
       handler: (request, query, { token }) => {
         const userLogin = validationTokensPool[token]
         if (userLogin) {

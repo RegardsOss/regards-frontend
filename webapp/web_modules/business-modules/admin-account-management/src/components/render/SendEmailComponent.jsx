@@ -17,18 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import EmailIcon from 'mdi-material-ui/Email'
-import { AccessShapes } from '@regardsoss/shape'
+import { AdminInstanceShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasIconAction } from '@regardsoss/components'
 import { HateoasKeys } from '@regardsoss/display-control'
+import { AdminInstanceDomain } from '@regardsoss/domain'
 
 /**
  * @author Théo Lasserre
  */
 class SendEmailComponent extends React.Component {
   static propTypes = {
-    entity: AccessShapes.ProjectUser.isRequired,
-    isLoading: PropTypes.bool.isRequired,
+    entity: AdminInstanceShapes.Account,
+    isFetchingActions: PropTypes.bool.isRequired,
     onSendEmailConfirmation: PropTypes.func.isRequired,
   }
 
@@ -36,19 +37,25 @@ class SendEmailComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * @return {boolean} true if administrator can resend a confirmation email
+   */
+  static canSendConfirmationEmail(account) {
+    return AdminInstanceDomain.ACCOUNT_STATUS_ENUM.EMAIL_VERIFICATION === account.content.status
+  }
+
   onClick = () => {
     const { entity, onSendEmailConfirmation } = this.props
-    const userEmail = entity.content.email
-    onSendEmailConfirmation(userEmail)
+    onSendEmailConfirmation(entity)
   }
 
   render() {
-    const { isLoading, entity } = this.props
+    const { isFetchingActions, entity } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <HateoasIconAction
-        disabled={isLoading}
-        title={formatMessage({ id: 'projectUser.list.table.action.send.email' })}
+        disabled={isFetchingActions || !SendEmailComponent.canSendConfirmationEmail(entity)}
+        title={formatMessage({ id: 'account.list.table.action.send.email.tooltip' })}
         onClick={this.onClick}
         // HATOAS control
         entityLinks={entity.links}

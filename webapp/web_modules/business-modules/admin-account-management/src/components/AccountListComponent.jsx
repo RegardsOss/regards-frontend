@@ -47,6 +47,7 @@ export class AccountListComponent extends React.Component {
     onRefuse: PropTypes.func.isRequired,
     onEnable: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
+    onSendEmailConfirmation: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     isFetchingActions: PropTypes.bool.isRequired,
@@ -90,7 +91,7 @@ export class AccountListComponent extends React.Component {
       isFetchingActions,
       onBack, onEdit, onAccept, onEnable, isFetching, onRefuse,
       waitingAccounts, onDelete, origins, projects,
-      onFilterWaitingAccount,
+      onFilterWaitingAccount, onSendEmailConfirmation,
     } = this.props
     const { isPaneOpened } = this.state
     const {
@@ -156,6 +157,7 @@ export class AccountListComponent extends React.Component {
               isFetchingActions={isFetchingActions}
               isFetching={isFetching}
               onEdit={onEdit}
+              onSendEmailConfirmation={onSendEmailConfirmation}
             />
           </TableFilterSortingAndVisibilityAndChipsComponent>
         </CardText>

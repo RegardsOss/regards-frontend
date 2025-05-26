@@ -50,6 +50,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list component', () => {
       onRefuse: () => { },
       onEnable: () => { },
       onEdit: () => { },
+      onSendEmailConfirmation: () => { },
       onDelete: () => { },
       onBack: () => { },
       isFetchingActions: false,

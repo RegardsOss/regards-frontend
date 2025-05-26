@@ -35,6 +35,7 @@ import ProjectsRenderComponent from './render/ProjectsRenderComponent'
 import AccountEnableComponent from './render/AccountEnableComponent'
 import AccountDeleteComponent from './render/AccountDeleteComponent'
 import StatusRenderComponent from './render/StatusRenderComponent'
+import SendEmailComponent from './render/SendEmailComponent'
 
 /**
  * React component to list all REGARDS account.
@@ -47,6 +48,7 @@ export class AccountTableListComponent extends React.Component {
     onRefuse: PropTypes.func,
     onEnable: PropTypes.func,
     onEdit: PropTypes.func.isRequired,
+    onSendEmailConfirmation: PropTypes.func.isRequired,
     onDelete: PropTypes.func,
     isFetchingActions: PropTypes.bool.isRequired,
     pageMeta: PropTypes.shape({
@@ -94,20 +96,28 @@ export class AccountTableListComponent extends React.Component {
   state = {
     deleteDialogOpened: false,
     refuseDialogOpened: false,
-    entityToDeleteOrRefuse: null,
+    confirmEmailDialogOpened: false,
+    entityForDialog: null,
   }
 
   onToggleDeleteDialog = (entity = null) => {
     this.setState({
       deleteDialogOpened: !this.state.deleteDialogOpened,
-      entityToDeleteOrRefuse: entity,
+      entityForDialog: entity,
     })
   }
 
   onToggleRefuseDialog = (entity = null) => {
     this.setState({
       deleteDialogOpened: !this.state.refuseDialogOpened,
-      entityToDeleteOrRefuse: entity,
+      entityForDialog: entity,
+    })
+  }
+
+  onToggleEmailConfirmationDialog = (entity = null) => {
+    this.setState({
+      confirmEmailDialogOpened: !this.state.confirmEmailDialogOpened,
+      entityForDialog: entity,
     })
   }
 
@@ -116,9 +126,9 @@ export class AccountTableListComponent extends React.Component {
    */
   renderDeleteConfirmDialog = () => {
     const { onDelete } = this.props
-    const { entityToDeleteOrRefuse, deleteDialogOpened } = this.state
+    const { entityForDialog, deleteDialogOpened } = this.state
     const { intl: { formatMessage } } = this.context
-    const name = get(entityToDeleteOrRefuse, 'content.email', '')
+    const name = get(entityForDialog, 'content.email', '')
     const title = formatMessage({ id: 'account.list.delete.message' }, { name })
     return (
       <ShowableAtRender
@@ -126,7 +136,7 @@ export class AccountTableListComponent extends React.Component {
       >
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          onConfirm={() => onDelete(entityToDeleteOrRefuse.content.id)}
+          onConfirm={() => onDelete(entityForDialog.content.id)}
           onClose={this.onToggleDeleteDialog}
           title={title}
         />
@@ -139,18 +149,36 @@ export class AccountTableListComponent extends React.Component {
    */
   renderRefuseConfirmDialog = () => {
     const { onRefuse } = this.props
-    const { entityToDeleteOrRefuse, refuseDialogOpened } = this.state
+    const { entityForDialog, refuseDialogOpened } = this.state
     const { intl: { formatMessage } } = this.context
-    const name = get(entityToDeleteOrRefuse, 'content.email', '')
+    const name = get(entityForDialog, 'content.email', '')
     const title = formatMessage({ id: 'account.list.refuse.message' })
     const message = formatMessage({ id: 'account.list.refuse.message.detail' }, { name })
     return (<ConfirmDialogComponent
       open={refuseDialogOpened}
       dialogType={ConfirmDialogComponentTypes.REFUSE}
-      onConfirm={() => onRefuse(entityToDeleteOrRefuse.content.email)}
+      onConfirm={() => onRefuse(entityForDialog.content.email)}
       onClose={this.onToggleRefuseDialog}
       title={title}
       message={message}
+    />)
+  }
+
+  /**
+  * Renders send email confirmation confirmation dialog
+  */
+  renderEmailConfirmDialog = () => {
+    const { onSendEmailConfirmation } = this.props
+    const { entityForDialog, confirmEmailDialogOpened } = this.state
+    const { intl: { formatMessage } } = this.context
+    const email = get(entityForDialog, 'content.email', '')
+    const title = formatMessage({ id: 'account.list.email.confirmation.message' }, { email })
+    return (<ConfirmDialogComponent
+      open={confirmEmailDialogOpened}
+      dialogType={ConfirmDialogComponentTypes.CONFIRM}
+      onConfirm={() => onSendEmailConfirmation(entityForDialog.content.email)}
+      onClose={this.onToggleEmailConfirmationDialog}
+      title={title}
     />)
   }
 
@@ -243,6 +271,12 @@ export class AccountTableListComponent extends React.Component {
             isFetchingActions,
           },
         }, {
+          OptionConstructor: SendEmailComponent,
+          optionProps: {
+            onSendEmailConfirmation: this.onToggleEmailConfirmationDialog,
+            isFetchingActions,
+          },
+        }, {
           OptionConstructor: AccountDeleteComponent,
           optionProps: {
             onOpenDeleteDialog: this.onToggleDeleteDialog,
@@ -285,6 +319,7 @@ export class AccountTableListComponent extends React.Component {
         />
         {this.renderDeleteConfirmDialog()}
         {this.renderRefuseConfirmDialog()}
+        {this.renderEmailConfirmDialog()}
       </TableLayout>
     )
   }

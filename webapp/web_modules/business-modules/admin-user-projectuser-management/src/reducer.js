@@ -24,7 +24,6 @@ import { roleReducer } from './clients/RoleClient'
 import { projectUserSignalReducer } from './clients/ProjectUserSignalClient'
 import { projectUserSettingsReducer } from './clients/ProjectUserSettingsClient'
 import { uiSettingsReducer } from './clients/UISettingsClient'
-import { projectUserEmailConfirmationSignalReducer } from './clients/ProjectUserEmailConfirmationClient'
 import { originReducer } from './clients/OriginsClient'
 import { filtersReducer } from './clients/FiltersClient'
 import { csvReducer } from './clients/DownloadCSVClient'
@@ -38,7 +37,6 @@ const projectUserManagementReducer = combineReducers({
   projectUserSignals: projectUserSignalReducer,
   settings: projectUserSettingsReducer,
   uiSettings: uiSettingsReducer,
-  emailConfirmationSignal: projectUserEmailConfirmationSignalReducer,
   origins: originReducer,
   projectUserFilters: filtersReducer,
   csv: csvReducer,

@@ -68,7 +68,6 @@ class ProjectUserListComponent extends React.Component {
     onDeny: PropTypes.func.isRequired,
     onDisable: PropTypes.func.isRequired,
     onEnable: PropTypes.func.isRequired,
-    onSendEmailConfirmation: PropTypes.func.isRequired,
     roleList: AdminShapes.RoleList.isRequired,
     onSetMaxQuota: PropTypes.func.isRequired,
     uiSettings: UIShapes.UISettings.isRequired,
@@ -268,7 +267,7 @@ class ProjectUserListComponent extends React.Component {
   render() {
     const {
       onCreate, onBack, onDeleteAccount, onEnable, onValidate, onDownloadCSV,
-      onDeny, onDisable, onSendEmailConfirmation, onSetMaxQuota,
+      onDeny, onDisable, onSetMaxQuota,
     } = this.props
     const { visualisationMode } = this.state
     const {
@@ -317,7 +316,6 @@ class ProjectUserListComponent extends React.Component {
             onValidate={onValidate}
             onDeny={onDeny}
             onDisable={onDisable}
-            onSendEmailConfirmation={onSendEmailConfirmation}
             onSetMaxQuota={onSetMaxQuota}
             onDownloadCSV={onDownloadCSV}
             isPagePostFetching

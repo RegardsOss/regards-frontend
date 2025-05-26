@@ -27,7 +27,6 @@ import {
 } from '@regardsoss/shape'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { projectUserSignalActions, projectUserSignalSelectors } from '../clients/ProjectUserSignalClient'
-import { projectUserEmailConfirmationSignalActions } from '../clients/ProjectUserEmailConfirmationClient'
 import { uiSettingsActions, uiSettingsSelectors } from '../clients/UISettingsClient'
 import { originActions, originSelectors } from '../clients/OriginsClient'
 import { csvActions } from '../clients/DownloadCSVClient'
@@ -68,7 +67,6 @@ export class ProjectUserListContainer extends React.Component {
     onDeleteAccount: PropTypes.func.isRequired,
     onValidateProjectUser: PropTypes.func.isRequired,
     onDenyProjectUser: PropTypes.func.isRequired,
-    onSendEmailConfirmation: PropTypes.func.isRequired,
     onDisableProjectUser: PropTypes.func.isRequired,
     onEnableProjectUser: PropTypes.func.isRequired,
     fetchOrigins: PropTypes.func.isRequired,
@@ -111,7 +109,6 @@ export class ProjectUserListContainer extends React.Component {
       onDeleteAccount: (userId) => dispatch(projectUserFCUDActions.deleteEntity(userId)),
       onValidateProjectUser: (userId) => dispatch(projectUserSignalActions.sendAccept(userId)),
       onDenyProjectUser: (userId) => dispatch(projectUserSignalActions.sendDeny(userId)),
-      onSendEmailConfirmation: (email, project) => dispatch(projectUserEmailConfirmationSignalActions.sendEmailConfirmation(email, project)),
       onDisableProjectUser: (userId) => dispatch(projectUserSignalActions.sendInactive(userId)),
       onEnableProjectUser: (userId) => dispatch(projectUserSignalActions.sendActive(userId)),
       fetchOrigins: () => dispatch(originActions.fetchPagedEntityList()),
@@ -223,11 +220,6 @@ export class ProjectUserListContainer extends React.Component {
     this.perform(onDisableProjectUser(accountId), onRefresh)
   }
 
-  onSendEmailConfirmation = (accountId, onRefresh) => {
-    const { onSendEmailConfirmation, params: { project } } = this.props
-    this.perform(onSendEmailConfirmation(accountId, project), onRefresh)
-  }
-
   onSetMaxQuota = (account, maxQuota, onRefresh) => {
     const { onUpdateAccount } = this.props
     const updatedAccount = {
@@ -277,7 +269,6 @@ export class ProjectUserListContainer extends React.Component {
             onValidate={this.onValidateProjectUser}
             onDeny={this.onDenyProjectUser}
             onDisable={this.onDisableProjectUser}
-            onSendEmailConfirmation={this.onSendEmailConfirmation}
             onSetMaxQuota={this.onSetMaxQuota}
             uiSettings={uiSettings}
             origins={origins}

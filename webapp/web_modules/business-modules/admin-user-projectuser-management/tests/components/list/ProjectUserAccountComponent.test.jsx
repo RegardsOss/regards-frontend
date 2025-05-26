@@ -49,7 +49,6 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing user project account list compo
       onDeny: () => { },
       onDisable: () => { },
       onEnable: () => { },
-      onSendEmailConfirmation: () => { },
       onDownloadCSV: () => { },
 
       // table sorting, column visiblity & filters management

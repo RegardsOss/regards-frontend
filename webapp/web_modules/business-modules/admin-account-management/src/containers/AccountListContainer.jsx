@@ -33,6 +33,7 @@ import { refuseAccountActions } from '../clients/RefuseAccountClient'
 import { filtersActions } from '../clients/FiltersClient'
 import { originActions, originSelectors } from '../clients/OriginsClient'
 import { projectActions, projectSelectors } from '../clients/ProjectsClient'
+import { accountEmailConfirmationSignalActions } from '../clients/SendConfirmationEmailClient'
 import AccountListComponent from '../components/AccountListComponent'
 import { FILTER_PARAMS } from '../domain/filters'
 import messages from '../i18n'
@@ -63,6 +64,7 @@ export class AccountListContainer extends React.Component {
     sendAcceptUser: PropTypes.func.isRequired,
     sendRefuseUser: PropTypes.func.isRequired,
     sendEnableUser: PropTypes.func.isRequired,
+    sendEmailConfirmation: PropTypes.func.isRequired,
     deleteAccount: PropTypes.func.isRequired,
     fetchOrigins: PropTypes.func.isRequired,
     throwError: PropTypes.func.isRequired,
@@ -99,6 +101,7 @@ export class AccountListContainer extends React.Component {
       sendAcceptUser: (accountEmail) => dispatch(acceptAccountActions.sendAccept(accountEmail)),
       sendEnableUser: (accountEmail) => dispatch(enableAccountActions.sendEnable(accountEmail)),
       sendRefuseUser: (accountEmail) => dispatch(refuseAccountActions.sendRefuse(accountEmail)),
+      sendEmailConfirmation: (accountEmail) => dispatch(accountEmailConfirmationSignalActions.sendEmailConfirmation(accountEmail)),
       deleteAccount: (accountId) => dispatch(accountActions.deleteEntity(accountId)),
       fetchOrigins: () => dispatch(originActions.fetchEntityList()),
       throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
@@ -187,6 +190,13 @@ export class AccountListContainer extends React.Component {
   }
 
   /**
+   * Send confirmation email callback: sends email then updates list
+   */
+  onSendEmailConfirmation = (accountEmail, onRefresh) => {
+    this.perform(this.props.sendEmailConfirmation(accountEmail), onRefresh)
+  }
+
+  /**
    * Set actions fetching state
    * @param {bool} isFetchingActions is fetching actions?
    */
@@ -242,6 +252,7 @@ export class AccountListContainer extends React.Component {
             onRefuse={this.onRefuse}
             onEnable={this.onEnable}
             onDelete={this.onDelete}
+            onSendEmailConfirmation={this.onSendEmailConfirmation}
             origins={origins}
             projects={projects}
             onRefresh={this.onRefresh}

@@ -44,6 +44,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing account table list component', () =
       onRefuse: () => { },
       onEnable: () => { },
       onEdit: () => { },
+      onSendEmailConfirmation: () => { },
       onDelete: () => { },
       isFetchingActions: false,
 

@@ -16,17 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalReducers } from '@regardsoss/store-utils'
-import ProjectUserEmailConfirmationActions from './ProjectUserEmailConfirmationActions'
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
-class ProjectUserEmailConfirmationReducer extends BasicSignalReducers {
+/**
+ * Specific signal to re send account email confirmation
+ */
+export default class AccountEmailConfirmationActions extends BasicSignalActions {
   constructor(namespace) {
-    super(new ProjectUserEmailConfirmationActions(namespace))
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts/{email}/verification/resend`,
+    })
   }
-}
 
-/** Closure builder for reducer function */
-export default (namespace) => {
-  const reducerInstance = new ProjectUserEmailConfirmationReducer(namespace)
-  return (state, action) => reducerInstance.reduce(state, action)
+  sendEmailConfirmation(email) {
+    return this.sendSignal('GET', null, {
+      email,
+    })
+  }
 }

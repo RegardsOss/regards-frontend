@@ -104,10 +104,10 @@ const messages = {
 
   // New account operation
   'create.account.sent.title': 'Demande de compte envoyée',
-  'create.account.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail pour activer votre compte',
+  'create.account.sent.message': 'Votre demande a été envoyée, vous recevrez un e-mail pour valider votre adresse',
   'create.account.sent.option': 'Retour',
-  'new.account.validated.title': 'Compte activé',
-  'new.account.validated.message': 'Votre compte utilisateur a été activé',
+  'new.account.validated.title': 'Adresse mail confirmée',
+  'new.account.validated.message': 'Votre adresse mail a été confirmée. Vous recevrez un email lorsque votre compte aura été activé.',
   'new.account.validated.option': 'Connexion',
   'new.account.token.expired.title': 'Échec de la création du compte',
   'new.account.token.expired.message': 'Votre compte utilisateur n\'a pas pu être validé, veuillez renouveler votre demande',

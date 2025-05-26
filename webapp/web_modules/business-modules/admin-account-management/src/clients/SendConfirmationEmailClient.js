@@ -16,22 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { AdminInstanceClient } from '@regardsoss/client'
 
-/**
- * Specific signal to re send user email confirmation
- */
-export default class ProjectUserEmailConfirmationActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/users/email/{email}/verification/resend`,
-    })
-  }
-
-  sendEmailConfirmation(email) {
-    return this.sendSignal('GET', null, {
-      email,
-    })
-  }
-}
+const namespace = 'admin-account-management/email-confirmation-signal'
+export const accountEmailConfirmationSignalActions = new AdminInstanceClient.AccountEmailConfirmationActions(namespace)
