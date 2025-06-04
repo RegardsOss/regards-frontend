@@ -117,7 +117,7 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
   handleToggleResourceAccess = (resource, previousValue) => {
     const { currentRole, removeRoleResourceAccess, addRoleResourceAccess } = this.props
     const updateAction = previousValue ? removeRoleResourceAccess : addRoleResourceAccess
-    updateAction(currentRole, resource)
+    return updateAction(currentRole, resource)
   }
 
   handleOpenResourceAccessModal = (resource) => {

@@ -39,30 +39,44 @@ class ResourceToggleComponent extends React.Component {
     ...themeContextType,
   }
 
+  state = {
+    waitingForResponse: false,
+  }
+
   /**
    * User callback: toggle resource access
    */
   onToggleResourceAccess = () => {
     const { resource, roleResource, onToggleResourceAccess } = this.props
-    console.error('Toggle resource')
-    onToggleResourceAccess(resource, !!roleResource)
+    this.toggleWaitingForResponseState()
+    onToggleResourceAccess(resource, !!roleResource).then(this.toggleWaitingForResponseState)
     return false
+  }
+
+  toggleWaitingForResponseState = () => {
+    const { waitingForResponse } = this.state
+    this.setState({
+      waitingForResponse: !waitingForResponse,
+    })
   }
 
   render() {
     const { roleResource } = this.props
-    const { moduleTheme } = this.context
+    const { moduleTheme: { resourceIconStyle } } = this.context
+    const { waitingForResponse } = this.state
     if (roleResource) {
       return (
         <HateoasIconAction
           disableInsteadOfHide
-          style={moduleTheme.resourceIconStyle}
+          disabled={waitingForResponse}
+          style={resourceIconStyle}
           onClick={this.onToggleResourceAccess}
           entityLinks={roleResource.links}
           hateoasKey={HateoasKeys.DELETE}
         >
           <HateoasToggle
             entityLinks={roleResource.links}
+            disabled={waitingForResponse}
             hateoasKey={HateoasKeys.DELETE}
             toggled
             value="on"
@@ -72,11 +86,13 @@ class ResourceToggleComponent extends React.Component {
     }
     return (
       <IconButton
-        style={moduleTheme.resourceIconStyle}
+        style={resourceIconStyle}
+        disabled={waitingForResponse}
         onClick={this.onToggleResourceAccess}
       >
         <Toggle
           toggled={false}
+          disabled={waitingForResponse}
           value="off"
         />
       </IconButton>)
