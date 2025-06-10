@@ -1,6 +1,6 @@
 {
   "name": "example-service-plugin",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "description": "Example service plugin for REGARDS",
   "license": "GPL-3.0",
