@@ -33,6 +33,12 @@ const getSelectorPath = (pathName) => [moduleReducerPath, pathName]
  */
 const getOriginURL = () => `${root.location.pathname}${root.location.search}`
 
+/**
+ * Returns Pathname
+ * @returns pathname
+ */
+const getPathname = () => `${root.location.pathname}`
+
 const getOriginUrlWithoutQueryParams = () => `${root.location.protocol}//${root.location.host}${root.location.pathname}`
 
 /**
@@ -47,4 +53,5 @@ export default {
   getOriginURL,
   getRequestLinkURL,
   getOriginUrlWithoutQueryParams,
+  getPathname,
 }

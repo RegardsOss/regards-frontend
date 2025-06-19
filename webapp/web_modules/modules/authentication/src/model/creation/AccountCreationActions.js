@@ -44,7 +44,7 @@ export default class AccountCreateActions extends BasicSignalActions {
   sendCreateRequest({ email, ...otherParameters }) {
     return this.sendSignal('POST', {
       email,
-      originUrl: AuthenticationRouteHelper.getOriginURL(),
+      originUrl: AuthenticationRouteHelper.getPathname(),
       requestLink: AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail),
       ...otherParameters,
     })
