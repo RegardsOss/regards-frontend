@@ -28,13 +28,19 @@ import ActionExitToApp from 'mdi-material-ui/ExitToApp'
 import ChangeRole from 'mdi-material-ui/Run'
 import ArrowDropRight from 'mdi-material-ui/MenuRight'
 import { AdminDomain, UIDomain } from '@regardsoss/domain'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { withQuotaInfo, QuotaInfo, QUOTA_INFO_STATE_ENUM } from '@regardsoss/entities-common'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { ShowableAtRender, DropDownButton } from '@regardsoss/components'
+import { myUserActions } from '../../../clients/MyUserClient'
+import { notificationSettingsActions } from '../../../clients/NotificationSettingsClient'
 import ProfileEditionContainer from '../../../containers/user/profile/ProfileEditionContainer'
 import LoginIconComponent from './LoginIconComponent'
+
+const MenuItemWithResource = withResourceDisplayControl(MenuItem)
 
 /**
  * Component to display action available on connected user.
@@ -54,6 +60,16 @@ export class LoggedUserComponent extends React.Component {
     // from withQuotaInfo HOC
     quotaInfo: QuotaInfo,
   }
+
+  // Dependencies to enable/disable show account button
+  static accountLabelRequiredDependencies = [
+    myUserActions.getDependency(RequestVerbEnum.GET),
+  ]
+
+  // Dependencies to enable/disable show downloads button
+  static accountDownloadRequiredDependencies = [
+    notificationSettingsActions.getDependency(RequestVerbEnum.GET),
+  ]
 
   static contextTypes = {
     ...themeContextType,
@@ -106,8 +122,9 @@ export class LoggedUserComponent extends React.Component {
         >
           { /* 2.a - Access user profile  */
             showProfileDialog ? (
-              <MenuItem
+              <MenuItemWithResource
                 key="profile.edition"
+                resourceDependencies={LoggedUserComponent.accountLabelRequiredDependencies}
                 primaryText={formatMessage({ id: 'accountLabel' })}
                 leftIcon={<AccountMenuIcon />}
                 onClick={onShowProfileEdition}
@@ -135,8 +152,9 @@ export class LoggedUserComponent extends React.Component {
                 iconColor = muiTheme.components.download.quotaWarningColor
               }
               // 4 - render quota information menu item
-              return <MenuItem
+              return <MenuItemWithResource
                 key="quota.information"
+                resourceDependencies={LoggedUserComponent.accountDownloadRequiredDependencies}
                 primaryText={formatMessage({ id: 'quotaInformation' })}
                 innerDivStyle={menuItemStyle}
                 leftIcon={<DownloadsMenuIcon color={iconColor} />}
