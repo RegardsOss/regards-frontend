@@ -174,7 +174,7 @@ pipeline {
                             -Dsonar.projectVersion=${TAG} \
                             -Dsonar.branch.name=develop \
                             -Dsonar.projectBaseDir=/data/webapp \
-                            -Dsonar.host.url=http://172.26.47.129:9000/ \
+                            -Dsonar.host.url=https://sonarqube-regards.apps.cicd.arcus.soprasteria.com/ \
                             -Dsonar.working.directory=/tmp/'
                     }
                 )
