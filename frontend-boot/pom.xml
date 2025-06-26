@@ -25,7 +25,7 @@
 	<groupId>fr.cnes.regards</groupId>
 	<artifactId>bootstrap-frontend</artifactId>
 	<packaging>war</packaging>
-	<version>2.2.0</version>
+	<version>99.9.9-SNAPSHOT</version>
 
 	<properties>
 		<fr.cnes.regards.docker.image.name>rs-frontend</fr.cnes.regards.docker.image.name>
