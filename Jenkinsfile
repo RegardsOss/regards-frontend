@@ -167,7 +167,10 @@ pipeline {
                         // copy the bundle inside the folder where front container is created
                         sh 'mkdir -p jenkins/nginx/dist/ && rm -rf jenkins/nginx/dist/* && cp -R ./webapp/dist/prod/* jenkins/nginx/dist/'
                         // build image from nginx, tag with version/branch, then push
-                        sh 'cd jenkins/nginx && ./buildTagAndPush.sh'
+                        sh '''
+                        export DOCKER_REGISTRY=172.26.46.158
+                        cd jenkins/nginx && ./buildTagAndPush.sh
+                        '''
                     }
                 }
                 stage('Lint webapp') {

@@ -1,4 +1,5 @@
-FROM 172.26.46.158/regards-nginx
+ARG DOCKER_REGISTRY
+FROM ${DOCKER_REGISTRY}/regards-nginx
 USER root
 COPY start.sh /
 RUN chmod +x /start.sh

@@ -23,19 +23,20 @@
  */
 const webpackConfigurator = require('@regardsoss/webpack-config-front')
 const webpack = require('webpack')
+const DEFAULT_GATEWAY = 'http://localhost:9030'
 
 const conf = webpackConfigurator
-  .generateConfig({
-    mode: 'dev',
-    projectContextPath: __dirname,
-  })
-  .merge({
-    plugins: [
-      new webpack.DefinePlugin({
-        GATEWAY_HOSTNAME: JSON.stringify(process.env.npm_config_rsgateway || 'http://localhost:9030'),
-      }),
-    ],
-  })
-  .get()
+    .generateConfig({
+        mode: 'dev',
+        projectContextPath: __dirname,
+    })
+    .merge({
+        plugins: [
+            new webpack.DefinePlugin({
+                GATEWAY_HOSTNAME: JSON.stringify(process.env.NPM_CONFIG_RSGATEWAY || DEFAULT_GATEWAY),
+            }),
+        ],
+    })
+    .get()
 
 module.exports = conf
