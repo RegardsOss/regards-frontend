@@ -10,7 +10,7 @@ This repository contains the sources of the REGARDS UI.
 
 -	node: 16.20.2
 -	yarn: 3.7.0
--   volta: 1.1.1
+-       volta: 1.1.1
 
 > **Important**  
 > As REGARDS frontend is developed around two main libraries, [React](https://facebook.github.io/react/) and [Redux](http://redux.js.org), we highly recommand new developers to start by watching the here under [Egghead](https://egghead.io) videos to learn the basics of these two libraries.
@@ -36,8 +36,7 @@ of your REGARDS gateway microservice in the command line below.
 cd <build_directory>/
 git clone https://github.com/RegardsOss/regards-frontend.git
 cd regards-frontend/webapp
-export NPM_CONFIG_RSGATEWAY=<gateway>:<port>
-yarn start:local 
+rsgateway=<gateway>:<port> yarn start:local 
 ```
 Optionally, you may also build the plugins, using the following command in webapp folder:
 ```sh
