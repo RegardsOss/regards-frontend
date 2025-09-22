@@ -204,4 +204,21 @@ export default (theme) => ({
       marginBottom: '20px',
     },
   },
+  dataSourceScheduleAction: {
+    dialogMessage: {
+      marginBottom: '15px',
+    },
+    datePicker: {
+      display: 'flex',
+    },
+    iconStyle: {
+      height: 23,
+      width: 23,
+    },
+    buttonStyle: {
+      padding: 0,
+      height: 30,
+      width: 30,
+    },
+  },
 })

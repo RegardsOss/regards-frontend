@@ -50,7 +50,7 @@ export class DataSourceMonitoringContainer extends React.Component {
     return {
       fetchCrawlerDatasources: () => dispatch(crawlerDatasourceActions.fetchEntityList()),
       deleteCrawlerDatasource: (crawlerId) => dispatch(crawlerDatasourceActions.deleteEntity(crawlerId)),
-      scheduleCrawlerDatasource: (crawlerId) => dispatch(scheduleCrawlerDatasourceActions.scheduleDatasourceIngestion(crawlerId)),
+      scheduleCrawlerDatasource: (crawlerId, scheduleDateValue) => dispatch(scheduleCrawlerDatasourceActions.scheduleDatasourceIngestion(crawlerId, scheduleDateValue)),
     }
   }
 
@@ -77,7 +77,7 @@ export class DataSourceMonitoringContainer extends React.Component {
     })
   }
 
-  onSchedule = (crawlerId) => this.props.scheduleCrawlerDatasource(crawlerId).then((actionResults) => this.props.fetchCrawlerDatasources())
+  onSchedule = (crawlerId, scheduleDateValue) => this.props.scheduleCrawlerDatasource(crawlerId, scheduleDateValue).then((actionResults) => this.props.fetchCrawlerDatasources())
 
   onBack = () => {
     const { params: { project } } = this.props

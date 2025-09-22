@@ -34,9 +34,11 @@ export default class ScheduleCrawlerDatasourceActions extends BasicSignalActions
    * Schedule the DataSourceIngestion to as soon as possible
    * @param {[string]} crawlerId datasource crawler id
    */
-  scheduleDatasourceIngestion(crawlerId) {
+  scheduleDatasourceIngestion(crawlerId, scheduleDateValue = null) {
     return this.sendSignal('PUT', null, {
       crawlerId,
+    }, {
+      from: scheduleDateValue,
     })
   }
 }

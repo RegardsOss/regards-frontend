@@ -23,7 +23,7 @@ import {
 } from 'material-ui/Card'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import Snackbar from 'material-ui/Snackbar'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
   CardActionsComponent, DateValueRender, DateRelativeValueRender, InfiniteTableContainer, TableColumnBuilder, TableLayout,
@@ -35,6 +35,7 @@ import DatasourceCountTableCell from './DatasourceCountTableCell'
 import DataSourceMonitoringDeleteOption from './DataSourceMonitoringDeleteOption'
 import DataSourceMonitoringScheduleAction from './DataSourceMonitoringScheduleAction'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
 * DataSourceMonitoringComponent
@@ -96,10 +97,10 @@ class DataSourceMonitoringComponent extends React.Component {
     />
   ) : null
 
-  onSchedule = (crawlerId) => {
+  onSchedule = (crawlerId, scheduleDateValue) => {
     const { intl } = this.context
 
-    this.props.onSchedule(crawlerId)
+    return this.props.onSchedule(crawlerId, scheduleDateValue)
       .then(() => {
         this.setState({
           showSnackbar: true,
@@ -188,6 +189,10 @@ class DataSourceMonitoringComponent extends React.Component {
       new TableColumnBuilder('nextPlannedIngestDate').titleHeaderCell().propertyRenderCell('content.nextPlannedIngestDate', DateRelativeValueRender, { displayOnlyFutureDate: true })
         .label(intl.formatMessage({ id: 'crawler.list.nextPlannedIngestDate.column.header' }))
         .build(),
+      new TableColumnBuilder('cursor.lastEntityDate').titleHeaderCell().propertyRenderCell('content.cursor.lastEntityDate', DateValueRender)
+        .label(intl.formatMessage({ id: 'crawler.list.cursor.lastEntityDate.column.header' }))
+        .fixedSizing(160)
+        .build(),
       new TableColumnBuilder().optionsColumn([{
         OptionConstructor: DataSourceMonitoringScheduleAction,
         optionProps: { onSchedule: this.onSchedule },
@@ -238,4 +243,4 @@ class DataSourceMonitoringComponent extends React.Component {
     )
   }
 }
-export default withI18n(messages)(DataSourceMonitoringComponent)
+export default withModuleStyle(styles)(withI18n(messages)(DataSourceMonitoringComponent))
