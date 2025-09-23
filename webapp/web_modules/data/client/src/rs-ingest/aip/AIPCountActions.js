@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { REFERENCE, REFERENCE_ARRAY } from '@regardsoss/api'
+import { AIP, AIP_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Redux actions to handle reference entities from backend server.
- * @author Théo Lasserre
+ * Redux actions to handle AIP entities count from backend server.
+ * @author Léo Mieulet
  */
-export default class ReferenceActions extends BasicPageableActions {
+export default class AIPCountActions extends BasicPageableActions {
   /**
    * Construtor
    * @param namespace
@@ -31,11 +31,23 @@ export default class ReferenceActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/admin/features/raw/slice`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aips`,
       schemaTypes: {
-        ENTITY: REFERENCE,
-        ENTITY_ARRAY: REFERENCE_ARRAY,
+        ENTITY: AIP,
+        ENTITY_ARRAY: AIP_ARRAY,
       },
     })
+  }
+
+  /**
+   * Override to add the data storages field
+   * @param {*} json network payload
+   * @return {*} action result payload
+   */
+  normalizeEntitiesPagePayload(json) {
+    return {
+      ...super.normalizeEntitiesPagePayload(json),
+      dataStorages: json.dataStorages,
+    }
   }
 }

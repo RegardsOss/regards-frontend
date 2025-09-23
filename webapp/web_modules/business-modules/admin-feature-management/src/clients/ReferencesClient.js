@@ -34,6 +34,6 @@ export const referencesSelectors = FeatureManagementClient.getReferenceSelectors
 const ENTITIES_STORE_PATH_COUNT = ['admin', 'acquisition', 'feature', 'referencesCount']
 const REDUX_ACTION_NAMESPACE_COUNT = 'admin-feature-management/references-count'
 
-export const referencesActionsCount = new FeatureManagementClient.ReferenceActions(REDUX_ACTION_NAMESPACE_COUNT)
+export const referencesActionsCount = new FeatureManagementClient.ReferenceCountActions(REDUX_ACTION_NAMESPACE_COUNT)
 export const referencesReducerCount = FeatureManagementClient.getReferenceReducer(REDUX_ACTION_NAMESPACE_COUNT)
 export const referencesSelectorsCount = FeatureManagementClient.getReferenceSelectors(ENTITIES_STORE_PATH_COUNT)

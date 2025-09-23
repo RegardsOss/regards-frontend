@@ -26,6 +26,6 @@ import { IngestClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'aip-count']
 const REDUX_ACTION_NAMESPACE = 'admin-oais-management/aips-count'
 
-export const aipCountActions = new IngestClient.AIPActions(REDUX_ACTION_NAMESPACE)
+export const aipCountActions = new IngestClient.AIPCountActions(REDUX_ACTION_NAMESPACE)
 export const aipCountReducer = IngestClient.getAIPReducer(REDUX_ACTION_NAMESPACE)
 export const aipCountSelectors = IngestClient.getAIPSelectors(ENTITIES_STORE_PATH)

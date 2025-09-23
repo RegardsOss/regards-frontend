@@ -31,7 +31,7 @@ export default class AIPActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aips`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aips/slice`,
       schemaTypes: {
         ENTITY: AIP,
         ENTITY_ARRAY: AIP_ARRAY,

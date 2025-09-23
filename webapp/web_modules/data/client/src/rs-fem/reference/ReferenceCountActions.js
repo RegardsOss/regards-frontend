@@ -20,10 +20,10 @@ import { REFERENCE, REFERENCE_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Redux actions to handle reference entities from backend server.
+ * Redux actions to handle reference entities count from backend server.
  * @author Théo Lasserre
  */
-export default class ReferenceActions extends BasicPageableActions {
+export default class ReferenceCountActions extends BasicPageableActions {
   /**
    * Construtor
    * @param namespace
@@ -31,7 +31,7 @@ export default class ReferenceActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/admin/features/raw/slice`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/admin/features`,
       schemaTypes: {
         ENTITY: REFERENCE,
         ENTITY_ARRAY: REFERENCE_ARRAY,
