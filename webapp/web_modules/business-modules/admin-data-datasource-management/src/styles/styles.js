@@ -221,4 +221,19 @@ export default (theme) => ({
       width: 30,
     },
   },
+  datasourceMonitoring: {
+    selectedButton: {
+      color: theme.palette.accent1Color,
+    },
+    warningMesssageDiv: {
+      display: 'flex',
+      alignItems: 'center',
+      height: '100%',
+      color: theme.formsExtensions.validation.warningColor,
+    },
+    warningIcon: {
+      color: theme.formsExtensions.validation.warningColor,
+      marginRight: '5px',
+    },
+  },
 })

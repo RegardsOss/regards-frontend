@@ -27,6 +27,7 @@ class ModuleBoardComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     onResetIndex: PropTypes.func.isRequired,
+    isIndexBuilding: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -34,8 +35,8 @@ class ModuleBoardComponent extends React.Component {
   }
 
   render() {
-    const { project } = this.props
-    const items = boardItems(project, this.context.intl, this.props.onResetIndex)
+    const { project, isIndexBuilding } = this.props
+    const items = boardItems(project, this.context.intl, this.props.onResetIndex, isIndexBuilding)
     return (
       <BoardComponent items={items} />
     )

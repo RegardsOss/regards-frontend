@@ -28,6 +28,8 @@ export default class IndexActions extends BasicSignalsActions {
 
   static RESET_INDEX_ACTION = 'resetIndexAction'
 
+  static BUILDING_INDEX_ACTION = 'checkBuildingIndexAction'
+
   /**
    * Construtor
    * @param namespace
@@ -38,10 +40,18 @@ export default class IndexActions extends BasicSignalsActions {
         entityEndpoint: `${IndexActions.ROOT_ENDPOINT}`,
         namespace: `${namespace}/reset`,
       },
+      [IndexActions.BUILDING_INDEX_ACTION]: {
+        entityEndpoint: `${IndexActions.ROOT_ENDPOINT}/building`,
+        namespace: `${namespace}/building`,
+      },
     })
   }
 
   resetIndex() {
     return this.getSubAction(IndexActions.RESET_INDEX_ACTION).sendSignal('DELETE', null, {})
+  }
+
+  checkBuildingIndex() {
+    return this.getSubAction(IndexActions.BUILDING_INDEX_ACTION).sendSignal('GET', null, {})
   }
 }

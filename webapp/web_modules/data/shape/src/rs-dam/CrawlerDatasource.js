@@ -23,6 +23,7 @@ export const CrawlerDatasourceContent = PropTypes.shape({
   stackTrace: PropTypes.string,
   status: PropTypes.string,
   statusDate: PropTypes.string,
+  building: PropTypes.bool,
 })
 
 export const CrawlerDatasource = PropTypes.shape({

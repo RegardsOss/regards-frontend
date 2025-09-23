@@ -46,7 +46,8 @@ const messages = {
   'ingest.board.action.connection.list.tooltip': 'Configurer les connexions aux bases de données externes',
   'ingest.board.action.datasource.monitor.tooltip': 'Suivre les aspirations de données',
   'ingest.board.index.delete': 'Réinitialiser le catalogue',
-  'ingest.board.index.delete.confirm': 'Attention, si vous lancez la réinitialisation du catalogue de données, toutes les données seront supprimées du catalogue. Ce dernier sera alors reconstruit automatiquement par les aspirations de données configurées.',
+  'ingest.board.index.delete.building.confirm': 'Attention, réindexation en cours, êtes vous sûr de vouloir en relancer une ? La nouvelle réindexation écrasera la réindexation en cours. Si vous lancez la réinitialisation du catalogue de données, un nouveau catalogue sera créé automatiquement depuis les aspirations de données configurées. Le nouveau catalogue sera disponible à la fin de la réindexation qui peut être longue.',
+  'ingest.board.index.delete.confirm': 'Attention, si vous lancez la réinitialisation du catalogue de données, un nouveau catalogue sera créé automatiquement depuis les aspirations de données configurées. Le nouveau catalogue sera disponible à la fin de la réindexation qui peut être longue.',
   'ingest.board.index.delete.error.message': 'Une erreur est survenue durant la réinitialisation du catalogue de données.',
 
   'data.board.storage.title': 'Stockage',

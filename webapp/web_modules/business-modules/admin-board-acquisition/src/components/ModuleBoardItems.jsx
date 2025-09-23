@@ -42,7 +42,7 @@ import { indexActions, RESET_INDEX_ACTION } from '../clients/IndexClient'
  * @param projectName
  * @param intl
  */
-const items = (projectName, intl, onResetIndex) => [
+const items = (projectName, intl, onResetIndex, isIndexBuilding) => [
   {
     title: intl.formatMessage({ id: 'data.board.dashboard.title' }),
     description: intl.formatMessage({ id: 'data.board.dashboard.description' }),
@@ -149,7 +149,7 @@ const items = (projectName, intl, onResetIndex) => [
       {
         icon: <DeleteIcon />,
         tooltipMsg: intl.formatMessage({ id: 'ingest.board.index.delete' }),
-        confirmMessage: intl.formatMessage({ id: 'ingest.board.index.delete.confirm' }),
+        confirmMessage: isIndexBuilding ? intl.formatMessage({ id: 'ingest.board.index.delete.building.confirm' }) : intl.formatMessage({ id: 'ingest.board.index.delete.confirm' }),
         errorMessage: intl.formatMessage({ id: 'ingest.board.index.delete.error.message' }),
         touchTapAction: onResetIndex,
         hateoasDependencies: [

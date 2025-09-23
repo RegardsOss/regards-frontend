@@ -18,6 +18,7 @@
  **/
 import Refresh from 'mdi-material-ui/Refresh'
 import FlatButton from 'material-ui/FlatButton'
+import WarningIcon from 'mdi-material-ui/AlertOutline'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
@@ -37,13 +38,19 @@ import DataSourceMonitoringScheduleAction from './DataSourceMonitoringScheduleAc
 import messages from '../i18n'
 import styles from '../styles'
 
+const DATASOURCE_TYPE = {
+  CURRENT: 'CURRENT',
+  BUILDING: 'BUILDING',
+}
+
 /**
 * DataSourceMonitoringComponent
 * @author Sébastien Binda
 */
 class DataSourceMonitoringComponent extends React.Component {
   static propTypes = {
-    crawlerDatasources: DataManagementShapes.CrawlerDatasourceArray.isRequired,
+    crawlerDatasourcesCurrent: DataManagementShapes.CrawlerDatasourceArray.isRequired,
+    crawlerDatasourcesBuilding: DataManagementShapes.CrawlerDatasourceArray.isRequired,
     onBack: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -66,6 +73,7 @@ class DataSourceMonitoringComponent extends React.Component {
     crawlerToDelete: null,
     showSnackbar: false,
     snackbarMessage: null,
+    datasourceDisplayed: DATASOURCE_TYPE.CURRENT,
   }
 
   onDelete = (crawler) => {
@@ -159,9 +167,18 @@ class DataSourceMonitoringComponent extends React.Component {
     </ShowableAtRender>
   )
 
+  onDisplayDatasource = (datasourceType) => {
+    this.setState({
+      datasourceDisplayed: datasourceType,
+    })
+  }
+
   render() {
-    const { crawlerDatasources, onBack, onRefresh } = this.props
-    const { intl, muiTheme } = this.context
+    const {
+      crawlerDatasourcesCurrent, crawlerDatasourcesBuilding, onBack, onRefresh,
+    } = this.props
+    const { intl, muiTheme, moduleTheme: { datasourceMonitoring: { selectedButton, warningMesssageDiv, warningIcon } } } = this.context
+    const { datasourceDisplayed } = this.state
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     // emptyComponent
     const columns = [
@@ -213,9 +230,34 @@ class DataSourceMonitoringComponent extends React.Component {
         <CardText>
           <TableLayout>
             <TableHeaderLine>
-              <TableHeaderOptionsArea />
               <TableHeaderOptionsArea>
                 <TableHeaderOptionGroup>
+                  <FlatButton
+                    label={intl.formatMessage({ id: 'crawler.list.current.button' }, { count: crawlerDatasourcesCurrent.length })}
+                    onClick={() => this.onDisplayDatasource(DATASOURCE_TYPE.CURRENT)}
+                    style={datasourceDisplayed === DATASOURCE_TYPE.CURRENT ? selectedButton : null}
+                  />
+                  {
+                    crawlerDatasourcesBuilding.length > 0 ?
+                      <FlatButton
+                        label={intl.formatMessage({ id: 'crawler.list.building.button' }, { count: crawlerDatasourcesBuilding.length })}
+                        onClick={() => this.onDisplayDatasource(DATASOURCE_TYPE.BUILDING)}
+                        style={datasourceDisplayed === DATASOURCE_TYPE.BUILDING ? selectedButton : null}
+                      />
+                      : null
+                  }
+                </TableHeaderOptionGroup>
+              </TableHeaderOptionsArea>
+              <TableHeaderOptionsArea>
+                <TableHeaderOptionGroup>
+                  {
+                    crawlerDatasourcesBuilding.length > 0 ?
+                      <div style={warningMesssageDiv}>
+                        <WarningIcon style={warningIcon} />
+                        <div>{intl.formatMessage({ id: 'crawler.list.warning.message' })}</div>
+                      </div>
+                      : null
+                  }
                   <FlatButton
                     icon={<Refresh />}
                     label={intl.formatMessage({ id: 'crawler.list.refresh.button' })}
@@ -226,10 +268,10 @@ class DataSourceMonitoringComponent extends React.Component {
             </TableHeaderLine>
             <InfiniteTableContainer
               columns={columns}
-              entities={crawlerDatasources}
+              entities={datasourceDisplayed === DATASOURCE_TYPE.CURRENT ? crawlerDatasourcesCurrent : crawlerDatasourcesBuilding}
               minRowCount={minRowCount}
               maxRowCount={maxRowCount}
-              entitiesCount={crawlerDatasources.length}
+              entitiesCount={datasourceDisplayed === DATASOURCE_TYPE.CURRENT ? crawlerDatasourcesCurrent.length : crawlerDatasourcesBuilding.length}
             />
           </TableLayout>
         </CardText>

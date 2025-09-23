@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import find from 'lodash/find'
 import Delete from 'mdi-material-ui/Delete'
 import IconButton from 'material-ui/IconButton'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
+import { DamDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
@@ -44,7 +46,11 @@ class DataSourceMonitoringDeleteOption extends React.Component {
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   isDeletable = () => {
-    const { links } = this.props.entity
+    const { links, content } = this.props.entity
+    const isBuilding = get(content, 'building')
+    if (isBuilding) {
+      return content.status === DamDomain.DataSourcesStatusEnum.ERROR
+    }
     return !!find(links, (l) => l.rel === 'delete')
   }
 

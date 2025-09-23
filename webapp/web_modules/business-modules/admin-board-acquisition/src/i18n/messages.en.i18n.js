@@ -46,7 +46,8 @@ const messages = {
   'ingest.board.action.connection.list.tooltip': 'Configure connection to external databases',
   'ingest.board.action.datasource.monitor.tooltip': 'Monitor data crawling',
   'ingest.board.index.delete': 'Reset data catalog',
-  'ingest.board.index.delete.confirm': 'Warning : If you reset the data catalog index, then all data will be deleted and re-indexed thanks to configured data crawlers.',
+  'ingest.board.index.delete.building.confirm': 'Warning: Reindexing is in progress. Are you sure you want to restart it? The new reindex will overwrite the current reindex. If you initiate a data catalog reset, a new catalog will be automatically created from the configured data aspirations. The new catalog will be available at the end of the reindex, which can take a long time.',
+  'ingest.board.index.delete.confirm': 'Warning : Please note that if you initiate a data catalog reset, a new catalog will be automatically created from the configured data aspirations. The new catalog will be available after the reindexing process, which may take a long time.',
   'ingest.board.index.delete.error.message': 'Error occured during catalog reset action.',
 
   'data.board.storage.title': 'Storage',

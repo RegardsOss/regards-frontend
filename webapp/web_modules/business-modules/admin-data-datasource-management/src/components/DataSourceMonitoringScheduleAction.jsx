@@ -65,6 +65,10 @@ class DataSourceMonitoringScheduleAction extends React.Component {
 
   isSchedulable = () => {
     const { content } = this.props.entity
+    const isBuilding = get(content, 'building')
+    if (isBuilding) {
+      return content.status === DamDomain.DataSourcesStatusEnum.ERROR
+    }
     return content.status !== DamDomain.DataSourcesStatusEnum.STARTED || content.status !== DamDomain.DataSourcesStatusEnum.NEW
   }
 

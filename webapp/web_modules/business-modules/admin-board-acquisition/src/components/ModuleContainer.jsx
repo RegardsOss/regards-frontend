@@ -31,6 +31,7 @@ class ModuleContainer extends React.Component {
 
   static mapDispatchToProps = (dispatch, ownProps) => ({
     resetIndex: () => dispatch(indexActions.resetIndex()),
+    checkBuildingIndex: () => dispatch(indexActions.checkBuildingIndex()),
   })
 
   static propTypes = {
@@ -39,17 +40,37 @@ class ModuleContainer extends React.Component {
     }),
     // From mapDispatchToProps
     resetIndex: PropTypes.func.isRequired,
+    checkBuildingIndex: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
+  state = {
+    isIndexBuilding: false,
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount() {
+    const { checkBuildingIndex } = this.props
+    checkBuildingIndex().then((actionResult) => {
+      if (!actionResult.error) {
+        this.setState({
+          isIndexBuilding: !!actionResult.payload,
+        })
+      }
+    })
+  }
+
   render() {
     const { project } = this.props.params
+    const { isIndexBuilding } = this.state
     return (
       <I18nProvider messages={messages}>
-        <ModuleBoardComponent project={project} onResetIndex={this.props.resetIndex} />
+        <ModuleBoardComponent project={project} onResetIndex={this.props.resetIndex} isIndexBuilding={isIndexBuilding} />
       </I18nProvider>
     )
   }
