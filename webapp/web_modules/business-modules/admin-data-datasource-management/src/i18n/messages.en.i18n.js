@@ -82,7 +82,7 @@ const messages = {
   'datasource.form.subtitle': 'Manage datasource attributes',
   'datasource.form.tags': 'Tags list added to all data crawled',
   'datasource.form.subsettingTags': 'Only crawl data containing these tags (empty = all data crawled)',
-  'datasource.form.subsettingCategories': 'Only crawl data of given categories (empty = all categories crawled)',
+  'datasource.form.subsettingCategories': 'Only crawl data from certain categories (OR operator between categories - empty = all data categories are crawled)',
   'datasource.form.attributeFileSize': 'Select data model attribute in which the total size of AIP files will be written (sum of AIP files size).',
 
   'datasource.edit.title': 'Edit datasource {name}',

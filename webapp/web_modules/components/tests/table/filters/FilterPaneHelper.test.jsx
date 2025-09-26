@@ -53,7 +53,6 @@ describe('[Components] Test FilterPaneHelper', () => {
       hash: '',
     })
     let extractedFilters = UIDomain.FiltersPaneHelper.extractFiltersFromURL({ ...DEFAULT_FILTERS_STATE })
-    console.log(extractedFilters)
     assert.deepEqual(extractedFilters, {
       filter1: '',
       filter2: {

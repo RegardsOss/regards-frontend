@@ -44,7 +44,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       mode: 'create',
       onSubmit: sinon.stub().callsFake(() => new Promise(() => { })),
       onBack: sinon.stub().callsFake(() => new Promise(() => { })),
-      changeField: () => {},
+      changeField: () => { },
       // from reduxForm
       initialize: sinon.spy(),
       invalid: false,
@@ -105,14 +105,15 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     })
     // Check that all fields are rendered
     const fields = enzymeWrapper.find(Field)
-    assert.equal(fields.length, 5, 'There should be 4 parameter Field rendered in this form')
+    assert.equal(fields.length, 6, 'There should be 6 parameter Field rendered in this form')
     assert.isTrue(fields.find({ name: 'label' }).exists(), 'The label Field is missing')
     assert.isTrue(fields.find({ name: 'active' }).exists(), 'The active Field is missing')
     assert.isTrue(fields.find({ name: 'versioningMode' }).exists(), 'The versioningMode Field is missing')
     assert.isTrue(fields.find({ name: 'mode' }).exists(), 'The mode Field is missing')
     assert.isTrue(fields.find({ name: 'ingestChain' }).exists(), 'The ingestChain Field is missing')
+    assert.isTrue(fields.find({ name: 'category' }).exists(), 'The category Field is missing')
     const filedArrays = enzymeWrapper.find(FieldArray)
-    assert.equal(filedArrays.length, 2, 'There should be 2 parameter FieldArray rendered in this form')
+    assert.equal(filedArrays.length, 1, 'There should be 1 parameter FieldArray rendered in this form')
     assert.isTrue(filedArrays.find({ name: 'fileInfos' }).exists(), 'The fileInfos Field is missing')
     assert.equal(enzymeWrapper.find(AcquisitionProcessingChainFormPluginsComponent).length, 1, 'The plugin form parts should be rendered')
     assert.equal(enzymeWrapper.find(AcquisitionProcessingChainStorageConfComponent).length, 1, 'The storage form parts should be rendered')
@@ -123,7 +124,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       mode: 'edit',
       onSubmit: sinon.stub().callsFake(() => new Promise(() => { })),
       onBack: sinon.stub().callsFake(() => new Promise(() => { })),
-      changeField: () => {},
+      changeField: () => { },
       // from reduxForm
       initialize: sinon.spy(),
       invalid: false,
@@ -187,14 +188,15 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     })
     // Check that all fields are rendered
     const fields = enzymeWrapper.find(Field)
-    assert.equal(fields.length, 5, 'There should be 4 parameter Field rendered in this form')
+    assert.equal(fields.length, 6, 'There should be 6 parameter Field rendered in this form')
     assert.isTrue(fields.find({ name: 'label' }).exists(), 'The label Field is missing')
     assert.isTrue(fields.find({ name: 'active' }).exists(), 'The active Field is missing')
     assert.isTrue(fields.find({ name: 'versioningMode' }).exists(), 'The versioningMode Field is missing')
     assert.isTrue(fields.find({ name: 'mode' }).exists(), 'The mode Field is missing')
     assert.isTrue(fields.find({ name: 'ingestChain' }).exists(), 'The ingestChain Field is missing')
+    assert.isTrue(fields.find({ name: 'category' }).exists(), 'The category Field is missing')
     const filedArrays = enzymeWrapper.find(FieldArray)
-    assert.equal(filedArrays.length, 2, 'There should be 2 parameter FieldArray rendered in this form')
+    assert.equal(filedArrays.length, 1, 'There should be 1 parameter FieldArray rendered in this form')
     assert.isTrue(filedArrays.find({ name: 'fileInfos' }).exists(), 'The fileInfos Field is missing')
     assert.equal(enzymeWrapper.find(AcquisitionProcessingChainFormPluginsComponent).length, 1, 'The plugin form parts should be rendered')
     assert.equal(enzymeWrapper.find(AcquisitionProcessingChainStorageConfComponent).length, 1, 'The storage form parts should be rendered')
@@ -205,7 +207,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       mode: 'duplicate',
       onSubmit: sinon.stub().callsFake(() => new Promise(() => { })),
       onBack: sinon.stub().callsFake(() => new Promise(() => { })),
-      changeField: () => {},
+      changeField: () => { },
       // from reduxForm
       initialize: sinon.spy(),
       invalid: false,
@@ -244,14 +246,15 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.equal(initializeValues.fileInfos.length, chain.fileInfos.length, 'The fileInfos should be duplicated')
     // Check that all fields are rendered
     const fields = enzymeWrapper.find(Field)
-    assert.equal(fields.length, 5, 'There should be 4 parameter Field rendered in this form')
+    assert.equal(fields.length, 6, 'There should be 6 parameter Field rendered in this form')
     assert.isTrue(fields.find({ name: 'label' }).exists(), 'The label Field is missing')
     assert.isTrue(fields.find({ name: 'active' }).exists(), 'The active Field is missing')
     assert.isTrue(fields.find({ name: 'versioningMode' }).exists(), 'The versioningMode Field is missing')
     assert.isTrue(fields.find({ name: 'mode' }).exists(), 'The mode Field is missing')
     assert.isTrue(fields.find({ name: 'ingestChain' }).exists(), 'The ingestChain Field is missing')
+    assert.isTrue(fields.find({ name: 'category' }).exists(), 'The category Field is missing')
     const filedArrays = enzymeWrapper.find(FieldArray)
-    assert.equal(filedArrays.length, 2, 'There should be 2 parameter FieldArray rendered in this form')
+    assert.equal(filedArrays.length, 1, 'There should be 1 parameter FieldArray rendered in this form')
     assert.isTrue(filedArrays.find({ name: 'fileInfos' }).exists(), 'The fileInfos Field is missing')
     assert.equal(enzymeWrapper.find(AcquisitionProcessingChainFormPluginsComponent).length, 1, 'The plugin form parts should be rendered')
     assert.equal(enzymeWrapper.find(AcquisitionProcessingChainStorageConfComponent).length, 1, 'The storage form parts should be rendered')

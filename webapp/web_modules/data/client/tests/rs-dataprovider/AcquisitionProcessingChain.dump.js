@@ -42,9 +42,7 @@ export default {
             targetTypes: [],
           },
         ],
-        categories: [
-          'pikachu', 'soyouz', 'vendetta',
-        ],
+        category: 'pikachu',
         fileInfos: [{
           id: 1,
           mandatory: true,

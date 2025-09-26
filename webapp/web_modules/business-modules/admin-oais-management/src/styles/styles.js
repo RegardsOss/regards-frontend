@@ -162,6 +162,10 @@ const aipManagementStyles = (theme) => ({
     flexBasis: 0,
     minWidth: 0,
   },
+  warningMessageStyle: {
+    color: theme.formsExtensions.validation.warningColor,
+    textAlign: 'center',
+  },
   aipModifyDialogSectionTable: {
     display: 'flex',
     flexDirection: 'column',

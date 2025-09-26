@@ -38,7 +38,6 @@ import {
 import {
   RenderTextField, RenderPageableAutoCompleteField, RenderSelectField, reduxForm,
   RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray,
-  RenderFieldArray,
 } from '@regardsoss/form-utils'
 import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../../clients/IngestProcessingChainClient'
@@ -105,7 +104,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
       mode: 'MANUAL',
       periodicity: '0 * * * * *',
       productsStored: true,
-      categories: [],
+      category: '',
     }
   }
 
@@ -262,7 +261,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
             <Tabs>
               <Tab
                 label={formatMessage({ id: 'acquisition-chain.form.general.section.title' })}
-                className="selenium-generalTab"
               >
                 <Field
                   name="label"
@@ -305,7 +303,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                 >
                   {map(DataProviderDomain.AcquisitionProcessingChainModes, (activationMode, key) => (
                     <MenuItem
-                      className={`selenium-pick-mode-${activationMode}`}
                       value={activationMode}
                       key={key}
                       primaryText={formatMessage({ id: `acquisition-chain.form.general.section.starting.mode.${activationMode}` })}
@@ -347,21 +344,17 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   entitiesConfig={AcquisitionProcessingChainFormComponent.INGEST_PROCESSING_CHAIN_CONFIG}
                   validate={required}
                 />
-                <FieldArray
-                  name="categories"
+                <Field
+                  name="category"
                   fullWidth
-                  component={RenderFieldArray}
-                  canBeEmpty
-                  label={formatMessage({ id: 'acquisition-chain.form.general.section.periodicity' })}
-                  title={formatMessage({ id: 'acquisition-chain.form.general.section.info.category' })}
-                  warningText={formatMessage({ id: 'acquisition-chain.form.general.section.click.category.add.warn' })}
-                  alreadyExistText={formatMessage({ id: 'acquisition-chain.form.general.section.click.category.add.exist' })}
+                  component={RenderTextField}
+                  type="text"
+                  label={formatMessage({ id: 'acquisition-chain.form.general.section.info.category' })}
                   floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.category-hint' })}
                 />
               </Tab>
               <Tab
                 label={formatMessage({ id: 'acquisition-chain.form.fileInfos.section' })}
-                className="selenium-filesTab"
               >
                 <FieldArray
                   name="fileInfos"
@@ -377,7 +370,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
               </Tab>
               <Tab
                 label={formatMessage({ id: 'acquisition-chain.form.storage.section' })}
-                className="selenium-storageTab"
               >
                 <AcquisitionProcessingChainStorageConfComponent
                   chain={chain}
@@ -387,7 +379,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
               </Tab>
               <Tab
                 label={formatMessage({ id: 'acquisition-chain.form.plugins.section' })}
-                className="selenium-pluginsTab"
               >
                 <AcquisitionProcessingChainFormPluginsComponent
                   chain={chain}

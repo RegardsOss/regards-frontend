@@ -48,9 +48,12 @@ export class AIPModifyDialogComponent extends React.Component {
   static propTypes = {
     onConfirmModify: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    // selectionStorages: PropTypes.arrayOf(PropTypes.string).isRequired,
-    // selectionTags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    // selectionCategories: PropTypes.arrayOf(PropTypes.string).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    selectionStorages: PropTypes.arrayOf(PropTypes.string).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    selectionTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    selectionCategories: PropTypes.arrayOf(PropTypes.string).isRequired,
   }
 
   static contextTypes = {
@@ -90,6 +93,7 @@ export class AIPModifyDialogComponent extends React.Component {
       toAdd: [],
       textFieldValue: '',
     },
+    warningMessage: '',
   }
 
   /**
@@ -161,15 +165,18 @@ export class AIPModifyDialogComponent extends React.Component {
           deleteStorageError: true,
         })
       } else {
+        const { toAdd } = this.state[toggledSection]
+        const newList = filter(this.state[toggledSection].list, (e) => e !== entity)
         this.setState({
           [toggledSection]: {
             ...this.state[toggledSection],
-            list: filter(this.state[toggledSection].list, (e) => e !== entity),
+            list: newList,
             toDelete: [
               ...this.state[toggledSection].toDelete,
               entity,
             ],
           },
+          warningMessage: this.buildWarningMessage(toggledSection, newList, toAdd),
         })
       }
     }
@@ -178,15 +185,18 @@ export class AIPModifyDialogComponent extends React.Component {
   onUndoDelete = (entity) => {
     const { toggledSection } = this.state
     if (toggledSection) {
+      const { toAdd } = this.state[toggledSection]
+      const newList = [
+        ...this.state[toggledSection].list,
+        entity,
+      ]
       this.setState({
         [toggledSection]: {
           ...this.state[toggledSection],
-          list: [
-            ...this.state[toggledSection].list,
-            entity,
-          ],
+          list: newList,
           toDelete: filter(this.state[toggledSection].toDelete, (e) => e !== entity),
         },
+        warningMessage: this.buildWarningMessage(toggledSection, newList, toAdd),
       })
     }
   }
@@ -194,11 +204,14 @@ export class AIPModifyDialogComponent extends React.Component {
   onUndoAdd = (entity) => {
     const { toggledSection } = this.state
     if (toggledSection) {
+      const { list } = this.state[toggledSection]
+      const newToAdd = filter(this.state[toggledSection].toAdd, (e) => e !== entity)
       this.setState({
         [toggledSection]: {
           ...this.state[toggledSection],
-          toAdd: filter(this.state[toggledSection].toAdd, (e) => e !== entity),
+          toAdd: newToAdd,
         },
+        warningMessage: this.buildWarningMessage(toggledSection, list, newToAdd),
       })
     }
   }
@@ -208,14 +221,17 @@ export class AIPModifyDialogComponent extends React.Component {
     if (toggledSection !== AIPModifyDialogComponent.SECTION_TYPES.STORAGE
       && this.state[toggledSection].textFieldValue !== ''
       && !includes(this.state[toggledSection].toAdd, this.state[toggledSection].textFieldValue)) {
+      const { list } = this.state[toggledSection]
+      const newToAdd = [
+        ...(this.state[toggledSection].toAdd || []),
+        this.state[toggledSection].textFieldValue,
+      ]
       this.setState({
         [toggledSection]: {
           ...this.state[toggledSection],
-          toAdd: [
-            ...(this.state[toggledSection].toAdd || []),
-            this.state[toggledSection].textFieldValue,
-          ],
+          toAdd: newToAdd,
         },
+        warningMessage: this.buildWarningMessage(toggledSection, list, newToAdd),
       })
     }
   }
@@ -357,10 +373,31 @@ export class AIPModifyDialogComponent extends React.Component {
     )
   }
 
+  buildWarningMessage = (sectionType, list, toAdd) => {
+    const { intl: { formatMessage } } = this.context
+    let newWarningMessage = ''
+    if (sectionType === AIPModifyDialogComponent.SECTION_TYPES.CATEGORY) {
+      // display a warning message if if there is more than one category
+      if (list.length + toAdd.length > 1) {
+        newWarningMessage = formatMessage({ id: 'oais.packages.modify.warning' })
+      }
+    }
+    return newWarningMessage
+  }
+
+  isConfirmDisabled = () => {
+    const { toAdd, list } = this.state[AIPModifyDialogComponent.SECTION_TYPES.CATEGORY]
+    // disable modification if there is more than one category
+    if (list.length + toAdd.length > 1) {
+      return true
+    }
+    return false
+  }
+
   render() {
     const { onClose } = this.props
-    const { moduleTheme: { aipModifyDialog, aipModifyDialogList }, intl: { formatMessage } } = this.context
-    const { toggledSection } = this.state
+    const { moduleTheme: { aipModifyDialog, aipModifyDialogList, warningMessageStyle }, intl: { formatMessage } } = this.context
+    const { toggledSection, warningMessage } = this.state
 
     return (
       <PositionedDialog
@@ -382,6 +419,7 @@ export class AIPModifyDialogComponent extends React.Component {
             label={formatMessage({ id: 'oais.packages.modify.confirm' })}
             keyboardFocused
             onClick={this.onConfirmModify}
+            disabled={this.isConfirmDisabled()}
           />
         </>}
         modal
@@ -392,6 +430,7 @@ export class AIPModifyDialogComponent extends React.Component {
             <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.storage' })} leftIcon={<StoragesIcon />} onClick={this.onShowStorageSection} />
             <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.category' })} leftIcon={<CategoriesIcon />} onClick={this.onShowCategorySection} />
             <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.tag' })} leftIcon={<TagsIcon />} onClick={this.onShowTagSection} />
+            <ListItem primaryText={warningMessage} style={warningMessageStyle} disabled />
           </List>
           {this.renderPane(toggledSection)}
         </div>

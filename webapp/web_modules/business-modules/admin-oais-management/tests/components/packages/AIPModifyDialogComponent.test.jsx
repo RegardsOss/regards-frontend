@@ -40,8 +40,11 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPModifyDialogComponent', () => {
 
   it('should render correctly', () => {
     const props = {
-      onConfirmModify: () => {},
-      onClose: () => {},
+      onConfirmModify: () => { },
+      onClose: () => { },
+      selectionStorages: [],
+      selectionTags: [],
+      selectionCategories: [],
     }
 
     const enzymeWrapper = shallow(<AIPModifyDialogComponent {...props} />, { context })

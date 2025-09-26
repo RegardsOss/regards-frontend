@@ -65,6 +65,7 @@ export default {
   'oais.packages.modify.add.tags': 'Add new tag',
   'oais.packages.modify.add.categories': 'Add new category',
   'oais.packages.confirm.modify.message': 'Do you want to modify selected product?',
+  'oais.packages.modify.warning': 'Warning: a product can only have one category',
   'oais.packages.modify.title': 'Modify selected product',
   'oais.packages.modify.list': 'Existing {pane}',
   'oais.packages.modify.delete': '{pane} to delete',

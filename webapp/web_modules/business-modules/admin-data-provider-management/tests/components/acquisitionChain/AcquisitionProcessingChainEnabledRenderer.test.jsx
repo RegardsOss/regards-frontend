@@ -45,7 +45,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainEna
             id: 0,
             label: 'testChain',
             active: true,
-            categories: ['test'],
+            category: 'test',
             mode: DataProviderDomain.AcquisitionProcessingChainModeEnum.AUTO,
             versioningMode: IngestDomain.VERSIONING_MODES_ENUM.MANUAL,
             productsStored: true,
