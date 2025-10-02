@@ -30,7 +30,6 @@ export { default as getAIPDeleteReducer } from './aip/AIPDeleteReducer'
 export { default as getAIPDeleteSelectors } from './aip/AIPDeleteSelectors'
 
 export { default as AIPActions } from './aip/AIPActions'
-export { default as AIPCountActions } from './aip/AIPCountActions'
 export { default as getAIPReducer } from './aip/AIPReducer'
 export { default as getAIPSelectors } from './aip/AIPSelectors'
 

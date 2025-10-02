@@ -31,7 +31,7 @@ export default class ReferenceActions extends BasicPageableActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/admin/features/raw/slice`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/admin/features`,
       schemaTypes: {
         ENTITY: REFERENCE,
         ENTITY_ARRAY: REFERENCE_ARRAY,

@@ -22,7 +22,6 @@
  * @author Théo Lasserre
  */
 export { default as ReferenceActions } from './reference/ReferenceActions'
-export { default as ReferenceCountActions } from './reference/ReferenceCountActions'
 export { default as getReferenceReducer } from './reference/ReferenceReducer'
 export { default as getReferenceSelectors } from './reference/ReferenceSelectors'
 
