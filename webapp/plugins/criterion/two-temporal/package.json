@@ -1,6 +1,6 @@
 {
   "name": "two-temporal-criteria-plugin",
-  "version": "99.9.9-SNAPSHOT",
+  "version": "2.3.0",
   "description": "Date attributes criterion plugin for Regards search forms",
   "private": true,
   "scripts": {

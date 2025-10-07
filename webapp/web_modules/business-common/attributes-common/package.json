@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/attributes-common",
-  "version": "99.9.9-SNAPSHOT",
+  "version": "2.3.0",
   "private": true,
   "sideEffects": false,
   "description": "Holds common functionalities related to attributes",

@@ -1,6 +1,6 @@
 {
   "name": "temporal-criteria-plugin",
-  "version": "99.9.9-SNAPSHOT",
+  "version": "2.3.0",
   "private": true,
   "description": "Date attribute criterion plugin for Regards search forms",
   "license": "GPL-3.0",
