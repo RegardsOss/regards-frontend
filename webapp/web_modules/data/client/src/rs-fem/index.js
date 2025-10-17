@@ -25,6 +25,8 @@ export { default as ReferenceActions } from './reference/ReferenceActions'
 export { default as getReferenceReducer } from './reference/ReferenceReducer'
 export { default as getReferenceSelectors } from './reference/ReferenceSelectors'
 
+export { default as ReferenceCountActions } from './reference/ReferenceCountActions'
+
 export { default as ReferenceDeleteActions } from './reference/ReferenceDeleteActions'
 export { default as getReferenceDeleteReducer } from './reference/ReferenceDeleteReducer'
 export { default as getReferenceDeleteSelectors } from './reference/ReferenceDeleteSelectors'

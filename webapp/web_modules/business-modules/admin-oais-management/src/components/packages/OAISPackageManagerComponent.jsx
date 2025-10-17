@@ -363,6 +363,8 @@ export class OAISPackageManagerComponent extends React.Component {
             pageActions={clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].actions}
             pageSelectors={clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].selectors}
             tableActions={clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].tableActions}
+            isSlice
+            countSelectors={clientByPane[IngestDomain.REQUEST_TYPES_ENUM.AIP].countSelectors}
             pageSize={pageSize}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}

@@ -218,6 +218,8 @@ class FeatureManagerComponent extends React.Component {
             <TableFilterSortingAndVisibilityContainer
               pageActions={clientByPane[paneType].actions}
               pageSelectors={clientByPane[paneType].selectors}
+              isSlice
+              countSelectors={clientByPane[paneType].countSelectors}
               updateRefreshParameters={this.updateRefreshParameters}
               onDeleteRequests={onDeleteRequests}
               onNotifyRequests={onNotifyRequests}

@@ -44,6 +44,10 @@ export class PageableInfiniteTableContainer extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     cellWrapperStyle: PropTypes.objectOf(PropTypes.any),
 
+    // In case of slice search, countSelectors is required to get full metadata
+    isSlice: PropTypes.bool,
+    countSelectors: PropTypes.instanceOf(BasicPageableSelectors),
+
     // see InfiniteTableContainer for the other properties required (note that the fetch / flush method are
     // already provided by this component, just fill in the other ones =)
 
@@ -59,7 +63,11 @@ export class PageableInfiniteTableContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
-
+    countMetadata: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
     // from map dispatch to props
 
     // eslint-disable-next-line react/no-unused-prop-types
@@ -72,10 +80,11 @@ export class PageableInfiniteTableContainer extends React.Component {
 
   static defaultProps = {
     fetchUsingPostMethod: false,
+    isSlice: false,
   }
 
   /** List of properties that should not be reported to children */
-  static PROPS_TO_OMIT = ['fetchUsingPostMethod', 'pageActions', 'pageSelectors', 'tableActions', 'pageMetadata']
+  static PROPS_TO_OMIT = ['fetchUsingPostMethod', 'pageActions', 'pageSelectors', 'tableActions', 'pageMetadata', 'countSelectors', 'isSlice', 'countMetadata']
 
   /**
    * Redux: map state to props function
@@ -83,11 +92,12 @@ export class PageableInfiniteTableContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { pageSelectors }) {
+  static mapStateToProps(state, { pageSelectors, countSelectors, isSlice }) {
     return {
       // results entities
       entities: pageSelectors.getOrderedList(state),
       pageMetadata: pageSelectors.getMetaData(state),
+      countMetadata: isSlice && countSelectors ? countSelectors.getMetaData(state) : null,
       entitiesFetching: pageSelectors.isFetching(state),
     }
   }
@@ -135,7 +145,7 @@ export class PageableInfiniteTableContainer extends React.Component {
     // for sub component, we report any non declared properties
     const tableProps = {
       ...omit(newProps, PageableInfiniteTableContainer.PROPS_TO_OMIT),
-      entitiesCount: get(newProps.pageMetadata, 'totalElements', 0),
+      entitiesCount: newProps.isSlice ? get(newProps.countMetadata, 'totalElements', 0) : get(newProps.pageMetadata, 'totalElements', 0),
       entitiesPageIndex: get(newProps.pageMetadata, 'number', 0),
     }
     this.setState({ tableProps })
