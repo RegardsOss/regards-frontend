@@ -60,9 +60,6 @@ export default (theme) => ({
         listContainer: {
           flexGrow: 1,
           flexBasis: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch',
           overflowY: 'auto',
           paddingRight: 20,
         },
