@@ -28,7 +28,7 @@
     "terser-webpack-plugin": "^5.3.3",
     "thread-loader": "^3.0.4",
     "url-loader": "~4.1.1",
-    "webpack": "5.45.1",
+    "webpack": "5.76.0",
     "webpack-dev-server": "~4.9.2",
     "webpack-merge": "5.8.0",
     "webpack-node-externals": "~3.0.0",
